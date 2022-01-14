@@ -15,11 +15,11 @@ class LoginStore {
   final AadOAuth oauth = AadOAuth(config);
 
   Future<void> signInWithMicrosoft(BuildContext context) async {
-    // oauth.setWebViewScreenSize(Rect.fromLTWH(
-    //     0,
-    //     25,
-    //     MediaQuery.of(context).size.width,
-    //     MediaQuery.of(context).size.height - 25));
+    oauth.setWebViewScreenSize(Rect.fromLTWH(
+        0,
+        25,
+        MediaQuery.of(context).size.width,
+        MediaQuery.of(context).size.height - 25));
     await oauth.login();
     String? accessToken = await oauth.getAccessToken();
     if (accessToken != null) {

@@ -19,8 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Consumer<LoginStore>(
-      builder: (_, loginStore, __) {
         return Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -104,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18))),
                           onPressed: () {
-                            loginStore.signInWithMicrosoft(context);
+                            context.read<LoginStore>().signInWithMicrosoft(context);
                           },
                           child: FittedBox(
                             fit: BoxFit.fitWidth,
@@ -128,8 +126,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       }
-    );
 
 
-  }
 }
