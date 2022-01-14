@@ -54,12 +54,21 @@ class _LoginPageState extends State<LoginPage> {
                                         crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                         children: [
-                                          Text('Timetable',
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 8.0),
+                                            child: Text('Welcome to',
+                                                style: MyFonts.medium.setColor(kWhite),
+                                            ),
+                                          ),
+                                          Text('your OneStop',
                                               style: MyFonts.medium
                                                   .setColor(kWhite)),
-                                          Text('Admin',
+                                          Text('solution for all',
                                               style: MyFonts.medium
-                                                  .setColor(kYellow)),
+                                                  .setColor(kWhite)),
+                                          Text('things IITG',
+                                              style: MyFonts.medium
+                                                  .setColor(kWhite)),
                                         ],
                                       )),
                                 ),
