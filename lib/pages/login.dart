@@ -3,8 +3,14 @@ import 'package:onestop_dev/globals/myColors.dart';
 import 'package:onestop_dev/globals/myFonts.dart';
 import 'package:onestop_dev/globals/mySpaces.dart';
 import 'package:onestop_dev/globals/sizeConfig.dart';
+import 'package:onestop_dev/stores/login_store.dart';
+import 'package:provider/provider.dart';
+
 
 class LoginPage extends StatefulWidget {
+  static String id = "/login";
+
+  const LoginPage({Key? key}) : super(key: key);
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -13,14 +19,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
+    return Consumer<LoginStore>(
+      builder: (_, loginStore, __) {
+        return Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 flex: 4,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/images/bg_triangle.png'),
                         fit: BoxFit.fill,
@@ -95,7 +103,9 @@ class _LoginPageState extends State<LoginPage> {
                               primary: kYellow,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18))),
-                          onPressed: () {},
+                          onPressed: () {
+                            loginStore.signInWithMicrosoft(context);
+                          },
                           child: FittedBox(
                             fit: BoxFit.fitWidth,
                             child: Text(
@@ -117,6 +127,8 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
         );
+      }
+    );
 
 
   }
