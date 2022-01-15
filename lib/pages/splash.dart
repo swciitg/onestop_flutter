@@ -19,7 +19,7 @@ class _SplashPageState extends State<SplashPage> {
         .then((result) {
       if (result) {
         Navigator.of(context).pushNamedAndRemoveUntil(
-            '/home', (Route<dynamic> route) => false);
+            '/home2', (Route<dynamic> route) => false);
       } else {
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
