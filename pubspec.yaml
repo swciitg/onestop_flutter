@@ -42,6 +42,25 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_native_splash: ^1.3.3
+
+flutter_native_splash:
+
+  color: "#3d82ff"
+  image: "assets/images/logo.png"
+
+
+  android: true
+  ios: true
+  web: false
+
+  # To hide the notification bar, use the fullscreen parameter.  Has no affect in web since web
+  # has no notification bar.  Defaults to false.
+  # NOTE: Unlike Android, iOS will not automatically show the notification bar when the app loads.
+  #       To show the notification bar, add the following code to your Flutter app:
+  #       WidgetsFlutterBinding.ensureInitialized();
+  #       SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom, SystemUiOverlay.top]);
+  fullscreen: true
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
