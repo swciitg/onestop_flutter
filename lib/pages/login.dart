@@ -4,6 +4,7 @@ import 'package:onestop_dev/globals/myFonts.dart';
 import 'package:onestop_dev/globals/mySpaces.dart';
 import 'package:onestop_dev/globals/sizeConfig.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/widgets/powerup.dart';
 import 'package:provider/provider.dart';
 
 
@@ -16,11 +17,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
         return Scaffold(
-          body: Column(
+          body: loading? const PowerUp():Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
@@ -111,6 +113,9 @@ class _LoginPageState extends State<LoginPage> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18))),
                           onPressed: () {
+                            setState(() {
+                              loading = true;
+                            });
                             context.read<LoginStore>().signInWithMicrosoft(context);
                           },
                           child: FittedBox(

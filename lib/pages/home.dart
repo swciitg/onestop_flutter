@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/globals/myColors.dart';
+import 'package:onestop_dev/globals/sizeConfig.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
 import 'package:onestop_dev/widgets/appbar.dart';
@@ -15,14 +17,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: appBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            '${context.read<LoginStore>().userData['name']}',
+            "${context.read<LoginStore>().userData['name']}",
             textAlign: TextAlign.center,
           ),
           Text(
@@ -34,12 +37,40 @@ class _HomePageState extends State<HomePage> {
                 context.read<LoginStore>().logOut(context);
               },
               child: const Text('Log Out')),
-          QrImage(
-            data: '${context.read<LoginStore>().userData['name']}',
-            version: QrVersions.auto,
-            size: 320,
-            gapless: false,
+          Center(
+            child: QrImage(
+              data: '${context.read<LoginStore>().userData['name']}',
+              version: 5,
+              size: 320,
+              gapless: true,
+              foregroundColor: kBlue,
+              embeddedImage: const AssetImage('assets/images/iitg_logo.png'),
+              embeddedImageStyle: QrEmbeddedImageStyle(
+                size: const Size(100,100),
+              ),
+            ),
           ),
+          // Center(
+          //   child: CustomPaint(
+          //     size:const Size.square(320),
+          //     painter: QrPainter(
+          //       data: '${context.read<LoginStore>().userData['name']}',
+          //           version: 5,
+          //       eyeStyle: const QrEyeStyle(
+          //         eyeShape: QrEyeShape.square,
+          //         color: Colors.indigoAccent,
+          //       ),
+          //       dataModuleStyle: const QrDataModuleStyle(
+          //       dataModuleShape: QrDataModuleShape.circle,
+          //       color: kBlue,
+          //     ),
+          //       //TODO: Correct the error below:
+          //       embeddedImage: Image.asset('assets/images/iitg_logo.png'),
+          //       //     embeddedImageStyle: QrEmbeddedImageStyle(
+          //       //       size: const Size(100,100),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );

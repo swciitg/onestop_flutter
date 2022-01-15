@@ -23,7 +23,12 @@ class LoginStore {
         25,
         MediaQuery.of(context).size.width,
         MediaQuery.of(context).size.height - 25));
-    await oauth.login();
+    try {
+      await oauth.login();
+    } catch (e) {
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+    }
     String? accessToken = await oauth.getAccessToken();
     if (accessToken != null) {
       var response = await http.get(
@@ -50,16 +55,16 @@ class LoginStore {
 
   void saveToPreferences(SharedPreferences instance, dynamic data) {
     instance.setString("name", data["displayName"]);
-    instance.setString("email",data["mail"]);
-    instance.setString("rollno",data["surname"]);
-    instance.setString("id",data["id"]);
+    instance.setString("email", data["mail"]);
+    instance.setString("rollno", data["surname"]);
+    instance.setString("id", data["id"]);
   }
 
   void saveToUserData(SharedPreferences instance) {
-    userData["name"] = instance.getString("name")??" ";
-    userData["email"] = instance.getString("email")??" ";
+    userData["name"] = instance.getString("name") ?? " ";
+    userData["email"] = instance.getString("email") ?? " ";
     userData["rollno"] = instance.getString("rollno") ?? " ";
-    userData["id"] = instance.getString("id")??" ";
+    userData["id"] = instance.getString("id") ?? " ";
   }
 
   void logOut(BuildContext context) async {
