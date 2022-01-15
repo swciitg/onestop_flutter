@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/myColors.dart';
+import 'package:onestop_dev/globals/mySpaces.dart';
 import 'package:onestop_dev/globals/sizeConfig.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
@@ -37,42 +38,51 @@ class _HomePageState extends State<HomePage> {
                 context.read<LoginStore>().logOut(context);
               },
               child: const Text('Log Out')),
+          // TODO: QR Embedded image uses Stack. Try using inbuilt embedded image property. Code below
           Center(
-            child: QrImage(
-              data: '${context.read<LoginStore>().userData['name']}',
-              version: 5,
-              size: 320,
-              gapless: true,
-              foregroundColor: kBlue,
-              embeddedImage: const AssetImage('assets/images/iitg_logo.png'),
-              embeddedImageStyle: QrEmbeddedImageStyle(
-                size: const Size(100,100),
-              ),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                CustomPaint(
+                  size: const Size.square(320),
+                  painter: QrPainter(
+                    data: '${context.read<LoginStore>().userData['name']}',
+                    version: 5,
+                    eyeStyle: const QrEyeStyle(
+                      eyeShape: QrEyeShape.square,
+                      color: Colors.indigoAccent,
+                    ),
+                    dataModuleStyle: const QrDataModuleStyle(
+                      dataModuleShape: QrDataModuleShape.circle,
+                      color: kBlue,
+                    ),
+                  ),
+                ),
+                Image.asset(
+                  'assets/images/iitg_logo.png',
+                  height: 100,
+                  width: 100,
+                )
+              ],
             ),
           ),
-          // Center(
-          //   child: CustomPaint(
-          //     size:const Size.square(320),
-          //     painter: QrPainter(
-          //       data: '${context.read<LoginStore>().userData['name']}',
-          //           version: 5,
-          //       eyeStyle: const QrEyeStyle(
-          //         eyeShape: QrEyeShape.square,
-          //         color: Colors.indigoAccent,
-          //       ),
-          //       dataModuleStyle: const QrDataModuleStyle(
-          //       dataModuleShape: QrDataModuleShape.circle,
-          //       color: kBlue,
-          //     ),
-          //       //TODO: Correct the error below:
-          //       embeddedImage: Image.asset('assets/images/iitg_logo.png'),
-          //       //     embeddedImageStyle: QrEmbeddedImageStyle(
-          //       //       size: const Size(100,100),
-          //     ),
-          //   ),
-          // )
         ],
       ),
     );
   }
 }
+
+/*
+* Simple QR Code with embedded image code:
+      QrImage(
+        data: '${context.read<LoginStore>().userData['name']}',
+        version: 5,
+        size: 320,
+        gapless: true,
+        foregroundColor: kBlue,
+        embeddedImage: const AssetImage('assets/images/iitg_logo.png'),
+        embeddedImageStyle: QrEmbeddedImageStyle(
+          size: const Size(100, 100),
+        ),
+      )
+*/
