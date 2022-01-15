@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
 import 'package:onestop_dev/widgets/appbar.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class HomePage extends StatefulWidget {
   static String id = "/home";
@@ -33,6 +34,12 @@ class _HomePageState extends State<HomePage> {
                 context.read<LoginStore>().logOut(context);
               },
               child: const Text('Log Out')),
+          QrImage(
+            data: '${context.read<LoginStore>().userData['name']}',
+            version: QrVersions.auto,
+            size: 320,
+            gapless: false,
+          ),
         ],
       ),
     );
