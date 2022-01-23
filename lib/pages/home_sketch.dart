@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/myColors.dart';
+import 'package:onestop_dev/globals/myFonts.dart';
 import 'package:onestop_dev/globals/sizeConfig.dart';
 import 'package:onestop_dev/widgets/appbar.dart';
 
@@ -12,15 +13,28 @@ class HomePageSketch extends StatelessWidget {
     SizeConfig().init(context);
     return Scaffold(
       appBar: appBar(context),
-      body: Column(
-        // crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox.fromSize(size: Size.fromHeight(20),),
-          MapSample(),
-          DateCourse(),
-          QuickLinks(),
-        ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox.fromSize(size: Size.fromHeight(20),),
+                Expanded(flex:3,child: MapSample()),
+                SizedBox(height: 15,),
+                Expanded(flex:1,child: DateCourse()),
+                SizedBox(height: 15,),
+                Expanded(flex:1,child:QuickLinks()),
+                SizedBox(height: 15,),
+                Expanded(flex:1,child: Services()),
+                SizedBox(height: 15,),
+              ],
+            ),
+          ),
+        ),
       )
     );
   }
@@ -40,43 +54,42 @@ class DateCourse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        children: [
-          Expanded(
-            flex:2,
+    return Row(
+      children: [
+        Expanded(
+          flex:2,
+          child: FittedBox(
             child: Column(
               children: [
-                Text('MON',style:TextStyle(fontSize: 25)),
-                Text('24',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 50),)
+                FittedBox(child: Text('MON',style:MyFonts.medium.size(25))),
+                FittedBox(child: Text('24',style: MyFonts.extraBold.size(50),))
               ],
             ),
           ),
-          Expanded(
-          flex:5,
-            child: Container(
-              height: 100,
-              decoration: BoxDecoration(
+        ),
+        Expanded(
+        flex:5,
+          child: Container(
+            height: 100,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color: Color.fromRGBO(101, 174, 130, 0.16)
+    ),
+          ),
+        ),
+        SizedBox(width: 10,),
+        Expanded(
+          flex:1,
+          child: Container(
+            height: 100,
+            child: Icon(Icons.keyboard_arrow_down_sharp),
+            decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
                 color: Color.fromRGBO(101, 174, 130, 0.16)
-      ),
             ),
           ),
-          SizedBox(width: 10,),
-          Expanded(
-            flex:1,
-            child: Container(
-              height: 100,
-              child: Icon(Icons.keyboard_arrow_down_sharp),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Color.fromRGBO(101, 174, 130, 0.16)
-              ),
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 }
@@ -86,52 +99,117 @@ class QuickLinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Container(
-        height: 130,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: Color.fromRGBO(240, 243, 248, 1),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text('Quick Links',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-            ),
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: 75,
-                    color: Color.fromRGBO(224, 235, 255, 1),
-                    child: Icon(Icons.computer_outlined,size: 30,),
-                  ),
-                  Container(
-                    width: 75,
-                    color: Color.fromRGBO(224, 235, 255, 1),
-                    child: Icon(Icons.computer_outlined,size: 30,),
-                  ),
-                  Container(
-                    width: 75,
-                    color: Color.fromRGBO(224, 235, 255, 1),
-                    child: Icon(Icons.computer_outlined,size: 30,),
-                  ),
-                  Container(
-                    width: 75,
-                    color: Color.fromRGBO(224, 235, 255, 1),
-                    child: Icon(Icons.computer_outlined,size: 30,),
-                  ),
-                ],
+    return Container(
+      // height: 130,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: Color.fromRGBO(240, 243, 248, 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: FittedBox(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text('Quick Links',style: MyFonts.medium.size(30),),
               ),
             ),
-            SizedBox(height: 10,)
-          ],
-        ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
+                    child: Icon(Icons.computer_outlined,size: 30,color: kBlue,),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
+                    child: Icon(Icons.article_outlined,size: 30,color: kBlue),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
+                    child: Icon(Icons.medical_services_outlined,size: 30,color: kBlue),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
+                    child: Icon(Icons.contact_mail_outlined,size: 30,color: kBlue),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10,)
+        ],
+      ),
+    );
+  }
+}
+
+class Services extends StatelessWidget {
+  const Services({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: Color.fromRGBO(240, 243, 248, 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: FittedBox(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text("Services",style:MyFonts.medium.size(30),),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  width: 75,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
+                  child: Icon(Icons.find_in_page_outlined,size: 30,color: kBlue,),
+                ),
+                Container(
+                  width: 75,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
+                  child: Icon(Icons.local_atm_outlined,size: 30,color: kBlue),
+                ),
+                Container(
+                  width: 75,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
+                  child: Icon(Icons.shopping_cart_outlined,size: 30,color: kBlue),
+                ),
+                Container(
+                  width: 75,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
+                  child: Icon(Icons.language_outlined,size: 30,color: kBlue),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10,)
+        ],
       ),
     );
   }

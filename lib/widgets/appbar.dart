@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/myColors.dart';
 import 'package:onestop_dev/globals/myFonts.dart';
 // TODO: Make profile picture clickable and redirect to QR
-AppBar appBar(BuildContext context) {
+AppBar appBar(BuildContext context, {bool displayIcon = true}) {
   return AppBar(
     backgroundColor: kWhite,
+    iconTheme: IconThemeData(color: kBlue),
+    automaticallyImplyLeading: false,
     // actions: [
     //   Padding(
     //     padding: EdgeInsets.only(right:16),
@@ -23,18 +25,22 @@ AppBar appBar(BuildContext context) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        GestureDetector(
-          onTap: (){
-            print("Yay");
-            // Navigator.pushNamed(context, '/home');
-          },
-          child: CircleAvatar(
-            child: IconButton(
-              icon: const Icon(Icons.account_circle_outlined,color: kBlue,),
-              onPressed: (){},
-            ),
-            backgroundColor: lBlue,
+        displayIcon?CircleAvatar(
+          child: IconButton(
+            icon: const Icon(Icons.account_circle_outlined,color: kBlue,),
+            onPressed: (){
+              Navigator.pushNamed(context, "/home");
+            },
           ),
+          backgroundColor: lBlue,
+        ):CircleAvatar(
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_rounded,color: kBlue,),
+            onPressed: (){
+              Navigator.pop(context);
+            },
+          ),
+          backgroundColor: lBlue,
         ),
         RichText(
           text: TextSpan(
