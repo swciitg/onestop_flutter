@@ -8,6 +8,12 @@ class MyFonts {
       TextStyle(fontFamily: _fontFamily, fontWeight: FontWeight.w500);
   static TextStyle get extraBold =>
       TextStyle(fontFamily: _fontFamily, fontWeight: FontWeight.w800);
+  static TextStyle get light =>
+      TextStyle(fontFamily: _fontFamily, fontWeight: FontWeight.w300);
+  static TextStyle get regular =>
+      TextStyle(fontFamily: _fontFamily, fontWeight: FontWeight.w400);
+  static TextStyle get bold =>
+      TextStyle(fontFamily: _fontFamily, fontWeight: FontWeight.w700);
 }
 
 extension TextStyleHelpers on TextStyle {
