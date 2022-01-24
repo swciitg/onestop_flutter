@@ -61,7 +61,7 @@ class DateCourse extends StatelessWidget {
           child: FittedBox(
             child: Column(
               children: [
-                FittedBox(child: Text('MON',style:MyFonts.medium.size(25))),
+                FittedBox(child: Text('MON',style:MyFonts.medium.size(25),)),
                 FittedBox(child: Text('24',style: MyFonts.extraBold.size(50),))
               ],
             ),
@@ -100,18 +100,26 @@ class QuickLinks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: 130,
+      height: 170,
       decoration: BoxDecoration(
+        
         borderRadius: BorderRadius.circular(25),
         color: Color.fromRGBO(240, 243, 248, 1),
       ),
+      child: Container(
+        height: 160,
       child: Column(
+        
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
+            
             child: FittedBox(
+              
               alignment: Alignment.centerLeft,
+              
               child: Padding(
+                
                 padding: const EdgeInsets.all(10.0),
                 child: Text('Quick Links',style: MyFonts.medium.size(30),),
               ),
@@ -124,28 +132,84 @@ class QuickLinks extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Expanded(
+                  child: FittedBox(
                   child: Container(
+                    //margin: EdgeInsets.all(4),
+                    height: 100,
+                    width: 150,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
-                    child: Icon(Icons.computer_outlined,size: 30,color: kBlue,),
+                    padding: EdgeInsets.all(4.0),
+                    child:Column( // Replace with a Row for horizontal icon + text
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        
+                          Icon(Icons.computer_outlined,size: 30,color: kBlue,),
+                          Text("IP Settings",style:MyFonts.medium.size(20).setColor(kBlue),textAlign: TextAlign.center)
+                        ],
+                   ), 
+                  ),
                   ),
                 ),
                 Expanded(
+                  child: FittedBox(
                   child: Container(
+                    margin: EdgeInsets.all(4),
+                    height: 100,
+                    width: 150,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
-                    child: Icon(Icons.article_outlined,size: 30,color: kBlue),
+                    padding: EdgeInsets.all(4.0),
+                    
+                      child: Column( // Replace with a Row for horizontal icon + text
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                            Icon(Icons.article_outlined,size: 30,color: kBlue,),
+                            Text("Papers",style:MyFonts.medium.size(20).setColor(kBlue),textAlign: TextAlign.center)
+                          ],
+                   ),
+                  ), 
                   ),
                 ),
                 Expanded(
-                  child: Container(
+                  child: FittedBox(
+                  child:Container(
+                    
+                    margin: EdgeInsets.all(4),
+                    height: 100,
+                    width: 150,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
-                    child: Icon(Icons.medical_services_outlined,size: 30,color: kBlue),
+                    padding: EdgeInsets.all(4.0),
+                    
+                      child: Column( 
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                            
+                            Icon(Icons.medical_services_outlined,size: 30,color: kBlue),
+                            Text("Medical Emergency",
+                              style:MyFonts.medium.size(20).setColor(kBlue),
+                                
+                              textAlign: TextAlign.center)
+                          ],
+                   ),
+                  ),
                   ),
                 ),
                 Expanded(
+                  child: FittedBox(
                   child: Container(
+                    margin: EdgeInsets.all(4),
+                    height: 100,
+                    width: 150,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
-                    child: Icon(Icons.contact_mail_outlined,size: 30,color: kBlue),
+                    padding: EdgeInsets.all(4.0),
+                    child:Column( 
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                          Icon(Icons.contact_mail_outlined,size: 30,color: kBlue,),
+                          Text("Contacts",style:MyFonts.medium.size(20).setColor(kBlue),textAlign: TextAlign.center)
+                        ],
+                   ), 
                   ),
+                ),
                 ),
               ],
             ),
@@ -153,6 +217,7 @@ class QuickLinks extends StatelessWidget {
           SizedBox(height: 10,)
         ],
       ),
+    ),
     );
   }
 }
