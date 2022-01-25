@@ -103,7 +103,7 @@ class QuickLinks extends StatelessWidget {
       height: 170,
       decoration: BoxDecoration(
         
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(10),
         color:Color.fromARGB(255, 43, 43, 46),
       ),
       child: Container(
@@ -120,8 +120,8 @@ class QuickLinks extends StatelessWidget {
               
               child: Padding(
                 
-                padding: const EdgeInsets.all(10.0),
-                child: Text('Quick Links',style: MyFonts.medium.size(30),),
+                padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                child: Text('Quick Links',style: MyFonts.medium.size(10),),
               ),
             ),
           ),
@@ -231,25 +231,20 @@ class Services extends StatelessWidget {
       height: 170,
       decoration: BoxDecoration(
         
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(10),
         color:Color.fromARGB(255, 43, 43, 46),
       ),
       child: Container(
         height: 160,
       child: Column(
-        
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
-            
-            child: FittedBox(
-              
-              alignment: Alignment.centerLeft,
-              
-              child: Padding(
-                
-                padding: const EdgeInsets.all(10.0),
-                child: Text('Services',style: MyFonts.medium.size(30),),
+          Expanded(          
+            child: FittedBox(           
+              alignment: Alignment.centerLeft,            
+              child: Padding(     
+                padding: const EdgeInsets.fromLTRB(5, 5,5,5),
+                child: Text('Services',style: MyFonts.medium.size(10),),
               ),
             ),
           ),
