@@ -228,19 +228,28 @@ class Services extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 170,
       decoration: BoxDecoration(
+        
         borderRadius: BorderRadius.circular(25),
-        color: Color.fromARGB(255, 43, 43, 46),
+        color:Color.fromARGB(255, 43, 43, 46),
       ),
+      child: Container(
+        height: 160,
       child: Column(
+        
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
+            
             child: FittedBox(
+              
               alignment: Alignment.centerLeft,
+              
               child: Padding(
+                
                 padding: const EdgeInsets.all(10.0),
-                child: Text("Services",style:MyFonts.medium.size(30),),
+                child: Text('Services',style: MyFonts.medium.size(30),),
               ),
             ),
           ),
@@ -250,25 +259,85 @@ class Services extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  width: 75,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark),
-                  child: Icon(Icons.find_in_page_outlined,size: 30,color: lBlue,),
+                Expanded(
+                  child: FittedBox(
+                  child: Container(
+                    //margin: EdgeInsets.all(4),
+                    height: 100,
+                    width: 150,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark ),
+                    padding: EdgeInsets.all(4.0),
+                    child:Column( // Replace with a Row for horizontal icon + text
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        
+                          Icon(Icons.find_in_page_outlined,size: 30,color: lBlue,),
+                          Text("Lost and Found",style:MyFonts.medium.size(20).setColor(lBlue),textAlign: TextAlign.center)
+                        ],
+                   ), 
+                  ),
+                  ),
                 ),
-                Container(
-                  width: 75,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark ),
-                  child: Icon(Icons.local_atm_outlined,size: 30,color: lBlue),
+                Expanded(
+                  child: FittedBox(
+                  child: Container(
+                    margin: EdgeInsets.all(4),
+                    height: 100,
+                    width: 150,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark),
+                    padding: EdgeInsets.all(4.0),
+                    
+                      child: Column( // Replace with a Row for horizontal icon + text
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                            Icon(Icons.local_atm_outlined,size: 30,color: lBlue,),
+                            Text("Rent and Sell",style:MyFonts.medium.size(20).setColor(lBlue),textAlign: TextAlign.center)
+                          ],
+                   ),
+                  ), 
+                  ),
                 ),
-                Container(
-                  width: 75,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color:ldark),
-                  child: Icon(Icons.shopping_cart_outlined,size: 30,color: lBlue),
+                Expanded(
+                  child: FittedBox(
+                  child:Container(
+                    
+                    margin: EdgeInsets.all(4),
+                    height: 100,
+                    width: 150,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark ),
+                    padding: EdgeInsets.all(4.0),
+                    
+                      child: Column( 
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                            
+                            Icon(Icons.shopping_cart_outlined,size: 30,color: lBlue),
+                            Text("Shops",
+                              style:MyFonts.medium.size(20).setColor(lBlue),
+                                
+                              textAlign: TextAlign.center)
+                          ],
+                   ),
+                  ),
+                  ),
                 ),
-                Container(
-                  width: 75,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color:ldark ),
-                  child: Icon(Icons.language_outlined,size: 30,color: lBlue),
+                Expanded(
+                  child: FittedBox(
+                  child: Container(
+                    margin: EdgeInsets.all(4),
+                    height: 100,
+                    width: 150,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark),
+                    padding: EdgeInsets.all(4.0),
+                    child:Column( 
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                          Icon(Icons.language_outlined,size: 30,color: lBlue,),
+                          Text("Intranet Websites",style:MyFonts.medium.size(20).setColor(lBlue),textAlign: TextAlign.center)
+                        ],
+                   ), 
+                  ),
+                ),
                 ),
               ],
             ),
@@ -276,6 +345,9 @@ class Services extends StatelessWidget {
           SizedBox(height: 10,)
         ],
       ),
+    ),
     );
   }
+
+  
 }
