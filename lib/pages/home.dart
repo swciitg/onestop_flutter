@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                         context.read<LoginStore>().logOut(context);
                       },
-                      style: ElevatedButton.styleFrom(elevation:0,primary:lBlue),
+                      style: ElevatedButton.styleFrom(elevation:0,primary:lblu),
                       child:  Text('Log Out',style: MyFonts.medium.setColor(kBlue),)),
                   // TODO: QR Embedded image uses Stack. Try using inbuilt embedded image property. Code below
                   Center(

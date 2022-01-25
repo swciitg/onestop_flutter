@@ -4,8 +4,8 @@ import 'package:onestop_dev/globals/myFonts.dart';
 // TODO: Make profile picture clickable and redirect to QR
 AppBar appBar(BuildContext context, {bool displayIcon = true}) {
   return AppBar(
-    backgroundColor: kWhite,
-    iconTheme: IconThemeData(color: kBlue),
+    backgroundColor: bg,
+    iconTheme: IconThemeData(color: lblu),
     automaticallyImplyLeading: false,
     // actions: [
     //   Padding(
@@ -27,20 +27,20 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
       children: [
         displayIcon?CircleAvatar(
           child: IconButton(
-            icon: const Icon(Icons.account_circle_outlined,color: kBlue,),
+            icon: const Icon(Icons.account_circle_outlined,color:kBlue,),
             onPressed: (){
               Navigator.pushNamed(context, "/home");
             },
           ),
-          backgroundColor: lBlue,
+          backgroundColor: lblu,
         ):CircleAvatar(
           child: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded,color: kBlue,),
+            icon: const Icon(Icons.arrow_back_rounded,color: kBlue),
             onPressed: (){
               Navigator.pop(context);
             },
           ),
-          backgroundColor: lBlue,
+          backgroundColor: lblu,
         ),
         RichText(
           text: TextSpan(
@@ -53,7 +53,7 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
                 )
               ]),
         ),
-        CircleAvatar(backgroundColor:lBlue,child: IconButton(onPressed: (){}, icon: Icon(Icons.notifications_outlined),color: kBlue,)),
+        CircleAvatar(backgroundColor:lblu,child: IconButton(onPressed: (){}, icon: Icon(Icons.notifications_outlined),color: kBlue,)),
       ],
     ),
     elevation: 0.0,
