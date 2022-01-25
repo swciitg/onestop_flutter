@@ -104,7 +104,7 @@ class QuickLinks extends StatelessWidget {
       decoration: BoxDecoration(
         
         borderRadius: BorderRadius.circular(25),
-        color: Color.fromRGBO(240, 243, 248, 1),
+        color:Color.fromARGB(255, 43, 43, 46),
       ),
       child: Container(
         height: 160,
@@ -137,14 +137,14 @@ class QuickLinks extends StatelessWidget {
                     //margin: EdgeInsets.all(4),
                     height: 100,
                     width: 150,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark ),
                     padding: EdgeInsets.all(4.0),
                     child:Column( // Replace with a Row for horizontal icon + text
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         
-                          Icon(Icons.computer_outlined,size: 30,color: kBlue,),
-                          Text("IP Settings",style:MyFonts.medium.size(20).setColor(kBlue),textAlign: TextAlign.center)
+                          Icon(Icons.computer_outlined,size: 30,color: lBlue,),
+                          Text("IP Settings",style:MyFonts.medium.size(20).setColor(lBlue),textAlign: TextAlign.center)
                         ],
                    ), 
                   ),
@@ -156,14 +156,14 @@ class QuickLinks extends StatelessWidget {
                     margin: EdgeInsets.all(4),
                     height: 100,
                     width: 150,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark),
                     padding: EdgeInsets.all(4.0),
                     
                       child: Column( // Replace with a Row for horizontal icon + text
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                            Icon(Icons.article_outlined,size: 30,color: kBlue,),
-                            Text("Papers",style:MyFonts.medium.size(20).setColor(kBlue),textAlign: TextAlign.center)
+                            Icon(Icons.article_outlined,size: 30,color: lBlue,),
+                            Text("Papers",style:MyFonts.medium.size(20).setColor(lBlue),textAlign: TextAlign.center)
                           ],
                    ),
                   ), 
@@ -176,16 +176,16 @@ class QuickLinks extends StatelessWidget {
                     margin: EdgeInsets.all(4),
                     height: 100,
                     width: 150,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark ),
                     padding: EdgeInsets.all(4.0),
                     
                       child: Column( 
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                             
-                            Icon(Icons.medical_services_outlined,size: 30,color: kBlue),
+                            Icon(Icons.medical_services_outlined,size: 30,color: lBlue),
                             Text("Medical Emergency",
-                              style:MyFonts.medium.size(20).setColor(kBlue),
+                              style:MyFonts.medium.size(20).setColor(lBlue),
                                 
                               textAlign: TextAlign.center)
                           ],
@@ -199,13 +199,13 @@ class QuickLinks extends StatelessWidget {
                     margin: EdgeInsets.all(4),
                     height: 100,
                     width: 150,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark),
                     padding: EdgeInsets.all(4.0),
                     child:Column( 
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                          Icon(Icons.contact_mail_outlined,size: 30,color: kBlue,),
-                          Text("Contacts",style:MyFonts.medium.size(20).setColor(kBlue),textAlign: TextAlign.center)
+                          Icon(Icons.contact_mail_outlined,size: 30,color: lBlue,),
+                          Text("Contacts",style:MyFonts.medium.size(20).setColor(lBlue),textAlign: TextAlign.center)
                         ],
                    ), 
                   ),
@@ -230,7 +230,7 @@ class Services extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        color: Color.fromRGBO(240, 243, 248, 1),
+        color: Color.fromARGB(255, 43, 43, 46),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -252,23 +252,23 @@ class Services extends StatelessWidget {
               children: [
                 Container(
                   width: 75,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
-                  child: Icon(Icons.find_in_page_outlined,size: 30,color: kBlue,),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark),
+                  child: Icon(Icons.find_in_page_outlined,size: 30,color: lBlue,),
                 ),
                 Container(
                   width: 75,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
-                  child: Icon(Icons.local_atm_outlined,size: 30,color: kBlue),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark ),
+                  child: Icon(Icons.local_atm_outlined,size: 30,color: lBlue),
                 ),
                 Container(
                   width: 75,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
-                  child: Icon(Icons.shopping_cart_outlined,size: 30,color: kBlue),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color:ldark),
+                  child: Icon(Icons.shopping_cart_outlined,size: 30,color: lBlue),
                 ),
                 Container(
                   width: 75,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromRGBO(224, 235, 255, 1) ),
-                  child: Icon(Icons.language_outlined,size: 30,color: kBlue),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color:ldark ),
+                  child: Icon(Icons.language_outlined,size: 30,color: lBlue),
                 ),
               ],
             ),

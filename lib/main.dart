@@ -24,6 +24,8 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        darkTheme: ThemeData(brightness: Brightness.dark, /* dark theme settings */),
+        themeMode: ThemeMode.dark,
         title: 'Timetable Admin',
         initialRoute: '/',
         routes: {
