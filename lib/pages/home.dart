@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/myColors.dart';
 import 'package:onestop_dev/globals/myFonts.dart';
-import 'package:onestop_dev/globals/mySpaces.dart';
 import 'package:onestop_dev/globals/sizeConfig.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
@@ -32,28 +31,23 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: 16,),
                   Text(
                     "${context.read<LoginStore>().userData['name']}",
                     textAlign: TextAlign.center,
-                    style: MyFonts.extraBold.setColor(kWhite),
+                    style: MyFonts.extraBold.setColor(kWhite).size(20),
                   ),
                   Text(
                     '${context.read<LoginStore>().userData['rollno']}',
                     textAlign: TextAlign.center,
-                    style:  MyFonts.medium.setColor(kWhite),
-                
+                    style:  MyFonts.medium.setColor(kWhite).size(20),
+
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        context.read<LoginStore>().logOut(context);
-                      },
-                      style: ElevatedButton.styleFrom(elevation:0,primary:lblu),
-                      child:  Text('Log Out',style: MyFonts.medium.setColor(kBlue),)),
+                  SizedBox(height: 26,),
                   // TODO: QR Embedded image uses Stack. Try using inbuilt embedded image property. Code below
                   Center(
                     child: LayoutBuilder(
                       builder: (context, constraints) {
-                        double parentHeight = constraints.maxHeight;
                         double parentWidth = constraints.maxWidth;
                         return Stack(
                           alignment: Alignment.center,
@@ -84,6 +78,15 @@ class _HomePageState extends State<HomePage> {
                         );
                       },
                     ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          context.read<LoginStore>().logOut(context);
+                        },
+                        style: ElevatedButton.styleFrom(elevation:0,primary:lblu),
+                        child:  Text('Log Out',style: MyFonts.medium.setColor(kBlue),)),
                   ),
                 ],
               ),
