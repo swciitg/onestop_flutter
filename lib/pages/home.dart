@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           context.read<LoginStore>().logOut(context);
                         },
-                        style: ElevatedButton.styleFrom(elevation:0,primary:lblu),
+                        style: ElevatedButton.styleFrom(elevation:0,primary:kAppBarGrey),
                         child:  Text('Log Out',style: MyFonts.medium.setColor(kBlue),)),
                   ),
                 ],

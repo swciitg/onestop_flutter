@@ -29,7 +29,7 @@ class _HomePageSketchState extends State<HomePageSketch> {
         appBar: appBar(context),
         bottomNavigationBar: NavigationBarTheme(
           data: NavigationBarThemeData(
-              indicatorColor: ldark,
+              indicatorColor: lGrey,
               labelTextStyle:
                   MaterialStateProperty.all(MyFonts.medium.setColor(kTabText)),
               iconTheme:
@@ -180,7 +180,7 @@ class QuickLinks extends StatelessWidget {
       height: 170,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: bg,
+        color: kHomeTile,
       ),
       child: Container(
         height: 160,
@@ -213,7 +213,7 @@ class QuickLinks extends StatelessWidget {
                         width: 150,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: ldark),
+                            color: lGrey),
                         padding: EdgeInsets.all(4.0),
                         child: Column(
                           // Replace with a Row for horizontal icon + text
@@ -240,7 +240,7 @@ class QuickLinks extends StatelessWidget {
                         width: 150,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: ldark),
+                            color: lGrey),
                         padding: EdgeInsets.all(4.0),
                         child: Column(
                           // Replace with a Row for horizontal icon + text
@@ -267,7 +267,7 @@ class QuickLinks extends StatelessWidget {
                         width: 150,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: ldark),
+                            color: lGrey),
                         padding: EdgeInsets.all(4.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -290,7 +290,7 @@ class QuickLinks extends StatelessWidget {
                         width: 150,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: ldark),
+                            color: lGrey),
                         padding: EdgeInsets.all(4.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -330,7 +330,7 @@ class Services extends StatelessWidget {
       height: 170,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: bg,
+        color: kHomeTile,
       ),
       child: Container(
         height: 160,
@@ -363,7 +363,7 @@ class Services extends StatelessWidget {
                         width: 150,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: ldark),
+                            color: lGrey),
                         padding: EdgeInsets.all(4.0),
                         child: Column(
                           // Replace with a Row for horizontal icon + text
@@ -390,7 +390,7 @@ class Services extends StatelessWidget {
                         width: 150,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: ldark),
+                            color: lGrey),
                         padding: EdgeInsets.all(4.0),
                         child: Column(
                           // Replace with a Row for horizontal icon + text
@@ -417,7 +417,7 @@ class Services extends StatelessWidget {
                         width: 150,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: ldark),
+                            color: lGrey),
                         padding: EdgeInsets.all(4.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -440,7 +440,7 @@ class Services extends StatelessWidget {
                         width: 150,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: ldark),
+                            color: lGrey),
                         padding: EdgeInsets.all(4.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
