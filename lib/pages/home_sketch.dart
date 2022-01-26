@@ -12,31 +12,73 @@ class HomePageSketch extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      appBar: appBar(context),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox.fromSize(size: Size.fromHeight(20),),
-                Expanded(flex:3,child: MapSample()),
-                SizedBox(height: 15,),
-                Expanded(flex:1,child: DateCourse()),
-                SizedBox(height: 15,),
-                Expanded(flex:1,child:QuickLinks()),
-                SizedBox(height: 15,),
-                Expanded(flex:1,child: Services()),
-                SizedBox(height: 15,),
-              ],
-            ),
+        appBar: appBar(context),
+        bottomNavigationBar: NavigationBarTheme(
+          data: NavigationBarThemeData(
+              indicatorColor: ldark,
+              labelTextStyle:
+                  MaterialStateProperty.all(MyFonts.medium.setColor(kTabText)),
+              iconTheme:
+                  MaterialStateProperty.all(IconThemeData(color: kTabText))),
+          child: NavigationBar(
+            backgroundColor: kTabBar,
+            destinations: [
+              NavigationDestination(
+                icon: Icon(Icons.home_outlined),
+                label: 'Home',
+                selectedIcon: Icon(
+                  Icons.home_filled,
+                  color: lBlue2,
+                ),
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.restaurant_outlined),
+                label: 'Food',
+                selectedIcon: Icon(
+                  Icons.restaurant_outlined,
+                  color: lBlue2,
+                ),
+              ),
+              NavigationDestination(
+                  icon: Icon(Icons.directions_bus_outlined), label: 'Travel', selectedIcon: Icon(Icons.directions_bus,color: lBlue2,),),
+              NavigationDestination(
+                  icon: Icon(Icons.calendar_today_outlined), label: 'Timetable',selectedIcon: Icon(Icons.calendar_today,color: lBlue2,),)
+            ],
           ),
         ),
-      )
-    );
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                // crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox.fromSize(
+                    size: Size.fromHeight(20),
+                  ),
+                  Expanded(flex: 3, child: MapSample()),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Expanded(flex: 1, child: DateCourse()),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Expanded(flex: 1, child: QuickLinks()),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Expanded(flex: 1, child: Services()),
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 }
 
@@ -57,36 +99,42 @@ class DateCourse extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex:2,
+          flex: 2,
           child: FittedBox(
             child: Column(
               children: [
-                FittedBox(child: Text('MON',style:MyFonts.medium.size(25).setColor(kWhite))),
-                FittedBox(child: Text('24',style: MyFonts.extraBold.size(50).setColor(kWhite),))
+                FittedBox(
+                    child: Text('MON',
+                        style: MyFonts.medium.size(25).setColor(kWhite))),
+                FittedBox(
+                    child: Text(
+                  '24',
+                  style: MyFonts.extraBold.size(50).setColor(kWhite),
+                ))
               ],
             ),
           ),
         ),
         Expanded(
-        flex:5,
+          flex: 5,
           child: Container(
             height: 100,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: Color.fromRGBO(101, 174, 130, 0.16)
-    ),
+                borderRadius: BorderRadius.circular(25),
+                color: Color.fromRGBO(101, 174, 130, 0.16)),
           ),
         ),
-        SizedBox(width: 10,),
+        SizedBox(
+          width: 10,
+        ),
         Expanded(
-          flex:1,
+          flex: 1,
           child: Container(
             height: 100,
             child: Icon(Icons.keyboard_arrow_down_sharp),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
-                color: Color.fromRGBO(101, 174, 130, 0.16)
-            ),
+                color: Color.fromRGBO(101, 174, 130, 0.16)),
           ),
         )
       ],
@@ -102,122 +150,144 @@ class QuickLinks extends StatelessWidget {
     return Container(
       height: 170,
       decoration: BoxDecoration(
-        
         borderRadius: BorderRadius.circular(10),
-        color:bg,
+        color: bg,
       ),
       child: Container(
         height: 160,
-      child: Column(
-        
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            
-            child: FittedBox(
-              
-              alignment: Alignment.centerLeft,
-              
-              child: Padding(
-                
-                padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                child: Text('Quick Links',style: MyFonts.medium.size(10).setColor(kWhite),),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: FittedBox(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                  child: Text(
+                    'Quick Links',
+                    style: MyFonts.medium.size(10).setColor(kWhite),
+                  ),
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                  child: FittedBox(
-                  child: Container(
-                    //margin: EdgeInsets.all(4),
-                    height: 100,
-                    width: 150,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark ),
-                    padding: EdgeInsets.all(4.0),
-                    child:Column( // Replace with a Row for horizontal icon + text
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        
-                          Icon(Icons.computer_outlined,size: 30,color: lBlue,),
-                          Text("IP Settings",style:MyFonts.medium.size(20).setColor(lBlue),textAlign: TextAlign.center)
-                        ],
-                   ), 
-                  ),
-                  ),
-                ),
-                Expanded(
-                  child: FittedBox(
-                  child: Container(
-                    margin: EdgeInsets.all(4),
-                    height: 100,
-                    width: 150,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark),
-                    padding: EdgeInsets.all(4.0),
-                    
-                      child: Column( // Replace with a Row for horizontal icon + text
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                            Icon(Icons.article_outlined,size: 30,color: lBlue,),
-                            Text("Papers",style:MyFonts.medium.size(20).setColor(lBlue),textAlign: TextAlign.center)
+            Expanded(
+              flex: 2,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    child: FittedBox(
+                      child: Container(
+                        //margin: EdgeInsets.all(4),
+                        height: 100,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: ldark),
+                        padding: EdgeInsets.all(4.0),
+                        child: Column(
+                          // Replace with a Row for horizontal icon + text
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Icon(
+                              Icons.computer_outlined,
+                              size: 30,
+                              color: lBlue,
+                            ),
+                            Text("IP Settings",
+                                style: MyFonts.medium.size(20).setColor(lBlue),
+                                textAlign: TextAlign.center)
                           ],
-                   ),
-                  ), 
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: FittedBox(
-                  child:Container(
-                    
-                    margin: EdgeInsets.all(4),
-                    height: 100,
-                    width: 150,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark ),
-                    padding: EdgeInsets.all(4.0),
-                    
-                      child: Column( 
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                            
-                            Icon(Icons.medical_services_outlined,size: 30,color: lBlue),
+                  Expanded(
+                    child: FittedBox(
+                      child: Container(
+                        margin: EdgeInsets.all(4),
+                        height: 100,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: ldark),
+                        padding: EdgeInsets.all(4.0),
+                        child: Column(
+                          // Replace with a Row for horizontal icon + text
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Icon(
+                              Icons.article_outlined,
+                              size: 30,
+                              color: lBlue,
+                            ),
+                            Text("Papers",
+                                style: MyFonts.medium.size(20).setColor(lBlue),
+                                textAlign: TextAlign.center)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: FittedBox(
+                      child: Container(
+                        margin: EdgeInsets.all(4),
+                        height: 100,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: ldark),
+                        padding: EdgeInsets.all(4.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Icon(Icons.medical_services_outlined,
+                                size: 30, color: lBlue),
                             Text("Medical Emergency",
-                              style:MyFonts.medium.size(20).setColor(lBlue),
-                                
-                              textAlign: TextAlign.center)
+                                style: MyFonts.medium.size(20).setColor(lBlue),
+                                textAlign: TextAlign.center)
                           ],
-                   ),
+                        ),
+                      ),
+                    ),
                   ),
+                  Expanded(
+                    child: FittedBox(
+                      child: Container(
+                        margin: EdgeInsets.all(4),
+                        height: 100,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: ldark),
+                        padding: EdgeInsets.all(4.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Icon(
+                              Icons.contact_mail_outlined,
+                              size: 30,
+                              color: lBlue,
+                            ),
+                            Text("Contacts",
+                                style: MyFonts.medium.size(20).setColor(lBlue),
+                                textAlign: TextAlign.center)
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: FittedBox(
-                  child: Container(
-                    margin: EdgeInsets.all(4),
-                    height: 100,
-                    width: 150,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark),
-                    padding: EdgeInsets.all(4.0),
-                    child:Column( 
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                          Icon(Icons.contact_mail_outlined,size: 30,color: lBlue,),
-                          Text("Contacts",style:MyFonts.medium.size(20).setColor(lBlue),textAlign: TextAlign.center)
-                        ],
-                   ), 
-                  ),
-                ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: 10,)
-        ],
+            SizedBox(
+              height: 10,
+            )
+          ],
+        ),
       ),
-    ),
     );
   }
 }
@@ -230,119 +300,144 @@ class Services extends StatelessWidget {
     return Container(
       height: 170,
       decoration: BoxDecoration(
-        
         borderRadius: BorderRadius.circular(10),
-        color:bg,
+        color: bg,
       ),
       child: Container(
         height: 160,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(          
-            child: FittedBox(           
-              alignment: Alignment.centerLeft,            
-              child: Padding(     
-                padding: const EdgeInsets.fromLTRB(5, 5,5,5),
-                child: Text('Services',style: MyFonts.medium.size(10).setColor(kWhite),),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: FittedBox(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                  child: Text(
+                    'Services',
+                    style: MyFonts.medium.size(10).setColor(kWhite),
+                  ),
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                  child: FittedBox(
-                  child: Container(
-                    //margin: EdgeInsets.all(4),
-                    height: 100,
-                    width: 150,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark ),
-                    padding: EdgeInsets.all(4.0),
-                    child:Column( // Replace with a Row for horizontal icon + text
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        
-                          Icon(Icons.find_in_page_outlined,size: 30,color: lBlue,),
-                          Text("Lost and Found",style:MyFonts.medium.size(20).setColor(lBlue),textAlign: TextAlign.center)
-                        ],
-                   ), 
-                  ),
-                  ),
-                ),
-                Expanded(
-                  child: FittedBox(
-                  child: Container(
-                    margin: EdgeInsets.all(4),
-                    height: 100,
-                    width: 150,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark),
-                    padding: EdgeInsets.all(4.0),
-                    
-                      child: Column( // Replace with a Row for horizontal icon + text
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                            Icon(Icons.local_atm_outlined,size: 30,color: lBlue,),
-                            Text("Rent and Sell",style:MyFonts.medium.size(20).setColor(lBlue),textAlign: TextAlign.center)
+            Expanded(
+              flex: 2,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    child: FittedBox(
+                      child: Container(
+                        //margin: EdgeInsets.all(4),
+                        height: 100,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: ldark),
+                        padding: EdgeInsets.all(4.0),
+                        child: Column(
+                          // Replace with a Row for horizontal icon + text
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Icon(
+                              Icons.find_in_page_outlined,
+                              size: 30,
+                              color: lBlue,
+                            ),
+                            Text("Lost and Found",
+                                style: MyFonts.medium.size(20).setColor(lBlue),
+                                textAlign: TextAlign.center)
                           ],
-                   ),
-                  ), 
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: FittedBox(
-                  child:Container(
-                    
-                    margin: EdgeInsets.all(4),
-                    height: 100,
-                    width: 150,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark ),
-                    padding: EdgeInsets.all(4.0),
-                    
-                      child: Column( 
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                            
-                            Icon(Icons.shopping_cart_outlined,size: 30,color: lBlue),
+                  Expanded(
+                    child: FittedBox(
+                      child: Container(
+                        margin: EdgeInsets.all(4),
+                        height: 100,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: ldark),
+                        padding: EdgeInsets.all(4.0),
+                        child: Column(
+                          // Replace with a Row for horizontal icon + text
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Icon(
+                              Icons.local_atm_outlined,
+                              size: 30,
+                              color: lBlue,
+                            ),
+                            Text("Rent and Sell",
+                                style: MyFonts.medium.size(20).setColor(lBlue),
+                                textAlign: TextAlign.center)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: FittedBox(
+                      child: Container(
+                        margin: EdgeInsets.all(4),
+                        height: 100,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: ldark),
+                        padding: EdgeInsets.all(4.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Icon(Icons.shopping_cart_outlined,
+                                size: 30, color: lBlue),
                             Text("Shops",
-                              style:MyFonts.medium.size(20).setColor(lBlue),
-                                
-                              textAlign: TextAlign.center)
+                                style: MyFonts.medium.size(20).setColor(lBlue),
+                                textAlign: TextAlign.center)
                           ],
-                   ),
+                        ),
+                      ),
+                    ),
                   ),
+                  Expanded(
+                    child: FittedBox(
+                      child: Container(
+                        margin: EdgeInsets.all(4),
+                        height: 100,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: ldark),
+                        padding: EdgeInsets.all(4.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Icon(
+                              Icons.language_outlined,
+                              size: 30,
+                              color: lBlue,
+                            ),
+                            Text("Intranet Websites",
+                                style: MyFonts.medium.size(20).setColor(lBlue),
+                                textAlign: TextAlign.center)
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: FittedBox(
-                  child: Container(
-                    margin: EdgeInsets.all(4),
-                    height: 100,
-                    width: 150,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: ldark),
-                    padding: EdgeInsets.all(4.0),
-                    child:Column( 
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                          Icon(Icons.language_outlined,size: 30,color: lBlue,),
-                          Text("Intranet Websites",style:MyFonts.medium.size(20).setColor(lBlue),textAlign: TextAlign.center)
-                        ],
-                   ), 
-                  ),
-                ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: 10,)
-        ],
+            SizedBox(
+              height: 10,
+            )
+          ],
+        ),
       ),
-    ),
     );
   }
-
-  
 }

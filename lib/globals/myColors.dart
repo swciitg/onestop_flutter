@@ -14,3 +14,6 @@ const Color ldark = Color.fromRGBO(68, 71, 79, 1);
 const Color lblu = Color.fromRGBO(39, 49, 65, 1);
 const Color bg = Color.fromRGBO(47, 48, 51, 1);
 const Color bg2 = Color.fromRGBO(27, 27,29,1);
+const Color kTabText = Color.fromRGBO(171, 171, 175, 1);
+const Color kTabBar = Color.fromRGBO(45, 48, 55, 1);
+const Color lBlue2 = Color.fromRGBO(118, 172, 255, 1);
