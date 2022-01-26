@@ -4,6 +4,7 @@ import 'package:onestop_dev/globals/myFonts.dart';
 import 'package:onestop_dev/globals/sizeConfig.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/appbar.dart';
+import 'package:onestop_dev/widgets/homeTabTile.dart';
 import 'package:provider/provider.dart';
 
 class HomePageSketch extends StatefulWidget {
@@ -18,9 +19,21 @@ class _HomePageSketchState extends State<HomePageSketch> {
   int index = 0;
   final tabs = [
     HomeTab(),
-    Center(child:Text('Food',style: MyFonts.extraBold.setColor(kWhite).size(30),)),
-    Center(child:Text('Travel',style: MyFonts.extraBold.setColor(kWhite).size(30),)),
-    Center(child:Text('Timetable',style: MyFonts.extraBold.setColor(kWhite).size(30),)),
+    Center(
+        child: Text(
+      'Food',
+      style: MyFonts.extraBold.setColor(kWhite).size(30),
+    )),
+    Center(
+        child: Text(
+      'Travel',
+      style: MyFonts.extraBold.setColor(kWhite).size(30),
+    )),
+    Center(
+        child: Text(
+      'Timetable',
+      style: MyFonts.extraBold.setColor(kWhite).size(30),
+    )),
   ];
   @override
   Widget build(BuildContext context) {
@@ -58,9 +71,21 @@ class _HomePageSketchState extends State<HomePageSketch> {
                 ),
               ),
               NavigationDestination(
-                  icon: Icon(Icons.directions_bus_outlined), label: 'Travel', selectedIcon: Icon(Icons.directions_bus,color: lBlue2,),),
+                icon: Icon(Icons.directions_bus_outlined),
+                label: 'Travel',
+                selectedIcon: Icon(
+                  Icons.directions_bus,
+                  color: lBlue2,
+                ),
+              ),
               NavigationDestination(
-                  icon: Icon(Icons.calendar_today_outlined), label: 'Timetable',selectedIcon: Icon(Icons.calendar_today,color: lBlue2,),)
+                icon: Icon(Icons.calendar_today_outlined),
+                label: 'Timetable',
+                selectedIcon: Icon(
+                  Icons.calendar_today,
+                  color: lBlue2,
+                ),
+              )
             ],
           ),
         ),
@@ -68,7 +93,7 @@ class _HomePageSketchState extends State<HomePageSketch> {
           child: SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15),
-              height: MediaQuery.of(context).size.height,
+              height: 1 * MediaQuery.of(context).size.height,
               child: tabs[index],
             ),
           ),
@@ -87,24 +112,18 @@ class HomeTab extends StatelessWidget {
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SizedBox.fromSize(
-          size: Size.fromHeight(20),
-        ),
         Expanded(flex: 3, child: MapSample()),
-        SizedBox(
-          height: 15,
-        ),
         Expanded(flex: 1, child: DateCourse()),
         SizedBox(
-          height: 15,
+          height: 10,
         ),
         Expanded(flex: 1, child: QuickLinks()),
         SizedBox(
-          height: 15,
+          height: 10,
         ),
         Expanded(flex: 1, child: Services()),
         SizedBox(
-          height: 15,
+          height: 10,
         ),
       ],
     );
@@ -191,7 +210,7 @@ class QuickLinks extends StatelessWidget {
               child: FittedBox(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                  padding: const EdgeInsets.all(5),
                   child: Text(
                     'Quick Links',
                     style: MyFonts.medium.size(10).setColor(kWhite),
@@ -205,114 +224,34 @@ class QuickLinks extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Expanded(
-                    child: FittedBox(
-                      child: Container(
-                        //margin: EdgeInsets.all(4),
-                        height: 100,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: lGrey),
-                        padding: EdgeInsets.all(4.0),
-                        child: Column(
-                          // Replace with a Row for horizontal icon + text
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Icon(
-                              Icons.computer_outlined,
-                              size: 30,
-                              color: lBlue,
-                            ),
-                            Text("IP Settings",
-                                style: MyFonts.medium.size(20).setColor(lBlue),
-                                textAlign: TextAlign.center)
-                          ],
-                        ),
-                      ),
-                    ),
+                  SizedBox(
+                    width: 5,
                   ),
-                  Expanded(
-                    child: FittedBox(
-                      child: Container(
-                        margin: EdgeInsets.all(4),
-                        height: 100,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: lGrey),
-                        padding: EdgeInsets.all(4.0),
-                        child: Column(
-                          // Replace with a Row for horizontal icon + text
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Icon(
-                              Icons.article_outlined,
-                              size: 30,
-                              color: lBlue,
-                            ),
-                            Text("Papers",
-                                style: MyFonts.medium.size(20).setColor(lBlue),
-                                textAlign: TextAlign.center)
-                          ],
-                        ),
-                      ),
-                    ),
+                  HomeTabTile(
+                      label: "IP Settings", icon: Icons.computer_outlined),
+                  SizedBox(
+                    width: 5,
                   ),
-                  Expanded(
-                    child: FittedBox(
-                      child: Container(
-                        margin: EdgeInsets.all(4),
-                        height: 100,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: lGrey),
-                        padding: EdgeInsets.all(4.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Icon(Icons.medical_services_outlined,
-                                size: 30, color: lBlue),
-                            Text("Medical Emergency",
-                                style: MyFonts.medium.size(20).setColor(lBlue),
-                                textAlign: TextAlign.center)
-                          ],
-                        ),
-                      ),
-                    ),
+                  HomeTabTile(label: "Papers", icon: Icons.article_outlined),
+                  SizedBox(
+                    width: 5,
                   ),
-                  Expanded(
-                    child: FittedBox(
-                      child: Container(
-                        margin: EdgeInsets.all(4),
-                        height: 100,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: lGrey),
-                        padding: EdgeInsets.all(4.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Icon(
-                              Icons.contact_mail_outlined,
-                              size: 30,
-                              color: lBlue,
-                            ),
-                            Text("Contacts",
-                                style: MyFonts.medium.size(20).setColor(lBlue),
-                                textAlign: TextAlign.center)
-                          ],
-                        ),
-                      ),
-                    ),
+                  HomeTabTile(
+                      label: "Medical Emergency",
+                      icon: Icons.medical_services_outlined),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  HomeTabTile(
+                      label: "Contacts", icon: Icons.contact_mail_outlined),
+                  SizedBox(
+                    width: 5,
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 5,
             )
           ],
         ),
@@ -341,7 +280,7 @@ class Services extends StatelessWidget {
               child: FittedBox(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                  padding: const EdgeInsets.all(5),
                   child: Text(
                     'Services',
                     style: MyFonts.medium.size(10).setColor(kWhite),
@@ -355,114 +294,34 @@ class Services extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Expanded(
-                    child: FittedBox(
-                      child: Container(
-                        //margin: EdgeInsets.all(4),
-                        height: 100,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: lGrey),
-                        padding: EdgeInsets.all(4.0),
-                        child: Column(
-                          // Replace with a Row for horizontal icon + text
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Icon(
-                              Icons.find_in_page_outlined,
-                              size: 30,
-                              color: lBlue,
-                            ),
-                            Text("Lost and Found",
-                                style: MyFonts.medium.size(20).setColor(lBlue),
-                                textAlign: TextAlign.center)
-                          ],
-                        ),
-                      ),
-                    ),
+                  SizedBox(
+                    width: 5,
                   ),
-                  Expanded(
-                    child: FittedBox(
-                      child: Container(
-                        margin: EdgeInsets.all(4),
-                        height: 100,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: lGrey),
-                        padding: EdgeInsets.all(4.0),
-                        child: Column(
-                          // Replace with a Row for horizontal icon + text
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Icon(
-                              Icons.local_atm_outlined,
-                              size: 30,
-                              color: lBlue,
-                            ),
-                            Text("Rent and Sell",
-                                style: MyFonts.medium.size(20).setColor(lBlue),
-                                textAlign: TextAlign.center)
-                          ],
-                        ),
-                      ),
-                    ),
+                  HomeTabTile(
+                      label: "Lost and Found",
+                      icon: Icons.find_in_page_outlined),
+                  SizedBox(
+                    width: 5,
                   ),
-                  Expanded(
-                    child: FittedBox(
-                      child: Container(
-                        margin: EdgeInsets.all(4),
-                        height: 100,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: lGrey),
-                        padding: EdgeInsets.all(4.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Icon(Icons.shopping_cart_outlined,
-                                size: 30, color: lBlue),
-                            Text("Shops",
-                                style: MyFonts.medium.size(20).setColor(lBlue),
-                                textAlign: TextAlign.center)
-                          ],
-                        ),
-                      ),
-                    ),
+                  HomeTabTile(
+                      label: "Rent and Sell", icon: Icons.local_atm_outlined),
+                  SizedBox(
+                    width: 5,
                   ),
-                  Expanded(
-                    child: FittedBox(
-                      child: Container(
-                        margin: EdgeInsets.all(4),
-                        height: 100,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: lGrey),
-                        padding: EdgeInsets.all(4.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Icon(
-                              Icons.language_outlined,
-                              size: 30,
-                              color: lBlue,
-                            ),
-                            Text("Intranet Websites",
-                                style: MyFonts.medium.size(20).setColor(lBlue),
-                                textAlign: TextAlign.center)
-                          ],
-                        ),
-                      ),
-                    ),
+                  HomeTabTile(
+                      label: "Shops", icon: Icons.shopping_cart_outlined),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  HomeTabTile(label: "Intranet", icon: Icons.language_outlined),
+                  SizedBox(
+                    width: 5,
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 5,
             )
           ],
         ),
