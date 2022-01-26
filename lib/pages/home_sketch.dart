@@ -2,12 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/myColors.dart';
 import 'package:onestop_dev/globals/myFonts.dart';
 import 'package:onestop_dev/globals/sizeConfig.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/appbar.dart';
+import 'package:provider/provider.dart';
 
-class HomePageSketch extends StatelessWidget {
+class HomePageSketch extends StatefulWidget {
   static String id = "/home2";
   const HomePageSketch({Key? key}) : super(key: key);
 
+  @override
+  State<HomePageSketch> createState() => _HomePageSketchState();
+}
+
+class _HomePageSketchState extends State<HomePageSketch> {
+  int index = 0;
+  final tabs = [
+    HomeTab(),
+    Center(child:Text('Food',style: MyFonts.extraBold.setColor(kWhite).size(30),)),
+    Center(child:Text('Travel',style: MyFonts.extraBold.setColor(kWhite).size(30),)),
+    Center(child:Text('Timetable',style: MyFonts.extraBold.setColor(kWhite).size(30),)),
+  ];
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -22,6 +36,10 @@ class HomePageSketch extends StatelessWidget {
                   MaterialStateProperty.all(IconThemeData(color: kTabText))),
           child: NavigationBar(
             backgroundColor: kTabBar,
+            selectedIndex: index,
+            onDestinationSelected: (index) => setState(() {
+              this.index = index;
+            }),
             destinations: [
               NavigationDestination(
                 icon: Icon(Icons.home_outlined),
@@ -51,34 +69,45 @@ class HomePageSketch extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15),
               height: MediaQuery.of(context).size.height,
-              child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox.fromSize(
-                    size: Size.fromHeight(20),
-                  ),
-                  Expanded(flex: 3, child: MapSample()),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Expanded(flex: 1, child: DateCourse()),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Expanded(flex: 1, child: QuickLinks()),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Expanded(flex: 1, child: Services()),
-                  SizedBox(
-                    height: 15,
-                  ),
-                ],
-              ),
+              child: tabs[index],
             ),
           ),
         ));
+  }
+}
+
+class HomeTab extends StatelessWidget {
+  const HomeTab({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      // crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox.fromSize(
+          size: Size.fromHeight(20),
+        ),
+        Expanded(flex: 3, child: MapSample()),
+        SizedBox(
+          height: 15,
+        ),
+        Expanded(flex: 1, child: DateCourse()),
+        SizedBox(
+          height: 15,
+        ),
+        Expanded(flex: 1, child: QuickLinks()),
+        SizedBox(
+          height: 15,
+        ),
+        Expanded(flex: 1, child: Services()),
+        SizedBox(
+          height: 15,
+        ),
+      ],
+    );
   }
 }
 
