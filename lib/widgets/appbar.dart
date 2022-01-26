@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/myColors.dart';
 import 'package:onestop_dev/globals/myFonts.dart';
+
 // TODO: Make profile picture clickable and redirect to QR
 AppBar appBar(BuildContext context, {bool displayIcon = true}) {
   return AppBar(
@@ -11,27 +12,35 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        displayIcon?CircleAvatar(
-          child: IconButton(
-            icon: const Icon(Icons.account_circle_outlined,color:kBlue,),
-            onPressed: (){
-              Navigator.pushNamed(context, "/home");
-            },
-          ),
-          backgroundColor: kAppBarGrey,
-        ):CircleAvatar(
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded,color: kBlue),
-            onPressed: (){
-              Navigator.pop(context);
-            },
-          ),
-          backgroundColor: kAppBarGrey,
-        ),
+        displayIcon
+            ? CircleAvatar(
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.account_circle,
+                    color: lBlue2,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/home");
+                  },
+                ),
+                backgroundColor: kAppBarGrey,
+              )
+            : CircleAvatar(
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_rounded, color: lBlue2),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                backgroundColor: kAppBarGrey,
+              ),
         RichText(
           text: TextSpan(
               text: 'One',
-              style: MyFonts.extraBold.factor(4.39).letterSpace(1.0).setColor(kBlue),
+              style: MyFonts.extraBold
+                  .factor(4.39)
+                  .letterSpace(1.0)
+                  .setColor(lBlue2),
               children: [
                 TextSpan(
                   text: '.',
@@ -39,7 +48,13 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
                 )
               ]),
         ),
-        CircleAvatar(backgroundColor:kAppBarGrey,child: IconButton(onPressed: (){}, icon: Icon(Icons.notifications_outlined),color: kBlue,)),
+        CircleAvatar(
+            backgroundColor: kAppBarGrey,
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.notifications),
+              color: lBlue2,
+            )),
       ],
     ),
     elevation: 0.0,

@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/myColors.dart';
 import 'package:onestop_dev/globals/myFonts.dart';
 import 'package:onestop_dev/globals/sizeConfig.dart';
-import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/appbar.dart';
 import 'package:onestop_dev/widgets/homeTabTile.dart';
-import 'package:provider/provider.dart';
 
 class HomePageSketch extends StatefulWidget {
   static String id = "/home2";
@@ -113,6 +111,9 @@ class HomeTab extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Expanded(flex: 3, child: MapSample()),
+        SizedBox(
+          height: 10,
+        ),
         Expanded(flex: 1, child: DateCourse()),
         SizedBox(
           height: 10,
@@ -149,19 +150,26 @@ class DateCourse extends StatelessWidget {
         Expanded(
           flex: 2,
           child: FittedBox(
-            child: Column(
-              children: [
-                FittedBox(
-                    child: Text('MON',
-                        style: MyFonts.medium.size(25).setColor(kWhite))),
-                FittedBox(
-                    child: Text(
-                  '24',
-                  style: MyFonts.extraBold.size(50).setColor(kWhite),
-                ))
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FittedBox(
+                      child: Text('MON',
+                          style: MyFonts.medium.size(20).setColor(kWhite))),
+                  FittedBox(
+                      child: Text(
+                    '24',
+                    style: MyFonts.extraBold.size(40).setColor(kWhite),
+                  ))
+                ],
+              ),
             ),
           ),
+        ),
+        SizedBox(
+          width: 10,
         ),
         Expanded(
           flex: 5,
@@ -179,7 +187,10 @@ class DateCourse extends StatelessWidget {
           flex: 1,
           child: Container(
             height: 100,
-            child: Icon(Icons.keyboard_arrow_down_sharp),
+            child: Icon(
+              Icons.keyboard_arrow_down_sharp,
+              color: Colors.green.shade800,
+            ),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
                 color: Color.fromRGBO(101, 174, 130, 0.16)),
