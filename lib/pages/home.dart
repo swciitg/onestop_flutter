@@ -35,12 +35,13 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     "${context.read<LoginStore>().userData['name']}",
                     textAlign: TextAlign.center,
-                    style: MyFonts.extraBold,
+                    style: MyFonts.extraBold.setColor(kWhite),
                   ),
                   Text(
                     '${context.read<LoginStore>().userData['rollno']}',
                     textAlign: TextAlign.center,
-                    style: MyFonts.medium,
+                    style:  MyFonts.medium.setColor(kWhite),
+                
                   ),
                   ElevatedButton(
                       onPressed: () {

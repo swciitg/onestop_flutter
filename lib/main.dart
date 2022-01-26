@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/globals/myColors.dart';
 import 'package:onestop_dev/pages/home.dart';
 import 'package:onestop_dev/pages/home_sketch.dart';
 import 'package:onestop_dev/pages/login.dart';
@@ -24,8 +25,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        darkTheme: ThemeData(brightness: Brightness.dark, /* dark theme settings */),
-        themeMode: ThemeMode.dark,
+        theme: new ThemeData(scaffoldBackgroundColor: bg2),
         title: 'Timetable Admin',
         initialRoute: '/',
         routes: {
@@ -36,8 +36,6 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
-
-
   }
 }
 

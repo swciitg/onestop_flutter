@@ -4,23 +4,9 @@ import 'package:onestop_dev/globals/myFonts.dart';
 // TODO: Make profile picture clickable and redirect to QR
 AppBar appBar(BuildContext context, {bool displayIcon = true}) {
   return AppBar(
-    backgroundColor: bg,
+    backgroundColor: bg2,
     iconTheme: IconThemeData(color: lblu),
     automaticallyImplyLeading: false,
-    // actions: [
-    //   Padding(
-    //     padding: EdgeInsets.only(right:16),
-    //     child: CircleAvatar(
-    //       backgroundColor: Colors.blue[100],
-    //       radius: 20,
-    //       child: IconButton(
-    //         icon: const Icon(Icons.notifications_outlined),
-    //         color: kBlue,
-    //         onPressed: () {},
-    //       ),
-    //     ),
-    //   ),
-    // ],
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,

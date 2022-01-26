@@ -13,3 +13,4 @@ const Color lRed = Color.fromRGBO(247, 229, 229, 1);
 const Color ldark = Color.fromRGBO(68, 71, 79, 1);
 const Color lblu = Color.fromRGBO(39, 49, 65, 1);
 const Color bg = Color.fromRGBO(47, 48, 51, 1);
+const Color bg2 = Color.fromRGBO(27, 27,29,1);

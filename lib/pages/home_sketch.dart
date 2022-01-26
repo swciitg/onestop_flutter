@@ -61,8 +61,8 @@ class DateCourse extends StatelessWidget {
           child: FittedBox(
             child: Column(
               children: [
-                FittedBox(child: Text('MON',style:MyFonts.medium.size(25),)),
-                FittedBox(child: Text('24',style: MyFonts.extraBold.size(50),))
+                FittedBox(child: Text('MON',style:MyFonts.medium.size(25).setColor(kWhite))),
+                FittedBox(child: Text('24',style: MyFonts.extraBold.size(50).setColor(kWhite),))
               ],
             ),
           ),
@@ -104,7 +104,7 @@ class QuickLinks extends StatelessWidget {
       decoration: BoxDecoration(
         
         borderRadius: BorderRadius.circular(10),
-        color:Color.fromARGB(255, 43, 43, 46),
+        color:bg,
       ),
       child: Container(
         height: 160,
@@ -121,7 +121,7 @@ class QuickLinks extends StatelessWidget {
               child: Padding(
                 
                 padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                child: Text('Quick Links',style: MyFonts.medium.size(10),),
+                child: Text('Quick Links',style: MyFonts.medium.size(10).setColor(kWhite),),
               ),
             ),
           ),
@@ -232,7 +232,7 @@ class Services extends StatelessWidget {
       decoration: BoxDecoration(
         
         borderRadius: BorderRadius.circular(10),
-        color:Color.fromARGB(255, 43, 43, 46),
+        color:bg,
       ),
       child: Container(
         height: 160,
@@ -244,7 +244,7 @@ class Services extends StatelessWidget {
               alignment: Alignment.centerLeft,            
               child: Padding(     
                 padding: const EdgeInsets.fromLTRB(5, 5,5,5),
-                child: Text('Services',style: MyFonts.medium.size(10),),
+                child: Text('Services',style: MyFonts.medium.size(10).setColor(kWhite),),
               ),
             ),
           ),
