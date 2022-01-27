@@ -214,6 +214,7 @@ class QuickLinks extends StatelessWidget {
       ),
       child: Container(
         height: 160,
+        padding: const EdgeInsets.all(4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -284,6 +285,7 @@ class Services extends StatelessWidget {
       ),
       child: Container(
         height: 160,
+        padding: const EdgeInsets.all(4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
