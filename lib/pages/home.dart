@@ -2,31 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/myColors.dart';
 import 'package:onestop_dev/globals/myFonts.dart';
 import 'package:onestop_dev/globals/sizeConfig.dart';
+import 'package:onestop_dev/pages/foodtab.dart';
 import 'package:onestop_dev/widgets/appbar.dart';
 import 'package:onestop_dev/widgets/homeTabTile.dart';
 
-class HomePageSketch extends StatefulWidget {
+class HomePage extends StatefulWidget {
   static String id = "/home2";
-  const HomePageSketch({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePageSketch> createState() => _HomePageSketchState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageSketchState extends State<HomePageSketch> {
+class _HomePageState extends State<HomePage> {
   int index = 0;
   final tabs = [
     HomeTab(),
-    Center(
-        child: Text(
-      'Food',
-      style: MyFonts.extraBold.setColor(kWhite).size(30),
-    )),
-    Center(
-        child: Text(
-      'Travel',
-      style: MyFonts.extraBold.setColor(kWhite).size(30),
-    )),
+    FoodTab(),
     Center(
         child: Text(
       'Timetable',

@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           SplashPage.id: (context) => const SplashPage(),
           QRPage.id: (context) => const QRPage(),
           LoginPage.id: (context) => const LoginPage(),
-          HomePageSketch.id: (context) => const HomePageSketch(),
+          HomePage.id: (context) => const HomePage(),
         },
       ),
     );
