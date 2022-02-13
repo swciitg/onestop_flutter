@@ -11,11 +11,34 @@ class FoodTab extends StatelessWidget {
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        SizedBox(height: 10,),
+        FoodSearchBar(),
         SizedBox(
           height: 10,
         ),
         MessMenu(),
       ],
+    );
+  }
+}
+
+class FoodSearchBar extends StatelessWidget {
+  const FoodSearchBar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(100),
+          ),
+          filled: true,
+          prefixIcon: Icon(Icons.search,color: kWhite,),
+          hintStyle: MyFonts.medium.setColor(kGrey2),
+          hintText: "Search dish or restaurant",
+          fillColor: kBlueGrey),
     );
   }
 }
