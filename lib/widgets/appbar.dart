@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/myColors.dart';
 import 'package:onestop_dev/globals/myFonts.dart';
+import 'package:onestop_dev/pages/qr.dart';
 
 // TODO: Make profile picture clickable and redirect to QR
 AppBar appBar(BuildContext context, {bool displayIcon = true}) {
@@ -20,7 +21,7 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
                     color: lBlue2,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, "/home");
+                    Navigator.pushNamed(context,QRPage.id);
                   },
                 ),
                 backgroundColor: kAppBarGrey,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/myColors.dart';
+import 'package:onestop_dev/pages/qr.dart';
 import 'package:onestop_dev/pages/home.dart';
-import 'package:onestop_dev/pages/home_sketch.dart';
 import 'package:onestop_dev/pages/login.dart';
 import 'package:onestop_dev/pages/splash.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           SplashPage.id: (context) => const SplashPage(),
-          HomePage.id: (context) => const HomePage(),
+          QRPage.id: (context) => const QRPage(),
           LoginPage.id: (context) => const LoginPage(),
           HomePageSketch.id: (context) => const HomePageSketch(),
         },
