@@ -17,6 +17,10 @@ class FoodTab extends StatelessWidget {
           height: 10,
         ),
         MessMenu(),
+        SizedBox(
+          height: 10,
+        ),
+        FavoriteDishes(),
       ],
     );
   }
@@ -219,5 +223,108 @@ class MessMeal extends StatelessWidget {
             )),
       ),
     );
+  }
+}
+
+class FavoriteDishes extends StatelessWidget {
+  const FavoriteDishes({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 232,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: kHomeTile,
+      ),
+      child: Container(
+        //height: 160,
+        padding: const EdgeInsets.all(4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: FittedBox(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 5, 15, 0),
+                  child: Text(
+                    'Your Favourite Dishes',
+                    style: MyFonts.medium.size(20).setColor(kWhite),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height:5),
+            Expanded(
+              
+              flex: 4,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  
+                  favouriteFoodDetails(foodName: "Noodlesss", img: Image.asset('assets/images/food.jpeg'),),
+                  favouriteFoodDetails(foodName: "Fried Rice", img: Image.asset('assets/images/food2.jpeg'),),
+                  favouriteFoodDetails(foodName: "Noodlesss", img: Image.asset('assets/images/food.jpeg'),),
+                  favouriteFoodDetails(foodName: "Noodlesss", img: Image.asset('assets/images/food.jpeg'),),
+                ],
+              ),
+            ),
+            SizedBox(height:1),
+            Expanded(
+              
+              flex: 4,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  
+                  favouriteFoodDetails(foodName: "Noodlesss", img: Image.asset('assets/images/food.jpeg'),),
+                  favouriteFoodDetails(foodName: "Noodlesss", img: Image.asset('assets/images/food.jpeg'),),
+                  favouriteFoodDetails(foodName: "Fried Rice", img: Image.asset('assets/images/food2.jpeg'),),
+                  favouriteFoodDetails(foodName: "Fried Rice", img: Image.asset('assets/images/food2.jpeg'),), 
+                  
+                ],
+              ),
+            ),
+            
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class favouriteFoodDetails extends StatelessWidget{
+  const favouriteFoodDetails({
+    Key? key,
+    required this.foodName,
+    required this.img ,
+  }) : super(key: key);
+
+  final String foodName;
+  final Image img;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+                    children: [
+                      SizedBox(
+                        height: 70,
+                        width: 67,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+
+                          child: img,
+                          )
+                        ),
+                      SizedBox(height:2),
+                      Text(foodName,
+                          style: MyFonts.medium.size(12).setColor(lBlue),
+                          textAlign: TextAlign.center),
+                      
+                    ],
+                   
+                  );
   }
 }
