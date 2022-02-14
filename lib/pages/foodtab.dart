@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/myColors.dart';
 import 'package:onestop_dev/globals/myFonts.dart';
+import 'package:onestop_dev/widgets/foodResTile.dart';
+
 
 class FoodTab extends StatelessWidget {
   const FoodTab({Key? key}) : super(key: key);
@@ -17,10 +19,8 @@ class FoodTab extends StatelessWidget {
           height: 10,
         ),
         MessMenu(),
-        SizedBox(
-          height: 10,
-        ),
-        FavoriteDishes(),
+        SizedBox(height: 50),
+        restaurant(),
       ],
     );
   }
@@ -191,6 +191,37 @@ class MessMenu extends StatelessWidget {
   }
 }
 
+class restaurant extends StatelessWidget {
+  const restaurant({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 186,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: kBackground,
+      ),
+      child: Container(
+        height: 160,
+        padding: const EdgeInsets.all(4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(height: 10,),
+            FoodResTile(Restaurant_name: "Florentine Restaurant",
+            Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
+            Wating_time: 2, 
+            Closing_time: '10:00pm',
+            distance: 2,
+            )
+          ],
+        )
+      ),
+    );
+  }
+}
+
 class MessMeal extends StatelessWidget {
   const MessMeal({
     Key? key,
@@ -225,6 +256,8 @@ class MessMeal extends StatelessWidget {
     );
   }
 }
+
+
 
 class FavoriteDishes extends StatelessWidget {
   const FavoriteDishes({Key? key}) : super(key: key);
@@ -328,3 +361,6 @@ class favouriteFoodDetails extends StatelessWidget{
                   );
   }
 }
+//=======
+
+//>>>>>>> 37face37102ce6adb21a63ff0e2e9ba2eee32854
