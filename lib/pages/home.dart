@@ -21,6 +21,11 @@ class _HomePageState extends State<HomePage> {
     FoodTab(),
     Center(
         child: Text(
+      'Travel',
+      style: MyFonts.extraBold.setColor(kWhite).size(30),
+    )),
+    Center(
+        child: Text(
       'Timetable',
       style: MyFonts.extraBold.setColor(kWhite).size(30),
     )),
