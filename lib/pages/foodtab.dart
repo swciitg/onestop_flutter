@@ -361,6 +361,3 @@ class favouriteFoodDetails extends StatelessWidget{
                   );
   }
 }
-//=======
-
-//>>>>>>> 37face37102ce6adb21a63ff0e2e9ba2eee32854
