@@ -3,7 +3,6 @@ import 'package:onestop_dev/globals/myColors.dart';
 import 'package:onestop_dev/globals/myFonts.dart';
 import 'package:onestop_dev/widgets/foodResTile.dart';
 
-
 class FoodTab extends StatelessWidget {
   const FoodTab({Key? key}) : super(key: key);
 
@@ -13,13 +12,19 @@ class FoodTab extends StatelessWidget {
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         FoodSearchBar(),
         SizedBox(
           height: 10,
         ),
         MessMenu(),
-        SizedBox(height: 50),
+        SizedBox(height: 10),
+        FavoriteDishes(),
+        SizedBox(
+          height: 10,
+        ),
         restaurant(),
       ],
     );
@@ -39,7 +44,10 @@ class FoodSearchBar extends StatelessWidget {
             borderRadius: BorderRadius.circular(100),
           ),
           filled: true,
-          prefixIcon: Icon(Icons.search,color: kWhite,),
+          prefixIcon: Icon(
+            Icons.search,
+            color: kWhite,
+          ),
           hintStyle: MyFonts.medium.setColor(kGrey2),
           hintText: "Search dish or restaurant",
           fillColor: kBlueGrey),
@@ -203,21 +211,23 @@ class restaurant extends StatelessWidget {
         color: kBackground,
       ),
       child: Container(
-        height: 160,
-        padding: const EdgeInsets.all(4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(height: 10,),
-            FoodResTile(Restaurant_name: "Florentine Restaurant",
-            Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
-            Wating_time: 2, 
-            Closing_time: '10:00pm',
-            distance: 2,
-            )
-          ],
-        )
-      ),
+          height: 160,
+          padding: const EdgeInsets.all(4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              FoodResTile(
+                Restaurant_name: "Florentine Restaurant",
+                Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
+                Wating_time: 2,
+                Closing_time: '10:00pm',
+                distance: 2,
+              )
+            ],
+          )),
     );
   }
 }
@@ -257,8 +267,6 @@ class MessMeal extends StatelessWidget {
   }
 }
 
-
-
 class FavoriteDishes extends StatelessWidget {
   const FavoriteDishes({Key? key}) : super(key: key);
 
@@ -288,40 +296,58 @@ class FavoriteDishes extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height:5),
+            SizedBox(height: 5),
             Expanded(
-              
               flex: 4,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  
-                  favouriteFoodDetails(foodName: "Noodlesss", img: Image.asset('assets/images/food.jpeg'),),
-                  favouriteFoodDetails(foodName: "Fried Rice", img: Image.asset('assets/images/food2.jpeg'),),
-                  favouriteFoodDetails(foodName: "Noodlesss", img: Image.asset('assets/images/food.jpeg'),),
-                  favouriteFoodDetails(foodName: "Noodlesss", img: Image.asset('assets/images/food.jpeg'),),
+                  favouriteFoodDetails(
+                    foodName: "Noodles",
+                    img: Image.asset('assets/images/food.jpeg'),
+                  ),
+                  favouriteFoodDetails(
+                    foodName: "Fried Rice",
+                    img: Image.asset('assets/images/food2.jpeg'),
+                  ),
+                  favouriteFoodDetails(
+                    foodName: "Biryani",
+                    img: Image.asset('assets/images/food.jpeg'),
+                  ),
+                  favouriteFoodDetails(
+                    foodName: "Chinese",
+                    img: Image.asset('assets/images/food.jpeg'),
+                  ),
                 ],
               ),
             ),
-            SizedBox(height:1),
+            SizedBox(height: 1),
             Expanded(
-              
               flex: 4,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  
-                  favouriteFoodDetails(foodName: "Noodlesss", img: Image.asset('assets/images/food.jpeg'),),
-                  favouriteFoodDetails(foodName: "Noodlesss", img: Image.asset('assets/images/food.jpeg'),),
-                  favouriteFoodDetails(foodName: "Fried Rice", img: Image.asset('assets/images/food2.jpeg'),),
-                  favouriteFoodDetails(foodName: "Fried Rice", img: Image.asset('assets/images/food2.jpeg'),), 
-                  
+                  favouriteFoodDetails(
+                    foodName: "Subway",
+                    img: Image.asset('assets/images/food.jpeg'),
+                  ),
+                  favouriteFoodDetails(
+                    foodName: "Cakes",
+                    img: Image.asset('assets/images/food.jpeg'),
+                  ),
+                  favouriteFoodDetails(
+                    foodName: "Sandwich",
+                    img: Image.asset('assets/images/food2.jpeg'),
+                  ),
+                  favouriteFoodDetails(
+                    foodName: "Continental",
+                    img: Image.asset('assets/images/food2.jpeg'),
+                  ),
                 ],
               ),
             ),
-            
           ],
         ),
       ),
@@ -329,11 +355,11 @@ class FavoriteDishes extends StatelessWidget {
   }
 }
 
-class favouriteFoodDetails extends StatelessWidget{
+class favouriteFoodDetails extends StatelessWidget {
   const favouriteFoodDetails({
     Key? key,
     required this.foodName,
-    required this.img ,
+    required this.img,
   }) : super(key: key);
 
   final String foodName;
@@ -341,23 +367,19 @@ class favouriteFoodDetails extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Column(
-                    children: [
-                      SizedBox(
-                        height: 70,
-                        width: 67,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-
-                          child: img,
-                          )
-                        ),
-                      SizedBox(height:2),
-                      Text(foodName,
-                          style: MyFonts.medium.size(12).setColor(lBlue),
-                          textAlign: TextAlign.center),
-                      
-                    ],
-                   
-                  );
+      children: [
+        SizedBox(
+            height: 70,
+            width: 67,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: img,
+            )),
+        SizedBox(height: 2),
+        Text(foodName,
+            style: MyFonts.medium.size(12).setColor(lBlue),
+            textAlign: TextAlign.center),
+      ],
+    );
   }
 }
