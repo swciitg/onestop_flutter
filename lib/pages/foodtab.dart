@@ -25,8 +25,93 @@ class FoodTab extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
+        OutletsFilter(),
         restaurant(),
       ],
+    );
+  }
+}
+
+class OutletsFilter extends StatelessWidget {
+  const OutletsFilter({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 70,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Container(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  "Outlets near you",
+                  style: MyFonts.medium.size(18).setColor(kWhite),
+                )),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Expanded(
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                OutletsFilterTile(
+                  filterText: "All",
+                  selected: true,
+                ),
+                OutletsFilterTile(filterText: "Snacks"),
+                OutletsFilterTile(filterText: "Cakes"),
+                OutletsFilterTile(filterText: "South Indian"),
+                OutletsFilterTile(filterText: "North Indian"),
+                OutletsFilterTile(filterText: "Non Veg")
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class OutletsFilterTile extends StatelessWidget {
+  const OutletsFilterTile({
+    Key? key,
+    required this.filterText,
+    this.selected = false,
+  }) : super(key: key);
+
+  final String filterText;
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: selected ? lBlue2 : kGrey2,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: FittedBox(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minWidth: 40),
+                child: Text(
+                  filterText,
+                  style: selected
+                      ? MyFonts.medium.size(23).setColor(kBlueGrey)
+                      : MyFonts.medium.size(23).setColor(lBlue),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          )),
     );
   }
 }
@@ -102,7 +187,7 @@ class MessMenu extends StatelessWidget {
                             child: Text(
                                 "Dal Makhani, Rasam, Green Peas, Cauliflower, Rice, Roti, Salad",
                                 style:
-                                    MyFonts.medium.size(18).setColor(kWhite)))),
+                                    MyFonts.medium.size(15).setColor(kWhite)))),
                     Expanded(
                         flex: 2,
                         child: Row(
@@ -372,7 +457,7 @@ class favouriteFoodDetails extends StatelessWidget {
             height: 70,
             width: 67,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(25),
               child: img,
             )),
         SizedBox(height: 2),
