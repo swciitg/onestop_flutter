@@ -13,17 +13,17 @@ class FoodTab extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(
-          height: 10,
+          height: 8,
         ),
         FoodSearchBar(),
         SizedBox(
-          height: 10,
+          height: 8,
         ),
         MessMenu(),
-        SizedBox(height: 10),
+        SizedBox(height: 8),
         FavoriteDishes(),
         SizedBox(
-          height: 10,
+          height: 8,
         ),
         OutletsFilter(),
         restaurant(),
@@ -40,7 +40,7 @@ class OutletsFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      height: 65,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -101,7 +101,7 @@ class OutletsFilterTile extends StatelessWidget {
             padding: const EdgeInsets.all(12.0),
             child: FittedBox(
               child: ConstrainedBox(
-                constraints: BoxConstraints(minWidth: 40),
+                constraints: BoxConstraints(minWidth: 20),
                 child: Text(
                   filterText,
                   style: selected
@@ -148,7 +148,7 @@ class MessMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 170,
+        height: 160,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: kBlueGrey,
@@ -290,13 +290,13 @@ class restaurant extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 186,
+      height: 186.4,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: kBackground,
       ),
       child: Container(
-          height: 160,
+          height: 180,
           padding: const EdgeInsets.all(4),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -358,7 +358,7 @@ class FavoriteDishes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 232,
+      height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: kHomeTile,
@@ -454,7 +454,7 @@ class favouriteFoodDetails extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-            height: 70,
+            height: 50,
             width: 67,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
