@@ -40,7 +40,7 @@ class OutletsFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
+      height: 65,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -148,7 +148,7 @@ class MessMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 170,
+        height: 160,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: kBlueGrey,
@@ -290,13 +290,13 @@ class restaurant extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 186,
+      height: 186.4,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: kBackground,
       ),
       child: Container(
-          height: 186,
+          height: 180,
           padding: const EdgeInsets.all(4),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
