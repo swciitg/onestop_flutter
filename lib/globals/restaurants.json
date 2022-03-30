@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Florentine Restaurant",
+    "caption": "Multicuisine, dining, north-indian",
+    "closing_time": "10:00 PM",
+    "waiting_time": "2hrs",
+    "phone_number": 1234567898,
+    "location": {
+      "latitude": 57.694514,
+      "longitude": -127.872155
+    }
+  },
+  {
+      "name": "Subway",
+    "caption": "Rolls, Sandwiches",
+    "closing_time": "10:00 PM",
+    "waiting_time": "2hrs",
+    "phone_number": 1234567898,
+    "location": {
+      "latitude": 57.694514,
+      "longitude": -127.872155
+    }
+  },
+  {
+    "name": "Taco Bell",
+    "caption": "Rolls, Food Truck",
+    "closing_time": "10:00 PM",
+    "waiting_time": "2hrs",
+    "phone_number": 1234567898,
+    "location": {
+      "latitude": 57.694514,
+      "longitude": -127.872155
+    }
+  },
+  {
+    "name": "Spectrum South Hub",
+    "caption": "South Indian, Dosas",
+    "closing_time": "10:00 PM",
+    "waiting_time": "2hrs",
+    "phone_number": 1234567898,
+    "location": {
+      "latitude": 57.694514,
+      "longitude": -127.872155
+    }
+  },
+  {
+    "name": "Florentine Restaurant",
+    "caption": "Multicuisine, dining, north-indian",
+    "closing_time": "10:00 PM",
+    "waiting_time": "2hrs",
+    "phone_number": 1234567898,
+    "location": {
+      "latitude": 57.694514,
+      "longitude": -127.872155
+    }
+  },
+  {
+    "name": "Florentine Restaurant",
+    "caption": "Multicuisine, dining, north-indian",
+    "closing_time": "10:00 PM",
+    "waiting_time": "2hrs",
+    "phone_number": 1234567898,
+    "location": {
+      "latitude": 57.694514,
+      "longitude": -127.872155
+    }
+  }
+]
