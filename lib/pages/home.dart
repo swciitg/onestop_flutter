@@ -86,10 +86,13 @@ class _HomePageState extends State<HomePage> {
         ),
         body: SafeArea(
           child: SingleChildScrollView(
-            child: Container(
+            child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 15),
-              height: 1 * MediaQuery.of(context).size.height,
-              child: tabs[index],
+              child: Column(
+                children: [
+                  tabs[index],
+                ],
+              ),
             ),
           ),
         ));
@@ -107,19 +110,19 @@ class HomeTab extends StatelessWidget {
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Expanded(flex: 3, child: MapSample()),
+        MapSample(),
         SizedBox(
           height: 10,
         ),
-        Expanded(flex: 1, child: DateCourse()),
+        DateCourse(),
         SizedBox(
           height: 10,
         ),
-        Expanded(flex: 1, child: QuickLinks()),
+        QuickLinks(),
         SizedBox(
           height: 10,
         ),
-        Expanded(flex: 1, child: Services()),
+        Services(),
         SizedBox(
           height: 10,
         ),
@@ -204,13 +207,12 @@ class QuickLinks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170,
+      height: 140,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: kHomeTile,
       ),
       child: Container(
-        height: 160,
         padding: const EdgeInsets.all(4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -230,8 +232,8 @@ class QuickLinks extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                // crossAxisAlignment: CrossAxisAlignment.stretch,
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
                     width: 5,
@@ -275,7 +277,7 @@ class Services extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170,
+      height: 140,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: kHomeTile,
