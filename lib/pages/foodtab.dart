@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/myColors.dart';
 import 'package:onestop_dev/globals/myFonts.dart';
+import 'package:onestop_dev/pages/DishPage.dart';
+import 'package:onestop_dev/pages/RestaurantPage.dart';
 import 'package:onestop_dev/widgets/foodResTile.dart';
 
 class FoodTab extends StatelessWidget {
@@ -26,7 +28,19 @@ class FoodTab extends StatelessWidget {
           height: 8,
         ),
         OutletsFilter(),
-        restaurant(),
+        // restaurant(),
+        FoodResTile(
+            Restaurant_name: "Dihing",
+            Cuisine_type: "Okay",
+            Wating_time: 2,
+            Closing_time: "2",
+            distance: 2),
+        FoodResTile(
+            Restaurant_name: "Dihing",
+            Cuisine_type: "Okay",
+            Wating_time: 2,
+            Closing_time: "2",
+            distance: 2),
       ],
     );
   }
@@ -177,10 +191,12 @@ class MessMenu extends StatelessWidget {
                 child: Column(
                   children: [
                     Expanded(
-                        child: Text(
-                      "8:00 pm - 10:15 pm",
-                      style: MyFonts.medium.setColor(kTabText),
-                    )),
+                      flex: 1,
+                      child: Text(
+                        "8:00 pm - 10:15 pm",
+                        style: MyFonts.medium.setColor(kTabText),
+                      ),
+                    ),
                     Expanded(
                         flex: 4,
                         child: SingleChildScrollView(
@@ -193,88 +209,99 @@ class MessMenu extends StatelessWidget {
                         child: Row(
                           children: [
                             Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(1, 0, 2, 0),
                                 child: PopupMenuButton<String>(
-                              onSelected: (value) => print(value),
-                              itemBuilder: (context) {
-                                return ["Sun", "Mon", "Tue"]
-                                    .map(
-                                      (value) => PopupMenuItem(
-                                        value: value,
-                                        child: Text(value),
-                                      ),
-                                    )
-                                    .toList();
-                              },
-                              offset: Offset(1, 40),
-                              child: Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                    color: kGrey2,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Text('Mon',
-                                          style:
-                                              MyFonts.medium.setColor(lBlue)),
-                                    ),
-                                    Icon(
-                                      Icons.keyboard_arrow_down_outlined,
-                                      color: lBlue,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            Expanded(
-                                child: PopupMenuButton<String>(
-                              onSelected: (value) => print(value),
-                              itemBuilder: (context) {
-                                return ["Brahma", "Lohit", "Kameng"]
-                                    .map(
-                                      (value) => PopupMenuItem(
-                                        value: value,
-                                        child: Text(
-                                          value,
+                                  onSelected: (value) => print(value),
+                                  itemBuilder: (context) {
+                                    return ["Sun", "Mon", "Tue"]
+                                        .map(
+                                          (value) => PopupMenuItem(
+                                            value: value,
+                                            child: Text(value),
+                                          ),
+                                        )
+                                        .toList();
+                                  },
+                                  offset: Offset(1, 40),
+                                  child: Container(
+                                    padding: EdgeInsets.all(4.0),
+                                    decoration: BoxDecoration(
+                                        color: kGrey2,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20))),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              4, 0, 0, 2),
+                                          child: Text('Mon',
+                                              style: MyFonts.medium
+                                                  .setColor(lBlue)
+                                                  .size(12)),
                                         ),
-                                      ),
-                                    )
-                                    .toList();
-                              },
-                              offset: Offset(1, 40),
-                              child: Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: lBlue),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8),
-                                      child: Text('Lohit',
-                                          style:
-                                              MyFonts.medium.setColor(lBlue)),
+                                        Icon(
+                                          Icons.keyboard_arrow_down_outlined,
+                                          color: lBlue,
+                                        ),
+                                      ],
                                     ),
-                                    Icon(
-                                      Icons.keyboard_arrow_down_outlined,
-                                      color: lBlue,
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            )),
+                            ),
+                            // SizedBox(
+                            //   width: 8,
+                            // ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(2, 0, 1, 0),
+                                child: PopupMenuButton<String>(
+                                  onSelected: (value) => print(value),
+                                  itemBuilder: (context) {
+                                    return ["Brahma", "Lohit", "Kameng"]
+                                        .map(
+                                          (value) => PopupMenuItem(
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                            ),
+                                          ),
+                                        )
+                                        .toList();
+                                  },
+                                  offset: Offset(1, 40),
+                                  child: Container(
+                                    padding: EdgeInsets.all(4.0),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: lBlue),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20))),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              4, 4, 0, 4),
+                                          child: Text('Subansiri',
+                                              style: MyFonts.medium
+                                                  .setColor(lBlue)
+                                                  .size(12)),
+                                        ),
+                                        Icon(
+                                          Icons.keyboard_arrow_down_outlined,
+                                          color: lBlue,
+                                          size: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ))
                   ],
@@ -289,12 +316,13 @@ class restaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 186.4,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: kBackground,
-      ),
+    return TextButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const RestaurantPage()),
+        );
+      },
       child: Container(
           height: 180,
           padding: const EdgeInsets.all(4),
@@ -451,20 +479,28 @@ class favouriteFoodDetails extends StatelessWidget {
   final Image img;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-            height: 50,
-            width: 67,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: img,
-            )),
-        SizedBox(height: 2),
-        Text(foodName,
-            style: MyFonts.medium.size(12).setColor(lBlue),
-            textAlign: TextAlign.center),
-      ],
+    return TextButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const DishPage()),
+        );
+      },
+      child: Column(
+        children: [
+          SizedBox(
+              height: 40,
+              width: 60,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: img,
+              )),
+          SizedBox(height: 2),
+          Text(foodName,
+              style: MyFonts.medium.size(12).setColor(lBlue),
+              textAlign: TextAlign.center),
+        ],
+      ),
     );
   }
 }
