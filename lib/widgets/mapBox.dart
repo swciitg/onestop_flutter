@@ -26,29 +26,39 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      width: 300,
-      child: FlutterMap(
-        mapController: _mapController,
-        options: MapOptions(
-          center: myPos,
-          zoom: zoom,
+    return Stack(
+      children: [
+        Container(
+          height: 300,
+          width: 300,
+          child: FlutterMap(
+            mapController: _mapController,
+            options: MapOptions(
+              center: myPos,
+              zoom: zoom,
+            ),
+            nonRotatedLayers: [
+              TileLayerOptions(
+                urlTemplate:
+                    'https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg',
+                additionalOptions: {
+                  'accessToken': myToken,
+                  'id': 'mapbox/light-v10',
+                },
+              ),
+              MarkerLayerOptions(
+                markers: markers,
+              ),
+            ],
+          ),
         ),
-        nonRotatedLayers: [
-          TileLayerOptions(
-            urlTemplate:
-                'https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg',
-            additionalOptions: {
-              'accessToken': myToken,
-              'id': 'mapbox/light-v10',
-            },
-          ),
-          MarkerLayerOptions(
-            markers: markers,
-          ),
-        ],
-      ),
+        FloatingActionButton(
+          onPressed: () {
+            _mapController.moveAndRotate(LatLng(lat, long), 15, 17);
+          },
+          child: Icon(Icons.my_location),
+        ),
+      ],
     );
   }
 
