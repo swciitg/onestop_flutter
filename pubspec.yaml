@@ -38,6 +38,8 @@ dependencies:
   http: ^0.13.4
   shared_preferences: ^2.0.12
   qr_flutter: ^4.0.0
+  flutter_map: ^0.14.0
+  location: ^4.3.0
 
 dev_dependencies:
   flutter_test:

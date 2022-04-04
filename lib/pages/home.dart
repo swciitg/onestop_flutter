@@ -5,6 +5,7 @@ import 'package:onestop_dev/globals/sizeConfig.dart';
 import 'package:onestop_dev/pages/foodtab.dart';
 import 'package:onestop_dev/widgets/appbar.dart';
 import 'package:onestop_dev/widgets/homeTabTile.dart';
+import 'package:onestop_dev/widgets/mapBox.dart';
 
 class HomePage extends StatefulWidget {
   static String id = "/home2";
@@ -20,10 +21,8 @@ class _HomePageState extends State<HomePage> {
     HomeTab(),
     FoodTab(),
     Center(
-        child: Text(
-      'Travel',
-      style: MyFonts.extraBold.setColor(kWhite).size(30),
-    )),
+      child: Map(),
+    ),
     Center(
         child: Text(
       'Timetable',
