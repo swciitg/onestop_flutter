@@ -20,112 +20,115 @@ class FoodResTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 325,
-      height: 168,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(21),
-        color: kBlueGrey,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Expanded(
-            flex: 1,
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(21),
-                  bottomLeft: Radius.circular(21)),
-              child: new Image.asset(
-                'assets/images/res_foodimg.jpg',
-                fit: BoxFit.fill,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Container(
+        // width: 325,
+        height: 168,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(21),
+          color: kBlueGrey,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              flex: 1,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(21),
+                    bottomLeft: Radius.circular(21)),
+                child: new Image.asset(
+                  'assets/images/res_foodimg.jpg',
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
-          ),
-          // SizedBox(
-          //   width: 13,
-          // ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        '$Restaurant_name',
-                        style: MyFonts.bold.size(16).setColor(kWhite),
+            // SizedBox(
+            //   width: 13,
+            // ),
+            Expanded(
+              flex: 2,
+              child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Expanded(
-                        flex: 2,
+                      Expanded(
+                        flex: 1,
                         child: Text(
-                          Cuisine_type,
-                          style: MyFonts.regular.size(14).setColor(kTabText),
-                        )),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Expanded(
-                        flex: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                                child: Text(
-                              'Waiting time: $Wating_time hrs',
-                              style: MyFonts.medium.size(11).setColor(kRed),
-                            )),
-                            Expanded(
-                                child: Text(
-                              'Closes at $Closing_time',
-                              style: MyFonts.medium.size(11).setColor(kTabText),
-                            )),
-                          ],
-                        )),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Expanded(
-                        flex: 2,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Call_MapButton(
-                                Call_Map: 'Call',
-                                icon: Icons.call_end_outlined),
-                            SizedBox(
-                              width: 5.0,
-                            ),
-                            Call_MapButton(
-                              Call_Map: 'Map',
-                              icon: Icons.location_on_outlined,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                                child: Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Text(
-                                '$distance km',
-                                style: MyFonts.medium.size(11).setColor(kWhite),
+                          '$Restaurant_name',
+                          style: MyFonts.bold.size(16).setColor(kWhite),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Expanded(
+                          flex: 2,
+                          child: Text(
+                            Cuisine_type,
+                            style: MyFonts.regular.size(14).setColor(kTabText),
+                          )),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                  child: Text(
+                                'Waiting time: $Wating_time hrs',
+                                style: MyFonts.medium.size(11).setColor(kRed),
+                              )),
+                              Expanded(
+                                  child: Text(
+                                'Closes at $Closing_time',
+                                style: MyFonts.medium.size(11).setColor(kTabText),
+                              )),
+                            ],
+                          )),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Expanded(
+                          flex: 2,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Call_MapButton(
+                                  Call_Map: 'Call',
+                                  icon: Icons.call_end_outlined),
+                              SizedBox(
+                                width: 5.0,
                               ),
-                            ))
-                          ],
-                        )),
-                  ],
-                )),
-          ),
-        ],
+                              Call_MapButton(
+                                Call_Map: 'Map',
+                                icon: Icons.location_on_outlined,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                  child: Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '$distance km',
+                                  style: MyFonts.medium.size(11).setColor(kWhite),
+                                ),
+                              ))
+                            ],
+                          )),
+                    ],
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }

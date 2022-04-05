@@ -25,9 +25,12 @@ class FoodTab extends StatelessWidget {
         SizedBox(height: 8),
         FavoriteDishes(),
         SizedBox(
-          height: 8,
+          height: 10,
         ),
         OutletsFilter(),
+        SizedBox(
+          height: 8,
+        ),
         // restaurant(),
         FoodResTile(
             Restaurant_name: "Dihing",

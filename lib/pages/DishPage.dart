@@ -15,19 +15,39 @@ class DishPage extends StatelessWidget {
     return Scaffold(
       appBar: appBar(context),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: Column(children: [
           SizedBox(
             height: 8,
           ),
           FoodSearchBar(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: Container(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                "Biryani",
+                style: MyFonts.medium.size(18).setColor(kWhite),
+              ),
+            ),
+          ),
           Expanded(
               child: ListView(
             children: [
-              restaurant(),
-              restaurant(),
-              restaurant(),
-              restaurant(),
+              FoodResTile(
+                Restaurant_name: "Florentine Restaurant",
+                Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
+                Wating_time: 2,
+                Closing_time: '10:00pm',
+                distance: 2,
+              ),
+              FoodResTile(
+                Restaurant_name: "Brahma Canteen",
+                Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
+                Wating_time: 1,
+                Closing_time: '10:00pm',
+                distance: 2,
+              )
             ],
           ))
         ]),
@@ -56,39 +76,6 @@ class FoodSearchBar extends StatelessWidget {
           hintStyle: MyFonts.medium.setColor(kGrey2),
           hintText: "Search dish or restaurant",
           fillColor: kBlueGrey),
-    );
-  }
-}
-
-class restaurant extends StatelessWidget {
-  const restaurant({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 186.4,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: kBackground,
-      ),
-      child: Container(
-          height: 180,
-          padding: const EdgeInsets.all(4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              FoodResTile(
-                Restaurant_name: "Florentine Restaurant",
-                Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
-                Wating_time: 2,
-                Closing_time: '10:00pm',
-                distance: 2,
-              )
-            ],
-          )),
     );
   }
 }
