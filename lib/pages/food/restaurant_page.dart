@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/myColors.dart';
-import 'package:onestop_dev/globals/myFonts.dart';
-import 'package:onestop_dev/widgets/foodResTile.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
 
 class RestaurantPage extends StatelessWidget {
   const RestaurantPage({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class RestaurantPage extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                RestaurantTile(
+                RestaurantHeader(
                     Restaurant_Name: "Florentine Restaurant",
                     About: "Multicusine,Dine-in",
                     Address: "29 West",

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/myColors.dart';
-import 'package:onestop_dev/globals/myFonts.dart';
-import 'package:onestop_dev/pages/DishPage.dart';
-import 'package:onestop_dev/pages/RestaurantPage.dart';
-import 'package:onestop_dev/widgets/foodResTile.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/pages/food/dish_page.dart';
+import 'package:onestop_dev/pages/food/restaurant_page.dart';
+import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
 
 class FoodTab extends StatelessWidget {
   const FoodTab({Key? key}) : super(key: key);
@@ -32,16 +32,16 @@ class FoodTab extends StatelessWidget {
           height: 8,
         ),
         // restaurant(),
-        FoodResTile(
+        RestaurantTile(
             Restaurant_name: "Dihing",
             Cuisine_type: "Okay",
-            Wating_time: 2,
+            Waiting_time: 2,
             Closing_time: "2",
             distance: 2),
-        FoodResTile(
+        RestaurantTile(
             Restaurant_name: "Dihing",
             Cuisine_type: "Okay",
-            Wating_time: 2,
+            Waiting_time: 2,
             Closing_time: "2",
             distance: 2),
       ],
@@ -335,10 +335,10 @@ class restaurant extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              FoodResTile(
+              RestaurantTile(
                 Restaurant_name: "Florentine Restaurant",
                 Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
-                Wating_time: 2,
+                Waiting_time: 2,
                 Closing_time: '10:00pm',
                 distance: 2,
               )

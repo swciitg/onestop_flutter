@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/myColors.dart';
-import 'package:onestop_dev/globals/myFonts.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 
-class FoodResTile extends StatelessWidget {
-  FoodResTile({
+class RestaurantTile extends StatelessWidget {
+  RestaurantTile({
     Key? key,
     required this.Restaurant_name,
     required this.Cuisine_type,
-    required this.Wating_time,
+    required this.Waiting_time,
     required this.Closing_time,
     required this.distance,
   }) : super(key: key);
 
   final String Restaurant_name;
   final String Cuisine_type;
-  final int Wating_time;
+  final int Waiting_time;
   final String Closing_time;
   final int distance;
 
@@ -83,7 +83,7 @@ class FoodResTile extends StatelessWidget {
                             children: [
                               Expanded(
                                   child: Text(
-                                'Waiting time: $Wating_time hrs',
+                                'Waiting time: $Waiting_time hrs',
                                 style: MyFonts.medium.size(11).setColor(kRed),
                               )),
                               Expanded(
@@ -313,8 +313,8 @@ class FoodTile extends StatelessWidget {
   }
 }
 
-class RestaurantTile extends StatelessWidget {
-  const RestaurantTile({
+class RestaurantHeader extends StatelessWidget {
+  const RestaurantHeader({
     Key? key,
     required this.Restaurant_Name,
     required this.About,

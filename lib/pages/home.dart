@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/myColors.dart';
-import 'package:onestop_dev/globals/myFonts.dart';
-import 'package:onestop_dev/globals/sizeConfig.dart';
-import 'package:onestop_dev/pages/foodtab.dart';
-import 'package:onestop_dev/widgets/appbar.dart';
-import 'package:onestop_dev/widgets/homeTabTile.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/globals/size_config.dart';
+import 'package:onestop_dev/pages/food/food_tab.dart';
+import 'package:onestop_dev/widgets/ui/appbar.dart';
+import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
 class HomePage extends StatefulWidget {
   static String id = "/home2";

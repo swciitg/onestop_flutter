@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/myColors.dart';
-import 'package:onestop_dev/globals/myFonts.dart';
-import 'package:onestop_dev/models/restaurantmodel.dart';
-import 'package:onestop_dev/widgets/appbar.dart';
-import 'package:onestop_dev/widgets/foodResTile.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/restaurant_model.dart';
+import 'package:onestop_dev/widgets/ui/appbar.dart';
+import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
@@ -37,7 +37,7 @@ class DishPage extends StatelessWidget {
                 builder:(BuildContext context, AsyncSnapshot<List<RestaurantModel>> snapshot) {
                   if (snapshot.hasData) {
                     print(snapshot.data);
-                    List<Widget> foodList = snapshot.data!.map((e)=>FoodResTile(Restaurant_name: e.name, Cuisine_type: e.caption, Wating_time: 2, Closing_time: e.closing_time, distance: 2)).toList();
+                    List<Widget> foodList = snapshot.data!.map((e)=>RestaurantTile(Restaurant_name: e.name, Cuisine_type: e.caption, Waiting_time: 2, Closing_time: e.closing_time, distance: 2)).toList();
                     return ListView(
                       children: foodList,
                     );
