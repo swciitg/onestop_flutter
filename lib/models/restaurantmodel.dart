@@ -1,28 +1,30 @@
+import 'package:flutter/cupertino.dart';
+
 class RestaurantModel{
-  String? name;
-  String? caption;
-  String? closing_time;
-  String? waiting_time;
-  String? phone_number;
+  late String name;
+  late String caption;
+  late String closing_time;
+  late String waiting_time;
+  late String phone_number;
   
 
 
   RestaurantModel(
       {
-        this.name,
-        this.caption,
-        this.closing_time,
-        this.waiting_time,
-        this.phone_number
+        required this.name,
+        required this.caption,
+        required this.closing_time,
+        required this.waiting_time,
+        required this.phone_number
       });
 
 
   RestaurantModel.fromJson(Map<String,dynamic> json)
   {
-    name =json['name'];
-    closing_time = json['closing_time'];
-    waiting_time = json['waiting_time'];
-    caption = json['caption'];
-    phone_number = json['phone_number'];
+    name =json['name']??"Unnamed";
+    closing_time = json['closing_time']??"Not Known";
+    waiting_time = json['waiting_time']??"Not Known";
+    caption = json['caption']??"Not Known";
+    phone_number = json['phone_number']??"Not Known";
   }
 }
