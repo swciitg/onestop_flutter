@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/myColors.dart';
-import 'package:onestop_dev/globals/myFonts.dart';
-import 'package:onestop_dev/globals/sizeConfig.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
-import 'package:onestop_dev/widgets/appbar.dart';
+import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QRPage extends StatefulWidget {

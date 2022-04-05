@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/sizeConfig.dart';
+import 'package:onestop_dev/globals/size_config.dart';
 
 class MyFonts {
   static final String _fontFamily = 'Montserrat';

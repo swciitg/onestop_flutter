@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/myColors.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/qr.dart';
 import 'package:onestop_dev/pages/home.dart';
 import 'package:onestop_dev/pages/login.dart';
