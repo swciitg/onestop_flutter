@@ -89,7 +89,8 @@ class RestaurantTile extends StatelessWidget {
                               Expanded(
                                   child: Text(
                                 'Closes at $Closing_time',
-                                style: MyFonts.medium.size(11).setColor(kTabText),
+                                style:
+                                    MyFonts.medium.size(11).setColor(kTabText),
                               )),
                             ],
                           )),
@@ -119,7 +120,8 @@ class RestaurantTile extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 10),
                                 child: Text(
                                   '$distance km',
-                                  style: MyFonts.medium.size(11).setColor(kWhite),
+                                  style:
+                                      MyFonts.medium.size(11).setColor(kWhite),
                                 ),
                               ))
                             ],

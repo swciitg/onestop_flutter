@@ -21,7 +21,7 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
                     color: lBlue2,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context,QRPage.id);
+                    Navigator.pushNamed(context, QRPage.id);
                   },
                 ),
                 backgroundColor: kAppBarGrey,
