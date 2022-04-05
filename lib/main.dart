@@ -25,7 +25,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: new ThemeData(scaffoldBackgroundColor: kBackground,splashColor: Colors.transparent),
+        theme: new ThemeData(
+            scaffoldBackgroundColor: kBackground,
+            splashColor: Colors.transparent),
         title: 'Timetable Admin',
         initialRoute: '/',
         routes: {
@@ -38,4 +40,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
