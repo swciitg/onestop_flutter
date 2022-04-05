@@ -26,7 +26,7 @@ class PowerUp extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child:
-                Image.asset('assets/images/no_internet_illustration.png'),
+                    Image.asset('assets/images/no_internet_illustration.png'),
               ),
               Expanded(
                 flex: 1,
@@ -46,5 +46,4 @@ class PowerUp extends StatelessWidget {
       ),
     );
   }
-
 }

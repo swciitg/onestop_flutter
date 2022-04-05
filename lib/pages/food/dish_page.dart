@@ -33,24 +33,36 @@ class DishPage extends StatelessWidget {
           ),
           Expanded(
               child: FutureBuilder<List<RestaurantModel>>(
-                future: ReadJsonData(),
-                builder:(BuildContext context, AsyncSnapshot<List<RestaurantModel>> snapshot) {
-                  if (snapshot.hasData) {
-                    print(snapshot.data);
-                    List<Widget> foodList = snapshot.data!.map((e)=>RestaurantTile(Restaurant_name: e.name, Cuisine_type: e.caption, Waiting_time: 2, Closing_time: e.closing_time, distance: 2)).toList();
-                    return ListView(
-                      children: foodList,
+                  future: ReadJsonData(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<RestaurantModel>> snapshot) {
+                    if (snapshot.hasData) {
+                      print(snapshot.data);
+                      List<Widget> foodList = snapshot.data!
+                          .map((e) => RestaurantTile(
+                              Restaurant_name: e.name,
+                              Cuisine_type: e.caption,
+                              Waiting_time: 2,
+                              Closing_time: e.closing_time,
+                              distance: 2))
+                          .toList();
+                      return ListView(
+                        children: foodList,
+                      );
+                    } else if (snapshot.hasError) {
+                      print(snapshot.error);
+                      return Center(
+                          child: Text(
+                        "An error occurred",
+                        style: MyFonts.medium.size(18).setColor(kWhite),
+                      ));
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
                     );
-                  } else if (snapshot.hasError) {
-                    print(snapshot.error);
-                    return Center(child: Text(
-                      "An error occurred",
-                      style: MyFonts.medium.size(18).setColor(kWhite),
-                    ));
-                  }
-                  return Center(child: CircularProgressIndicator(color: Colors.white,),);
-                }
-              ))
+                  }))
         ]),
       ),
     );

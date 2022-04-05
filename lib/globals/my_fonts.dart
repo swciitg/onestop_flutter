@@ -23,4 +23,3 @@ extension TextStyleHelpers on TextStyle {
   TextStyle size(double size) => copyWith(fontSize: size);
   TextStyle letterSpace(double space) => copyWith(letterSpacing: space);
 }
-
