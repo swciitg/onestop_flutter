@@ -32,24 +32,25 @@ class DishPage extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: ListView(
-            children: [
-              FoodResTile(
-                Restaurant_name: "Florentine Restaurant",
-                Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
-                Wating_time: 2,
-                Closing_time: '10:00pm',
-                distance: 2,
-              ),
-              FoodResTile(
-                Restaurant_name: "Brahma Canteen",
-                Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
-                Wating_time: 1,
-                Closing_time: '10:00pm',
-                distance: 2,
-              )
-            ],
-          ))
+              child: FutureBuilder<List<RestaurantModel>>(
+                future: ReadJsonData(),
+                builder:(BuildContext context, AsyncSnapshot<List<RestaurantModel>> snapshot) {
+                  if (snapshot.hasData) {
+                    print(snapshot.data);
+                    List<Widget> foodList = snapshot.data!.map((e)=>FoodResTile(Restaurant_name: e.name, Cuisine_type: e.caption, Wating_time: 2, Closing_time: e.closing_time, distance: 2)).toList();
+                    return ListView(
+                      children: foodList,
+                    );
+                  } else if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return Center(child: Text(
+                      "An error occurred",
+                      style: MyFonts.medium.size(18).setColor(kWhite),
+                    ));
+                  }
+                  return Center(child: CircularProgressIndicator(color: Colors.white,),);
+                }
+              ))
         ]),
       ),
     );
@@ -81,7 +82,7 @@ class FoodSearchBar extends StatelessWidget {
 }
 
 Future<List<RestaurantModel>> ReadJsonData() async {
-  final jsondata = await rootBundle.loadString('globals/restaurants.json');
+  final jsondata = await rootBundle.loadString('lib/globals/restaurants.json');
   final list = json.decode(jsondata) as List<dynamic>;
 
   return list.map((e) => RestaurantModel.fromJson(e)).toList();

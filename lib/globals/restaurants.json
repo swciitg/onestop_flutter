@@ -4,7 +4,7 @@
     "caption": "Multicuisine, dining, north-indian",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
-    "phone_number": 1234567898,
+    "phone_number": "1234567898",
     "location": {
       "latitude": 57.694514,
       "longitude": -127.872155
@@ -15,7 +15,7 @@
     "caption": "Rolls, Sandwiches",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
-    "phone_number": 1234567898,
+    "phone_number": "1234567898",
     "location": {
       "latitude": 57.694514,
       "longitude": -127.872155
@@ -26,7 +26,7 @@
     "caption": "Rolls, Food Truck",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
-    "phone_number": 1234567898,
+    "phone_number": "1234567898",
     "location": {
       "latitude": 57.694514,
       "longitude": -127.872155
@@ -37,7 +37,7 @@
     "caption": "South Indian, Dosas",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
-    "phone_number": 1234567898,
+    "phone_number": "1234567898",
     "location": {
       "latitude": 57.694514,
       "longitude": -127.872155
@@ -48,7 +48,7 @@
     "caption": "Multicuisine, dining, north-indian",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
-    "phone_number": 1234567898,
+    "phone_number": "1234567898",
     "location": {
       "latitude": 57.694514,
       "longitude": -127.872155
@@ -59,7 +59,7 @@
     "caption": "Multicuisine, dining, north-indian",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
-    "phone_number": 1234567898,
+    "phone_number": "1234567898",
     "location": {
       "latitude": 57.694514,
       "longitude": -127.872155
