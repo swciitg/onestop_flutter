@@ -109,7 +109,7 @@ class HomeTab extends StatelessWidget {
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        MapSample(),
+        Map(),
         SizedBox(
           height: 10,
         ),
@@ -127,15 +127,6 @@ class HomeTab extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-class MapSample extends StatelessWidget {
-  const MapSample({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.asset('assets/images/sample_map.png');
   }
 }
 
