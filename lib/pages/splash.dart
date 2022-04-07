@@ -4,6 +4,7 @@ import 'package:onestop_dev/stores/login_store.dart';
 
 class SplashPage extends StatefulWidget {
   static String id = "/";
+
   const SplashPage({Key? key}) : super(key: key);
 
   @override
