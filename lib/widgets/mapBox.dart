@@ -4,96 +4,46 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:location/location.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:intl/intl.dart';
+import 'package:onestop_dev/globals.dart';
 
-class Map extends StatefulWidget {
-  const Map({Key? key}) : super(key: key);
+class MapBox extends StatefulWidget {
+  double? lat, long;
+  MapBox({Key? key, this.lat, this.long}) : super(key: key);
 
   @override
-  State<Map> createState() => _MapState();
+  State<MapBox> createState() => _MapBoxState();
 }
 
-List<String> Buses = ['manas', 'disang'];
-int _selectedIndex = 0;
+bool status = false;
+DateTime now = DateTime.now();
+String formattedTime = DateFormat.jm().format(now);
 
-class _MapState extends State<Map> {
+class _MapBoxState extends State<MapBox> {
   final MapController _mapController = MapController();
-  final CarouselController _controller = CarouselController();
   bool mapToggle = true;
   final myToken =
       'pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg';
   final pointIcon = 'assets/images/Ellipse135.png';
   late LatLng myPos = LatLng(-37.327154, -59.119667);
   double zoom = 13.0;
-  final List<Widget> Sliders = Buses!
-      .map(
-        (item) => ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-          child: Container(
-            child: Row(
-              children: [
-                Container(
-                  child: Image.asset('assets/images/Frame88.png'),
-                  decoration: BoxDecoration(color: Colors.grey),
-                ),
-              ],
-            ),
-          ),
-        ),
-      )
-      .toList();
+  List<LatLng> latlngList = [];
+  //
   void initState() {
     super.initState();
     _getLoctaion();
   }
 
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     location.onLocationChanged.listen((LocationData current) {
-      setState(() {
-        lat = current.latitude!;
-        long = current.longitude!;
-      });
+      _getLoctaion();
     });
-    return Stack(
-      children: [
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FlatButton(
-                onPressed: () {},
-                child: Container(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.bus_alert),
-                      Text("Buses"),
-                    ],
-                  ),
-                ),
-              ),
-              FlatButton(
-                onPressed: () {},
-                child: Container(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.bus_alert),
-                      Text("Ferries"),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          child: Container(
+    return ClipRRect(
+      borderRadius: BorderRadius.all(Radius.circular(20)),
+      child: Stack(
+        children: [
+          Container(
             height: 365,
             width: 350,
             child: FlutterMap(
@@ -114,32 +64,169 @@ class _MapState extends State<Map> {
                 MarkerLayerOptions(
                   markers: markers,
                 ),
+                PolylineLayerOptions(polylines: [
+                  Polyline(
+                    points: [
+                      LatLng(lat, long),
+                      LatLng(widget.lat!, widget.long!)
+                    ],
+                    // isDotted: true,
+                    color: Color(0xFF669DF6),
+                    strokeWidth: 3.0,
+                    borderColor: Color(0xFF1967D2),
+                    borderStrokeWidth: 0.1,
+                  )
+                ])
               ],
             ),
           ),
-        ),
-        SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              CarouselSlider(
-                items: Sliders,
-                options: CarouselOptions(enlargeCenterPage: true, height: 100),
-                carouselController: _controller,
-              ),
-            ],
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                FlatButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedIndex = 0;
+                    });
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(40),
+                    ),
+                    child: Container(
+                      height: 32,
+                      width: 83,
+                      color: (selectedIndex == 0)
+                          ? Color.fromRGBO(118, 172, 255, 1)
+                          : Color.fromRGBO(39, 49, 65, 1),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            IconData(0xe1d5, fontFamily: 'MaterialIcons'),
+                            color: (selectedIndex == 0)
+                                ? Color.fromRGBO(39, 49, 65, 1)
+                                : Colors.white,
+                          ),
+                          Text(
+                            "Bus",
+                            style: TextStyle(
+                              color: (selectedIndex == 0)
+                                  ? Color.fromRGBO(39, 49, 65, 1)
+                                  : Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedIndex = 1;
+                    });
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(40),
+                    ),
+                    child: Container(
+                      height: 32,
+                      width: 83,
+                      color: (selectedIndex == 1)
+                          ? Color.fromRGBO(118, 172, 255, 1)
+                          : Color.fromRGBO(39, 49, 65, 1),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            IconData(0xefc2, fontFamily: 'MaterialIcons'),
+                            color: (selectedIndex == 1)
+                                ? Color.fromRGBO(39, 49, 65, 1)
+                                : Colors.white,
+                          ),
+                          Text(
+                            "Ferries",
+                            style: TextStyle(
+                              color: (selectedIndex == 1)
+                                  ? Color.fromRGBO(39, 49, 65, 1)
+                                  : Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedIndex = 2;
+                    });
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(40),
+                    ),
+                    child: Container(
+                      height: 32,
+                      width: 83,
+                      color: (selectedIndex == 2)
+                          ? Color.fromRGBO(118, 172, 255, 1)
+                          : Color.fromRGBO(39, 49, 65, 1),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.bus_alert,
+                            color: (selectedIndex == 2)
+                                ? Color.fromRGBO(39, 49, 65, 1)
+                                : Colors.white,
+                          ),
+                          Text(
+                            "Food",
+                            style: TextStyle(
+                              color: (selectedIndex == 2)
+                                  ? Color.fromRGBO(39, 49, 65, 1)
+                                  : Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        Positioned(
-          left: 285,
-          top: 300,
-          child: FloatingActionButton(
-            onPressed: () {
-              _mapController.moveAndRotate(LatLng(lat, long), 15, 17);
-            },
-            child: Icon(Icons.my_location),
+          // SingleChildScrollView(
+          //   child: Column(
+          //     children: <Widget>[
+          //       CarouselSlider(
+          //         items: Sliders,
+          //         options: CarouselOptions(enlargeCenterPage: true, height: 100),
+          //         carouselController: _controller,
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          Positioned(
+            left: 285,
+            top: 300,
+            child: FloatingActionButton(
+              onPressed: () {
+                _mapController.moveAndRotate(LatLng(lat, long), 15, 17);
+              },
+              child: Icon(Icons.my_location),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -171,6 +258,8 @@ class _MapState extends State<Map> {
     setState(() {
       lat = _locationData!.latitude!;
       long = _locationData!.longitude!;
+      userlat = _locationData!.latitude!;
+      userlong = _locationData!.longitude!;
       mapToggle = true;
     });
   }
