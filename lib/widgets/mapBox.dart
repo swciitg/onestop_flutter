@@ -90,6 +90,7 @@ class _MapBoxState extends State<MapBox> {
                       selectedIndex = 0;
                     });
                   },
+                  padding: EdgeInsets.only(left: 10),
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(
                       Radius.circular(40),
@@ -129,6 +130,7 @@ class _MapBoxState extends State<MapBox> {
                       selectedIndex = 1;
                     });
                   },
+                  padding: EdgeInsets.only(left: 10),
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(
                       Radius.circular(40),
@@ -162,45 +164,45 @@ class _MapBoxState extends State<MapBox> {
                     ),
                   ),
                 ),
-                FlatButton(
-                  onPressed: () {
-                    setState(() {
-                      selectedIndex = 2;
-                    });
-                  },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(40),
-                    ),
-                    child: Container(
-                      height: 32,
-                      width: 83,
-                      color: (selectedIndex == 2)
-                          ? Color.fromRGBO(118, 172, 255, 1)
-                          : Color.fromRGBO(39, 49, 65, 1),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.bus_alert,
-                            color: (selectedIndex == 2)
-                                ? Color.fromRGBO(39, 49, 65, 1)
-                                : Colors.white,
-                          ),
-                          Text(
-                            "Food",
-                            style: TextStyle(
-                              color: (selectedIndex == 2)
-                                  ? Color.fromRGBO(39, 49, 65, 1)
-                                  : Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                // FlatButton(
+                //   onPressed: () {
+                //     setState(() {
+                //       selectedIndex = 2;
+                //     });
+                //   },
+                //   child: ClipRRect(
+                //     borderRadius: BorderRadius.all(
+                //       Radius.circular(40),
+                //     ),
+                //     child: Container(
+                //       height: 32,
+                //       width: 83,
+                //       color: (selectedIndex == 2)
+                //           ? Color.fromRGBO(118, 172, 255, 1)
+                //           : Color.fromRGBO(39, 49, 65, 1),
+                //       child: Row(
+                //         crossAxisAlignment: CrossAxisAlignment.center,
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
+                //           Icon(
+                //             Icons.bus_alert,
+                //             color: (selectedIndex == 2)
+                //                 ? Color.fromRGBO(39, 49, 65, 1)
+                //                 : Colors.white,
+                //           ),
+                //           Text(
+                //             "Food",
+                //             style: TextStyle(
+                //               color: (selectedIndex == 2)
+                //                   ? Color.fromRGBO(39, 49, 65, 1)
+                //                   : Colors.white,
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
