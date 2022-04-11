@@ -100,10 +100,22 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class HomeTab extends StatelessWidget {
-  const HomeTab({
-    Key? key,
-  }) : super(key: key);
+class HomeTab extends StatefulWidget {
+  const HomeTab({Key? key}) : super(key: key);
+
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  int selectedIndex = 0;
+
+  void rebuildParent(int newSelectedIndex) {
+    print('Reloaded');
+    setState(() {
+      selectedIndex = newSelectedIndex;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +126,9 @@ class HomeTab extends StatelessWidget {
         MapBox(
           lat: lat,
           long: long,
+          selectedIndex: selectedIndex,
+          rebuildParent: rebuildParent,
+          istravel: true,
         ),
         SizedBox(
           height: 10,
@@ -422,20 +437,32 @@ class _TravelPageState extends State<TravelPage> {
   int selectBusesorStops = 0;
   bool isCity = false;
   bool isCampus = false;
+
+  int selectedIndex = 0;
+
+  void rebuildParent(int newSelectedIndex) {
+    print('Reloaded');
+    setState(() {
+      selectedIndex = newSelectedIndex;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var res = check();
     return SingleChildScrollView(
       child: Column(
         children: [
           MapBox(
+            selectedIndex: selectedIndex,
             lat: lat,
             long: long,
+            rebuildParent: rebuildParent,
+            istravel: false,
           ),
           SizedBox(
             height: 10,
           ),
-          (res)
+          (selectedIndex == 0)
               ? Column(
                   children: [
                     Row(
@@ -687,10 +714,5 @@ class _TravelPageState extends State<TravelPage> {
         ],
       ),
     );
-  }
-
-  bool check() {
-    if (selectedIndex == 0) return true;
-    return false;
   }
 }

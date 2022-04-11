@@ -6,8 +6,19 @@ import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals.dart';
 
 class MapBox extends StatefulWidget {
+  Function? rebuildParent;
   double? lat, long;
-  MapBox({Key? key, this.lat, this.long}) : super(key: key);
+  int? selectedIndex;
+  final bool istravel;
+
+  MapBox(
+      {Key? key,
+      this.lat,
+      this.long,
+      this.selectedIndex,
+      this.rebuildParent,
+      required this.istravel})
+      : super(key: key);
 
   @override
   State<MapBox> createState() => _MapBoxState();
@@ -27,6 +38,7 @@ class _MapBoxState extends State<MapBox> {
   late LatLng myPos = LatLng(-37.327154, -59.119667);
   double zoom = 13.0;
   List<LatLng> latlngList = [];
+
   //
   void initState() {
     super.initState();
@@ -85,9 +97,7 @@ class _MapBoxState extends State<MapBox> {
               children: [
                 FlatButton(
                   onPressed: () {
-                    setState(() {
-                      selectedIndex = 0;
-                    });
+                    widget.rebuildParent!(0);
                   },
                   padding: EdgeInsets.only(left: 10),
                   child: ClipRRect(
@@ -97,7 +107,7 @@ class _MapBoxState extends State<MapBox> {
                     child: Container(
                       height: 32,
                       width: 83,
-                      color: (selectedIndex == 0)
+                      color: (widget.selectedIndex == 0)
                           ? Color.fromRGBO(118, 172, 255, 1)
                           : Color.fromRGBO(39, 49, 65, 1),
                       child: Row(
@@ -106,14 +116,14 @@ class _MapBoxState extends State<MapBox> {
                         children: [
                           Icon(
                             IconData(0xe1d5, fontFamily: 'MaterialIcons'),
-                            color: (selectedIndex == 0)
+                            color: (widget.selectedIndex == 0)
                                 ? Color.fromRGBO(39, 49, 65, 1)
                                 : Colors.white,
                           ),
                           Text(
                             "Bus",
                             style: TextStyle(
-                              color: (selectedIndex == 0)
+                              color: (widget.selectedIndex == 0)
                                   ? Color.fromRGBO(39, 49, 65, 1)
                                   : Colors.white,
                             ),
@@ -126,7 +136,7 @@ class _MapBoxState extends State<MapBox> {
                 FlatButton(
                   onPressed: () {
                     setState(() {
-                      selectedIndex = 1;
+                      widget.rebuildParent!(1);
                     });
                   },
                   padding: EdgeInsets.only(left: 10),
@@ -137,7 +147,7 @@ class _MapBoxState extends State<MapBox> {
                     child: Container(
                       height: 32,
                       width: 83,
-                      color: (selectedIndex == 1)
+                      color: (widget.selectedIndex == 1)
                           ? Color.fromRGBO(118, 172, 255, 1)
                           : Color.fromRGBO(39, 49, 65, 1),
                       child: Row(
@@ -146,14 +156,14 @@ class _MapBoxState extends State<MapBox> {
                         children: [
                           Icon(
                             IconData(0xefc2, fontFamily: 'MaterialIcons'),
-                            color: (selectedIndex == 1)
+                            color: (widget.selectedIndex == 1)
                                 ? Color.fromRGBO(39, 49, 65, 1)
                                 : Colors.white,
                           ),
                           Text(
                             "Ferry",
                             style: TextStyle(
-                              color: (selectedIndex == 1)
+                              color: (widget.selectedIndex == 1)
                                   ? Color.fromRGBO(39, 49, 65, 1)
                                   : Colors.white,
                             ),
@@ -163,45 +173,47 @@ class _MapBoxState extends State<MapBox> {
                     ),
                   ),
                 ),
-                // FlatButton(
-                //   onPressed: () {
-                //     setState(() {
-                //       selectedIndex = 2;
-                //     });
-                //   },
-                //   child: ClipRRect(
-                //     borderRadius: BorderRadius.all(
-                //       Radius.circular(40),
-                //     ),
-                //     child: Container(
-                //       height: 32,
-                //       width: 83,
-                //       color: (selectedIndex == 2)
-                //           ? Color.fromRGBO(118, 172, 255, 1)
-                //           : Color.fromRGBO(39, 49, 65, 1),
-                //       child: Row(
-                //         crossAxisAlignment: CrossAxisAlignment.center,
-                //         mainAxisAlignment: MainAxisAlignment.center,
-                //         children: [
-                //           Icon(
-                //             Icons.bus_alert,
-                //             color: (selectedIndex == 2)
-                //                 ? Color.fromRGBO(39, 49, 65, 1)
-                //                 : Colors.white,
-                //           ),
-                //           Text(
-                //             "Food",
-                //             style: TextStyle(
-                //               color: (selectedIndex == 2)
-                //                   ? Color.fromRGBO(39, 49, 65, 1)
-                //                   : Colors.white,
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                (widget.istravel)
+                    ? FlatButton(
+                        onPressed: () {
+                          setState(() {
+                            widget.rebuildParent!(2);
+                          });
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(40),
+                          ),
+                          child: Container(
+                            height: 32,
+                            width: 83,
+                            color: (widget.selectedIndex == 2)
+                                ? Color.fromRGBO(118, 172, 255, 1)
+                                : Color.fromRGBO(39, 49, 65, 1),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.bus_alert,
+                                  color: (widget.selectedIndex == 2)
+                                      ? Color.fromRGBO(39, 49, 65, 1)
+                                      : Colors.white,
+                                ),
+                                Text(
+                                  "Food",
+                                  style: TextStyle(
+                                    color: (widget.selectedIndex == 2)
+                                        ? Color.fromRGBO(39, 49, 65, 1)
+                                        : Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    : SizedBox(),
               ],
             ),
           ),
@@ -255,7 +267,8 @@ class _MapBoxState extends State<MapBox> {
       }
     }
     _locationData = await location.getLocation();
-    _addMarker(_locationData!.latitude!, _locationData!.longitude!, widget.lat!, widget.long!);
+    _addMarker(_locationData!.latitude!, _locationData!.longitude!, widget.lat!,
+        widget.long!);
     setState(() {
       lat = _locationData!.latitude!;
       long = _locationData!.longitude!;
@@ -263,6 +276,7 @@ class _MapBoxState extends State<MapBox> {
       userlong = _locationData!.longitude!;
       mapToggle = true;
     });
+    _mapController.moveAndRotate(LatLng(userlat, userlong), 15, 17);
   }
 
   void _addMarker(double userlat, double userlong, double lat, double long) {
