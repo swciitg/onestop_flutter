@@ -95,44 +95,6 @@ class OutletsFilter extends StatelessWidget {
   }
 }
 
-class OutletsFilterTile extends StatelessWidget {
-  const OutletsFilterTile({
-    Key? key,
-    required this.filterText,
-    this.selected = false,
-  }) : super(key: key);
-
-  final String filterText;
-  final bool selected;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: selected ? lBlue2 : kGrey2,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: FittedBox(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minWidth: 20),
-                child: Text(
-                  filterText,
-                  style: selected
-                      ? MyFonts.medium.size(23).setColor(kBlueGrey)
-                      : MyFonts.medium.size(23).setColor(lBlue),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          )),
-    );
-  }
-}
-
 class FoodSearchBar extends StatelessWidget {
   const FoodSearchBar({
     Key? key,
