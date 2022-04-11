@@ -424,6 +424,7 @@ class _TravelPageState extends State<TravelPage> {
   bool isCampus = false;
   @override
   Widget build(BuildContext context) {
+    var res = check();
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -434,7 +435,7 @@ class _TravelPageState extends State<TravelPage> {
           SizedBox(
             height: 10,
           ),
-          (check())
+          (res)
               ? Column(
                   children: [
                     Row(
