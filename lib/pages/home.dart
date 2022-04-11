@@ -381,6 +381,8 @@ class BusTile extends StatelessWidget {
   }
 }
 
+final playerPointsToAdd =
+    ValueNotifier<int>(0); //TODO 1st: ValueNotifier declaration
 
 class TravelPage extends StatefulWidget {
   const TravelPage({Key? key}) : super(key: key);
@@ -432,232 +434,262 @@ class _TravelPageState extends State<TravelPage> {
           SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              FlatButton(
-                onPressed: () {
-                  setState(() {
-                    selectBusesorStops = 0;
-                  });
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(40),
-                  ),
-                  child: Container(
-                    height: 32,
-                    width: 83,
-                    color: (selectBusesorStops == 0)
-                        ? Color.fromRGBO(118, 172, 255, 1)
-                        : Color.fromRGBO(39, 49, 65, 1),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          IconData(0xe1d5, fontFamily: 'MaterialIcons'),
-                          color: (selectBusesorStops == 0)
-                              ? Color.fromRGBO(39, 49, 65, 1)
-                              : Colors.white,
-                        ),
-                        Text(
-                          "Stops",
-                          style: TextStyle(
-                            color: (selectBusesorStops == 0)
-                                ? Color.fromRGBO(39, 49, 65, 1)
-                                : Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              FlatButton(
-                onPressed: () {
-                  setState(() {
-                    selectBusesorStops = 1;
-                  });
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(40),
-                  ),
-                  child: Container(
-                    height: 32,
-                    width: 83,
-                    color: (selectBusesorStops == 1)
-                        ? Color.fromRGBO(118, 172, 255, 1)
-                        : Color.fromRGBO(39, 49, 65, 1),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          IconData(0xe1d5, fontFamily: 'MaterialIcons'),
-                          color: (selectBusesorStops == 1)
-                              ? Color.fromRGBO(39, 49, 65, 1)
-                              : Colors.white,
-                        ),
-                        Text(
-                          "Bus",
-                          style: TextStyle(
-                            color: (selectBusesorStops == 1)
-                                ? Color.fromRGBO(39, 49, 65, 1)
-                                : Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          (selectBusesorStops == 0)
-              ? Column(
-                  children: BusStops.map((item) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isSelected = item['ind'];
-                            lat = item['lat'];
-                            long = item['long'];
-                          });
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.95,
-                          //color: Colors.amberAccent,
-                          decoration: BoxDecoration(
-                            color: Color.fromRGBO(34, 36, 41, 1),
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            border: Border.all(
-                                color: (isSelected == item['ind'])
-                                    ? Color.fromRGBO(101, 144, 210, 1)
-                                    :Color.fromRGBO(34, 36, 41, 1)),
-                          ),
-                          child: ListTile(
-                            textColor: Colors.white,
-                            leading: const CircleAvatar(
-                              backgroundColor: Color.fromRGBO(255, 227, 125, 1),
-                              radius: 26,
-                              child: Icon(
-                                IconData(
-                                  0xe1d5,
-                                  fontFamily: 'MaterialIcons',
-                                ),
-                                color: Color.fromRGBO(39, 49, 65, 1),
-                              ),
-                            ),
-                            title: Text(
-                              item['name'],
-                              style: const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
-                            ),
-                            subtitle: Text(
-                              item['distance'],
-                              style: const TextStyle(color: Color.fromRGBO(119, 126, 141, 1)),
-                            ),
-                            trailing: (item['status'] == 'left')
-                                ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'Left',
-                                  style:
-                                  TextStyle(color: Color.fromRGBO(135, 145, 165, 1)),
-                                ),
-                                Text(
-                                  item['time'],
-                                  style: const TextStyle(
-                                      color: Color.fromRGBO(195, 198, 207, 1)),
-                                ),
-                              ],
-                            )
-                                : Text(
-                              item['time'],
-                              style: TextStyle(color: Color.fromRGBO(118, 172, 255, 1)),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                )
-              : SizedBox(),
-          (selectBusesorStops == 1)
+          (check)
               ? Column(
                   children: [
-                    Container(
-                      child: ListTile(
-                        title: Text(
-                          'Campus -> City',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          'Starting from Biotech park',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.white,
-                          ),
+                    Row(
+                      children: [
+                        FlatButton(
                           onPressed: () {
                             setState(() {
-                              isCity = !isCity;
+                              selectBusesorStops = 0;
                             });
                           },
-                        ),
-                      ),
-                    ),
-                    isCity
-                        ? Column(
-                            children: Buses.map((e) {
-                            return BusTile(
-                              time: e['time'],
-                              isLeft: e['status'],
-                            );
-                          }).toList())
-                        : Container(),
-                    Container(
-                      child: ListTile(
-                        title: Text(
-                          'City -> Campus',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          'Starting from City',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.white,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(40),
+                            ),
+                            child: Container(
+                              height: 32,
+                              width: 83,
+                              color: (selectBusesorStops == 0)
+                                  ? Color.fromRGBO(118, 172, 255, 1)
+                                  : Color.fromRGBO(39, 49, 65, 1),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  /*Icon(
+                              IconData(0xe1d5, fontFamily: 'MaterialIcons'),
+                              color: (selectBusesorStops == 0)
+                                  ? Color.fromRGBO(39, 49, 65, 1)
+                                  : Colors.white,
+                            ),*/
+                                  Text(
+                                    "Stops",
+                                    style: TextStyle(
+                                      color: (selectBusesorStops == 0)
+                                          ? Color.fromRGBO(39, 49, 65, 1)
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
+                        ),
+                        FlatButton(
                           onPressed: () {
                             setState(() {
-                              isCampus = !isCampus;
+                              selectBusesorStops = 1;
                             });
                           },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(40),
+                            ),
+                            child: Container(
+                              height: 32,
+                              width: 83,
+                              color: (selectBusesorStops == 1)
+                                  ? Color.fromRGBO(118, 172, 255, 1)
+                                  : Color.fromRGBO(39, 49, 65, 1),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  /*Icon(
+                              IconData(0xe1d5, fontFamily: 'MaterialIcons'),
+                              color: (selectBusesorStops == 1)
+                                  ? Color.fromRGBO(39, 49, 65, 1)
+                                  : Colors.white,
+                            ),*/
+                                  Text(
+                                    "Bus",
+                                    style: TextStyle(
+                                      color: (selectBusesorStops == 1)
+                                          ? Color.fromRGBO(39, 49, 65, 1)
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                    isCampus
+                    (selectBusesorStops == 0)
                         ? Column(
-                            children: Buses.map((e) {
-                            return BusTile(
-                              time: e['time'],
-                              isLeft: e['status'],
-                            );
-                          }).toList())
-                        : Container(),
+                            children: BusStops.map((item) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 4.0, bottom: 4.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isSelected = item['ind'];
+                                      lat = item['lat'];
+                                      long = item['long'];
+                                    });
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.95,
+                                    //color: Colors.amberAccent,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(34, 36, 41, 1),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                      border: Border.all(
+                                          color: (isSelected == item['ind'])
+                                              ? Color.fromRGBO(101, 144, 210, 1)
+                                              : Color.fromRGBO(34, 36, 41, 1)),
+                                    ),
+                                    child: ListTile(
+                                      textColor: Colors.white,
+                                      leading: const CircleAvatar(
+                                        backgroundColor:
+                                            Color.fromRGBO(255, 227, 125, 1),
+                                        radius: 26,
+                                        child: Icon(
+                                          IconData(
+                                            0xe1d5,
+                                            fontFamily: 'MaterialIcons',
+                                          ),
+                                          color: Color.fromRGBO(39, 49, 65, 1),
+                                        ),
+                                      ),
+                                      title: Text(
+                                        item['name'],
+                                        style: const TextStyle(
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1)),
+                                      ),
+                                      subtitle: Text(
+                                        item['distance'],
+                                        style: const TextStyle(
+                                            color: Color.fromRGBO(
+                                                119, 126, 141, 1)),
+                                      ),
+                                      trailing: (item['status'] == 'left')
+                                          ? Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Text(
+                                                  'Left',
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          135, 145, 165, 1)),
+                                                ),
+                                                Text(
+                                                  item['time'],
+                                                  style: const TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          195, 198, 207, 1)),
+                                                ),
+                                              ],
+                                            )
+                                          : Text(
+                                              item['time'],
+                                              style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      118, 172, 255, 1)),
+                                            ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          )
+                        : SizedBox(),
+                    (selectBusesorStops == 1)
+                        ? Column(
+                            children: [
+                              Container(
+                                child: ListTile(
+                                  title: Text(
+                                    'Campus -> City',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  subtitle: Text(
+                                    'Starting from Biotech park',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  trailing: IconButton(
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        isCity = !isCity;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                              isCity
+                                  ? Column(
+                                      children: Buses.map((e) {
+                                      return BusTile(
+                                        time: e['time'],
+                                        isLeft: e['status'],
+                                      );
+                                    }).toList())
+                                  : Container(),
+                              Container(
+                                child: ListTile(
+                                  title: Text(
+                                    'City -> Campus',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  subtitle: Text(
+                                    'Starting from City',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  trailing: IconButton(
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        isCampus = !isCampus;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                              isCampus
+                                  ? Column(
+                                      children: Buses.map((e) {
+                                      return BusTile(
+                                        time: e['time'],
+                                        isLeft: e['status'],
+                                      );
+                                    }).toList())
+                                  : Container(),
+                            ],
+                          )
+                        : SizedBox(),
                   ],
                 )
-              : SizedBox(),
+              : Column(
+                  children: Buses.map((e) {
+                  return BusTile(
+                    time: e['time'],
+                    isLeft: e['status'],
+                  );
+                }).toList())
         ],
       ),
     );
+  }
+
+  bool check() {
+    if (selectedIndex == 0) return true;
+    return false;
   }
 }

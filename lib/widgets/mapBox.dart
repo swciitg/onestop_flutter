@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:location/location.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals.dart';
 
@@ -24,7 +22,8 @@ class _MapBoxState extends State<MapBox> {
   bool mapToggle = true;
   final myToken =
       'pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg';
-  final pointIcon = 'assets/images/Ellipse135.png';
+  final pointIcon = 'assets/images/pointicon.png';
+  final busIcon = 'assets/images/busicon.png';
   late LatLng myPos = LatLng(-37.327154, -59.119667);
   double zoom = 13.0;
   List<LatLng> latlngList = [];
@@ -152,7 +151,7 @@ class _MapBoxState extends State<MapBox> {
                                 : Colors.white,
                           ),
                           Text(
-                            "Ferries",
+                            "Ferry",
                             style: TextStyle(
                               color: (selectedIndex == 1)
                                   ? Color.fromRGBO(39, 49, 65, 1)
@@ -256,7 +255,7 @@ class _MapBoxState extends State<MapBox> {
       }
     }
     _locationData = await location.getLocation();
-    _addMarker(_locationData!.latitude!, _locationData!.longitude!);
+    _addMarker(_locationData!.latitude!, _locationData!.longitude!, widget.lat!, widget.long!);
     setState(() {
       lat = _locationData!.latitude!;
       long = _locationData!.longitude!;
@@ -266,17 +265,29 @@ class _MapBoxState extends State<MapBox> {
     });
   }
 
-  void _addMarker(double lat, double long) {
+  void _addMarker(double userlat, double userlong, double lat, double long) {
     Marker marker = Marker(
-      point: LatLng(lat, long),
+      point: LatLng(userlat, userlong),
       width: 25.0,
       height: 25.0,
       builder: (ctx) => Container(
         child: Image.asset(pointIcon),
       ),
     );
+
+    Marker marker2 = Marker(
+      point: LatLng(lat, long),
+      width: 25.0,
+      height: 25.0,
+      builder: (ctx) => Container(
+        child: Image.asset(busIcon),
+      ),
+    );
+
     setState(() {
+      markers.clear();
       markers.add(marker);
+      markers.add(marker2);
     });
   }
 }
