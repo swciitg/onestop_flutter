@@ -434,7 +434,7 @@ class _TravelPageState extends State<TravelPage> {
           SizedBox(
             height: 10,
           ),
-          (check)
+          (check())
               ? Column(
                   children: [
                     Row(
