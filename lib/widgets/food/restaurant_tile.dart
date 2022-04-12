@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantTile extends StatelessWidget {
   RestaurantTile({
@@ -10,6 +13,7 @@ class RestaurantTile extends StatelessWidget {
     required this.Cuisine_type,
     required this.Waiting_time,
     required this.Closing_time,
+    required this.Phone_Number,
     required this.distance,
   }) : super(key: key);
 
@@ -18,6 +22,7 @@ class RestaurantTile extends StatelessWidget {
   final int Waiting_time;
   final String Closing_time;
   final int distance;
+  final String Phone_Number;
 
   @override
   Widget build(BuildContext context) {
@@ -108,14 +113,21 @@ class RestaurantTile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Call_MapButton(
-                                Call_Map: 'Call',
-                                icon: Icons.call_end_outlined),
+                              Call_Map: 'Call',
+                              icon: Icons.call_end_outlined,
+                              callback: () {
+                                _launchPhoneURL(Phone_Number);
+                              },
+                            ),
                             SizedBox(
                               width: 5.0,
                             ),
                             Call_MapButton(
                               Call_Map: 'Map',
                               icon: Icons.location_on_outlined,
+                              callback: () {
+                                _launchPhoneURL(Phone_Number);
+                              },
                             ),
                             SizedBox(
                               width: 20,
@@ -148,10 +160,12 @@ class Call_MapButton extends StatelessWidget {
     Key? key,
     required this.Call_Map,
     required this.icon,
+    required this.callback,
   }) : super(key: key);
 
   final String Call_Map;
   final IconData icon;
+  final VoidCallback callback;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -164,22 +178,25 @@ class Call_MapButton extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
-              child: FittedBox(
-                  child: Row(
-                children: <Widget>[
-                  Icon(
-                    icon,
-                    size: 30,
-                    color: kWhite,
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(
-                        Call_Map,
-                        style: MyFonts.medium.setColor(kWhite),
-                      )),
-                ],
-              )),
+              child: GestureDetector(
+                onTap: callback,
+                child: FittedBox(
+                    child: Row(
+                  children: <Widget>[
+                    Icon(
+                      icon,
+                      size: 30,
+                      color: kWhite,
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          Call_Map,
+                          style: MyFonts.medium.setColor(kWhite),
+                        )),
+                  ],
+                )),
+              ),
             )),
       ),
     );
@@ -313,7 +330,7 @@ class RestaurantHeader extends StatelessWidget {
     required this.Veg,
     required this.Closing_Time,
     required this.Distance,
-    required this.Mobile_Number,
+    required this.Phone_Number,
     required this.Waiting_Time,
   }) : super(key: key);
 
@@ -324,7 +341,7 @@ class RestaurantHeader extends StatelessWidget {
   final int Closing_Time;
   final int Waiting_Time;
   final int Distance;
-  final String Mobile_Number;
+  final String Phone_Number;
   @override
   Widget build(BuildContext context) {
     double Height = MediaQuery.of(context).size.height;
@@ -385,13 +402,21 @@ class RestaurantHeader extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Call_MapButton(
-                          Call_Map: 'Call', icon: Icons.call_end_outlined),
+                        Call_Map: 'Call',
+                        icon: Icons.call_end_outlined,
+                        callback: () {
+                          _launchPhoneURL(Phone_Number);
+                        },
+                      ),
                       SizedBox(
                         width: 5.0,
                       ),
                       Call_MapButton(
                         Call_Map: 'Map',
                         icon: Icons.location_on_outlined,
+                        callback: () {
+                          _launchPhoneURL(Phone_Number);
+                        },
                       ),
                     ],
                   ),
@@ -463,5 +488,14 @@ class OutletsFilterTile extends StatelessWidget {
             ),
           )),
     );
+  }
+}
+
+_launchPhoneURL(String phoneNumber) async {
+  String url = 'tel:' + phoneNumber;
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }

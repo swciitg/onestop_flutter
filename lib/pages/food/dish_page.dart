@@ -45,6 +45,7 @@ class DishPage extends StatelessWidget {
                               Cuisine_type: e.caption,
                               Waiting_time: 2,
                               Closing_time: e.closing_time,
+                              Phone_Number: e.phone_number,
                               distance: 2))
                           .toList();
                       return ListView(

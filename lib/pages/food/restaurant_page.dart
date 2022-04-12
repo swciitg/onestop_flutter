@@ -35,7 +35,7 @@ class RestaurantPage extends StatelessWidget {
               Closing_Time: 10,
               Waiting_Time: 2,
               Distance: 2,
-              Mobile_Number: "1234567890",
+              Phone_Number: "1234567890",
             ),
           ),
           Expanded(
