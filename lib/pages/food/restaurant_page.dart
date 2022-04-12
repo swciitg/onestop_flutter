@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
 
 class RestaurantPage extends StatelessWidget {
