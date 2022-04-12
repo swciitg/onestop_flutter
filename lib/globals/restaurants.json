@@ -8,10 +8,11 @@
     "location": {
       "latitude": 57.694514,
       "longitude": -127.872155
-    }
+    },
+    "tags": ["Snacks","Non-veg","Dessert","North Indian"]
   },
   {
-      "name": "Subway",
+    "name": "Subway",
     "caption": "Rolls, Sandwiches",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
@@ -19,7 +20,8 @@
     "location": {
       "latitude": 57.694514,
       "longitude": -127.872155
-    }
+    },
+    "tags": ["Snacks","Non-veg"]
   },
   {
     "name": "Taco Bell",
@@ -30,7 +32,8 @@
     "location": {
       "latitude": 57.694514,
       "longitude": -127.872155
-    }
+    },
+    "tags": ["Snacks","Non-veg","Cakes","Rolls"]
   },
   {
     "name": "Spectrum South Hub",
@@ -41,7 +44,8 @@
     "location": {
       "latitude": 57.694514,
       "longitude": -127.872155
-    }
+    },
+    "tags": ["Snacks","Non-veg","South Indian","Biryani","Dosa"]
   },
   {
     "name": "Florentine Restaurant",
@@ -52,7 +56,8 @@
     "location": {
       "latitude": 57.694514,
       "longitude": -127.872155
-    }
+    },
+    "tags": ["Snacks","Veg","South Indian","Biryani","Dosa"]
   },
   {
     "name": "Florentine Restaurant",
@@ -63,6 +68,7 @@
     "location": {
       "latitude": 57.694514,
       "longitude": -127.872155
-    }
+    },
+    "tags": ["Snacks","Non-veg","South Indian","Biryani","Cakes"]
   }
 ]
