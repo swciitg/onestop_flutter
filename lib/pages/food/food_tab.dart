@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/food/dish_page.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
+
+import '../../models/restaurant_model.dart';
 
 class FoodTab extends StatelessWidget {
   const FoodTab({Key? key}) : super(key: key);
@@ -32,18 +37,38 @@ class FoodTab extends StatelessWidget {
           height: 8,
         ),
         // restaurant(),
-        RestaurantTile(
-            Restaurant_name: "Dihing",
-            Cuisine_type: "Okay",
-            Waiting_time: 2,
-            Closing_time: "2",
-            distance: 2),
-        RestaurantTile(
-            Restaurant_name: "Dihing",
-            Cuisine_type: "Okay",
-            Waiting_time: 2,
-            Closing_time: "2",
-            distance: 2),
+        FutureBuilder<List<RestaurantModel>>(
+            future: ReadJsonData(),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<RestaurantModel>> snapshot) {
+              if (snapshot.hasData) {
+                print(snapshot.data);
+                List<Widget> foodList = snapshot.data!
+                    .map((e) => RestaurantTile(
+                        Restaurant_name: e.name,
+                        Cuisine_type: e.caption,
+                        Waiting_time: 2,
+                        Closing_time: e.closing_time,
+                        Phone_Number: e.phone_number,
+                        distance: 2))
+                    .toList();
+                return Column(
+                  children: foodList,
+                );
+              } else if (snapshot.hasError) {
+                print(snapshot.error);
+                return Center(
+                    child: Text(
+                  "An error occurred",
+                  style: MyFonts.medium.size(18).setColor(kWhite),
+                ));
+              }
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              );
+            })
       ],
     );
   }
@@ -91,44 +116,6 @@ class OutletsFilter extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-}
-
-class OutletsFilterTile extends StatelessWidget {
-  const OutletsFilterTile({
-    Key? key,
-    required this.filterText,
-    this.selected = false,
-  }) : super(key: key);
-
-  final String filterText;
-  final bool selected;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: selected ? lBlue2 : kGrey2,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: FittedBox(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minWidth: 20),
-                child: Text(
-                  filterText,
-                  style: selected
-                      ? MyFonts.medium.size(23).setColor(kBlueGrey)
-                      : MyFonts.medium.size(23).setColor(lBlue),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          )),
     );
   }
 }
@@ -339,6 +326,7 @@ class restaurant extends StatelessWidget {
                 Restaurant_name: "Florentine Restaurant",
                 Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
                 Waiting_time: 2,
+                Phone_Number: "123456789",
                 Closing_time: '10:00pm',
                 distance: 2,
               )
@@ -506,4 +494,11 @@ class favouriteFoodDetails extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<List<RestaurantModel>> ReadJsonData() async {
+  final jsondata = await rootBundle.loadString('lib/globals/restaurants.json');
+  final list = json.decode(jsondata) as List<dynamic>;
+
+  return list.map((e) => RestaurantModel.fromJson(e)).toList();
 }
