@@ -5,6 +5,7 @@ import 'package:onestop_dev/models/dish_model.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:onestop_dev/widgets/ui/appbar.dart';
 import '../../models/restaurant_model.dart';
 
 class RestaurantPage extends StatelessWidget {
@@ -13,15 +14,7 @@ class RestaurantPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: kBackground,
-        leading: BackButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
+      appBar: appBar(context, displayIcon: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
