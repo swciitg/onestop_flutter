@@ -57,7 +57,7 @@ class _MapBoxState extends State<MapBox> {
         children: [
           Container(
             height: 365,
-            width: 350,
+            // width: 350,
             child: FlutterMap(
               mapController: _mapController,
               options: MapOptions(
@@ -66,8 +66,9 @@ class _MapBoxState extends State<MapBox> {
               ),
               nonRotatedLayers: [
                 TileLayerOptions(
+                  backgroundColor: Colors.black,
                   urlTemplate:
-                      'https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg',
+                      'https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg',
                   additionalOptions: {
                     'accessToken': myToken,
                     'id': 'mapbox/light-v10',
@@ -92,7 +93,9 @@ class _MapBoxState extends State<MapBox> {
               ],
             ),
           ),
-          Center(
+          Positioned(
+            left: 16,
+            top:16,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -230,8 +233,8 @@ class _MapBoxState extends State<MapBox> {
           //   ),
           // ),
           Positioned(
-            width: MediaQuery.of(context).size.width * 0.92,
-            height: MediaQuery.of(context).size.height * 0.46,
+            bottom: 10,
+            right: 10,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
