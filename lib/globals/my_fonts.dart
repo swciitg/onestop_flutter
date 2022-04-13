@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/sizeConfig.dart';
+import 'package:onestop_dev/globals/size_config.dart';
 
 class MyFonts {
   static final String _fontFamily = 'Montserrat';
@@ -23,4 +23,3 @@ extension TextStyleHelpers on TextStyle {
   TextStyle size(double size) => copyWith(fontSize: size);
   TextStyle letterSpace(double space) => copyWith(letterSpacing: space);
 }
-

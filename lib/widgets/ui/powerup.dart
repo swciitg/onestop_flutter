@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/myColors.dart';
-import 'package:onestop_dev/globals/myFonts.dart';
-import 'package:onestop_dev/globals/mySpaces.dart';
-import 'package:onestop_dev/globals/sizeConfig.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/globals/my_spaces.dart';
+import 'package:onestop_dev/globals/size_config.dart';
 
 class PowerUp extends StatelessWidget {
   const PowerUp({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class PowerUp extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child:
-                Image.asset('assets/images/no_internet_illustration.png'),
+                    Image.asset('assets/images/no_internet_illustration.png'),
               ),
               Expanded(
                 flex: 1,
@@ -46,5 +46,4 @@ class PowerUp extends StatelessWidget {
       ),
     );
   }
-
 }

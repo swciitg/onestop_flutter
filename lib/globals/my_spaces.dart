@@ -1,4 +1,4 @@
-import 'package:onestop_dev/globals/sizeConfig.dart';
+import 'package:onestop_dev/globals/size_config.dart';
 
 class MySpaces {
   static double get horizontalScreenPadding =>

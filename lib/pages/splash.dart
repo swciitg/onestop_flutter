@@ -4,6 +4,7 @@ import 'package:onestop_dev/stores/login_store.dart';
 
 class SplashPage extends StatefulWidget {
   static String id = "/";
+
   const SplashPage({Key? key}) : super(key: key);
 
   @override
@@ -18,8 +19,8 @@ class _SplashPageState extends State<SplashPage> {
         .isAlreadyAuthenticated()
         .then((result) {
       if (result) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            '/home2', (Route<dynamic> route) => false);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home2', (Route<dynamic> route) => false);
       } else {
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);

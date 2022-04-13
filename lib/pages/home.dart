@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals.dart';
-import 'package:onestop_dev/globals/myColors.dart';
-import 'package:onestop_dev/globals/myFonts.dart';
-import 'package:onestop_dev/globals/sizeConfig.dart';
-import 'package:onestop_dev/pages/foodtab.dart';
-import 'package:onestop_dev/widgets/appbar.dart';
-import 'package:onestop_dev/widgets/homeTabTile.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/globals/size_config.dart';
+import 'package:onestop_dev/pages/food/food_tab.dart';
+import 'package:onestop_dev/widgets/ui/appbar.dart';
+import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 import 'package:onestop_dev/widgets/mapBox.dart';
 
 class HomePage extends StatefulWidget {
@@ -249,11 +249,11 @@ class QuickLinks extends StatelessWidget {
                     width: 5,
                   ),
                   HomeTabTile(
-                      label: "IP Settings", icon: Icons.computer_outlined),
+                      label: "IP Settings", icon: Icons.computer_outlined,routeId:"/ip"),
                   SizedBox(
                     width: 5,
                   ),
-                  HomeTabTile(label: "Papers", icon: Icons.article_outlined),
+                  HomeTabTile(label: "Blogs", icon: Icons.article_outlined,routeId: "/blogs",),
                   SizedBox(
                     width: 5,
                   ),
