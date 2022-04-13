@@ -32,7 +32,7 @@ class RestaurantTile extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const RestaurantPage()));
       },
       child: Container(
-        width: 325,
+        // width: 325,
         height: 168,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(21),
