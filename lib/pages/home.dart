@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/globals.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
+import 'package:onestop_dev/widgets/mapBox.dart';
 
 class HomePage extends StatefulWidget {
   static String id = "/home2";
@@ -14,16 +16,15 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+double lat = userlat;
+double long = userlong;
+
 class _HomePageState extends State<HomePage> {
   int index = 0;
   final tabs = [
     HomeTab(),
     FoodTab(),
-    Center(
-        child: Text(
-      'Travel',
-      style: MyFonts.extraBold.setColor(kWhite).size(30),
-    )),
+    TravelPage(),
     Center(
         child: Text(
       'Timetable',
@@ -99,10 +100,22 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class HomeTab extends StatelessWidget {
-  const HomeTab({
-    Key? key,
-  }) : super(key: key);
+class HomeTab extends StatefulWidget {
+  const HomeTab({Key? key}) : super(key: key);
+
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  int selectedIndex = 0;
+
+  void rebuildParent(int newSelectedIndex) {
+    print('Reloaded');
+    setState(() {
+      selectedIndex = newSelectedIndex;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +123,13 @@ class HomeTab extends StatelessWidget {
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        MapSample(),
+        MapBox(
+          lat: lat,
+          long: long,
+          selectedIndex: selectedIndex,
+          rebuildParent: rebuildParent,
+          istravel: true,
+        ),
         SizedBox(
           height: 10,
         ),
@@ -128,15 +147,6 @@ class HomeTab extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-class MapSample extends StatelessWidget {
-  const MapSample({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.asset('assets/images/sample_map.png');
   }
 }
 
@@ -337,6 +347,371 @@ class Services extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class BusTile extends StatelessWidget {
+  final time;
+  final isLeft;
+  const BusTile({Key? key, required this.time, this.isLeft}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.95,
+      //color: Colors.amberAccent,
+      decoration: const BoxDecoration(
+          color: Color.fromRGBO(34, 36, 41, 1),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      child: ListTile(
+        textColor: Colors.white,
+        leading: const CircleAvatar(
+          backgroundColor: Color.fromRGBO(255, 227, 125, 1),
+          radius: 20,
+          child: Icon(
+            IconData(
+              0xe1d5,
+              fontFamily: 'MaterialIcons',
+            ),
+            color: Color.fromRGBO(39, 49, 65, 1),
+          ),
+        ),
+        title: Text(
+          time,
+          style: const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+        ),
+        trailing: isLeft
+            ? const Text(
+                'Left',
+                style: TextStyle(color: Color.fromRGBO(135, 145, 165, 1)),
+              )
+            : const SizedBox(
+                height: 0,
+                width: 0,
+              ),
+      ),
+    );
+  }
+}
+
+final playerPointsToAdd =
+    ValueNotifier<int>(0); //TODO 1st: ValueNotifier declaration
+
+class TravelPage extends StatefulWidget {
+  const TravelPage({Key? key}) : super(key: key);
+  @override
+  State<TravelPage> createState() => _TravelPageState();
+}
+
+List<Map<String, dynamic>> BusStops = [
+  {
+    'name': 'Kameng Bus Stop',
+    'lat': 30.000000,
+    'long': 60.000000,
+    'status': 'left',
+    'time': '1:45 PM',
+    'distance': '1.4km',
+    'ind': 0,
+  },
+  {
+    'name': 'Manas Bus Stop',
+    'lat': 40.000000,
+    'long': 50.000000,
+    'status': 'left',
+    'time': '1:45 PM',
+    'distance': '1.4km',
+    'ind': 1,
+  }
+];
+
+List<Map<String, dynamic>> Buses = [
+  {
+    'status': false,
+    'time': '1:45 PM',
+  }
+];
+
+class _TravelPageState extends State<TravelPage> {
+  int selectBusesorStops = 0;
+  bool isCity = false;
+  bool isCampus = false;
+
+  int selectedIndex = 0;
+
+  void rebuildParent(int newSelectedIndex) {
+    print('Reloaded');
+    setState(() {
+      selectedIndex = newSelectedIndex;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          MapBox(
+            selectedIndex: selectedIndex,
+            lat: lat,
+            long: long,
+            rebuildParent: rebuildParent,
+            istravel: false,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          (selectedIndex == 0)
+              ? Column(
+                  children: [
+                    Row(
+                      children: [
+                        FlatButton(
+                          onPressed: () {
+                            setState(() {
+                              selectBusesorStops = 0;
+                            });
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(40),
+                            ),
+                            child: Container(
+                              height: 32,
+                              width: 83,
+                              color: (selectBusesorStops == 0)
+                                  ? Color.fromRGBO(118, 172, 255, 1)
+                                  : Color.fromRGBO(39, 49, 65, 1),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  /*Icon(
+                              IconData(0xe1d5, fontFamily: 'MaterialIcons'),
+                              color: (selectBusesorStops == 0)
+                                  ? Color.fromRGBO(39, 49, 65, 1)
+                                  : Colors.white,
+                            ),*/
+                                  Text(
+                                    "Stops",
+                                    style: TextStyle(
+                                      color: (selectBusesorStops == 0)
+                                          ? Color.fromRGBO(39, 49, 65, 1)
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        FlatButton(
+                          onPressed: () {
+                            setState(() {
+                              selectBusesorStops = 1;
+                            });
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(40),
+                            ),
+                            child: Container(
+                              height: 32,
+                              width: 83,
+                              color: (selectBusesorStops == 1)
+                                  ? Color.fromRGBO(118, 172, 255, 1)
+                                  : Color.fromRGBO(39, 49, 65, 1),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  /*Icon(
+                              IconData(0xe1d5, fontFamily: 'MaterialIcons'),
+                              color: (selectBusesorStops == 1)
+                                  ? Color.fromRGBO(39, 49, 65, 1)
+                                  : Colors.white,
+                            ),*/
+                                  Text(
+                                    "Bus",
+                                    style: TextStyle(
+                                      color: (selectBusesorStops == 1)
+                                          ? Color.fromRGBO(39, 49, 65, 1)
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    (selectBusesorStops == 0)
+                        ? Column(
+                            children: BusStops.map((item) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 4.0, bottom: 4.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isSelected = item['ind'];
+                                      lat = item['lat'];
+                                      long = item['long'];
+                                    });
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.95,
+                                    //color: Colors.amberAccent,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(34, 36, 41, 1),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                      border: Border.all(
+                                          color: (isSelected == item['ind'])
+                                              ? Color.fromRGBO(101, 144, 210, 1)
+                                              : Color.fromRGBO(34, 36, 41, 1)),
+                                    ),
+                                    child: ListTile(
+                                      textColor: Colors.white,
+                                      leading: const CircleAvatar(
+                                        backgroundColor:
+                                            Color.fromRGBO(255, 227, 125, 1),
+                                        radius: 26,
+                                        child: Icon(
+                                          IconData(
+                                            0xe1d5,
+                                            fontFamily: 'MaterialIcons',
+                                          ),
+                                          color: Color.fromRGBO(39, 49, 65, 1),
+                                        ),
+                                      ),
+                                      title: Text(
+                                        item['name'],
+                                        style: const TextStyle(
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1)),
+                                      ),
+                                      subtitle: Text(
+                                        item['distance'],
+                                        style: const TextStyle(
+                                            color: Color.fromRGBO(
+                                                119, 126, 141, 1)),
+                                      ),
+                                      trailing: (item['status'] == 'left')
+                                          ? Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Text(
+                                                  'Left',
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          135, 145, 165, 1)),
+                                                ),
+                                                Text(
+                                                  item['time'],
+                                                  style: const TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          195, 198, 207, 1)),
+                                                ),
+                                              ],
+                                            )
+                                          : Text(
+                                              item['time'],
+                                              style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      118, 172, 255, 1)),
+                                            ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          )
+                        : SizedBox(),
+                    (selectBusesorStops == 1)
+                        ? Column(
+                            children: [
+                              Container(
+                                child: ListTile(
+                                  title: Text(
+                                    'Campus -> City',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  subtitle: Text(
+                                    'Starting from Biotech park',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  trailing: IconButton(
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        isCity = !isCity;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                              isCity
+                                  ? Column(
+                                      children: Buses.map((e) {
+                                      return BusTile(
+                                        time: e['time'],
+                                        isLeft: e['status'],
+                                      );
+                                    }).toList())
+                                  : Container(),
+                              Container(
+                                child: ListTile(
+                                  title: Text(
+                                    'City -> Campus',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  subtitle: Text(
+                                    'Starting from City',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  trailing: IconButton(
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        isCampus = !isCampus;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                              isCampus
+                                  ? Column(
+                                      children: Buses.map((e) {
+                                      return BusTile(
+                                        time: e['time'],
+                                        isLeft: e['status'],
+                                      );
+                                    }).toList())
+                                  : Container(),
+                            ],
+                          )
+                        : SizedBox(),
+                  ],
+                )
+              : Column(
+                  children: Buses.map((e) {
+                  return BusTile(
+                    time: e['time'],
+                    isLeft: e['status'],
+                  );
+                }).toList())
+        ],
       ),
     );
   }

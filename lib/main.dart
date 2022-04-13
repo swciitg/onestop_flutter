@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: kBackground,
             splashColor: Colors.transparent),
         title: 'Timetable Admin',
-        initialRoute: '/',
+        initialRoute: HomePage.id,
         routes: {
           SplashPage.id: (context) => const SplashPage(),
           QRPage.id: (context) => const QRPage(),

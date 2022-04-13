@@ -38,15 +38,19 @@ dependencies:
   http: ^0.13.4
   shared_preferences: ^2.0.12
   qr_flutter: ^4.0.0
+  flutter_map: ^0.14.0
+  location: ^4.3.0
+  carousel_slider: ^4.0.0
+  url_launcher: ^6.0.20
   flutter_web_browser: ^0.15.0
   web_browser: ^0.5.0
   flutter_custom_tabs: ^1.0.3
-  url_launcher: ^6.0.16
   webfeed: ^0.7.0
   cached_network_image: ^3.1.0+1
   progress_dialog: ^1.2.4
   xml2json: ^5.3.2
   connectivity_plus: ^2.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
