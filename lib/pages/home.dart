@@ -86,15 +86,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                children: [
-                  tabs[index],
-                ],
-              ),
-            ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: tabs[index],
           ),
         ));
   }
@@ -119,34 +113,36 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      // crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(height: 10,),
-        MapBox(
-          lat: lat,
-          long: long,
-          selectedIndex: selectedIndex,
-          rebuildParent: rebuildParent,
-          istravel: true,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        DateCourse(),
-        SizedBox(
-          height: 10,
-        ),
-        QuickLinks(),
-        SizedBox(
-          height: 10,
-        ),
-        Services(),
-        SizedBox(
-          height: 10,
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(height: 10,),
+          MapBox(
+            lat: lat,
+            long: long,
+            selectedIndex: selectedIndex,
+            rebuildParent: rebuildParent,
+            istravel: true,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          DateCourse(),
+          SizedBox(
+            height: 10,
+          ),
+          QuickLinks(),
+          SizedBox(
+            height: 10,
+          ),
+          Services(),
+          SizedBox(
+            height: 10,
+          ),
+        ],
+      ),
     );
   }
 }
