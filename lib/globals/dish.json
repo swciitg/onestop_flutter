@@ -1,0 +1,30 @@
+[
+    {
+      "name": "Chicken Biryani",
+      "ingredients": ["Chicken","Rice","Spices"],
+      "waiting_time": 2,
+      "price": 150,
+      "veg": false
+    },
+    {
+      "name": "Kadhai Panner",
+      "ingredients": ["Butter","Panner","Spices"],
+      "waiting_time": 1,
+      "price": 110,
+      "veg": true
+    },
+    {
+        "name": "Egg roll",
+        "ingredients": ["Egg","Roti","Spices"],
+        "waiting_time": 1,
+        "price":70,
+        "veg": false
+    },
+    {
+        "name": "Panner Pakora",
+        "ingredients": ["Panner","Flour"],
+        "waiting_time": 1,
+        "price": 120,
+        "veg": true
+    }
+  ]

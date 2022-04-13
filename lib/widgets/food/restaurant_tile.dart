@@ -1,6 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/pages/food/restaurant_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantTile extends StatelessWidget {
   RestaurantTile({
@@ -9,6 +13,7 @@ class RestaurantTile extends StatelessWidget {
     required this.Cuisine_type,
     required this.Waiting_time,
     required this.Closing_time,
+    required this.Phone_Number,
     required this.distance,
   }) : super(key: key);
 
@@ -17,11 +22,15 @@ class RestaurantTile extends StatelessWidget {
   final int Waiting_time;
   final String Closing_time;
   final int distance;
+  final String Phone_Number;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
+    return TextButton(
+      onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const RestaurantPage()));
+      },
       child: Container(
         // width: 325,
         height: 168,
@@ -31,6 +40,7 @@ class RestaurantTile extends StatelessWidget {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               flex: 1,
@@ -98,34 +108,43 @@ class RestaurantTile extends StatelessWidget {
                         height: 8,
                       ),
                       Expanded(
-                          flex: 2,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Call_MapButton(
-                                  Call_Map: 'Call',
-                                  icon: Icons.call_end_outlined),
-                              SizedBox(
-                                width: 5.0,
-                              ),
-                              Call_MapButton(
-                                Call_Map: 'Map',
-                                icon: Icons.location_on_outlined,
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                  child: Padding(
+                        flex: 2,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Call_MapButton(
+                              Call_Map: 'Call',
+                              icon: Icons.call_end_outlined,
+                              callback: () {
+                                _launchPhoneURL(Phone_Number);
+                              },
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            Call_MapButton(
+                              Call_Map: 'Map',
+                              icon: Icons.location_on_outlined,
+                              callback: () {
+                                _launchPhoneURL(Phone_Number);
+                              },
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: Text(
                                   '$distance km',
                                   style:
                                       MyFonts.medium.size(11).setColor(kWhite),
                                 ),
-                              ))
-                            ],
-                          )),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ],
                   )),
             ),
@@ -141,10 +160,12 @@ class Call_MapButton extends StatelessWidget {
     Key? key,
     required this.Call_Map,
     required this.icon,
+    required this.callback,
   }) : super(key: key);
 
   final String Call_Map;
   final IconData icon;
+  final VoidCallback callback;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -157,28 +178,32 @@ class Call_MapButton extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
-              child: FittedBox(
-                  child: Row(
-                children: <Widget>[
-                  Icon(
-                    icon,
-                    size: 30,
-                    color: kWhite,
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(
-                        Call_Map,
-                        style: MyFonts.medium.setColor(kWhite),
-                      )),
-                ],
-              )),
+              child: GestureDetector(
+                onTap: callback,
+                child: FittedBox(
+                    child: Row(
+                  children: <Widget>[
+                    Icon(
+                      icon,
+                      size: 30,
+                      color: kWhite,
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          Call_Map,
+                          style: MyFonts.medium.setColor(kWhite),
+                        )),
+                  ],
+                )),
+              ),
             )),
       ),
     );
   }
 }
 
+//TODO : Multiline dish name
 class FoodTile extends StatelessWidget {
   FoodTile({
     Key? key,
@@ -204,112 +229,93 @@ class FoodTile extends StatelessWidget {
 
   String IngredientsList(Ingredients) {
     String IngredientsLists = "";
-    String n = Ingredients.toString();
     for (String Ingredient in Ingredients) {
       IngredientsLists = IngredientsLists + Ingredient + ',';
     }
-    return n;
+    return IngredientsLists.substring(0, IngredientsLists.length - 1);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 320,
-      height: 150,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(21),
-        color: kGrey2,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 8, 2, 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      children: [
-                        Text(
-                          '$Dish_Name',
-                          style: MyFonts.medium.size(18).setColor(kWhite),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 4.0),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Icon(
-                                Icons.crop_square_sharp,
-                                color: IconColor(Veg),
-                                size: 14,
-                              ),
-                              Icon(Icons.circle,
-                                  color: IconColor(Veg), size: 5),
-                            ],
-                          ),
-                        ),
-                      ],
+    double Width = MediaQuery.of(context).size.width;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: Width * 0.05, vertical: 5.0),
+      child: Container(
+        height: 130,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(21),
+          color: kBlueGrey,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 2.0, 3.0, 2.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 5.0,
                     ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            IngredientsList(Ingredients),
-                            style: MyFonts.medium.size(12).setColor(kWhite),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Text(
+                            '$Dish_Name',
+                            style: MyFonts.medium.size(18).setColor(kWhite),
                           ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            'Waiting time: $Waiting_time hrs',
-                            style: MyFonts.medium.size(11).setColor(kWhite),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4.0),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Icon(
+                                  Icons.crop_square_sharp,
+                                  color: IconColor(Veg),
+                                  size: 14,
+                                ),
+                                Icon(Icons.circle,
+                                    color: IconColor(Veg), size: 5),
+                              ],
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            '\u{20B9} $Price /-',
-                            style: MyFonts.medium.size(14).setColor(kTabText),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Call_MapButton(
-                        Call_Map: 'Order Now', icon: Icons.phone),
-                  ),
-                ],
+                    Expanded(
+                      child: Text(
+                        IngredientsList(Ingredients),
+                        style: MyFonts.medium.size(12).setColor(kWhite),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        '\u{20B9}$Price/-',
+                        style: MyFonts.medium.size(16).setColor(kTabText),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(21),
-                  bottomRight: Radius.circular(21)),
-              child: new Image.asset(
-                'assets/images/res_foodimg.jpg',
-                // fit: BoxFit.contain,
+            Expanded(
+              flex: 1,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(21),
+                    bottomRight: Radius.circular(21)),
+                child: new Image.asset(
+                  'assets/images/res_foodimg.jpg',
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -324,7 +330,7 @@ class RestaurantHeader extends StatelessWidget {
     required this.Veg,
     required this.Closing_Time,
     required this.Distance,
-    required this.Mobile_Number,
+    required this.Phone_Number,
     required this.Waiting_Time,
   }) : super(key: key);
 
@@ -335,80 +341,161 @@ class RestaurantHeader extends StatelessWidget {
   final int Closing_Time;
   final int Waiting_Time;
   final int Distance;
-  final String Mobile_Number;
+  final String Phone_Number;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 320,
-      height: 150,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Text(
-                      Restaurant_Name,
-                      style: MyFonts.medium.size(23).setColor(kWhite),
-                    ),
+    double Height = MediaQuery.of(context).size.height;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: Column(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  Restaurant_Name,
+                  style: MyFonts.medium.size(23).setColor(kWhite),
+                ),
+                Text(
+                  About,
+                  style: MyFonts.light.size(18).setColor(kWhite),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2.0),
+                  child: Text(
+                    Address,
+                    style: MyFonts.medium.size(11).setColor(kWhite),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      About,
-                      style: MyFonts.light.size(18).setColor(kWhite),
-                    ),
+                ),
+                Container(
+                  child: Row(
+                    children: [
+                      Text(
+                        'Waiting time: $Waiting_Time hrs',
+                        style: MyFonts.light.size(12).setColor(kWhite),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Icon(Icons.circle, color: kWhite, size: 5),
+                      ),
+                      Text(
+                        'Closing time: $Waiting_Time hrs',
+                        style: MyFonts.light.size(12).setColor(kRed),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            'Waiting time: $Waiting_Time hrs',
-                            style: MyFonts.medium.size(10).setColor(kWhite),
-                          ),
-                        ),
-                        Flexible(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Icon(Icons.circle, color: kWhite, size: 5),
-                          ),
-                        ),
-                        Flexible(
-                          child: Text(
-                            'Closing time: $Waiting_Time hrs',
-                            style: MyFonts.medium.size(10).setColor(kRed),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      Address,
-                      style: MyFonts.medium.size(11).setColor(kWhite),
-                    ),
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
-            Expanded(
-              child: Container(),
+          ),
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  height: Height * 0.05,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Call_MapButton(
+                        Call_Map: 'Call',
+                        icon: Icons.call_end_outlined,
+                        callback: () {
+                          _launchPhoneURL(Phone_Number);
+                        },
+                      ),
+                      SizedBox(
+                        width: 5.0,
+                      ),
+                      Call_MapButton(
+                        Call_Map: 'Map',
+                        icon: Icons.location_on_outlined,
+                        callback: () {
+                          _launchPhoneURL(Phone_Number);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 2,
+                  color: kBlueGrey,
+                ),
+                Container(
+                  height: Height * 0.05,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      OutletsFilterTile(
+                        filterText: "Menu",
+                      ),
+                      OutletsFilterTile(filterText: "Combos"),
+                      OutletsFilterTile(filterText: "Offers"),
+                    ],
+                  ),
+                ),
+                Container(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                      "Starters",
+                      style: MyFonts.medium.size(18).setColor(kWhite),
+                    )),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+}
+
+class OutletsFilterTile extends StatelessWidget {
+  const OutletsFilterTile({
+    Key? key,
+    required this.filterText,
+    this.selected = false,
+  }) : super(key: key);
+
+  final String filterText;
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: selected ? lBlue2 : kGrey2,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: FittedBox(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minWidth: 20),
+                child: Text(
+                  filterText,
+                  style: selected
+                      ? MyFonts.medium.size(23).setColor(kBlueGrey)
+                      : MyFonts.medium.size(23).setColor(lBlue),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          )),
+    );
+  }
+}
+
+_launchPhoneURL(String phoneNumber) async {
+  String url = 'tel:' + phoneNumber;
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }

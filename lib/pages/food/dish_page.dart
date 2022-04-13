@@ -16,22 +16,23 @@ class DishPage extends StatelessWidget {
       appBar: appBar(context),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
-        child: Column(children: [
-          SizedBox(
-            height: 8,
-          ),
-          FoodSearchBar(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: Container(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                "Biryani",
-                style: MyFonts.medium.size(18).setColor(kWhite),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 8,
+            ),
+            FoodSearchBar(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Container(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  "Biryani",
+                  style: MyFonts.medium.size(18).setColor(kWhite),
+                ),
               ),
             ),
-          ),
-          Expanded(
+            Expanded(
               child: FutureBuilder<List<RestaurantModel>>(
                   future: ReadJsonData(),
                   builder: (BuildContext context,
@@ -44,6 +45,7 @@ class DishPage extends StatelessWidget {
                               Cuisine_type: e.caption,
                               Waiting_time: 2,
                               Closing_time: e.closing_time,
+                              Phone_Number: e.phone_number,
                               distance: 2))
                           .toList();
                       return ListView(
@@ -62,8 +64,10 @@ class DishPage extends StatelessWidget {
                         color: Colors.white,
                       ),
                     );
-                  }))
-        ]),
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }
