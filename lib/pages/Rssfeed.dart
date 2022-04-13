@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Blogs extends StatefulWidget {
-  static String id="/";
+  static String id="/blogs";
   const Blogs({Key? key}) : super(key: key);
 
   @override

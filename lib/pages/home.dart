@@ -239,11 +239,11 @@ class QuickLinks extends StatelessWidget {
                     width: 5,
                   ),
                   HomeTabTile(
-                      label: "IP Settings", icon: Icons.computer_outlined),
+                      label: "IP Settings", icon: Icons.computer_outlined,routeId:"/ip"),
                   SizedBox(
                     width: 5,
                   ),
-                  HomeTabTile(label: "Papers", icon: Icons.article_outlined),
+                  HomeTabTile(label: "Blogs", icon: Icons.article_outlined,routeId: "/blogs",),
                   SizedBox(
                     width: 5,
                   ),

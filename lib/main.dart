@@ -7,7 +7,6 @@ import 'package:onestop_dev/pages/router.dart';
 import 'package:onestop_dev/pages/splash.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
-import 'package:onestop_dev/pages/IPsettings.dart';
 import 'package:onestop_dev/pages/Rssfeed.dart';
 void main() {
   runApp(const MyApp());
