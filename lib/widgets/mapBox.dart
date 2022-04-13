@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:location/location.dart';
@@ -6,6 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 class MapBox extends StatefulWidget {
   Function? rebuildParent;
   double? lat, long;
@@ -237,17 +237,17 @@ class _MapBoxState extends State<MapBox> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Padding(
-                  padding:const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                  padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
                   child: FloatingActionButton(
                     onPressed: () {
-                      openMap(widget.lat!,widget.long!);
+                      openMap(widget.lat!, widget.long!);
                     },
                     child: Icon(Icons.navigate_before_outlined),
                     mini: true,
                   ),
                 ),
                 Padding(
-                  padding:  const EdgeInsets.only(top: 8, bottom: 8,right: 4),
+                  padding: const EdgeInsets.only(top: 8, bottom: 8, right: 4),
                   child: FloatingActionButton(
                     onPressed: () {
                       _mapController.moveAndRotate(LatLng(lat, long), 15, 17);
@@ -325,8 +325,10 @@ class _MapBoxState extends State<MapBox> {
       markers.add(marker2);
     });
   }
+
   static Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
       await launch(googleUrl);
     } else {
