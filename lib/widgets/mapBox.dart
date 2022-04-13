@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:location/location.dart';
@@ -6,6 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+
 class MapBox extends StatefulWidget {
   Function? rebuildParent;
   double? lat, long;
@@ -57,7 +57,7 @@ class _MapBoxState extends State<MapBox> {
         children: [
           Container(
             height: 365,
-            width: 350,
+            // width: 350,
             child: FlutterMap(
               mapController: _mapController,
               options: MapOptions(
@@ -66,8 +66,9 @@ class _MapBoxState extends State<MapBox> {
               ),
               nonRotatedLayers: [
                 TileLayerOptions(
+                  backgroundColor: Colors.black,
                   urlTemplate:
-                      'https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg',
+                      'https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg',
                   additionalOptions: {
                     'accessToken': myToken,
                     'id': 'mapbox/light-v10',
@@ -92,7 +93,9 @@ class _MapBoxState extends State<MapBox> {
               ],
             ),
           ),
-          Center(
+          Positioned(
+            left: 16,
+            top:16,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -230,14 +233,14 @@ class _MapBoxState extends State<MapBox> {
           //   ),
           // ),
           Positioned(
-            width: MediaQuery.of(context).size.width * 0.92,
-            height: MediaQuery.of(context).size.height * 0.46,
+            bottom: 10,
+            right: 10,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Padding(
-                  padding:const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                  padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
                   child: FloatingActionButton(
                     onPressed: () {
                       MapsLauncher.launchCoordinates(
@@ -248,7 +251,7 @@ class _MapBoxState extends State<MapBox> {
                   ),
                 ),
                 Padding(
-                  padding:  const EdgeInsets.only(top: 8, bottom: 8,right: 4),
+                  padding: const EdgeInsets.only(top: 8, bottom: 8, right: 4),
                   child: FloatingActionButton(
                     onPressed: () {
                       _mapController.moveAndRotate(LatLng(lat, long), 15, 17);
@@ -334,4 +337,5 @@ class _MapBoxState extends State<MapBox> {
   //     throw 'Could not launch ${uri.toString()}';
   //   }
   // }
+
 }

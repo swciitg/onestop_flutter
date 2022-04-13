@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/pages/qr.dart';
 import 'package:onestop_dev/pages/home.dart';
-import 'package:onestop_dev/pages/login.dart';
-import 'package:onestop_dev/pages/router.dart';
-import 'package:onestop_dev/pages/splash.dart';
+import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
-import 'package:onestop_dev/pages/Rssfeed.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -29,16 +26,9 @@ class MyApp extends StatelessWidget {
         theme: new ThemeData(
             scaffoldBackgroundColor: kBackground,
             splashColor: Colors.transparent),
-        title: 'Timetable Admin',
+        title: 'OneStop 2.0',
         initialRoute: HomePage.id,
-        routes: {
-          SplashPage.id: (context) => const SplashPage(),
-          QRPage.id: (context) => const QRPage(),
-          LoginPage.id: (context) => const LoginPage(),
-          HomePage.id: (context) => const HomePage(),
-          DropDown.id: (context) =>  DropDown(),
-          Blogs.id:(context) => const Blogs(),
-        },
+        routes: routes,
       ),
     );
   }
