@@ -123,6 +123,7 @@ class _HomeTabState extends State<HomeTab> {
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        SizedBox(height: 10,),
         MapBox(
           lat: lat,
           long: long,
