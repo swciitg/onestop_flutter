@@ -4,7 +4,7 @@ import 'package:location/location.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class MapBox extends StatefulWidget {
   Function? rebuildParent;
@@ -243,7 +243,8 @@ class _MapBoxState extends State<MapBox> {
                   padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
                   child: FloatingActionButton(
                     onPressed: () {
-                      openMap(widget.lat!, widget.long!);
+                      MapsLauncher.launchCoordinates(
+                          widget.lat!,widget.long!);
                     },
                     child: Icon(Icons.navigate_before_outlined),
                     mini: true,
@@ -328,14 +329,13 @@ class _MapBoxState extends State<MapBox> {
       markers.add(marker2);
     });
   }
+  // static void navigateTo(double lat, double lng) async {
+  //   var uri = Uri.parse("google.navigation:q=$lat,$lng&mode=d");
+  //   if (await canLaunch(uri.toString())) {
+  //     await launch(uri.toString());
+  //   } else {
+  //     throw 'Could not launch ${uri.toString()}';
+  //   }
+  // }
 
-  static Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl =
-        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    if (await canLaunch(googleUrl)) {
-      await launch(googleUrl);
-    } else {
-      throw 'Could not open the map.';
-    }
-  }
 }
