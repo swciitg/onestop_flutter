@@ -41,6 +41,7 @@ dependencies:
   flutter_map: ^0.14.0
   location: ^4.3.0
   carousel_slider: ^4.0.0
+  url_launcher: ^6.0.20
 
 dev_dependencies:
   flutter_test:
