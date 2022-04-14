@@ -45,12 +45,15 @@ class FoodTab extends StatelessWidget {
                 print(snapshot.data);
                 List<Widget> foodList = snapshot.data!
                     .map((e) => RestaurantTile(
-                        Restaurant_name: e.name,
-                        Cuisine_type: e.caption,
-                        Waiting_time: 2,
-                        Closing_time: e.closing_time,
-                        Phone_Number: e.phone_number,
-                        distance: 2))
+                          Restaurant_name: e.name,
+                          Cuisine_type: e.caption,
+                          Waiting_time: 2,
+                          Closing_time: e.closing_time,
+                          Phone_Number: e.phone_number,
+                          Latitude: e.latitude!,
+                          Longitude: e.longitude!,
+                          Distance: 2,
+                        ))
                     .toList();
                 return Column(
                   children: foodList,
@@ -301,40 +304,41 @@ class MessMenu extends StatelessWidget {
   }
 }
 
-class restaurant extends StatelessWidget {
-  const restaurant({Key? key}) : super(key: key);
+// class restaurant extends StatelessWidget {
+//   const restaurant({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const RestaurantPage()),
-        );
-      },
-      child: Container(
-          height: 180,
-          padding: const EdgeInsets.all(4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              RestaurantTile(
-                Restaurant_name: "Florentine Restaurant",
-                Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
-                Waiting_time: 2,
-                Phone_Number: "123456789",
-                Closing_time: '10:00pm',
-                distance: 2,
-              )
-            ],
-          )),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return TextButton(
+//       onPressed: () {
+//         Navigator.push(
+//           context,
+//           MaterialPageRoute(builder: (context) => const RestaurantPage()),
+//         );
+//       },
+//       child: Container(
+//           height: 180,
+//           padding: const EdgeInsets.all(4),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.stretch,
+//             children: [
+//               SizedBox(
+//                 height: 10,
+//               ),
+//               RestaurantTile(
+//                 Restaurant_name: "Florentine Restaurant",
+//                 Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
+//                 Waiting_time: 2,
+//                 Phone_Number: "123456789",
+//                 Closing_time: '10:00pm',
+//                 Latitude: ,
+//                 Distance: 2,
+//               )
+//             ],
+//           )),
+//     );
+//   }
+// }
 
 class MessMeal extends StatelessWidget {
   const MessMeal({

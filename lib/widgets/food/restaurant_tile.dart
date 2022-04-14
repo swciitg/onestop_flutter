@@ -1,10 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:onestop_dev/widgets/mapBox.dart';
 
 class RestaurantTile extends StatelessWidget {
   RestaurantTile({
@@ -14,15 +13,19 @@ class RestaurantTile extends StatelessWidget {
     required this.Waiting_time,
     required this.Closing_time,
     required this.Phone_Number,
-    required this.distance,
+    required this.Distance,
+    required this.Latitude,
+    required this.Longitude,
   }) : super(key: key);
 
   final String Restaurant_name;
   final String Cuisine_type;
   final int Waiting_time;
   final String Closing_time;
-  final int distance;
+  final int Distance;
   final String Phone_Number;
+  final double Latitude;
+  final double Longitude;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +74,7 @@ class RestaurantTile extends StatelessWidget {
                         flex: 1,
                         child: Text(
                           '$Restaurant_name',
+                          // overflow: TextOverflow.visible,
                           style: MyFonts.bold.size(16).setColor(kWhite),
                         ),
                       ),
@@ -126,7 +130,7 @@ class RestaurantTile extends StatelessWidget {
                               Call_Map: 'Map',
                               icon: Icons.location_on_outlined,
                               callback: () {
-                                _launchPhoneURL(Phone_Number);
+                                MapUtils.openMap(Latitude, Longitude);
                               },
                             ),
                             SizedBox(
@@ -136,7 +140,7 @@ class RestaurantTile extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: Text(
-                                  '$distance km',
+                                  '$Distance km',
                                   style:
                                       MyFonts.medium.size(11).setColor(kWhite),
                                 ),
@@ -497,5 +501,19 @@ _launchPhoneURL(String phoneNumber) async {
     await launch(url);
   } else {
     throw 'Could not launch $url';
+  }
+}
+
+class MapUtils {
+  MapUtils._();
+
+  static Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
   }
 }

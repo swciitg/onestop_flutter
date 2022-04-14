@@ -40,13 +40,18 @@ class DishPage extends StatelessWidget {
                     if (snapshot.hasData) {
                       print(snapshot.data);
                       List<Widget> foodList = snapshot.data!
-                          .map((e) => RestaurantTile(
+                          .map(
+                            (e) => RestaurantTile(
                               Restaurant_name: e.name,
                               Cuisine_type: e.caption,
                               Waiting_time: 2,
                               Closing_time: e.closing_time,
                               Phone_Number: e.phone_number,
-                              distance: 2))
+                              Latitude: e.longitude!,
+                              Longitude: e.longitude!,
+                              Distance: 2,
+                            ),
+                          )
                           .toList();
                       return ListView(
                         children: foodList,
