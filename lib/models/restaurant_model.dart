@@ -22,7 +22,7 @@ class RestaurantModel {
     waiting_time = json['waiting_time'] ?? "Not Known";
     caption = json['caption'] ?? "Not Known";
     phone_number = json['phone_number'] ?? "Not Known";
-    latitude = json['location']["latitude"] ?? "Not Known";
-    latitude = json['location']["longitude"] ?? "Not Known";
+    latitude = json['location']['latitude'] ?? "Not Known";
+    longitude = json['location']['longitude'] ?? "Not Known";
   }
 }

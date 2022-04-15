@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/food/dish_page.dart';
-import 'package:onestop_dev/pages/food/restaurant_page.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
 
 import '../../models/restaurant_model.dart';
@@ -26,52 +25,59 @@ class FoodTab extends StatelessWidget {
         SizedBox(
           height: 8,
         ),
-        MessMenu(),
-        SizedBox(height: 8),
-        FavoriteDishes(),
-        SizedBox(
-          height: 10,
-        ),
-        OutletsFilter(),
-        SizedBox(
-          height: 8,
-        ),
-        // restaurant(),
-        FutureBuilder<List<RestaurantModel>>(
-            future: ReadJsonData(),
-            builder: (BuildContext context,
-                AsyncSnapshot<List<RestaurantModel>> snapshot) {
-              if (snapshot.hasData) {
-                print(snapshot.data);
-                List<Widget> foodList = snapshot.data!
-                    .map((e) => RestaurantTile(
-                          Restaurant_name: e.name,
-                          Cuisine_type: e.caption,
-                          Waiting_time: 2,
-                          Closing_time: e.closing_time,
-                          Phone_Number: e.phone_number,
-                          Latitude: e.latitude!,
-                          Longitude: e.longitude!,
-                          Distance: 2,
-                        ))
-                    .toList();
-                return Column(
-                  children: foodList,
-                );
-              } else if (snapshot.hasError) {
-                print(snapshot.error);
-                return Center(
-                    child: Text(
-                  "An error occurred",
-                  style: MyFonts.medium.size(18).setColor(kWhite),
-                ));
-              }
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                MessMenu(),
+                SizedBox(height: 8),
+                FavoriteDishes(),
+                SizedBox(
+                  height: 10,
                 ),
-              );
-            })
+                OutletsFilter(),
+                SizedBox(
+                  height: 8,
+                ),
+                // restaurant(),
+                FutureBuilder<List<RestaurantModel>>(
+                    future: ReadJsonData(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<RestaurantModel>> snapshot) {
+                      if (snapshot.hasData) {
+                        print(snapshot.data);
+                        List<Widget> foodList = snapshot.data!
+                            .map((e) => RestaurantTile(
+                                Restaurant_name: e.name,
+                                Cuisine_type: e.caption,
+                                Waiting_time: 2,
+                                Closing_time: e.closing_time,
+                                Phone_Number: e.phone_number,
+                                Latitude: e.latitude!,
+                                Longitude: e.longitude!,
+                                Distance: 2))
+                            .toList();
+                        return Column(
+                          children: foodList,
+                        );
+                      } else if (snapshot.hasError) {
+                        print(snapshot.error);
+                        return Center(
+                            child: Text(
+                          "An error occurred",
+                          style: MyFonts.medium.size(18).setColor(kWhite),
+                        ));
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      );
+                    })
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }

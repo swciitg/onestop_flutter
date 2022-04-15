@@ -47,8 +47,8 @@ class DishPage extends StatelessWidget {
                               Waiting_time: 2,
                               Closing_time: e.closing_time,
                               Phone_Number: e.phone_number,
-                              Latitude: e.longitude!,
-                              Longitude: e.longitude!,
+                              Latitude: 0,
+                              Longitude: 0,
                               Distance: 2,
                             ),
                           )
