@@ -21,7 +21,7 @@ class RestaurantPage extends StatelessWidget {
           Expanded(
             flex: 2,
             child: RestaurantHeader(
-              Restaurant_Name: "Florentine Restaurant",
+              Restaurant_Name: "Florentine Restaurant ",
               About: "Multicusine,Dine-in",
               Address: "29 West",
               Veg: false,
@@ -29,6 +29,8 @@ class RestaurantPage extends StatelessWidget {
               Waiting_Time: 2,
               Distance: 2,
               Phone_Number: "1234567890",
+              Longitude: 54.330,
+              Latitude: -127.300,
             ),
           ),
           Expanded(

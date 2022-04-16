@@ -1,9 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
+import 'package:onestop_dev/widgets/ui/utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantTile extends StatelessWidget {
@@ -14,15 +13,19 @@ class RestaurantTile extends StatelessWidget {
     required this.Waiting_time,
     required this.Closing_time,
     required this.Phone_Number,
-    required this.distance,
+    required this.Distance,
+    required this.Latitude,
+    required this.Longitude,
   }) : super(key: key);
 
   final String Restaurant_name;
   final String Cuisine_type;
   final int Waiting_time;
   final String Closing_time;
-  final int distance;
+  final int Distance;
   final String Phone_Number;
+  final double Latitude;
+  final double Longitude;
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +72,10 @@ class RestaurantTile extends StatelessWidget {
                       ),
                       Expanded(
                         flex: 1,
-                        child: Text(
-                          '$Restaurant_name',
-                          style: MyFonts.bold.size(16).setColor(kWhite),
+                        child: TextTile(
+                          text: '$Restaurant_name',
+                          FontSize: 16,
+                          Style: MyFonts.bold.size(16).setColor(kWhite),
                         ),
                       ),
                       SizedBox(
@@ -126,7 +130,7 @@ class RestaurantTile extends StatelessWidget {
                               Call_Map: 'Map',
                               icon: Icons.location_on_outlined,
                               callback: () {
-                                _launchPhoneURL(Phone_Number);
+                                _openMap(Latitude, Longitude);
                               },
                             ),
                             SizedBox(
@@ -136,7 +140,7 @@ class RestaurantTile extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: Text(
-                                  '$distance km',
+                                  '$Distance km',
                                   style:
                                       MyFonts.medium.size(11).setColor(kWhite),
                                 ),
@@ -169,17 +173,17 @@ class Call_MapButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(3.0),
-        child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(150),
-              color: lGrey,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: GestureDetector(
-                onTap: callback,
+      child: GestureDetector(
+        onTap: callback,
+        child: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(150),
+                color: lGrey,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
                 child: FittedBox(
                     child: Row(
                   children: <Widget>[
@@ -196,14 +200,13 @@ class Call_MapButton extends StatelessWidget {
                         )),
                   ],
                 )),
-              ),
-            )),
+              )),
+        ),
       ),
     );
   }
 }
 
-//TODO : Multiline dish name
 class FoodTile extends StatelessWidget {
   FoodTile({
     Key? key,
@@ -264,9 +267,10 @@ class FoodTile extends StatelessWidget {
                     Expanded(
                       child: Row(
                         children: [
-                          Text(
-                            '$Dish_Name',
-                            style: MyFonts.medium.size(18).setColor(kWhite),
+                          TextTile(
+                            text: '$Dish_Name',
+                            FontSize: 18,
+                            Style: MyFonts.medium.size(18).setColor(kWhite),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 4.0),
@@ -332,6 +336,8 @@ class RestaurantHeader extends StatelessWidget {
     required this.Distance,
     required this.Phone_Number,
     required this.Waiting_Time,
+    required this.Latitude,
+    required this.Longitude,
   }) : super(key: key);
 
   final String Restaurant_Name;
@@ -342,6 +348,8 @@ class RestaurantHeader extends StatelessWidget {
   final int Waiting_Time;
   final int Distance;
   final String Phone_Number;
+  final double Latitude;
+  final double Longitude;
   @override
   Widget build(BuildContext context) {
     double Height = MediaQuery.of(context).size.height;
@@ -415,7 +423,8 @@ class RestaurantHeader extends StatelessWidget {
                         Call_Map: 'Map',
                         icon: Icons.location_on_outlined,
                         callback: () {
-                          _launchPhoneURL(Phone_Number);
+                          _openMap(Latitude, Longitude);
+                          ;
                         },
                       ),
                     ],
@@ -497,5 +506,15 @@ _launchPhoneURL(String phoneNumber) async {
     await launch(url);
   } else {
     throw 'Could not launch $url';
+  }
+}
+
+_openMap(double latitude, double longitude) async {
+  String googleUrl =
+      'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+  if (await canLaunch(googleUrl)) {
+    await launch(googleUrl);
+  } else {
+    throw 'Could not open the map.';
   }
 }
