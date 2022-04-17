@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Blogs extends StatefulWidget {
-  static String id="/blogs";
+  static String id = "/blogs";
   const Blogs({Key? key}) : super(key: key);
 
   @override
@@ -94,10 +94,10 @@ class _BlogState extends State<Blogs> {
   }
 
   Future<void> launchArticle(String url) async {
-    if (await canLaunch(url)) {
+    
       await launch(url);
-      return;
-    }
+    
+    
   }
 
   Future<void> getDetails() async {
@@ -155,13 +155,6 @@ class _BlogState extends State<Blogs> {
     // Fetch and decode data
   }
 
-  thumbnail(url) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15.0),
-      child: Image.network(url, width: 100.0, height: 200.0),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,15 +166,44 @@ class _BlogState extends State<Blogs> {
         itemCount: _mediumArticles.length,
         padding: const EdgeInsets.all(8),
         itemBuilder: (BuildContext buildContext, int index) {
-          return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ListTile(
-              title: Text(_mediumArticles[index].title.toString(), style: TextStyle(color: Colors.white),),
-              subtitle: Text(_mediumArticles[index].datePublished.toString()),
-              leading: thumbnail(_mediumArticles[index].image),
-              onTap: () =>
-                  launchArticle(_mediumArticles[index].link.toString()),
-              trailing: const Icon(Icons.arrow_right),
+          String link;
+          
+                return Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Stack(
+              children: [
+                Container(
+                  child: GestureDetector(
+                    onTap: () {
+                      link = _mediumArticles[index].link;
+                      
+                      print(link);
+                      launchArticle(link.toString());
+                    },
+                    child: Container(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(40.0),
+                        child: Image.network(_mediumArticles[index].image),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom : 0.5,
+                
+                  child:  Container(
+                    height: 50,
+                  color: Colors.black,
+                  alignment: Alignment.center,
+                  
+                    child: Text(
+                      _mediumArticles[index].title.toString(),
+                      style: TextStyle(color: Colors.white,fontSize: 22.0,fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+               
+              ],
             ),
           );
         },
