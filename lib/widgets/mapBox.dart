@@ -242,6 +242,7 @@ class _MapBoxState extends State<MapBox> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
                   child: FloatingActionButton(
+                    heroTag: null,
                     onPressed: () {
                       MapsLauncher.launchCoordinates(
                           widget.lat!,widget.long!);
@@ -253,6 +254,7 @@ class _MapBoxState extends State<MapBox> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8, right: 4),
                   child: FloatingActionButton(
+                    heroTag: null,
                     onPressed: () {
                       _mapController.moveAndRotate(LatLng(lat, long), 15, 17);
                     },
