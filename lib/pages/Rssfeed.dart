@@ -94,10 +94,7 @@ class _BlogState extends State<Blogs> {
   }
 
   Future<void> launchArticle(String url) async {
-    
-      await launch(url);
-    
-    
+    await launch(url);
   }
 
   Future<void> getDetails() async {
@@ -112,11 +109,20 @@ class _BlogState extends State<Blogs> {
           title = _rssFeed.title!;
           image = _rssFeed.image!.url!;
           var items = feed!.items;
+
           for (RssItem x in items!) {
             if (x.pubDate != null) {
+              print(x.content!.value);
               final text = x.content!.value;
               String imagelink =
                   text.split("<img")[1].split("/>")[0].split(" src=")[1];
+              RegExp regExp = new RegExp(
+                r"(<p><em>)(.*)(</em></p>)",
+              );
+              //print(text.toString());
+              var val = regExp.firstMatch(text)?.group(2).toString();
+              // val = val?.replaceAll(RegExp(r'[(<p>)(<em>)(/)]'), '');
+              //   print(val);
               //  print(image);
               int p = imagelink.length;
               String imagelink2 = imagelink.substring(1, p - 2);
@@ -167,8 +173,8 @@ class _BlogState extends State<Blogs> {
         padding: const EdgeInsets.all(8),
         itemBuilder: (BuildContext buildContext, int index) {
           String link;
-          
-                return Padding(
+
+          return Padding(
             padding: const EdgeInsets.all(5.0),
             child: Stack(
               children: [
@@ -176,7 +182,7 @@ class _BlogState extends State<Blogs> {
                   child: GestureDetector(
                     onTap: () {
                       link = _mediumArticles[index].link;
-                      
+
                       print(link);
                       launchArticle(link.toString());
                     },
@@ -189,20 +195,20 @@ class _BlogState extends State<Blogs> {
                   ),
                 ),
                 Positioned(
-                  bottom : 0.5,
-                
-                  child:  Container(
+                  bottom: 0.5,
+                  child: Container(
                     height: 50,
-                  color: Colors.black,
-                  alignment: Alignment.center,
-                  
+                    color: Colors.black,
+                    alignment: Alignment.center,
                     child: Text(
                       _mediumArticles[index].title.toString(),
-                      style: TextStyle(color: Colors.white,fontSize: 22.0,fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
-               
               ],
             ),
           );
