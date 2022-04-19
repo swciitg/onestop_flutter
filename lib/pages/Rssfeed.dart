@@ -30,20 +30,22 @@ class MediumArticle {
   String link;
   String datePublished;
   String image;
+  String author;
 
   MediumArticle(
       {required this.title,
       required this.link,
       required this.datePublished,
-      required this.image});
+      required this.image,
+      required this.author});
 
   factory MediumArticle.fromJson(Map<String, dynamic> jsonData) {
     return MediumArticle(
-      title: jsonData['title'],
-      link: jsonData['link'],
-      datePublished: jsonData['datePublished'],
-      image: jsonData['image'],
-    );
+        title: jsonData['title'],
+        link: jsonData['link'],
+        datePublished: jsonData['datePublished'],
+        image: jsonData['image'],
+        author: jsonData['author']);
   }
 
   static Map<String, dynamic> toMap(MediumArticle music) => {
@@ -51,6 +53,7 @@ class MediumArticle {
         'link': music.link,
         'datePublished': music.datePublished,
         'image': music.image,
+        'author': music.author
       };
 
   static String encode(List<MediumArticle> musics) => json.encode(
@@ -72,14 +75,14 @@ class _BlogState extends State<Blogs> {
     'https://medium.com/feed/@csea.iitg'
   ];
   static String MEDIUM_PROFILE_RSS_FEED_URL =
-     'https://medium.com/feed/@cepstrumeeeiitg';
+      'https://medium.com/feed/@csea.iitg';
   List<MediumArticle> _mediumArticles = [];
   String title = "notnull";
   String image =
       "https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.cyberark.com%2Fwp-content%2Fuploads%2F2019%2F11%2FDeveloper.jpg&imgrefurl=https%3A%2F%2Fwww.cyberark.com%2Fresources%2Fblog%2Fsecure-developer-workstations-without-slowing-them-down&tbnid=fJMc6OspVdPfgM&vet=12ahUKEwivmoytyOb1AhXlZWwGHZAPBZkQMygAegUIARDTAQ..i&docid=X2dX4HlN_niOsM&w=943&h=536&q=developer&ved=2ahUKEwivmoytyOb1AhXlZWwGHZAPBZkQMygAegUIARDTAQ";
 
   // Get the Medium RSSFeed data
-  Future<RssFeed?> getMediumRSSFeedData() async {
+  Future<RssFeed?> getMediumRSSFeedData(MEDIUM_PROFILE_RSS_FEED_URL) async {
     try {
       final client = http.Client();
       final response = await client.get(Uri.parse(MEDIUM_PROFILE_RSS_FEED_URL));
@@ -108,38 +111,42 @@ class _BlogState extends State<Blogs> {
         _mediumArticles.clear();
 
         //  print(mediumLists[i]);
-        getMediumRSSFeedData().then((feed) {
-          updateFeed(feed);
+        for (int i = 0; i < mediumLists.length; i++) {
+          getMediumRSSFeedData(mediumLists[i]).then((feed) {
+            updateFeed(feed);
 
-          title = _rssFeed.title!;
-          image = _rssFeed.image!.url!;
-          var items = feed!.items;
+            title = _rssFeed.title!;
+            image = _rssFeed.image!.url!;
+            var items = feed!.items;
 
-          for (RssItem x in items!) {
-            if (x.pubDate != null) {
-              //print(x.content!.value);
-              final text = x.content!.value;
-              String imagelink =
-                  text.split("<img")[1].split("/>")[0].split(" src=")[1];
-              int p = imagelink.length;
-              String imagelink2 = imagelink.substring(1, p - 2);
+            for (RssItem x in items!) {
+              if (x.pubDate != null) {
+                //print(x.content!.value);
+                final text = x.content!.value;
+                print(x.dc?.creator);
+                String imagelink =
+                    text.split("<img")[1].split("/>")[0].split(" src=")[1];
+                int p = imagelink.length;
+                String imagelink2 = imagelink.substring(1, p - 2);
 
-              // print(imagelink2);
-              String pdate = x.pubDate.toString();
-              MediumArticle res = MediumArticle(
-                  title: x.title!,
-                  link: x.guid!,
-                  datePublished: pdate,
-                  image: imagelink2);
-              _mediumArticles.add(res);
+                // print(imagelink2);
+                String pdate = x.pubDate.toString();
+                MediumArticle res = MediumArticle(
+                    title: x.title!,
+                    link: x.guid!,
+                    datePublished: pdate,
+                    image: imagelink2,
+                    author: x.dc!.creator!);
+                _mediumArticles.add(res);
+              }
             }
-          }
-        });
+          });
 
-        // Encode and store data in SharedPreferences
-        final String encodedData = MediumArticle.encode(_mediumArticles);
+          // Encode and store data in SharedPreferences
+          final String encodedData = MediumArticle.encode(_mediumArticles);
 
-        prefs.setString('medium_data', encodedData);
+          prefs.setString('medium_data', encodedData);
+        }
       }
     } on SocketException catch (_) {
       final String? musicsString = prefs.getString('medium_data');
@@ -229,11 +236,7 @@ class _BlogState extends State<Blogs> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _mediumArticles[index]
-                              .title
-                              .toString()
-                              .split("|")[0]
-                              .trim(),
+                          _mediumArticles[index].title,
                           style: TextStyle(
                               fontFamily: 'montserrat',
                               fontWeight: FontWeight.bold,
@@ -241,11 +244,12 @@ class _BlogState extends State<Blogs> {
                               fontSize: 14),
                         ),
                         Text(
-                            _mediumArticles[index]
-                                .title
-                                .toString()
-                                .split("|")[1]
-                                .trim(),
+                            // _mediumArticles[index]
+                            //     .title
+                            //     .toString()
+                            //     .split("|")[1]
+                            //     .trim(),
+                            _mediumArticles[index].author,
                             style: TextStyle(
                                 fontFamily: 'montserrat',
                                 color: Colors.white,
