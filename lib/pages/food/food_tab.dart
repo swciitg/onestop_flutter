@@ -55,8 +55,9 @@ class FoodTab extends StatelessWidget {
                                   Waiting_time: 2,
                                   Closing_time: e.closing_time,
                                   Phone_Number: e.phone_number,
-                                  Latitude: e.latitude!,
-                                  Longitude: e.longitude!,
+                                  Latitude: e.latitude,
+                                  Longitude: e.longitude,
+                                  restaurant_model: e,
                                   Distance: 2))
                               .toList();
                           return Column(

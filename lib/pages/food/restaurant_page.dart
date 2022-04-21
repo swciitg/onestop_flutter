@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/dish_model.dart';
+import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
+import 'package:provider/provider.dart';
 import '../../models/restaurant_model.dart';
 
 class RestaurantPage extends StatelessWidget {
@@ -13,6 +15,7 @@ class RestaurantPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RestaurantModel r = context.read<RestaurantStore>().getSelectedRestaurant;
     return Scaffold(
       appBar: appBar(context, displayIcon: false),
       body: Column(
@@ -21,16 +24,16 @@ class RestaurantPage extends StatelessWidget {
           Expanded(
             flex: 2,
             child: RestaurantHeader(
-              Restaurant_Name: "Florentine Restaurant ",
-              About: "Multicusine,Dine-in",
+              Restaurant_Name: r.name,
+              About: r.caption,
               Address: "29 West",
               Veg: false,
               Closing_Time: 10,
-              Waiting_Time: 2,
+              Waiting_Time: 3,
               Distance: 2,
-              Phone_Number: "1234567890",
-              Longitude: 54.330,
-              Latitude: -127.300,
+              Phone_Number: r.phone_number,
+              Longitude: r.longitude,
+              Latitude: r.latitude,
             ),
           ),
           Expanded(
@@ -78,8 +81,11 @@ Future<List<DishModel>> ReadJsonData() async {
   String restaurantSelected = "Florentine";
   final jsondata = await rootBundle.loadString('lib/globals/restaurants.json');
   final list = json.decode(jsondata) as List<dynamic>;
-  List<RestaurantModel> allRestaurants =  list.map((e) => RestaurantModel.fromJson(e)).toList();
-  allRestaurants = allRestaurants.where((element) => element.name.contains(restaurantSelected)).toList();
+  List<RestaurantModel> allRestaurants =
+      list.map((e) => RestaurantModel.fromJson(e)).toList();
+  allRestaurants = allRestaurants
+      .where((element) => element.name.contains(restaurantSelected))
+      .toList();
   print("All restaurants is ${allRestaurants.toString()}");
   return allRestaurants.elementAt(0).menu;
 }
