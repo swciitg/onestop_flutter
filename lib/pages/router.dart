@@ -141,7 +141,7 @@ class _RouterPageState extends State<RouterPage> {
                                               });
                                               print(hostel);
                                             },
-                                            decoration: decfunction(),
+                                            decoration: decfunction(''),
                                             items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
                                               return DropdownMenuItem<String>(
                                                 value: value,
@@ -165,7 +165,7 @@ class _RouterPageState extends State<RouterPage> {
                                             keyboardType: TextInputType.number,
                                             inputFormatters: [FilteringTextInputFormatter.digitsOnly,],
                                             onChanged: (v){ roomController.text = v;hostel.roomNo=v;roomController.selection = TextSelection.fromPosition(TextPosition(offset: roomController.text.length));},
-                                            decoration: decfunction()
+                                            decoration: decfunction('Room Number')
                                         ),
                                       ),
                                       SizedBox(height: HEIGHT*0.0128,),
@@ -180,7 +180,7 @@ class _RouterPageState extends State<RouterPage> {
                                             controller: blockController,
                                             keyboardType: TextInputType.text,
                                             onChanged: (v){ blockController.text = v;hostel.block=v;blockController.selection = TextSelection.fromPosition(TextPosition(offset: blockController.text.length));},
-                                            decoration: decfunction()
+                                            decoration: decfunction('Block')
                                         ),
                                       ),
                                       SizedBox(height: HEIGHT*0.0128,),
@@ -198,7 +198,7 @@ class _RouterPageState extends State<RouterPage> {
                                               FilteringTextInputFormatter.digitsOnly,
                                             ],
                                             onChanged: (v){floorController.text = v;hostel.floor=v;floorController.selection = TextSelection.fromPosition(TextPosition(offset: floorController.text.length));},
-                                            decoration: decfunction()
+                                            decoration: decfunction('Floor')
                                         ),
                                       ),
                                     ],
@@ -280,9 +280,9 @@ class _RouterPageState extends State<RouterPage> {
 }
 
 
-decfunction(){
+decfunction(String x){
   return InputDecoration(
-    labelText: 'Floor',
+    labelText: x,
     labelStyle: TextStyle(color: Color.fromRGBO(110, 119, 138, 1), fontWeight: FontWeight.w600),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30.0),
