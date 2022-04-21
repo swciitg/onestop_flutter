@@ -64,7 +64,6 @@ class _RouterPageState extends State<RouterPage> {
   Widget build(BuildContext context) {
     double HEIGHT = MediaQuery.of(context).size.height;
     double WIDTH  = MediaQuery.of(context).size.width;
-    print(HEIGHT);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: HEIGHT*0.064,
@@ -119,21 +118,14 @@ class _RouterPageState extends State<RouterPage> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                  height: HEIGHT*0.0064,
-                                ),
+                                SizedBox(height: HEIGHT*0.0064,),
                                 Text(textdata[i-1], style: TextStyle(color: Color.fromRGBO(224, 226, 235, 1), fontWeight: FontWeight.w400, fontSize: HEIGHT*0.02048417, fontFamily: 'Montserrat'),),
-                                SizedBox(
-                                  height: HEIGHT*0.0064,
-                                ),
-
+                                SizedBox(height: HEIGHT*0.0064,),
                                 (i==6)?Form(
                                   key: _keyform,
                                   child: Column(
                                     children: [
-                                      SizedBox(
-                                        height: HEIGHT*0.0128,
-                                      ),
+                                      SizedBox(height: HEIGHT*0.0128,),
                                       Theme(
                                         data: Theme.of(context).copyWith(canvasColor: Color.fromRGBO(39, 49, 65, 1)),
                                         child: SizedBox(
@@ -149,29 +141,7 @@ class _RouterPageState extends State<RouterPage> {
                                               });
                                               print(hostel);
                                             },
-                                            decoration: InputDecoration(
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(30.0),
-                                                borderSide: BorderSide(
-                                                    color: Color.fromRGBO(110, 119, 138, 1),
-                                                    width: 0.8
-                                                ),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(30.0),
-                                                borderSide: BorderSide(
-                                                  color: Color.fromRGBO(110, 119, 138, 1),
-                                                  width: 1.0,
-                                                ),
-                                              ),
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(30),
-                                                borderSide: BorderSide(color: Color.fromRGBO(110, 119, 138, 1), width: 5.0),
-                                              ),
-
-                                            ),
-
-
+                                            decoration: decfunction(),
                                             items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
                                               return DropdownMenuItem<String>(
                                                 value: value,
@@ -181,9 +151,7 @@ class _RouterPageState extends State<RouterPage> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: HEIGHT*0.0128,
-                                      ),
+                                      SizedBox(height: HEIGHT*0.0128,),
                                       SizedBox(
                                         height: HEIGHT*0.0768156,
                                         child: TextFormField(
@@ -195,33 +163,12 @@ class _RouterPageState extends State<RouterPage> {
                                             },
                                             controller: roomController,
                                             keyboardType: TextInputType.number,
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.digitsOnly,
-                                            ],
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly,],
                                             onChanged: (v){ roomController.text = v;hostel.roomNo=v;roomController.selection = TextSelection.fromPosition(TextPosition(offset: roomController.text.length));},
-                                            decoration: InputDecoration(
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(30.0),
-                                                borderSide: BorderSide(
-                                                    color: Color.fromRGBO(110, 119, 138, 1),
-                                                    width: 1.0
-                                                ),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(30.0),
-                                                borderSide: BorderSide(
-                                                  color: Color.fromRGBO(110, 119, 138, 1),
-                                                  width: 1.0,
-                                                ),
-                                              ),
-                                              labelStyle: TextStyle(color: Color.fromRGBO(110, 119, 138, 1), fontWeight: FontWeight.w600),
-                                              labelText: 'Room Number',
-                                            )
+                                            decoration: decfunction()
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: HEIGHT*0.0128,
-                                      ),
+                                      SizedBox(height: HEIGHT*0.0128,),
                                       SizedBox(
                                         height: HEIGHT*0.0768156,
                                         child: TextFormField(
@@ -233,29 +180,10 @@ class _RouterPageState extends State<RouterPage> {
                                             controller: blockController,
                                             keyboardType: TextInputType.text,
                                             onChanged: (v){ blockController.text = v;hostel.block=v;blockController.selection = TextSelection.fromPosition(TextPosition(offset: blockController.text.length));},
-                                            decoration: InputDecoration(
-                                              labelStyle: TextStyle(color: Color.fromRGBO(110, 119, 138, 1), fontWeight: FontWeight.w600),
-                                              labelText: 'Block',
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(30.0),
-                                                borderSide: BorderSide(
-                                                    color: Color.fromRGBO(110, 119, 138, 1),
-                                                    width: 1.0
-                                                ),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(30.0),
-                                                borderSide: BorderSide(
-                                                  color: Color.fromRGBO(110, 119, 138, 1),
-                                                  width: 1.0,
-                                                ),
-                                              ),
-                                            )
+                                            decoration: decfunction()
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: HEIGHT*0.0128,
-                                      ),
+                                      SizedBox(height: HEIGHT*0.0128,),
                                       SizedBox(
                                         height: HEIGHT*0.0768156,
                                         child: TextFormField(
@@ -270,24 +198,7 @@ class _RouterPageState extends State<RouterPage> {
                                               FilteringTextInputFormatter.digitsOnly,
                                             ],
                                             onChanged: (v){floorController.text = v;hostel.floor=v;floorController.selection = TextSelection.fromPosition(TextPosition(offset: floorController.text.length));},
-                                            decoration: InputDecoration(
-                                              labelText: 'Floor',
-                                              labelStyle: TextStyle(color: Color.fromRGBO(110, 119, 138, 1), fontWeight: FontWeight.w600),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(30.0),
-                                                borderSide: BorderSide(
-                                                    color: Color.fromRGBO(110, 119, 138, 1),
-                                                    width: 1
-                                                ),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(30.0),
-                                                borderSide: BorderSide(
-                                                  color: Color.fromRGBO(110, 119, 138, 1),
-                                                  width: 1,
-                                                ),
-                                              ),
-                                            )
+                                            decoration: decfunction()
                                         ),
                                       ),
                                     ],
@@ -367,3 +278,26 @@ class _RouterPageState extends State<RouterPage> {
     );
   }
 }
+
+
+decfunction(){
+  return InputDecoration(
+    labelText: 'Floor',
+    labelStyle: TextStyle(color: Color.fromRGBO(110, 119, 138, 1), fontWeight: FontWeight.w600),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(30.0),
+      borderSide: BorderSide(
+          color: Color.fromRGBO(110, 119, 138, 1),
+          width: 1
+      ),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(30.0),
+      borderSide: BorderSide(
+        color: Color.fromRGBO(110, 119, 138, 1),
+        width: 1,
+      ),
+    ),
+  );
+}
+
