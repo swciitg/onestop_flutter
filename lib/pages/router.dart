@@ -6,11 +6,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 bool fg=true;
 
 List<String> textdata = [
-  '\nOpen Start-> Control Panel -> Network and Internet-> Network and Sharing Center ',
-  "\nClick on 'Manage wireless networks'",
-  '\nRight click on \'Local area connection\' and then click on properties',
-  '\nUncheck \'Internet Protocol Version 6 (TCP/IPv6)\' and double click \'Internet Protocol Version 4 (TCP/IPv4)\'',
-  '\nSelect \'Use the following IP address\' and \'Use the following DNS server addresses\' Modify the DNS address as given below\n\n\nprimary DNS: 172.171.1.1\nsecondary DNS: 172.17.1.2',
+  'Open Start-> Control Panel -> Network and Internet-> Network and Sharing Center ',
+  "Click on 'Manage wireless networks'",
+  'Right click on \'Local area connection\' and then click on properties',
+  'Uncheck \'Internet Protocol Version 6 (TCP/IPv6)\' and double click \'Internet Protocol Version 4 (TCP/IPv4)\'',
+  'Select \'Use the following IP address\' and \'Use the following DNS server addresses\' Modify the DNS address as given below\n\n\nprimary DNS: 172.171.1.1\nsecondary DNS: 172.17.1.2',
   'Enter the following details to get your IP address',
   '',
   "Make sure the connection is no-proxy/direct connection. Open any website in your browser. It will show a captive portal asking your IITG login credentials.Login to the portal and start accessing internet using the same.If you have a problem while redirecting to login page, then use this link given below in your pc browser https://agnigarh.iitg.ac.in:1442/login?"];
@@ -62,8 +62,12 @@ class _RouterPageState extends State<RouterPage> {
 
   @override
   Widget build(BuildContext context) {
+    double HEIGHT = MediaQuery.of(context).size.height;
+    double WIDTH  = MediaQuery.of(context).size.width;
+    print(HEIGHT);
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: HEIGHT*0.064,
         backgroundColor: Color.fromRGBO(39, 49, 65, 1),
         leading: Container(),
         leadingWidth: 0,
@@ -75,16 +79,19 @@ class _RouterPageState extends State<RouterPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
-              child: Text(
-                'You might need to change some of your laptop settings before you could start using the internet in your room. Go through the following steps after connecting your laptop to the LAN port. ',
-                style: TextStyle(color: Color.fromRGBO(135, 145, 165, 1), fontWeight: FontWeight.w600, fontSize: 16, fontFamily: 'Montserrat'),
+            SizedBox(
+              height: HEIGHT*0.188198,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+                child: Text(
+                  'You might need to change some of your laptop settings before you could start using the internet in your room. Go through the following steps after connecting your laptop to the LAN port. ',
+                  style: TextStyle(color: Color.fromRGBO(135, 145, 165, 1), fontWeight: FontWeight.w600, fontSize: 16, fontFamily: 'Montserrat'),
+                ),
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height*0.63,
-              width: MediaQuery.of(context).size.width*0.93,
+              height: HEIGHT*0.63,
+              width: WIDTH*0.93,
               decoration: BoxDecoration(
                   color: Color.fromRGBO(39, 49, 65, 1),
                   border: Border.all(),
@@ -92,7 +99,7 @@ class _RouterPageState extends State<RouterPage> {
               ),
 
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+                padding: EdgeInsets.fromLTRB(16, HEIGHT*0.03073, 16, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -103,18 +110,21 @@ class _RouterPageState extends State<RouterPage> {
                             return Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('Step $i of 8', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17, fontFamily: 'Montserrat'),),
-                                  ],
+                                SizedBox(
+                                  height: HEIGHT*0.0256,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text('Step $i of 8', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17, fontFamily: 'Montserrat'),),
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(
-                                  height: 5,
+                                  height: HEIGHT*0.0064,
                                 ),
-                                Text(textdata[i-1], style: TextStyle(color: Color.fromRGBO(224, 226, 235, 1), fontWeight: FontWeight.w400, fontSize: 16, fontFamily: 'Montserrat'),),
+                                Text(textdata[i-1], style: TextStyle(color: Color.fromRGBO(224, 226, 235, 1), fontWeight: FontWeight.w400, fontSize: HEIGHT*0.02048417, fontFamily: 'Montserrat'),),
                                 SizedBox(
-                                  height: 5,
+                                  height: HEIGHT*0.0064,
                                 ),
 
                                 (i==6)?Form(
@@ -122,12 +132,12 @@ class _RouterPageState extends State<RouterPage> {
                                   child: Column(
                                     children: [
                                       SizedBox(
-                                        height: 10,
+                                        height: HEIGHT*0.0128,
                                       ),
                                       Theme(
                                         data: Theme.of(context).copyWith(canvasColor: Color.fromRGBO(39, 49, 65, 1)),
                                         child: SizedBox(
-                                          height: 60,
+                                          height: HEIGHT*0.0768156,
                                           child: DropdownButtonFormField<String>(
                                             value: dropdownValue,
                                             icon: Icon(Icons.arrow_drop_down),
@@ -172,13 +182,13 @@ class _RouterPageState extends State<RouterPage> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: 10,
+                                        height: HEIGHT*0.0128,
                                       ),
                                       SizedBox(
-                                        height: 60,
+                                        height: HEIGHT*0.0768156,
                                         child: TextFormField(
-                                          style: TextStyle(color: Colors.white),
-                                          // Tell your textfield which controller it owns
+                                            style: TextStyle(color: Colors.white),
+                                            // Tell your textfield which controller it owns
                                             validator: (value){
                                               if(value==null || value.isEmpty){return "Remember your room number correctly";}
                                               return null;
@@ -193,8 +203,8 @@ class _RouterPageState extends State<RouterPage> {
                                               focusedBorder: OutlineInputBorder(
                                                 borderRadius: BorderRadius.circular(30.0),
                                                 borderSide: BorderSide(
-                                                  color: Color.fromRGBO(110, 119, 138, 1),
-                                                  width: 1.0
+                                                    color: Color.fromRGBO(110, 119, 138, 1),
+                                                    width: 1.0
                                                 ),
                                               ),
                                               enabledBorder: OutlineInputBorder(
@@ -210,10 +220,10 @@ class _RouterPageState extends State<RouterPage> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: 10,
+                                        height: HEIGHT*0.0128,
                                       ),
                                       SizedBox(
-                                        height: 60,
+                                        height: HEIGHT*0.0768156,
                                         child: TextFormField(
                                             style: TextStyle(color: Colors.white),
                                             validator: (value){
@@ -244,12 +254,12 @@ class _RouterPageState extends State<RouterPage> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: 10,
+                                        height: HEIGHT*0.0128,
                                       ),
                                       SizedBox(
-                                        height: 60,
+                                        height: HEIGHT*0.0768156,
                                         child: TextFormField(
-                                          style: TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Colors.white),
                                             validator: (value){
                                               if(value==null || value.isEmpty){return "remember your floor number correctly";}
                                               return null;
@@ -292,12 +302,12 @@ class _RouterPageState extends State<RouterPage> {
                       }).toList(),
                       carouselController: _buttonCarouselController,
                       options: CarouselOptions(
-                        autoPlay: false,
-                        enlargeCenterPage: true,
-                        viewportFraction: 0.9,
-                        aspectRatio: 0.8,
-                        initialPage: 0,
-                        scrollPhysics: NeverScrollableScrollPhysics()
+                          autoPlay: false,
+                          enlargeCenterPage: true,
+                          viewportFraction: 0.9,
+                          aspectRatio: 0.8,
+                          initialPage: 0,
+                          scrollPhysics: NeverScrollableScrollPhysics()
                       ),
                     ),
                     Row(
@@ -306,40 +316,40 @@ class _RouterPageState extends State<RouterPage> {
                         IconButton(
                           onPressed: () async {
                             if(page != 1)
-                              {
-                                await _buttonCarouselController.previousPage(duration: Duration(milliseconds: 300), curve: Curves.linear);
-                                setState(() {
-                                  page = page -1;
-                                });
-                              }
+                            {
+                              await _buttonCarouselController.previousPage(duration: Duration(milliseconds: 300), curve: Curves.linear);
+                              setState(() {
+                                page = page -1;
+                              });
+                            }
 
-                            },
+                          },
                           icon: Icon(Icons.chevron_left,color: page!=1?Color.fromRGBO(235, 241,255,1):Color.fromRGBO(110, 119, 138, 1),),
                         ),
                         IconButton(
                           onPressed: () async {
                             if(page < 8 && page != 6)
-                              {
-                                await _buttonCarouselController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.linear);
-                                setState(() {
-                                  page = page+1;
-                                });
-                              }
+                            {
+                              await _buttonCarouselController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.linear);
+                              setState(() {
+                                page = page+1;
+                              });
+                            }
                             else if(page == 6)
+                            {
+                              if(dropdownValue != 'Select Hostel')
                               {
-                                if(dropdownValue != 'Select Hostel')
-                                  {
-                                    if (_keyform.currentState!.validate()){
-                                      fg=false;
-                                      await _buttonCarouselController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.linear);
-                                      setState(() {
-                                        page = page+1;
-                                      });
-                                    }
-                                  }
-
+                                if (_keyform.currentState!.validate()){
+                                  fg=false;
+                                  await _buttonCarouselController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.linear);
+                                  setState(() {
+                                    page = page+1;
+                                  });
+                                }
                               }
-                            },
+
+                            }
+                          },
                           icon: Icon(Icons.chevron_right, color: page!=8?Color.fromRGBO(235, 241,255,1):Color.fromRGBO(110, 119, 138, 1),),
                         ),
                       ],
@@ -354,4 +364,3 @@ class _RouterPageState extends State<RouterPage> {
     );
   }
 }
-
