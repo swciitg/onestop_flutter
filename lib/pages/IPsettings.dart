@@ -11,8 +11,8 @@ import 'package:flutter/services.dart';
 
 
 class IpPage extends StatefulWidget {
-
-  const IpPage({Key? key}) : super(key: key);
+  final argso;
+  const IpPage({Key? key, required this.argso}) : super(key: key);
 
   @override
   _IpPageState createState() => _IpPageState();
@@ -105,7 +105,7 @@ class _IpPageState extends State<IpPage> {
     final String response = await rootBundle.loadString('assets/json/csvjson.json');
     final data = await json.decode(response);
     setState(() {
-       args = ModalRoute.of(context)!.settings.arguments as hostelDetails;
+       args = widget.argso;
 
       _items = data["Hostels"];
       for(var item in  _items){
@@ -147,29 +147,28 @@ class _IpPageState extends State<IpPage> {
     }
 
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Open it if you want to!',
-        ),
-
-      ),
-      body: Column(children: [
+    return
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Your details:', style: TextStyle(color: Color.fromRGBO(224, 226, 235, 1), fontWeight: FontWeight.w400, fontSize: 18),),
+          ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(hostelname),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(subnet),
+          child: Text('Gateway:       '+hostelname, style: TextStyle(color: Color.fromRGBO(224, 226, 235, 1), fontWeight: FontWeight.w400, fontSize: 16, fontFamily: 'Montserrat'),),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(ipAdress),
+          child: Text('Subnet:         '+subnet, style: TextStyle(color: Color.fromRGBO(224, 226, 235, 1), fontWeight: FontWeight.w400, fontSize: 16, fontFamily: 'Montserrat'),),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('IP Address:   '+ipAdress, style: TextStyle(color: Color.fromRGBO(224, 226, 235, 1), fontWeight: FontWeight.w400, fontSize: 16, fontFamily: 'Montserrat'),),
         )
-      ],),
-        );
+      ],
+      );
 
 
   }

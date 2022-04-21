@@ -10,6 +10,6 @@ final routes = {
   QRPage.id: (context) => const QRPage(),
   LoginPage.id: (context) => const LoginPage(),
   HomePage.id: (context) => const HomePage(),
-  DropDown.id: (context) => DropDown(),
+  RouterPage.id: (context) => RouterPage(),
   Blogs.id: (context) => const Blogs(),
 };
