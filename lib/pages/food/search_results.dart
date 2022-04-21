@@ -3,10 +3,13 @@ import 'package:fuzzy/fuzzy.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/restaurant_model.dart';
+import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
+
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -35,7 +38,7 @@ class SearchPage extends StatelessWidget {
             ),
             Expanded(
               child: FutureBuilder<List<RestaurantModel>>(
-                  future: SearchResults(),
+                  future: SearchResults(context),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<RestaurantModel>> snapshot) {
                     if (snapshot.hasData) {
@@ -80,9 +83,11 @@ class SearchPage extends StatelessWidget {
 }
 
 class FoodSearchBar extends StatelessWidget {
-  const FoodSearchBar({
+  FoodSearchBar({
     Key? key,
   }) : super(key: key);
+
+  final myController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +114,7 @@ Future<List<RestaurantModel>> ReadJsonData() async {
   return list.map((e) => RestaurantModel.fromJson(e)).toList();
 }
 
-Future<List<RestaurantModel>> SearchResults() async {
+Future<List<RestaurantModel>> SearchResults(BuildContext context) async {
   List<RestaurantModel> allRestaurants = await ReadJsonData();
   List<RestaurantModel> searchResults = [];
   allRestaurants.forEach((element) {
@@ -123,8 +128,7 @@ Future<List<RestaurantModel>> SearchResults() async {
       ),
     );
 
-    final result = fuse.search('Cake');
-    print("${element.name} result = ${result.toString()}");
+    final result = fuse.search(context.read<RestaurantStore>().getSearchString);
     if (result.length != 0) {
       searchResults.add(element);
     }
