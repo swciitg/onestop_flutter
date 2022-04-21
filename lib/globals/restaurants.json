@@ -1,27 +1,32 @@
 [
   {
+
     "name": "Florentine Restaurant IIT Guwhati",
     "caption": "Multicuisine, dining, north-indian",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
     "phone_number": "1234567898",
-    "location": {
-      "latitude": 57.694514,
-      "longitude": -127.872155
-    },
-    "tags": ["Snacks","Non-veg","Dessert","North Indian"]
+    "latitude": 57.694514,
+    "longitude": -127.872155,
+    "tags": [
+      "Snacks",
+      "Non-veg",
+      "Dessert",
+      "North Indian"
+    ]
   },
   {
-    "name": "Subway",
+    "name": "Subway ",
     "caption": "Rolls, Sandwiches",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
     "phone_number": "1234567898",
-    "location": {
-      "latitude": 57.694514,
-      "longitude": -127.872155
-    },
-    "tags": ["Snacks","Non-veg"]
+    "latitude": 57.694514,
+    "longitude": -127.872155,
+    "tags": [
+      "Snacks",
+      "Non-veg"
+    ]
   },
   {
     "name": "Taco Bell",
@@ -29,11 +34,14 @@
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
     "phone_number": "1234567898",
-    "location": {
-      "latitude": 57.694514,
-      "longitude": -127.872155
-    },
-    "tags": ["Snacks","Non-veg","Cakes","Rolls"]
+    "latitude": 57.694514,
+    "longitude": -127.872155,
+    "tags": [
+      "Snacks",
+      "Non-veg",
+      "Cakes",
+      "Rolls"
+    ]
   },
   {
     "name": "Spectrum South Hub",
@@ -41,11 +49,15 @@
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
     "phone_number": "1234567898",
-    "location": {
-      "latitude": 57.694514,
-      "longitude": -127.872155
-    },
-    "tags": ["Snacks","Non-veg","South Indian","Biryani","Dosa"]
+    "latitude": 57.694514,
+    "longitude": -127.872155,
+    "tags": [
+      "Snacks",
+      "Non-veg",
+      "South Indian",
+      "Biryani",
+      "Dosa"
+    ]
   },
   {
     "name": "Florentine Restaurant",
@@ -53,11 +65,15 @@
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
     "phone_number": "1234567898",
-    "location": {
-      "latitude": 57.694514,
-      "longitude": -127.872155
-    },
-    "tags": ["Snacks","Veg","South Indian","Biryani","Dosa"]
+    "latitude": 57.694514,
+    "longitude": -127.872155,
+    "tags": [
+      "Snacks",
+      "Veg",
+      "South Indian",
+      "Biryani",
+      "Dosa"
+    ]
   },
   {
     "name": "Florentine Restaurant",
@@ -65,10 +81,14 @@
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
     "phone_number": "1234567898",
-    "location": {
-      "latitude": 57.694514,
-      "longitude": -127.872155
-    },
-    "tags": ["Snacks","Non-veg","South Indian","Biryani","Cakes"]
+    "latitude": 57.694514,
+    "longitude": -127.872155,
+    "tags": [
+      "Snacks",
+      "Non-veg",
+      "South Indian",
+      "Biryani",
+      "Cakes"
+    ]
   }
 ]

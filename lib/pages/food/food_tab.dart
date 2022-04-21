@@ -14,71 +14,74 @@ class FoodTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      // crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 8,
-        ),
-        FoodSearchBar(),
-        SizedBox(
-          height: 8,
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                MessMenu(),
-                SizedBox(height: 8),
-                FavoriteDishes(),
-                SizedBox(
-                  height: 10,
-                ),
-                OutletsFilter(),
-                SizedBox(
-                  height: 8,
-                ),
-                // restaurant(),
-                FutureBuilder<List<RestaurantModel>>(
-                    future: ReadJsonData(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<RestaurantModel>> snapshot) {
-                      if (snapshot.hasData) {
-                        print(snapshot.data);
-                        List<Widget> foodList = snapshot.data!
-                            .map((e) => RestaurantTile(
-                                Restaurant_name: e.name,
-                                Cuisine_type: e.caption,
-                                Waiting_time: 2,
-                                Closing_time: e.closing_time,
-                                Phone_Number: e.phone_number,
-                                Latitude: e.latitude!,
-                                Longitude: e.longitude!,
-                                Distance: 2))
-                            .toList();
-                        return Column(
-                          children: foodList,
-                        );
-                      } else if (snapshot.hasError) {
-                        print(snapshot.error);
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 8,
+          ),
+          FoodSearchBar(),
+          SizedBox(
+            height: 8,
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  MessMenu(),
+                  SizedBox(height: 8),
+                  FavoriteDishes(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  OutletsFilter(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  // restaurant(),
+                  FutureBuilder<List<RestaurantModel>>(
+                      future: ReadJsonData(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<RestaurantModel>> snapshot) {
+                        if (snapshot.hasData) {
+                          print(snapshot.data);
+                          List<Widget> foodList = snapshot.data!
+                              .map((e) => RestaurantTile(
+                                  Restaurant_name: e.name,
+                                  Cuisine_type: e.caption,
+                                  Waiting_time: 2,
+                                  Closing_time: e.closing_time,
+                                  Phone_Number: e.phone_number,
+                                  Latitude: e.latitude!,
+                                  Longitude: e.longitude!,
+                                  Distance: 2))
+                              .toList();
+                          return Column(
+                            children: foodList,
+                          );
+                        } else if (snapshot.hasError) {
+                          print(snapshot.error);
+                          return Center(
+                              child: Text(
+                            "An error occurred",
+                            style: MyFonts.medium.size(18).setColor(kWhite),
+                          ));
+                        }
                         return Center(
-                            child: Text(
-                          "An error occurred",
-                          style: MyFonts.medium.size(18).setColor(kWhite),
-                        ));
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      );
-                    })
-              ],
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        );
+                      })
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -137,6 +140,7 @@ class FoodSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: MyFonts.medium.setColor(kWhite),
       decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(100),
