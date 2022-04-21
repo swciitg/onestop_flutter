@@ -50,6 +50,7 @@ class SearchPage extends StatelessWidget {
                               Latitude: 0,
                               Longitude: 0,
                               Distance: 2,
+                              restaurant_model: e,
                             ),
                           )
                           .toList();

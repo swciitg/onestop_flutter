@@ -6,8 +6,8 @@ class RestaurantModel {
   late String closing_time;
   late String waiting_time;
   late String phone_number;
-  double? latitude;
-  double? longitude;
+  late double latitude;
+  late double longitude;
   late List<String> tags;
   late List<DishModel> menu;
 
@@ -19,8 +19,7 @@ class RestaurantModel {
       required this.phone_number,
       required this.latitude,
       required this.longitude,
-      required this.tags
-      });
+      required this.tags});
 
   RestaurantModel.fromJson(Map<String, dynamic> json) {
     name = json['name'] ?? "Unnamed";
