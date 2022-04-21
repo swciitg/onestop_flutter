@@ -310,49 +310,52 @@ class _RouterPageState extends State<RouterPage> {
                           scrollPhysics: NeverScrollableScrollPhysics()
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: () async {
-                            if(page != 1)
-                            {
-                              await _buttonCarouselController.previousPage(duration: Duration(milliseconds: 300), curve: Curves.linear);
-                              setState(() {
-                                page = page -1;
-                              });
-                            }
-
-                          },
-                          icon: Icon(Icons.chevron_left,color: page!=1?Color.fromRGBO(235, 241,255,1):Color.fromRGBO(110, 119, 138, 1),),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            if(page < 8 && page != 6)
-                            {
-                              await _buttonCarouselController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.linear);
-                              setState(() {
-                                page = page+1;
-                              });
-                            }
-                            else if(page == 6)
-                            {
-                              if(dropdownValue != 'Select Hostel')
+                    SizedBox(
+                      height: HEIGHT*0.04481,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () async {
+                              if(page != 1)
                               {
-                                if (_keyform.currentState!.validate()){
-                                  fg=false;
-                                  await _buttonCarouselController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.linear);
-                                  setState(() {
-                                    page = page+1;
-                                  });
-                                }
+                                await _buttonCarouselController.previousPage(duration: Duration(milliseconds: 300), curve: Curves.linear);
+                                setState(() {
+                                  page = page -1;
+                                });
                               }
 
-                            }
-                          },
-                          icon: Icon(Icons.chevron_right, color: page!=8?Color.fromRGBO(235, 241,255,1):Color.fromRGBO(110, 119, 138, 1),),
-                        ),
-                      ],
+                            },
+                            icon: Icon(Icons.chevron_left,color: page!=1?Color.fromRGBO(235, 241,255,1):Color.fromRGBO(110, 119, 138, 1),),
+                          ),
+                          IconButton(
+                            onPressed: () async {
+                              if(page < 8 && page != 6)
+                              {
+                                await _buttonCarouselController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.linear);
+                                setState(() {
+                                  page = page+1;
+                                });
+                              }
+                              else if(page == 6)
+                              {
+                                if(dropdownValue != 'Select Hostel')
+                                {
+                                  if (_keyform.currentState!.validate()){
+                                    fg=false;
+                                    await _buttonCarouselController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.linear);
+                                    setState(() {
+                                      page = page+1;
+                                    });
+                                  }
+                                }
+
+                              }
+                            },
+                            icon: Icon(Icons.chevron_right, color: page!=8?Color.fromRGBO(235, 241,255,1):Color.fromRGBO(110, 119, 138, 1),),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
