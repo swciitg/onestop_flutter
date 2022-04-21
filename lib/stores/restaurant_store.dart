@@ -16,9 +16,21 @@ abstract class _RestaurantStore with Store {
       latitude: 0,
       longitude: 0,
       tags: []);
+
+  @observable
+  String _searchString = "";
+
   RestaurantModel get getSelectedRestaurant => _selectedRestaurant;
+  String get getSearchString => _searchString;
+
   @action
   void setSelectedRestaurant(RestaurantModel r) {
     _selectedRestaurant = r;
+  }
+
+  @action
+  void setSearchString(String str) {
+    print("Search String set to $str");
+    _searchString = str;
   }
 }

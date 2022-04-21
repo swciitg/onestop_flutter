@@ -25,6 +25,21 @@ mixin _$RestaurantStore on _RestaurantStore, Store {
     });
   }
 
+  final _$_searchStringAtom = Atom(name: '_RestaurantStore._searchString');
+
+  @override
+  String get _searchString {
+    _$_searchStringAtom.reportRead();
+    return super._searchString;
+  }
+
+  @override
+  set _searchString(String value) {
+    _$_searchStringAtom.reportWrite(value, super._searchString, () {
+      super._searchString = value;
+    });
+  }
+
   final _$_RestaurantStoreActionController =
       ActionController(name: '_RestaurantStore');
 
@@ -34,6 +49,17 @@ mixin _$RestaurantStore on _RestaurantStore, Store {
         name: '_RestaurantStore.setSelectedRestaurant');
     try {
       return super.setSelectedRestaurant(r);
+    } finally {
+      _$_RestaurantStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setSearchString(String str) {
+    final _$actionInfo = _$_RestaurantStoreActionController.startAction(
+        name: '_RestaurantStore.setSearchString');
+    try {
+      return super.setSearchString(str);
     } finally {
       _$_RestaurantStoreActionController.endAction(_$actionInfo);
     }

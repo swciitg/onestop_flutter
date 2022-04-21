@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
+import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/restaurant_model.dart';
 
@@ -134,13 +136,20 @@ class OutletsFilter extends StatelessWidget {
 }
 
 class FoodSearchBar extends StatelessWidget {
-  const FoodSearchBar({
+  FoodSearchBar({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onSubmitted: (s) {
+        context.read<RestaurantStore>().setSearchString(s);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SearchPage()),
+        );
+      },
       style: MyFonts.medium.setColor(kWhite),
       decoration: InputDecoration(
           border: OutlineInputBorder(
