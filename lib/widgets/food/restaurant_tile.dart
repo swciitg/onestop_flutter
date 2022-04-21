@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
-import 'package:onestop_dev/widgets/ui/utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantTile extends StatelessWidget {
@@ -29,6 +28,7 @@ class RestaurantTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double Height = MediaQuery.of(context).size.height;
     return TextButton(
       onPressed: () {
         Navigator.push(context,
@@ -36,7 +36,7 @@ class RestaurantTile extends StatelessWidget {
       },
       child: Container(
         // width: 325,
-        height: 168,
+        height: Height * 0.23,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(21),
           color: kBlueGrey,
@@ -66,55 +66,55 @@ class RestaurantTile extends StatelessWidget {
                   padding: const EdgeInsets.all(5.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SizedBox(
-                        height: 10,
-                      ),
                       Expanded(
-                        flex: 1,
-                        child: TextTile(
-                          text: '$Restaurant_name',
-                          FontSize: 16,
-                          Style: MyFonts.bold.size(16).setColor(kWhite),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '$Restaurant_name',
+                                style: MyFonts.bold.size(16).setColor(kWhite),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
                       Expanded(
-                          flex: 2,
-                          child: Text(
-                            Cuisine_type,
-                            style: MyFonts.regular.size(14).setColor(kTabText),
-                          )),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Expanded(
-                          flex: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                'Waiting time: $Waiting_time hrs',
-                                style: MyFonts.medium.size(11).setColor(kRed),
-                              )),
-                              Expanded(
-                                  child: Text(
-                                'Closes at $Closing_time',
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                Cuisine_type,
                                 style:
-                                    MyFonts.medium.size(11).setColor(kTabText),
-                              )),
-                            ],
-                          )),
-                      SizedBox(
-                        height: 8,
+                                    MyFonts.regular.size(14).setColor(kTabText),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Expanded(
-                        flex: 2,
+                          // flex: 2,
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                              child: Text(
+                            'Waiting time: $Waiting_time hrs',
+                            style: MyFonts.medium.size(11).setColor(kRed),
+                          )),
+                          Expanded(
+                              child: Text(
+                            'Closes at $Closing_time',
+                            style: MyFonts.medium.size(11).setColor(kTabText),
+                          )),
+                        ],
+                      )),
+                      Expanded(
+                        // flex: 2,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Call_MapButton(
                               Call_Map: 'Call',
@@ -241,10 +241,11 @@ class FoodTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double Width = MediaQuery.of(context).size.width;
+    double Height = MediaQuery.of(context).size.height;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Width * 0.05, vertical: 5.0),
       child: Container(
-        height: 130,
+        height: Height * 0.18,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(21),
           color: kBlueGrey,
@@ -259,21 +260,20 @@ class FoodTile extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(10.0, 2.0, 3.0, 2.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
-                      height: 5.0,
-                    ),
                     Expanded(
                       child: Row(
                         children: [
-                          TextTile(
-                            text: '$Dish_Name',
-                            FontSize: 18,
-                            Style: MyFonts.medium.size(18).setColor(kWhite),
+                          Expanded(
+                            flex: 4,
+                            child: Text(
+                              '$Dish_Name',
+                              style: MyFonts.medium.size(18).setColor(kWhite),
+                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
+                          Expanded(
+                            flex: 1,
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
@@ -291,15 +291,22 @@ class FoodTile extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: Text(
-                        IngredientsList(Ingredients),
-                        style: MyFonts.medium.size(12).setColor(kWhite),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        '\u{20B9}$Price/-',
-                        style: MyFonts.medium.size(16).setColor(kTabText),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              IngredientsList(Ingredients),
+                              style: MyFonts.medium.size(12).setColor(kWhite),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              '\u{20B9}$Price/-',
+                              style: MyFonts.medium.size(16).setColor(kTabText),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
