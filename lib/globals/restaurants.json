@@ -13,6 +13,22 @@
       "Non-veg",
       "Dessert",
       "North Indian"
+    ],
+    "menu": [
+      {
+        "name": "Florentine Chicken cheese Roll",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Kadhai Panner",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
     ]
   },
   {
@@ -26,6 +42,22 @@
     "tags": [
       "Snacks",
       "Non-veg"
+    ],
+    "menu": [
+      {
+        "name": "Garlic Bread",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Kadhai Mushroom",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
     ]
   },
   {
@@ -41,6 +73,22 @@
       "Non-veg",
       "Cakes",
       "Rolls"
+    ],
+    "menu": [
+      {
+        "name": "Fried Chicken Tikka ",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Pani Puri",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
     ]
   },
   {
@@ -57,10 +105,26 @@
       "South Indian",
       "Biryani",
       "Dosa"
+    ],
+    "menu": [
+      {
+        "name": "Paneer Tikka",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Veg Sandwich",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
     ]
   },
   {
-    "name": "Florentine Restaurant",
+    "name": "Lauriat Restaurant",
     "caption": "Multicuisine, dining, north-indian",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
@@ -73,10 +137,26 @@
       "South Indian",
       "Biryani",
       "Dosa"
+    ],
+    "menu": [
+      {
+        "name": "Achari Paneer Tikka",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Murg Masala",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
     ]
   },
   {
-    "name": "Florentine Restaurant",
+    "name": "Brahma Canteen",
     "caption": "Multicuisine, dining, north-indian",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
@@ -89,6 +169,22 @@
       "South Indian",
       "Biryani",
       "Cakes"
+    ],
+    "menu": [
+      {
+        "name": "Dum Aloo",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Fried Maggi Noodles",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
     ]
   }
 ]
