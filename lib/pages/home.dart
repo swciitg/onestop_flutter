@@ -4,6 +4,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
+import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 import 'package:onestop_dev/widgets/mapBox.dart';
@@ -318,7 +319,9 @@ class Services extends StatelessWidget {
                   ),
                   HomeTabTile(
                       label: "Lost and Found",
-                      icon: Icons.find_in_page_outlined),
+                      icon: Icons.find_in_page_outlined,
+                    routeId: "/lostFoundHome",
+                  ),
                   SizedBox(
                     width: 5,
                   ),

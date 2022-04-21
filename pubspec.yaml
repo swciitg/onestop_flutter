@@ -52,6 +52,8 @@ dependencies:
   connectivity_plus: ^2.1.0
   maps_launcher: ^2.0.1
   marquee: ^2.2.1
+  image_picker: ^0.8.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
