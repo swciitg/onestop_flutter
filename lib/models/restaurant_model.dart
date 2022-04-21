@@ -6,6 +6,7 @@ class RestaurantModel {
   late String phone_number;
   double? latitude;
   double? longitude;
+  late List<String> tags;
 
   RestaurantModel(
       {required this.name,
@@ -14,7 +15,9 @@ class RestaurantModel {
       required this.waiting_time,
       required this.phone_number,
       required this.latitude,
-      required this.longitude});
+      required this.longitude,
+      required this.tags
+      });
 
   RestaurantModel.fromJson(Map<String, dynamic> json) {
     name = json['name'] ?? "Unnamed";
@@ -24,5 +27,6 @@ class RestaurantModel {
     phone_number = json['phone_number'] ?? "Not Known";
     latitude = json['latitude'] ?? 0.0;
     longitude = json['longitude'] ?? 0.0;
+    tags = List<String>.from(json['tags']);
   }
 }

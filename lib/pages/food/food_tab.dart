@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/food/dish_page.dart';
+import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
 
 import '../../models/restaurant_model.dart';
@@ -488,7 +488,7 @@ class favouriteFoodDetails extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const DishPage()),
+          MaterialPageRoute(builder: (context) => const SearchPage()),
         );
       },
       child: Column(
