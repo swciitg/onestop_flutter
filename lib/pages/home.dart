@@ -118,7 +118,9 @@ class _HomeTabState extends State<HomeTab> {
         // crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           MapBox(
             lat: lat,
             long: long,
@@ -246,11 +248,17 @@ class QuickLinks extends StatelessWidget {
                     width: 5,
                   ),
                   HomeTabTile(
-                      label: "IP Settings", icon: Icons.computer_outlined,routeId:"/ip"),
+                      label: "IP Settings",
+                      icon: Icons.computer_outlined,
+                      routeId: "/ip"),
                   SizedBox(
                     width: 5,
                   ),
-                  HomeTabTile(label: "Blogs", icon: Icons.article_outlined,routeId: "/blogs",),
+                  HomeTabTile(
+                    label: "Blogs",
+                    icon: Icons.article_outlined,
+                    routeId: "/blogs",
+                  ),
                   SizedBox(
                     width: 5,
                   ),

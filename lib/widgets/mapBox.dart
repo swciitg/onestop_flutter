@@ -95,7 +95,7 @@ class _MapBoxState extends State<MapBox> {
           ),
           Positioned(
             left: 16,
-            top:16,
+            top: 16,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -244,8 +244,7 @@ class _MapBoxState extends State<MapBox> {
                   child: FloatingActionButton(
                     heroTag: null,
                     onPressed: () {
-                      MapsLauncher.launchCoordinates(
-                          widget.lat!,widget.long!);
+                      MapsLauncher.launchCoordinates(widget.lat!, widget.long!);
                     },
                     child: Icon(Icons.navigate_before_outlined),
                     mini: true,
