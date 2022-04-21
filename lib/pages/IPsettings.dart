@@ -8,8 +8,6 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-
-
 class IpPage extends StatefulWidget {
   final argso;
   const IpPage({Key? key, required this.argso}) : super(key: key);
@@ -17,19 +15,18 @@ class IpPage extends StatefulWidget {
   @override
   _IpPageState createState() => _IpPageState();
 }
-class hostelDetails{
+
+class hostelDetails {
   late String hostelName;
   late String block;
   late String floor;
   late String roomNo;
-  hostelDetails(this.hostelName,this.block,this.floor,this.roomNo);
+  hostelDetails(this.hostelName, this.block, this.floor, this.roomNo);
 }
-String calculatedetails(hostelDetails args,String initials) {
+
+String calculatedetails(hostelDetails args, String initials) {
   String block = args.block;
-  int W = -1,
-      X = -1,
-      Y = -1,
-      Z = -1;
+  int W = -1, X = -1, Y = -1, Z = -1;
   switch (block) {
     case "b1":
       W = 0;
@@ -71,105 +68,132 @@ String calculatedetails(hostelDetails args,String initials) {
     Y %= 100;
   }
   String ipAddress;
-  if(selectedHostel =="Dhansiri" || selectedHostel == "Lohit" || selectedHostel == "Married Scholars" || selectedHostel=="Dibang"){ipAddress="i dont know";}
-  else if (selectedHostel == "Dihing" || selectedHostel == "Kapili" || selectedHostel == "Siang") {
-    ipAddress=initials + "." + X.toString() + "." + Y.toString();
-   } else if (selectedHostel == "Brahmaputra") {
-    if(W!=0) {
-      ipAddress= initials + "." + W.toString() + X.toString() + "." + Z.toString();
+  if (selectedHostel == "Dhansiri" ||
+      selectedHostel == "Lohit" ||
+      selectedHostel == "Married Scholars" ||
+      selectedHostel == "Dibang") {
+    ipAddress = "i dont know";
+  } else if (selectedHostel == "Dihing" ||
+      selectedHostel == "Kapili" ||
+      selectedHostel == "Siang") {
+    ipAddress = initials + "." + X.toString() + "." + Y.toString();
+  } else if (selectedHostel == "Brahmaputra") {
+    if (W != 0) {
+      ipAddress =
+          initials + "." + W.toString() + X.toString() + "." + Z.toString();
     } else {
       ipAddress = initials + "." + X.toString() + "." + Z.toString();
     }
-
   } else {
-    if(W!=0) {
-      ipAddress = initials + "." + W.toString() + X.toString() + "." + Y.toString();
-    }
-    else {
+    if (W != 0) {
+      ipAddress =
+          initials + "." + W.toString() + X.toString() + "." + Y.toString();
+    } else {
       ipAddress = initials + "." + X.toString() + "." + Y.toString();
-
     }
+  }
+
+  return ipAddress;
 }
 
-
-     return ipAddress;
-
-
-}
 class _IpPageState extends State<IpPage> {
   List _items = [];
-  var  hostel;
-  late final  args;
+  var hostel;
+  late final args;
   // Fetch content from the json file
   Future<void> readJson() async {
-    final String response = await rootBundle.loadString('assets/json/csvjson.json');
+    final String response =
+        await rootBundle.loadString('assets/json/csvjson.json');
     final data = await json.decode(response);
     setState(() {
-       args = widget.argso;
+      args = widget.argso;
 
       _items = data["Hostels"];
-      for(var item in  _items){
-        if(item["Hostel"]==args.hostelName){hostel=item;break;}
+      for (var item in _items) {
+        if (item["Hostel"] == args.hostelName) {
+          hostel = item;
+          break;
+        }
       }
       print(args.hostelName);
-
     });
   }
 
   @override
-  Widget build (BuildContext context) {
+  Widget build(BuildContext context) {
     readJson();
 
     String hostelname;
     String subnet;
     String ipAdress;
-    if(hostel==null) {
-      hostelname="not defined";
-      subnet="255.255.255.255";
+    if (hostel == null) {
+      hostelname = "not defined";
+      subnet = "255.255.255.255";
       ipAdress = " macfe";
-       }
-    else{
-      hostelname=hostel["Hostel"];
-      subnet=hostel["Subnet mask"];
-      ipAdress=hostel["IP Adress Range"];
-      int k=0;
-      for(int i=0;i<ipAdress.length;i++){
-        if(ipAdress[i]=='.'){
+    } else {
+      hostelname = hostel["Hostel"];
+      subnet = hostel["Subnet mask"];
+      ipAdress = hostel["IP Adress Range"];
+      int k = 0;
+      for (int i = 0; i < ipAdress.length; i++) {
+        if (ipAdress[i] == '.') {
           k++;
-          if(k==2){
-            k=i;
+          if (k == 2) {
+            k = i;
             break;
           }
         }
       }
-       ipAdress= calculatedetails(args,ipAdress.substring(0,k));
-
+      ipAdress = calculatedetails(args, ipAdress.substring(0, k));
     }
 
-
-    return
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Your details:', style: TextStyle(color: Color.fromRGBO(224, 226, 235, 1), fontWeight: FontWeight.w400, fontSize: 18),),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Your details:',
+            style: TextStyle(
+                color: Color.fromRGBO(224, 226, 235, 1),
+                fontWeight: FontWeight.w400,
+                fontSize: 18),
           ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text('Gateway:       '+hostelname, style: TextStyle(color: Color.fromRGBO(224, 226, 235, 1), fontWeight: FontWeight.w400, fontSize: 16, fontFamily: 'Montserrat'),),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text('Subnet:         '+subnet, style: TextStyle(color: Color.fromRGBO(224, 226, 235, 1), fontWeight: FontWeight.w400, fontSize: 16, fontFamily: 'Montserrat'),),
+          child: Text(
+            'Gateway:       ' + hostelname,
+            style: TextStyle(
+                color: Color.fromRGBO(224, 226, 235, 1),
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                fontFamily: 'Montserrat'),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text('IP Address:   '+ipAdress, style: TextStyle(color: Color.fromRGBO(224, 226, 235, 1), fontWeight: FontWeight.w400, fontSize: 16, fontFamily: 'Montserrat'),),
+          child: Text(
+            'Subnet:         ' + subnet,
+            style: TextStyle(
+                color: Color.fromRGBO(224, 226, 235, 1),
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                fontFamily: 'Montserrat'),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'IP Address:   ' + ipAdress,
+            style: TextStyle(
+                color: Color.fromRGBO(224, 226, 235, 1),
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                fontFamily: 'Montserrat'),
+          ),
         )
       ],
-      );
-
-
+    );
   }
 }

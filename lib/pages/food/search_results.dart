@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuzzy/fuzzy.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/restaurant_model.dart';
@@ -7,8 +8,8 @@ import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
-class DishPage extends StatelessWidget {
-  const DishPage({Key? key}) : super(key: key);
+class SearchPage extends StatelessWidget {
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +35,10 @@ class DishPage extends StatelessWidget {
             ),
             Expanded(
               child: FutureBuilder<List<RestaurantModel>>(
-                  future: ReadJsonData(),
+                  future: SearchResults(),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<RestaurantModel>> snapshot) {
                     if (snapshot.hasData) {
-                      print(snapshot.data);
                       List<Widget> foodList = snapshot.data!
                           .map(
                             (e) => RestaurantTile(
@@ -105,6 +105,28 @@ class FoodSearchBar extends StatelessWidget {
 Future<List<RestaurantModel>> ReadJsonData() async {
   final jsondata = await rootBundle.loadString('lib/globals/restaurants.json');
   final list = json.decode(jsondata) as List<dynamic>;
-
   return list.map((e) => RestaurantModel.fromJson(e)).toList();
+}
+
+Future<List<RestaurantModel>> SearchResults() async {
+  List<RestaurantModel> allRestaurants = await ReadJsonData();
+  List<RestaurantModel> searchResults = [];
+  allRestaurants.forEach((element) {
+    List<String> searchFields = element.tags;
+    final fuse = Fuzzy(
+      searchFields,
+      options: FuzzyOptions(
+        findAllMatches: false,
+        tokenize: false,
+        threshold: 0.4,
+      ),
+    );
+
+    final result = fuse.search('Cake');
+    print("${element.name} result = ${result.toString()}");
+    if (result.length != 0) {
+      searchResults.add(element);
+    }
+  });
+  return searchResults;
 }

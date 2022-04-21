@@ -3,7 +3,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
 class HomeTabTile extends StatelessWidget {
-  HomeTabTile({Key? key, required this.label, required this.icon,this.routeId})
+  HomeTabTile({Key? key, required this.label, required this.icon, this.routeId})
       : super(key: key);
 
   final String label;
@@ -15,7 +15,7 @@ class HomeTabTile extends StatelessWidget {
     return Expanded(
       child: FittedBox(
         child: GestureDetector(
-          onTap: ()=>Navigator.pushNamed(context, routeId??"/"),
+          onTap: () => Navigator.pushNamed(context, routeId ?? "/"),
           child: Container(
             //margin: EdgeInsets.all(4),
             height: 120,
