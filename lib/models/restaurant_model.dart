@@ -1,3 +1,5 @@
+import 'package:onestop_dev/models/dish_model.dart';
+
 class RestaurantModel {
   late String name;
   late String caption;
@@ -7,6 +9,7 @@ class RestaurantModel {
   double? latitude;
   double? longitude;
   late List<String> tags;
+  late List<DishModel> menu;
 
   RestaurantModel(
       {required this.name,
@@ -28,5 +31,9 @@ class RestaurantModel {
     latitude = json['latitude'] ?? 0.0;
     longitude = json['longitude'] ?? 0.0;
     tags = List<String>.from(json['tags']);
+    menu = [];
+    List<dynamic>.from(json['menu']).forEach((element) {
+      menu.add(DishModel.fromJson(element));
+    });
   }
 }
