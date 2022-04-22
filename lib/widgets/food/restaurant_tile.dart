@@ -28,15 +28,13 @@ class RestaurantTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double Height = MediaQuery.of(context).size.height;
     return TextButton(
       onPressed: () {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const RestaurantPage()));
       },
       child: Container(
-        // width: 325,
-        height: Height * 0.23,
+        height: 160,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(21),
           color: kBlueGrey,
@@ -57,9 +55,6 @@ class RestaurantTile extends StatelessWidget {
                 ),
               ),
             ),
-            // SizedBox(
-            //   width: 13,
-            // ),
             Expanded(
               flex: 2,
               child: Padding(
@@ -123,9 +118,6 @@ class RestaurantTile extends StatelessWidget {
                                 _launchPhoneURL(Phone_Number);
                               },
                             ),
-                            SizedBox(
-                              width: 5.0,
-                            ),
                             Call_MapButton(
                               Call_Map: 'Map',
                               icon: Icons.location_on_outlined,
@@ -133,12 +125,10 @@ class RestaurantTile extends StatelessWidget {
                                 _openMap(Latitude, Longitude);
                               },
                             ),
-                            SizedBox(
-                              width: 20,
-                            ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 10),
+                                padding:
+                                    const EdgeInsets.only(top: 10, left: 10.0),
                                 child: Text(
                                   '$Distance km',
                                   style:
@@ -219,7 +209,7 @@ class FoodTile extends StatelessWidget {
 
   final String Dish_Name;
   final bool Veg;
-  final List<String> Ingredients;
+  final String Ingredients;
   final int Waiting_time;
   final int Price;
 
@@ -231,21 +221,15 @@ class FoodTile extends StatelessWidget {
   }
 
   String IngredientsList(Ingredients) {
-    String IngredientsLists = "";
-    for (String Ingredient in Ingredients) {
-      IngredientsLists = IngredientsLists + Ingredient + ',';
-    }
-    return IngredientsLists.substring(0, IngredientsLists.length - 1);
+    return Ingredients.substring(1, Ingredients.length - 1);
   }
 
   @override
   Widget build(BuildContext context) {
-    double Width = MediaQuery.of(context).size.width;
-    double Height = MediaQuery.of(context).size.height;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Width * 0.05, vertical: 5.0),
+      padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
       child: Container(
-        height: Height * 0.18,
+        height: 130,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(21),
           color: kBlueGrey,
@@ -359,60 +343,83 @@ class RestaurantHeader extends StatelessWidget {
   final double Longitude;
   @override
   Widget build(BuildContext context) {
-    double Height = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  Restaurant_Name,
-                  style: MyFonts.medium.size(23).setColor(kWhite),
-                ),
-                Text(
-                  About,
-                  style: MyFonts.light.size(18).setColor(kWhite),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0),
-                  child: Text(
-                    Address,
-                    style: MyFonts.medium.size(11).setColor(kWhite),
-                  ),
-                ),
-                Container(
-                  child: Row(
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                Restaurant_Name,
+                style: MyFonts.medium.size(24).setColor(kWhite),
+              ),
+              Text(
+                About,
+                style: MyFonts.light.size(18).setColor(kWhite),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: RichText(
+                  text: TextSpan(
+                    text: Address,
+                    style: MyFonts.medium.size(13).setColor(kGrey),
                     children: [
-                      Text(
-                        'Waiting time: $Waiting_Time hrs',
-                        style: MyFonts.light.size(12).setColor(kWhite),
+                      TextSpan(
+                        text: ' \u{2022} ',
+                        style: MyFonts.bold.size(12).setColor(kWhite),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Icon(Icons.circle, color: kWhite, size: 5),
-                      ),
-                      Text(
-                        'Closing time: $Waiting_Time hrs',
-                        style: MyFonts.light.size(12).setColor(kRed),
+                      TextSpan(
+                        text: '$Distance kms',
+                        style: MyFonts.medium.size(13).setColor(kWhite),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 2, 70, 2),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(150),
+                    color: Colors.grey.withOpacity(0.2),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 5.0, vertical: 2.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Waiting time: $Waiting_Time hrs',
+                          style: MyFonts.light.size(12).setColor(kWhite),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          child: Icon(Icons.circle, color: kWhite, size: 5),
+                        ),
+                        Text(
+                          'Closing time: $Waiting_Time hrs',
+                          style: MyFonts.light.size(12).setColor(kRed),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  height: Height * 0.05,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 5.0,
+                ),
+                child: Container(
+                  height: 36,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -422,9 +429,6 @@ class RestaurantHeader extends StatelessWidget {
                         callback: () {
                           _launchPhoneURL(Phone_Number);
                         },
-                      ),
-                      SizedBox(
-                        width: 5.0,
                       ),
                       Call_MapButton(
                         Call_Map: 'Map',
@@ -437,12 +441,22 @@ class RestaurantHeader extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  height: 2,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 2.0,
+                ),
+                child: Container(
+                  height: 3,
                   color: kBlueGrey,
                 ),
-                Container(
-                  height: Height * 0.05,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 5.0,
+                ),
+                child: Container(
+                  height: 36,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
@@ -454,14 +468,19 @@ class RestaurantHeader extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 5.0,
+                ),
+                child: Container(
                     alignment: Alignment.bottomLeft,
                     child: Text(
                       "Starters",
                       style: MyFonts.medium.size(18).setColor(kWhite),
                     )),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

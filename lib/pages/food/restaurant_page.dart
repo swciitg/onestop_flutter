@@ -17,24 +17,22 @@ class RestaurantPage extends StatelessWidget {
       appBar: appBar(context, displayIcon: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Expanded(
-            flex: 2,
-            child: RestaurantHeader(
-              Restaurant_Name: "Florentine Restaurant ",
-              About: "Multicusine,Dine-in",
-              Address: "29 West",
-              Veg: false,
-              Closing_Time: 10,
-              Waiting_Time: 2,
-              Distance: 2,
-              Phone_Number: "1234567890",
-              Longitude: 54.330,
-              Latitude: -127.300,
-            ),
+          RestaurantHeader(
+            Restaurant_Name: "Florentine Restaurant",
+            About: "Multicusine,Dine-in",
+            Address:
+                "New Sac Building, food court, near swimming pool, IIT Guwahati, Guwahati, Assam 781039",
+            Veg: false,
+            Closing_Time: 10,
+            Waiting_Time: 2,
+            Distance: 2,
+            Phone_Number: "1234567890",
+            Longitude: 54.330,
+            Latitude: -127.300,
           ),
           Expanded(
-            flex: 3,
             child: FutureBuilder<List<DishModel>>(
                 future: ReadJsonData(),
                 builder: (BuildContext context,
@@ -44,7 +42,7 @@ class RestaurantPage extends StatelessWidget {
                     List<Widget> foodList = snapshot.data!
                         .map((e) => FoodTile(
                               Dish_Name: e.name,
-                              Ingredients: ["Something", "Something"],
+                              Ingredients: e.ingredients,
                               Waiting_time: e.waiting_time,
                               Price: e.price,
                               Veg: e.veg,
