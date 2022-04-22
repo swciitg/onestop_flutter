@@ -1,13 +1,16 @@
+import 'package:onestop_dev/models/dish_model.dart';
+
 class RestaurantModel {
   late String name;
   late String caption;
   late String closing_time;
   late String waiting_time;
   late String phone_number;
-  double? latitude;
-  double? longitude;
+  late double latitude;
+  late double longitude;
   late String address;
-  late List tags;
+  late List<String> tags;
+  late List<DishModel> menu;
 
   RestaurantModel(
       {required this.name,
@@ -28,7 +31,11 @@ class RestaurantModel {
     phone_number = json['phone_number'] ?? "Not Known";
     latitude = json['latitude'] ?? 0.0;
     longitude = json['longitude'] ?? 0.0;
-    tags = json['tags'] ?? {};
     address = json['address'] ?? "Not Known";
+    tags = List<String>.from(json['tags']);
+    menu = [];
+    List<dynamic>.from(json['menu']).forEach((element) {
+      menu.add(DishModel.fromJson(element));
+    });
   }
 }

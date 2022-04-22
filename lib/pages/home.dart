@@ -4,6 +4,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
+import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 import 'package:onestop_dev/widgets/mapBox.dart';
@@ -137,10 +138,10 @@ class _HomeTabState extends State<HomeTab> {
           SizedBox(
             height: 10,
           ),
-          Services(),
-          SizedBox(
-            height: 10,
-          ),
+          // Services(),
+          // SizedBox(
+          //   height: 10,
+          // ),
         ],
       ),
     );
@@ -255,8 +256,10 @@ class QuickLinks extends StatelessWidget {
                     width: 5,
                   ),
                   HomeTabTile(
-                      label: "Medical Emergency",
-                      icon: Icons.medical_services_outlined),
+                      label: "Lost and Found",
+                      icon: Icons.find_in_page_outlined,
+                    routeId: "/lostFoundHome",
+                  ),
                   SizedBox(
                     width: 5,
                   ),
@@ -278,76 +281,73 @@ class QuickLinks extends StatelessWidget {
   }
 }
 
-class Services extends StatelessWidget {
-  const Services({Key? key}) : super(key: key);
+// class Services extends StatelessWidget {
+//   const Services({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 140,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: kHomeTile,
-      ),
-      child: Container(
-        height: 160,
-        padding: const EdgeInsets.all(4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: FittedBox(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Text(
-                    'Services',
-                    style: MyFonts.medium.size(10).setColor(kWhite),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    width: 5,
-                  ),
-                  HomeTabTile(
-                      label: "Lost and Found",
-                      icon: Icons.find_in_page_outlined),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  HomeTabTile(
-                      label: "Rent and Sell", icon: Icons.local_atm_outlined),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  HomeTabTile(
-                      label: "Shops", icon: Icons.shopping_cart_outlined),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  HomeTabTile(label: "Intranet", icon: Icons.language_outlined),
-                  SizedBox(
-                    width: 5,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 140,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(10),
+//         color: kHomeTile,
+//       ),
+//       child: Container(
+//         height: 160,
+//         padding: const EdgeInsets.all(4),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.stretch,
+//           children: [
+//             Expanded(
+//               child: FittedBox(
+//                 alignment: Alignment.centerLeft,
+//                 child: Padding(
+//                   padding: const EdgeInsets.all(5),
+//                   child: Text(
+//                     'Services',
+//                     style: MyFonts.medium.size(10).setColor(kWhite),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             Expanded(
+//               flex: 2,
+//               child: Row(
+//                 crossAxisAlignment: CrossAxisAlignment.stretch,
+//                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                 children: [
+//                   SizedBox(
+//                     width: 5,
+//                   ),
+//                   SizedBox(
+//                     width: 5,
+//                   ),
+//                   HomeTabTile(
+//                       label: "Rent and Sell", icon: Icons.local_atm_outlined),
+//                   SizedBox(
+//                     width: 5,
+//                   ),
+//                   HomeTabTile(
+//                       label: "Shops", icon: Icons.shopping_cart_outlined),
+//                   SizedBox(
+//                     width: 5,
+//                   ),
+//                   HomeTabTile(label: "Intranet", icon: Icons.language_outlined),
+//                   SizedBox(
+//                     width: 5,
+//                   ),
+//                 ],
+//               ),
+//             ),
+//             SizedBox(
+//               height: 5,
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class BusTile extends StatelessWidget {
   final time;

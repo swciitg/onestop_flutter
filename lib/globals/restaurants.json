@@ -8,12 +8,28 @@
     "phone_number": "1234567898",
     "latitude": 57.694514,
     "longitude": -127.872155,
-    "address": "Somewhere,Somewhere,Somewhere,Somewhere",
+    "address": "New Sac Building, food court, near swimming pool, IIT Guwahati, Guwahati, Assam 781039",
     "tags": [
       "Snacks",
       "Non-veg",
       "Dessert",
       "North Indian"
+    ],
+    "menu": [
+      {
+        "name": "Florentine Chicken cheese Roll",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Kadhai Panner",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
     ]
   },
   {
@@ -28,6 +44,22 @@
     "tags": [
       "Snacks",
       "Non-veg"
+    ],
+    "menu": [
+      {
+        "name": "Garlic Bread",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Kadhai Mushroom",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
     ]
   },
   {
@@ -44,6 +76,22 @@
       "Non-veg",
       "Cakes",
       "Rolls"
+    ],
+    "menu": [
+      {
+        "name": "Fried Chicken Tikka ",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Pani Puri",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
     ]
   },
   {
@@ -61,10 +109,26 @@
       "South Indian",
       "Biryani",
       "Dosa"
+    ],
+    "menu": [
+      {
+        "name": "Paneer Tikka",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Veg Sandwich",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
     ]
   },
   {
-    "name": "Florentine Restaurant",
+    "name": "Lauriat Restaurant",
     "caption": "Multicuisine, dining, north-indian",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
@@ -77,11 +141,28 @@
       "Veg",
       "South Indian",
       "Biryani",
-      "Dosa"
+      "Dosa",
+      "Ice-cream"
+    ],
+    "menu": [
+      {
+        "name": "Achari Paneer Tikka",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Murg Masala",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
     ]
   },
   {
-    "name": "Florentine Restaurant",
+    "name": "Brahmaputra Canteen",
     "caption": "Multicuisine, dining, north-indian",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
@@ -95,6 +176,33 @@
       "South Indian",
       "Biryani",
       "Cakes"
+    ],
+    "menu": [
+      {
+        "name": "Dum Aloo",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Fried Maggi Noodles",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      },
+      {
+        "name": "Chinese Hakka Noodles",
+        "ingredients": [
+          "Butter",
+          "Panner",
+          "Spices"
+        ],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
     ]
   }
 ]

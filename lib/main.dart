@@ -3,6 +3,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/home.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -20,6 +21,9 @@ class MyApp extends StatelessWidget {
         Provider<LoginStore>(
           create: (_) => LoginStore(),
         ),
+        Provider<RestaurantStore>(
+          create: (_) => RestaurantStore(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
