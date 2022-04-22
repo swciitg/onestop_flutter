@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/food/search_results.dart';
-import 'package:onestop_dev/stores/restaurant_store.dart';
+import 'package:onestop_dev/widgets/food/favourite_food_details.dart';
+import 'package:onestop_dev/widgets/food/food_search_bar.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
-import 'package:provider/provider.dart';
 
 import '../../models/restaurant_model.dart';
 
@@ -97,7 +96,7 @@ class OutletsFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 65,
+      // height: 65,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -110,59 +109,27 @@ class OutletsFilter extends StatelessWidget {
                   style: MyFonts.medium.size(18).setColor(kWhite),
                 )),
           ),
-          SizedBox(
-            height: 5,
-          ),
-          Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                OutletsFilterTile(
-                  filterText: "All",
-                  selected: true,
-                ),
-                OutletsFilterTile(filterText: "Snacks"),
-                OutletsFilterTile(filterText: "Cakes"),
-                OutletsFilterTile(filterText: "South Indian"),
-                OutletsFilterTile(filterText: "North Indian"),
-                OutletsFilterTile(filterText: "Non Veg")
-              ],
-            ),
-          )
+          // SizedBox(
+          //   height: 5,
+          // ),
+          // Expanded(
+          //   child: ListView(
+          //     scrollDirection: Axis.horizontal,
+          //     children: [
+          //       OutletsFilterTile(
+          //         filterText: "All",
+          //         selected: true,
+          //       ),
+          //       OutletsFilterTile(filterText: "Snacks"),
+          //       OutletsFilterTile(filterText: "Cakes"),
+          //       OutletsFilterTile(filterText: "South Indian"),
+          //       OutletsFilterTile(filterText: "North Indian"),
+          //       OutletsFilterTile(filterText: "Non Veg")
+          //     ],
+          //   ),
+          // )
         ],
       ),
-    );
-  }
-}
-
-class FoodSearchBar extends StatelessWidget {
-  FoodSearchBar({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      onSubmitted: (s) {
-        context.read<RestaurantStore>().setSearchString(s);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SearchPage()),
-        );
-      },
-      style: MyFonts.medium.setColor(kWhite),
-      decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(100),
-          ),
-          filled: true,
-          prefixIcon: Icon(
-            Icons.search,
-            color: kWhite,
-          ),
-          hintStyle: MyFonts.medium.setColor(kGrey2),
-          hintText: "Search dish or restaurant",
-          fillColor: kBlueGrey),
     );
   }
 }
@@ -324,42 +291,6 @@ class MessMenu extends StatelessWidget {
   }
 }
 
-// class restaurant extends StatelessWidget {
-//   const restaurant({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextButton(
-//       onPressed: () {
-//         Navigator.push(
-//           context,
-//           MaterialPageRoute(builder: (context) => const RestaurantPage()),
-//         );
-//       },
-//       child: Container(
-//           height: 180,
-//           padding: const EdgeInsets.all(4),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.stretch,
-//             children: [
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               RestaurantTile(
-//                 Restaurant_name: "Florentine Restaurant",
-//                 Cuisine_type: 'Multicuisine, dine-in,\nnorth-Indian',
-//                 Waiting_time: 2,
-//                 Phone_Number: "123456789",
-//                 Closing_time: '10:00pm',
-//                 Latitude: ,
-//                 Distance: 2,
-//               )
-//             ],
-//           )),
-//     );
-//   }
-// }
-
 class MessMeal extends StatelessWidget {
   const MessMeal({
     Key? key,
@@ -431,19 +362,19 @@ class FavoriteDishes extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  favouriteFoodDetails(
+                  FavouriteFoodDetails(
                     foodName: "Noodles",
                     img: Image.asset('assets/images/food.jpeg'),
                   ),
-                  favouriteFoodDetails(
+                  FavouriteFoodDetails(
                     foodName: "Fried Rice",
                     img: Image.asset('assets/images/food2.jpeg'),
                   ),
-                  favouriteFoodDetails(
+                  FavouriteFoodDetails(
                     foodName: "Biryani",
                     img: Image.asset('assets/images/food.jpeg'),
                   ),
-                  favouriteFoodDetails(
+                  FavouriteFoodDetails(
                     foodName: "Chinese",
                     img: Image.asset('assets/images/food.jpeg'),
                   ),
@@ -457,19 +388,19 @@ class FavoriteDishes extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  favouriteFoodDetails(
-                    foodName: "Subway",
+                  FavouriteFoodDetails(
+                    foodName: "Chinese",
                     img: Image.asset('assets/images/food.jpeg'),
                   ),
-                  favouriteFoodDetails(
+                  FavouriteFoodDetails(
                     foodName: "Cakes",
                     img: Image.asset('assets/images/food.jpeg'),
                   ),
-                  favouriteFoodDetails(
+                  FavouriteFoodDetails(
                     foodName: "Sandwich",
                     img: Image.asset('assets/images/food2.jpeg'),
                   ),
-                  favouriteFoodDetails(
+                  FavouriteFoodDetails(
                     foodName: "Continental",
                     img: Image.asset('assets/images/food2.jpeg'),
                   ),
@@ -478,43 +409,6 @@ class FavoriteDishes extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class favouriteFoodDetails extends StatelessWidget {
-  const favouriteFoodDetails({
-    Key? key,
-    required this.foodName,
-    required this.img,
-  }) : super(key: key);
-
-  final String foodName;
-  final Image img;
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SearchPage()),
-        );
-      },
-      child: Column(
-        children: [
-          SizedBox(
-              height: 40,
-              width: 60,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: img,
-              )),
-          SizedBox(height: 2),
-          Text(foodName,
-              style: MyFonts.medium.size(12).setColor(lBlue),
-              textAlign: TextAlign.center),
-        ],
       ),
     );
   }

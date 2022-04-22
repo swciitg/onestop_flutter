@@ -1,8 +1,8 @@
-// ignore_for_file: file_names, camel_case_types
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart' as http;
@@ -203,9 +203,20 @@ class _BlogState extends State<Blogs> {
     }
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(273141),
-        title: Text("Blogs"),
-        centerTitle: true,
+        backgroundColor: kBlueGrey,
+        leading: Container(),
+        leadingWidth: 10,
+        title: Text(
+          'Blogs',
+          style: MyFonts.medium,
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.close)),
+        ],
       ),
       body: ListView.builder(
         itemCount: _mediumArticles.length,

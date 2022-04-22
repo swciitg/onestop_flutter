@@ -157,7 +157,7 @@
     ]
   },
   {
-    "name": "Brahma Canteen",
+    "name": "Brahmaputra Canteen",
     "caption": "Multicuisine, dining, north-indian",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
@@ -182,6 +182,17 @@
       {
         "name": "Fried Maggi Noodles",
         "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      },
+      {
+        "name": "Chinese Hakka Noodles",
+        "ingredients": [
+          "Butter",
+          "Panner",
+          "Spices"
+        ],
         "waiting_time": 1,
         "price": 110,
         "veg": true
