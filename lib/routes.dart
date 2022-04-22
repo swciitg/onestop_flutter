@@ -1,4 +1,5 @@
 import 'package:onestop_dev/pages/Rssfeed.dart';
+import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/pages/home.dart';
 import 'package:onestop_dev/pages/login.dart';
 import 'package:onestop_dev/pages/qr.dart';
@@ -12,4 +13,5 @@ final routes = {
   HomePage.id: (context) => const HomePage(),
   RouterPage.id: (context) => RouterPage(),
   Blogs.id: (context) => const Blogs(),
+  SearchPage.id: (context) => const SearchPage(),
 };

@@ -4,6 +4,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/restaurant_model.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
+import 'package:onestop_dev/widgets/food/food_search_bar.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +14,7 @@ import 'package:provider/provider.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
-
+  static String id = "/foodSearchResults";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +32,7 @@ class SearchPage extends StatelessWidget {
               child: Container(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  "Biryani",
+                  context.read<RestaurantStore>().getSearchHeader,
                   style: MyFonts.medium.size(18).setColor(kWhite),
                 ),
               ),
@@ -82,32 +83,6 @@ class SearchPage extends StatelessWidget {
   }
 }
 
-class FoodSearchBar extends StatelessWidget {
-  FoodSearchBar({
-    Key? key,
-  }) : super(key: key);
-
-  final myController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(100),
-          ),
-          filled: true,
-          prefixIcon: Icon(
-            Icons.search,
-            color: kWhite,
-          ),
-          hintStyle: MyFonts.medium.setColor(kGrey2),
-          hintText: "Search dish or restaurant",
-          fillColor: kBlueGrey),
-    );
-  }
-}
-
 Future<List<RestaurantModel>> ReadJsonData() async {
   final jsondata = await rootBundle.loadString('lib/globals/restaurants.json');
   final list = json.decode(jsondata) as List<dynamic>;
@@ -119,6 +94,9 @@ Future<List<RestaurantModel>> SearchResults(BuildContext context) async {
   List<RestaurantModel> searchResults = [];
   allRestaurants.forEach((element) {
     List<String> searchFields = element.tags;
+    element.menu.forEach((dish) {
+      searchFields.add(dish.name);
+    });
     final fuse = Fuzzy(
       searchFields,
       options: FuzzyOptions(

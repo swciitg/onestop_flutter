@@ -20,8 +20,13 @@ abstract class _RestaurantStore with Store {
   @observable
   String _searchString = "";
 
+  @observable
+  String _searchPageHeader =
+      ""; // Use this only when user clicks on Your Favourite Dishes
+
   RestaurantModel get getSelectedRestaurant => _selectedRestaurant;
   String get getSearchString => _searchString;
+  String get getSearchHeader => _searchPageHeader;
 
   @action
   void setSelectedRestaurant(RestaurantModel r) {
@@ -32,5 +37,10 @@ abstract class _RestaurantStore with Store {
   void setSearchString(String str) {
     print("Search String set to $str");
     _searchString = str;
+  }
+
+  @action
+  void setSearchHeader(String str) {
+    _searchPageHeader = str;
   }
 }

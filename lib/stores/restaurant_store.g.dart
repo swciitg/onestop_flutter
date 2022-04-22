@@ -40,6 +40,22 @@ mixin _$RestaurantStore on _RestaurantStore, Store {
     });
   }
 
+  final _$_searchPageHeaderAtom =
+      Atom(name: '_RestaurantStore._searchPageHeader');
+
+  @override
+  String get _searchPageHeader {
+    _$_searchPageHeaderAtom.reportRead();
+    return super._searchPageHeader;
+  }
+
+  @override
+  set _searchPageHeader(String value) {
+    _$_searchPageHeaderAtom.reportWrite(value, super._searchPageHeader, () {
+      super._searchPageHeader = value;
+    });
+  }
+
   final _$_RestaurantStoreActionController =
       ActionController(name: '_RestaurantStore');
 
@@ -60,6 +76,17 @@ mixin _$RestaurantStore on _RestaurantStore, Store {
         name: '_RestaurantStore.setSearchString');
     try {
       return super.setSearchString(str);
+    } finally {
+      _$_RestaurantStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setSearchHeader(String str) {
+    final _$actionInfo = _$_RestaurantStoreActionController.startAction(
+        name: '_RestaurantStore.setSearchHeader');
+    try {
+      return super.setSearchHeader(str);
     } finally {
       _$_RestaurantStoreActionController.endAction(_$actionInfo);
     }
