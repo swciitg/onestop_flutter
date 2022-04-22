@@ -109,9 +109,9 @@ class OutletsFilter extends StatelessWidget {
                   style: MyFonts.medium.size(18).setColor(kWhite),
                 )),
           ),
-          SizedBox(
-            height: 5,
-          ),
+          // SizedBox(
+          //   height: 5,
+          // ),
           // Expanded(
           //   child: ListView(
           //     scrollDirection: Axis.horizontal,
