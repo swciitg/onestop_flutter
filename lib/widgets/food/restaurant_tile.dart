@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/restaurant_model.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
+import 'package:onestop_dev/stores/restaurant_store.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantTile extends StatelessWidget {
-  RestaurantTile({
-    Key? key,
-    required this.Restaurant_name,
-    required this.Cuisine_type,
-    required this.Waiting_time,
-    required this.Closing_time,
-    required this.Phone_Number,
-    required this.Distance,
-    required this.Latitude,
-    required this.Longitude,
-  }) : super(key: key);
+  RestaurantTile(
+      {Key? key,
+      required this.Restaurant_name,
+      required this.Cuisine_type,
+      required this.Waiting_time,
+      required this.Closing_time,
+      required this.Phone_Number,
+      required this.Distance,
+      required this.Latitude,
+      required this.Longitude,
+      required this.restaurant_model})
+      : super(key: key);
 
   final String Restaurant_name;
   final String Cuisine_type;
@@ -25,12 +29,14 @@ class RestaurantTile extends StatelessWidget {
   final String Phone_Number;
   final double Latitude;
   final double Longitude;
+  final RestaurantModel restaurant_model;
 
   @override
   Widget build(BuildContext context) {
     double Height = MediaQuery.of(context).size.height;
     return TextButton(
       onPressed: () {
+        context.read<RestaurantStore>().setSelectedRestaurant(restaurant_model);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const RestaurantPage()));
       },

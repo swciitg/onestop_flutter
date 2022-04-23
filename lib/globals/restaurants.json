@@ -1,27 +1,64 @@
 [
   {
+
     "name": "Florentine Restaurant IIT Guwhati",
     "caption": "Multicuisine, dining, north-indian",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
     "phone_number": "1234567898",
-    "location": {
-      "latitude": 57.694514,
-      "longitude": -127.872155
-    },
-    "tags": ["Snacks","Non-veg","Dessert","North Indian"]
+    "latitude": 57.694514,
+    "longitude": -127.872155,
+    "tags": [
+      "Snacks",
+      "Non-veg",
+      "Dessert",
+      "North Indian"
+    ],
+    "menu": [
+      {
+        "name": "Florentine Chicken cheese Roll",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Kadhai Panner",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
+    ]
   },
   {
-    "name": "Subway",
+    "name": "Subway ",
     "caption": "Rolls, Sandwiches",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
     "phone_number": "1234567898",
-    "location": {
-      "latitude": 57.694514,
-      "longitude": -127.872155
-    },
-    "tags": ["Snacks","Non-veg"]
+    "latitude": 57.694514,
+    "longitude": -127.872155,
+    "tags": [
+      "Snacks",
+      "Non-veg"
+    ],
+    "menu": [
+      {
+        "name": "Garlic Bread",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Kadhai Mushroom",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
+    ]
   },
   {
     "name": "Taco Bell",
@@ -29,11 +66,30 @@
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
     "phone_number": "1234567898",
-    "location": {
-      "latitude": 57.694514,
-      "longitude": -127.872155
-    },
-    "tags": ["Snacks","Non-veg","Cakes","Rolls"]
+    "latitude": 57.694514,
+    "longitude": -127.872155,
+    "tags": [
+      "Snacks",
+      "Non-veg",
+      "Cakes",
+      "Rolls"
+    ],
+    "menu": [
+      {
+        "name": "Fried Chicken Tikka ",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Pani Puri",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
+    ]
   },
   {
     "name": "Spectrum South Hub",
@@ -41,34 +97,106 @@
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
     "phone_number": "1234567898",
-    "location": {
-      "latitude": 57.694514,
-      "longitude": -127.872155
-    },
-    "tags": ["Snacks","Non-veg","South Indian","Biryani","Dosa"]
+    "latitude": 57.694514,
+    "longitude": -127.872155,
+    "tags": [
+      "Snacks",
+      "Non-veg",
+      "South Indian",
+      "Biryani",
+      "Dosa"
+    ],
+    "menu": [
+      {
+        "name": "Paneer Tikka",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Veg Sandwich",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
+    ]
   },
   {
-    "name": "Florentine Restaurant",
+    "name": "Lauriat Restaurant",
     "caption": "Multicuisine, dining, north-indian",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
     "phone_number": "1234567898",
-    "location": {
-      "latitude": 57.694514,
-      "longitude": -127.872155
-    },
-    "tags": ["Snacks","Veg","South Indian","Biryani","Dosa"]
+    "latitude": 57.694514,
+    "longitude": -127.872155,
+    "tags": [
+      "Snacks",
+      "Veg",
+      "South Indian",
+      "Biryani",
+      "Dosa",
+      "Ice-cream"
+    ],
+    "menu": [
+      {
+        "name": "Achari Paneer Tikka",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Murg Masala",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
+    ]
   },
   {
-    "name": "Florentine Restaurant",
+    "name": "Brahmaputra Canteen",
     "caption": "Multicuisine, dining, north-indian",
     "closing_time": "10:00 PM",
     "waiting_time": "2hrs",
     "phone_number": "1234567898",
-    "location": {
-      "latitude": 57.694514,
-      "longitude": -127.872155
-    },
-    "tags": ["Snacks","Non-veg","South Indian","Biryani","Cakes"]
+    "latitude": 57.694514,
+    "longitude": -127.872155,
+    "tags": [
+      "Snacks",
+      "Non-veg",
+      "South Indian",
+      "Biryani",
+      "Cakes"
+    ],
+    "menu": [
+      {
+        "name": "Dum Aloo",
+        "ingredients": ["Chicken","Rice","Spices"],
+        "waiting_time": 2,
+        "price": 150,
+        "veg": false
+      },
+      {
+        "name": "Fried Maggi Noodles",
+        "ingredients": ["Butter","Panner","Spices"],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      },
+      {
+        "name": "Chinese Hakka Noodles",
+        "ingredients": [
+          "Butter",
+          "Panner",
+          "Spices"
+        ],
+        "waiting_time": 1,
+        "price": 110,
+        "veg": true
+      }
+    ]
   }
 ]
