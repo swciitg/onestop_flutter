@@ -42,16 +42,12 @@ dependencies:
   location: ^4.3.0
   carousel_slider: ^4.0.0
   url_launcher: ^6.0.20
-  flutter_web_browser: ^0.15.0
-  web_browser: ^0.5.0
-  flutter_custom_tabs: ^1.0.3
   webfeed: ^0.7.0
   cached_network_image: ^3.1.0+1
   progress_dialog: ^1.2.4
   xml2json: ^5.3.2
   connectivity_plus: ^2.1.0
   maps_launcher: ^2.0.1
-  marquee: ^2.2.1
   image_picker: ^0.8.5
 
 dev_dependencies:
@@ -96,8 +92,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/
     - lib/globals/
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
