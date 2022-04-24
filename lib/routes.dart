@@ -2,6 +2,8 @@ import 'package:onestop_dev/pages/blogs_page.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/pages/home.dart';
 import 'package:onestop_dev/pages/login.dart';
+import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
+import 'package:onestop_dev/pages/lost_found/lnf_form.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/qr.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
