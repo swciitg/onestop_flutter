@@ -50,16 +50,11 @@ class FoodTab extends StatelessWidget {
                         if (snapshot.hasData) {
                           print(snapshot.data);
                           List<Widget> foodList = snapshot.data!
-                              .map((e) => RestaurantTile(
-                                  Restaurant_name: e.name,
-                                  Cuisine_type: e.caption,
-                                  Waiting_time: 2,
-                                  Closing_time: e.closing_time,
-                                  Phone_Number: e.phone_number,
-                                  Latitude: e.latitude,
-                                  Longitude: e.longitude,
+                              .map(
+                                (e) => RestaurantTile(
                                   restaurant_model: e,
-                                  Distance: 2))
+                                ),
+                              )
                               .toList();
                           return Column(
                             children: foodList,

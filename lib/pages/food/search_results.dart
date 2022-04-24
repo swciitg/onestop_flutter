@@ -46,14 +46,6 @@ class SearchPage extends StatelessWidget {
                       List<Widget> foodList = snapshot.data!
                           .map(
                             (e) => RestaurantTile(
-                              Restaurant_name: e.name,
-                              Cuisine_type: e.caption,
-                              Waiting_time: 2,
-                              Closing_time: e.closing_time,
-                              Phone_Number: e.phone_number,
-                              Latitude: 0,
-                              Longitude: 0,
-                              Distance: 2,
                               restaurant_model: e,
                             ),
                           )

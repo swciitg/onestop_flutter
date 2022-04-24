@@ -1,7 +1,7 @@
 [
     {
       "name": "Fried Chicken cheese Roll",
-      "ingredients": ["Chicken","Rice","Spices"],
+      "ingredients": ["Chicken","Cheese","Spices","Egg","Onions"],
       "waiting_time": 2,
       "price": 150,
       "veg": false
@@ -15,7 +15,7 @@
     },
     {
         "name": "Egg roll",
-        "ingredients": ["Egg","Roti","Spices"],
+        "ingredients": [],
         "waiting_time": 1,
         "price":70,
         "veg": false
