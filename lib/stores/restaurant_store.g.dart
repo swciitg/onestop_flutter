@@ -56,6 +56,21 @@ mixin _$RestaurantStore on _RestaurantStore, Store {
     });
   }
 
+  final _$searchResultsAtom = Atom(name: '_RestaurantStore.searchResults');
+
+  @override
+  ObservableFuture<List<RestaurantModel>> get searchResults {
+    _$searchResultsAtom.reportRead();
+    return super.searchResults;
+  }
+
+  @override
+  set searchResults(ObservableFuture<List<RestaurantModel>> value) {
+    _$searchResultsAtom.reportWrite(value, super.searchResults, () {
+      super.searchResults = value;
+    });
+  }
+
   final _$_RestaurantStoreActionController =
       ActionController(name: '_RestaurantStore');
 
@@ -95,7 +110,7 @@ mixin _$RestaurantStore on _RestaurantStore, Store {
   @override
   String toString() {
     return '''
-
+searchResults: ${searchResults}
     ''';
   }
 }
