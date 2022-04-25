@@ -20,6 +20,10 @@ class FoodSearchBar extends StatelessWidget {
         context.read<RestaurantStore>().setSearchString(s);
         Navigator.pushNamed(context, SearchPage.id);
       },
+      onChanged: (s) {
+        context.read<RestaurantStore>().setSearchHeader("Showing results for $s");
+        context.read<RestaurantStore>().setSearchString(s);
+      },
       style: MyFonts.medium.setColor(kWhite),
       decoration: InputDecoration(
           border: OutlineInputBorder(

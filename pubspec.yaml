@@ -50,10 +50,9 @@ dependencies:
   maps_launcher: ^2.0.1
   image_picker: ^0.8.5
   flutter_image_compress: ^1.1.0
-  intl: ^0.17.0
-
   fuzzy: 0.4.0-nullsafety.0
   mobx: ^2.0.7
+  flutter_mobx: ^2.0.5
 
 
 dev_dependencies:
@@ -101,7 +100,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/globals/
-    - assets/
+    - assets/images/
+    - assets/fonts/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
