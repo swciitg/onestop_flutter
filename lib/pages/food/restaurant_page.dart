@@ -20,38 +20,24 @@ class RestaurantPage extends StatelessWidget {
       appBar: appBar(context, displayIcon: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Expanded(
-            flex: 2,
-            child: RestaurantHeader(
-              Restaurant_Name: r.name,
-              About: r.caption,
-              Address: "29 West",
-              Veg: false,
-              Closing_Time: 10,
-              Waiting_Time: 3,
-              Distance: 2,
-              Phone_Number: r.phone_number,
-              Longitude: r.longitude,
-              Latitude: r.latitude,
-            ),
+          RestaurantHeader(
+            restaurant: r,
           ),
           Expanded(
-            flex: 3,
             child: FutureBuilder<List<DishModel>>(
-                future: ReadJsonData(),
+                future: ReadJsonData(r.name),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<DishModel>> snapshot) {
                   if (snapshot.hasData) {
                     print(snapshot.data);
                     List<Widget> foodList = snapshot.data!
-                        .map((e) => FoodTile(
-                              Dish_Name: e.name,
-                              Ingredients: ["Something", "Something"],
-                              Waiting_time: e.waiting_time,
-                              Price: e.price,
-                              Veg: e.veg,
-                            ))
+                        .map(
+                          (e) => FoodTile(
+                            dish: e,
+                          ),
+                        )
                         .toList();
                     return ListView(
                       children: foodList,
@@ -77,8 +63,8 @@ class RestaurantPage extends StatelessWidget {
   }
 }
 
-Future<List<DishModel>> ReadJsonData() async {
-  String restaurantSelected = "Florentine";
+Future<List<DishModel>> ReadJsonData(String restaurantName) async {
+  String restaurantSelected = restaurantName;
   final jsondata = await rootBundle.loadString('lib/globals/restaurants.json');
   final list = json.decode(jsondata) as List<dynamic>;
   List<RestaurantModel> allRestaurants =

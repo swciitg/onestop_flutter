@@ -15,6 +15,7 @@ abstract class _RestaurantStore with Store {
       phone_number: "NA",
       latitude: 0,
       longitude: 0,
+      address: "NA",
       tags: []);
 
   @observable
