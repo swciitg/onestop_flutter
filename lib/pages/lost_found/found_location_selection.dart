@@ -157,7 +157,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select a location")));
             return;
           }
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => LostFoundForm(category: "Found",imageString: widget.imageString,)));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => LostFoundForm(category: "Found",imageString: widget.imageString, submittedat: selectedLocation,)));
         },
         child: NewPageButton(title: "Next",),
       ),
