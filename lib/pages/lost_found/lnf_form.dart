@@ -1,13 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/pages/home.dart';
 import 'package:onestop_dev/pages/lost_found/imp_widgets.dart';
+import 'package:http/http.dart' as http;
+import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 class LostFoundForm extends StatefulWidget {
   static const id = "/lostFoundForm";
   final String category;
-  String? imageString;
-  LostFoundForm({Key? key,required this.category,this.imageString}) : super(key: key);
+  final String imageString;
+  String? submittedat;
+  LostFoundForm({Key? key,required this.category,required this.imageString,this.submittedat}) : super(key: key);
 
   @override
   State<LostFoundForm> createState() => _LostFoundFormState();
@@ -20,6 +26,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
   String? description;
   String? location;
   String? contactnumber;
+  bool savingToDB = false;
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +126,57 @@ class _LostFoundFormState extends State<LostFoundForm> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: GestureDetector(
-        onTap: (){
-          print("Submitted");
+        onTap: () async {
+          if(savingToDB==true) return;
+          savingToDB=true;
+          if(widget.category=="Lost"){
+            var res = await http.post(
+              Uri.parse('https://one-stop-api.herokuapp.com/raisepost'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode(<String, String>{
+                'title': title!,
+                'description' : description!,
+                'location' : location!,
+                'link' : widget.imageString,
+                'phonenumber' : contactnumber!,
+              }),
+            );
+            var body = jsonDecode(res.body);
+            if(body["saved_successfully"]==true){
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Saved data successfully")));
+              Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
+            }
+            else{
+              savingToDB=false;
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Some error occured, please try again")));
+            }
+          }
+          else{
+            var res = await http.post(
+              Uri.parse('https://one-stop-api.herokuapp.com/foundpost'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode(<String, String>{
+                'title': title!,
+                'description' : description!,
+                'location' : location!,
+                'link' : widget.imageString,
+                'submittedat' : widget.submittedat!
+              }),
+            );
+            var body = jsonDecode(res.body);
+            if(body["saved_successfully"]==true){
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Saved data successfully")));
+              Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
+            }
+            else{
+              savingToDB=false;
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Some error occured, please try again")));
+            }
+          }
         },
         child: NewPageButton(title: "Submit",),
       ),
