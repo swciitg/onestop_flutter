@@ -8,6 +8,9 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
+import '../../globals/my_colors.dart';
+import '../../globals/my_fonts.dart';
+
 class IpPage extends StatefulWidget {
   final argso;
   const IpPage({Key? key, required this.argso}) : super(key: key);
@@ -154,43 +157,28 @@ class _IpPageState extends State<IpPage> {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             'Your details:',
-            style: TextStyle(
-                color: Color.fromRGBO(224, 226, 235, 1),
-                fontWeight: FontWeight.w400,
-                fontSize: 18),
+            style: MyFonts.regular.size(18).setColor(kGrey6),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             'Gateway:       ' + hostelname,
-            style: TextStyle(
-                color: Color.fromRGBO(224, 226, 235, 1),
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-                fontFamily: 'Montserrat'),
+            style: MyFonts.regular.size(16).setColor(kGrey6),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             'Subnet:         ' + subnet,
-            style: TextStyle(
-                color: Color.fromRGBO(224, 226, 235, 1),
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-                fontFamily: 'Montserrat'),
+            style: MyFonts.regular.size(16).setColor(kGrey6),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             'IP Address:   ' + ipAdress,
-            style: TextStyle(
-                color: Color.fromRGBO(224, 226, 235, 1),
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-                fontFamily: 'Montserrat'),
+            style: MyFonts.regular.size(16).setColor(kGrey6),
           ),
         )
       ],
