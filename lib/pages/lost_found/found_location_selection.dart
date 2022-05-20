@@ -87,12 +87,8 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
             itemBuilder: (context){
               return [PopupMenuItem(value: "Central Library",child: Text("Central Library"))];
             },
-            onCanceled: (){
-              print("cancelled");
-            },
             onSelected: (value){
               selectedLocation=value;
-              print(selectedLocation);
             },
             child:  PopupButtonTile(title: "Library"),
           ),
@@ -103,12 +99,8 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                   child: Text(value),
               )).toList();
             },
-            onCanceled: (){
-              print("cancelled");
-            },
             onSelected: (value){
               selectedLocation=value;
-              print(selectedLocation);
             },
             child:  PopupButtonTile(title: "Hostel"),
           ),
@@ -119,12 +111,8 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                 child: Text(value),
               )).toList();
             },
-            onCanceled: (){
-              print("cancelled");
-            },
             onSelected: (value){
               selectedLocation=value;
-              print(selectedLocation);
             },
             child:  PopupButtonTile(title: "SAC"),
           ),
@@ -135,12 +123,8 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                 child: Text(value),
               )).toList();
             },
-            onCanceled: (){
-              print("cancelled");
-            },
             onSelected: (value){
               selectedLocation=value;
-              print(selectedLocation);
             },
             child:  PopupButtonTile(title: "Core"),
           ),
@@ -199,53 +183,3 @@ class PopupButtonTile extends StatelessWidget {
     );
   }
 }
-
-
-// class checkBoxTile extends StatefulWidget {
-//   const checkBoxTile({Key? key}) : super(key: key);
-//
-//   @override
-//   State<checkBoxTile> createState() => _checkBoxTileState();
-// }
-
-// class _checkBoxTileState extends State<checkBoxTile> {
-//
-//   var selected = false;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ConstrainedBox(
-//       constraints: BoxConstraints(maxHeight: 50),
-//       child: Container(
-//           margin: EdgeInsets.symmetric(horizontal: 12),
-//           decoration: BoxDecoration(
-//               color: kGrey2,
-//               borderRadius: BorderRadius.circular(25)
-//           ),
-//           child: Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 Text(
-//                   "I have submitted it",
-//                   style: MyFonts.medium.size(17).setColor(kWhite),
-//                 ),
-//                 Checkbox(
-//                   checkColor: kBlack,
-//                   activeColor: kWhite,
-//                   value: selected,
-//                   onChanged: (value){
-//                     setState(() {
-//                       selected=value!;
-//                     });
-//                   },
-//                 )
-//               ],
-//             ),
-//           )
-//       ),
-//     );
-//   }
-// }
-
