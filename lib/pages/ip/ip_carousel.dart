@@ -3,6 +3,9 @@ import 'package:onestop_dev/pages/ip/ip_settings.dart';
 import 'package:flutter/services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../../globals/my_colors.dart';
+import '../../globals/my_fonts.dart';
+
 bool fg = true;
 
 List<String> textdata = [
@@ -67,12 +70,12 @@ class _RouterPageState extends State<RouterPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: HEIGHT * 0.064,
-        backgroundColor: Color.fromRGBO(39, 49, 65, 1),
+        backgroundColor: kAppBarGrey,
         leading: Container(),
         leadingWidth: 0,
         title: Text(
           'Internet Settings',
-          style: TextStyle(fontFamily: 'Montserrat'),
+          style: MyFonts.medium.setColor(kWhite),
         ),
         actions: [
           IconButton(
@@ -91,18 +94,14 @@ class _RouterPageState extends State<RouterPage> {
                 padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
                 child: Text(
                   'You might need to change some of your laptop settings before you could start using the internet in your room. Go through the following steps after connecting your laptop to the LAN port. ',
-                  style: TextStyle(
-                      color: Color.fromRGBO(135, 145, 165, 1),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      fontFamily: 'Montserrat'),
+                  style: MyFonts.medium.size(16).setColor(kGrey8),
                 ),
               ),
               Container(
                 height: HEIGHT * 0.67,
                 width: WIDTH * 0.93,
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(39, 49, 65, 1),
+                    color: kAppBarGrey,
                     border: Border.all(),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Padding(
@@ -124,12 +123,7 @@ class _RouterPageState extends State<RouterPage> {
                                       children: [
                                         Text(
                                           'Step $i of 8',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 17,
-                                              fontFamily: 'Montserrat'),
-                                        ),
+                                          style: MyFonts.medium.size(17).setColor(kWhite),)
                                       ],
                                     ),
                                   ),
@@ -138,11 +132,7 @@ class _RouterPageState extends State<RouterPage> {
                                   ),
                                   Text(
                                     textdata[i - 1],
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(224, 226, 235, 1),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: HEIGHT * 0.02048417,
-                                        fontFamily: 'Montserrat'),
+                                    style: MyFonts.regular.size(HEIGHT * 0.02048417).setColor(kGrey6),
                                   ),
                                   SizedBox(
                                     height: HEIGHT * 0.0064,
@@ -157,8 +147,7 @@ class _RouterPageState extends State<RouterPage> {
                                               ),
                                               Theme(
                                                 data: Theme.of(context).copyWith(
-                                                    canvasColor: Color.fromRGBO(
-                                                        39, 49, 65, 1)),
+                                                    canvasColor: kBlueGrey),
                                                 child: SizedBox(
                                                   height: HEIGHT * 0.0768156,
                                                   child: DropdownButtonFormField<
@@ -166,11 +155,7 @@ class _RouterPageState extends State<RouterPage> {
                                                     value: dropdownValue,
                                                     icon: Icon(
                                                         Icons.arrow_drop_down),
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w600),
+                                                    style: MyFonts.medium.size(16).setColor(kWhite),
                                                     onChanged: (data) {
                                                       setState(() {
                                                         dropdownValue = data!;
@@ -188,15 +173,8 @@ class _RouterPageState extends State<RouterPage> {
                                                           String>(
                                                         value: value,
                                                         child: Text(value,
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.white,
-                                                                fontFamily:
-                                                                    'Montserrat',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: 15)),
+                                                            style: MyFonts.medium.size(15).setColor(kWhite),
+                                                        ),
                                                       );
                                                     }).toList(),
                                                   ),
@@ -208,8 +186,7 @@ class _RouterPageState extends State<RouterPage> {
                                               SizedBox(
                                                 height: HEIGHT * 0.0768156,
                                                 child: TextFormField(
-                                                    style: TextStyle(
-                                                        color: Colors.white),
+                                                    style: TextStyle(color: kWhite),
                                                     // Tell your textfield which controller it owns
                                                     validator: (value) {
                                                       if (value == null ||
@@ -245,8 +222,7 @@ class _RouterPageState extends State<RouterPage> {
                                               SizedBox(
                                                 height: HEIGHT * 0.0768156,
                                                 child: TextFormField(
-                                                    style: TextStyle(
-                                                        color: Colors.white),
+                                                    style: TextStyle(color: kWhite),
                                                     validator: (value) {
                                                       if (value == null ||
                                                           value.isEmpty) {
@@ -277,8 +253,7 @@ class _RouterPageState extends State<RouterPage> {
                                               SizedBox(
                                                 height: HEIGHT * 0.0768156,
                                                 child: TextFormField(
-                                                    style: TextStyle(
-                                                        color: Colors.white),
+                                                    style: TextStyle(color: kWhite),
                                                     validator: (value) {
                                                       if (value == null ||
                                                           value.isEmpty) {
@@ -346,8 +321,8 @@ class _RouterPageState extends State<RouterPage> {
                               icon: Icon(
                                 Icons.chevron_left,
                                 color: page != 1
-                                    ? Color.fromRGBO(235, 241, 255, 1)
-                                    : Color.fromRGBO(110, 119, 138, 1),
+                                    ? kWhite2
+                                    : kGrey7,
                               ),
                             ),
                             IconButton(
@@ -376,8 +351,8 @@ class _RouterPageState extends State<RouterPage> {
                               icon: Icon(
                                 Icons.chevron_right,
                                 color: page != 8
-                                    ? Color.fromRGBO(235, 241, 255, 1)
-                                    : Color.fromRGBO(110, 119, 138, 1),
+                                    ? kWhite2
+                                    : kGrey7,
                               ),
                             ),
                           ],
@@ -401,16 +376,15 @@ class _RouterPageState extends State<RouterPage> {
 decfunction(String x) {
   return InputDecoration(
     labelText: x,
-    labelStyle: TextStyle(
-        color: Color.fromRGBO(110, 119, 138, 1), fontWeight: FontWeight.w600),
+    labelStyle: MyFonts.medium.setColor(kGrey7),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30.0),
-      borderSide: BorderSide(color: Color.fromRGBO(110, 119, 138, 1), width: 1),
+      borderSide: BorderSide(color: kGrey7, width: 1),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30.0),
       borderSide: BorderSide(
-        color: Color.fromRGBO(110, 119, 138, 1),
+        color: kGrey7,
         width: 1,
       ),
     ),

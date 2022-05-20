@@ -264,7 +264,7 @@ class QuickLinks extends StatelessWidget {
                     width: 5,
                   ),
                   HomeTabTile(
-                      label: "Contacts", icon: Icons.contact_mail_outlined),
+                      label: "Contacts", icon: Icons.contact_mail_outlined, routeId: "/contact",),
                   SizedBox(
                     width: 5,
                   ),
@@ -464,7 +464,7 @@ class _TravelPageState extends State<TravelPage> {
                   children: [
                     Row(
                       children: [
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
                             setState(() {
                               selectBusesorStops = 0;
@@ -478,8 +478,8 @@ class _TravelPageState extends State<TravelPage> {
                               height: 32,
                               width: 83,
                               color: (selectBusesorStops == 0)
-                                  ? Color.fromRGBO(118, 172, 255, 1)
-                                  : Color.fromRGBO(39, 49, 65, 1),
+                                  ? lBlue2
+                                  : kBlueGrey,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -494,8 +494,8 @@ class _TravelPageState extends State<TravelPage> {
                                     "Stops",
                                     style: TextStyle(
                                       color: (selectBusesorStops == 0)
-                                          ? Color.fromRGBO(39, 49, 65, 1)
-                                          : Colors.white,
+                                          ? kBlueGrey
+                                          : kWhite,
                                     ),
                                   ),
                                 ],
@@ -503,7 +503,7 @@ class _TravelPageState extends State<TravelPage> {
                             ),
                           ),
                         ),
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
                             setState(() {
                               selectBusesorStops = 1;
@@ -517,8 +517,8 @@ class _TravelPageState extends State<TravelPage> {
                               height: 32,
                               width: 83,
                               color: (selectBusesorStops == 1)
-                                  ? Color.fromRGBO(118, 172, 255, 1)
-                                  : Color.fromRGBO(39, 49, 65, 1),
+                                  ? lBlue2
+                                  : kBlueGrey,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -533,8 +533,8 @@ class _TravelPageState extends State<TravelPage> {
                                     "Bus",
                                     style: TextStyle(
                                       color: (selectBusesorStops == 1)
-                                          ? Color.fromRGBO(39, 49, 65, 1)
-                                          : Colors.white,
+                                          ? kBlueGrey
+                                          : kWhite,
                                     ),
                                   ),
                                 ],
@@ -619,8 +619,7 @@ class _TravelPageState extends State<TravelPage> {
                                           : Text(
                                               item['time'],
                                               style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      118, 172, 255, 1)),
+                                                  color: lBlue2),
                                             ),
                                     ),
                                   ),
@@ -636,11 +635,11 @@ class _TravelPageState extends State<TravelPage> {
                                 child: ListTile(
                                   title: Text(
                                     'Campus -> City',
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: kWhite),
                                   ),
                                   subtitle: Text(
                                     'Starting from Biotech park',
-                                    style: TextStyle(color: Colors.grey),
+                                    style: TextStyle(color: kGrey),
                                   ),
                                   trailing: IconButton(
                                     icon: Icon(

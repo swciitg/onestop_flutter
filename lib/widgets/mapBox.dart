@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 
+import '../globals/my_colors.dart';
+
 class MapBox extends StatefulWidget {
   Function? rebuildParent;
   double? lat, long;
@@ -66,7 +68,7 @@ class _MapBoxState extends State<MapBox> {
               ),
               nonRotatedLayers: [
                 TileLayerOptions(
-                  backgroundColor: Colors.black,
+                  backgroundColor: kBlack,
                   urlTemplate:
                       'https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg',
                   additionalOptions: {
@@ -99,11 +101,11 @@ class _MapBoxState extends State<MapBox> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     widget.rebuildParent!(0);
                   },
-                  padding: EdgeInsets.only(left: 10),
+                  //padding: EdgeInsets.only(left: 10),
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(
                       Radius.circular(40),
@@ -112,8 +114,8 @@ class _MapBoxState extends State<MapBox> {
                       height: 32,
                       width: 83,
                       color: (widget.selectedIndex == 0)
-                          ? Color.fromRGBO(118, 172, 255, 1)
-                          : Color.fromRGBO(39, 49, 65, 1),
+                          ? lBlue2
+                          : kBlueGrey,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -121,15 +123,15 @@ class _MapBoxState extends State<MapBox> {
                           Icon(
                             IconData(0xe1d5, fontFamily: 'MaterialIcons'),
                             color: (widget.selectedIndex == 0)
-                                ? Color.fromRGBO(39, 49, 65, 1)
-                                : Colors.white,
+                                ? kBlueGrey
+                                : kWhite,
                           ),
                           Text(
                             "Bus",
                             style: TextStyle(
                               color: (widget.selectedIndex == 0)
-                                  ? Color.fromRGBO(39, 49, 65, 1)
-                                  : Colors.white,
+                                  ? kBlueGrey
+                                  : kWhite,
                             ),
                           ),
                         ],
@@ -137,13 +139,13 @@ class _MapBoxState extends State<MapBox> {
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     setState(() {
                       widget.rebuildParent!(1);
                     });
                   },
-                  padding: EdgeInsets.only(left: 10),
+                  //padding: EdgeInsets.only(left: 10),
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(
                       Radius.circular(40),
@@ -152,8 +154,8 @@ class _MapBoxState extends State<MapBox> {
                       height: 32,
                       width: 83,
                       color: (widget.selectedIndex == 1)
-                          ? Color.fromRGBO(118, 172, 255, 1)
-                          : Color.fromRGBO(39, 49, 65, 1),
+                          ? lBlue2
+                          : kBlueGrey,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -161,15 +163,15 @@ class _MapBoxState extends State<MapBox> {
                           Icon(
                             IconData(0xefc2, fontFamily: 'MaterialIcons'),
                             color: (widget.selectedIndex == 1)
-                                ? Color.fromRGBO(39, 49, 65, 1)
-                                : Colors.white,
+                                ? kBlueGrey
+                                : kWhite,
                           ),
                           Text(
                             "Ferry",
                             style: TextStyle(
                               color: (widget.selectedIndex == 1)
-                                  ? Color.fromRGBO(39, 49, 65, 1)
-                                  : Colors.white,
+                                  ? kBlueGrey
+                                  : kWhite,
                             ),
                           ),
                         ],
@@ -178,7 +180,7 @@ class _MapBoxState extends State<MapBox> {
                   ),
                 ),
                 (widget.istravel)
-                    ? FlatButton(
+                    ? TextButton(
                         onPressed: () {
                           setState(() {
                             widget.rebuildParent!(2);
@@ -192,8 +194,8 @@ class _MapBoxState extends State<MapBox> {
                             height: 32,
                             width: 83,
                             color: (widget.selectedIndex == 2)
-                                ? Color.fromRGBO(118, 172, 255, 1)
-                                : Color.fromRGBO(39, 49, 65, 1),
+                                ? lBlue2
+                                : kBlueGrey,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -201,15 +203,15 @@ class _MapBoxState extends State<MapBox> {
                                 Icon(
                                   Icons.bus_alert,
                                   color: (widget.selectedIndex == 2)
-                                      ? Color.fromRGBO(39, 49, 65, 1)
-                                      : Colors.white,
+                                      ? kBlueGrey
+                                      : kWhite,
                                 ),
                                 Text(
                                   "Food",
                                   style: TextStyle(
                                     color: (widget.selectedIndex == 2)
-                                        ? Color.fromRGBO(39, 49, 65, 1)
-                                        : Colors.white,
+                                        ? kBlueGrey
+                                        : kWhite,
                                   ),
                                 ),
                               ],
@@ -221,17 +223,7 @@ class _MapBoxState extends State<MapBox> {
               ],
             ),
           ),
-          // SingleChildScrollView(
-          //   child: Column(
-          //     children: <Widget>[
-          //       CarouselSlider(
-          //         items: Sliders,
-          //         options: CarouselOptions(enlargeCenterPage: true, height: 100),
-          //         carouselController: _controller,
-          //       ),
-          //     ],
-          //   ),
-          // ),
+
           Positioned(
             bottom: 10,
             right: 10,
