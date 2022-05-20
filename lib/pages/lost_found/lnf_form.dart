@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -6,8 +7,9 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home.dart';
 import 'package:onestop_dev/pages/lost_found/imp_widgets.dart';
-import 'package:http/http.dart' as http;
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 class LostFoundForm extends StatefulWidget {
   static const id = "/lostFoundForm";
   final String category;
@@ -27,6 +29,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
   String? location;
   String? contactnumber;
   bool savingToDB = false;
+  StreamController dbSavingController = StreamController();
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +119,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
                       },
                       validator: (value){
                         if(value==null || value=="") return "This field cannot be null";
-                        if(value.length!=10) return "The contact should have 10 digits";
+                        if(value.trim().length!=10) return "The contact should have 10 digits";
                       },
                     ),
                   ),
@@ -155,21 +158,24 @@ class _LostFoundFormState extends State<LostFoundForm> {
           if(!isValid){
             return;
           }
+          SharedPreferences user = await SharedPreferences.getInstance();
+          String userEmail = await user.getString("email")!;
+          String username = await user.getString("name")!;
           if(savingToDB==true) return;
           savingToDB=true;
+          dbSavingController.sink.add(true);
           if(widget.category=="Lost"){
             var res = await http.post(
-              Uri.parse('https://one-stop-api.herokuapp.com/raisepost'),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-              },
-              body: jsonEncode(<String, String>{
+                Uri.parse("https://swc.iitg.ac.in/onestopapi/post_lost"),
+              body: {
                 'title': title!,
                 'description' : description!,
                 'location' : location!,
-                'link' : widget.imageString,
-                'phonenumber' : contactnumber!,
-              }),
+                'imageString' : widget.imageString,
+                'phonenumber' : contactnumber!.trim(),
+                'email' : userEmail,
+                'username' : username
+              }
             );
             var body = jsonDecode(res.body);
             if(body["saved_successfully"]==true){
@@ -177,23 +183,27 @@ class _LostFoundFormState extends State<LostFoundForm> {
               Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
             }
             else{
+              dbSavingController.sink.add(false);
               savingToDB=false;
+              if(body["image_safe"]==false){
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("The chosen image is not safe for work !!")));
+                return;
+              }
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Some error occured, please try again")));
             }
           }
           else{
             var res = await http.post(
-              Uri.parse('https://one-stop-api.herokuapp.com/foundpost'),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-              },
-              body: jsonEncode(<String, String>{
-                'title': title!,
-                'description' : description!,
-                'location' : location!,
-                'link' : widget.imageString,
-                'submittedat' : widget.submittedat!
-              }),
+                Uri.parse("https://swc.iitg.ac.in/onestopapi/post_found"),
+                body: {
+                  'title': title!,
+                  'description' : description!,
+                  'location' : location!,
+                  'imageString' : widget.imageString,
+                  'submittedat' : widget.submittedat!,
+                  'email' : userEmail,
+                  'username' : username
+                }
             );
             var body = jsonDecode(res.body);
             if(body["saved_successfully"]==true){
@@ -201,12 +211,25 @@ class _LostFoundFormState extends State<LostFoundForm> {
               Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
             }
             else{
+              dbSavingController.sink.add(false);
               savingToDB=false;
+              if(body["image_safe"]==false){
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("The chosen image is not safe for work !!")));
+                return;
+              }
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Some error occured, please try again")));
             }
           }
         },
-        child: NewPageButton(title: "Submit",),
+        child: StreamBuilder(
+          stream: dbSavingController.stream,
+          builder: (context, AsyncSnapshot snapshot){
+            if(snapshot.hasData && snapshot.data == true){
+              return NewPageButton(title: "Saving...");
+            }
+            return NewPageButton(title: "Submit");
+          },
+        ),
       ),
     );
   }
