@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-
+import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import '../globals/my_colors.dart';
 import '../globals/my_fonts.dart';
+import 'package:accordion/accordion.dart';
 
 class ContactPage extends StatefulWidget {
-  static String id = "/contact";
+  static String id = "/contacto";
   const ContactPage({Key? key}) : super(key: key);
 
   @override
@@ -106,26 +107,51 @@ class _ContactPageState extends State<ContactPage> {
                 ),
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(3,8,3,8),
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 20,
+                  backgroundImage: NetworkImage('https://images.wallpapersden.com/image/wxl-loki-marvel-comics-show_78234.jpg'),
+                ),
+                title: Text('My Profile', style: MyFonts.bold.size(15).setColor(kWhite),),
+              ),
+            ),
+
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+              child: AlphabetScrollView(
+                list: list.map((e) => AlphaModel(e)).toList(),
+                alignment: LetterAlignment.right,
+                itemExtent: 50,
+                unselectedTextStyle: MyFonts.regular.size(12).setColor(kbg),
+                selectedTextStyle: MyFonts.bold.size(12).setColor(kbg),
+                overlayWidget: (value) => Stack(
+                  alignment: Alignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(3,8,3,8),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          radius: 20,
-                          backgroundImage: NetworkImage('https://images.wallpapersden.com/image/wxl-loki-marvel-comics-show_78234.jpg'),
-                        ),
-                        title: Text('My Profile', style: MyFonts.bold.size(15).setColor(kWhite),),
+                    Icon(
+                      Icons.circle,
+                      size: 30,
+                      color: Colors.grey,
+                    ),
+                    Container(
+                      height: 50, width: 50,
+                      decoration: BoxDecoration(shape: BoxShape.circle,),
+                      alignment: Alignment.center,
+                      child: Text(
+                        '$value'.toUpperCase(),
+                        style: TextStyle(fontSize: 18, color: kWhite),
                       ),
                     ),
                   ],
                 ),
+                itemBuilder: (_, k, id) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Text('hello')
+                  );
+                },
               ),
-            ),
+            )
 
 
           ],
@@ -133,7 +159,6 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 }
-
 
 class ContactSearchBar extends StatelessWidget {
   ContactSearchBar({
@@ -179,3 +204,90 @@ class ContactSearchBar extends StatelessWidget {
     );
   }
 }
+
+List<String> list = [
+  'angel',
+  'bubbles',
+  'shimmer',
+  'angelic',
+  'bubbly',
+  'glimmer',
+  'baby',
+  'pink',
+  'little',
+  'butterfly',
+  'sparkly',
+  'doll',
+  'sweet',
+  'sparkles',
+  'dolly',
+  'sweetie',
+  'sprinkles',
+  'lolly',
+  'princess',
+  'fairy',
+  'honey',
+  'snowflake',
+  'pretty',
+  'sugar',
+  'cherub',
+  'lovely',
+  'blossom',
+  'Ecophobia',
+  'Hippophobia',
+  'Scolionophobia',
+  'Ergophobia',
+  'Musophobia',
+  'Zemmiphobia',
+  'Geliophobia',
+  'Tachophobia',
+  'Hadephobia',
+  'Radiophobia',
+  'Turbo Slayer',
+  'Cryptic Hatter',
+  'Crash TV',
+  'Blue Defender',
+  'Toxic Headshot',
+  'Iron Merc',
+  'Steel Titan',
+  'Stealthed Defender',
+  'Blaze Assault',
+  'Venom Fate',
+  'Dark Carnage',
+  'Fatal Destiny',
+  'Ultimate Beast',
+  'Masked Titan',
+  'Frozen Gunner',
+  'Bandalls',
+  'Wattlexp',
+  'Sweetiele',
+  'HyperYauFarer',
+  'Editussion',
+  'Experthead',
+  'Flamesbria',
+  'HeroAnhart',
+  'Liveltekah',
+  'Linguss',
+  'Interestec',
+  'FuzzySpuffy',
+  'Monsterup',
+  'MilkA1Baby',
+  'LovesBoost',
+  'Edgymnerch',
+  'Ortspoon',
+  'Oranolio',
+  'OneMama',
+  'Dravenfact',
+  'Reallychel',
+  'Reakefit',
+  'Popularkiya',
+  'Breacche',
+  'Blikimore',
+  'StoneWellForever',
+  'Simmson',
+  'BrightHulk',
+  'Bootecia',
+  'Spuffyffet',
+  'Rozalthiric',
+  'Bookman'
+];
