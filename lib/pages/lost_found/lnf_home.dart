@@ -27,14 +27,20 @@ class _LostFoundHomeState extends State<LostFoundHome> {
 
   
   Future<List> getLostItems() async {
+    print("before");
     var res = await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/all_lost'));
+    print("after");
     var lostItemsDetails = jsonDecode(res.body);
+    print("decoded json");
     return lostItemsDetails["details"];
   }
 
   Future<List> getFoundItems() async {
+    print("before");
     var res = await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/all_found'));
+    print("after");
     var foundItemsDetails = jsonDecode(res.body);
+    print("decoded json");
     return foundItemsDetails["details"];
   }
   
@@ -93,9 +99,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                             ),
                           ),
                           Expanded(
-                            child: ListView(
-                              children: (!snapshot.hasData || snapshot.data! == "Lost") ? lostItems : foundItems
-                            ),
+                            child: (!snapshot.hasData || snapshot.data! == "Lost") ? (lostItems.length==0 ? Center(child: Text("No Lost Items as of now :)", style: MyFonts.medium.size(16).setColor(kWhite),),) : ListView(children: lostItems,)) :  (foundItems.length==0 ? Center(child: Text("No found Items as of now :)", style: MyFonts.medium.size(16).setColor(kWhite),),) : ListView(children: foundItems,)
+                          )
                           )
                         ],
                       );
@@ -210,7 +215,7 @@ class ListItemWidget extends StatelessWidget {
         return Dialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),),
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: screenHeight*0.5),
+            constraints: BoxConstraints(maxHeight: screenHeight*0.7),
             child: Container(
               width: screenWidth-40,
               decoration: BoxDecoration(
@@ -289,18 +294,23 @@ class ListItemWidget extends StatelessWidget {
                       style: MyFonts.medium.size(17).setColor(kWhite),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
-                    child: Text(
-                      "Description: " + description,
-                      style: MyFonts.light.size(15).setColor(kWhite),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: screenHeight*0.2,maxWidth: screenWidth-40),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                        child: Text(
+                          "Description: " + description,
+                          style: MyFonts.light.size(15).setColor(kWhite),
+                        ),
+                      ),
                     ),
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
                     alignment: Alignment.centerRight,
                     child: Text(
-                      date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString() + " | " + DateFormat.jm().format(date),
+                      date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString() + " | " + DateFormat.jm().format(date.toLocal()).toString(),
                       style: MyFonts.light.size(13).setColor(kWhite),
                     ),
                   ),
@@ -405,32 +415,6 @@ class ItemTypeBar extends StatelessWidget {
       child: Text(
           text,
         style: textStyle,
-      ),
-    );
-  }
-}
-
-
-class ItemSearchBar extends StatelessWidget {
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-      child: TextField(
-        decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(100),
-            ),
-            filled: true,
-            prefixIcon: Icon(
-              Icons.search,
-              color: kWhite,
-            ),
-            hintStyle: MyFonts.medium.setColor(kGrey2),
-            hintText: "Search Items",
-            fillColor: kBlueGrey),
       ),
     );
   }

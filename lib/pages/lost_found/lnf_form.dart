@@ -53,9 +53,9 @@ class _LostFoundFormState extends State<LostFoundForm> {
               children: [
                 ProgressBar(blue: widget.category=="Lost" ? 2 : 3, grey: 0),
                 Container(
-                  margin: EdgeInsets.only(top: 40,left: 5,right: 5,bottom: 15),
+                  margin: EdgeInsets.only(top: 40,left: 15,right: 5,bottom: 15),
                   child: Text(
-                    widget.category=="Lost" ? "Fill in the details" : "Fill in the details of found object",
+                    widget.category=="Lost" ? "Fill in the details of lost object" : "Fill in the details of found object",
                     style: MyFonts.medium.size(16).setColor(kWhite),
                   ),
                 ),
@@ -68,11 +68,15 @@ class _LostFoundFormState extends State<LostFoundForm> {
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                       fillColor: kGrey2,
                       filled: true,
-                      hintStyle: MyFonts.medium.size(15).setColor(kWhite)
+                      hintStyle: MyFonts.medium.size(15).setColor(kWhite),
+                        counterText: (title==null ? "0" : title!.length.toString())+"/20",
+                        counterStyle: MyFonts.medium.size(12).setColor(kWhite)
                     ),
                     maxLength: 20,
                     onChanged: (value){
-                      title=value;
+                      setState((){
+                        title=value;
+                      });
                     },
                     validator: (value){
                       if(value==null || value=="") return "This field cannot be null";
@@ -88,10 +92,14 @@ class _LostFoundFormState extends State<LostFoundForm> {
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                         fillColor: kGrey2,
                         filled: true,
-                        hintStyle: MyFonts.medium.size(15).setColor(kWhite)
+                        hintStyle: MyFonts.medium.size(15).setColor(kWhite),
+                        counterText: (location==null ? "0" : location!.length.toString())+"/20",
+                      counterStyle: MyFonts.medium.size(12).setColor(kWhite)
                     ),
                     onChanged: (value){
-                     location=value;
+                     setState((){
+                       location=value;
+                     });
                     },
                     maxLength: 20,
                     validator: (value){
@@ -112,10 +120,14 @@ class _LostFoundFormState extends State<LostFoundForm> {
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                           fillColor: kGrey2,
                           filled: true,
-                          hintStyle: MyFonts.medium.size(15).setColor(kWhite)
+                          hintStyle: MyFonts.medium.size(15).setColor(kWhite),
+                        counterText: (contactnumber==null ? "0" : contactnumber!.length.toString())+"/10",
+                          counterStyle: MyFonts.medium.size(12).setColor(kWhite)
                       ),
                       onChanged: (value){
-                        contactnumber=value;
+                        setState((){
+                          contactnumber=value;
+                        });
                       },
                       validator: (value){
                         if(value==null || value=="") return "This field cannot be null";
@@ -135,11 +147,15 @@ class _LostFoundFormState extends State<LostFoundForm> {
                         fillColor: kGrey2,
                         filled: true,
                         hintStyle: MyFonts.medium.size(15).setColor(kWhite),
+                        counterText: (description==null ? "0" : description!.length.toString())+"/100",
+                        counterStyle: MyFonts.medium.size(12).setColor(kWhite)
                     ),
-                    maxLength: 50,
+                    maxLength: 100,
                     maxLines: 6,
                     onChanged: (value){
-                      description=value;
+                      setState((){
+                        description=value;
+                      });
                     },
                     validator: (value){
                       if(value==null || value=="") return "This field cannot be null";
