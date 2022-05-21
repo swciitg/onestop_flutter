@@ -3,7 +3,6 @@ import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:onestop_dev/pages/contact2.dart';
 import '../globals/my_colors.dart';
 import '../globals/my_fonts.dart';
-import 'package:accordion/accordion.dart';
 
 class ContactPage extends StatefulWidget {
   static String id = "/contacto";
@@ -152,7 +151,7 @@ class _ContactPageState extends State<ContactPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Contacts2()),
+                          MaterialPageRoute(builder: (context) => Contacts2(Contacts10: Contacts10, title: 'Campus', subtitle: '$id',)),
                         );
                       },
                       child: ListTile(
@@ -304,4 +303,127 @@ List<String> list = [
   'Spuffyffet',
   'Rozalthiric',
   'Bookman'
+];
+
+List<Map<String, dynamic>> Contacts10 = [
+  {
+    'name': 'Admin',
+    'email': 'dmskal,',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
 ];
