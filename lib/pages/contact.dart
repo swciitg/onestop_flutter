@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
+import 'package:onestop_dev/pages/contact2.dart';
 import '../globals/my_colors.dart';
 import '../globals/my_fonts.dart';
 import 'package:accordion/accordion.dart';
@@ -147,7 +148,20 @@ class _ContactPageState extends State<ContactPage> {
                 itemBuilder: (_, k, id) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 20),
-                    child: Text('hello')
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Contacts2()),
+                        );
+                      },
+                      child: ListTile(
+                        title: Text(
+                          '$id',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
                   );
                 },
               ),
