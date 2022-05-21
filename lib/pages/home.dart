@@ -264,7 +264,7 @@ class QuickLinks extends StatelessWidget {
                     width: 5,
                   ),
                   HomeTabTile(
-                      label: "Contacts", icon: Icons.contact_mail_outlined, routeId: "/contact",),
+                      label: "Contacts", icon: Icons.contact_mail_outlined, routeId: "/contacto",),
                   SizedBox(
                     width: 5,
                   ),
