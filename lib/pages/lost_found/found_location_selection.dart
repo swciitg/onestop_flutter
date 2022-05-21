@@ -13,16 +13,17 @@ class LostFoundLocationForm extends StatefulWidget {
 }
 
 class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
-  String? selectedLocation;
+  String? selectedLocation=null;
   bool checkBox=false;
-
-  List<String> hostels = ["Brahmaputra","Dihing","Manas","Lohit","Dhansiri","Subansiri","Disang","Kameng","Umiam","Barak"];
-  List<String> sac = ["Old SAC","New SAC"];
-  List<String> cores = ["Core 1","Core 2","Core 3","Core 4"];
+  String? selectedDropdown;
+  List<String> libraries = ["Library","Central library"];
+  List<String> hostels = ["Hostel","Brahmaputra","Dihing","Manas","Lohit","Dhansiri","Subansiri","Disang","Kameng","Umiam","Barak"];
+  List<String> sacs = ["SAC","Old SAC","New SAC"];
+  List<String> cores = ["Core","Core 1","Core 2","Core 3","Core 4"];
 
   @override
   Widget build(BuildContext context) {
-
+    double HEIGHT = MediaQuery.of(context).size.height;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -38,11 +39,11 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
         children: [
           ProgressBar(blue: 2, grey: 1),
           Container(
-            margin: EdgeInsets.only(top: 40,left: 5,right: 5,bottom: 15),
-            child: Text(
-                "Please submit the found item at your nearest security desk.",
-              style: MyFonts.medium.size(16).setColor(kWhite),
-            ),
+              margin: const EdgeInsets.only(top: 40,left: 5,right: 5,bottom: 15),
+              child: Text(
+                  "Please submit the found item at your nearest security desk.",
+                style: MyFonts.medium.size(16).setColor(kWhite),
+              ),
           ),
           ConstrainedBox(
             constraints: BoxConstraints(maxHeight: 50),
@@ -83,51 +84,169 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
               style: MyFonts.medium.size(19).setColor(kWhite),
             ),
           ),
-          PopupMenuButton<String>(
-            itemBuilder: (context){
-              return [PopupMenuItem(value: "Central Library",child: Text("Central Library"))];
-            },
-            onSelected: (value){
-              selectedLocation=value;
-            },
-            child:  PopupButtonTile(title: "Library"),
-          ),
-          PopupMenuButton<String>(
-            itemBuilder: (context){
-              return hostels.map((value) => PopupMenuItem(
-                value: value,
-                  child: Text(value),
-              )).toList();
-            },
-            onSelected: (value){
-              selectedLocation=value;
-            },
-            child:  PopupButtonTile(title: "Hostel"),
-          ),
-          PopupMenuButton<String>(
-            itemBuilder: (context){
-              return sac.map((value) => PopupMenuItem(
-                value: value,
-                child: Text(value),
-              )).toList();
-            },
-            onSelected: (value){
-              selectedLocation=value;
-            },
-            child:  PopupButtonTile(title: "SAC"),
-          ),
-          PopupMenuButton<String>(
-            itemBuilder: (context){
-              return cores.map((value) => PopupMenuItem(
-                value: value,
-                child: Text(value),
-              )).toList();
-            },
-            onSelected: (value){
-              selectedLocation=value;
-            },
-            child:  PopupButtonTile(title: "Core"),
-          ),
+
+          ListView(
+            shrinkWrap: true,
+            children: [
+              Theme(
+                data: Theme.of(context).copyWith(
+                    canvasColor: kBlueGrey),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12,vertical: 5),
+                  child: DropdownButtonFormField<
+                      String>(
+                    value: selectedDropdown=="Library" ? selectedLocation : "Library",
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_outlined,
+                      color: kWhite,
+                    ),
+                    style: MyFonts.medium.size(16).setColor(kWhite),
+                    onChanged: (data) {
+                      setState(() {
+                        selectedLocation = data!;
+                        selectedDropdown="Library";
+                      });
+                    },
+                    decoration: decfunction(''),
+                    items: libraries.map<
+                        DropdownMenuItem<
+                            String>>(
+                            (String value) {
+                          return DropdownMenuItem<
+                              String>(
+                            value: value,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Text(value,
+                                style: MyFonts.medium.size(18).setColor(kWhite),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                  ),
+                ),
+              ),
+
+
+
+              Theme(
+                data: Theme.of(context).copyWith(
+                    canvasColor: kBlueGrey),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12,vertical: 5),
+                  child: DropdownButtonFormField<
+                      String>(
+                    value: selectedDropdown=="Hostel" ? selectedLocation : "Hostel",
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_outlined,
+                      color: kWhite,
+                    ),
+                    style: MyFonts.medium.size(16).setColor(kWhite),
+                    onChanged: (data) {
+                      setState(() {
+                        selectedLocation = data!;
+                        selectedDropdown="Hostel";
+                      });
+                    },
+                    decoration: decfunction(''),
+                    items: hostels.map<
+                        DropdownMenuItem<
+                            String>>(
+                            (String value) {
+                          return DropdownMenuItem<
+                              String>(
+                            value: value,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Text(value,
+                                style: MyFonts.medium.size(18).setColor(kWhite),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                  ),
+                ),
+              ),
+
+              Theme(
+                data: Theme.of(context).copyWith(
+                    canvasColor: kBlueGrey),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12,vertical: 5),
+                  child: DropdownButtonFormField<
+                      String>(
+                    value: selectedDropdown=="SAC" ? selectedLocation : "SAC",
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_outlined,
+                      color: kWhite,
+                    ),
+                    style: MyFonts.medium.size(16).setColor(kWhite),
+                    onChanged: (data) {
+                      setState(() {
+                        selectedLocation = data!;
+                        selectedDropdown="SAC";
+                      });
+                    },
+                    decoration: decfunction(''),
+                    items: sacs.map<
+                        DropdownMenuItem<
+                            String>>(
+                            (String value) {
+                          return DropdownMenuItem<
+                              String>(
+                            value: value,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Text(value,
+                                style: MyFonts.medium.size(18).setColor(kWhite),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                  ),
+                ),
+              ),
+
+              Theme(
+                data: Theme.of(context).copyWith(
+                    canvasColor: kBlueGrey),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12,vertical: 5),
+                  child: DropdownButtonFormField<
+                      String>(
+                    value: selectedDropdown=="Core" ? selectedLocation : "Core",
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_outlined,
+                      color: kWhite,
+                    ),
+                    style: MyFonts.medium.size(16).setColor(kWhite),
+                    onChanged: (data) {
+                      setState(() {
+                        selectedLocation = data!;
+                        selectedDropdown="Core";
+                      });
+                    },
+                    decoration: decfunction(''),
+                    items: cores.map<
+                        DropdownMenuItem<
+                            String>>(
+                            (String value) {
+                          return DropdownMenuItem<
+                              String>(
+                            value: value,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Text(value,
+                                style: MyFonts.medium.size(18).setColor(kWhite),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                  ),
+                ),
+              ),
+            ],
+          )
         ]
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -137,8 +256,8 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Mark the checkbox if you have submitted the item")));
             return;
           }
-          if(selectedLocation==null){
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select a location")));
+          if(selectedLocation==null || ["Library","Hostel","Core","SAC"].contains(selectedLocation)){
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select location of item submission")));
             return;
           }
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => LostFoundForm(category: "Found",imageString: widget.imageString, submittedat: selectedLocation,)));
@@ -149,37 +268,20 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
   }
 }
 
-class PopupButtonTile extends StatelessWidget {
-  final String title;
-  PopupButtonTile({Key? key,required this.title}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: 80),
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: kWhite)
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                    title,
-                  style: MyFonts.medium.size(17).setColor(kWhite),
-                ),
-                Icon(
-                    Icons.keyboard_arrow_down,
-                  color: kWhite,
-                ),
-              ],
-            ),
-          ),
-        ),
-    );
-  }
+decfunction(String x) {
+  return InputDecoration(
+    labelText: x,
+    labelStyle: MyFonts.medium.setColor(kGrey7),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(25.0),
+      borderSide: BorderSide(color: kWhite, width: 1),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(25.0),
+      borderSide: BorderSide(
+        color: kWhite,
+        width: 1,
+      ),
+    ),
+  );
 }
