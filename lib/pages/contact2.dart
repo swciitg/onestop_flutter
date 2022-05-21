@@ -4,134 +4,15 @@ import '../globals/my_colors.dart';
 import '../globals/my_fonts.dart';
 
 class Contacts2 extends StatefulWidget {
-  static String id = '/contact';
-  const Contacts2({Key? key}) : super(key: key);
+  final List<Map<String, dynamic>> Contacts10;
+  final String title;
+  final String subtitle;
+  const Contacts2({Key? key, required this.Contacts10, required this.title, required this.subtitle}) : super(key: key);
   @override
   State<Contacts2> createState() => _Contacts2State();
 }
 
-List<Map<String, dynamic>> Contacts10 = [
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-];
+
 
 class _Contacts2State extends State<Contacts2> {
   @override
@@ -164,7 +45,7 @@ class _Contacts2State extends State<Contacts2> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
-                      'Guest House',
+                      widget.subtitle,
                       style: TextStyle(
                           color: kWhite,
                           fontFamily: 'Montserrat',
@@ -176,7 +57,7 @@ class _Contacts2State extends State<Contacts2> {
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Text(
-                      'Campus',
+                      widget.title,
                       style: TextStyle(
                         color: kFontGrey,
                         fontFamily: 'Montserrat',
@@ -192,7 +73,7 @@ class _Contacts2State extends State<Contacts2> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0, top: 2),
                   child: Text(
-                    '20 Contacts',
+                    widget.Contacts10.length.toString()+' contacts',
                     style: TextStyle(
                       color: kFontGrey,
                       fontFamily: 'Montserrat',
@@ -264,7 +145,7 @@ class _Contacts2State extends State<Contacts2> {
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: Contacts10.map((item) {
+                  children: widget.Contacts10.map((item) {
                     return Padding(
                       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                       child: Row(
