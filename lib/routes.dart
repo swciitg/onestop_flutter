@@ -1,5 +1,6 @@
 import 'package:onestop_dev/pages/blogs_page.dart';
 import 'package:onestop_dev/pages/contact.dart';
+import 'package:onestop_dev/pages/contact2.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/pages/home.dart';
 import 'package:onestop_dev/pages/login.dart';
@@ -20,4 +21,5 @@ final routes = {
   SearchPage.id: (context) => const SearchPage(),
   LostFoundHome.id: (context) => LostFoundHome(),
   ContactPage.id: (context) => ContactPage(),
+  Contacts2.id: (context) => Contacts2(),
 };
