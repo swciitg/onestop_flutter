@@ -185,7 +185,7 @@ class _ContactPageState extends State<ContactPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Contacts2(Contacts10: Contacts10, title: 'Campus', subtitle: '$id',)),
+                          MaterialPageRoute(builder: (context) => Contacts2(Contacts10: namedetails['$id'], title: 'Campus', subtitle: '$id',)),
                         );
                       },
                       child: ListTile(
@@ -207,6 +207,7 @@ class _ContactPageState extends State<ContactPage> {
 }
 
 class ContactSearchBar extends StatelessWidget {
+
   ContactSearchBar({
     Key? key,
   }) : super(key: key);
@@ -215,245 +216,173 @@ class ContactSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      child: TextField(
-        textAlignVertical: TextAlignVertical.center,
-        onSubmitted: (s) {
-          /*context
-              .read<RestaurantStore>()
-              .setSearchHeader("Showing results for $s");
-          context.read<RestaurantStore>().setSearchString(s);
-          Navigator.pushNamed(context, SearchPage.id);*/
+      child: GestureDetector(
+        onTap: (){
+          showSearch(context: context, delegate: CitySearch());
         },
-        onChanged: (s) {
-          /*context.read<RestaurantStore>().setSearchHeader("Showing results for $s");
-          context.read<RestaurantStore>().setSearchString(s);*/
-        },
-        style: MyFonts.medium.setColor(kWhite),
-        decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(100),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(100.0),
-              borderSide: BorderSide(color: kBlueGrey, width: 1),
-            ),
-            filled: true,
-            prefixIcon: Icon(
-              Icons.search,
-              color: kWhite,
-            ),
-            hintStyle: MyFonts.medium.size(13).setColor(kGrey2),
-            hintText: "Search keyword (name, position etc)",
-            contentPadding: EdgeInsets.zero,
-            fillColor: kBlueGrey),
+        child: TextField(
+          enabled: false,
+          textAlignVertical: TextAlignVertical.center,
+          style: MyFonts.medium.setColor(kWhite),
+          decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100.0),
+                borderSide: BorderSide(color: kBlueGrey, width: 1),
+              ),
+              filled: true,
+              prefixIcon: Icon(
+                Icons.search,
+                color: kWhite,
+              ),
+              hintStyle: MyFonts.medium.size(13).setColor(kGrey2),
+              hintText: "Search keyword (name, position etc)",
+              contentPadding: EdgeInsets.zero,
+              fillColor: kBlueGrey),
+        ),
       ),
     );
   }
 }
 
+class CitySearch extends SearchDelegate<String> {
+  final cities = list;
+  var x ;
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+      scaffoldBackgroundColor: Color.fromRGBO(27, 27, 29, 1),
+      appBarTheme: AppBarTheme(
+        color: kBlueGrey, toolbarTextStyle: TextTheme(
+            headline6: TextStyle( // headline 6 affects the query text
+                color: kWhite,
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold)).bodyText2,
+      ),
+    );
+  }
+
+  @override
+  List<Widget> buildActions(BuildContext context) => [
+    IconButton(
+      icon: Icon(Icons.clear, color: kWhite,),
+      onPressed: () {
+        if (query.isEmpty) {
+          close(context, '');
+        } else {
+          query = '';
+          showSuggestions(context);
+        }
+      },
+    )
+  ];
+
+  @override
+  Widget buildLeading(BuildContext context) => IconButton(
+    icon: Icon(Icons.arrow_back, color: kWhite,),
+    onPressed: () => close(context, ''),
+  );
+
+  
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestions = cities.where((city) {
+      final cityLower = city.toLowerCase();
+      final queryLower = query.toLowerCase();
+      return cityLower.contains(queryLower);
+    }).toList();
+    x = suggestions;
+   return buildSuggestionsSuccess(suggestions);
+  }
+
+  @override
+  Widget buildResults(BuildContext context) => buildSuggestionsSuccess(x);
+  
+  
+  Widget buildSuggestionsSuccess(List<String> suggestions) => ListView.builder(
+    itemCount: suggestions.length,
+    itemBuilder: (context, index) {
+      final suggestion = suggestions[index];
+      //final queryText = suggestion.substring(0, query.length);
+      //final remainingText = suggestion.substring(query.length);
+
+      return ListTile(
+        onTap: () {
+          query = suggestion;
+
+          // 1. Show Results
+          //showResults(context);
+
+          // 2. Close Search & Return Result
+          close(context, suggestion);
+
+          // 3. Navigate to Result Page
+            Navigator.push(
+             context,
+             MaterialPageRoute(
+               builder: (BuildContext context) => Contacts2(title: 'Campus', subtitle: query, Contacts10: namedetails[query],),
+             ),
+           );
+        },
+        leading: Icon(Icons.people, color: kWhite,),
+        // title: Text(suggestion),
+        title: RichText(
+          text: TextSpan(
+            text: suggestion,
+            style: MyFonts.regular.size(15).setColor(kWhite),
+          ),
+        ),
+      );
+    },
+  );
+}
+
 List<String> list = [
-  'angel',
-  'bubbles',
-  'shimmer',
-  'angelic',
-  'bubbly',
-  'glimmer',
-  'baby',
-  'pink',
-  'little',
-  'butterfly',
-  'sparkly',
-  'doll',
-  'sweet',
-  'sparkles',
-  'dolly',
-  'sweetie',
-  'sprinkles',
-  'lolly',
-  'princess',
-  'fairy',
-  'honey',
-  'snowflake',
-  'pretty',
-  'sugar',
-  'cherub',
-  'lovely',
-  'blossom',
-  'Ecophobia',
-  'Hippophobia',
-  'Scolionophobia',
-  'Ergophobia',
-  'Musophobia',
-  'Zemmiphobia',
-  'Geliophobia',
-  'Tachophobia',
-  'Hadephobia',
-  'Radiophobia',
-  'Turbo Slayer',
-  'Cryptic Hatter',
-  'Crash TV',
-  'Blue Defender',
-  'Toxic Headshot',
-  'Iron Merc',
-  'Steel Titan',
-  'Stealthed Defender',
-  'Blaze Assault',
-  'Venom Fate',
-  'Dark Carnage',
-  'Fatal Destiny',
-  'Ultimate Beast',
-  'Masked Titan',
-  'Frozen Gunner',
-  'Bandalls',
-  'Wattlexp',
-  'Sweetiele',
-  'HyperYauFarer',
-  'Editussion',
-  'Experthead',
-  'Flamesbria',
-  'HeroAnhart',
-  'Liveltekah',
-  'Linguss',
-  'Interestec',
-  'FuzzySpuffy',
-  'Monsterup',
-  'MilkA1Baby',
-  'LovesBoost',
-  'Edgymnerch',
-  'Ortspoon',
-  'Oranolio',
-  'OneMama',
-  'Dravenfact',
-  'Reallychel',
-  'Reakefit',
-  'Popularkiya',
-  'Breacche',
-  'Blikimore',
-  'StoneWellForever',
-  'Simmson',
-  'BrightHulk',
-  'Bootecia',
-  'Spuffyffet',
-  'Rozalthiric',
-  'Bookman'
+  'a',
+  'aa',
+  'aaa',
+  'b',
+  'bb',
+  'bbb',
+  'c',
+  'd',
+  'e',
+  'f',
+  'tha',
+  'g',
+
+];
+
+Map<String, List<Map<String, dynamic>>> namedetails =
+  {
+    'a': Contacts0,
+    'aa': Contacts10,
+    'aaa': Contacts10,
+    'b': Contacts10,
+    'bb': Contacts10,
+    'bbb': Contacts10,
+    'c': Contacts10,
+    'd': Contacts10,
+    'e': Contacts10,
+    'f': Contacts10,
+    'g': Contacts10,
+    'tha': Contacts0
+  };
+
+
+List<Map<String, dynamic>> Contacts0 = [
+{
+'name': 'ball',
+'email': 'cat',
+'number': 32789108323,
+},
 ];
 
 List<Map<String, dynamic>> Contacts10 = [
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
   {
     'name': 'Admin',
     'email': 'dmskal,msMsa',
@@ -486,3 +415,4 @@ starredContact(String contact)
       ),
     ), onPressed: (){},);
 }
+
