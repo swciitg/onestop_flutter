@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:onestop_dev/pages/contact2.dart';
 import '../globals/my_colors.dart';
+import '../globals/my_colors.dart';
 import '../globals/my_fonts.dart';
 
 class ContactPage extends StatefulWidget {
@@ -252,14 +253,18 @@ class CitySearch extends SearchDelegate<String> {
   var x ;
 
   @override
+  String get searchFieldLabel => 'Search keyword (name, position etc)';
+
+  @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
       scaffoldBackgroundColor: Color.fromRGBO(27, 27, 29, 1),
+      hintColor: kGrey2,
       appBarTheme: AppBarTheme(
         color: kBlueGrey, toolbarTextStyle: TextTheme(
             headline6: TextStyle( // headline 6 affects the query text
-                color: kWhite,
-                fontSize: 16.0,
+                color: kGrey2,
+                fontSize: 12.0,
                 fontWeight: FontWeight.bold)).bodyText2,
       ),
     );
@@ -383,6 +388,121 @@ List<Map<String, dynamic>> Contacts0 = [
 ];
 
 List<Map<String, dynamic>> Contacts10 = [
+  {
+    'name': 'Admin',
+    'email': 'dmskal,',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
+  {
+    'name': 'Admin',
+    'email': 'dmskal,msMsa',
+    'number': 32789108323,
+  },
   {
     'name': 'Admin',
     'email': 'dmskal,msMsa',
