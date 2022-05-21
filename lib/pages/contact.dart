@@ -112,9 +112,6 @@ class _ContactPageState extends State<ContactPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    functiona(),
-                    functiona(),
-                    functiona(),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(3,8,3,8),
                       child: ListTile(
@@ -137,83 +134,6 @@ class _ContactPageState extends State<ContactPage> {
   }
 }
 
-functiona()
-{
-  return Column(
-    children: [
-      Padding(
-        padding: const EdgeInsets.fromLTRB(3,8,3,8),
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 20,
-            backgroundImage: NetworkImage('https://images.wallpapersden.com/image/wxl-loki-marvel-comics-show_78234.jpg'),
-          ),
-          title: Text('My Profile', style: MyFonts.bold.size(15).setColor(kWhite),),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(3,8,3,8),
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 20,
-            backgroundImage: NetworkImage('https://images.wallpapersden.com/image/wxl-loki-marvel-comics-show_78234.jpg'),
-          ),
-          title: Text('My Profile', style: MyFonts.bold.size(15).setColor(kWhite),),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(3,8,3,8),
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 20,
-            backgroundImage: NetworkImage('https://images.wallpapersden.com/image/wxl-loki-marvel-comics-show_78234.jpg'),
-          ),
-          title: Text('My Profile', style: MyFonts.bold.size(15).setColor(kWhite),),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(3,8,3,8),
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 20,
-            backgroundImage: NetworkImage('https://images.wallpapersden.com/image/wxl-loki-marvel-comics-show_78234.jpg'),
-          ),
-          title: Text('My Profile', style: MyFonts.bold.size(15).setColor(kWhite),),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(3,8,3,8),
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 20,
-            backgroundImage: NetworkImage('https://images.wallpapersden.com/image/wxl-loki-marvel-comics-show_78234.jpg'),
-          ),
-          title: Text('My Profile', style: MyFonts.bold.size(15).setColor(kWhite),),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(3,8,3,8),
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 20,
-            backgroundImage: NetworkImage('https://images.wallpapersden.com/image/wxl-loki-marvel-comics-show_78234.jpg'),
-          ),
-          title: Text('My Profile', style: MyFonts.bold.size(15).setColor(kWhite),),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(3,8,3,8),
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 20,
-            backgroundImage: NetworkImage('https://images.wallpapersden.com/image/wxl-loki-marvel-comics-show_78234.jpg'),
-          ),
-          title: Text('My Profile', style: MyFonts.bold.size(15).setColor(kWhite),),
-        ),
-      ),
-    ],
-  );
-}
 
 class ContactSearchBar extends StatelessWidget {
   ContactSearchBar({
