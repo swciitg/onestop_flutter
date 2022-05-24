@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -6,6 +9,8 @@ import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/ui/powerup.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   static String id = "/login";
@@ -17,12 +22,37 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool loading = false;
+  Completer<WebViewController> _controller = Completer<WebViewController>();
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
       body: loading
-          ? const PowerUp()
+          ? WebView(
+        initialUrl: "https://swc.iitg.ac.in/onestopapi/auth/microsoft",
+        javascriptMode: JavascriptMode.unrestricted,
+        onWebViewCreated: (controller){
+          _controller.complete(controller);
+        },
+        onPageFinished: (url) async {
+          if(url.startsWith("https://swc.iitg.ac.in/onestopapi/auth/microsoft/redirect?code")){
+            WebViewController controller = await _controller.future;
+            var userInfoString = await controller.runJavascriptReturningResult("document.getElementById('userInfo').innerText");
+            print(userInfoString);
+            var userInfo = jsonDecode(userInfoString);
+            SharedPreferences user = await SharedPreferences.getInstance();
+            // {"displayName" : "Kunal Pal","mail" : "k.pal@iitg.ac.in","surname": "200104048","id" : "jdkf"}
+            context
+                .read<LoginStore>()
+                .saveToPreferences(user, userInfo);
+            context
+                .read<LoginStore>()
+                .saveToUserData(user);
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+          }
+        },
+      )
           : Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -120,9 +150,6 @@ class _LoginPageState extends State<LoginPage> {
                               setState(() {
                                 loading = true;
                               });
-                              context
-                                  .read<LoginStore>()
-                                  .signInWithMicrosoft(context);
                             },
                             child: FittedBox(
                               fit: BoxFit.fitWidth,
