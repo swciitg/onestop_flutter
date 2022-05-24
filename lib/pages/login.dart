@@ -39,7 +39,30 @@ class _LoginPageState extends State<LoginPage> {
             WebViewController controller = await _controller.future;
             var userInfoString = await controller.runJavascriptReturningResult("document.getElementById('userInfo').innerText");
             print(userInfoString);
-            var userInfo = jsonDecode(userInfoString);
+            var userInfo = {};
+            String check = "";
+            int count=1;
+            for(int i=0;i<userInfoString.length;i++){
+              if(userInfoString[i]!="/"){
+                check = check + userInfoString[i];
+              }
+              else{
+                print(check);
+                if(count==1){
+                  userInfo["displayName"] = check;
+                }
+                else if(count==2){
+                  userInfo["mail"] = check;
+                }
+                else{
+                  userInfo["surname"] = check;
+                }
+                check="";
+                count+=1;
+              }
+            }
+            print(check);
+            userInfo["id"]=check;
             SharedPreferences user = await SharedPreferences.getInstance();
             // {"displayName" : "Kunal Pal","mail" : "k.pal@iitg.ac.in","surname": "200104048","id" : "jdkf"}
             context
