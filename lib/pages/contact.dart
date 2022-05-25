@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
+import 'package:flutter/services.dart';
 import 'package:onestop_dev/pages/contact2.dart';
 import '../globals/my_colors.dart';
 import '../globals/my_fonts.dart';
+
+List<String> list = [];
+var namedetails = {};
 
 class ContactPage extends StatefulWidget {
   static String id = "/contacto";
@@ -13,6 +19,34 @@ class ContactPage extends StatefulWidget {
 }
 
 class _ContactPageState extends State<ContactPage> {
+
+  var _items = [];
+  var namedetailso = {};
+
+  // Fetch content from the json file
+  Future<void> readJson() async {
+    final String response = await rootBundle.loadString('lib/globals/contacts.json');
+    final data = await json.decode(response);
+    setState(() {
+      _items = data;
+    });
+
+    _items.forEach((element) => list.add(element['name']));
+    _items.forEach((element) => namedetails[element['name']] = element['contacts']);
+
+    print(list);
+    print(namedetails);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    list = [];
+    namedetails = {};
+    super.initState();
+    readJson();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,7 +163,7 @@ class _ContactPageState extends State<ContactPage> {
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       starredContact('Gensec SWC'),
@@ -179,13 +213,14 @@ class _ContactPageState extends State<ContactPage> {
                   ],
                 ),
                 itemBuilder: (_, k, id) {
+                  print('id'+id.toString());
                   return Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Contacts2(Contacts10: namedetails['$id'], title: 'Campus', subtitle: '$id',)),
+                          MaterialPageRoute(builder: (context) => Contacts2(Contacts10: namedetails[id], title: 'Campus', subtitle: id,)),
                         );
                       },
                       child: ListTile(
@@ -261,10 +296,10 @@ class CitySearch extends SearchDelegate<String> {
       hintColor: kGrey2,
       appBarTheme: AppBarTheme(
         color: kBlueGrey, toolbarTextStyle: TextTheme(
-            headline6: TextStyle( // headline 6 affects the query text
-                color: kGrey2,
-                fontSize: 12.0,
-                fontWeight: FontWeight.bold)).bodyText2,
+          headline6: TextStyle( // headline 6 affects the query text
+              color: kGrey2,
+              fontSize: 12.0,
+              fontWeight: FontWeight.bold)).bodyText2,
       ),
     );
   }
@@ -290,7 +325,7 @@ class CitySearch extends SearchDelegate<String> {
     onPressed: () => close(context, ''),
   );
 
-  
+
 
   @override
   Widget buildSuggestions(BuildContext context) {
@@ -300,13 +335,13 @@ class CitySearch extends SearchDelegate<String> {
       return cityLower.contains(queryLower);
     }).toList();
     x = suggestions;
-   return buildSuggestionsSuccess(suggestions);
+    return buildSuggestionsSuccess(suggestions);
   }
 
   @override
   Widget buildResults(BuildContext context) => buildSuggestionsSuccess(x);
-  
-  
+
+
   Widget buildSuggestionsSuccess(List<String> suggestions) => ListView.builder(
     itemCount: suggestions.length,
     itemBuilder: (context, index) {
@@ -325,12 +360,12 @@ class CitySearch extends SearchDelegate<String> {
           close(context, suggestion);
 
           // 3. Navigate to Result Page
-            Navigator.push(
-             context,
-             MaterialPageRoute(
-               builder: (BuildContext context) => Contacts2(title: 'Campus', subtitle: query, Contacts10: namedetails[query],),
-             ),
-           );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => Contacts2(title: 'Campus', subtitle: query, Contacts10: namedetails[query],),
+            ),
+          );
         },
         leading: Icon(Icons.people, color: kWhite,),
         // title: Text(suggestion),
@@ -344,170 +379,6 @@ class CitySearch extends SearchDelegate<String> {
     },
   );
 }
-
-List<String> list = [
-  'a',
-  'aa',
-  'aaa',
-  'b',
-  'bb',
-  'bbb',
-  'c',
-  'd',
-  'e',
-  'f',
-  'tha',
-  'g',
-
-];
-
-Map<String, List<Map<String, dynamic>>> namedetails =
-  {
-    'a': Contacts0,
-    'aa': Contacts10,
-    'aaa': Contacts10,
-    'b': Contacts10,
-    'bb': Contacts10,
-    'bbb': Contacts10,
-    'c': Contacts10,
-    'd': Contacts10,
-    'e': Contacts10,
-    'f': Contacts10,
-    'g': Contacts10,
-    'tha': Contacts0
-  };
-
-
-List<Map<String, dynamic>> Contacts0 = [
-{
-'name': 'ball',
-'email': 'cat',
-'number': 32789108323,
-},
-];
-
-List<Map<String, dynamic>> Contacts10 = [
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-  {
-    'name': 'Admin',
-    'email': 'dmskal,msMsa',
-    'number': 32789108323,
-  },
-];
 
 starredContact(String contact)
 {
