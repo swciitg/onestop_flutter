@@ -4,10 +4,10 @@ import '../globals/my_colors.dart';
 import '../globals/my_fonts.dart';
 
 class Contacts2 extends StatefulWidget {
-  final List<Map<String, dynamic>> Contacts10;
+  final Contacts10;
   final String title;
   final String subtitle;
-  const Contacts2({Key? key, required this.Contacts10, required this.title, required this.subtitle}) : super(key: key);
+  const Contacts2({Key? key,  this.Contacts10, required this.title, required this.subtitle}) : super(key: key);
   @override
   State<Contacts2> createState() => _Contacts2State();
 }
@@ -15,6 +15,23 @@ class Contacts2 extends StatefulWidget {
 
 
 class _Contacts2State extends State<Contacts2> {
+
+  List<Map<String, dynamic>> _contact = [];
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _contact.clear();
+    for(final item in widget.Contacts10)
+      {
+        _contact.add({'name': item['name'], 'email': item['email'], 'contact': item['contact']});
+      }
+    //print(_contact);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -73,7 +90,7 @@ class _Contacts2State extends State<Contacts2> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0, top: 2),
                   child: Text(
-                    widget.Contacts10.length.toString()+' contacts',
+                    widget.Contacts10!.length.toString()+' contacts',
                     style: TextStyle(
                       color: kFontGrey,
                       fontFamily: 'Montserrat',
@@ -145,7 +162,7 @@ class _Contacts2State extends State<Contacts2> {
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: widget.Contacts10.map((item) {
+                  children: _contact.map((item) {
                     return Padding(
                       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                       child: Row(
@@ -187,7 +204,7 @@ class _Contacts2State extends State<Contacts2> {
                               alignment: AlignmentDirectional.bottomEnd,
                               width: MediaQuery.of(context).size.width / 3 - 15,
                               child: Text(
-                                item['number'].toString(),
+                                item['contact'].toString(),
                                 style: TextStyle(
                                   color: Colors.blue,
                                   fontFamily: 'Montserrat',
