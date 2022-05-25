@@ -10,7 +10,6 @@ import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 class LoginStore {
   Map<String, String> userData = <String, String>{};
   final cookieManager = WebviewCookieManager();
-
   // static final Config config = Config(
   //     tenant: '850aa78d-94e1-4bc6-9cf3-8c11b530701c',
   //     clientId: '81f3e9f0-b0fd-48e0-9d36-e6058e5c6d4f',

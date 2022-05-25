@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,7 @@ import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_form.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class LostFoundHome extends StatefulWidget {
   static const id = "/lostFoundHome";
@@ -68,10 +70,10 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                   List<Widget> lostItems=[];
                   List<Widget> foundItems=[];
                   lostsSnapshot.data!.forEach((element) => {
-                    lostItems.add(ListItemWidget(category: "Lost", title: element["title"], description: element["description"],phonenumber: element["phonenumber"] ,location: element["location"], imageURL : element["imageURL"], date: DateTime.parse(element["date"])))
+                    lostItems.add(ListItemWidget(category: "Lost", title: element["title"], description: element["description"],phonenumber: element["phonenumber"] ,location: element["location"], imageURL : element["imageURL"], compressedImageURL: element["compressedImageURL"], date: DateTime.parse(element["date"])))
                   });
                   foundsSnapshot.data!.forEach((element) => {
-                    foundItems.add(ListItemWidget(category: "Found", title: element["title"], description: element["description"], location: element["location"], imageURL : element["imageURL"], date: DateTime.parse(element["date"]),submittedAt: element["submittedat"],))
+                    foundItems.add(ListItemWidget(category: "Found", title: element["title"], description: element["description"], location: element["location"], imageURL : element["imageURL"], compressedImageURL: element["compressedImageURL"], date: DateTime.parse(element["date"]),submittedAt: element["submittedat"],))
                   });
                   return StreamBuilder(
                     stream: typeStream,
@@ -86,14 +88,14 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                                   onTap: (){
                                     if(snapshot.hasData && snapshot.data! != "Lost") selectedTypeController.sink.add("Lost");
                                   },
-                                  child: ItemTypeBar(text: "Lost", textStyle: MyFonts.medium.size(17).setColor(snapshot.hasData==false ? kBlack : (snapshot.data! == "Lost" ? kBlack : kWhite)),backgroundColor: snapshot.hasData==false ? kBlue : (snapshot.data! == "Lost" ? kBlue : kGrey2),),
+                                  child: ItemTypeBar(text: "Lost", textStyle: MyFonts.medium.size(17).setColor(snapshot.hasData==false ? kBlack : (snapshot.data! == "Lost" ? kBlack : kWhite)),backgroundColor: snapshot.hasData==false ? lBlue2 : (snapshot.data! == "Lost" ? lBlue2 : kBlueGrey),),
                                 ),
                                 GestureDetector(
                                   onTap: (){
                                     if(!snapshot.hasData) selectedTypeController.sink.add("Found");
                                     if(snapshot.hasData && snapshot.data! != "Found") selectedTypeController.sink.add("Found");
                                   },
-                                  child: ItemTypeBar(text: "Found", textStyle: MyFonts.medium.size(17).setColor(snapshot.hasData==false ? kWhite : (snapshot.data! == "Found" ? kBlack : kWhite)),backgroundColor: snapshot.hasData==false ? kGrey2 : (snapshot.data! == "Found" ? kBlue : kGrey2),),
+                                  child: ItemTypeBar(text: "Found", textStyle: MyFonts.medium.size(17).setColor(snapshot.hasData==false ? kWhite : (snapshot.data! == "Found" ? kBlack : kWhite)),backgroundColor: snapshot.hasData==false ? kBlueGrey : (snapshot.data! == "Found" ? lBlue2 : kBlueGrey),),
                                 ),
                               ],
                             ),
@@ -154,6 +156,11 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                   });
               if(xFile!=null){
                 var bytes = File(xFile!.path).readAsBytesSync();
+                var imageSize = (bytes.lengthInBytes/(1048576)); // dividing by 1024*1024
+                if(imageSize>2.5){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Maximum image size can be 2.5 MB")));
+                  return ;
+                }
                 var imageString = base64Encode(bytes);
                 if(!snapshot.hasData || snapshot.data! =="Lost"){
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => LostFoundForm(category: "Lost",imageString: imageString,)));
@@ -163,23 +170,26 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               }
             },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 13,vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 16,vertical: 13),
               margin: EdgeInsets.only(bottom: 18),
               decoration: BoxDecoration(
-                color: kBlue,
+                color: lBlue2,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
-                      Icons.add,
-                    size: 27,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Icon(
+                        Icons.add,
+                      size: 24,
+                    ),
                   ),
                   Text(
                       !snapshot.hasData ? "Lost Item" : (snapshot.data! =="Lost" ? "Lost Item" : "Found Item"),
-                    style: MyFonts.bold.size(18).setColor(kBlack),
+                    style: MyFonts.bold.size(15).setColor(kBlack),
                   ),
                 ],
               ),
@@ -198,17 +208,20 @@ class ListItemWidget extends StatelessWidget {
   final String location;
   final String description;
   final String imageURL;
+  final String compressedImageURL;
   final String phonenumber;
   final DateTime date;
   final String submittedAt;
 
-  const ListItemWidget({Key? key,required this.category, required this.title, required this.description,required this.location,required this.imageURL,required this.date,this.phonenumber = "",this.submittedAt = ""}) : super(key: key);
+  const ListItemWidget({Key? key,required this.category, required this.title, required this.description,required this.location,required this.imageURL,required this.compressedImageURL,required this.date,this.phonenumber = "",this.submittedAt = ""}) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    Duration passedDuration = DateTime.now().difference(date);
+    String timeagoString = timeago.format(DateTime.now().subtract(passedDuration));
 
     void detailsDialogBox(String category,String imageURL, String description, String location, String contactnumber, String submitted) {
       showDialog(context: context, builder: (BuildContext context) {
@@ -219,102 +232,105 @@ class ListItemWidget extends StatelessWidget {
             child: Container(
               width: screenWidth-40,
               decoration: BoxDecoration(
-                  color: lGrey,
+                  color: kBlueGrey,
                   borderRadius: BorderRadius.circular(15)
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15)),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(maxHeight: screenHeight*0.2,maxWidth: screenWidth-40),
-                      child: SingleChildScrollView(
-                        child: Image.network(imageURL),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 4,right: 4),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15)),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: screenHeight*0.3,maxWidth: screenWidth-40),
+                        child: SingleChildScrollView(
+                          child: Image.network(imageURL),
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
-                          child: Text(
-                            title,
-                            style: MyFonts.bold.size(20).setColor(kWhite),
-                          ),
-                        ),
-                        Visibility(
-                          visible: category=="Lost" ? true : false,
-                          child: GestureDetector(
-                            onTap: () async {
-                              await launch("tel:+91$contactnumber");
-                            },
-                            child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
-                                decoration: BoxDecoration(
-                                    color: kBackground,
-                                    borderRadius: BorderRadius.circular(15)
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.phone,size: 20,color: kBlue,),
-                                    Text(
-                                      " Call",
-                                      style: MyFonts.medium.size(15).setColor(kBlue),
-                                    )
-                                  ],
-                                )
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                            child: Text(
+                              title,
+                              style: MyFonts.bold.size(20).setColor(kWhite),
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Visibility(
-                    visible: category=="Found" ? true : false,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
-                      child: Text(
-                        "Submitted at: " + submitted,
-                        style: MyFonts.medium.size(17).setColor(kWhite),
+                          Visibility(
+                            visible: category=="Lost" ? true : false,
+                            child: GestureDetector(
+                              onTap: () async {
+                                await launch("tel:+91$contactnumber");
+                              },
+                              child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 12,vertical: 4),
+                                  decoration: BoxDecoration(
+                                      color: kGrey9,
+                                      borderRadius: BorderRadius.circular(15)
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.phone,size: 20,color: lBlue2,),
+                                      Text(
+                                        " Call",
+                                        style: MyFonts.medium.size(15).setColor(lBlue2),
+                                      )
+                                    ],
+                                  )
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
-                    child: Text(
-                      (category=="Lost" ? "Lost at: " : "Found at: ") + location,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: MyFonts.medium.size(17).setColor(kWhite),
-                    ),
-                  ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxHeight: screenHeight*0.2,maxWidth: screenWidth-40),
-                    child: SingleChildScrollView(
+                    Visibility(
+                      visible: category=="Found" ? true : false,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
                         child: Text(
-                          "Description: " + description,
-                          style: MyFonts.light.size(15).setColor(kWhite),
+                          "Submitted at: " + submitted,
+                          style: MyFonts.medium.size(17).setColor(kGrey6),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString() + " | " + DateFormat.jm().format(date.toLocal()).toString(),
-                      style: MyFonts.light.size(13).setColor(kWhite),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                      child: Text(
+                        (category=="Lost" ? "Lost at: " : "Found at: ") + location,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: MyFonts.medium.size(17).setColor(kGrey6),
+                      ),
                     ),
-                  ),
-                ],
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxHeight: screenHeight*0.2,maxWidth: screenWidth-40),
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                          child: Text(
+                            "Description: " + description,
+                            style: MyFonts.light.size(15).setColor(kGrey10),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString() + " | " + DateFormat.jm().format(date.toLocal()).toString(),
+                        style: MyFonts.light.size(13).setColor(kGrey7),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -338,35 +354,40 @@ class ListItemWidget extends StatelessWidget {
             ConstrainedBox(
               constraints: BoxConstraints(maxWidth: (screenWidth*0.65)-46),
               child: Padding(
-                padding: const EdgeInsets.only(left: 10,right: 10),
+                padding: const EdgeInsets.only(left: 16,right: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                        title,
-                        maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: MyFonts.medium.size(20).setColor(kWhite),
+                    Container(
+                      margin: EdgeInsets.only(top: 8),
+                      child: Text(
+                          title,
+                          maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: MyFonts.medium.size(20).setColor(kWhite),
+                      ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.only(top: 4,bottom: 6),
                       child: Text(
                           (category=="Lost" ? "Lost " : "Found ") + location,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: MyFonts.light.size(15).setColor(kWhite),
+                        style: MyFonts.light.size(17).setColor(kWhite),
                       ),
                     ),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 13,vertical: 2),
+                      margin: EdgeInsets.only(bottom: 8),
                       decoration: BoxDecoration(
-                        color: kBackground,
+                        color: kGrey9,
                         borderRadius: BorderRadius.circular(15)
                       ),
                       child: Text(
-                          date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString(),
-                        style: MyFonts.light.size(15).setColor(kBlue),
+                          timeagoString,
+                        style: MyFonts.medium.size(14).setColor(lBlue2),
                       ),
                     ),
                   ],
@@ -377,17 +398,26 @@ class ListItemWidget extends StatelessWidget {
               constraints: BoxConstraints(maxHeight: 110),
               child: ClipRRect(
                 borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20)),
-                child: Container(
-                  width: screenWidth*0.35,
-                  decoration: BoxDecoration(
+                child: CachedNetworkImage(
+                  imageUrl: compressedImageURL,
+                  imageBuilder: (context, imageProvider) => Container(
+                    alignment: Alignment.center,
+                    width: screenWidth*0.35,
+                    decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(imageURL),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20))
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                    ),
                   ),
+                  ),
+                  placeholder: (context, url) => Container(
+                    alignment: Alignment.center,
+                    width: screenWidth*0.35,
+                    child: Text("Loading...",style: MyFonts.medium.size(14).setColor(kGrey9)),
+                  ),
+                  errorWidget: (context, url, error) => Center(child: Icon(Icons.error),),
                 ),
-              ),
+                ),
             )
           ],
         ),

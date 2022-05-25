@@ -9,6 +9,8 @@ import 'package:onestop_dev/pages/home.dart';
 import 'package:onestop_dev/pages/lost_found/imp_widgets.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:http/http.dart' as http;
+import 'package:onestop_dev/stores/login_store.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class LostFoundForm extends StatefulWidget {
   static const id = "/lostFoundForm";
@@ -174,9 +176,11 @@ class _LostFoundFormState extends State<LostFoundForm> {
           if(!isValid){
             return;
           }
-          SharedPreferences user = await SharedPreferences.getInstance();
-          String userEmail = await user.getString("email")!;
-          String username = await user.getString("name")!;
+          // SharedPreferences user = await SharedPreferences.getInstance();
+          // String userEmail = await user.getString("email")!;
+          // String username = await user.getString("name")!;
+          String userEmail = context.read<LoginStore>().userData["email"]!;
+          String username = context.read<LoginStore>().userData["name"]!;
           if(savingToDB==true) return;
           savingToDB=true;
           dbSavingController.sink.add(true);

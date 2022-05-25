@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -23,58 +24,54 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool loading = false;
   Completer<WebViewController> _controller = Completer<WebViewController>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
       body: loading
-          ? WebView(
-        initialUrl: "https://swc.iitg.ac.in/onestopapi/auth/microsoft",
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (controller){
-          _controller.complete(controller);
-        },
-        onPageFinished: (url) async {
-          if(url.startsWith("https://swc.iitg.ac.in/onestopapi/auth/microsoft/redirect?code")){
-            WebViewController controller = await _controller.future;
-            var userInfoString = await controller.runJavascriptReturningResult("document.getElementById('userInfo').innerText");
-            print(userInfoString);
-            var userInfo = {};
-            String check = "";
-            int count=1;
-            for(int i=0;i<userInfoString.length;i++){
-              if(userInfoString[i]!="/"){
-                check = check + userInfoString[i];
+          ? SafeArea(
+          child: WebView(
+            initialUrl: "https://swc.iitg.ac.in/onestopapi/auth/microsoft",
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (controller){
+              _controller.complete(controller);
+            },
+            onPageFinished: (url) async {
+              if(url.startsWith("https://swc.iitg.ac.in/onestopapi/auth/microsoft/redirect?code")){
+                WebViewController controller = await _controller.future;
+                var checkString = await controller.runJavascriptReturningResult("document.querySelector('h1').innerText");
+                print(checkString);
+                await controller.runJavascriptReturningResult("document.querySelector('#userInfo').innerText").then((value) => print(value)).catchError((err) => print(err));
+                var userInfoString = await controller.runJavascriptReturningResult("document.querySelector('#userInfo').innerText");
+                print(userInfoString);
+                var userInfo = {};
+                String check = "";
+                int count=1;
+
+                List<String> values = userInfoString.split("/");
+                userInfo["displayName"] = values[0];
+                userInfo["mail"] = values[1];
+                userInfo["surname"] = values[2];
+                userInfo["id"]=values[3];
+                SharedPreferences user = await SharedPreferences.getInstance();
+                context
+                    .read<LoginStore>()
+                    .saveToPreferences(user, userInfo);
+                context
+                    .read<LoginStore>()
+                    .saveToUserData(user);
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
               }
-              else{
-                print(check);
-                if(count==1){
-                  userInfo["displayName"] = check;
-                }
-                else if(count==2){
-                  userInfo["mail"] = check;
-                }
-                else{
-                  userInfo["surname"] = check;
-                }
-                check="";
-                count+=1;
-              }
-            }
-            print(check);
-            userInfo["id"]=check;
-            SharedPreferences user = await SharedPreferences.getInstance();
-            // {"displayName" : "Kunal Pal","mail" : "k.pal@iitg.ac.in","surname": "200104048","id" : "jdkf"}
-            context
-                .read<LoginStore>()
-                .saveToPreferences(user, userInfo);
-            context
-                .read<LoginStore>()
-                .saveToUserData(user);
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-          }
-        },
+            },
+          )
       )
           : Column(
               mainAxisAlignment: MainAxisAlignment.center,

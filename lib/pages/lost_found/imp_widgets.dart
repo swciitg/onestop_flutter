@@ -14,7 +14,7 @@ class ProgressBar extends StatelessWidget {
       bars.add(Expanded(
           child: Container(
             height: 4,
-            color: kBlue,
+            color: lBlue2,
             margin: EdgeInsets.only(right: 2),
           )),);
     }
@@ -22,7 +22,7 @@ class ProgressBar extends StatelessWidget {
       bars.add(Expanded(
           child: Container(
             height: 4,
-            color: kBlue,
+            color: lBlue2,
             margin: EdgeInsets.symmetric(horizontal: 2),
           )),);
     }
