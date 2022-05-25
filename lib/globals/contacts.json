@@ -1,0 +1,76 @@
+ [
+   {
+     "name": "Guest House",
+     "contacts": [
+       {
+         "name": "abcd",
+         "email": "abcd",
+         "contact": 124
+       },
+       {
+         "name": "abcd",
+         "email": "abcd",
+         "contact": 124
+       }
+     ]
+   },
+   {
+     "name": "Gymkhana",
+     "contacts": [
+       {
+         "name": "abcde",
+         "email": "abcde",
+         "contact": 1245},
+       {
+         "name": "abcde",
+         "email": "abcde",
+         "contact": 1245
+       }
+     ]
+   },
+   {
+     "name": "Hostels",
+     "contacts": [
+       {
+         "name": "abcdf",
+         "email": "abcdf",
+         "contact": 1246
+       },
+       {
+         "name": "abcdf",
+         "email": "abcdf",
+         "contact": 1246
+       }
+     ]
+   },
+   {
+     "name": "APple",
+     "contacts": [
+       {
+         "name": "abcdf",
+         "email": "abcdf",
+         "contact": 1246
+       },
+       {
+         "name": "abcdf",
+         "email": "abcdf",
+         "contact": 1246
+       }
+     ]
+   },
+   {
+     "name": "Dog",
+     "contacts": [
+       {
+         "name": "abcdf",
+         "email": "abcdf",
+         "contact": 1246
+       },
+       {
+         "name": "abcdf",
+         "email": "abcdf",
+         "contact": 1246
+       }
+     ]
+   }
+ ]
