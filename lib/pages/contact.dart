@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:onestop_dev/pages/contact2.dart';
 import '../globals/my_colors.dart';
-import '../globals/my_colors.dart';
 import '../globals/my_fonts.dart';
 
 class ContactPage extends StatefulWidget {
