@@ -12,7 +12,7 @@ import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 import 'package:onestop_dev/widgets/mapBox.dart';
 import 'package:onestop_dev/models/timetable.dart';
-
+import 'package:add_2_calendar/add_2_calendar.dart';
 import '../globals/days.dart';
 
 class HomePage extends StatefulWidget {
@@ -96,6 +96,8 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: (index == 3)
           ? FloatingActionButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
               onPressed: () {
                 _showMyDialog();
               },
@@ -105,19 +107,30 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Event buildEvent({required String title}) {
+    return Event(
+      title: title,
+      startDate: DateTime.now(),
+      endDate: DateTime.now().add(Duration(hours: 1)),
+    );
+  }
+
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromRGBO(39, 49, 65, 100),
+          backgroundColor: Colors.blueGrey.shade900,
           content: SingleChildScrollView(
               child: Column(
             children: [
               GestureDetector(
                 onTap: () {
                   print('assignment');
+                  Add2Calendar.addEvent2Cal(
+                    buildEvent(title: 'Assignment'),
+                  );
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width - 20,
@@ -149,6 +162,9 @@ class _HomePageState extends State<HomePage> {
               GestureDetector(
                 onTap: () {
                   print('exam');
+                  Add2Calendar.addEvent2Cal(
+                    buildEvent(title: 'Exam'),
+                  );
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width - 20,
@@ -840,6 +856,7 @@ class _TimeTable1State extends State<TimeTable1> {
   @override
   Widget build(BuildContext context) {
     determiningSel();
+    adjustTime();
     return FutureBuilder<Time>(
       future: timetable,
       builder: (BuildContext context, AsyncSnapshot<Time> snapshot) {
@@ -1114,6 +1131,7 @@ class _TimeTable1State extends State<TimeTable1> {
             ),
           );
         } else if (snapshot.hasError) {
+          Future.delayed(Duration.zero, () => _reload());
           return Column(
             children: [
               Container(
@@ -1166,9 +1184,6 @@ class _TimeTable1State extends State<TimeTable1> {
                       );
                     }),
               ),
-              Center(
-                child: Text('Error'),
-              ),
             ],
           );
         } else
@@ -1180,6 +1195,7 @@ class _TimeTable1State extends State<TimeTable1> {
   }
 
   addWidgets({required Time data}) {
+    data.courses!.sort((a, b) => a.slot!.compareTo(b.slot!));
     List<List<String>> a1 = [];
     List<List<String>> a2 = [];
     List<List<String>> a3 = [];
@@ -1336,6 +1352,89 @@ class _TimeTable1State extends State<TimeTable1> {
         sele = -1;
       });
     }
+  }
+
+  adjustTime() {
+    dates[0] = DateTime.now();
+    if (dates[0].weekday == 2) {
+      dates[4] = dates[3].add(Duration(days: 3));
+    } else if (dates[0].weekday == 3) {
+      dates[3] = dates[2].add(Duration(days: 3));
+      dates[4] = dates[3].add(Duration(days: 1));
+    } else if (dates[0].weekday == 4) {
+      dates[2] = dates[1].add(Duration(days: 3));
+      dates[3] = dates[2].add(Duration(days: 1));
+      dates[4] = dates[3].add(Duration(days: 1));
+    } else if (dates[0].weekday == 5) {
+      dates[1] = dates[0].add(Duration(days: 3));
+      dates[2] = dates[1].add(Duration(days: 1));
+      dates[3] = dates[2].add(Duration(days: 1));
+      dates[4] = dates[3].add(Duration(days: 1));
+    } else if (dates[0].weekday == 6) {
+      dates[0] = dates[0].add(Duration(days: 2));
+      dates[1] = dates[0].add(Duration(days: 1));
+      dates[2] = dates[1].add(Duration(days: 1));
+      dates[3] = dates[2].add(Duration(days: 1));
+      dates[4] = dates[3].add(Duration(days: 1));
+    } else if (dates[0].weekday == 7) {
+      dates[0] = dates[0].add(Duration(days: 1));
+      dates[1] = dates[0].add(Duration(days: 1));
+      dates[2] = dates[1].add(Duration(days: 1));
+      dates[3] = dates[2].add(Duration(days: 1));
+      dates[4] = dates[3].add(Duration(days: 1));
+    }
+  }
+
+  Future<void> _reload() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Column(
+            children: [
+              Text(
+                'Error',
+                style: MyFonts.bold.size(25).setColor(kWhite),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'You\'ve run into the error,please reload.',
+                style: MyFonts.regular.size(13).setColor(Colors.white),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              RaisedButton(
+                onPressed: () {},
+                color: Color.fromRGBO(85, 95, 113, 100),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/Replay.png',
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Reload',
+                      style: MyFonts.medium.size(15).setColor(Colors.white),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
