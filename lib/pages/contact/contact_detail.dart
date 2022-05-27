@@ -63,11 +63,7 @@ class _Contacts2State extends State<Contacts2> {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
                       widget.subtitle,
-                      style: TextStyle(
-                          color: kWhite,
-                          fontFamily: 'Montserrat',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
+                      style: MyFonts.med6.size(16).setColor(kWhite),
                     ),
                   ),
                   Expanded(child: SizedBox()),
@@ -75,11 +71,7 @@ class _Contacts2State extends State<Contacts2> {
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Text(
                       widget.title,
-                      style: TextStyle(
-                        color: kFontGrey,
-                        fontFamily: 'Montserrat',
-                        fontSize: 12,
-                      ),
+                      style: MyFonts.regular.size(14).setColor(kGrey2),
                     ),
                   )
                 ],
@@ -91,18 +83,12 @@ class _Contacts2State extends State<Contacts2> {
                   padding: const EdgeInsets.only(left: 8.0, top: 2),
                   child: Text(
                     widget.Contacts10!.length.toString()+' contacts',
-                    style: TextStyle(
-                      color: kFontGrey,
-                      fontFamily: 'Montserrat',
-                      fontSize: 12,
-                    ),
+                    style: MyFonts.medium.size(12).setColor(kGrey11),
                   ),
                 ),
               ],
             ),
-            SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20,),
             Row(
               children: [
                 Padding(
@@ -112,11 +98,7 @@ class _Contacts2State extends State<Contacts2> {
                     width: MediaQuery.of(context).size.width / 3 - 10,
                     child: Text(
                       'Name',
-                      style: TextStyle(
-                        color: kFontGrey,
-                        fontFamily: 'Montserrat',
-                        fontSize: 12,
-                      ),
+                      style: MyFonts.medium.size(12).setColor(kGrey11),
                     ),
                   ),
                 ),
@@ -126,11 +108,7 @@ class _Contacts2State extends State<Contacts2> {
                     width: MediaQuery.of(context).size.width / 3 - 10,
                     child: Text(
                       'Email id',
-                      style: TextStyle(
-                        color: kFontGrey,
-                        fontFamily: 'Montserrat',
-                        fontSize: 12,
-                      ),
+                      style: MyFonts.medium.size(12).setColor(kGrey11),
                     ),
                   ),
                 ),
@@ -141,11 +119,7 @@ class _Contacts2State extends State<Contacts2> {
                     width: MediaQuery.of(context).size.width / 3 - 15,
                     child: Text(
                       'Contact No',
-                      style: TextStyle(
-                        color: kFontGrey,
-                        fontFamily: 'Montserrat',
-                        fontSize: 12,
-                      ),
+                      style: MyFonts.medium.size(12).setColor(kGrey11),
                     ),
                   ),
                 ),
@@ -174,12 +148,7 @@ class _Contacts2State extends State<Contacts2> {
                               width: MediaQuery.of(context).size.width / 3 - 10,
                               child: Text(
                                 item['name'],
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: MyFonts.regular.size(14).setColor(kWhite),
                               ),
                             ),
                           ),
@@ -189,12 +158,7 @@ class _Contacts2State extends State<Contacts2> {
                               width: MediaQuery.of(context).size.width / 3 - 10,
                               child: Text(
                                 item['email'],
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: MyFonts.regular.size(14).setColor(lBlue2),
                               ),
                             ),
                           ),
@@ -205,12 +169,7 @@ class _Contacts2State extends State<Contacts2> {
                               width: MediaQuery.of(context).size.width / 3 - 15,
                               child: Text(
                                 item['contact'].toString(),
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: MyFonts.regular.size(14).setColor(lBlue2),
                               ),
                             ),
                           ),
@@ -227,4 +186,3 @@ class _Contacts2State extends State<Contacts2> {
     );
   }
 }
-
