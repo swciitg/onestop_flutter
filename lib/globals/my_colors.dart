@@ -27,4 +27,5 @@ const Color kGrey6 = Color.fromRGBO(224, 226, 235, 1);
 const Color kGrey9 = Color.fromRGBO(62, 71, 88, 1);
 const Color kGrey10 = Color.fromRGBO(162, 172, 192, 1);
 const Color kFontGrey = Color.fromRGBO(224, 226, 235, 1);
+const Color kGrey11 = Color.fromRGBO(135,145,165,1);
 
