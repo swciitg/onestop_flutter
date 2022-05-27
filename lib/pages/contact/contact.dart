@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:flutter/services.dart';
-
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
+import '../../models/contact_model.dart';
 import 'contact_detail.dart';
 
-List<String> list = [];
-var namedetails = {};
+
+Map<String, ContactModel> people= {};
 
 class ContactPage extends StatefulWidget {
   static String id = "/contacto";
@@ -19,30 +19,18 @@ class ContactPage extends StatefulWidget {
 }
 class _ContactPageState extends State<ContactPage> {
 
-  var _items = [];
-  var namedetailso = {};
-
   // Fetch content from the json file
   Future<void> readJson() async {
     final String response = await rootBundle.loadString('lib/globals/contacts.json');
     final data = await json.decode(response);
-    setState(() {
-      _items = data;
-    });
-
-    _items.forEach((element) => list.add(element['name']));
-    _items.forEach((element) => namedetails[element['name']] = element['contacts']);
-
-    print(list);
-    print(namedetails);
+    setState(() {});
+    data.forEach((element) => people[element['name']] = ContactModel.fromJson(element));
   }
 
   @override
   void initState() {
-    // TODO: implement initState
-    list = [];
-    namedetails = {};
     super.initState();
+    people.clear();
     readJson();
   }
 
@@ -187,7 +175,7 @@ class _ContactPageState extends State<ContactPage> {
             ),
             Expanded(
               child: AlphabetScrollView(
-                list: list.map((e) => AlphaModel(e)).toList(),
+                list: people.keys.map((e) => AlphaModel(e)).toList(),
                 alignment: LetterAlignment.right,
                 itemExtent: 50,
                 unselectedTextStyle: MyFonts.regular.size(12).setColor(kbg),
@@ -195,45 +183,26 @@ class _ContactPageState extends State<ContactPage> {
                 overlayWidget: (value) => Stack(
                   alignment: Alignment.center,
                   children: [
-                    Icon(
-                      Icons.circle,
-                      size: 30,
-                      color: Colors.grey,
-                    ),
+                    Icon(Icons.circle, size: 30, color: Colors.grey,),
                     Container(
                       height: 50, width: 50,
                       decoration: BoxDecoration(shape: BoxShape.circle,),
                       alignment: Alignment.center,
-                      child: Text(
-                        '$value'.toUpperCase(),
-                        style: TextStyle(fontSize: 18, color: kWhite),
-                      ),
+                      child: Text('$value'.toUpperCase(), style: TextStyle(fontSize: 18, color: kWhite),),
                     ),
                   ],
                 ),
                 itemBuilder: (_, k, id) {
-                  print('id'+id.toString());
                   return Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Contacts2(Contacts10: namedetails[id], title: 'Campus', subtitle: id,)),
-                        );
-                      },
-                      child: ListTile(
-                        title: Text(
-                          '$id',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                      onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Contacts2(contact: people[id], title: 'Campus')),);},
+                      child: ListTile(title: Text(id, style: TextStyle(color: Colors.white),),),
                     ),
                   );
                 },
               ),
             )
-
           ],
         )
     );
@@ -282,8 +251,8 @@ class ContactSearchBar extends StatelessWidget {
 }
 
 class CitySearch extends SearchDelegate<String> {
-  final cities = list;
-  var x ;
+  final cities = people.keys.toList();
+  var x;
 
   @override
   String get searchFieldLabel => 'Search keyword (name, position etc)';
@@ -362,7 +331,7 @@ class CitySearch extends SearchDelegate<String> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => Contacts2(title: 'Campus', subtitle: query, Contacts10: namedetails[query],),
+              builder: (BuildContext context) => Contacts2(title: 'Campus',contact: people[query],),
             ),
           );
         },
@@ -404,4 +373,3 @@ starredContact(String contact)
       ),
     ), onPressed: (){},);
 }
-
