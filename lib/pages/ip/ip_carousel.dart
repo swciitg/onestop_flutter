@@ -13,7 +13,7 @@ List<String> textdata = [
   "Click on 'Manage wireless networks'",
   'Right click on \'Local area connection\' and then click on properties',
   'Uncheck \'Internet Protocol Version 6 (TCP/IPv6)\' and double click \'Internet Protocol Version 4 (TCP/IPv4)\'',
-  'Select \'Use the following IP address\' and \'Use the following DNS server addresses\' Modify the DNS address as given below\n\n\nprimary DNS: 172.171.1.1\nsecondary DNS: 172.17.1.2',
+  'Select \'Use the following IP address\' and \'Use the following DNS server addresses\' Modify the DNS address as given below\nprimary DNS: 172.171.1.1\nsecondary DNS: 172.17.1.2',
   'Enter the following details to get your IP address',
   '',
   "Make sure the connection is no-proxy/direct connection. Open any website in your browser. It will show a captive portal asking your IITG login credentials.Login to the portal and start accessing internet using the same.If you have a problem while redirecting to login page, then use this link given below in your pc browser https://agnigarh.iitg.ac.in:1442/login?"
@@ -287,7 +287,16 @@ class _RouterPageState extends State<RouterPage> {
                                         )
                                       : (i == 7)
                                           ? IpPage(argso: hostel)
-                                          : Text('Insert Image here'),
+                                          :
+                                  (i == 5)?
+                              Image.asset('assets/images/lan5.png', height: HEIGHT*0.33646,):
+                                  (i != 8) ?
+                                  SizedBox(
+                                    height: HEIGHT*0.39846,
+                                      child: Image.asset('assets/images/lan'+i.toString()+'.png')) :
+                                  SizedBox(
+                                      height: HEIGHT*0,
+                                  )
                                 ],
                               );
                             },
