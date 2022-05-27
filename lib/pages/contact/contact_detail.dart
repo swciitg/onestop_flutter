@@ -141,35 +141,41 @@ class _Contacts2State extends State<Contacts2> {
                       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                       child: Row(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Container(
-                              alignment: AlignmentDirectional.topStart,
-                              width: MediaQuery.of(context).size.width / 3 - 10,
-                              child: Text(
-                                item['name'],
-                                style: MyFonts.regular.size(14).setColor(kWhite),
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Container(
+                                alignment: AlignmentDirectional.topStart,
+                                child: Text(
+                                  item['name'],
+                                  style: MyFonts.regular.size(14).setColor(kWhite),
+                                ),
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 3 - 10,
-                              child: Text(
-                                item['email'],
-                                style: MyFonts.regular.size(14).setColor(lBlue2),
+                          Expanded(
+                          flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Container(
+                                child: Text(
+                                  item['email'],
+                                  style: MyFonts.regular.size(14).setColor(lBlue2),
+                                ),
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Container(
-                              alignment: AlignmentDirectional.bottomEnd,
-                              width: MediaQuery.of(context).size.width / 3 - 15,
-                              child: Text(
-                                item['contact'].toString(),
-                                style: MyFonts.regular.size(14).setColor(lBlue2),
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Container(
+                                alignment: AlignmentDirectional.bottomEnd,
+                                child: Text(
+                                  item['contact'].toString(),
+                                  style: MyFonts.regular.size(14).setColor(lBlue2),
+                                ),
                               ),
                             ),
                           ),
