@@ -239,22 +239,25 @@ class ListItemWidget extends StatelessWidget {
       showDialog(context: context, builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(21),),
+          insetPadding: EdgeInsets.symmetric(horizontal: 15),
           child: ConstrainedBox(
             constraints: BoxConstraints(maxHeight: screenHeight*0.7),
             child: Container(
-              width: screenWidth-40,
               decoration: BoxDecoration(
                   color: kBlueGrey,
-                  borderRadius: BorderRadius.circular(15)
+                  borderRadius: BorderRadius.circular(21)
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Container(
+                  //   width: screenWidth-30,
+                  // ), // to match listtile width
                   ClipRRect(
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(21),topRight: Radius.circular(21)),
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(maxHeight: screenHeight*0.3,maxWidth: screenWidth-40),
+                      constraints: BoxConstraints(maxHeight: screenHeight*0.3,maxWidth: screenWidth-30),
                       child: SingleChildScrollView(
                         child: FadeInImage(placeholder: AssetImage("assets/images/loading.gif"), image: NetworkImage(imageURL)),
                       ),
@@ -279,7 +282,8 @@ class ListItemWidget extends StatelessWidget {
                               await launch("tel:+91$contactnumber");
                             },
                             child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 12),
+                                padding: EdgeInsets.symmetric(horizontal: 12,vertical: 8),
+                                margin: EdgeInsets.only(right: 16),
                                 decoration: BoxDecoration(
                                     color: kGrey9,
                                     borderRadius: BorderRadius.circular(24)
@@ -287,10 +291,10 @@ class ListItemWidget extends StatelessWidget {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(Icons.phone,size: 20,color: lBlue2,),
+                                    Icon(Icons.phone,size: 11,color: lBlue2,),
                                     Text(
                                       " Call",
-                                      style: MyFonts.medium.size(15).setColor(lBlue2),
+                                      style: MyFonts.medium.size(11).setColor(lBlue2),
                                     )
                                   ],
                                 )
