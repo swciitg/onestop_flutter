@@ -14,6 +14,8 @@ class MyFonts {
       TextStyle(fontFamily: _fontFamily, fontWeight: FontWeight.w400);
   static TextStyle get bold =>
       TextStyle(fontFamily: _fontFamily, fontWeight: FontWeight.w700);
+  static TextStyle get med6 =>
+      TextStyle(fontFamily: _fontFamily, fontWeight: FontWeight.w600);
 }
 
 extension TextStyleHelpers on TextStyle {
