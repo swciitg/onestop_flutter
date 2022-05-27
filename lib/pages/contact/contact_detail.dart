@@ -2,35 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
+import '../../models/contact_model.dart';
 
 class Contacts2 extends StatefulWidget {
-  final Contacts10;
+  //final Contacts10;
   final String title;
-  final String subtitle;
-  const Contacts2({Key? key,  this.Contacts10, required this.title, required this.subtitle}) : super(key: key);
+  ContactModel ? contact;
+  Contacts2({Key? key, this.contact, required this.title}) : super(key: key);
   @override
   State<Contacts2> createState() => _Contacts2State();
 }
 
 
-
 class _Contacts2State extends State<Contacts2> {
-
-  List<Map<String, dynamic>> _contact = [];
-
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _contact.clear();
-    for(final item in widget.Contacts10)
-      {
-        _contact.add({'name': item['name'], 'email': item['email'], 'contact': item['contact']});
-      }
-    //print(_contact);
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +46,7 @@ class _Contacts2State extends State<Contacts2> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
-                      widget.subtitle,
+                      widget.contact!.name,
                       style: MyFonts.med6.size(16).setColor(kWhite),
                     ),
                   ),
@@ -82,7 +66,7 @@ class _Contacts2State extends State<Contacts2> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0, top: 2),
                   child: Text(
-                    widget.Contacts10!.length.toString()+' contacts',
+                    widget.contact!.contacts.length.toString()+' contacts',
                     style: MyFonts.medium.size(12).setColor(kGrey11),
                   ),
                 ),
@@ -136,7 +120,7 @@ class _Contacts2State extends State<Contacts2> {
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: _contact.map((item) {
+                  children: widget.contact!.contacts.map((item) {
                     return Padding(
                       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                       child: Row(
@@ -148,19 +132,19 @@ class _Contacts2State extends State<Contacts2> {
                               child: Container(
                                 alignment: AlignmentDirectional.topStart,
                                 child: Text(
-                                  item['name'],
+                                  item.name,
                                   style: MyFonts.regular.size(14).setColor(kWhite),
                                 ),
                               ),
                             ),
                           ),
                           Expanded(
-                          flex: 1,
+                            flex: 1,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: Container(
                                 child: Text(
-                                  item['email'],
+                                  item.email,
                                   style: MyFonts.regular.size(14).setColor(lBlue2),
                                 ),
                               ),
@@ -173,7 +157,7 @@ class _Contacts2State extends State<Contacts2> {
                               child: Container(
                                 alignment: AlignmentDirectional.bottomEnd,
                                 child: Text(
-                                  item['contact'].toString(),
+                                  item.contact.toString(),
                                   style: MyFonts.regular.size(14).setColor(lBlue2),
                                 ),
                               ),
