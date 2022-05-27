@@ -33,5 +33,3 @@ class ContactDetailsModel {
     email = json['email'];
   }
 }
-
-
