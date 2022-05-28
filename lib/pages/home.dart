@@ -927,7 +927,6 @@ class _TimeTable1State extends State<TimeTable1> {
                       return Padding(
                         padding: const EdgeInsets.only(top: 5.0, bottom: 5),
                         child: Container(
-                          height: 85,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
                             color: (sel == index)
@@ -961,46 +960,58 @@ class _TimeTable1State extends State<TimeTable1> {
                                     ],
                                   ),
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      Data1[dates[select].weekday]![index][0],
-                                      style: MyFonts.light
-                                          .size(13)
-                                          .setColor(kWhite),
-                                    ),
-                                    SizedBox(
-                                      height: 6,
-                                    ),
-                                    Text(
-                                      Data1[dates[select].weekday]![index][1],
-                                      style: MyFonts.medium
-                                          .size(18)
-                                          .setColor(kWhite),
-                                    ),
-                                    SizedBox(
-                                      height: 4,
-                                    ),
-                                    Row(
-                                      children: [
-                                        // Icon(
-                                        //   Icons.location_pin,
-                                        //   size: 13,
-                                        //   color: Color.fromRGBO(
-                                        //       212, 227, 255, 100),
-                                        // ),
-                                        Text(
-                                          Data1[dates[select].weekday]![index]
-                                              [2],
-                                          style: MyFonts.medium
-                                              .size(13)
-                                              .setColor(Color.fromRGBO(
-                                                  212, 227, 255, 100)),
-                                        )
-                                      ],
-                                    ),
-                                  ],
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        Data1[dates[select].weekday]![index][0],
+                                        style: MyFonts.light
+                                            .size(12)
+                                            .setColor(kWhite),
+                                      ),
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              Data1[dates[select].weekday]![
+                                                  index][1],
+                                              style: MyFonts.medium
+                                                  .size(15)
+                                                  .setColor(kWhite),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 3.0,
+                                      ),
+                                      Row(
+                                        children: [
+                                          // Icon(
+                                          //   Icons.location_pin,
+                                          //   size: 13,
+                                          //   color: Color.fromRGBO(
+                                          //       212, 227, 255, 100),
+                                          // ),
+                                          Text(
+                                            Data1[dates[select].weekday]![index]
+                                                [2],
+                                            style: MyFonts.light
+                                                .size(13)
+                                                .setColor(Color.fromRGBO(
+                                                    212, 227, 255, 100)),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -1039,17 +1050,12 @@ class _TimeTable1State extends State<TimeTable1> {
                       return Padding(
                         padding: const EdgeInsets.only(top: 5.0, bottom: 5),
                         child: Container(
-                          height: 85,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: (sele ==
-                                    index +
-                                        Data1[dates[select].weekday]!.length)
+                            color: (sel == index)
                                 ? Color.fromRGBO(101, 174, 130, 0.16)
                                 : Color.fromRGBO(120, 120, 120, 0.16),
-                            border: (sele ==
-                                    index +
-                                        Data1[dates[select].weekday]!.length)
+                            border: (sel == index)
                                 ? Border.all(color: Colors.blueAccent)
                                 : Border.all(color: Colors.transparent),
                           ),
@@ -1077,46 +1083,55 @@ class _TimeTable1State extends State<TimeTable1> {
                                     ],
                                   ),
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      Data2[dates[select].weekday]![index][0],
-                                      style: MyFonts.light
-                                          .size(13)
-                                          .setColor(kWhite),
-                                    ),
-                                    SizedBox(
-                                      height: 6,
-                                    ),
-                                    Text(
-                                      Data2[dates[select].weekday]![index][1],
-                                      style: MyFonts.medium
-                                          .size(18)
-                                          .setColor(kWhite),
-                                    ),
-                                    SizedBox(
-                                      height: 4,
-                                    ),
-                                    Row(
-                                      children: [
-                                        // Icon(
-                                        //   Icons.location_pin,
-                                        //   size: 13,
-                                        //   color: Color.fromRGBO(
-                                        //       212, 227, 255, 100),
-                                        // ),
-                                        Text(
-                                          Data2[dates[select].weekday]![index]
-                                              [2],
-                                          style: MyFonts.medium
-                                              .size(13)
-                                              .setColor(Color.fromRGBO(
-                                                  212, 227, 255, 100)),
-                                        )
-                                      ],
-                                    ),
-                                  ],
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        Data2[dates[select].weekday]![index][0],
+                                        style: MyFonts.light
+                                            .size(12)
+                                            .setColor(kWhite),
+                                      ),
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              Data2[dates[select].weekday]![
+                                                  index][1],
+                                              style: MyFonts.medium
+                                                  .size(15)
+                                                  .setColor(kWhite),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          // Icon(
+                                          //   Icons.location_pin,
+                                          //   size: 13,
+                                          //   color: Color.fromRGBO(
+                                          //       212, 227, 255, 100),
+                                          // ),
+                                          Text(
+                                            Data2[dates[select].weekday]![index]
+                                                [2],
+                                            style: MyFonts.light
+                                                .size(13)
+                                                .setColor(Color.fromRGBO(
+                                                    212, 227, 255, 100)),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -1390,48 +1405,61 @@ class _TimeTable1State extends State<TimeTable1> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          content: Column(
-            children: [
-              Text(
-                'Error',
-                style: MyFonts.bold.size(25).setColor(kWhite),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'You\'ve run into the error,please reload.',
-                style: MyFonts.regular.size(13).setColor(Colors.white),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              RaisedButton(
-                onPressed: () {},
-                color: Color.fromRGBO(85, 95, 113, 100),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/Replay.png',
-                      height: 20,
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Error',
+                    style: MyFonts.bold.size(24).setColor(kWhite),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'You\'ve run into the error,please reload.',
+                    style: MyFonts.regular.size(14).setColor(Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromRGBO(85, 95, 113, 100)),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24)),
+                      ),
                     ),
-                    SizedBox(
-                      width: 10,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/Replay.png',
+                          height: 18,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Reload',
+                          style: MyFonts.medium.size(14).setColor(Colors.white),
+                        ),
+                      ],
                     ),
-                    Text(
-                      'Reload',
-                      style: MyFonts.medium.size(15).setColor(Colors.white),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  )
+                ],
+              ),
+            ),
+          ],
         );
       },
     );
