@@ -8,11 +8,13 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 import 'package:onestop_dev/widgets/mapBox.dart';
 import 'package:onestop_dev/models/timetable.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
+import 'package:provider/provider.dart';
 import '../globals/days.dart';
 
 class HomePage extends StatefulWidget {
@@ -847,11 +849,12 @@ class _TimeTable1State extends State<TimeTable1> {
   int select = 0;
   int sel = -1;
   int sele = -1;
-  final Future<Time> timetable = ApiCalling().getTimeTable(roll: "200101095");
+  // final Future<Time> timetable = ApiCalling().getTimeTable(roll: context.read<LoginStore>().userData["rollno"]);
   Map<int, List<List<String>>> Data1 = {};
   Map<int, List<List<String>>> Data2 = {};
   @override
   Widget build(BuildContext context) {
+    Future<Time> timetable = ApiCalling().getTimeTable(roll: context.read<LoginStore>().userData["rollno"]??"200101095");
     determiningSel();
     adjustTime();
     return FutureBuilder<Time>(
