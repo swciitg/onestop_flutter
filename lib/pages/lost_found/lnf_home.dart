@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,7 @@ import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_form.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class LostFoundHome extends StatefulWidget {
   static const id = "/lostFoundHome";
@@ -55,6 +57,16 @@ class _LostFoundHomeState extends State<LostFoundHome> {
           style: MyFonts.medium.size(20).setColor(kWhite),
         ),
         elevation: 0,
+        automaticallyImplyLeading: false,
+        leadingWidth: 18,
+        actions: [
+          GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Image.asset("assets/images/dismiss_icon.png",height: 18,),
+          )
+        ],
       ),
       // wrap column of body with future builder to fetch all lost and found
       body: FutureBuilder<List>(
@@ -68,10 +80,10 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                   List<Widget> lostItems=[];
                   List<Widget> foundItems=[];
                   lostsSnapshot.data!.forEach((element) => {
-                    lostItems.add(ListItemWidget(category: "Lost", title: element["title"], description: element["description"],phonenumber: element["phonenumber"] ,location: element["location"], imageURL : element["imageURL"], date: DateTime.parse(element["date"])))
+                    lostItems.add(ListItemWidget(category: "Lost", title: element["title"], description: element["description"],phonenumber: element["phonenumber"] ,location: element["location"], imageURL : element["imageURL"], compressedImageURL: element["compressedImageURL"], date: DateTime.parse(element["date"])))
                   });
                   foundsSnapshot.data!.forEach((element) => {
-                    foundItems.add(ListItemWidget(category: "Found", title: element["title"], description: element["description"], location: element["location"], imageURL : element["imageURL"], date: DateTime.parse(element["date"]),submittedAt: element["submittedat"],))
+                    foundItems.add(ListItemWidget(category: "Found", title: element["title"], description: element["description"], location: element["location"], imageURL : element["imageURL"], compressedImageURL: element["compressedImageURL"], date: DateTime.parse(element["date"]),submittedAt: element["submittedat"],))
                   });
                   return StreamBuilder(
                     stream: typeStream,
@@ -86,14 +98,14 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                                   onTap: (){
                                     if(snapshot.hasData && snapshot.data! != "Lost") selectedTypeController.sink.add("Lost");
                                   },
-                                  child: ItemTypeBar(text: "Lost", textStyle: MyFonts.medium.size(17).setColor(snapshot.hasData==false ? kBlack : (snapshot.data! == "Lost" ? kBlack : kWhite)),backgroundColor: snapshot.hasData==false ? kBlue : (snapshot.data! == "Lost" ? kBlue : kGrey2),),
+                                  child: ItemTypeBar(text: "Lost", margin: EdgeInsets.only(left: 16,bottom: 10) ,textStyle: MyFonts.medium.size(14).setColor(snapshot.hasData==false ? kBlack : (snapshot.data! == "Lost" ? kBlack : kWhite)),backgroundColor: snapshot.hasData==false ? lBlue2 : (snapshot.data! == "Lost" ? lBlue2 : kBlueGrey),),
                                 ),
                                 GestureDetector(
                                   onTap: (){
                                     if(!snapshot.hasData) selectedTypeController.sink.add("Found");
                                     if(snapshot.hasData && snapshot.data! != "Found") selectedTypeController.sink.add("Found");
                                   },
-                                  child: ItemTypeBar(text: "Found", textStyle: MyFonts.medium.size(17).setColor(snapshot.hasData==false ? kWhite : (snapshot.data! == "Found" ? kBlack : kWhite)),backgroundColor: snapshot.hasData==false ? kGrey2 : (snapshot.data! == "Found" ? kBlue : kGrey2),),
+                                  child: ItemTypeBar(text: "Found",margin: EdgeInsets.only(left: 8,bottom: 10) ,textStyle: MyFonts.medium.size(14).setColor(snapshot.hasData==false ? kWhite : (snapshot.data! == "Found" ? kBlack : kWhite)),backgroundColor: snapshot.hasData==false ? kBlueGrey : (snapshot.data! == "Found" ? lBlue2 : kBlueGrey),),
                                 ),
                               ],
                             ),
@@ -154,6 +166,11 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                   });
               if(xFile!=null){
                 var bytes = File(xFile!.path).readAsBytesSync();
+                var imageSize = (bytes.lengthInBytes/(1048576)); // dividing by 1024*1024
+                if(imageSize>2.5){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Maximum image size can be 2.5 MB")));
+                  return ;
+                }
                 var imageString = base64Encode(bytes);
                 if(!snapshot.hasData || snapshot.data! =="Lost"){
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => LostFoundForm(category: "Lost",imageString: imageString,)));
@@ -163,23 +180,28 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               }
             },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 13,vertical: 8),
               margin: EdgeInsets.only(bottom: 18),
               decoration: BoxDecoration(
-                color: kBlue,
+                color: lBlue2,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
-                      Icons.add,
-                    size: 27,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20,bottom: 20,left: 20),
+                    child: Icon(
+                        Icons.add,
+                      size: 20,
+                    ),
                   ),
-                  Text(
-                      !snapshot.hasData ? "Lost Item" : (snapshot.data! =="Lost" ? "Lost Item" : "Found Item"),
-                    style: MyFonts.bold.size(18).setColor(kBlack),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 18,left: 16,right: 20,bottom: 18),
+                    child: Text(
+                        !snapshot.hasData ? "Lost Item" : (snapshot.data! =="Lost" ? "Lost Item" : "Found Item"),
+                      style: MyFonts.bold.size(14).setColor(kBlack),
+                    ),
                   ),
                 ],
               ),
@@ -198,28 +220,31 @@ class ListItemWidget extends StatelessWidget {
   final String location;
   final String description;
   final String imageURL;
+  final String compressedImageURL;
   final String phonenumber;
   final DateTime date;
   final String submittedAt;
 
-  const ListItemWidget({Key? key,required this.category, required this.title, required this.description,required this.location,required this.imageURL,required this.date,this.phonenumber = "",this.submittedAt = ""}) : super(key: key);
+  const ListItemWidget({Key? key,required this.category, required this.title, required this.description,required this.location,required this.imageURL,required this.compressedImageURL,required this.date,this.phonenumber = "",this.submittedAt = ""}) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    Duration passedDuration = DateTime.now().difference(date);
+    String timeagoString = timeago.format(DateTime.now().subtract(passedDuration));
 
     void detailsDialogBox(String category,String imageURL, String description, String location, String contactnumber, String submitted) {
       showDialog(context: context, builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(21),),
           child: ConstrainedBox(
             constraints: BoxConstraints(maxHeight: screenHeight*0.7),
             child: Container(
               width: screenWidth-40,
               decoration: BoxDecoration(
-                  color: lGrey,
+                  color: kBlueGrey,
                   borderRadius: BorderRadius.circular(15)
               ),
               child: Column(
@@ -227,24 +252,24 @@ class ListItemWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15)),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(21),topRight: Radius.circular(21)),
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(maxHeight: screenHeight*0.2,maxWidth: screenWidth-40),
+                      constraints: BoxConstraints(maxHeight: screenHeight*0.3,maxWidth: screenWidth-40),
                       child: SingleChildScrollView(
-                        child: Image.network(imageURL),
+                        child: FadeInImage(placeholder: AssetImage("assets/images/loading.gif"), image: NetworkImage(imageURL)),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 8),
+                    padding: const EdgeInsets.only(left: 12,right: 8,top: 10,bottom: 4),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Text(
                             title,
-                            style: MyFonts.bold.size(20).setColor(kWhite),
+                            style: MyFonts.bold.size(16).setColor(kWhite),
                           ),
                         ),
                         Visibility(
@@ -254,18 +279,18 @@ class ListItemWidget extends StatelessWidget {
                               await launch("tel:+91$contactnumber");
                             },
                             child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
+                                padding: EdgeInsets.symmetric(horizontal: 12),
                                 decoration: BoxDecoration(
-                                    color: kBackground,
-                                    borderRadius: BorderRadius.circular(15)
+                                    color: kGrey9,
+                                    borderRadius: BorderRadius.circular(24)
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(Icons.phone,size: 20,color: kBlue,),
+                                    Icon(Icons.phone,size: 20,color: lBlue2,),
                                     Text(
                                       " Call",
-                                      style: MyFonts.medium.size(15).setColor(kBlue),
+                                      style: MyFonts.medium.size(15).setColor(lBlue2),
                                     )
                                   ],
                                 )
@@ -275,43 +300,43 @@ class ListItemWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Visibility(
-                    visible: category=="Found" ? true : false,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Visibility(
+                      visible: category=="Found" ? true : false,
                       child: Text(
                         "Submitted at: " + submitted,
-                        style: MyFonts.medium.size(17).setColor(kWhite),
+                        style: MyFonts.medium.size(14).setColor(kGrey6),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                    padding: const EdgeInsets.only(left: 16,right: 16,bottom: 8),
                     child: Text(
                       (category=="Lost" ? "Lost at: " : "Found at: ") + location,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: MyFonts.medium.size(17).setColor(kWhite),
+                      style: MyFonts.medium.size(14).setColor(kGrey6),
                     ),
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: screenHeight*0.2,maxWidth: screenWidth-40),
                     child: SingleChildScrollView(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                        padding: const EdgeInsets.only(left: 16,right: 16,bottom: 13),
                         child: Text(
                           "Description: " + description,
-                          style: MyFonts.light.size(15).setColor(kWhite),
+                          style: MyFonts.light.size(15).setColor(kGrey10),
                         ),
                       ),
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                    padding: EdgeInsets.only(right: 16,bottom: 16),
                     alignment: Alignment.centerRight,
                     child: Text(
                       date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString() + " | " + DateFormat.jm().format(date.toLocal()).toString(),
-                      style: MyFonts.light.size(13).setColor(kWhite),
+                      style: MyFonts.light.size(13).setColor(kGrey7),
                     ),
                   ),
                 ],
@@ -327,71 +352,85 @@ class ListItemWidget extends StatelessWidget {
         detailsDialogBox(category, imageURL, description, location, phonenumber, submittedAt);
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 13,vertical: 5),
-        decoration: BoxDecoration(
-          color: kBlueGrey,
-          borderRadius: BorderRadius.circular(20)
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: (screenWidth*0.65)-46),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10,right: 10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                        title,
-                        maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: MyFonts.medium.size(20).setColor(kWhite),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                          (category=="Lost" ? "Lost " : "Found ") + location,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: MyFonts.light.size(15).setColor(kWhite),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 13,vertical: 2),
-                      decoration: BoxDecoration(
-                        color: kBackground,
-                        borderRadius: BorderRadius.circular(15)
-                      ),
-                      child: Text(
-                          date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString(),
-                        style: MyFonts.light.size(15).setColor(kBlue),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          margin: EdgeInsets.symmetric(horizontal: 15,vertical: 4),
+          decoration: BoxDecoration(
+            color: kBlueGrey,
+            borderRadius: BorderRadius.circular(21)
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 110),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20)),
-                child: Container(
-                  width: screenWidth*0.35,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(imageURL),
-                        fit: BoxFit.cover,
+                constraints: BoxConstraints(maxWidth: 194),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16,right: 10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 16),
+                        child: Text(
+                            title,
+                            maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: MyFonts.medium.size(16).setColor(kWhite),
+                        ),
                       ),
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20))
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                            (category=="Lost" ? "Lost " : "Found ") + location,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: MyFonts.light.size(14).setColor(kWhite),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 13,vertical: 2.5),
+                        margin: EdgeInsets.only(bottom: 16),
+                        decoration: BoxDecoration(
+                          color: kGrey9,
+                          borderRadius: BorderRadius.circular(41)
+                        ),
+                        child: Text(
+                            timeagoString,
+                          style: MyFonts.medium.size(12).setColor(lBlue2),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            )
-          ],
+                ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 105,maxWidth: 135),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(topRight: Radius.circular(21),bottomRight: Radius.circular(21)),
+                  child: CachedNetworkImage(
+                    imageUrl: compressedImageURL,
+                    imageBuilder: (context, imageProvider) => Container(
+                      alignment: Alignment.center,
+                      width: screenWidth*0.35,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                      ),
+                    ),
+                    ),
+                    placeholder: (context, url) => Container(
+                      alignment: Alignment.center,
+                      width: screenWidth*0.35,
+                      child: Text("Loading...",style: MyFonts.medium.size(14).setColor(kGrey9)),
+                    ),
+                    errorWidget: (context, url, error) => Center(child: Icon(Icons.error),),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
     );
   }
 }
@@ -401,15 +440,16 @@ class ItemTypeBar extends StatelessWidget {
   final text;
   TextStyle textStyle;
   Color backgroundColor;
-  ItemTypeBar({Key? key, required this.text, required this.textStyle,required this.backgroundColor}) : super(key: key);
+  EdgeInsets margin;
+  ItemTypeBar({Key? key, required this.text, required this.textStyle,required this.backgroundColor,required this.margin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 15,bottom: 10),
+      margin: margin,
       decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: BorderRadius.circular(20)
+          borderRadius: BorderRadius.circular(100)
       ),
       padding: EdgeInsets.symmetric(horizontal: 10,vertical: 8),
       child: Text(
