@@ -188,9 +188,9 @@ class _LostFoundFormState extends State<LostFoundForm> {
             var res = await http.post(
                 Uri.parse("https://swc.iitg.ac.in/onestopapi/post_lost"),
               body: {
-                'title': title!,
-                'description' : description!,
-                'location' : location!,
+                'title': title!.trim(),
+                'description' : description!.trim(),
+                'location' : location!.trim(),
                 'imageString' : widget.imageString,
                 'phonenumber' : contactnumber!.trim(),
                 'email' : userEmail,
