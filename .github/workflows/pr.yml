@@ -1,9 +1,8 @@
-name: Android build & release
+name: Pull Request build test
 
 on:
-  push:
+  pull_request:
     branches: [ main ]
-
     
 jobs:
   flutter_test:
@@ -21,10 +20,3 @@ jobs:
       - run: flutter pub get
       - run: flutter pub upgrade
       - run: flutter build apk --no-tree-shake-icons
-      - name: Create Release
-        uses: ncipollo/release-action@v1.10.0
-        with:
-          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
-          tag: v0.1.${{ github.run_number }}
-          token: ${{ secrets.TOKEN }}
-
