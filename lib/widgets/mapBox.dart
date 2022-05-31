@@ -42,7 +42,6 @@ class _MapBoxState extends State<MapBox> {
   double zoom = 13.0;
   List<LatLng> latlngList = [];
 
-  //
   void initState() {
     super.initState();
     _getLoctaion();
@@ -50,9 +49,7 @@ class _MapBoxState extends State<MapBox> {
 
   @override
   Widget build(BuildContext context) {
-    location.onLocationChanged.listen((LocationData current) {
-      _getLoctaion();
-    });
+    Future.delayed(Duration(seconds: 10), _getLoctaion);
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(20)),
       child: Stack(
@@ -83,7 +80,9 @@ class _MapBoxState extends State<MapBox> {
                   Polyline(
                     points: [
                       LatLng(lat, long),
-                      LatLng(widget.lat!, widget.long!)
+                      (widget.lat != null && widget.lat != null)
+                          ? LatLng(widget.lat!, widget.long!)
+                          : LatLng(lat, long),
                     ],
                     // isDotted: true,
                     color: Color(0xFF669DF6),
@@ -113,9 +112,7 @@ class _MapBoxState extends State<MapBox> {
                     child: Container(
                       height: 32,
                       width: 83,
-                      color: (widget.selectedIndex == 0)
-                          ? lBlue2
-                          : kBlueGrey,
+                      color: (widget.selectedIndex == 0) ? lBlue2 : kBlueGrey,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -153,9 +150,7 @@ class _MapBoxState extends State<MapBox> {
                     child: Container(
                       height: 32,
                       width: 83,
-                      color: (widget.selectedIndex == 1)
-                          ? lBlue2
-                          : kBlueGrey,
+                      color: (widget.selectedIndex == 1) ? lBlue2 : kBlueGrey,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -223,7 +218,6 @@ class _MapBoxState extends State<MapBox> {
               ],
             ),
           ),
-
           Positioned(
             bottom: 10,
             right: 10,
@@ -236,7 +230,9 @@ class _MapBoxState extends State<MapBox> {
                   child: FloatingActionButton(
                     heroTag: null,
                     onPressed: () {
-                      MapsLauncher.launchCoordinates(widget.lat!, widget.long!);
+                      MapsLauncher.launchCoordinates(
+                          (widget.lat != null) ? widget.lat! : lat,
+                          (widget.long != null) ? widget.long! : long);
                     },
                     child: Icon(Icons.navigate_before_outlined),
                     mini: true,
@@ -285,8 +281,11 @@ class _MapBoxState extends State<MapBox> {
       }
     }
     _locationData = await location.getLocation();
-    _addMarker(_locationData!.latitude!, _locationData!.longitude!, widget.lat!,
-        widget.long!);
+    _addMarker(
+        _locationData!.latitude!,
+        _locationData!.longitude!,
+        (widget.lat != null) ? widget.lat! : lat,
+        (widget.long != null) ? widget.long! : long);
     setState(() {
       lat = _locationData!.latitude!;
       long = _locationData!.longitude!;
@@ -298,15 +297,18 @@ class _MapBoxState extends State<MapBox> {
   }
 
   void _addMarker(double userlat, double userlong, double lat, double long) {
-    Marker marker = Marker(
-      point: LatLng(userlat, userlong),
-      width: 25.0,
-      height: 25.0,
-      builder: (ctx) => Container(
-        child: Image.asset(pointIcon),
-      ),
-    );
-
+    Marker? marker;
+    if (userlat == lat) {
+      marker = Marker(
+        point: LatLng(userlat, userlong),
+        width: 25.0,
+        height: 25.0,
+        builder: (ctx) => Container(
+          child: Image.asset(pointIcon),
+        ),
+      );
+      return;
+    }
     Marker marker2 = Marker(
       point: LatLng(lat, long),
       width: 25.0,
@@ -318,17 +320,8 @@ class _MapBoxState extends State<MapBox> {
 
     setState(() {
       markers.clear();
-      markers.add(marker);
+      markers.add(marker!);
       markers.add(marker2);
     });
   }
-  // static void navigateTo(double lat, double lng) async {
-  //   var uri = Uri.parse("google.navigation:q=$lat,$lng&mode=d");
-  //   if (await canLaunch(uri.toString())) {
-  //     await launch(uri.toString());
-  //   } else {
-  //     throw 'Could not launch ${uri.toString()}';
-  //   }
-  // }
-
 }

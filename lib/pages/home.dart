@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:onestop_dev/globals.dart';
@@ -228,8 +227,8 @@ class _HomeTabState extends State<HomeTab> {
             height: 10,
           ),
           MapBox(
-            lat: lat,
-            long: long,
+            lat: (lat != 0) ? lat : null,
+            long: (long != 0) ? long : null,
             selectedIndex: selectedIndex,
             rebuildParent: rebuildParent,
             istravel: true,
@@ -377,7 +376,10 @@ class QuickLinks extends StatelessWidget {
                     width: 5,
                   ),
                   HomeTabTile(
-                      label: "Contacts", icon: Icons.contact_mail_outlined, routeId: "/contacto",),
+                    label: "Contacts",
+                    icon: Icons.contact_mail_outlined,
+                    routeId: "/contacto",
+                  ),
                   SizedBox(
                     width: 5,
                   ),
@@ -547,7 +549,8 @@ class _TravelPageState extends State<TravelPage> {
   int selectBusesorStops = 0;
   bool isCity = false;
   bool isCampus = false;
-
+  double lat = 0;
+  double long = 0;
   int selectedIndex = 0;
 
   void rebuildParent(int newSelectedIndex) {
@@ -564,8 +567,8 @@ class _TravelPageState extends State<TravelPage> {
         children: [
           MapBox(
             selectedIndex: selectedIndex,
-            lat: lat,
-            long: long,
+            lat: (lat != 0) ? lat : null,
+            long: (long != 0) ? long : null,
             rebuildParent: rebuildParent,
             istravel: false,
           ),
@@ -854,7 +857,8 @@ class _TimeTable1State extends State<TimeTable1> {
   Map<int, List<List<String>>> Data2 = {};
   @override
   Widget build(BuildContext context) {
-    Future<Time> timetable = ApiCalling().getTimeTable(roll: context.read<LoginStore>().userData["rollno"]??"200101095");
+    Future<Time> timetable = ApiCalling().getTimeTable(
+        roll: context.read<LoginStore>().userData["rollno"] ?? "200101095");
     determiningSel();
     adjustTime();
     return FutureBuilder<Time>(
@@ -1324,7 +1328,7 @@ class _TimeTable1State extends State<TimeTable1> {
 
   determiningSel() {
     DateTime now1 = DateTime.now();
-    if (now1.hour >= 9 && now1.hour < 10 && now1.minute < 56) {
+    if (now1.hour < 10 && now1.minute < 56) {
       setState(() {
         sel = 0;
       });
@@ -1485,4 +1489,3 @@ class ApiCalling {
     }
   }
 }
-
