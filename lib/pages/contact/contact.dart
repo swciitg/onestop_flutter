@@ -1,7 +1,9 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
+
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 import '../../models/contact_model.dart';

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:onestop_dev/pages/ip/ip_settings.dart';
-import 'package:flutter/services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:onestop_dev/pages/ip/ip_settings.dart';
 
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';

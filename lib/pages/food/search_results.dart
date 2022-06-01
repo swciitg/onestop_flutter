@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fuzzy/fuzzy.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -6,12 +10,8 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/restaurant_model.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/widgets/food/food_search_bar.dart';
-import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'dart:convert';
-
+import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:provider/provider.dart';
 
 class SearchPage extends StatelessWidget {

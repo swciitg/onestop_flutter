@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:onestop_dev/stores/restaurant_store.dart';
-import 'package:onestop_dev/pages/food/search_results.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/pages/food/search_results.dart';
+import 'package:onestop_dev/stores/restaurant_store.dart';
+import 'package:provider/provider.dart';
 
 class FavouriteFoodDetails extends StatelessWidget {
   const FavouriteFoodDetails({

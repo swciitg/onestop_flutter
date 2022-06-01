@@ -2,10 +2,10 @@
 
 // ignore_for_file: file_names, prefer_typing_uninitialized_variables, avoid_print
 
-//import 'package:blogss/hosteldetails.dart';
-import 'package:flutter/material.dart';
 import 'dart:convert';
 
+//import 'package:blogss/hosteldetails.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../globals/my_colors.dart';
