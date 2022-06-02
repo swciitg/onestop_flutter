@@ -1,13 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/dish_model.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
-import 'dart:convert';
-import 'package:flutter/services.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:provider/provider.dart';
+
 import '../../models/restaurant_model.dart';
 
 class RestaurantPage extends StatelessWidget {

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
-import '../../globals/my_colors.dart';
-import '../../globals/my_fonts.dart';
-import '../../models/contact_model.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/contact_model.dart';
+import 'package:onestop_dev/widgets/contact/contact_display.dart';
 
 class Contacts2 extends StatefulWidget {
-  //final Contacts10;
   final String title;
   ContactModel ? contact;
   Contacts2({Key? key, this.contact, required this.title}) : super(key: key);
@@ -13,9 +12,7 @@ class Contacts2 extends StatefulWidget {
   State<Contacts2> createState() => _Contacts2State();
 }
 
-
 class _Contacts2State extends State<Contacts2> {
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,10 +21,7 @@ class _Contacts2State extends State<Contacts2> {
           backgroundColor: kBlueGrey,
           leading: Container(),
           leadingWidth: 0,
-          title: Text(
-              'Contacts',
-              style: MyFonts.medium.size(20).setColor(kWhite)
-          ),
+          title: Text('Contacts', style: MyFonts.medium.size(20).setColor(kWhite)),
           actions: [
             IconButton(
                 onPressed: () {Navigator.of(context).pop();},
@@ -37,9 +31,7 @@ class _Contacts2State extends State<Contacts2> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20,),
             Container(
               child: Row(
                 children: [
@@ -75,38 +67,9 @@ class _Contacts2State extends State<Contacts2> {
             SizedBox(height: 20,),
             Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Container(
-                    alignment: AlignmentDirectional.topStart,
-                    width: MediaQuery.of(context).size.width / 3 - 10,
-                    child: Text(
-                      'Name',
-                      style: MyFonts.medium.size(12).setColor(kGrey11),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 3 - 10,
-                    child: Text(
-                      'Email id',
-                      style: MyFonts.medium.size(12).setColor(kGrey11),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Container(
-                    alignment: AlignmentDirectional.bottomEnd,
-                    width: MediaQuery.of(context).size.width / 3 - 15,
-                    child: Text(
-                      'Contact No',
-                      style: MyFonts.medium.size(12).setColor(kGrey11),
-                    ),
-                  ),
-                ),
+                ContactTextHeader(text: 'Name', width: MediaQuery.of(context).size.width / 3 - 10, align: AlignmentDirectional.topStart),
+                ContactTextHeader(text: 'Email id', width: MediaQuery.of(context).size.width / 3 - 10, align: AlignmentDirectional.center),
+                ContactTextHeader(text: 'Contact No', width: MediaQuery.of(context).size.width / 3 - 15, align: AlignmentDirectional.bottomEnd),
               ],
             ),
             SizedBox(
@@ -125,44 +88,9 @@ class _Contacts2State extends State<Contacts2> {
                       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                       child: Row(
                         children: [
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Container(
-                                alignment: AlignmentDirectional.topStart,
-                                child: Text(
-                                  item.name,
-                                  style: MyFonts.regular.size(14).setColor(kWhite),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Container(
-                                child: Text(
-                                  item.email,
-                                  style: MyFonts.regular.size(14).setColor(lBlue2),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Container(
-                                alignment: AlignmentDirectional.bottomEnd,
-                                child: Text(
-                                  item.contact.toString(),
-                                  style: MyFonts.regular.size(14).setColor(lBlue2),
-                                ),
-                              ),
-                            ),
-                          ),
+                          ContactText(text: item.name, align: AlignmentDirectional.topStart),
+                          ContactText(text: item.email, align: AlignmentDirectional.center),
+                          ContactText(text: item.contact.toString(), align: AlignmentDirectional.bottomEnd),
                         ],
                       ),
                     );

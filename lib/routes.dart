@@ -1,11 +1,11 @@
 import 'package:onestop_dev/pages/blogs_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
-import 'package:onestop_dev/pages/home.dart';
-import 'package:onestop_dev/pages/login.dart';
+import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_dev/pages/ip/ip_carousel.dart';
+import 'package:onestop_dev/pages/login/login.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/qr.dart';
-import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/splash.dart';
 
 final routes = {

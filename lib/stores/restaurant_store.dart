@@ -1,11 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy/fuzzy.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/models/restaurant_model.dart';
-import 'package:provider/provider.dart';
 
 part 'restaurant_store.g.dart';
 

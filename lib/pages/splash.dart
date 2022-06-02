@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
   static String id = "/";
