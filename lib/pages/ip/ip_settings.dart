@@ -1,15 +1,8 @@
-//import 'dart:html';
-
-// ignore_for_file: file_names, prefer_typing_uninitialized_variables, avoid_print
-
 import 'dart:convert';
-
-//import 'package:blogss/hosteldetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../../globals/my_colors.dart';
-import '../../globals/my_fonts.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 
 class IpPage extends StatefulWidget {
   final argso;
@@ -31,45 +24,28 @@ String calculatedetails(hostelDetails args, String initials) {
   String block = args.block;
   int W = -1, X = -1, Y = -1, Z = -1;
   switch (block) {
-    case "b1":
-      W = 0;
-      break;
-    case "b2":
-      W = 1;
-      break;
-    case "b3":
-      W = 2;
-      break;
-    case "b4":
-      W = 3;
-      break;
-    case "c1":
-      W = 4;
-      break;
-    default:
-      W = (block.toLowerCase().codeUnitAt(0) - 97).toInt();
-      break;
+    case "b1": W = 0; break;
+    case "b2": W = 1; break;
+    case "b3": W = 2; break;
+    case "b4": W = 3; break;
+    case "c1": W = 4; break;
+    default: W = (block.toLowerCase().codeUnitAt(0) - 97).toInt(); break;
   }
   var selectedHostel = args.hostelName;
   X = int.parse(args.floor);
   Y = int.parse(args.roomNo);
-  if (args.hostelName == "Brahmaputra") {
-    if (W == 0 || W == 1) {
-      Z = Y;
-    } else {
-      if (X == 0) {
-        Z = Y - 134;
-      } else if (X == 1) {
-        Z = Y - 119;
-      } else if (X == 2) {
-        Z = Y - 133;
-      } else {
-        Z = Y - 131;
+  if (args.hostelName == "Brahmaputra") 
+  {
+    if (W == 0 || W == 1) {Z = Y;} 
+    else 
+      {
+        if (X == 0) {Z = Y - 134;} 
+        else if (X == 1) {Z = Y - 119;} 
+        else if (X == 2) {Z = Y - 133;} 
+        else {Z = Y - 131;}
       }
-    }
-  } else {
-    Y %= 100;
   }
+  else {Y %= 100;}
   String ipAddress;
   if (selectedHostel == "Dhansiri" ||
       selectedHostel == "Lohit" ||
@@ -110,7 +86,6 @@ class _IpPageState extends State<IpPage> {
     final data = await json.decode(response);
     setState(() {
       args = widget.argso;
-
       _items = data["Hostels"];
       for (var item in _items) {
         if (item["Hostel"] == args.hostelName) {
