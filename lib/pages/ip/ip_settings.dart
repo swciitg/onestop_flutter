@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/widgets/ip/ip_values.dart';
 
 class IpPage extends StatefulWidget {
   final argso;
@@ -128,35 +127,13 @@ class _IpPageState extends State<IpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Your details:',
-            style: MyFonts.regular.size(18).setColor(kGrey6),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Gateway:       ' + hostelname,
-            style: MyFonts.regular.size(16).setColor(kGrey6),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Subnet:         ' + subnet,
-            style: MyFonts.regular.size(16).setColor(kGrey6),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'IP Address:   ' + ipAdress,
-            style: MyFonts.regular.size(16).setColor(kGrey6),
-          ),
-        )
+        IpValues(text: 'Your details:'),
+        IpValues(text: 'Gateway:       ' + hostelname),
+        IpValues(text: 'Subnet:         ' + subnet),
+        IpValues(text: 'IP Address:   ' + ipAdress),
       ],
     );
   }
 }
+
+
