@@ -7,7 +7,7 @@ import 'package:fuzzy/fuzzy.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/restaurant_model.dart';
+import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/widgets/food/food_search_bar.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';

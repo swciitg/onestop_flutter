@@ -9,7 +9,7 @@ import 'package:onestop_dev/widgets/food/favourite_food_details.dart';
 import 'package:onestop_dev/widgets/food/food_search_bar.dart';
 import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
 
-import '../../models/restaurant_model.dart';
+import '../../models/food/restaurant_model.dart';
 
 class FoodTab extends StatelessWidget {
   const FoodTab({Key? key}) : super(key: key);
@@ -463,6 +463,5 @@ class FavoriteDishes extends StatelessWidget {
 Future<List<RestaurantModel>> ReadJsonData() async {
   final jsondata = await rootBundle.loadString('lib/globals/restaurants.json');
   final list = json.decode(jsondata) as List<dynamic>;
-
   return list.map((e) => RestaurantModel.fromJson(e)).toList();
 }

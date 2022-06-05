@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/dish_model.dart';
-import 'package:onestop_dev/models/restaurant_model.dart';
+import 'package:onestop_dev/models/food/dish_model.dart';
+import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:provider/provider.dart';
