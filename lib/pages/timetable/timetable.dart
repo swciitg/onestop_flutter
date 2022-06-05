@@ -1,15 +1,13 @@
-import 'dart:convert';
-import 'dart:io';
-
+import 'package:onestop_dev/pages/timetable/ApiCallingTimetable.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:onestop_dev/globals/days.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/timetable.dart';
+import 'package:onestop_dev/pages/timetable/functions/Functions.dart';
+import 'package:onestop_dev/pages/timetable/widgets/dateSlider.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
-
+import 'package:onestop_dev/globals.dart';
 class TimeTableTab extends StatefulWidget {
   static const String id = 'time';
   const TimeTableTab({Key? key}) : super(key: key);
@@ -18,7 +16,6 @@ class TimeTableTab extends StatefulWidget {
 }
 
 class _TimeTableTabState extends State<TimeTableTab> {
-  int select = 0;
   int sel = -1;
   int sele = -1;
   // final Future<Time> timetable = ApiCalling().getTimeTable(roll: context.read<LoginStore>().userData["rollno"]);
@@ -40,54 +37,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
               children: [
                 Container(
                   height: 130,
-                  child: ListView.builder(
-                      padding: const EdgeInsets.all(8),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 5,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 4.0, right: 4),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                select = index;
-                              });
-                            },
-                            child: FittedBox(
-                              child: Container(
-                                height: 125,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: (select == index)
-                                      ? Color.fromRGBO(101, 174, 130, 0.16)
-                                      : Colors.transparent,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      FittedBox(
-                                          child: Text(
-                                              kday[dates[index].weekday]!,
-                                              style: MyFonts.medium
-                                                  .size(20)
-                                                  .setColor(kWhite))),
-                                      FittedBox(
-                                          child: Text(
-                                            dates[index].day.toString(),
-                                            style: MyFonts.extraBold
-                                                .size(40)
-                                                .setColor(kWhite),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
+                  child: DateSlider(),
                 ),
                 SizedBox(
                   height: 10,
@@ -319,58 +269,12 @@ class _TimeTableTabState extends State<TimeTableTab> {
             ),
           );
         } else if (snapshot.hasError) {
-          Future.delayed(Duration.zero, () => _reload());
+          Future.delayed(Duration.zero, () => reload(context));
           return Column(
             children: [
               Container(
                 height: 130,
-                child: ListView.builder(
-                    padding: const EdgeInsets.all(8),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 4.0, right: 4),
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              select = index;
-                            });
-                          },
-                          child: FittedBox(
-                            child: Container(
-                              height: 125,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: (select == index)
-                                    ? Color.fromRGBO(101, 174, 130, 0.16)
-                                    : Colors.transparent,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FittedBox(
-                                        child: Text(kday[dates[index].weekday]!,
-                                            style: MyFonts.medium
-                                                .size(20)
-                                                .setColor(kWhite))),
-                                    FittedBox(
-                                        child: Text(
-                                          dates[index].day.toString(),
-                                          style: MyFonts.extraBold
-                                              .size(40)
-                                              .setColor(kWhite),
-                                        ))
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
+                child: DateSlider(),
               ),
             ],
           );
@@ -572,102 +476,4 @@ class _TimeTableTabState extends State<TimeTableTab> {
       dates[4] = dates[3].add(Duration(days: 1));
     }
   }
-
-  Future<void> _reload() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AlertDialog(
-              backgroundColor: Colors.transparent,
-              content: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Error',
-                    style: MyFonts.bold.size(24).setColor(kWhite),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'You\'ve run into the error,please reload.',
-                    style: MyFonts.regular.size(14).setColor(Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Color.fromRGBO(85, 95, 113, 100)),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24)),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/Replay.png',
-                          height: 18,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Reload',
-                          style: MyFonts.medium.size(14).setColor(Colors.white),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
 }
-
-class ApiCalling {
-  Future<Time> getTimeTable({required String roll}) async {
-    final response = await post(
-      Uri.parse('https://hidden-depths-09275.herokuapp.com/get-my-courses'),
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json',
-      },
-      body: jsonEncode({
-        "roll_number": roll,
-      }),
-    );
-    if (response.statusCode == 200) {
-      return Time.fromJson(jsonDecode(response.body));
-    } else {
-      print(response.statusCode);
-      throw Exception(response.statusCode);
-    }
-  }
-}
-
-DateTime now = DateTime.now();
-DateTime day1 = now.add(Duration(days: 1));
-DateTime day2 = now.add(Duration(days: 2));
-DateTime day3 = now.add(Duration(days: 3));
-DateTime day4 = now.add(Duration(days: 4));
-List<DateTime> dates = [
-  now,
-  day1,
-  day2,
-  day3,
-  day4,
-];
