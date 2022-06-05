@@ -4,7 +4,8 @@ import '../../../globals/my_colors.dart';
 import '../../../globals/my_fonts.dart';
 import 'package:onestop_dev/globals.dart';
 class DateSlider extends StatefulWidget {
-  const DateSlider({Key? key}) : super(key: key);
+  int select;
+  DateSlider({Key? key,required this.select}) : super(key: key);
 
   @override
   State<DateSlider> createState() => _DateSliderState();
@@ -23,7 +24,7 @@ class _DateSliderState extends State<DateSlider> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  select = index;
+                  widget.select = index;
                 });
               },
               child: FittedBox(
@@ -31,7 +32,7 @@ class _DateSliderState extends State<DateSlider> {
                   height: 125,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: (select == index)
+                    color: (widget.select == index)
                         ? Color.fromRGBO(101, 174, 130, 0.16)
                         : Colors.transparent,
                   ),
