@@ -505,5 +505,6 @@ Future<List<RestaurantModel>> ReadJsonData() async {
   // restaurantData.StoreData();
   // restaurantData.deleteData();
   var data = await restaurantData.provideData();
-  return data;
+  List<RestaurantModel> l = await DataProvider.getRestaurants();
+  return l;
 }
