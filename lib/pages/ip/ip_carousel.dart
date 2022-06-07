@@ -16,7 +16,6 @@ List<String> textdata = [
   '',
   "Make sure the connection is no-proxy/direct connection. Open any website in your browser. It will show a captive portal asking your IITG login credentials.Login to the portal and start accessing internet using the same.If you have a problem while redirecting to login page, then use this link given below in your pc browser https://agnigarh.iitg.ac.in:1442/login?"
 ];
-
 bool fg = true;
 
 class RouterPage extends StatefulWidget {
