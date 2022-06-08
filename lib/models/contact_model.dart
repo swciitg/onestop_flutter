@@ -3,6 +3,7 @@ class ContactModel {
   //Values of contact model
   late String name;
   late List<ContactDetailsModel> contacts;
+  late String parent;
 
   //Constructor
   ContactModel({required this.name});
@@ -10,6 +11,7 @@ class ContactModel {
   //This constructor also does the work of initialising the variables
   ContactModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
+    parent = 'Campus';
     contacts = [];
     List<dynamic>.from(json['contacts']).forEach((element) {
       contacts.add(ContactDetailsModel.fromJson(element));
