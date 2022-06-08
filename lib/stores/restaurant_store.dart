@@ -1,16 +1,13 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
 import 'package:fuzzy/fuzzy.dart';
 import 'package:mobx/mobx.dart';
-import 'package:onestop_dev/models/restaurant_model.dart';
+import 'package:onestop_dev/models/food/restaurant_model.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 
 part 'restaurant_store.g.dart';
 
 class RestaurantStore = _RestaurantStore with _$RestaurantStore;
 
 abstract class _RestaurantStore with Store {
-  @observable
   RestaurantModel _selectedRestaurant = RestaurantModel(
       name: "NA",
       caption: "NA",
@@ -30,7 +27,8 @@ abstract class _RestaurantStore with Store {
       ""; // Use this only when user clicks on Your Favourite Dishes
 
   @observable
-  ObservableFuture<List<RestaurantModel>> searchResults = ObservableFuture.value([]);
+  ObservableFuture<List<RestaurantModel>> searchResults =
+      ObservableFuture.value([]);
 
   RestaurantModel get getSelectedRestaurant => _selectedRestaurant;
   String get getSearchString => _searchString;
@@ -54,14 +52,8 @@ abstract class _RestaurantStore with Store {
     _searchPageHeader = str;
   }
 
-  Future<List<RestaurantModel>> ReadJsonData() async {
-    final jsondata = await rootBundle.loadString('lib/globals/restaurants.json');
-    final list = json.decode(jsondata) as List<dynamic>;
-    return list.map((e) => RestaurantModel.fromJson(e)).toList();
-  }
-
   Future<List<RestaurantModel>> SearchResults() async {
-    List<RestaurantModel> allRestaurants = await ReadJsonData();
+    List<RestaurantModel> allRestaurants = await DataProvider.getRestaurants();
     List<RestaurantModel> searchResults = [];
     allRestaurants.forEach((element) {
       List<String> searchFields = element.tags;
@@ -77,7 +69,6 @@ abstract class _RestaurantStore with Store {
         ),
       );
 
-      // final result = fuse.search(context.read<RestaurantStore>().getSearchString);
       final result = fuse.search(_searchString);
       if (result.length != 0) {
         searchResults.add(element);
@@ -85,5 +76,4 @@ abstract class _RestaurantStore with Store {
     });
     return searchResults;
   }
-
 }

@@ -21,13 +21,15 @@ class FoodSearchBar extends StatelessWidget {
             .read<RestaurantStore>()
             .setSearchHeader("Showing results for $s");
         context.read<RestaurantStore>().setSearchString(s);
-        if (ModalRoute.of(context)?.settings.name != SearchPage.id){
+        if (ModalRoute.of(context)?.settings.name != SearchPage.id) {
           Navigator.pushNamed(context, SearchPage.id);
         }
         searchStringController.clear();
       },
       onChanged: (s) {
-        context.read<RestaurantStore>().setSearchHeader("Showing results for $s");
+        context
+            .read<RestaurantStore>()
+            .setSearchHeader("Showing results for $s");
         context.read<RestaurantStore>().setSearchString(s);
       },
       style: MyFonts.medium.setColor(kWhite),
