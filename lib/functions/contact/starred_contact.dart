@@ -13,7 +13,7 @@ starredContact(String contact)
       child: Container(
         height: 32,
         width: 10*size+25,
-        color: lGrey,
+        color: kGrey9,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

@@ -156,7 +156,7 @@ class _ContactPageState extends State<ContactPage> {
                   radius: 15,
                   backgroundImage: NetworkImage('https://images.wallpapersden.com/image/wxl-loki-marvel-comics-show_78234.jpg'),
                 ),
-                title: Text('My Profile', style: MyFonts.bold.size(15).setColor(kWhite),),
+                title: Text('My Profile', style: MyFonts.medium.size(15).setColor(kWhite),),
               ),
             ),
             Expanded(

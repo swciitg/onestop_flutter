@@ -128,9 +128,9 @@ class _IpPageState extends State<IpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         IpValues(text: 'Your details:'),
-        IpValues(text: 'Gateway:       ' + hostelname),
-        IpValues(text: 'Subnet:         ' + subnet),
-        IpValues(text: 'IP Address:   ' + ipAdress),
+        IpValues(text: 'Gateway: ' + hostelname),
+        IpValues(text: 'Subnet: ' + subnet),
+        IpValues(text: 'IP Address: ' + ipAdress),
       ],
     );
   }

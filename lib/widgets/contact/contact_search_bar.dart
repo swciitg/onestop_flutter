@@ -34,8 +34,9 @@ class ContactSearchBar extends StatelessWidget {
               prefixIcon: Icon(
                 Icons.search,
                 color: kWhite,
+                size: 12,
               ),
-              hintStyle: MyFonts.medium.size(13).setColor(kGrey2),
+              hintStyle: MyFonts.medium.size(12).setColor(kGrey2),
               hintText: "Search keyword (name, position etc)",
               contentPadding: EdgeInsets.zero,
               fillColor: kBlueGrey),
