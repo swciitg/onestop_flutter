@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,8 @@ import 'contact_detail.dart';
 import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
 import 'package:onestop_dev/functions/contact/starred_contact.dart';
 
-Map<String, ContactModel> people= {};
+SplayTreeMap<String, ContactModel> people= SplayTreeMap();
+List<String> alphabets = [  "A",  "B",  "C",  "D",  "E",  "F",  "G",  "H",  "I",  "J",  "K",  "L",  "M",  "N",  "O",  "P",  "Q",  "R",  "S",  "T",  "U",  "V",  "W",  "X",  "Y",  "Z"  ];
 
 class ContactPage extends StatefulWidget {
   static String id = "/contacto";
@@ -26,6 +28,7 @@ class _ContactPageState extends State<ContactPage> {
     final data = await json.decode(response);
     setState(() {});
     data.forEach((element) => people[element['name']] = ContactModel.fromJson(element));
+    alphabets.forEach((e)=>people[e+"ADONOTUSE"]=ContactModel(name: "Random", contacts: [], group: ""));
   }
 
   @override
@@ -179,6 +182,16 @@ class _ContactPageState extends State<ContactPage> {
                   ],
                 ),
                 itemBuilder: (_, k, id) {
+                  if (id.contains("ADONOTUSE")) {
+                    return Container(
+                      child: Text(id[0],style: MyFonts.medium.setColor(Colors.white),),
+                      height: 50,decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(width: 1.5, color: Colors.grey),
+                      ),
+                    ),);
+                  }
+                  print("ID is ${people.length}");
                   return Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(
