@@ -1,60 +1,64 @@
  [
    {
      "name": "Guest House",
+     "group": "Campus",
      "contacts": [
        {
          "name": "abcd",
          "email": "abcd",
-         "contact": 124
+         "contact": "124"
        },
        {
          "name": "abcd",
          "email": "abcd",
-         "contact": 124
+         "contact": "1234567891"
        }
      ]
    },
    {
      "name": "Gymkhana",
+     "group": "Campus",
      "contacts": [
        {
          "name": "abcde",
          "email": "abcde",
-         "contact": 1245},
+         "contact": "1245"},
        {
          "name": "abcde",
          "email": "abcde",
-         "contact": 1245
+         "contact": "1245"
        }
      ]
    },
    {
      "name": "Hostels",
+     "group": "HAB",
      "contacts": [
        {
          "name": "abcdf",
          "email": "abcdf",
-         "contact": 1246
+         "contact": "1246"
        },
        {
          "name": "abcdf",
          "email": "abcdf",
-         "contact": 1246
+         "contact": "1246"
        }
      ]
    },
    {
-     "name": "APple",
+     "name": "Apple",
+     "group": "Miscellaneous",
      "contacts": [
        {
          "name": "abcdf",
          "email": "abcdf",
-         "contact": 1246
+         "contact": "1246"
        },
        {
          "name": "abcdf",
          "email": "abcdf",
-         "contact": 1246
+         "contact": "1246"
        }
      ]
    },
@@ -64,12 +68,12 @@
        {
          "name": "abcdf",
          "email": "abcdf",
-         "contact": 1246
+         "contact": "1246"
        },
        {
          "name": "abcdf",
          "email": "abcdf",
-         "contact": 1246
+         "contact": "1246"
        }
      ]
    }
