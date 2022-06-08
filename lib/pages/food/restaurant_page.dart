@@ -3,7 +3,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/dish_model.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
-import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
+import 'package:onestop_dev/widgets/food/restaurant/restaurant_tile.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:provider/provider.dart';
 

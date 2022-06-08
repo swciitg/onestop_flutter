@@ -14,13 +14,16 @@ class DishModel {
   @JsonKey(defaultValue: 150)
   late int price;
 
+  String image;
+
 
   DishModel(
       {required this.name,
       required this.veg,
       required this.ingredients,
       required this.waiting_time,
-      required this.price});
+      required this.price,
+      this.image= "https://d4t7t8y8xqo0t.cloudfront.net/resized/750X436/eazytrendz%2F3070%2Ftrend20210218124824.jpg"});
 
   factory DishModel.fromJson(Map<String, dynamic> json) => _$DishModelFromJson(json);
 

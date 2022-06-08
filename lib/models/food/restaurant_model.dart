@@ -35,6 +35,8 @@ class RestaurantModel {
   @JsonKey(defaultValue: [])
   late List<DishModel> menu;
 
+  String image;
+
   RestaurantModel(
       {required this.name,
       required this.caption,
@@ -44,10 +46,11 @@ class RestaurantModel {
       required this.latitude,
       required this.longitude,
       required this.address,
-      required this.tags});
+      required this.tags,
+        this.image =  "https://live.staticflickr.com/3281/5813689894_a558bb341f_b.jpg"});
 
   // RestaurantModel.fromJson(Map<String, dynamic> json) {
-  //   name = json['name'] ?? "Unnamed";
+  //   name = json['name'] ?? "Unnamed";= "https://live.staticflickr.com/3281/5813689894_a558bb341f_b.jpg"
   //   closing_time = json['closing_time'] ?? "Not Known";
   //   waiting_time = json['waiting_time'] ?? "Not Known";
   //   caption = json['caption'] ?? "Not Known";

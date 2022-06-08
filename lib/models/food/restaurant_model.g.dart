@@ -19,6 +19,8 @@ RestaurantModel _$RestaurantModelFromJson(Map<String, dynamic> json) =>
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               [],
+      image: json['image'] as String? ??
+          "https://live.staticflickr.com/3281/5813689894_a558bb341f_b.jpg",
     )..menu = (json['menu'] as List<dynamic>?)
             ?.map((e) => DishModel.fromJson(e as Map<String, dynamic>))
             .toList() ??
@@ -36,4 +38,5 @@ Map<String, dynamic> _$RestaurantModelToJson(RestaurantModel instance) =>
       'address': instance.address,
       'tags': instance.tags,
       'menu': instance.menu.map((e) => e.toJson()).toList(),
+      'image': instance.image,
     };
