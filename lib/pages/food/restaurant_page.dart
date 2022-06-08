@@ -66,16 +66,3 @@ class RestaurantPage extends StatelessWidget {
 Future<List<DishModel>> getMenu(RestaurantModel restaurantModel) async {
   return await restaurantModel.menu;
 }
-
-// Future<List<DishModel>> ReadJsonData(String restaurantName) async {
-//   String restaurantSelected = restaurantName;
-//   final jsondata = await rootBundle.loadString('lib/globals/restaurants.json');
-//   final list = json.decode(jsondata) as List<dynamic>;
-//   List<RestaurantModel> allRestaurants =
-//       list.map((e) => RestaurantModel.fromJson(e)).toList();
-//   allRestaurants = allRestaurants
-//       .where((element) => element.name.contains(restaurantSelected))
-//       .toList();
-//   // print("All restaurants is ${allRestaurants.toString()}");
-//   return allRestaurants.elementAt(0).menu;
-// }

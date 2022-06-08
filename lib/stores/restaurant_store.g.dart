@@ -9,22 +9,6 @@ part of 'restaurant_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$RestaurantStore on _RestaurantStore, Store {
-  late final _$_selectedRestaurantAtom =
-      Atom(name: '_RestaurantStore._selectedRestaurant', context: context);
-
-  @override
-  RestaurantModel get _selectedRestaurant {
-    _$_selectedRestaurantAtom.reportRead();
-    return super._selectedRestaurant;
-  }
-
-  @override
-  set _selectedRestaurant(RestaurantModel value) {
-    _$_selectedRestaurantAtom.reportWrite(value, super._selectedRestaurant, () {
-      super._selectedRestaurant = value;
-    });
-  }
-
   late final _$_searchStringAtom =
       Atom(name: '_RestaurantStore._searchString', context: context);
 
