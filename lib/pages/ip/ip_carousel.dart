@@ -28,6 +28,7 @@ class RouterPage extends StatefulWidget {
 
 class _RouterPageState extends State<RouterPage> {
   int page = 1;
+  Widget seven= Column();
   CarouselController _buttonCarouselController = CarouselController();
   TextEditingController roomController = TextEditingController();
   TextEditingController blockController = TextEditingController();
@@ -42,7 +43,6 @@ class _RouterPageState extends State<RouterPage> {
     'Manas',
     'Dihing',
     'Dibang',
-    'Disang',
     'Married Scholars',
     'Siang',
     'Dhansiri',
@@ -57,6 +57,8 @@ class _RouterPageState extends State<RouterPage> {
     super.initState();
     setState(() {page = 1;});
   }
+
+  function(argso){setState(() {seven = IpPage(argso: argso);});}
 
   @override
   Widget build(BuildContext context) {
@@ -126,11 +128,7 @@ class _RouterPageState extends State<RouterPage> {
                                       ),
                                     ),
                                     SizedBox(height: HEIGHT * 0.0064,),
-                                    (i == 2)?Text(
-                                      textdata[i - 1],
-                                      style: MyFonts.regular.size(14).setColor(kGrey6),
-                                    )
-                                    :Text(
+                                    Text(
                                       textdata[i - 1],
                                       style: MyFonts.regular.size(14).setColor(kGrey6),
                                     ),
@@ -153,7 +151,7 @@ class _RouterPageState extends State<RouterPage> {
                                                     dropdownValue = data!;
                                                     hostel.hostelName = dropdownValue;
                                                   });
-                                                  print(hostel);
+                                                  //print(hostel);
                                                 },
                                                 decoration: decfunction(''),
                                                 items: spinnerItems.map<DropdownMenuItem<String>>(
@@ -174,7 +172,7 @@ class _RouterPageState extends State<RouterPage> {
                                           IpField(texta: "remember your floor number correctly", textb: 'Floor', hostel: hostel, control: floorController, ht: HEIGHT,),
                                         ],
                                       ),
-                                    ) : (i == 7) ? IpPage(argso: hostel) :
+                                    ) : (i == 7) ? seven :
                                     (i == 5)? Image.asset('assets/images/lan5.png', height: HEIGHT*0.37646,):
                                     (i == 4)? Image.asset('assets/images/lan4.png', height: HEIGHT*0.40646,):
                                     (i != 8) ? SizedBox(height: HEIGHT*0.35646, child: Image.asset('assets/images/lan'+i.toString()+'.png')) : SizedBox(height: HEIGHT*0,)
@@ -219,6 +217,7 @@ class _RouterPageState extends State<RouterPage> {
                                   } else if (page == 6) {
                                     if (dropdownValue != 'Select Hostel') {
                                       if (_keyform.currentState!.validate()) {
+                                        function(hostel);
                                         fg = false;
                                         await _buttonCarouselController.nextPage(
                                             duration: Duration(milliseconds: 300),
