@@ -77,11 +77,11 @@ String calculatedetails(hostelDetails args, String initials) {
 class _IpPageState extends State<IpPage> {
   List _items = [];
   var hostel;
-  late final args;
+  late var args;
   // Fetch content from the json file
   Future<void> readJson() async {
     final String response =
-        await rootBundle.loadString('assets/json/csvjson.json');
+        await rootBundle.loadString('lib/globals/ip.json');
     final data = await json.decode(response);
     setState(() {
       args = widget.argso;
@@ -92,23 +92,22 @@ class _IpPageState extends State<IpPage> {
           break;
         }
       }
-      print(args.hostelName);
+      //print(args.hostelName);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     readJson();
-
-    String hostelname;
+    String gateway;
     String subnet;
     String ipAdress;
     if (hostel == null) {
-      hostelname = "not defined";
       subnet = "255.255.255.255";
       ipAdress = " macfe";
+      gateway = "evadiki telsu";
     } else {
-      hostelname = hostel["Hostel"];
+      gateway = hostel["Default Gateway"];
       subnet = hostel["Subnet mask"];
       ipAdress = hostel["IP Adress Range"];
       int k = 0;
@@ -128,9 +127,9 @@ class _IpPageState extends State<IpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         IpValues(text: 'Your details:'),
-        IpValues(text: 'Gateway:       ' + hostelname),
-        IpValues(text: 'Subnet:         ' + subnet),
-        IpValues(text: 'IP Address:   ' + ipAdress),
+        IpValues(text: 'Gateway: ' + gateway),
+        IpValues(text: 'Subnet: ' + subnet),
+        IpValues(text: 'IP Address: ' + ipAdress),
       ],
     );
   }

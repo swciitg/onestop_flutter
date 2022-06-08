@@ -1,23 +1,21 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/dish_model.dart';
+import 'package:onestop_dev/models/food/dish_model.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
-import 'package:onestop_dev/widgets/food/restaurant_tile.dart';
+import 'package:onestop_dev/widgets/food/restaurant/restaurant_tile.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/restaurant_model.dart';
+import '../../models/food/restaurant_model.dart';
 
 class RestaurantPage extends StatelessWidget {
   const RestaurantPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    RestaurantModel r = context.read<RestaurantStore>().getSelectedRestaurant;
+    RestaurantModel restaurantModel =
+        context.read<RestaurantStore>().getSelectedRestaurant;
     return Scaffold(
       appBar: appBar(context, displayIcon: false),
       body: Column(
@@ -25,15 +23,15 @@ class RestaurantPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           RestaurantHeader(
-            restaurant: r,
+            restaurant: restaurantModel,
           ),
           Expanded(
             child: FutureBuilder<List<DishModel>>(
-                future: ReadJsonData(r.name),
+                future: getMenu(restaurantModel),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<DishModel>> snapshot) {
                   if (snapshot.hasData) {
-                    print(snapshot.data);
+                    // print(snapshot.data);
                     List<Widget> foodList = snapshot.data!
                         .map(
                           (e) => FoodTile(
@@ -65,15 +63,6 @@ class RestaurantPage extends StatelessWidget {
   }
 }
 
-Future<List<DishModel>> ReadJsonData(String restaurantName) async {
-  String restaurantSelected = restaurantName;
-  final jsondata = await rootBundle.loadString('lib/globals/restaurants.json');
-  final list = json.decode(jsondata) as List<dynamic>;
-  List<RestaurantModel> allRestaurants =
-      list.map((e) => RestaurantModel.fromJson(e)).toList();
-  allRestaurants = allRestaurants
-      .where((element) => element.name.contains(restaurantSelected))
-      .toList();
-  print("All restaurants is ${allRestaurants.toString()}");
-  return allRestaurants.elementAt(0).menu;
+Future<List<DishModel>> getMenu(RestaurantModel restaurantModel) async {
+  return await restaurantModel.menu;
 }

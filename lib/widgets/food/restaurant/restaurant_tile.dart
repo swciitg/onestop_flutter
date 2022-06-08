@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/dish_model.dart';
-import 'package:onestop_dev/models/restaurant_model.dart';
+import 'package:onestop_dev/models/food/dish_model.dart';
+import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:provider/provider.dart';
@@ -37,10 +37,8 @@ class RestaurantTile extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(21),
                     bottomLeft: Radius.circular(21)),
-                child: new Image.asset(
-                  'assets/images/res_foodimg.jpg',
-                  fit: BoxFit.fill,
-                ),
+                child: Image.network(restaurant_model.image,
+                    fit: BoxFit.fitHeight),
               ),
             ),
             Expanded(
@@ -285,10 +283,7 @@ class FoodTile extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(21),
                     bottomRight: Radius.circular(21)),
-                child: new Image.asset(
-                  'assets/images/res_foodimg.jpg',
-                  fit: BoxFit.fill,
-                ),
+                child: Image.network(dish.image, fit: BoxFit.fitHeight),
               ),
             ),
           ],
@@ -418,19 +413,20 @@ class RestaurantHeader extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                   vertical: 5.0,
                 ),
-                child: Container(
-                  height: 36,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      OutletsFilterTile(
-                        filterText: "Menu",
-                      ),
-                      OutletsFilterTile(filterText: "Combos"),
-                      OutletsFilterTile(filterText: "Offers"),
-                    ],
-                  ),
-                ),
+                child: SizedBox(),
+                // child: Container(
+                //   height: 36,
+                //   child: ListView(
+                //     scrollDirection: Axis.horizontal,
+                //     children: [
+                //       OutletsFilterTile(
+                //         filterText: "Menu",
+                //       ),
+                //       OutletsFilterTile(filterText: "Combos"),
+                //       OutletsFilterTile(filterText: "Offers"),
+                //     ],
+                //   ),
+                // ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/contact_model.dart';
+import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/widgets/contact/contact_display.dart';
 
 class Contacts2 extends StatefulWidget {
@@ -46,7 +46,7 @@ class _Contacts2State extends State<Contacts2> {
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Text(
-                      widget.title,
+                      widget.contact!.group,
                       style: MyFonts.regular.size(14).setColor(kGrey2),
                     ),
                   )
