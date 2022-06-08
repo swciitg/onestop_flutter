@@ -1,0 +1,70 @@
+{
+  "Hostels" : [
+    {
+      "Hostel": "Barak",
+      "IP Adress Range": "10.10.WX.Y",
+      "Subnet mask": "255.255.192.0",
+      "Default Gateway": "10.10.0.254"
+    },
+    {
+      "Hostel": "Brahmaputra",
+      "IP Adress Range": "10.12.WX.Z",
+      "Subnet mask": "255.255.192.0",
+      "Default Gateway": "10.12.0.254"
+    },
+    {
+      "Hostel": "Dibang",
+      "IP Adress Range": "Its Complicated",
+      "Subnet mask": "255.255.192.0",
+      "Default Gateway": "10.8.0.254"
+    },
+    {
+      "Hostel": "Dihing",
+      "IP Adress Range": "10.0.X.Y",
+      "Subnet mask": "255.255.252.0",
+      "Default Gateway": "10.0.0.254"
+    },
+    {
+      "Hostel": "Kameng",
+      "IP Adress Range": "10.9.WX.Y",
+      "Subnet mask": "255.255.192.0",
+      "Default Gateway": "10.9.0.254"
+    },
+    {
+      "Hostel": "Kapili",
+      "IP Adress Range": "10.1.X.Y",
+      "Subnet mask": "255.255.252.0",
+      "Default Gateway": "10.1.0.254"
+    },
+    {
+      "Hostel": "Manas",
+      "IP Adress Range": "10.4.WX.Y",
+      "Subnet mask": "255.255.192.0",
+      "Default Gateway": "10.4.0.254"
+    },
+    {
+      "Hostel": "Married Scholars",
+      "IP Adress Range": "10.17.X.Y",
+      "Subnet mask": "255.255.252.0",
+      "Default Gateway": "10.17.0.254"
+    },
+    {
+      "Hostel": "Siang",
+      "IP Adress Range": "10.3.X.Y",
+      "Subnet mask": "255.255.252.0",
+      "Default Gateway": "10.3.0.254"
+    },
+    {
+      "Hostel": "Subansiri",
+      "IP Adress Range": "10.16.WX.Y",
+      "Subnet mask": "255.255.192.0",
+      "Default Gateway": "10.16.0.254"
+    },
+    {
+      "Hostel": "Umiam",
+      "IP Adress Range": "10.11.WX.Y",
+      "Subnet mask": "255.255.192.0",
+      "Default Gateway": "10.11.0.254"
+    }
+  ]
+}
