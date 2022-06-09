@@ -3,6 +3,7 @@ import 'package:onestop_dev/globals.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/widgets/mapBox.dart';
 import 'package:onestop_dev/widgets/travel/bus_tile.dart';
+import 'data.dart';
 
 class TravelPage extends StatefulWidget {
   const TravelPage({Key? key}) : super(key: key);
@@ -293,30 +294,3 @@ class _TravelPageState extends State<TravelPage> {
   }
 }
 
-List<Map<String, dynamic>> BusStops = [
-  {
-    'name': 'Kameng Bus Stop',
-    'lat': 30.000000,
-    'long': 60.000000,
-    'status': 'left',
-    'time': '1:45 PM',
-    'distance': '1.4km',
-    'ind': 0,
-  },
-  {
-    'name': 'Manas Bus Stop',
-    'lat': 40.000000,
-    'long': 50.000000,
-    'status': 'left',
-    'time': '1:45 PM',
-    'distance': '1.4km',
-    'ind': 1,
-  }
-];
-
-List<Map<String, dynamic>> Buses = [
-  {
-    'status': false,
-    'time': '1:45 PM',
-  }
-];
