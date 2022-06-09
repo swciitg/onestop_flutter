@@ -11,7 +11,8 @@ import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
 import 'package:onestop_dev/functions/contact/starred_contact.dart';
 
 SplayTreeMap<String, ContactModel> people= SplayTreeMap();
-List<String> alphabets = [  "A",  "B",  "C",  "D",  "E",  "F",  "G",  "H",  "I",  "J",  "K",  "L",  "M",  "N",  "O",  "P",  "Q",  "R",  "S",  "T",  "U",  "V",  "W",  "X",  "Y",  "Z"  ];
+SplayTreeMap<String, ContactModel> people_search= SplayTreeMap();
+List<String> alphabets = [  "A",  "B",  "C",  "D",  "E",  "F", "I",  "L",  "M",  "N",  "O",  "P",  "Q",  "R",  "S",  "T",  "U",  "V"];
 
 class ContactPage extends StatefulWidget {
   static String id = "/contacto";
@@ -28,6 +29,7 @@ class _ContactPageState extends State<ContactPage> {
     final data = await json.decode(response);
     setState(() {});
     data.forEach((element) => people[element['name']] = ContactModel.fromJson(element));
+    people_search = SplayTreeMap.from(people);
     alphabets.forEach((e)=>people[e+"ADONOTUSE"]=ContactModel(name: "Random", contacts: [], group: ""));
   }
 
@@ -62,7 +64,7 @@ class _ContactPageState extends State<ContactPage> {
               padding: const EdgeInsets.fromLTRB(8,14,8,14),
               child: ContactSearchBar(),
             ),
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.fromLTRB(0, 0,0,10),
               child: Row(
                 children: [
@@ -161,7 +163,7 @@ class _ContactPageState extends State<ContactPage> {
                 ),
                 title: Text('My Profile', style: MyFonts.medium.size(15).setColor(kWhite),),
               ),
-            ),
+            ),*/
             Expanded(
               child: AlphabetScrollView(
                 list: people.keys.map((e) => AlphaModel(e)).toList(),
@@ -183,13 +185,22 @@ class _ContactPageState extends State<ContactPage> {
                 ),
                 itemBuilder: (_, k, id) {
                   if (id.contains("ADONOTUSE")) {
-                    return Container(
-                      child: Text(id[0],style: MyFonts.medium.setColor(Colors.white),),
-                      height: 50,decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(width: 1.5, color: Colors.grey),
-                      ),
-                    ),);
+                    return Row(
+                      children: [
+                        Expanded(
+                          flex: 11,
+                          child: Container(
+                            child: Text(id[0],style: MyFonts.medium.setColor(kWhite3).size(11),),
+                            height: 20,
+                            decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(width: 1, color: kAppBarGrey),
+                            ),
+                          ),),
+                        ),
+                        Expanded(flex: 1, child: Container()),
+                      ],
+                    );
                   }
                   print("ID is ${people.length}");
                   return Padding(
