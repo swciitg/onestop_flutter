@@ -188,7 +188,11 @@ class _ContactPageState extends State<ContactPage> {
                     return Row(
                       children: [
                         Expanded(
-                          flex: 11,
+                          flex: 1,
+                          child: Container(),
+                        ),
+                        Expanded(
+                          flex: 22,
                           child: Container(
                             child: Text(id[0],style: MyFonts.medium.setColor(kWhite3).size(11),),
                             height: 20,
@@ -198,7 +202,7 @@ class _ContactPageState extends State<ContactPage> {
                             ),
                           ),),
                         ),
-                        Expanded(flex: 1, child: Container()),
+                        Expanded(flex: 2, child: Container()),
                       ],
                     );
                   }
