@@ -183,6 +183,11 @@ class _RouterPageState extends State<RouterPage> {
                           }).toList(),
                           carouselController: _buttonCarouselController,
                           options: CarouselOptions(
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  page = index+1; //<-- Page index
+                                });
+                              },
                               autoPlay: false,
                               enlargeCenterPage: true,
                               viewportFraction: 0.95,
@@ -199,10 +204,10 @@ class _RouterPageState extends State<RouterPage> {
                               IconButton(
                                 onPressed: () async {
                                   if (page != 1) {
+                                    if(page == 6) {setState(() {seven = Column();});}
                                     await _buttonCarouselController.previousPage(
                                         duration: Duration(milliseconds: 300),
                                         curve: Curves.linear);
-                                    setState(() {page = page - 1;});
                                   }
                                 },
                                 icon: Icon(Icons.chevron_left, color: page != 1 ? kWhite2 : kGrey7,),
@@ -213,18 +218,13 @@ class _RouterPageState extends State<RouterPage> {
                                     await _buttonCarouselController.nextPage(
                                         duration: Duration(milliseconds: 300),
                                         curve: Curves.linear);
-                                    setState(() {page = page + 1;});
                                   } else if (page == 6) {
                                     if (dropdownValue != 'Select Hostel') {
                                       if (_keyform.currentState!.validate()) {
-                                        function(hostel);
-                                        fg = false;
+                                        function(hostel); fg = false;
                                         await _buttonCarouselController.nextPage(
                                             duration: Duration(milliseconds: 300),
                                             curve: Curves.linear);
-                                        setState(() {
-                                          page = page + 1;
-                                        });
                                       }
                                     }
                                   }

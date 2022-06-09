@@ -38,9 +38,7 @@ class _TravelPageState extends State<TravelPage> {
             rebuildParent: rebuildParent,
             istravel: false,
           ),
-          SizedBox(
-            height: 10,
-          ),
+          SizedBox(height: 10,),
           (selectedIndex == 0)
               ? Column(
             children: [
@@ -53,15 +51,11 @@ class _TravelPageState extends State<TravelPage> {
                       });
                     },
                     child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(40),
-                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(40),),
                       child: Container(
-                        height: 32,
-                        width: 83,
+                        height: 32, width: 83,
                         color: (selectBusesorStops == 0)
-                            ? lBlue2
-                            : kBlueGrey,
+                            ? lBlue2 : kBlueGrey,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -76,8 +70,7 @@ class _TravelPageState extends State<TravelPage> {
                               "Stops",
                               style: TextStyle(
                                 color: (selectBusesorStops == 0)
-                                    ? kBlueGrey
-                                    : kWhite,
+                                    ? kBlueGrey : kWhite,
                               ),
                             ),
                           ],
@@ -92,15 +85,11 @@ class _TravelPageState extends State<TravelPage> {
                       });
                     },
                     child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(40),
-                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(40),),
                       child: Container(
-                        height: 32,
-                        width: 83,
+                        height: 32, width: 83,
                         color: (selectBusesorStops == 1)
-                            ? lBlue2
-                            : kBlueGrey,
+                            ? lBlue2 : kBlueGrey,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -115,8 +104,7 @@ class _TravelPageState extends State<TravelPage> {
                               "Bus",
                               style: TextStyle(
                                 color: (selectBusesorStops == 1)
-                                    ? kBlueGrey
-                                    : kWhite,
+                                    ? kBlueGrey : kWhite,
                               ),
                             ),
                           ],
@@ -130,8 +118,7 @@ class _TravelPageState extends State<TravelPage> {
                   ? Column(
                 children: BusStops.map((item) {
                   return Padding(
-                    padding: const EdgeInsets.only(
-                        top: 4.0, bottom: 4.0),
+                    padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
@@ -141,43 +128,33 @@ class _TravelPageState extends State<TravelPage> {
                         });
                       },
                       child: Container(
-                        width: MediaQuery.of(context).size.width *
-                            0.95,
-                        //color: Colors.amberAccent,
+                        width: MediaQuery.of(context).size.width * 0.95,
                         decoration: BoxDecoration(
                           color: Color.fromRGBO(34, 36, 41, 1),
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(20)),
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
                           border: Border.all(
                               color: (isSelected == item['ind'])
                                   ? Color.fromRGBO(101, 144, 210, 1)
                                   : Color.fromRGBO(34, 36, 41, 1)),
                         ),
                         child: ListTile(
-                          textColor: Colors.white,
+                          textColor: kWhite,
                           leading: const CircleAvatar(
                             backgroundColor:
                             Color.fromRGBO(255, 227, 125, 1),
                             radius: 26,
                             child: Icon(
-                              IconData(
-                                0xe1d5,
-                                fontFamily: 'MaterialIcons',
-                              ),
-                              color: Color.fromRGBO(39, 49, 65, 1),
+                              IconData(0xe1d5, fontFamily: 'MaterialIcons',),
+                              color: kBlueGrey,
                             ),
                           ),
                           title: Text(
                             item['name'],
-                            style: const TextStyle(
-                                color: Color.fromRGBO(
-                                    255, 255, 255, 1)),
+                            style: const TextStyle(color: kWhite),
                           ),
                           subtitle: Text(
                             item['distance'],
-                            style: const TextStyle(
-                                color: Color.fromRGBO(
-                                    119, 126, 141, 1)),
+                            style: const TextStyle(color: Color.fromRGBO(119, 126, 141, 1)),
                           ),
                           trailing: (item['status'] == 'left')
                               ? Column(
@@ -186,15 +163,11 @@ class _TravelPageState extends State<TravelPage> {
                             children: [
                               const Text(
                                 'Left',
-                                style: TextStyle(
-                                    color: Color.fromRGBO(
-                                        135, 145, 165, 1)),
+                                style: TextStyle(color: Color.fromRGBO(135, 145, 165, 1)),
                               ),
                               Text(
                                 item['time'],
-                                style: const TextStyle(
-                                    color: Color.fromRGBO(
-                                        195, 198, 207, 1)),
+                                style: const TextStyle(color: Color.fromRGBO(195, 198, 207, 1)),
                               ),
                             ],
                           )
@@ -207,8 +180,7 @@ class _TravelPageState extends State<TravelPage> {
                     ),
                   );
                 }).toList(),
-              )
-                  : SizedBox(),
+              ) : SizedBox(),
               (selectBusesorStops == 1)
                   ? Column(
                 children: [
@@ -248,7 +220,7 @@ class _TravelPageState extends State<TravelPage> {
                     child: ListTile(
                       title: Text(
                         'City -> Campus',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: kWhite),
                       ),
                       subtitle: Text(
                         'Starting from City',
@@ -257,7 +229,7 @@ class _TravelPageState extends State<TravelPage> {
                       trailing: IconButton(
                         icon: Icon(
                           Icons.arrow_drop_down,
-                          color: Colors.white,
+                          color: kWhite,
                         ),
                         onPressed: () {
                           setState(() {
