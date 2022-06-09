@@ -4,9 +4,9 @@ import '../../../globals/my_colors.dart';
 import '../../../globals/my_fonts.dart';
 import 'package:onestop_dev/globals.dart';
 class DateSlider extends StatefulWidget {
+  Function? rebuildParent;
   int select;
-  DateSlider({Key? key,required this.select}) : super(key: key);
-
+  DateSlider({Key? key,required this.rebuildParent,required this.select}) : super(key: key);
   @override
   State<DateSlider> createState() => _DateSliderState();
 }
@@ -24,7 +24,7 @@ class _DateSliderState extends State<DateSlider> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  widget.select = index;
+                  widget.rebuildParent!(index);
                 });
               },
               child: FittedBox(
@@ -77,4 +77,3 @@ List<DateTime> dates = [
   day3,
   day4,
 ];
-

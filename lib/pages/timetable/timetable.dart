@@ -1,3 +1,4 @@
+import 'package:onestop_dev/globals.dart';
 import 'package:onestop_dev/pages/timetable/ApiCallingTimetable.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -15,8 +16,8 @@ class TimeTableTab extends StatefulWidget {
 }
 
 class _TimeTableTabState extends State<TimeTableTab> {
-  String sel="";
   int select=0;
+  String sel="";
   List<Map<int, List<List<String>>>> Data1 = [];
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
               children: [
                 Container(
                   height: 130,
-                  child: DateSlider(select: select,),
+                  child: DateSlider(select: select,rebuildParent: rebuildParent,),
                 ),
                 SizedBox(
                   height: 10,
@@ -76,7 +77,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
             children: [
               Container(
                 height: 130,
-                child: DateSlider(select: select,),
+                child: DateSlider(select: select,rebuildParent: rebuildParent,),
               ),
             ],
           );
@@ -87,5 +88,10 @@ class _TimeTableTabState extends State<TimeTableTab> {
       },
     );
   }
-
+  void rebuildParent(int newSelectedIndex) {
+    print('Reloaded');
+    setState(() {
+      select = newSelectedIndex;
+    });
+  }
 }
