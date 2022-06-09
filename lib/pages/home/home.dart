@@ -8,8 +8,8 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/pages/home/home_tab.dart';
-import 'package:onestop_dev/pages/timetable.dart';
-import 'package:onestop_dev/pages/travel.dart';
+import 'package:onestop_dev/pages/timetable/timetable.dart';
+import 'package:onestop_dev/pages/TravelPage/travel.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 
 class HomePage extends StatefulWidget {
