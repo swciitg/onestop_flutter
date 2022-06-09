@@ -169,20 +169,20 @@ class _ContactPageState extends State<ContactPage> {
                 list: people.keys.map((e) => AlphaModel(e)).toList(),
                 alignment: LetterAlignment.right,
                 itemExtent: 50,
-                unselectedTextStyle: MyFonts.regular.size(12).setColor(kbg),
-                selectedTextStyle: MyFonts.bold.size(12).setColor(kbg),
-                overlayWidget: (value) => Stack(
+                unselectedTextStyle: MyFonts.medium.size(11).setColor(kGrey7),
+                selectedTextStyle: MyFonts.medium.size(11).setColor(kGrey7),
+                /*overlayWidget: (value) => Stack(
                   alignment: Alignment.center,
                   children: [
                     Icon(Icons.circle, size: 30, color: Colors.grey,),
                     Container(
                       height: 50, width: 50,
-                      decoration: BoxDecoration(shape: BoxShape.circle,),
+                      decoration: BoxDecoration(shape: BoxShape.rectangle,),
                       alignment: Alignment.center,
-                      child: Text('$value'.toUpperCase(), style: TextStyle(fontSize: 18, color: kWhite),),
+                      child: Text('$value'.toUpperCase(), style: MyFonts.medium.size(15).setColor(kWhite),),
                     ),
                   ],
-                ),
+                ),*/
                 itemBuilder: (_, k, id) {
                   if (id.contains("ADONOTUSE")) {
                     return Row(
@@ -202,7 +202,6 @@ class _ContactPageState extends State<ContactPage> {
                       ],
                     );
                   }
-                  print("ID is ${people.length}");
                   return Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(

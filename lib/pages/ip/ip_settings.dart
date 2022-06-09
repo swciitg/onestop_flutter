@@ -92,7 +92,6 @@ class _IpPageState extends State<IpPage> {
           break;
         }
       }
-      //print(args.hostelName);
     });
   }
 
@@ -102,11 +101,13 @@ class _IpPageState extends State<IpPage> {
     String gateway;
     String subnet;
     String ipAdress;
+
     if (hostel == null) {
       subnet = "255.255.255.255";
       ipAdress = " macfe";
       gateway = "evadiki telsu";
-    } else {
+    }
+    else {
       gateway = hostel["Default Gateway"];
       subnet = hostel["Subnet mask"];
       ipAdress = hostel["IP Adress Range"];
