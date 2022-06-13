@@ -10,6 +10,7 @@ const Color kRed = Colors.red;
 const Color kbg = Colors.blueGrey;
 const Color lYellow = Color.fromRGBO(245, 247, 229, 1);
 const Color kWhite2 = Color.fromRGBO(235, 241, 255, 1);
+const Color kWhite3 = Color.fromRGBO(196, 196, 196, 1);
 const Color lBlue = Color.fromRGBO(212, 227, 255, 1);
 const Color lRed = Color.fromRGBO(247, 229, 229, 1);
 const Color lGrey = Color.fromRGBO(68, 71, 79, 1);
