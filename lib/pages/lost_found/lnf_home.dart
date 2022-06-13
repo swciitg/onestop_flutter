@@ -10,10 +10,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/found_model.dart';
-import 'package:onestop_dev/models/lost_model.dart';
+import 'package:onestop_dev/models/lostfound/found_model.dart';
+import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
-import 'package:onestop_dev/pages/lost_found/imp_widgets.dart';
+import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_form.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
@@ -82,13 +82,11 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                 if(foundsSnapshot.hasData){
                   List<Widget> lostItems=[];
                   List<Widget> foundItems=[];
-                  lostsSnapshot.data!.forEach((element) => {
-                    lostItems.add(LostItemTile(currentLostModel: LostModel(title: element["title"], description: element["description"], location: element["location"], imageURL: element["imageURL"], compressedImageURL: element["compressedImageURL"], date: DateTime.parse(element["date"]),phonenumber: element["phonenumber"])))
-                    // lostItems.add(ListItemWidget(category: "Lost", title: element["title"], description: element["description"],phonenumber: element["phonenumber"] ,location: element["location"], imageURL : element["imageURL"], compressedImageURL: element["compressedImageURL"], date: DateTime.parse(element["date"])))
+                  lostsSnapshot.data!.forEach((e) => {
+                    lostItems.add(LostItemTile(currentLostModel: LostModel.fromJson(e)))
                   });
-                  foundsSnapshot.data!.forEach((element) => {
-                    foundItems.add(FoundItemTile(currentFoundModel: FoundModel(title: element["title"], description: element["description"], location: element["location"], imageURL : element["imageURL"], compressedImageURL: element["compressedImageURL"], date: DateTime.parse(element["date"]),submittedAt: element["submittedat"],)))
-                    // foundItems.add(ListItemWidget(category: "Found", title: element["title"], description: element["description"], location: element["location"], imageURL : element["imageURL"], compressedImageURL: element["compressedImageURL"], date: DateTime.parse(element["date"]),submittedAt: element["submittedat"],))
+                  foundsSnapshot.data!.forEach((e) => {
+                    foundItems.add(FoundItemTile(currentFoundModel: FoundModel.fromJson(e)))
                   });
                   return StreamBuilder(
                     stream: typeStream,

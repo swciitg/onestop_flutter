@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/lost_model.dart';
+import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -396,7 +396,7 @@ class FoundItemTile extends StatelessWidget {
 
     return GestureDetector(
       onTap: (){
-        detailsDialogBox(currentFoundModel.imageURL, currentFoundModel.description, currentFoundModel.location,currentFoundModel.submittedAt,currentFoundModel.date);
+        detailsDialogBox(currentFoundModel.imageURL, currentFoundModel.description, currentFoundModel.location,currentFoundModel.submittedat,currentFoundModel.date);
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 15,vertical: 4),
