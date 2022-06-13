@@ -21,13 +21,9 @@ class FoodTab extends StatelessWidget {
         // crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 8,
-          ),
+          SizedBox(height: 8,),
           FoodSearchBar(),
-          SizedBox(
-            height: 8,
-          ),
+          SizedBox(height: 8,),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -35,13 +31,9 @@ class FoodTab extends StatelessWidget {
                   MessMenu(),
                   SizedBox(height: 8),
                   FavoriteDishes(),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  SizedBox(height: 10,),
                   OutletsFilter(),
-                  SizedBox(
-                    height: 8,
-                  ),
+                  SizedBox(height: 8,),
                   // restaurant(),
                   FutureBuilder<List<RestaurantModel>>(
                       future: ReadJsonData(),

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/widgets/mapBox.dart';
-import 'package:onestop_dev/widgets/travel/bus_tile.dart';
+import 'package:onestop_dev/widgets/travel/bus_details.dart';
+import 'package:onestop_dev/widgets/travel/ferry_details.dart';
 import 'data.dart';
 
 class TravelPage extends StatefulWidget {
@@ -13,8 +14,6 @@ class TravelPage extends StatefulWidget {
 
 class _TravelPageState extends State<TravelPage> {
   int selectBusesorStops = 0;
-  bool isCity = false;
-  bool isCampus = false;
   double lat = 0;
   double long = 0;
   int selectedIndex = 0;
@@ -39,8 +38,8 @@ class _TravelPageState extends State<TravelPage> {
             istravel: false,
           ),
           SizedBox(height: 10,),
-          (selectedIndex == 0)
-              ? Column(
+          (selectedIndex == 0) ?
+          Column(
             children: [
               Row(
                 children: [
@@ -112,6 +111,29 @@ class _TravelPageState extends State<TravelPage> {
                       ),
                     ),
                   ),
+                  Expanded(child: Container(),),
+                  Theme(
+                    data: Theme.of(context).copyWith(canvasColor: kAppBarGrey),
+                    child: DropdownButton<String>(
+                      value: day,
+                      icon: const Icon(Icons.arrow_drop_down, color: kWhite, size: 13,),
+                      elevation: 16,
+                      style: const TextStyle(color: kWhite),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          day = newValue!;
+                        });
+                      },
+                      underline: Container(),
+                      items: <String>['Weekdays', 'Weekends']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  )
                 ],
               ),
               (selectBusesorStops == 0)
@@ -181,85 +203,11 @@ class _TravelPageState extends State<TravelPage> {
                   );
                 }).toList(),
               ) : SizedBox(),
-              (selectBusesorStops == 1)
-                  ? Column(
-                children: [
-                  Container(
-                    child: ListTile(
-                      title: Text(
-                        'Campus -> City',
-                        style: TextStyle(color: kWhite),
-                      ),
-                      subtitle: Text(
-                        'Starting from Biotech park',
-                        style: TextStyle(color: kGrey),
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isCity = !isCity;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  isCity
-                      ? Column(
-                      children: Buses.map((e) {
-                        return BusTile(
-                          time: e['time'],
-                          isLeft: e['status'],
-                        );
-                      }).toList())
-                      : Container(),
-                  Container(
-                    child: ListTile(
-                      title: Text(
-                        'City -> Campus',
-                        style: TextStyle(color: kWhite),
-                      ),
-                      subtitle: Text(
-                        'Starting from City',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.arrow_drop_down,
-                          color: kWhite,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isCampus = !isCampus;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  isCampus
-                      ? Column(
-                      children: Buses.map((e) {
-                        return BusTile(
-                          time: e['time'],
-                          isLeft: e['status'],
-                        );
-                      }).toList())
-                      : Container(),
-                ],
-              )
-                  : SizedBox(),
+              (selectBusesorStops == 1) ?
+              BusDetails(day: day) : SizedBox(),
             ],
-          )
-              : Column(
-              children: Buses.map((e) {
-                return BusTile(
-                  time: e['time'],
-                  isLeft: e['status'],
-                );
-              }).toList())
+          ) :
+          FerryDetails(),
         ],
       ),
     );
