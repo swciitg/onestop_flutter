@@ -20,6 +20,7 @@ const Color kBackground = Color.fromRGBO(27, 27, 29, 1);
 const Color kTabText = Color.fromRGBO(171, 171, 175, 1);
 const Color kTabBar = Color.fromRGBO(45, 48, 55, 1);
 const Color lBlue2 = Color.fromRGBO(118, 172, 255, 1);
+const Color lBlue3 = Color.fromRGBO(218, 218, 218, 1);
 const Color kBlueGrey = Color.fromRGBO(39, 49, 65, 1);
 const Color kGrey2 = Color.fromRGBO(85, 95, 113, 1);
 const Color kGrey8 = Color.fromRGBO(135, 145, 163, 1);
