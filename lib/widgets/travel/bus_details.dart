@@ -45,7 +45,6 @@ class _BusDetailsState extends State<BusDetails> {
               );
             }).toList()) :
         Container(),
-
         Container(
           child: ListTile(
             title: Text(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/widgets/travel/bus_tile.dart';
 import 'drop_down.dart';
 import 'package:onestop_dev/globals/travel_details.dart';
-import 'package:intl/intl.dart';
+import 'package:onestop_dev/functions/travel/has_left.dart';
 
 String day = 'Weekdays';
 String from = 'Campus to City';
@@ -26,7 +26,7 @@ class _FerryDetailsState extends State<FerryDetails> {
 
   refresh() {
     setState(() {});
-    hasLeft('time');
+    hasLeft('1:30 PM');
     index = _selectdata();
   }
 
@@ -47,7 +47,7 @@ class _FerryDetailsState extends State<FerryDetails> {
                 padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: BusTile(
                   time: e,
-                  isLeft: true,
+                  isLeft: hasLeft(e.toString()),
                 ),
               );
             }).toList(),
@@ -57,10 +57,5 @@ class _FerryDetailsState extends State<FerryDetails> {
   }
 }
 
-bool hasLeft(String time)
-{
-  //Pending comparator
-  return true;
-}
 
 
