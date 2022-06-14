@@ -202,9 +202,8 @@ class _TravelPageState extends State<TravelPage> {
                     ),
                   );
                 }).toList(),
-              ) : SizedBox(),
-              (selectBusesorStops == 1) ?
-              BusDetails(day: day) : SizedBox(),
+              ) :
+              BusDetails(day: day),
             ],
           ) :
           FerryDetails(),

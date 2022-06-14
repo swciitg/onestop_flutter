@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-
 import 'ferry_details.dart';
 
 class DropButton extends StatefulWidget {

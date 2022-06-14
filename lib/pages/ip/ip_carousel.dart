@@ -5,6 +5,7 @@ import 'package:onestop_dev/pages/ip/ip_settings.dart';
 import 'package:onestop_dev/functions/ip/ip_decoration.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/functions/ip/ip_calculator.dart';
 
 List<String> textdata = [
   'Open Start-> Control Panel -> Network and Internet-> Network and Sharing Center ',

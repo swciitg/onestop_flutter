@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../globals/my_colors.dart';
-import '../../pages/TravelPage/data.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/pages/travel/data.dart';
 import 'bus_tile.dart';
 
 class BusDetails extends StatefulWidget {
