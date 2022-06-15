@@ -26,21 +26,21 @@ class FoodTab extends StatelessWidget {
           ),
           FoodSearchBar(),
           SizedBox(
-            height: 8,
+            height: 16,
           ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   MessMenu(),
-                  SizedBox(height: 8),
+                  SizedBox(height: 16),
                   FavoriteDishes(),
                   SizedBox(
-                    height: 10,
+                    height: 16,
                   ),
                   OutletsFilter(),
                   SizedBox(
-                    height: 8,
+                    height: 10,
                   ),
                   FutureBuilder<List<RestaurantModel>>(
                       future: ReadJsonData(),

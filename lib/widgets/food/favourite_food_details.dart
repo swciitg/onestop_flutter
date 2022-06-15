@@ -25,8 +25,8 @@ class FavouriteFoodDetails extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-              height: 60,
-              width: 55,
+              height: 65,
+              width: 65,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: FittedBox(
@@ -34,9 +34,9 @@ class FavouriteFoodDetails extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               )),
-          SizedBox(height: 2),
+          SizedBox(height: 10),
           Text(foodName,
-              style: MyFonts.medium.size(12).setColor(lBlue),
+              style: MyFonts.medium.size(11).setColor(lBlue),
               textAlign: TextAlign.center),
         ],
       ),
