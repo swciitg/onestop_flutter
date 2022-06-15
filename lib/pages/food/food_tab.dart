@@ -18,7 +18,7 @@ class FoodTab extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
@@ -42,7 +42,6 @@ class FoodTab extends StatelessWidget {
                   SizedBox(
                     height: 8,
                   ),
-                  // restaurant(),
                   FutureBuilder<List<RestaurantModel>>(
                       future: ReadJsonData(),
                       builder: (BuildContext context,

@@ -103,12 +103,13 @@ class MessMenu extends StatelessWidget {
             Expanded(
                 flex: 2,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       flex: 1,
                       child: Text(
                         "8:00 pm - 10:15 pm",
-                        style: MyFonts.medium.setColor(kTabText),
+                        style: MyFonts.medium.size(12).setColor(kGrey12),
                       ),
                     ),
                     Expanded(
@@ -116,12 +117,13 @@ class MessMenu extends StatelessWidget {
                         child: SingleChildScrollView(
                             child: Text(
                                 "Dal Makhani, Rasam, Green Peas, Cauliflower, Rice, Roti, Salad",
-                                style:
-                                    MyFonts.medium.size(15).setColor(kWhite)))),
+                                style: MyFonts.regular
+                                    .size(14)
+                                    .setColor(kWhite)))),
                     Expanded(
                         flex: 2,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
                               padding: const EdgeInsets.fromLTRB(1, 0, 2, 0),
@@ -142,7 +144,7 @@ class MessMenu extends StatelessWidget {
                                 },
                                 offset: Offset(1, 40),
                                 child: Container(
-                                  padding: EdgeInsets.all(4.0),
+                                  padding: EdgeInsets.all(7.0),
                                   decoration: BoxDecoration(
                                       color: kGrey2,
                                       borderRadius: BorderRadius.all(
