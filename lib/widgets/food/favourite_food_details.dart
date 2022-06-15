@@ -25,11 +25,14 @@ class FavouriteFoodDetails extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-              height: 40,
-              width: 60,
+              height: 60,
+              width: 55,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: img,
+                borderRadius: BorderRadius.circular(20),
+                child: FittedBox(
+                  child: img,
+                  fit: BoxFit.cover,
+                ),
               )),
           SizedBox(height: 2),
           Text(foodName,

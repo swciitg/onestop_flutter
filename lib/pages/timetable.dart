@@ -75,11 +75,11 @@ class _TimeTableTabState extends State<TimeTableTab> {
                                                   .setColor(kWhite))),
                                       FittedBox(
                                           child: Text(
-                                            dates[index].day.toString(),
-                                            style: MyFonts.extraBold
-                                                .size(40)
-                                                .setColor(kWhite),
-                                          ))
+                                        dates[index].day.toString(),
+                                        style: MyFonts.extraBold
+                                            .size(40)
+                                            .setColor(kWhite),
+                                      ))
                                     ],
                                   ),
                                 ),
@@ -136,9 +136,9 @@ class _TimeTableTabState extends State<TimeTableTab> {
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         Data1[dates[select].weekday]![index][0],
@@ -154,7 +154,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                                           Expanded(
                                             child: Text(
                                               Data1[dates[select].weekday]![
-                                              index][1],
+                                                  index][1],
                                               style: MyFonts.medium
                                                   .size(15)
                                                   .setColor(kWhite),
@@ -173,13 +173,15 @@ class _TimeTableTabState extends State<TimeTableTab> {
                                           //   color: Color.fromRGBO(
                                           //       212, 227, 255, 100),
                                           // ),
-                                          Text(
-                                            Data1[dates[select].weekday]![index]
-                                            [2],
-                                            style: MyFonts.light
-                                                .size(13)
-                                                .setColor(Color.fromRGBO(
-                                                212, 227, 255, 100)),
+                                          Expanded(
+                                            child: Text(
+                                              Data1[dates[select].weekday]![
+                                                  index][2],
+                                              style: MyFonts.light
+                                                  .size(13)
+                                                  .setColor(Color.fromRGBO(
+                                                      212, 227, 255, 100)),
+                                            ),
                                           )
                                         ],
                                       ),
@@ -198,8 +200,8 @@ class _TimeTableTabState extends State<TimeTableTab> {
                 Row(children: <Widget>[
                   Expanded(
                       child: Divider(
-                        color: Colors.white,
-                      )),
+                    color: Colors.white,
+                  )),
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Text(
@@ -209,8 +211,8 @@ class _TimeTableTabState extends State<TimeTableTab> {
                   ),
                   Expanded(
                       child: Divider(
-                        color: Colors.white,
-                      )),
+                    color: Colors.white,
+                  )),
                 ]),
                 SizedBox(
                   height: 2,
@@ -259,9 +261,9 @@ class _TimeTableTabState extends State<TimeTableTab> {
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         Data2[dates[select].weekday]![index][0],
@@ -277,7 +279,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                                           Expanded(
                                             child: Text(
                                               Data2[dates[select].weekday]![
-                                              index][1],
+                                                  index][1],
                                               style: MyFonts.medium
                                                   .size(15)
                                                   .setColor(kWhite),
@@ -287,19 +289,15 @@ class _TimeTableTabState extends State<TimeTableTab> {
                                       ),
                                       Row(
                                         children: [
-                                          // Icon(
-                                          //   Icons.location_pin,
-                                          //   size: 13,
-                                          //   color: Color.fromRGBO(
-                                          //       212, 227, 255, 100),
-                                          // ),
-                                          Text(
-                                            Data2[dates[select].weekday]![index]
-                                            [2],
-                                            style: MyFonts.light
-                                                .size(13)
-                                                .setColor(Color.fromRGBO(
-                                                212, 227, 255, 100)),
+                                          Expanded(
+                                            child: Text(
+                                              Data2[dates[select].weekday]![
+                                                  index][2],
+                                              style: MyFonts.light
+                                                  .size(13)
+                                                  .setColor(Color.fromRGBO(
+                                                      212, 227, 255, 100)),
+                                            ),
                                           )
                                         ],
                                       ),
@@ -358,11 +356,11 @@ class _TimeTableTabState extends State<TimeTableTab> {
                                                 .setColor(kWhite))),
                                     FittedBox(
                                         child: Text(
-                                          dates[index].day.toString(),
-                                          style: MyFonts.extraBold
-                                              .size(40)
-                                              .setColor(kWhite),
-                                        ))
+                                      dates[index].day.toString(),
+                                      style: MyFonts.extraBold
+                                          .size(40)
+                                          .setColor(kWhite),
+                                    ))
                                   ],
                                 ),
                               ),

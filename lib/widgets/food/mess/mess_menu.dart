@@ -32,7 +32,7 @@ class MessMenu extends StatelessWidget {
     return Container(
         height: 160,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(24),
           color: kBlueGrey,
         ),
         child: Padding(
@@ -121,129 +121,119 @@ class MessMenu extends StatelessWidget {
                                     .size(14)
                                     .setColor(kWhite)))),
                     Expanded(
-                        flex: 2,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(1, 0, 2, 0),
-                              child: PopupMenuButton<String>(
-                                onSelected: (value) => print(value),
-                                itemBuilder: (context) {
-                                  return days
-                                      .map(
-                                        (value) => PopupMenuItem(
-                                          onTap: () {
-                                            dayController.sink.add(value);
-                                          },
-                                          value: value,
-                                          child: Text(value),
-                                        ),
-                                      )
-                                      .toList();
-                                },
-                                offset: Offset(1, 40),
-                                child: Container(
-                                  padding: EdgeInsets.all(7.0),
-                                  decoration: BoxDecoration(
-                                      color: kGrey2,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            4, 0, 4, 2),
-                                        child: StreamBuilder<String>(
-                                            stream: dayController.stream,
-                                            builder: (context, daySnapshot) {
-                                              return Text(
-                                                  daySnapshot.hasData == true
-                                                      ? daySnapshot.data!
-                                                      : "Mon",
-                                                  style: MyFonts.medium
-                                                      .setColor(lBlue)
-                                                      .size(screenWidth <= 380
-                                                          ? 10
-                                                          : 13));
-                                            }),
-                                      ),
-                                      Icon(
-                                        Icons.keyboard_arrow_down_outlined,
-                                        color: lBlue,
-                                        size: screenWidth <= 380 ? 15 : 20,
-                                      ),
-                                    ],
+                      flex: 2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          PopupMenuButton<String>(
+                            onSelected: (value) => print(value),
+                            itemBuilder: (context) {
+                              return days
+                                  .map(
+                                    (value) => PopupMenuItem(
+                                      onTap: () {
+                                        dayController.sink.add(value);
+                                      },
+                                      value: value,
+                                      child: Text(value),
+                                    ),
+                                  )
+                                  .toList();
+                            },
+                            offset: Offset(1, 40),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 7.0, horizontal: 12.0),
+                              decoration: BoxDecoration(
+                                  color: kGrey2,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20))),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  StreamBuilder<String>(
+                                      stream: dayController.stream,
+                                      builder: (context, daySnapshot) {
+                                        return Text(
+                                            daySnapshot.hasData == true
+                                                ? daySnapshot.data!
+                                                : "Mon",
+                                            style: MyFonts.medium
+                                                .setColor(lBlue)
+                                                .size(screenWidth <= 380
+                                                    ? 10
+                                                    : 13));
+                                      }),
+                                  Icon(
+                                    Icons.keyboard_arrow_down_outlined,
+                                    color: lBlue,
+                                    size: screenWidth <= 380 ? 15 : 20,
                                   ),
-                                ),
+                                ],
                               ),
                             ),
-                            // SizedBox(
-                            //   width: 8,
-                            // ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(2, 0, 1, 0),
-                              child: PopupMenuButton<String>(
-                                onSelected: (value) => print(value),
-                                itemBuilder: (context) {
-                                  return hostels
-                                      .map(
-                                        (value) => PopupMenuItem(
-                                          onTap: () {
-                                            hostelController.sink.add(value);
-                                          },
-                                          value: value,
-                                          child: Text(
-                                            value,
-                                          ),
-                                        ),
-                                      )
-                                      .toList();
-                                },
-                                offset: Offset(1, 40),
-                                child: Container(
-                                  padding: EdgeInsets.all(4.0),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: lBlue),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            4, 4, 4, 4),
-                                        child: StreamBuilder<String>(
-                                            stream: hostelController.stream,
-                                            builder: (context, hostelSnapshot) {
-                                              return Text(
-                                                  hostelSnapshot.hasData == true
-                                                      ? hostelSnapshot.data!
-                                                      : "Brahmaputra",
-                                                  style: MyFonts.medium
-                                                      .setColor(lBlue)
-                                                      .size(screenWidth <= 380
-                                                          ? 9
-                                                          : 13));
-                                            }),
+                          ),
+                          // SizedBox(
+                          //   width: 8,
+                          // ),
+                          PopupMenuButton<String>(
+                            onSelected: (value) => print(value),
+                            itemBuilder: (context) {
+                              return hostels
+                                  .map(
+                                    (value) => PopupMenuItem(
+                                      onTap: () {
+                                        hostelController.sink.add(value);
+                                      },
+                                      value: value,
+                                      child: Text(
+                                        value,
                                       ),
-                                      Icon(
-                                        Icons.keyboard_arrow_down_outlined,
-                                        color: lBlue,
-                                        size: screenWidth <= 380 ? 15 : 20,
-                                      ),
-                                    ],
+                                    ),
+                                  )
+                                  .toList();
+                            },
+                            offset: Offset(1, 40),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 6.0, horizontal: 12.0),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: lBlue),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20))),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  StreamBuilder<String>(
+                                      stream: hostelController.stream,
+                                      builder: (context, hostelSnapshot) {
+                                        return Text(
+                                            hostelSnapshot.hasData == true
+                                                ? hostelSnapshot.data!
+                                                : "Brahmaputra",
+                                            style: MyFonts.medium
+                                                .setColor(lBlue)
+                                                .size(screenWidth <= 380
+                                                    ? 10
+                                                    : 13));
+                                      }),
+                                  Icon(
+                                    Icons.keyboard_arrow_down_outlined,
+                                    color: lBlue,
+                                    size: screenWidth <= 380 ? 15 : 20,
                                   ),
-                                ),
+                                ],
                               ),
                             ),
-                          ],
-                        ))
+                          ),
+                          SizedBox(),
+                        ],
+                      ),
+                    )
                   ],
                 ))
           ]),
