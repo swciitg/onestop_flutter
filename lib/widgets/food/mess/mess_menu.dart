@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_meal.dart';
+import 'package:webfeed/domain/media/media.dart';
 
 class MessMenu extends StatelessWidget {
   MessMenu({
@@ -30,7 +31,7 @@ class MessMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Container(
-        height: 160,
+        height: 171,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
           color: kBlueGrey,
@@ -48,50 +49,56 @@ class MessMenu extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         // mainAxisSize: MainAxisSize.min,
                         children: [
-                          GestureDetector(
+                          Expanded(
+                            child: GestureDetector(
+                                onTap: () {
+                                  if (mealSnapshot.hasData == true &&
+                                      mealSnapshot.data == "Breakfast") {
+                                    return;
+                                  }
+                                  mealController.sink.add("Breakfast");
+                                },
+                                child: MessMeal(
+                                  mealName: "Breakfast",
+                                  selected: (mealSnapshot.hasData == true &&
+                                          mealSnapshot.data == "Breakfast")
+                                      ? true
+                                      : false,
+                                )),
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                                onTap: () {
+                                  if (mealSnapshot.hasData == true &&
+                                      mealSnapshot.data == "Lunch") {
+                                    return;
+                                  }
+                                  mealController.sink.add("Lunch");
+                                },
+                                child: MessMeal(
+                                  mealName: "Lunch",
+                                  selected: (mealSnapshot.hasData == true &&
+                                          mealSnapshot.data == "Lunch")
+                                      ? true
+                                      : false,
+                                )),
+                          ),
+                          Expanded(
+                            child: GestureDetector(
                               onTap: () {
                                 if (mealSnapshot.hasData == true &&
-                                    mealSnapshot.data == "Breakfast") {
+                                    mealSnapshot.data == "Dinner") {
                                   return;
                                 }
-                                mealController.sink.add("Breakfast");
+                                mealController.sink.add("Dinner");
                               },
                               child: MessMeal(
-                                mealName: "Breakfast",
+                                mealName: "Dinner",
                                 selected: (mealSnapshot.hasData == true &&
-                                        mealSnapshot.data == "Breakfast")
+                                        mealSnapshot.data == "Dinner")
                                     ? true
                                     : false,
-                              )),
-                          GestureDetector(
-                              onTap: () {
-                                if (mealSnapshot.hasData == true &&
-                                    mealSnapshot.data == "Lunch") {
-                                  return;
-                                }
-                                mealController.sink.add("Lunch");
-                              },
-                              child: MessMeal(
-                                mealName: "Lunch",
-                                selected: (mealSnapshot.hasData == true &&
-                                        mealSnapshot.data == "Lunch")
-                                    ? true
-                                    : false,
-                              )),
-                          GestureDetector(
-                            onTap: () {
-                              if (mealSnapshot.hasData == true &&
-                                  mealSnapshot.data == "Dinner") {
-                                return;
-                              }
-                              mealController.sink.add("Dinner");
-                            },
-                            child: MessMeal(
-                              mealName: "Dinner",
-                              selected: (mealSnapshot.hasData == true &&
-                                      mealSnapshot.data == "Dinner")
-                                  ? true
-                                  : false,
+                              ),
                             ),
                           ),
                         ],

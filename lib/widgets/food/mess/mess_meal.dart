@@ -17,7 +17,7 @@ class MessMeal extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(150),
           color: selected ? lBlue2 : kGrey9,
@@ -27,13 +27,15 @@ class MessMeal extends StatelessWidget {
           mealName,
           style: selected
               ? MyFonts.medium
-                  .size(screenWidth <= 380 ? 13 : 17)
+                  .size(screenWidth <= 380 ? 13 : 14)
                   .setColor(kBlueGrey)
               : MyFonts.medium
-                  .size(screenWidth <= 380 ? 13 : 17)
+                  .size(screenWidth <= 380 ? 13 : 14)
                   .setColor(Color.fromRGBO(91, 146, 227, 1)),
         ),
       ),
     );
+
+    ;
   }
 }

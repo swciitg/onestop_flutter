@@ -26,7 +26,7 @@ class FavoriteDishes extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
                 child: Text(
                   'Your Favourite Dishes',
-                  style: MyFonts.med6.size(16).setColor(kWhite),
+                  style: MyFonts.med6.size(14).setColor(kWhite),
                 ),
               ),
             ),
