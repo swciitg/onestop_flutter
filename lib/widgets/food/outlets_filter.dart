@@ -20,7 +20,7 @@ class OutletsFilter extends StatelessWidget {
                 alignment: Alignment.bottomLeft,
                 child: Text(
                   "Outlets near you",
-                  style: MyFonts.med6.size(14).setColor(kWhite),
+                  style: MyFonts.w600.size(14).setColor(kWhite),
                 )),
           ),
           // SizedBox(

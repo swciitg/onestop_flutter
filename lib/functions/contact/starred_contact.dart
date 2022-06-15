@@ -20,7 +20,7 @@ starredContact(String contact)
           children: [
             Text(
               contact,
-              style: MyFonts.regular.setColor(kWhite),
+              style: MyFonts.w400.setColor(kWhite),
             ),
           ],
         ),

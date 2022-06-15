@@ -28,7 +28,7 @@ class Services extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: Text(
                     'Services',
-                    style: MyFonts.medium.size(10).setColor(kWhite),
+                    style: MyFonts.w500.size(10).setColor(kWhite),
                   ),
                 ),
               ),

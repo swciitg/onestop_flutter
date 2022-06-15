@@ -23,26 +23,26 @@ class RestaurantHeader extends StatelessWidget {
             children: [
               Text(
                 restaurant.name,
-                style: MyFonts.medium.size(22).setColor(kWhite),
+                style: MyFonts.w500.size(22).setColor(kWhite),
               ),
               Text(
                 restaurant.caption,
-                style: MyFonts.regular.size(16).setColor(lBlue4),
+                style: MyFonts.w400.size(16).setColor(lBlue4),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, bottom: 8.0),
                 child: RichText(
                   text: TextSpan(
                     text: restaurant.address,
-                    style: MyFonts.medium.size(13).setColor(kGrey),
+                    style: MyFonts.w500.size(13).setColor(kGrey),
                     children: [
                       TextSpan(
                         text: ' \u{2022} ',
-                        style: MyFonts.bold.size(12).setColor(kWhite),
+                        style: MyFonts.w700.size(12).setColor(kWhite),
                       ),
                       TextSpan(
                         text: '2 kms',
-                        style: MyFonts.medium.size(13).setColor(kWhite),
+                        style: MyFonts.w500.size(13).setColor(kWhite),
                       ),
                     ],
                   ),
@@ -63,7 +63,7 @@ class RestaurantHeader extends StatelessWidget {
                       children: [
                         Text(
                           'Waiting time: ${restaurant.waiting_time}',
-                          style: MyFonts.light.size(12).setColor(kWhite),
+                          style: MyFonts.w300.size(12).setColor(kWhite),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -71,7 +71,7 @@ class RestaurantHeader extends StatelessWidget {
                         ),
                         Text(
                           'Closing time: ${restaurant.closing_time}',
-                          style: MyFonts.light.size(12).setColor(kRed),
+                          style: MyFonts.w300.size(12).setColor(kRed),
                         ),
                       ],
                     ),
@@ -145,7 +145,7 @@ class RestaurantHeader extends StatelessWidget {
                     alignment: Alignment.bottomLeft,
                     child: Text(
                       "Starters",
-                      style: MyFonts.medium.size(18).setColor(kWhite),
+                      style: MyFonts.w500.size(18).setColor(kWhite),
                     )),
               ),
             ],

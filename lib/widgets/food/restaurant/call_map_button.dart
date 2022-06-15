@@ -40,7 +40,7 @@ class Call_MapButton extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Text(
                           Call_Map,
-                          style: MyFonts.medium.setColor(kWhite),
+                          style: MyFonts.w500.setColor(kWhite),
                         )),
                   ],
                 )),

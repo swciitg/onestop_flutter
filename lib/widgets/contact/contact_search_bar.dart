@@ -18,7 +18,7 @@ class ContactSearchBar extends StatelessWidget {
         child: TextField(
           enabled: false,
           textAlignVertical: TextAlignVertical.center,
-          style: MyFonts.medium.setColor(kWhite),
+          style: MyFonts.w500.setColor(kWhite),
           decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(100),
@@ -31,7 +31,7 @@ class ContactSearchBar extends StatelessWidget {
               prefixIcon: Icon(
                 Icons.search, color: kWhite, size: 12,
               ),
-              hintStyle: MyFonts.medium.size(12).setColor(kGrey2),
+              hintStyle: MyFonts.w500.size(12).setColor(kGrey2),
               hintText: "Search keyword (name, position etc)",
               contentPadding: EdgeInsets.zero,
               fillColor: kBlueGrey
@@ -132,7 +132,7 @@ class CitySearch extends SearchDelegate<String> {
         title: RichText(
           text: TextSpan(
             text: suggestion,
-            style: MyFonts.regular.size(15).setColor(kWhite),
+            style: MyFonts.w400.size(15).setColor(kWhite),
           ),
         ),
       );

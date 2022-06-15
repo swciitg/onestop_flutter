@@ -57,7 +57,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
         backgroundColor: kBlueGrey,
         title: Text(
           "Lost and Found",
-          style: MyFonts.medium.size(20).setColor(kWhite),
+          style: MyFonts.w500.size(20).setColor(kWhite),
         ),
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -101,20 +101,20 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                                   onTap: (){
                                     if(snapshot.hasData && snapshot.data! != "Lost") selectedTypeController.sink.add("Lost");
                                   },
-                                  child: ItemTypeBar(text: "Lost", margin: EdgeInsets.only(left: 16,bottom: 10) ,textStyle: MyFonts.medium.size(14).setColor(snapshot.hasData==false ? kBlack : (snapshot.data! == "Lost" ? kBlack : kWhite)),backgroundColor: snapshot.hasData==false ? lBlue2 : (snapshot.data! == "Lost" ? lBlue2 : kBlueGrey),),
+                                  child: ItemTypeBar(text: "Lost", margin: EdgeInsets.only(left: 16,bottom: 10) ,textStyle: MyFonts.w500.size(14).setColor(snapshot.hasData==false ? kBlack : (snapshot.data! == "Lost" ? kBlack : kWhite)),backgroundColor: snapshot.hasData==false ? lBlue2 : (snapshot.data! == "Lost" ? lBlue2 : kBlueGrey),),
                                 ),
                                 GestureDetector(
                                   onTap: (){
                                     if(!snapshot.hasData) selectedTypeController.sink.add("Found");
                                     if(snapshot.hasData && snapshot.data! != "Found") selectedTypeController.sink.add("Found");
                                   },
-                                  child: ItemTypeBar(text: "Found",margin: EdgeInsets.only(left: 8,bottom: 10) ,textStyle: MyFonts.medium.size(14).setColor(snapshot.hasData==false ? kWhite : (snapshot.data! == "Found" ? kBlack : kWhite)),backgroundColor: snapshot.hasData==false ? kBlueGrey : (snapshot.data! == "Found" ? lBlue2 : kBlueGrey),),
+                                  child: ItemTypeBar(text: "Found",margin: EdgeInsets.only(left: 8,bottom: 10) ,textStyle: MyFonts.w500.size(14).setColor(snapshot.hasData==false ? kWhite : (snapshot.data! == "Found" ? kBlack : kWhite)),backgroundColor: snapshot.hasData==false ? kBlueGrey : (snapshot.data! == "Found" ? lBlue2 : kBlueGrey),),
                                 ),
                               ],
                             ),
                           ),
                           Expanded(
-                            child: (!snapshot.hasData || snapshot.data! == "Lost") ? (lostItems.length==0 ? Center(child: Text("No Lost Items as of now :)", style: MyFonts.medium.size(16).setColor(kWhite),),) : ListView(children: lostItems,)) :  (foundItems.length==0 ? Center(child: Text("No found Items as of now :)", style: MyFonts.medium.size(16).setColor(kWhite),),) : ListView(children: foundItems,)
+                            child: (!snapshot.hasData || snapshot.data! == "Lost") ? (lostItems.length==0 ? Center(child: Text("No Lost Items as of now :)", style: MyFonts.w500.size(16).setColor(kWhite),),) : ListView(children: lostItems,)) :  (foundItems.length==0 ? Center(child: Text("No found Items as of now :)", style: MyFonts.w500.size(16).setColor(kWhite),),) : ListView(children: foundItems,)
                           )
                           )
                         ],
@@ -203,7 +203,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                     padding: const EdgeInsets.only(top: 15,left: 16,right: 20,bottom: 18),
                     child: Text(
                         !snapshot.hasData ? "Lost Item" : (snapshot.data! =="Lost" ? "Lost Item" : "Found Item"),
-                      style: MyFonts.med6.size(14).setColor(kBlack),
+                      style: MyFonts.w600.size(14).setColor(kBlack),
                     ),
                   ),
                 ],

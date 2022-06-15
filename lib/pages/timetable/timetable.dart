@@ -52,7 +52,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                     padding: const EdgeInsets.all(4.0),
                     child: Text(
                       'Lunch Break',
-                      style: MyFonts.medium.size(12).setColor(Colors.white),
+                      style: MyFonts.w500.size(12).setColor(Colors.white),
                     ),
                   ),
                   Expanded(

@@ -26,10 +26,10 @@ class MessMeal extends StatelessWidget {
         child: Text(
           mealName,
           style: selected
-              ? MyFonts.medium
+              ? MyFonts.w500
                   .size(screenWidth <= 380 ? 13 : 14)
                   .setColor(kBlueGrey)
-              : MyFonts.medium
+              : MyFonts.w500
                   .size(screenWidth <= 380 ? 13 : 14)
                   .setColor(Color.fromRGBO(91, 146, 227, 1)),
         ),

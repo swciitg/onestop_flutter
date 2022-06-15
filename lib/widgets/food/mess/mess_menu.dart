@@ -116,7 +116,7 @@ class MessMenu extends StatelessWidget {
                       flex: 1,
                       child: Text(
                         "8:00 pm - 10:15 pm",
-                        style: MyFonts.medium.size(12).setColor(kGrey12),
+                        style: MyFonts.w500.size(12).setColor(kGrey12),
                       ),
                     ),
                     Expanded(
@@ -124,7 +124,7 @@ class MessMenu extends StatelessWidget {
                         child: SingleChildScrollView(
                             child: Text(
                                 "Dal Makhani, Rasam, Green Peas, Cauliflower, Rice, Roti, Salad",
-                                style: MyFonts.regular
+                                style: MyFonts.w400
                                     .size(14)
                                     .setColor(kWhite)))),
                     Expanded(
@@ -167,7 +167,7 @@ class MessMenu extends StatelessWidget {
                                             daySnapshot.hasData == true
                                                 ? daySnapshot.data!
                                                 : "Mon",
-                                            style: MyFonts.medium
+                                            style: MyFonts.w500
                                                 .setColor(lBlue)
                                                 .size(screenWidth <= 380
                                                     ? 10
@@ -222,7 +222,7 @@ class MessMenu extends StatelessWidget {
                                             hostelSnapshot.hasData == true
                                                 ? hostelSnapshot.data!
                                                 : "Brahmaputra",
-                                            style: MyFonts.medium
+                                            style: MyFonts.w500
                                                 .setColor(lBlue)
                                                 .size(screenWidth <= 380
                                                     ? 10

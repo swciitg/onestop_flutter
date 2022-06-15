@@ -57,7 +57,7 @@ class RestaurantTile extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 restaurant_model.name,
-                                style: MyFonts.med6.size(16).setColor(kWhite),
+                                style: MyFonts.w600.size(16).setColor(kWhite),
                               ),
                             ),
                           ],
@@ -69,7 +69,7 @@ class RestaurantTile extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 restaurant_model.caption,
-                                style: MyFonts.regular
+                                style: MyFonts.w400
                                     .size(15)
                                     .setColor(kFontGrey),
                               ),
@@ -87,11 +87,11 @@ class RestaurantTile extends StatelessWidget {
                         children: [
                           Text(
                             'Waiting time: ${restaurant_model.waiting_time}',
-                            style: MyFonts.medium.size(11).setColor(kTabText),
+                            style: MyFonts.w500.size(11).setColor(kTabText),
                           ),
                           Text(
                             'Closes at ${restaurant_model.closing_time}',
-                            style: MyFonts.medium.size(11).setColor(lRed2),
+                            style: MyFonts.w500.size(11).setColor(lRed2),
                           ),
                         ],
                       )),
@@ -123,7 +123,7 @@ class RestaurantTile extends StatelessWidget {
                                 child: Text(
                                   '2 kms',
                                   style:
-                                      MyFonts.medium.size(11).setColor(kWhite),
+                                      MyFonts.w500.size(11).setColor(kWhite),
                                 ),
                               ),
                             )

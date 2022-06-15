@@ -48,7 +48,7 @@ class RestaurantPage extends StatelessWidget {
                     return Center(
                         child: Text(
                       "An error occurred",
-                      style: MyFonts.medium.size(18).setColor(kWhite),
+                      style: MyFonts.w500.size(18).setColor(kWhite),
                     ));
                   }
                   return Center(

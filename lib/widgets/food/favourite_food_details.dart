@@ -36,7 +36,7 @@ class FavouriteFoodDetails extends StatelessWidget {
               )),
           SizedBox(height: 10),
           Text(foodName,
-              style: MyFonts.medium.size(11).setColor(lBlue),
+              style: MyFonts.w500.size(11).setColor(lBlue),
               textAlign: TextAlign.center),
         ],
       ),

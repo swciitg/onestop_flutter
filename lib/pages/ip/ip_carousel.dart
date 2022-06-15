@@ -73,7 +73,7 @@ class _RouterPageState extends State<RouterPage> {
         leadingWidth: 0,
         title: Text(
           'Internet Settings',
-          style: MyFonts.medium.setColor(kWhite),
+          style: MyFonts.w500.setColor(kWhite),
         ),
         actions: [
           IconButton(
@@ -93,7 +93,7 @@ class _RouterPageState extends State<RouterPage> {
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                   child: Text(
                     textdata[8],
-                    style: MyFonts.med6.size(14).setColor(kGrey8),
+                    style: MyFonts.w600.size(14).setColor(kGrey8),
                   ),
                 ),
                 Container(
@@ -124,14 +124,14 @@ class _RouterPageState extends State<RouterPage> {
                                         children: [
                                           Text(
                                             'Step $i of 8',
-                                            style: MyFonts.med6.size(16).setColor(kWhite),)
+                                            style: MyFonts.w600.size(16).setColor(kWhite),)
                                         ],
                                       ),
                                     ),
                                     SizedBox(height: HEIGHT * 0.0064,),
                                     Text(
                                       textdata[i - 1],
-                                      style: MyFonts.regular.size(14).setColor(kGrey6),
+                                      style: MyFonts.w400.size(14).setColor(kGrey6),
                                     ),
                                     SizedBox(height: HEIGHT * 0.0064,),
                                     (i == 6) ? Form(
@@ -146,7 +146,7 @@ class _RouterPageState extends State<RouterPage> {
                                               child: DropdownButtonFormField<String>(
                                                 value: dropdownValue,
                                                 icon: Icon(Icons.arrow_drop_down),
-                                                style: MyFonts.medium.size(16).setColor(kWhite),
+                                                style: MyFonts.w500.size(16).setColor(kWhite),
                                                 onChanged: (data) {
                                                   setState(() {
                                                     dropdownValue = data!;
@@ -159,7 +159,7 @@ class _RouterPageState extends State<RouterPage> {
                                                         (String value) {
                                                       return DropdownMenuItem<String>(
                                                         value: value,
-                                                        child: Text(value, style: MyFonts.medium.size(15).setColor(kWhite),),
+                                                        child: Text(value, style: MyFonts.w500.size(15).setColor(kWhite),),
                                                       );
                                                     }).toList(),
                                               ),

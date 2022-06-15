@@ -25,10 +25,9 @@ class FavoriteDishes extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(16, 12, 0, 8),
             child: Text(
               'Your Favourite Dishes',
-              style: MyFonts.med6.size(14).setColor(kWhite),
+              style: MyFonts.w600.size(14).setColor(kWhite),
             ),
           ),
-
           Table(
             defaultColumnWidth: FlexColumnWidth(),
             children: [

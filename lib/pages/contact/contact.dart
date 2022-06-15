@@ -49,7 +49,7 @@ class _ContactPageState extends State<ContactPage> {
           leadingWidth: 0,
           title: Text(
               'Contacts',
-              style: MyFonts.medium.size(20).setColor(kWhite)
+              style: MyFonts.w500.size(20).setColor(kWhite)
           ),
           actions: [
             IconButton(
@@ -169,8 +169,8 @@ class _ContactPageState extends State<ContactPage> {
                 list: people.keys.map((e) => AlphaModel(e)).toList(),
                 alignment: LetterAlignment.right,
                 itemExtent: 50,
-                unselectedTextStyle: MyFonts.medium.size(11).setColor(kGrey7),
-                selectedTextStyle: MyFonts.medium.size(11).setColor(kGrey7),
+                unselectedTextStyle: MyFonts.w500.size(11).setColor(kGrey7),
+                selectedTextStyle: MyFonts.w500.size(11).setColor(kGrey7),
                 /*overlayWidget: (value) => Stack(
                   alignment: Alignment.center,
                   children: [
@@ -194,7 +194,7 @@ class _ContactPageState extends State<ContactPage> {
                         Expanded(
                           flex: 22,
                           child: Container(
-                            child: Text(id[0],style: MyFonts.medium.setColor(kWhite3).size(11),),
+                            child: Text(id[0],style: MyFonts.w500.setColor(kWhite3).size(11),),
                             height: 20,
                             decoration: BoxDecoration(
                             border: Border(

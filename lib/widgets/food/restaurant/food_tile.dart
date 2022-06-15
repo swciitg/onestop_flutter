@@ -51,7 +51,7 @@ class FoodTile extends StatelessWidget {
                             flex: 4,
                             child: Text(
                               dish.name,
-                              style: MyFonts.medium.size(18).setColor(kWhite),
+                              style: MyFonts.w500.size(18).setColor(kWhite),
                             ),
                           ),
                           Expanded(
@@ -80,13 +80,13 @@ class FoodTile extends StatelessWidget {
                             child: Text(
                               dish.ingredients
                                   .substring(1, dish.ingredients.length - 1),
-                              style: MyFonts.medium.size(12).setColor(kGrey6),
+                              style: MyFonts.w500.size(12).setColor(kGrey6),
                             ),
                           ),
                           Expanded(
                             child: Text(
                               '\u{20B9}${dish.price}/-',
-                              style: MyFonts.med6.size(14).setColor(lBlue4),
+                              style: MyFonts.w600.size(14).setColor(lBlue4),
                             ),
                           ),
                         ],

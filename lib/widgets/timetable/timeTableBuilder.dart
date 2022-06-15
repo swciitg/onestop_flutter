@@ -68,7 +68,7 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
                         children: [
                           Text(
                             widget.data[dates[widget.select].weekday]![index][0],
-                            style: MyFonts.light
+                            style: MyFonts.w300
                                 .size(12)
                                 .setColor(kWhite),
                           ),
@@ -81,7 +81,7 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
                                 child: Text(
                                   widget.data[dates[widget.select].weekday]![
                                   index][1],
-                                  style: MyFonts.medium
+                                  style: MyFonts.w500
                                       .size(15)
                                       .setColor(kWhite),
                                 ),
@@ -102,7 +102,7 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
                               Text(
                                 widget.data[dates[widget.select].weekday]![index]
                                 [2],
-                                style: MyFonts.light
+                                style: MyFonts.w300
                                     .size(13)
                                     .setColor(Color.fromRGBO(
                                     212, 227, 255, 100)),

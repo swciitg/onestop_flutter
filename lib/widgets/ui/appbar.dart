@@ -38,14 +38,14 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
         RichText(
           text: TextSpan(
               text: 'One',
-              style: MyFonts.medium
+              style: MyFonts.w500
                   .factor(4.39)
                   .letterSpace(1.0)
                   .setColor(lBlue2),
               children: [
                 TextSpan(
                   text: '.',
-                  style: MyFonts.medium.factor(5.85).setColor(kYellow),
+                  style: MyFonts.w500.factor(5.85).setColor(kYellow),
                 )
               ]),
         ),

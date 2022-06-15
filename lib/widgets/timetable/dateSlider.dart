@@ -44,13 +44,13 @@ class _DateSliderState extends State<DateSlider> {
                         FittedBox(
                             child: Text(
                                 kday[dates[index].weekday]!,
-                                style: MyFonts.medium
+                                style: MyFonts.w500
                                     .size(20)
                                     .setColor(kWhite))),
                         FittedBox(
                             child: Text(
                               dates[index].day.toString(),
-                              style: MyFonts.extraBold
+                              style: MyFonts.w800
                                   .size(40)
                                   .setColor(kWhite),
                             ))
