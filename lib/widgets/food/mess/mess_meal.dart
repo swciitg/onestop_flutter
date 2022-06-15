@@ -15,12 +15,12 @@ class MessMeal extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(150),
-          color: selected ? lBlue2 : lGrey,
+          color: selected ? lBlue2 : kGrey9,
         ),
         alignment: Alignment.center,
         child: Text(
@@ -31,7 +31,7 @@ class MessMeal extends StatelessWidget {
                   .setColor(kBlueGrey)
               : MyFonts.medium
                   .size(screenWidth <= 380 ? 13 : 17)
-                  .setColor(lBlue),
+                  .setColor(Color.fromRGBO(91, 146, 227, 1)),
         ),
       ),
     );

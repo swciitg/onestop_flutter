@@ -42,7 +42,7 @@ class FoodSearchBar extends StatelessWidget {
             Icons.search,
             color: kWhite,
           ),
-          hintStyle: MyFonts.medium.setColor(kGrey2),
+          hintStyle: MyFonts.medium.size(14).setColor(kGrey2),
           hintText: "Search dish or restaurant",
           fillColor: kBlueGrey),
     );

@@ -18,12 +18,16 @@ class FoodTab extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 8,),
+          SizedBox(
+            height: 8,
+          ),
           FoodSearchBar(),
-          SizedBox(height: 8,),
+          SizedBox(
+            height: 8,
+          ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -31,10 +35,13 @@ class FoodTab extends StatelessWidget {
                   MessMenu(),
                   SizedBox(height: 8),
                   FavoriteDishes(),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   OutletsFilter(),
-                  SizedBox(height: 8,),
-                  // restaurant(),
+                  SizedBox(
+                    height: 8,
+                  ),
                   FutureBuilder<List<RestaurantModel>>(
                       future: ReadJsonData(),
                       builder: (BuildContext context,
