@@ -108,7 +108,7 @@ class ApiCalling {
 
         if (i == 5 && v.slot == 'B')
           a5.add(['09:00 - 09:55 AM', v.course!, v.instructor!]);
-        if (i == 5 && v.slot == 'C')
+        if (i == 5 && v.slot == 'D')
           a5.add(['10:00 - 10:55 AM', v.course!, v.instructor!]);
         if (i == 5 && v.slot == 'F')
           a5.add(['11:00 - 11:55 AM', v.course!, v.instructor!]);
@@ -116,7 +116,7 @@ class ApiCalling {
           a5.add(['12:00 - 12:55 PM', v.course!, v.instructor!]);
         if (i == 5 && v.slot == 'B1')
           a51.add(['02:00 - 02:55 PM', v.course!, v.instructor!]);
-        if (i == 5 && v.slot == 'C1')
+        if (i == 5 && v.slot == 'D1')
           a51.add(['03:00 - 03:55 PM', v.course!, v.instructor!]);
         if (i == 5 && v.slot == 'F1')
           a51.add(['04:00 - 04:55 PM', v.course!, v.instructor!]);

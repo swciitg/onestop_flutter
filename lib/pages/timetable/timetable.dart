@@ -16,7 +16,7 @@ class TimeTableTab extends StatefulWidget {
 }
 
 class _TimeTableTabState extends State<TimeTableTab> {
-  int select=0;
+  int select=1;
   String sel="";
   List<Map<int, List<List<String>>>> Data1 = [];
   @override
@@ -40,7 +40,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                 SizedBox(
                   height: 10,
                 ),
-                TimeTableSlider(data: Data1[0],select: select, sel: sel,),
+                TimeTableSlider(data: Data1[0],select: select+1, sel: sel,),
                 SizedBox(
                   height: 2,
                 ),
@@ -64,7 +64,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                 SizedBox(
                   height: 2,
                 ),
-                TimeTableSlider(data: Data1[1],select: select,sel: sel,),
+                TimeTableSlider(data: Data1[1],select: select+1,sel: sel,),
                 SizedBox(
                   height: 10,
                 ),

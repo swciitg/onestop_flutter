@@ -33,6 +33,7 @@ class _DateCourseState extends State<DateCourse> {
   @override
   Widget build(BuildContext context) {
     List<String> ans = determiningClass();
+    print("widget data =${widget.data[1]}");
     return Column(
       children: [
         Row(
@@ -47,11 +48,11 @@ class _DateCourseState extends State<DateCourse> {
                     children: [
                       FittedBox(
                           child: Text(kday[now.weekday]!,
-                              style: MyFonts.w500.size(20).setColor(kWhite))),
+                              style: MyFonts.w300.size(14).setColor(kWhite))),
                       FittedBox(
                           child: Text(
                             now.day.toString(),
-                            style: MyFonts.w800.size(40).setColor(kWhite),
+                            style: MyFonts.w600.size(30).setColor(kWhite),
                           ))
                     ],
                   ),

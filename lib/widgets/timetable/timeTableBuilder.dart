@@ -16,10 +16,11 @@ class TimeTableSlider extends StatefulWidget {
 class _TimeTableSliderState extends State<TimeTableSlider> {
   @override
   Widget build(BuildContext context) {
+    print("in slider ${widget.data} and select = ${widget.select} sel = ${widget.sel} and itemCOUnt = ${widget.data[dates[widget.select - 1].weekday]!.length}");
     return ListView.builder(
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
-        itemCount: widget.data[dates[widget.select].weekday]!.length,
+        itemCount: widget.data[dates[widget.select - 1].weekday]!.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.only(top: 5.0, bottom: 5),
@@ -27,11 +28,11 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
                 color:
-                (widget.sel == widget.data[dates[widget.select].weekday]![index][0])
+                (widget.sel == widget.data[dates[widget.select - 1].weekday]![index][0])
                     ? Color.fromRGBO(101, 174, 130, 0.16)
                     : Color.fromRGBO(120, 120, 120, 0.16),
                 border:
-                (widget.sel == widget.data[dates[widget.select].weekday]![index][0])
+                (widget.sel == widget.data[dates[widget.select - 1].weekday]![index][0])
                     ? Border.all(color: Colors.blueAccent)
                     : Border.all(color: Colors.transparent),
               ),
@@ -67,7 +68,7 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
                         MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            widget.data[dates[widget.select].weekday]![index][0],
+                            widget.data[dates[widget.select -1].weekday]![index][0],
                             style: MyFonts.w300
                                 .size(12)
                                 .setColor(kWhite),
@@ -79,7 +80,7 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  widget.data[dates[widget.select].weekday]![
+                                  widget.data[dates[widget.select -1].weekday]![
                                   index][1],
                                   style: MyFonts.w500
                                       .size(15)
@@ -100,7 +101,7 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
                               //       212, 227, 255, 100),
                               // ),
                               Text(
-                                widget.data[dates[widget.select].weekday]![index]
+                                widget.data[dates[widget.select-1].weekday]![index]
                                 [2],
                                 style: MyFonts.w300
                                     .size(13)
