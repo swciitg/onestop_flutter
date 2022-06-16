@@ -16,37 +16,30 @@ class Call_MapButton extends StatelessWidget {
   final VoidCallback callback;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: callback,
-        child: Padding(
-          padding: const EdgeInsets.all(3.0),
-          child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(150),
-                color: kGrey9,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: FittedBox(
-                    child: Row(
-                  children: <Widget>[
-                    Icon(
-                      icon,
-                      size: 30,
-                      color: kWhite,
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(
-                          Call_Map,
-                          style: MyFonts.w500.setColor(kWhite),
-                        )),
-                  ],
-                )),
-              )),
-        ),
-      ),
+    return GestureDetector(
+      onTap: callback,
+      child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(150),
+            color: kGrey9,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 5),
+            child: Row(
+              children: <Widget>[
+            Icon(
+              icon,
+              size: 11,
+              color: kWhite,
+            ),
+            SizedBox(width: 5,),
+            Text(
+              Call_Map,
+              style: MyFonts.w500.size(11).setColor(kWhite),
+            ),
+              ],
+            ),
+          )),
     );
   }
 }
