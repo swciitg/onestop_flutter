@@ -19,14 +19,14 @@ Future<void> reload(BuildContext context) async {
               children: [
                 Text(
                   'Error',
-                  style: MyFonts.bold.size(24).setColor(kWhite),
+                  style: MyFonts.w700.size(24).setColor(kWhite),
                 ),
                 SizedBox(
                   height: 5,
                 ),
                 Text(
                   'You\'ve run into the error,please reload.',
-                  style: MyFonts.regular.size(14).setColor(Colors.white),
+                  style: MyFonts.w400.size(14).setColor(Colors.white),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
@@ -54,7 +54,7 @@ Future<void> reload(BuildContext context) async {
                       ),
                       Text(
                         'Reload',
-                        style: MyFonts.medium.size(14).setColor(Colors.white),
+                        style: MyFonts.w500.size(14).setColor(Colors.white),
                       ),
                     ],
                   ),

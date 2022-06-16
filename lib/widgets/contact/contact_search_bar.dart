@@ -5,10 +5,7 @@ import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/contact/contact_detail.dart';
 
 class ContactSearchBar extends StatelessWidget {
-
-  ContactSearchBar({
-    Key? key,
-  }) : super(key: key);
+  ContactSearchBar({Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +18,7 @@ class ContactSearchBar extends StatelessWidget {
         child: TextField(
           enabled: false,
           textAlignVertical: TextAlignVertical.center,
-          style: MyFonts.medium.setColor(kWhite),
+          style: MyFonts.w500.setColor(kWhite),
           decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(100),
@@ -32,14 +29,13 @@ class ContactSearchBar extends StatelessWidget {
               ),
               filled: true,
               prefixIcon: Icon(
-                Icons.search,
-                color: kWhite,
-                size: 12,
+                Icons.search, color: kWhite, size: 12,
               ),
-              hintStyle: MyFonts.medium.size(12).setColor(kGrey2),
+              hintStyle: MyFonts.w500.size(12).setColor(kGrey2),
               hintText: "Search keyword (name, position etc)",
               contentPadding: EdgeInsets.zero,
-              fillColor: kBlueGrey),
+              fillColor: kBlueGrey
+          ),
         ),
       ),
     );
@@ -47,7 +43,7 @@ class ContactSearchBar extends StatelessWidget {
 }
 
 class CitySearch extends SearchDelegate<String> {
-  final cities = people.keys.toList();
+  final cities = people_search.keys.toList();
   var x;
 
   @override
@@ -136,7 +132,7 @@ class CitySearch extends SearchDelegate<String> {
         title: RichText(
           text: TextSpan(
             text: suggestion,
-            style: MyFonts.regular.size(15).setColor(kWhite),
+            style: MyFonts.w400.size(15).setColor(kWhite),
           ),
         ),
       );

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home/home.dart';
-import 'package:onestop_dev/pages/lost_found/imp_widgets.dart';
+import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
 class LostFoundForm extends StatefulWidget {
@@ -40,7 +40,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
         backgroundColor: kBlueGrey,
         title: Text(
             widget.category=="Lost" ? "2. Details" : "3. Details",
-          style: MyFonts.medium.size(20).setColor(kWhite),
+          style: MyFonts.w600.size(16).setColor(kWhite),
         ),
       ),
       body: SingleChildScrollView(
@@ -56,21 +56,21 @@ class _LostFoundFormState extends State<LostFoundForm> {
                   margin: EdgeInsets.only(top: 40,left: 15,right: 5,bottom: 15),
                   child: Text(
                     widget.category=="Lost" ? "Fill in the details of lost object" : "Fill in the details of found object",
-                    style: MyFonts.medium.size(16).setColor(kWhite),
+                    style: MyFonts.w400.size(16).setColor(kWhite),
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10,vertical: 4),
                   child: TextFormField(
-                    style: MyFonts.medium.size(15).setColor(kWhite),
+                    style: MyFonts.w500.size(15).setColor(kWhite),
                     decoration: InputDecoration(
                       hintText: "Title*",
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                      fillColor: kGrey2,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                      fillColor: kAppBarGrey,
                       filled: true,
-                      hintStyle: MyFonts.medium.size(15).setColor(kWhite),
-                        counterText: (title==null ? "0" : title!.length.toString())+"/20",
-                        counterStyle: MyFonts.medium.size(12).setColor(kWhite)
+                      hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
+                        counterText: (title==null ? "" : title!.length.toString() + "/20"),
+                        counterStyle: MyFonts.w500.size(12).setColor(kWhite)
                     ),
                     maxLength: 20,
                     onChanged: (value){
@@ -86,15 +86,15 @@ class _LostFoundFormState extends State<LostFoundForm> {
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10,vertical: 4),
                   child: TextFormField(
-                    style: MyFonts.medium.size(15).setColor(kWhite),
+                    style: MyFonts.w500.size(15).setColor(kWhite),
                     decoration: InputDecoration(
                         hintText: widget.category=="Lost" ? "Location Lost*" : "Location Found*",
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                        fillColor: kGrey2,
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                        fillColor: kAppBarGrey,
                         filled: true,
-                        hintStyle: MyFonts.medium.size(15).setColor(kWhite),
-                        counterText: (location==null ? "0" : location!.length.toString())+"/20",
-                      counterStyle: MyFonts.medium.size(12).setColor(kWhite)
+                        hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
+                        counterText: (location==null ? "" : location!.length.toString() + "/20"),
+                      counterStyle: MyFonts.w500.size(12).setColor(kWhite)
                     ),
                     onChanged: (value){
                      setState((){
@@ -112,17 +112,17 @@ class _LostFoundFormState extends State<LostFoundForm> {
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 10,vertical: 4),
                     child: TextFormField(
-                      style: MyFonts.medium.size(15).setColor(kWhite),
+                      style: MyFonts.w500.size(15).setColor(kWhite),
                       keyboardType: TextInputType.phone,
                       maxLength: 10,
                       decoration: InputDecoration(
                           hintText: "Contact Number*",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                          fillColor: kGrey2,
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                          fillColor: kAppBarGrey,
                           filled: true,
-                          hintStyle: MyFonts.medium.size(15).setColor(kWhite),
-                        counterText: (contactnumber==null ? "0" : contactnumber!.length.toString())+"/10",
-                          counterStyle: MyFonts.medium.size(12).setColor(kWhite)
+                          hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
+                        counterText: (contactnumber==null ? "" : contactnumber!.length.toString() + "/10"),
+                          counterStyle: MyFonts.w500.size(12).setColor(kWhite)
                       ),
                       onChanged: (value){
                         setState((){
@@ -139,19 +139,19 @@ class _LostFoundFormState extends State<LostFoundForm> {
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10,vertical: 4),
                   child: TextFormField(
-                    style: MyFonts.medium.size(15).setColor(kWhite),
+                    style: MyFonts.w500.size(15).setColor(kWhite),
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                         hintText: "Description",
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                        fillColor: kGrey2,
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                        fillColor: kAppBarGrey,
                         filled: true,
-                        hintStyle: MyFonts.medium.size(15).setColor(kWhite),
-                        counterText: (description==null ? "0" : description!.length.toString())+"/100",
-                        counterStyle: MyFonts.medium.size(12).setColor(kWhite)
+                        hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
+                        counterText: (description==null ? "" : description!.length.toString() + "/100"),
+                        counterStyle: MyFonts.w500.size(12).setColor(kWhite)
                     ),
                     maxLength: 100,
-                    maxLines: 6,
+                    maxLines: 10,
                     onChanged: (value){
                       setState((){
                         description=value;

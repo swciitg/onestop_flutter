@@ -21,7 +21,7 @@ class _Contacts2State extends State<Contacts2> {
           backgroundColor: kBlueGrey,
           leading: Container(),
           leadingWidth: 0,
-          title: Text('Contacts', style: MyFonts.medium.size(20).setColor(kWhite)),
+          title: Text('Contacts', style: MyFonts.w500.size(20).setColor(kWhite)),
           actions: [
             IconButton(
                 onPressed: () {Navigator.of(context).pop();},
@@ -39,7 +39,7 @@ class _Contacts2State extends State<Contacts2> {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
                       widget.contact!.name,
-                      style: MyFonts.med6.size(16).setColor(kWhite),
+                      style: MyFonts.w600.size(16).setColor(kWhite),
                     ),
                   ),
                   Expanded(child: SizedBox()),
@@ -47,7 +47,7 @@ class _Contacts2State extends State<Contacts2> {
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Text(
                       widget.contact!.group,
-                      style: MyFonts.regular.size(14).setColor(kGrey2),
+                      style: MyFonts.w400.size(14).setColor(kGrey2),
                     ),
                   )
                 ],
@@ -59,7 +59,7 @@ class _Contacts2State extends State<Contacts2> {
                   padding: const EdgeInsets.only(left: 8.0, top: 2),
                   child: Text(
                     widget.contact!.contacts.length.toString()+' contacts',
-                    style: MyFonts.medium.size(12).setColor(kGrey11),
+                    style: MyFonts.w500.size(12).setColor(kGrey11),
                   ),
                 ),
               ],

@@ -37,12 +37,12 @@ class _QRPageState extends State<QRPage> {
                   Text(
                     "${context.read<LoginStore>().userData['name']}",
                     textAlign: TextAlign.center,
-                    style: MyFonts.extraBold.setColor(kWhite).size(20),
+                    style: MyFonts.w800.setColor(kWhite).size(20),
                   ),
                   Text(
                     '${context.read<LoginStore>().userData['rollno']}',
                     textAlign: TextAlign.center,
-                    style: MyFonts.medium.setColor(kWhite).size(20),
+                    style: MyFonts.w500.setColor(kWhite).size(20),
                   ),
                   SizedBox(
                     height: 26,
@@ -91,7 +91,7 @@ class _QRPageState extends State<QRPage> {
                             elevation: 0, primary: kAppBarGrey),
                         child: Text(
                           'Log Out',
-                          style: MyFonts.medium.setColor(kBlue),
+                          style: MyFonts.w500.setColor(kBlue),
                         )),
                   ),
                 ],

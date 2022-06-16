@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
 
 class BusTile extends StatelessWidget {
   final time;
@@ -9,36 +10,24 @@ class BusTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.95,
-      //color: Colors.amberAccent,
       decoration: const BoxDecoration(
           color: Color.fromRGBO(34, 36, 41, 1),
-          borderRadius: BorderRadius.all(Radius.circular(20))),
+          borderRadius: BorderRadius.all(Radius.circular(20))
+      ),
       child: ListTile(
-        textColor: Colors.white,
+        textColor: kWhite,
         leading: const CircleAvatar(
           backgroundColor: Color.fromRGBO(255, 227, 125, 1),
           radius: 20,
           child: Icon(
-            IconData(
-              0xe1d5,
-              fontFamily: 'MaterialIcons',
-            ),
-            color: Color.fromRGBO(39, 49, 65, 1),
+            IconData(0xe1d5, fontFamily: 'MaterialIcons',),
+            color: kAppBarGrey,
           ),
         ),
-        title: Text(
-          time,
-          style: const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
-        ),
-        trailing: isLeft
-            ? const Text(
-          'Left',
-          style: TextStyle(color: Color.fromRGBO(135, 145, 165, 1)),
-        )
-            : const SizedBox(
-          height: 0,
-          width: 0,
-        ),
+        title: Text(time, style: const TextStyle(color: kWhite),),
+        trailing: isLeft ?
+        const Text('Left', style: TextStyle(color: kGrey11),) :
+        const SizedBox(height: 0, width: 0,),
       ),
     );
   }

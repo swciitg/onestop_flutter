@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/lost_found/imp_widgets.dart';
+import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_form.dart';
 class LostFoundLocationForm extends StatefulWidget {
   final String imageString;
@@ -31,7 +31,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
         backgroundColor: kBlueGrey,
         title: Text(
           "2. Submit at desk",
-          style: MyFonts.medium.size(20).setColor(kWhite),
+          style: MyFonts.w600.size(16).setColor(kWhite),
         ),
       ),
       body: Column(
@@ -39,10 +39,10 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
         children: [
           ProgressBar(blue: 2, grey: 1),
           Container(
-              margin: const EdgeInsets.only(top: 40,left: 5,right: 5,bottom: 15),
+              margin: const EdgeInsets.only(top: 40,left: 16,right: 16,bottom: 15),
               child: Text(
                   "Please submit the found item at your nearest security desk.",
-                style: MyFonts.medium.size(16).setColor(kWhite),
+                style: MyFonts.w400.size(14).setColor(kWhite),
               ),
           ),
           ConstrainedBox(
@@ -50,7 +50,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
             child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
-                    color: kGrey2,
+                    color: kBlueGrey,
                     borderRadius: BorderRadius.circular(25)
                 ),
                 child: Padding(
@@ -60,17 +60,21 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                     children: [
                       Text(
                         "I have submitted it",
-                        style: MyFonts.medium.size(17).setColor(kWhite),
+                        style: MyFonts.w400.size(16).setColor(kWhite),
                       ),
-                      Checkbox(
-                        checkColor: kBlack,
-                        activeColor: kWhite,
-                        value: checkBox,
-                        onChanged: (value){
-                          setState(() {
-                            checkBox=value!;
-                          });
-                        },
+                      Theme(
+                          data: ThemeData(unselectedWidgetColor: lBlue3),
+                          child: Checkbox(
+                            checkColor: kBlack,
+                            activeColor: lBlue3,
+                            overlayColor: MaterialStateProperty.all(lBlue3),
+                            value: checkBox,
+                            onChanged: (value){
+                              setState(() {
+                                checkBox=value!;
+                              });
+                            },
+                          )
                       )
                     ],
                   ),
@@ -81,7 +85,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
             padding: const EdgeInsets.only(left: 15,top: 15,bottom: 10),
             child: Text(
                 "Where did you submit it at?",
-              style: MyFonts.medium.size(19).setColor(kWhite),
+              style: MyFonts.w500.size(16).setColor(kWhite),
             ),
           ),
 
@@ -95,12 +99,13 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                   padding: EdgeInsets.symmetric(horizontal: 12,vertical: 5),
                   child: DropdownButtonFormField<
                       String>(
+
                     value: selectedDropdown=="Library" ? selectedLocation : "Library",
                     icon: Icon(
                       Icons.keyboard_arrow_down_outlined,
                       color: kWhite,
                     ),
-                    style: MyFonts.medium.size(16).setColor(kWhite),
+                    style: MyFonts.w500.size(16).setColor(kWhite),
                     onChanged: (data) {
                       setState(() {
                         selectedLocation = data!;
@@ -118,7 +123,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 15),
                               child: Text(value,
-                                style: MyFonts.medium.size(18).setColor(kWhite),
+                                style: MyFonts.w500.size(18).setColor(kWhite),
                               ),
                             ),
                           );
@@ -141,7 +146,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                       Icons.keyboard_arrow_down_outlined,
                       color: kWhite,
                     ),
-                    style: MyFonts.medium.size(16).setColor(kWhite),
+                    style: MyFonts.w500.size(16).setColor(kWhite),
                     onChanged: (data) {
                       setState(() {
                         selectedLocation = data!;
@@ -159,7 +164,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 15),
                               child: Text(value,
-                                style: MyFonts.medium.size(18).setColor(kWhite),
+                                style: MyFonts.w500.size(18).setColor(kWhite),
                               ),
                             ),
                           );
@@ -180,7 +185,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                       Icons.keyboard_arrow_down_outlined,
                       color: kWhite,
                     ),
-                    style: MyFonts.medium.size(16).setColor(kWhite),
+                    style: MyFonts.w500.size(16).setColor(kWhite),
                     onChanged: (data) {
                       setState(() {
                         selectedLocation = data!;
@@ -198,7 +203,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 15),
                               child: Text(value,
-                                style: MyFonts.medium.size(18).setColor(kWhite),
+                                style: MyFonts.w500.size(18).setColor(kWhite),
                               ),
                             ),
                           );
@@ -219,7 +224,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                       Icons.keyboard_arrow_down_outlined,
                       color: kWhite,
                     ),
-                    style: MyFonts.medium.size(16).setColor(kWhite),
+                    style: MyFonts.w500.size(16).setColor(kWhite),
                     onChanged: (data) {
                       setState(() {
                         selectedLocation = data!;
@@ -237,7 +242,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 15),
                               child: Text(value,
-                                style: MyFonts.medium.size(18).setColor(kWhite),
+                                style: MyFonts.w500.size(18).setColor(kWhite),
                               ),
                             ),
                           );
@@ -271,15 +276,15 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
 decfunction(String x) {
   return InputDecoration(
     labelText: x,
-    labelStyle: MyFonts.medium.setColor(kGrey7),
+    labelStyle: MyFonts.w500.setColor(kGrey7),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(25.0),
-      borderSide: BorderSide(color: kWhite, width: 1),
+      borderSide: BorderSide(color: kGrey2, width: 1),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(25.0),
       borderSide: BorderSide(
-        color: kWhite,
+        color: kGrey2,
         width: 1,
       ),
     ),

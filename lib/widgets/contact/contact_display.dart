@@ -17,7 +17,7 @@ class ContactText extends StatelessWidget {
           alignment: align,
           child: Text(
             text,
-            style: MyFonts.regular.size(14).setColor(lBlue2),
+            style: MyFonts.w400.size(14).setColor(lBlue2),
           ),
         ),
       ),
@@ -40,7 +40,7 @@ class ContactTextHeader extends StatelessWidget {
         width: width,
         child: Text(
           text,
-          style: MyFonts.medium.size(12).setColor(kGrey11),
+          style: MyFonts.w500.size(12).setColor(kGrey11),
         ),
       ),
     );

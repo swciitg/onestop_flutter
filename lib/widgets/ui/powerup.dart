@@ -37,7 +37,7 @@ class PowerUp extends StatelessWidget {
                 child: Text(
                   message,
                   textAlign: TextAlign.center,
-                  style: MyFonts.medium.setColor(kGrey).factor(4.39),
+                  style: MyFonts.w500.setColor(kGrey).factor(4.39),
                 ),
               ),
             ],

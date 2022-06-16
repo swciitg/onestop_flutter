@@ -32,7 +32,7 @@ class FoodSearchBar extends StatelessWidget {
             .setSearchHeader("Showing results for $s");
         context.read<RestaurantStore>().setSearchString(s);
       },
-      style: MyFonts.medium.setColor(kWhite),
+      style: MyFonts.w500.setColor(kWhite),
       decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(100),
@@ -42,7 +42,7 @@ class FoodSearchBar extends StatelessWidget {
             Icons.search,
             color: kWhite,
           ),
-          hintStyle: MyFonts.medium.setColor(kGrey2),
+          hintStyle: MyFonts.w500.size(14).setColor(kGrey2),
           hintText: "Search dish or restaurant",
           fillColor: kBlueGrey),
     );

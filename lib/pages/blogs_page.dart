@@ -209,7 +209,7 @@ class _BlogState extends State<Blogs> {
         leadingWidth: 10,
         title: Text(
           'Blogs',
-          style: MyFonts.medium,
+          style: MyFonts.w500,
         ),
         actions: [
           IconButton(

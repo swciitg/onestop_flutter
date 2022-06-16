@@ -5,6 +5,7 @@ import 'package:onestop_dev/pages/ip/ip_settings.dart';
 import 'package:onestop_dev/functions/ip/ip_decoration.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/functions/ip/ip_calculator.dart';
 
 List<String> textdata = [
   'Open Start-> Control Panel -> Network and Internet-> Network and Sharing Center ',
@@ -72,7 +73,7 @@ class _RouterPageState extends State<RouterPage> {
         leadingWidth: 0,
         title: Text(
           'Internet Settings',
-          style: MyFonts.medium.setColor(kWhite),
+          style: MyFonts.w500.setColor(kWhite),
         ),
         actions: [
           IconButton(
@@ -92,7 +93,7 @@ class _RouterPageState extends State<RouterPage> {
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                   child: Text(
                     textdata[8],
-                    style: MyFonts.med6.size(14).setColor(kGrey8),
+                    style: MyFonts.w600.size(14).setColor(kGrey8),
                   ),
                 ),
                 Container(
@@ -123,14 +124,14 @@ class _RouterPageState extends State<RouterPage> {
                                         children: [
                                           Text(
                                             'Step $i of 8',
-                                            style: MyFonts.med6.size(16).setColor(kWhite),)
+                                            style: MyFonts.w600.size(16).setColor(kWhite),)
                                         ],
                                       ),
                                     ),
                                     SizedBox(height: HEIGHT * 0.0064,),
                                     Text(
                                       textdata[i - 1],
-                                      style: MyFonts.regular.size(14).setColor(kGrey6),
+                                      style: MyFonts.w400.size(14).setColor(kGrey6),
                                     ),
                                     SizedBox(height: HEIGHT * 0.0064,),
                                     (i == 6) ? Form(
@@ -145,7 +146,7 @@ class _RouterPageState extends State<RouterPage> {
                                               child: DropdownButtonFormField<String>(
                                                 value: dropdownValue,
                                                 icon: Icon(Icons.arrow_drop_down),
-                                                style: MyFonts.medium.size(16).setColor(kWhite),
+                                                style: MyFonts.w500.size(16).setColor(kWhite),
                                                 onChanged: (data) {
                                                   setState(() {
                                                     dropdownValue = data!;
@@ -158,7 +159,7 @@ class _RouterPageState extends State<RouterPage> {
                                                         (String value) {
                                                       return DropdownMenuItem<String>(
                                                         value: value,
-                                                        child: Text(value, style: MyFonts.medium.size(15).setColor(kWhite),),
+                                                        child: Text(value, style: MyFonts.w500.size(15).setColor(kWhite),),
                                                       );
                                                     }).toList(),
                                               ),
@@ -183,6 +184,11 @@ class _RouterPageState extends State<RouterPage> {
                           }).toList(),
                           carouselController: _buttonCarouselController,
                           options: CarouselOptions(
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  page = index+1; //<-- Page index
+                                });
+                              },
                               autoPlay: false,
                               enlargeCenterPage: true,
                               viewportFraction: 0.95,
@@ -199,10 +205,10 @@ class _RouterPageState extends State<RouterPage> {
                               IconButton(
                                 onPressed: () async {
                                   if (page != 1) {
+                                    if(page == 6) {setState(() {seven = Column();});}
                                     await _buttonCarouselController.previousPage(
                                         duration: Duration(milliseconds: 300),
                                         curve: Curves.linear);
-                                    setState(() {page = page - 1;});
                                   }
                                 },
                                 icon: Icon(Icons.chevron_left, color: page != 1 ? kWhite2 : kGrey7,),
@@ -213,18 +219,13 @@ class _RouterPageState extends State<RouterPage> {
                                     await _buttonCarouselController.nextPage(
                                         duration: Duration(milliseconds: 300),
                                         curve: Curves.linear);
-                                    setState(() {page = page + 1;});
                                   } else if (page == 6) {
                                     if (dropdownValue != 'Select Hostel') {
                                       if (_keyform.currentState!.validate()) {
-                                        function(hostel);
-                                        fg = false;
+                                        function(hostel); fg = false;
                                         await _buttonCarouselController.nextPage(
                                             duration: Duration(milliseconds: 300),
                                             curve: Curves.linear);
-                                        setState(() {
-                                          page = page + 1;
-                                        });
                                       }
                                     }
                                   }

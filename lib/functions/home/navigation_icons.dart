@@ -28,10 +28,10 @@ List<Widget> bottomNavIcons() {
       ),
     ),
     NavigationDestination(
-      icon: Icon(Icons.calendar_today_outlined),
+      icon: Icon(Icons.calendar_month_outlined),
       label: 'Timetable',
       selectedIcon: Icon(
-        Icons.calendar_today,
+        Icons.calendar_month,
         color: lBlue2,
       ),
     )

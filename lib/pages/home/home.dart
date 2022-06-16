@@ -9,7 +9,7 @@ import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/pages/home/home_tab.dart';
 import 'package:onestop_dev/pages/timetable/timetable.dart';
-import 'package:onestop_dev/pages/TravelPage/travel.dart';
+import 'package:onestop_dev/pages/travel/travel.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 
 class HomePage extends StatefulWidget {
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
         data: NavigationBarThemeData(
             indicatorColor: lGrey,
             labelTextStyle:
-            MaterialStateProperty.all(MyFonts.medium.setColor(kTabText)),
+            MaterialStateProperty.all(MyFonts.w500.setColor(kTabText)),
             iconTheme:
             MaterialStateProperty.all(IconThemeData(color: kTabText))),
         child: NavigationBar(

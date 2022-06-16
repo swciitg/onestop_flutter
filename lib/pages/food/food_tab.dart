@@ -18,7 +18,7 @@ class FoodTab extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
@@ -26,23 +26,22 @@ class FoodTab extends StatelessWidget {
           ),
           FoodSearchBar(),
           SizedBox(
-            height: 8,
+            height: 16,
           ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   MessMenu(),
-                  SizedBox(height: 8),
+                  SizedBox(height: 16),
                   FavoriteDishes(),
                   SizedBox(
-                    height: 10,
+                    height: 16,
                   ),
                   OutletsFilter(),
                   SizedBox(
-                    height: 8,
+                    height: 10,
                   ),
-                  // restaurant(),
                   FutureBuilder<List<RestaurantModel>>(
                       future: ReadJsonData(),
                       builder: (BuildContext context,
@@ -64,7 +63,7 @@ class FoodTab extends StatelessWidget {
                           return Center(
                               child: Text(
                             "An error occurred",
-                            style: MyFonts.medium.size(18).setColor(kWhite),
+                            style: MyFonts.w500.size(18).setColor(kWhite),
                           ));
                         }
                         return Center(
