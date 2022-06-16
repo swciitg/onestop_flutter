@@ -9,11 +9,13 @@ class Call_MapButton extends StatelessWidget {
     required this.Call_Map,
     required this.icon,
     required this.callback,
+    this.fontSize = 11
   }) : super(key: key);
 
   final String Call_Map;
   final IconData icon;
   final VoidCallback callback;
+  final double fontSize;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -26,16 +28,17 @@ class Call_MapButton extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 5),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
             Icon(
               icon,
-              size: 11,
+              size: fontSize,
               color: kWhite,
             ),
             SizedBox(width: 5,),
             Text(
               Call_Map,
-              style: MyFonts.w500.size(11).setColor(kWhite),
+              style: MyFonts.w500.size(fontSize).setColor(kWhite),
             ),
               ],
             ),

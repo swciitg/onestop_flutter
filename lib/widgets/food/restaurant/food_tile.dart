@@ -39,10 +39,10 @@ class FoodTile extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(10.0, 2.0, 3.0, 2.0),
+                padding: const EdgeInsets.fromLTRB(16.0, 2.0, 3.0, 2.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Expanded(
                       child: Row(

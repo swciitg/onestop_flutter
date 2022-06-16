@@ -71,7 +71,7 @@ class RestaurantHeader extends StatelessWidget {
                         ),
                         Text(
                           'Closing time: ${restaurant.closing_time}',
-                          style: MyFonts.w300.size(12).setColor(kRed),
+                          style: MyFonts.w300.size(12).setColor(lRed2),
                         ),
                       ],
                     ),
@@ -84,26 +84,33 @@ class RestaurantHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 10.0),
+                padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
                 child: Container(
                   height: 36,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Call_MapButton(
-                        Call_Map: 'Call',
-                        icon: Icons.phone_outlined,
-                        callback: () {
-                          launchPhoneURL(restaurant.phone_number);
-                        },
+                      Expanded(
+                        child: Call_MapButton(
+                          fontSize: 14,
+                          Call_Map: 'Call',
+                          icon: Icons.phone_outlined,
+                          callback: () {
+                            launchPhoneURL(restaurant.phone_number);
+                          },
+                        ),
                       ),
-                      Call_MapButton(
-                        Call_Map: 'Map',
-                        icon: Icons.location_on_outlined,
-                        callback: () {
-                          openMap(restaurant.latitude, restaurant.longitude);
-                          ;
-                        },
+                      SizedBox(width: 10,),
+                      Expanded(
+                        child: Call_MapButton(
+                          fontSize: 14,
+                          Call_Map: 'Map',
+                          icon: Icons.location_on_outlined,
+                          callback: () {
+                            openMap(restaurant.latitude, restaurant.longitude);
+                            ;
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -139,13 +146,13 @@ class RestaurantHeader extends StatelessWidget {
               // ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 5.0,
+                  vertical: 8.0,
                 ),
                 child: Container(
                     alignment: Alignment.bottomLeft,
                     child: Text(
                       "Starters",
-                      style: MyFonts.w500.size(18).setColor(kWhite),
+                      style: MyFonts.w600.size(16).setColor(kWhite),
                     )),
               ),
             ],
