@@ -34,40 +34,40 @@ class FavoriteDishes extends StatelessWidget {
               TableRow(
                 children: [
                   FavouriteFoodDetails(
-                    foodName: "Noodles",
-                    img: Image.asset('assets/images/food.jpeg'),
+                    foodName: "Pizza",
+                    img: Image.asset('assets/images/food/pizza.jpeg'),
                   ),
                   FavouriteFoodDetails(
-                    foodName: "Fried Rice",
-                    img: Image.asset('assets/images/food2.jpeg'),
+                    foodName: "Dosa",
+                    img: Image.asset('assets/images/food/dosa.jpeg'),
                   ),
                   FavouriteFoodDetails(
                     foodName: "Biryani",
-                    img: Image.asset('assets/images/food.jpeg'),
+                    img: Image.asset('assets/images/food/biryani.jpeg'),
                   ),
                   FavouriteFoodDetails(
-                    foodName: "Chinese",
-                    img: Image.asset('assets/images/food.jpeg'),
+                    foodName: "Burger",
+                    img: Image.asset('assets/images/food/burger.jpeg'),
                   ),
                 ],
               ),
               TableRow(
                 children: [
                   FavouriteFoodDetails(
-                    foodName: "Chinese",
-                    img: Image.asset('assets/images/food.jpeg'),
+                    foodName: "Pasta",
+                    img: Image.asset('assets/images/food/pasta.jpeg'),
                   ),
                   FavouriteFoodDetails(
-                    foodName: "Cakes",
-                    img: Image.asset('assets/images/food.jpeg'),
+                    foodName: "Ice Cream",
+                    img: Image.asset('assets/images/food/icecream.jpeg'),
                   ),
                   FavouriteFoodDetails(
-                    foodName: "Sandwich",
-                    img: Image.asset('assets/images/food2.jpeg'),
+                    foodName: "Oreo Shake",
+                    img: Image.asset('assets/images/food/oreo.jpeg'),
                   ),
                   FavouriteFoodDetails(
-                    foodName: "Biryani",
-                    img: Image.asset('assets/images/food2.jpeg'),
+                    foodName: "Rolls",
+                    img: Image.asset('assets/images/food/rolls.jpeg'),
                   ),
                 ],
               ),
@@ -81,52 +81,6 @@ class FavoriteDishes extends StatelessWidget {
               ])
             ],
           )
-          // SizedBox(height: 5),
-          // Row(
-          //   // crossAxisAlignment: CrossAxisAlignment.stretch,
-          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //   children: [
-          //     FavouriteFoodDetails(
-          //       foodName: "Noodles",
-          //       img: Image.asset('assets/images/food.jpeg'),
-          //     ),
-          //     FavouriteFoodDetails(
-          //       foodName: "Fried Rice",
-          //       img: Image.asset('assets/images/food2.jpeg'),
-          //     ),
-          //     FavouriteFoodDetails(
-          //       foodName: "Biryani",
-          //       img: Image.asset('assets/images/food.jpeg'),
-          //     ),
-          //     FavouriteFoodDetails(
-          //       foodName: "Chinese",
-          //       img: Image.asset('assets/images/food.jpeg'),
-          //     ),
-          //   ],
-          // ),
-          // // SizedBox(height: 1),
-          // Row(
-          //   // crossAxisAlignment: CrossAxisAlignment.stretch,
-          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //   children: [
-          //     FavouriteFoodDetails(
-          //       foodName: "Chinese",
-          //       img: Image.asset('assets/images/food.jpeg'),
-          //     ),
-          //     FavouriteFoodDetails(
-          //       foodName: "Cakes",
-          //       img: Image.asset('assets/images/food.jpeg'),
-          //     ),
-          //     FavouriteFoodDetails(
-          //       foodName: "Sandwich",
-          //       img: Image.asset('assets/images/food2.jpeg'),
-          //     ),
-          //     FavouriteFoodDetails(
-          //       foodName: "Continental",
-          //       img: Image.asset('assets/images/food2.jpeg'),
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );

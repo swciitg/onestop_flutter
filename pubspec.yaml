@@ -110,6 +110,7 @@ flutter:
   assets:
     - lib/globals/
     - assets/images/
+    - assets/images/food/
     - assets/fonts/
 
   # An image asset can refer to one or more resolution-specific "variants", see
