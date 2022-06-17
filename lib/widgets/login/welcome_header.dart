@@ -38,18 +38,18 @@ class WelcomeHeader extends StatelessWidget {
                                   top: 8.0),
                               child: Text(
                                 'Welcome to',
-                                style: MyFonts.medium
+                                style: MyFonts.w500
                                     .setColor(kWhite),
                               ),
                             ),
                             Text('your OneStop',
-                                style: MyFonts.medium
+                                style: MyFonts.w500
                                     .setColor(kWhite)),
                             Text('solution for all',
-                                style: MyFonts.medium
+                                style: MyFonts.w500
                                     .setColor(kWhite)),
                             Text('things IITG',
-                                style: MyFonts.medium
+                                style: MyFonts.w500
                                     .setColor(kWhite)),
                           ],
                         )),

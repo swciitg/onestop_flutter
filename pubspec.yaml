@@ -110,6 +110,7 @@ flutter:
   assets:
     - lib/globals/
     - assets/images/
+    - assets/images/food/
     - assets/fonts/
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -134,6 +135,10 @@ flutter:
           weight: 300
         - asset: assets/fonts/Montserrat-ExtraBold.ttf
           weight: 800
+        - asset: assets/fonts/Montserrat-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 700
 
   #   - family: Trajan Pro
   #     fonts:

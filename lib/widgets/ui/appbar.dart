@@ -36,20 +36,24 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
                 backgroundColor: kAppBarGrey,
               ),
         RichText(
-          text: TextSpan(
-              text: 'One',
-              style: MyFonts.medium
-                  .factor(4.39)
-                  .letterSpace(1.0)
-                  .setColor(lBlue2),
-              children: [
-                TextSpan(
-                  text: '.',
-                  style: MyFonts.medium.factor(5.85).setColor(kYellow),
-                )
-              ]),
+          text: TextSpan(children: [
+            WidgetSpan(
+              child: Text(
+                "One",
+                textAlign: TextAlign.center,
+                style: MyFonts.w600.size(22).letterSpace(1.0).setColor(lBlue2),
+              ),
+            ),
+            TextSpan(
+              text: '.',
+              style: MyFonts.w500.factor(5.85).setColor(kYellow),
+            )
+          ]),
         ),
-        SizedBox(width: 35, height: 35,)
+        SizedBox(
+          width: 35,
+          height: 35,
+        )
         // CircleAvatar(
         //     backgroundColor: kAppBarGrey,
         //     child: IconButton(

@@ -36,7 +36,7 @@ Future<void> showMyDialog(BuildContext context) async {
                         ),
                         Text(
                           'Assignmments',
-                          style: MyFonts.medium.size(20).setColor(
+                          style: MyFonts.w500.size(20).setColor(
                             Color.fromRGBO(212, 227, 255, 100),
                           ),
                         )
@@ -70,7 +70,7 @@ Future<void> showMyDialog(BuildContext context) async {
                         ),
                         Text(
                           'Exam',
-                          style: MyFonts.medium.size(20).setColor(
+                          style: MyFonts.w500.size(20).setColor(
                             Color.fromRGBO(212, 227, 255, 100),
                           ),
                         )

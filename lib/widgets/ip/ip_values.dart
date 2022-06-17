@@ -12,7 +12,7 @@ class IpValues extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(0,8.0,8.0,8.0),
       child: Text(
         text,
-        style: MyFonts.regular.size(14).setColor(kGrey6),
+        style: MyFonts.w400.size(14).setColor(kGrey6),
       ),
     );
   }

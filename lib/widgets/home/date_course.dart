@@ -47,11 +47,11 @@ class _DateCourseState extends State<DateCourse> {
                     children: [
                       FittedBox(
                           child: Text(kday[now.weekday]!,
-                              style: MyFonts.medium.size(20).setColor(kWhite))),
+                              style: MyFonts.w500.size(20).setColor(kWhite))),
                       FittedBox(
                           child: Text(
                             now.day.toString(),
-                            style: MyFonts.extraBold.size(40).setColor(kWhite),
+                            style: MyFonts.w800.size(40).setColor(kWhite),
                           ))
                     ],
                   ),
@@ -106,7 +106,7 @@ class _DateCourseState extends State<DateCourse> {
                             Text(
                               ans[0],
                               style:
-                              MyFonts.light.size(12).setColor(kWhite),
+                              MyFonts.w300.size(12).setColor(kWhite),
                             ),
                             SizedBox(
                               height: 5.0,
@@ -116,7 +116,7 @@ class _DateCourseState extends State<DateCourse> {
                                 Expanded(
                                   child: Text(
                                     ans[1],
-                                    style: MyFonts.medium
+                                    style: MyFonts.w500
                                         .size(15)
                                         .setColor(kWhite),
                                   ),
@@ -130,7 +130,7 @@ class _DateCourseState extends State<DateCourse> {
                               children: [
                                 Text(
                                   ans[2],
-                                  style: MyFonts.light.size(13).setColor(
+                                  style: MyFonts.w300.size(13).setColor(
                                       Color.fromRGBO(212, 227, 255, 100)),
                                 )
                               ],

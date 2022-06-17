@@ -9,83 +9,79 @@ class FavoriteDishes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 180,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(24),
         color: kHomeTile,
       ),
-      child: Container(
-        //height: 160,
-        padding: const EdgeInsets.all(4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: FittedBox(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 5, 15, 0),
-                  child: Text(
-                    'Your Favourite Dishes',
-                    style: MyFonts.medium.size(20).setColor(kWhite),
-                  ),
-                ),
-              ),
+      //padding: const EdgeInsets.all(0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Alternative to fixing the padding at 16 for text element is
+          // Wrap text with LayoutBuilder and calculate padding as
+          // ((constraints.maxWidth)/4 - 65)/2
+          // Since col width is Flex, each cell is maxWidth/4
+          Padding(
+            padding: EdgeInsets.fromLTRB(16, 12, 0, 8),
+            child: Text(
+              'Your Favourite Dishes',
+              style: MyFonts.w600.size(14).setColor(kWhite),
             ),
-            SizedBox(height: 5),
-            Expanded(
-              flex: 4,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+          ),
+          Table(
+            defaultColumnWidth: FlexColumnWidth(),
+            children: [
+              TableRow(
                 children: [
                   FavouriteFoodDetails(
-                    foodName: "Noodles",
-                    img: Image.asset('assets/images/food.jpeg'),
+                    foodName: "Pizza",
+                    img: Image.asset('assets/images/food/pizza.jpeg'),
                   ),
                   FavouriteFoodDetails(
-                    foodName: "Fried Rice",
-                    img: Image.asset('assets/images/food2.jpeg'),
+                    foodName: "Dosa",
+                    img: Image.asset('assets/images/food/dosa.jpeg'),
                   ),
                   FavouriteFoodDetails(
                     foodName: "Biryani",
-                    img: Image.asset('assets/images/food.jpeg'),
+                    img: Image.asset('assets/images/food/biryani.jpeg'),
                   ),
                   FavouriteFoodDetails(
-                    foodName: "Chinese",
-                    img: Image.asset('assets/images/food.jpeg'),
+                    foodName: "Burger",
+                    img: Image.asset('assets/images/food/burger.jpeg'),
                   ),
                 ],
               ),
-            ),
-            SizedBox(height: 1),
-            Expanded(
-              flex: 4,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              TableRow(
                 children: [
                   FavouriteFoodDetails(
-                    foodName: "Chinese",
-                    img: Image.asset('assets/images/food.jpeg'),
+                    foodName: "Pasta",
+                    img: Image.asset('assets/images/food/pasta.jpeg'),
                   ),
                   FavouriteFoodDetails(
-                    foodName: "Cakes",
-                    img: Image.asset('assets/images/food.jpeg'),
+                    foodName: "Ice Cream",
+                    img: Image.asset('assets/images/food/icecream.jpeg'),
                   ),
                   FavouriteFoodDetails(
-                    foodName: "Sandwich",
-                    img: Image.asset('assets/images/food2.jpeg'),
+                    foodName: "Oreo Shake",
+                    img: Image.asset('assets/images/food/oreo.jpeg'),
                   ),
                   FavouriteFoodDetails(
-                    foodName: "Continental",
-                    img: Image.asset('assets/images/food2.jpeg'),
+                    foodName: "Rolls",
+                    img: Image.asset('assets/images/food/rolls.jpeg'),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
+              TableRow(children: [
+                SizedBox(
+                  height: 8,
+                ),
+                SizedBox(),
+                SizedBox(),
+                SizedBox()
+              ])
+            ],
+          )
+        ],
       ),
     );
   }

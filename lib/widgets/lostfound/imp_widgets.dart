@@ -71,7 +71,7 @@ class NewPageButton extends StatelessWidget {
         children: [
           Text(
             title,
-            style: MyFonts.medium.size(14),
+            style: MyFonts.w500.size(14),
           ),
         ],
       ),
@@ -127,7 +127,7 @@ class LostItemTile extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Text(
                             currentLostModel.title,
-                            style: MyFonts.med6.size(16).setColor(kWhite),
+                            style: MyFonts.w600.size(16).setColor(kWhite),
                           ),
                         ),
                         GestureDetector(
@@ -150,7 +150,7 @@ class LostItemTile extends StatelessWidget {
                                   Icon(Icons.phone,size: 11,color: lBlue2,),
                                   Text(
                                     " Call",
-                                    style: MyFonts.medium.size(11).setColor(lBlue2),
+                                    style: MyFonts.w500.size(11).setColor(lBlue2),
                                   )
                                 ],
                               )
@@ -175,7 +175,7 @@ class LostItemTile extends StatelessWidget {
                       "Lost at: " + location,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: MyFonts.medium.size(14).setColor(kGrey6),
+                      style: MyFonts.w500.size(14).setColor(kGrey6),
                     ),
                   ),
                   ConstrainedBox(
@@ -185,7 +185,7 @@ class LostItemTile extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 16,right: 16,bottom: 13),
                         child: Text(
                           "Description: " + description,
-                          style: MyFonts.light.size(14).setColor(kGrey10),
+                          style: MyFonts.w300.size(14).setColor(kGrey10),
                         ),
                       ),
                     ),
@@ -195,7 +195,7 @@ class LostItemTile extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Text(
                       date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString() + " | " + DateFormat.jm().format(date.toLocal()).toString(),
-                      style: MyFonts.light.size(13).setColor(kGrey7),
+                      style: MyFonts.w300.size(13).setColor(kGrey7),
                     ),
                   ),
                 ],
@@ -234,7 +234,7 @@ class LostItemTile extends StatelessWidget {
                         currentLostModel.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: MyFonts.medium.size(16).setColor(kWhite),
+                        style: MyFonts.w500.size(16).setColor(kWhite),
                       ),
                     ),
                     Padding(
@@ -243,7 +243,7 @@ class LostItemTile extends StatelessWidget {
                         "Lost at: " + currentLostModel.location,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: MyFonts.light.size(14).setColor(kWhite),
+                        style: MyFonts.w300.size(14).setColor(kWhite),
                       ),
                     ),
                     Container(
@@ -255,7 +255,7 @@ class LostItemTile extends StatelessWidget {
                       ),
                       child: Text(
                         timeagoString,
-                        style: MyFonts.medium.size(12).setColor(lBlue2),
+                        style: MyFonts.w500.size(12).setColor(lBlue2),
                       ),
                     ),
                   ],
@@ -281,7 +281,7 @@ class LostItemTile extends StatelessWidget {
                   placeholder: (context, url) => Container(
                     alignment: Alignment.center,
                     width: screenWidth*0.35,
-                    child: Text("Loading...",style: MyFonts.medium.size(14).setColor(kGrey9)),
+                    child: Text("Loading...",style: MyFonts.w500.size(14).setColor(kGrey9)),
                   ),
                   errorWidget: (context, url, error) => Center(child: Icon(Icons.error),),
                 ),
@@ -344,7 +344,7 @@ class FoundItemTile extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Text(
                             currentFoundModel.title,
-                            style: MyFonts.med6.size(16).setColor(kWhite),
+                            style: MyFonts.w600.size(16).setColor(kWhite),
                           ),
                         ),
                       ],
@@ -354,7 +354,7 @@ class FoundItemTile extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                       "Submitted at: " + submitted,
-                      style: MyFonts.medium.size(14).setColor(kGrey6),
+                      style: MyFonts.w500.size(14).setColor(kGrey6),
                     ),
                   ),
                   Padding(
@@ -363,7 +363,7 @@ class FoundItemTile extends StatelessWidget {
                       "Found at: " + location,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: MyFonts.medium.size(14).setColor(kGrey6),
+                      style: MyFonts.w500.size(14).setColor(kGrey6),
                     ),
                   ),
                   ConstrainedBox(
@@ -373,7 +373,7 @@ class FoundItemTile extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 16,right: 16,bottom: 13),
                         child: Text(
                           "Description: " + description,
-                          style: MyFonts.light.size(14).setColor(kGrey10),
+                          style: MyFonts.w300.size(14).setColor(kGrey10),
                         ),
                       ),
                     ),
@@ -383,7 +383,7 @@ class FoundItemTile extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Text(
                       date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString() + " | " + DateFormat.jm().format(date.toLocal()).toString(),
-                      style: MyFonts.light.size(13).setColor(kGrey7),
+                      style: MyFonts.w300.size(13).setColor(kGrey7),
                     ),
                   ),
                 ],
@@ -422,7 +422,7 @@ class FoundItemTile extends StatelessWidget {
                         currentFoundModel.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: MyFonts.medium.size(16).setColor(kWhite),
+                        style: MyFonts.w500.size(16).setColor(kWhite),
                       ),
                     ),
                     Padding(
@@ -431,7 +431,7 @@ class FoundItemTile extends StatelessWidget {
                         "Found at: " + currentFoundModel.location,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: MyFonts.light.size(14).setColor(kWhite),
+                        style: MyFonts.w300.size(14).setColor(kWhite),
                       ),
                     ),
                     Container(
@@ -443,7 +443,7 @@ class FoundItemTile extends StatelessWidget {
                       ),
                       child: Text(
                         timeagoString,
-                        style: MyFonts.medium.size(12).setColor(lBlue2),
+                        style: MyFonts.w500.size(12).setColor(lBlue2),
                       ),
                     ),
                   ],
@@ -469,7 +469,7 @@ class FoundItemTile extends StatelessWidget {
                   placeholder: (context, url) => Container(
                     alignment: Alignment.center,
                     width: screenWidth*0.35,
-                    child: Text("Loading...",style: MyFonts.medium.size(14).setColor(kGrey9)),
+                    child: Text("Loading...",style: MyFonts.w500.size(14).setColor(kGrey9)),
                   ),
                   errorWidget: (context, url, error) => Center(child: Icon(Icons.error),),
                 ),
