@@ -16,7 +16,7 @@ class TimeTableSlider extends StatefulWidget {
 class _TimeTableSliderState extends State<TimeTableSlider> {
   @override
   Widget build(BuildContext context) {
-    print("in slider ${widget.data} and select = ${widget.select} sel = ${widget.sel} and itemCOUnt = ${widget.data[dates[widget.select - 1].weekday]!.length}");
+    // print("in slider ${widget.data} and select = ${widget.select} sel = ${widget.sel} and itemCOUnt = ${widget.data[dates[widget.select - 1].weekday]!.length}");
     return ListView.builder(
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),

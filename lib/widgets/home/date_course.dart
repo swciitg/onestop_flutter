@@ -21,6 +21,9 @@ class _DateCourseState extends State<DateCourse> {
   bool show = false;
   DateTime now=DateTime.now();
   List<String> determiningClass() {
+    if (now.weekday == 6 || now.weekday == 7) {
+      return ['', 'Happy Weekend', ''];
+    }
     for (var v in widget.data[0][now.weekday]!) {
       if (v[0] == widget.sel) return v;
     }
@@ -33,7 +36,6 @@ class _DateCourseState extends State<DateCourse> {
   @override
   Widget build(BuildContext context) {
     List<String> ans = determiningClass();
-    print("widget data =${widget.data[1]}");
     return Column(
       children: [
         Row(

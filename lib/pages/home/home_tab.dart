@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/timetable/ApiCallingTimetable.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/home/date_course.dart';
 import 'package:onestop_dev/widgets/home/quick_links.dart';
 import 'package:onestop_dev/widgets/mapBox.dart';
@@ -25,7 +28,7 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   int selectedIndex = 0;
   String sel = '';
-  Future<Time>? timetable;
+  Future<RegisteredCourses>? timetable;
 
   void initState() {
     timetable = ApiCalling().getTimeTable(
@@ -42,6 +45,7 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<TimetableStore>().setTimetable(context.read<LoginStore>().userData["rollno"] ?? "190101109");
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -59,36 +63,29 @@ class _HomeTabState extends State<HomeTab> {
           SizedBox(
             height: 10,
           ),
-          FutureBuilder<Time>(
-            future: timetable,
-            builder: (BuildContext context, AsyncSnapshot<Time> snapshot) {
-              if (snapshot.hasData) {
-                List<Map<int, List<List<String>>>> data =
-                    ApiCalling().addWidgets(data: snapshot.data!);
-                sel = determiningSel();
-                return DateCourse(
-                  sel: sel,
-                  data: data,
-                );
-              }
-              else if (snapshot.hasError) {
-                Future.delayed(Duration.zero, () => reload(context));
-                return SizedBox();
-              }
-              return Shimmer.fromColors(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: kHomeTile,
-                      borderRadius: BorderRadius.all(Radius.circular(25))
+          Observer(builder: (BuildContext context) {
+            var timetableStore = context.read<TimetableStore>();
+            if (timetableStore.coursesLoaded) {
+              var data = timetableStore.addWidgets();
+              sel = determiningSel();
+              return DateCourse(data: data, sel: sel);
+            }
+            if (timetableStore.coursesError) {
+              return Text("Error",style: MyFonts.w300.setColor(kWhite),);
+            }
+                return Shimmer.fromColors(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: kHomeTile,
+                        borderRadius: BorderRadius.all(Radius.circular(25))
+                      ),
+                      height: 110,
+                      width: double.infinity,
                     ),
-                    height: 110,
-                    width: double.infinity,
-                  ),
-                  period: Duration(seconds: 1),
-                  baseColor: kHomeTile,
-                  highlightColor: lGrey);
-            },
-          ),
+                    period: Duration(seconds: 1),
+                    baseColor: kHomeTile,
+                    highlightColor: lGrey);
+          }),
           SizedBox(
             height: 10,
           ),

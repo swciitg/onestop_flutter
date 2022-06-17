@@ -24,5 +24,5 @@ Map<String, dynamic> _$FoundModelToJson(FoundModel instance) =>
       'imageURL': instance.imageURL,
       'compressedImageURL': instance.compressedImageURL,
       'date': instance.date.toIso8601String(),
-      'submittedAt': instance.submittedat,
+      'submittedat': instance.submittedat,
     };

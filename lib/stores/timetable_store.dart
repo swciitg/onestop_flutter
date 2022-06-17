@@ -1,31 +1,42 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:http/http.dart';
-import '../../models/timetable.dart';
+import 'package:mobx/mobx.dart';
+import 'package:onestop_dev/models/timetable.dart';
+import 'package:onestop_dev/services/api.dart';
 
-class ApiCalling {
-  Map<int, List<List<String>>> Data1 = {};
-  Map<int, List<List<String>>> Data2 = {};
-  Future<RegisteredCourses> getTimeTable({required String roll}) async {
-    final response = await post(
-      Uri.parse('https://hidden-depths-09275.herokuapp.com/get-my-courses'),
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json',
-      },
-      body: jsonEncode({
-        "roll_number": roll,
-      }),
-    );
-    if (response.statusCode == 200) {
-      return RegisteredCourses.fromJson(jsonDecode(response.body));
-    } else {
-      print(response.statusCode);
-      throw Exception(response.statusCode);
+part 'timetable_store.g.dart';
+
+class TimetableStore = _TimetableStore with _$TimetableStore;
+
+abstract class _TimetableStore with Store {
+  @observable
+  ObservableFuture<RegisteredCourses?> loadOperation =
+      ObservableFuture.value(null);
+
+  @action
+  Future<void> setTimetable(String rollNumber) async {
+    print("First API call ${loadOperation.status}");
+    if (loadOperation.value == null) {
+          loadOperation = APIService.getTimeTable(roll: rollNumber).asObservable();
+          setupReactions();
     }
   }
-  List<Map<int, List<List<String>>>>addWidgets({required RegisteredCourses data}) {
+
+  @computed
+  bool get coursesLoaded => loadOperation.value != null ;
+  @computed
+  bool get coursesLoading => loadOperation.value == null || loadOperation.status == FutureStatus.pending ;
+  @computed
+  bool get coursesError => loadOperation.status == FutureStatus.rejected;
+
+  
+   void setupReactions() {   autorun((_){      print("RAN REACTION YAY ${loadOperation.status}");
+   if (loadOperation.status == FutureStatus.fulfilled){print("FULFILLED REACITON = ${addWidgets()}");}});   }
+
+  // Map<int, TimetableDay>
+  List<Map<int, List<List<String>>>>addWidgets() {
+    Map<int, List<List<String>>> Data1 = {};
+    Map<int, List<List<String>>> Data2 = {};
     List<Map<int, List<List<String>>>>ans=[];
-    data.courses!.sort((a, b) => a.slot!.compareTo(b.slot!));
+    loadOperation.value!.courses!.sort((a, b) => a.slot!.compareTo(b.slot!));
     List<List<String>> a1 = [];
     List<List<String>> a2 = [];
     List<List<String>> a3 = [];
@@ -37,7 +48,7 @@ class ApiCalling {
     List<List<String>> a41 = [];
     List<List<String>> a51 = [];
     for (int i = 1; i <= 5; i++) {
-      for (var v in data.courses!) {
+      for (var v in loadOperation.value!.courses!) {
         if (i == 1 && v.slot == 'A')
           a1.add(['09:00 - 09:55 AM', v.course!, v.instructor!]);
         if (i == 1 && v.slot == 'B')

@@ -16,18 +16,18 @@ class TimeTableTab extends StatefulWidget {
 }
 
 class _TimeTableTabState extends State<TimeTableTab> {
-  int select=1;
+  int select=0;
   String sel="";
   List<Map<int, List<List<String>>>> Data1 = [];
   @override
   Widget build(BuildContext context) {
-    Future<Time> timetable = ApiCalling().getTimeTable(
+    Future<RegisteredCourses> timetable = ApiCalling().getTimeTable(
         roll: context.read<LoginStore>().userData["rollno"] ?? "200101095");
     sel=determiningSel();
     adjustTime();
-    return FutureBuilder<Time>(
+    return FutureBuilder<RegisteredCourses>(
       future: timetable,
-      builder: (BuildContext context, AsyncSnapshot<Time> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<RegisteredCourses> snapshot) {
         if (snapshot.hasData) {
           Data1= ApiCalling().addWidgets(data: snapshot.data!);
           return SingleChildScrollView(
