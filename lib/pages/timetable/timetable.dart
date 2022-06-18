@@ -8,6 +8,7 @@ import 'package:onestop_dev/widgets/timetable/dateSlider.dart';
 import 'package:onestop_dev/widgets/timetable/timeTableBuilder.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
+
 class TimeTableTab extends StatefulWidget {
   static const String id = 'time';
   const TimeTableTab({Key? key}) : super(key: key);
@@ -16,82 +17,53 @@ class TimeTableTab extends StatefulWidget {
 }
 
 class _TimeTableTabState extends State<TimeTableTab> {
-  int select=0;
-  String sel="";
+  int select = 0;
+  String sel = "";
   List<Map<int, List<List<String>>>> Data1 = [];
   @override
   Widget build(BuildContext context) {
-    Future<RegisteredCourses> timetable = ApiCalling().getTimeTable(
-        roll: context.read<LoginStore>().userData["rollno"] ?? "200101095");
-    sel=determiningSel();
+    sel = determiningSel();
     adjustTime();
-    return FutureBuilder<RegisteredCourses>(
-      future: timetable,
-      builder: (BuildContext context, AsyncSnapshot<RegisteredCourses> snapshot) {
-        if (snapshot.hasData) {
-          Data1= ApiCalling().addWidgets(data: snapshot.data!);
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  height: 130,
-                  child: DateSlider(),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TimeTableSlider(),
-                SizedBox(
-                  height: 2,
-                ),
-                Row(children: <Widget>[
-                  Expanded(
-                      child: Divider(
-                        color: Colors.white,
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      'Lunch Break',
-                      style: MyFonts.w500.size(12).setColor(Colors.white),
-                    ),
-                  ),
-                  Expanded(
-                      child: Divider(
-                        color: Colors.white,
-                      )),
-                ]),
-                SizedBox(
-                  height: 2,
-                ),
-                TimeTableSlider(),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
-          );
-        } else if (snapshot.hasError) {
-          Future.delayed(Duration.zero, () => reload(context));
-          return Column(
-            children: [
-              Container(
-                height: 130,
-                child: DateSlider(),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            height: 130,
+            child: DateSlider(),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TimeTableSlider(),
+          SizedBox(
+            height: 2,
+          ),
+          Row(children: <Widget>[
+            Expanded(
+                child: Divider(
+              color: Colors.white,
+            )),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(
+                'Lunch Break',
+                style: MyFonts.w500.size(12).setColor(Colors.white),
               ),
-            ],
-          );
-        } else
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-      },
+            ),
+            Expanded(
+                child: Divider(
+              color: Colors.white,
+            )),
+          ]),
+          SizedBox(
+            height: 2,
+          ),
+          TimeTableSlider(),
+          SizedBox(
+            height: 10,
+          ),
+        ],
+      ),
     );
-  }
-  void rebuildParent(int newSelectedIndex) {
-    print('Reloaded');
-    setState(() {
-      select = newSelectedIndex;
-    });
   }
 }
