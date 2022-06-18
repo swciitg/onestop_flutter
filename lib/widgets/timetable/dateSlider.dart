@@ -7,9 +7,7 @@ import '../../../globals/my_colors.dart';
 import '../../../globals/my_fonts.dart';
 import 'package:onestop_dev/globals.dart';
 class DateSlider extends StatefulWidget {
-  Function? rebuildParent;
-  int select;
-  DateSlider({Key? key,required this.rebuildParent,required this.select}) : super(key: key);
+  DateSlider({Key? key}) : super(key: key);
   @override
   State<DateSlider> createState() => _DateSliderState();
 }

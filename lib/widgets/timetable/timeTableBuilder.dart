@@ -24,12 +24,13 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
     // print("in slider ${widget.data} and select = ${widget.select} sel = ${widget.sel} and itemCOUnt = ${widget.data[dates[widget.select - 1].weekday]!.length}");
     return Observer(
       builder: (context) {
-        int select= context.read<TimetableStore>().selectedDate + 1;
+        int select= context.read<TimetableStore>().selectedDate-1;
         List<TimetableDay> data =context.read<TimetableStore>().allTimetableCourses;
+        print(data);
         return ListView.builder(
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
-            itemCount: data[dates[select].weekday]!.morning.length,
+            itemCount: data[dates[select].weekday].morning.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(top: 5.0, bottom: 5),
@@ -37,11 +38,11 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                     color:
-                    (sel == data[dates[select].weekday]!.morning[index].timing)
+                    (sel == data[dates[select].weekday].morning[index].timing)
                         ? Color.fromRGBO(101, 174, 130, 0.16)
                         : Color.fromRGBO(120, 120, 120, 0.16),
                     border:
-                    (sel == data[dates[select].weekday]!.morning[index].timing)
+                    (sel == data[dates[select].weekday].morning[index].timing)
                         ? Border.all(color: Colors.blueAccent)
                         : Border.all(color: Colors.transparent),
                   ),
@@ -77,7 +78,7 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
                             MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                data[dates[select].weekday]!.morning[index].timing,
+                                data[dates[select].weekday].morning[index].timing,
                                 style: MyFonts.w300
                                     .size(12)
                                     .setColor(kWhite),
@@ -89,7 +90,7 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      data[dates[select].weekday]!.morning[index].course!,
+                                      data[dates[select].weekday].morning[index].course!,
                                       style: MyFonts.w500
                                           .size(15)
                                           .setColor(kWhite),
@@ -109,7 +110,7 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
                                   //       212, 227, 255, 100),
                                   // ),
                                   Text(
-                                    data[dates[select].weekday]!.morning[index].instructor!,
+                                    data[dates[select].weekday].morning[index].instructor!,
                                     style: MyFonts.w300
                                         .size(13)
                                         .setColor(Color.fromRGBO(
@@ -129,4 +130,101 @@ class _TimeTableSliderState extends State<TimeTableSlider> {
       }
     );
   }
+}
+
+Widget TimeTableDetails(String sel, CourseModel course){
+  return Padding(
+    padding: const EdgeInsets.only(top: 5.0, bottom: 5),
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color:
+        (sel == course.timing)
+            ? Color.fromRGBO(101, 174, 130, 0.16)
+            : Color.fromRGBO(120, 120, 120, 0.16),
+        border:
+        (sel == course.timing)
+            ? Border.all(color: Colors.blueAccent)
+            : Border.all(color: Colors.transparent),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 20.0, right: 20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blue,
+                    ),
+                    child: Image.asset(
+                        'assets/images/class.png'),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                mainAxisAlignment:
+                MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    course.timing,
+                    style: MyFonts.w300
+                        .size(12)
+                        .setColor(kWhite),
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          course.course!,
+                          style: MyFonts.w500
+                              .size(15)
+                              .setColor(kWhite),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 3.0,
+                  ),
+                  Row(
+                    children: [
+                      // Icon(
+                      //   Icons.location_pin,
+                      //   size: 13,
+                      //   color: Color.fromRGBO(
+                      //       212, 227, 255, 100),
+                      // ),
+                      Text(
+                        course.instructor!,
+                        style: MyFonts.w300
+                            .size(13)
+                            .setColor(Color.fromRGBO(
+                            212, 227, 255, 100)),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

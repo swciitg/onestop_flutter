@@ -35,7 +35,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
               children: [
                 Container(
                   height: 130,
-                  child: DateSlider(select: select,rebuildParent: rebuildParent,),
+                  child: DateSlider(),
                 ),
                 SizedBox(
                   height: 10,
@@ -77,7 +77,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
             children: [
               Container(
                 height: 130,
-                child: DateSlider(select: select,rebuildParent: rebuildParent,),
+                child: DateSlider(),
               ),
             ],
           );
