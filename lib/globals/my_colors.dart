@@ -33,3 +33,4 @@ const Color kGrey10 = Color.fromRGBO(162, 172, 192, 1);
 const Color kGrey11 = Color.fromRGBO(135, 145, 165, 1);
 const Color kGrey12 = Color.fromRGBO(116, 119, 127, 1);
 const Color kFontGrey = Color.fromRGBO(224, 226, 235, 1);
+const Color kTimetableGreen = Color.fromRGBO(101, 174, 130, 0.16);

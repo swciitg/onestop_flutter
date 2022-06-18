@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/widgets/timetable/dateSlider.dart';
+import 'package:onestop_dev/widgets/timetable/date_slider.dart';
 
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
