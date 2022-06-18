@@ -31,9 +31,11 @@ class _HomeTabState extends State<HomeTab> {
   Future<RegisteredCourses>? timetable;
 
   void initState() {
+    super.initState();
+    print("Init state");
     timetable = ApiCalling().getTimeTable(
         roll: context.read<LoginStore>().userData["rollno"] ?? "200101095");
-    super.initState();
+    context.read<TimetableStore>().setTimetable(context.read<LoginStore>().userData["rollno"] ?? "190101109");
   }
 
   void rebuildParent(int newSelectedIndex) {
@@ -45,7 +47,6 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<TimetableStore>().setTimetable(context.read<LoginStore>().userData["rollno"] ?? "190101109");
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -66,7 +67,7 @@ class _HomeTabState extends State<HomeTab> {
           Observer(builder: (BuildContext context) {
             var timetableStore = context.read<TimetableStore>();
             if (timetableStore.coursesLoaded) {
-              var data = timetableStore.addWidgets();
+              var data = timetableStore.processTimetable();
               sel = determiningSel();
               return DateCourse(data: data, sel: sel);
             }
