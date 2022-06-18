@@ -47,6 +47,22 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
+  late final _$selectedDateAtom =
+      Atom(name: '_TimetableStore.selectedDate', context: context);
+
+  @override
+  int get selectedDate {
+    _$selectedDateAtom.reportRead();
+    return super.selectedDate;
+  }
+
+  @override
+  set selectedDate(int value) {
+    _$selectedDateAtom.reportWrite(value, super.selectedDate, () {
+      super.selectedDate = value;
+    });
+  }
+
   late final _$setTimetableAsyncAction =
       AsyncAction('_TimetableStore.setTimetable', context: context);
 
@@ -55,10 +71,25 @@ mixin _$TimetableStore on _TimetableStore, Store {
     return _$setTimetableAsyncAction.run(() => super.setTimetable(rollNumber));
   }
 
+  late final _$_TimetableStoreActionController =
+      ActionController(name: '_TimetableStore', context: context);
+
+  @override
+  void setDate(int i) {
+    final _$actionInfo = _$_TimetableStoreActionController.startAction(
+        name: '_TimetableStore.setDate');
+    try {
+      return super.setDate(i);
+    } finally {
+      _$_TimetableStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 loadOperation: ${loadOperation},
+selectedDate: ${selectedDate},
 coursesLoaded: ${coursesLoaded},
 coursesLoading: ${coursesLoading},
 coursesError: ${coursesError}

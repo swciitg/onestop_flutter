@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:onestop_dev/stores/timetable_store.dart';
+import 'package:provider/provider.dart';
 import '../../../globals/days.dart';
 import '../../../globals/my_colors.dart';
 import '../../../globals/my_fonts.dart';
@@ -23,40 +26,43 @@ class _DateSliderState extends State<DateSlider> {
             padding: const EdgeInsets.only(left: 4.0, right: 4),
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  widget.rebuildParent!(index);
-                });
+                context.read<TimetableStore>().setDate(index);
+
               },
               child: FittedBox(
-                child: Container(
-                  height: 125,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: (widget.select == index)
-                        ? Color.fromRGBO(101, 174, 130, 0.16)
-                        : Colors.transparent,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FittedBox(
-                            child: Text(
-                                kday[dates[index].weekday]!,
-                                style: MyFonts.w500
-                                    .size(20)
-                                    .setColor(kWhite))),
-                        FittedBox(
-                            child: Text(
-                              dates[index].day.toString(),
-                              style: MyFonts.w800
-                                  .size(40)
-                                  .setColor(kWhite),
-                            ))
-                      ],
-                    ),
-                  ),
+                child: Observer(
+                  builder: (context) {
+                    return Container(
+                      height: 125,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: (context.read<TimetableStore>().selectedDate == index)
+                            ? Color.fromRGBO(101, 174, 130, 0.16)
+                            : Colors.transparent,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FittedBox(
+                                child: Text(
+                                    kday[dates[index].weekday]!,
+                                    style: MyFonts.w500
+                                        .size(20)
+                                        .setColor(kWhite))),
+                            FittedBox(
+                                child: Text(
+                                  dates[index].day.toString(),
+                                  style: MyFonts.w800
+                                      .size(40)
+                                      .setColor(kWhite),
+                                ))
+                          ],
+                        ),
+                      ),
+                    );
+                  }
                 ),
               ),
             ),

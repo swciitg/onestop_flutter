@@ -28,6 +28,16 @@ abstract class _TimetableStore with Store {
   ObservableFuture<RegisteredCourses?> loadOperation =
       ObservableFuture.value(null);
 
+  @observable
+  int selectedDate = 0;
+
+
+  @action
+  void setDate(int i) {
+    selectedDate = i;
+  }
+
+
   @action
   Future<void> setTimetable(String rollNumber) async {
     print("First API call ${loadOperation.status}");
@@ -38,6 +48,7 @@ abstract class _TimetableStore with Store {
 
   @computed
   bool get coursesLoaded => loadOperation.value != null;
+
   @computed
   bool get coursesLoading =>
       loadOperation.value == null ||

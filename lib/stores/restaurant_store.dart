@@ -22,6 +22,7 @@ abstract class _RestaurantStore with Store {
   @observable
   String _searchString = "";
 
+
   @observable
   String _searchPageHeader =
       ""; // Use this only when user clicks on Your Favourite Dishes

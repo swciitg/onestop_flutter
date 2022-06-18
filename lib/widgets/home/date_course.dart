@@ -183,7 +183,7 @@ class _DateCourseState extends State<DateCourse> {
             )
           ],
         ),
-        (show)?(widget.sel.compareTo('12:00 - -12:55 PM')>0)?TimeTableSlider(data: widget.data[0], select: now.weekday, sel: widget.sel):TimeTableSlider(data: widget.data[1], select: now.weekday, sel: widget.sel):SizedBox(),
+        (show)?(widget.sel.compareTo('12:00 - -12:55 PM')>0)?TimeTableSlider(data: widget.data[0], sel: widget.sel):TimeTableSlider(data: widget.data[1],  sel: widget.sel):SizedBox(),
       ],
     );
   }
