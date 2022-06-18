@@ -40,7 +40,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                 SizedBox(
                   height: 10,
                 ),
-                TimeTableSlider(data: Data1[0], sel: sel,),
+                TimeTableSlider(),
                 SizedBox(
                   height: 2,
                 ),
@@ -64,7 +64,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                 SizedBox(
                   height: 2,
                 ),
-                TimeTableSlider(data: Data1[1],sel: sel,),
+                TimeTableSlider(),
                 SizedBox(
                   height: 10,
                 ),

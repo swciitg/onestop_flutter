@@ -67,9 +67,7 @@ class _HomeTabState extends State<HomeTab> {
           Observer(builder: (BuildContext context) {
             var timetableStore = context.read<TimetableStore>();
             if (timetableStore.coursesLoaded) {
-              var data = timetableStore.processTimetable();
-              sel = determiningSel();
-              return DateCourse(data: data, sel: sel);
+              return DateCourse();
             }
             if (timetableStore.coursesError) {
               return Text("Error",style: MyFonts.w300.setColor(kWhite),);
