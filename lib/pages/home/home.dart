@@ -10,7 +10,9 @@ import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/pages/home/home_tab.dart';
 import 'package:onestop_dev/pages/timetable/timetable.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   static String id = "/home2";

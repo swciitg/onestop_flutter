@@ -1,15 +1,17 @@
-class Time {
+
+
+class RegisteredCourses {
   String? rollNumber;
-  List<Courses>? courses;
+  List<CourseModel>? courses;
 
-  Time({this.rollNumber, this.courses});
+  RegisteredCourses({this.rollNumber, this.courses});
 
-  Time.fromJson(Map<String, dynamic> json) {
+  RegisteredCourses.fromJson(Map<String, dynamic> json) {
     rollNumber = json['roll_number'];
     if (json['courses'] != null) {
-      courses = <Courses>[];
+      courses = <CourseModel>[];
       json['courses'].forEach((v) {
-        courses!.add(new Courses.fromJson(v));
+        courses!.add(new CourseModel.fromJson(v));
       });
     }
   }
@@ -24,16 +26,17 @@ class Time {
   }
 }
 
-class Courses {
+class CourseModel {
   String? code;
   String? course;
   String? ltpc;
   String? slot;
   String? instructor;
+  String timing = "";
 
-  Courses({this.code, this.course, this.ltpc, this.slot, this.instructor});
+  CourseModel({this.code, this.course, this.ltpc, this.slot, this.instructor});
 
-  Courses.fromJson(Map<String, dynamic> json) {
+  CourseModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     course = json['course'];
     ltpc = json['ltpc'];
@@ -50,4 +53,22 @@ class Courses {
     data['instructor'] = this.instructor;
     return data;
   }
+
+  String toString() {
+    return "$timing : $course";
+  }
+
+}
+
+class TimetableDay {
+   List<CourseModel> morning = [];
+   List<CourseModel> afternoon = [];
+
+   void addMorning(CourseModel c) => morning.add(c);
+   void addAfternoon(CourseModel c) => afternoon.add(c);
+
+   String toString() {
+     return "Morning: ${morning.map((e) => e.toString())} | Noon: ${afternoon.map((e) => e.toString())}";
+   }
+
 }
