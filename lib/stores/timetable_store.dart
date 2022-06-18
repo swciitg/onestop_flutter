@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/timetable.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/widgets/timetable/timeTableBuilder.dart';
 
 part 'timetable_store.g.dart';
 
@@ -25,19 +28,17 @@ abstract class _TimetableStore with Store {
   }
 
   @observable
-  ObservableFuture<RegisteredCourses?> loadOperation = ObservableFuture.value(null);
+  ObservableFuture<RegisteredCourses?> loadOperation =
+      ObservableFuture.value(null);
   int index = 0;
 
   @observable
   int selectedDate = 0;
 
-
-
   @action
   void setDate(int i) {
     selectedDate = i;
   }
-
 
   @action
   Future<void> setTimetable(String rollNumber) async {
@@ -53,7 +54,7 @@ abstract class _TimetableStore with Store {
   @computed
   bool get coursesLoading =>
       loadOperation.value == null ||
-          loadOperation.status == FutureStatus.pending;
+      loadOperation.status == FutureStatus.pending;
 
   @computed
   bool get coursesError => loadOperation.status == FutureStatus.rejected;
@@ -61,43 +62,42 @@ abstract class _TimetableStore with Store {
   void setupReactions() {
     autorun((_) {
       print("RAN REACTION YAY ${loadOperation.status}");
-      if (loadOperation.status == FutureStatus.fulfilled) {
+      if (loadOperation.value != null) {
+        var x = loadOperation.value;
+        processTimetable();
+        print("Hi");
       }
     });
   }
 
-  @observable
-  List<TimetableDay> allTimetableCourses = List.generate(
-      5, (index) => new TimetableDay());
+  List<TimetableDay> allTimetableCourses =
+      List.generate(5, (index) => new TimetableDay());
 
-  @action
   void processTimetable() {
-    loadOperation.value!.courses!.sort((a, b) => a.slot!.compareTo(b.slot!));
-    List<TimetableDay> timetableCourses = List.generate(
-        5, (index) => new TimetableDay());
-    for (int i = 1; i <= 5; i++) {
+    print("start process");
+    List<TimetableDay> timetableCourses =
+        List.generate(5, (index) => new TimetableDay());
+    for (int i = 0; i <= 4; i++) {
       for (var v in loadOperation.value!.courses!) {
         String slot = v.slot!;
         if (slot == 'A') {
           switch (i) {
+            case 0:
             case 1:
             case 2:
-            case 3:
               v.timing = '09:00 - 09:55 AM';
               timetableCourses[i].addMorning(v);
-              print("List of courses = ${timetableCourses[2]
-                  .toString()} adn v= $i: ${v.toString()}");
               break;
           }
         }
         if (slot == 'B') {
           switch (i) {
+            case 3:
             case 4:
-            case 5:
               v.timing = '09:00 - 09:55 AM';
               timetableCourses[i].addMorning(v);
               break;
-            case 1:
+            case 0:
               v.timing = '10:00 - 10:55 AM';
               timetableCourses[i].addMorning(v);
               break;
@@ -105,9 +105,9 @@ abstract class _TimetableStore with Store {
         }
         if (slot == 'C') {
           switch (i) {
+            case 1:
             case 2:
             case 3:
-            case 4:
               v.timing = '10:00 - 10:55 AM';
               timetableCourses[i].addMorning(v);
               break;
@@ -115,20 +115,20 @@ abstract class _TimetableStore with Store {
         }
         if (slot == 'D') {
           switch (i) {
-            case 5:
+            case 4:
               v.timing = '10:00 - 10:55 AM';
               timetableCourses[i].addMorning(v);
               break;
+            case 0:
             case 1:
-            case 2:
               v.timing = '11:00 - 11:55 AM';
               timetableCourses[i].addMorning(v);
           }
         }
         if (slot == 'E') {
           switch (i) {
+            case 2:
             case 3:
-            case 4:
               v.timing = '11:00 - 11:55 AM';
               timetableCourses[i].addMorning(v);
               break;
@@ -136,12 +136,12 @@ abstract class _TimetableStore with Store {
         }
         if (slot == 'F') {
           switch (i) {
+            case 0:
             case 1:
-            case 2:
               v.timing = '12:00 - 12:55 PM';
               timetableCourses[i].addMorning(v);
               break;
-            case 5:
+            case 4:
               v.timing = '11:00 - 11:55 AM';
               timetableCourses[i].addMorning(v);
               break;
@@ -149,9 +149,9 @@ abstract class _TimetableStore with Store {
         }
         if (slot == 'G') {
           switch (i) {
+            case 2:
             case 3:
             case 4:
-            case 5:
               v.timing = '12:00 - 12:55 PM';
               timetableCourses[i].addMorning(v);
               break;
@@ -159,24 +159,22 @@ abstract class _TimetableStore with Store {
         }
         if (slot == 'A1') {
           switch (i) {
+            case 0:
             case 1:
             case 2:
-            case 3:
               v.timing = '02:00 - 02:55 PM';
               timetableCourses[i].addAfternoon(v);
-              print("List of courses = ${timetableCourses[2]
-                  .toString()} adn v= $i: ${v.toString()}");
               break;
           }
         }
         if (slot == 'B1') {
           switch (i) {
+            case 3:
             case 4:
-            case 5:
               v.timing = '02:00 - 02:55 PM';
               timetableCourses[i].addAfternoon(v);
               break;
-            case 1:
+            case 0:
               v.timing = '03:00 - 03:55 PM';
               timetableCourses[i].addAfternoon(v);
               break;
@@ -184,9 +182,9 @@ abstract class _TimetableStore with Store {
         }
         if (slot == 'C1') {
           switch (i) {
+            case 1:
             case 2:
             case 3:
-            case 4:
               v.timing = '03:00 - 03:55 AM';
               timetableCourses[i].addAfternoon(v);
               break;
@@ -194,53 +192,67 @@ abstract class _TimetableStore with Store {
         }
         if (slot == 'D1') {
           switch (i) {
-            case 5:
+            case 4:
               v.timing = '03:00 - 03:55 PM';
-              timetableCourses[i].addMorning(v);
+              timetableCourses[i].addAfternoon(v);
               break;
+            case 0:
             case 1:
-            case 2:
               v.timing = '04:00 - 04:55 PM';
-              timetableCourses[i].addMorning(v);
+              timetableCourses[i].addAfternoon(v);
           }
         }
         if (slot == 'E1') {
           switch (i) {
+            case 2:
             case 3:
-            case 4:
               v.timing = '04:00 - 04:55 AM';
-              timetableCourses[i].addMorning(v);
+              timetableCourses[i].addAfternoon(v);
               break;
           }
         }
         if (slot == 'F1') {
           switch (i) {
+            case 0:
             case 1:
-            case 2:
               v.timing = '05:00 - 05:55 PM';
-              timetableCourses[i].addMorning(v);
+              timetableCourses[i].addAfternoon(v);
               break;
-            case 5:
+            case 4:
               v.timing = '04:00 - 04:55 AM';
-              timetableCourses[i].addMorning(v);
+              timetableCourses[i].addAfternoon(v);
               break;
           }
         }
         if (slot == 'G1') {
           switch (i) {
+            case 2:
             case 3:
             case 4:
-            case 5:
               v.timing = '05:00 - 05:55 PM';
-              timetableCourses[i].addMorning(v);
+              timetableCourses[i].addAfternoon(v);
               break;
           }
         }
       }
     }
-    allTimetableCourses= timetableCourses;
+    this.allTimetableCourses = timetableCourses;
   }
 
   @computed
-  TimetableDay get todayTimeTable=>allTimetableCourses[selectedDate];
+  List<Widget> get todayTimeTable {
+    int timetableIndex = dates[selectedDate].weekday - 1;
+    List<Widget> l = [
+      ...allTimetableCourses[timetableIndex]
+          .morning
+          .map((e) => TimetableTile(course: e))
+          .toList(),
+      LunchDivider(),
+      ...allTimetableCourses[timetableIndex]
+          .afternoon
+          .map((e) => TimetableTile(course: e))
+          .toList()
+    ];
+    return l;
+  }
 }

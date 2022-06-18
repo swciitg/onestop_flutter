@@ -30,11 +30,11 @@ mixin _$TimetableStore on _TimetableStore, Store {
       (_$coursesErrorComputed ??= Computed<bool>(() => super.coursesError,
               name: '_TimetableStore.coursesError'))
           .value;
-  Computed<TimetableDay>? _$todayTimeTableComputed;
+  Computed<List<Widget>>? _$todayTimeTableComputed;
 
   @override
-  TimetableDay get todayTimeTable => (_$todayTimeTableComputed ??=
-          Computed<TimetableDay>(() => super.todayTimeTable,
+  List<Widget> get todayTimeTable => (_$todayTimeTableComputed ??=
+          Computed<List<Widget>>(() => super.todayTimeTable,
               name: '_TimetableStore.todayTimeTable'))
       .value;
 
@@ -70,22 +70,6 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
-  late final _$allTimetableCoursesAtom =
-      Atom(name: '_TimetableStore.allTimetableCourses', context: context);
-
-  @override
-  List<TimetableDay> get allTimetableCourses {
-    _$allTimetableCoursesAtom.reportRead();
-    return super.allTimetableCourses;
-  }
-
-  @override
-  set allTimetableCourses(List<TimetableDay> value) {
-    _$allTimetableCoursesAtom.reportWrite(value, super.allTimetableCourses, () {
-      super.allTimetableCourses = value;
-    });
-  }
-
   late final _$setTimetableAsyncAction =
       AsyncAction('_TimetableStore.setTimetable', context: context);
 
@@ -109,22 +93,10 @@ mixin _$TimetableStore on _TimetableStore, Store {
   }
 
   @override
-  void processTimetable() {
-    final _$actionInfo = _$_TimetableStoreActionController.startAction(
-        name: '_TimetableStore.processTimetable');
-    try {
-      return super.processTimetable();
-    } finally {
-      _$_TimetableStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 loadOperation: ${loadOperation},
 selectedDate: ${selectedDate},
-allTimetableCourses: ${allTimetableCourses},
 coursesLoaded: ${coursesLoaded},
 coursesLoading: ${coursesLoading},
 coursesError: ${coursesError},

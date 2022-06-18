@@ -90,33 +90,33 @@ String determiningSel() {
   return "";
 }
 
-adjustTime() {
-  dates[0] = DateTime.now();
-  if (dates[0].weekday == 2) {
-    dates[4] = dates[3].add(Duration(days: 3));
-  } else if (dates[0].weekday == 3) {
-    dates[3] = dates[2].add(Duration(days: 3));
-    dates[4] = dates[3].add(Duration(days: 1));
-  } else if (dates[0].weekday == 4) {
-    dates[2] = dates[1].add(Duration(days: 3));
-    dates[3] = dates[2].add(Duration(days: 1));
-    dates[4] = dates[3].add(Duration(days: 1));
-  } else if (dates[0].weekday == 5) {
-    dates[1] = dates[0].add(Duration(days: 3));
-    dates[2] = dates[1].add(Duration(days: 1));
-    dates[3] = dates[2].add(Duration(days: 1));
-    dates[4] = dates[3].add(Duration(days: 1));
-  } else if (dates[0].weekday == 6) {
-    dates[0] = dates[0].add(Duration(days: 2));
-    dates[1] = dates[0].add(Duration(days: 1));
-    dates[2] = dates[1].add(Duration(days: 1));
-    dates[3] = dates[2].add(Duration(days: 1));
-    dates[4] = dates[3].add(Duration(days: 1));
-  } else if (dates[0].weekday == 7) {
-    dates[0] = dates[0].add(Duration(days: 1));
-    dates[1] = dates[0].add(Duration(days: 1));
-    dates[2] = dates[1].add(Duration(days: 1));
-    dates[3] = dates[2].add(Duration(days: 1));
-    dates[4] = dates[3].add(Duration(days: 1));
-  }
-}
+// adjustTime() {
+//   dates[0] = DateTime.now();
+//   if (dates[0].weekday == 2) {
+//     dates[4] = dates[3].add(Duration(days: 3));
+//   } else if (dates[0].weekday == 3) {
+//     dates[3] = dates[2].add(Duration(days: 3));
+//     dates[4] = dates[3].add(Duration(days: 1));
+//   } else if (dates[0].weekday == 4) {
+//     dates[2] = dates[1].add(Duration(days: 3));
+//     dates[3] = dates[2].add(Duration(days: 1));
+//     dates[4] = dates[3].add(Duration(days: 1));
+//   } else if (dates[0].weekday == 5) {
+//     dates[1] = dates[0].add(Duration(days: 3));
+//     dates[2] = dates[1].add(Duration(days: 1));
+//     dates[3] = dates[2].add(Duration(days: 1));
+//     dates[4] = dates[3].add(Duration(days: 1));
+//   } else if (dates[0].weekday == 6) {
+//     dates[0] = dates[0].add(Duration(days: 2));
+//     dates[1] = dates[0].add(Duration(days: 1));
+//     dates[2] = dates[1].add(Duration(days: 1));
+//     dates[3] = dates[2].add(Duration(days: 1));
+//     dates[4] = dates[3].add(Duration(days: 1));
+//   } else if (dates[0].weekday == 7) {
+//     dates[0] = dates[0].add(Duration(days: 1));
+//     dates[1] = dates[0].add(Duration(days: 1));
+//     dates[2] = dates[1].add(Duration(days: 1));
+//     dates[3] = dates[2].add(Duration(days: 1));
+//     dates[4] = dates[3].add(Duration(days: 1));
+//   }
+// }
