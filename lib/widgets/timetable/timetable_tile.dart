@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/functions/timetable/Functions.dart';
+import 'package:onestop_dev/functions/timetable/time_range.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/timetable.dart';
@@ -10,7 +10,7 @@ class TimetableTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String sel = determiningSel();
+    String sel = findTimeRange();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Container(
@@ -66,10 +66,7 @@ class TimetableTile extends StatelessWidget {
                     ),
                     Text(
                       course.instructor!,
-                      style: MyFonts.w400
-                          .size(13)
-                          .setColor(lBlue),
-
+                      style: MyFonts.w400.size(13).setColor(lBlue),
                     ),
                   ],
                 ),

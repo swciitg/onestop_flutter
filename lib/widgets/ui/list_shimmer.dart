@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/timetable.dart';
-import 'package:onestop_dev/widgets/timetable/timetable_tile.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ListShimmer extends StatelessWidget {
-  const ListShimmer({Key? key}) : super(key: key);
+  late final double height;
+  ListShimmer({Key? key, this.height = 80}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    CourseModel c = CourseModel();
     Container sample = Container(
-      height: 80,
+      height: height,
       decoration:
           BoxDecoration(color: kBlack, borderRadius: BorderRadius.circular(25)),
     );

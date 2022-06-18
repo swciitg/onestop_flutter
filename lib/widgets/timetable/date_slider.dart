@@ -37,9 +37,7 @@ class _DateSliderState extends State<DateSlider> {
                     // height: 125,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: selected
-                          ? kTimetableGreen
-                          : Colors.transparent,
+                      color: selected ? kTimetableGreen : Colors.transparent,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -47,8 +45,7 @@ class _DateSliderState extends State<DateSlider> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(kday[ttStore.dates[index].weekday]!,
-                              style:
-                                  tStyle),
+                              style: tStyle),
                           Text(
                             ttStore.dates[index].day.toString(),
                             style: tStyle.size(30),

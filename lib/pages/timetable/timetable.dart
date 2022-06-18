@@ -1,10 +1,10 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/functions/timetable/Functions.dart';
+import 'package:onestop_dev/functions/timetable/time_range.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/timetable/date_slider.dart';
 import 'package:onestop_dev/widgets/timetable/home_shimmer.dart';
-import 'package:onestop_dev/widgets/timetable/list_shimmer.dart';
+import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
 class TimeTableTab extends StatefulWidget {
@@ -21,7 +21,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
   @override
   Widget build(BuildContext context) {
     print("Rebuild timetable.dart");
-    sel = determiningSel();
+    sel = findTimeRange();
     //adjustTime();
     return SingleChildScrollView(
       child: Column(
@@ -38,9 +38,10 @@ class _TimeTableTabState extends State<TimeTableTab> {
               return ListView.builder(
                   shrinkWrap: true,
                   physics: ClampingScrollPhysics(),
-                  itemCount: context.read<TimetableStore>().todayTimeTable.length,
+                  itemCount:
+                      context.read<TimetableStore>().todayTimeTable.length,
                   itemBuilder: (context, index) =>
-                  context.read<TimetableStore>().todayTimeTable[index]);
+                      context.read<TimetableStore>().todayTimeTable[index]);
             }
             return ListShimmer();
           }),

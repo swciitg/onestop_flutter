@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/functions/timetable/Functions.dart';
+import 'package:onestop_dev/functions/timetable/time_range.dart';
 import 'package:onestop_dev/globals/days.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
