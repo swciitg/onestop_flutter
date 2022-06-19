@@ -1,8 +1,6 @@
-import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/home/action_button.dart';
 import 'package:onestop_dev/functions/home/navigation_icons.dart';
-import 'package:onestop_dev/functions/timetable/show_dialog.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/size_config.dart';
@@ -38,16 +36,15 @@ class _HomePageState extends State<HomePage> {
         data: NavigationBarThemeData(
             indicatorColor: lGrey,
             labelTextStyle:
-            MaterialStateProperty.all(MyFonts.w500.setColor(kTabText)),
+                MaterialStateProperty.all(MyFonts.w500.setColor(kTabText)),
             iconTheme:
-            MaterialStateProperty.all(IconThemeData(color: kTabText))),
+                MaterialStateProperty.all(IconThemeData(color: kTabText))),
         child: NavigationBar(
           backgroundColor: kTabBar,
           selectedIndex: index,
-          onDestinationSelected: (index) =>
-              setState(() {
-                this.index = index;
-              }),
+          onDestinationSelected: (index) => setState(() {
+            this.index = index;
+          }),
           destinations: bottomNavIcons(),
         ),
       ),
@@ -57,7 +54,7 @@ class _HomePageState extends State<HomePage> {
           child: tabs[index],
         ),
       ),
-      floatingActionButton: homeActionButton(context,index),
+      floatingActionButton: homeActionButton(context, index),
     );
   }
 }

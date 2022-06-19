@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webfeed/webfeed.dart';
 
 class Blogs extends StatefulWidget {
@@ -101,7 +101,7 @@ class _BlogState extends State<Blogs> {
   }
 
   Future<void> launchArticle(String url) async {
-    await launch(url);
+    await launchUrlString(url);
   }
 
   Future<void> getDetails() async {
