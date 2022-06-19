@@ -9,6 +9,7 @@ import 'package:onestop_dev/widgets/food/food_search_bar.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_menu.dart';
 import 'package:onestop_dev/widgets/food/outlets_filter.dart';
 import 'package:onestop_dev/widgets/food/restaurant/restaurant_tile.dart';
+import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 
 class FoodTab extends StatelessWidget {
   const FoodTab({Key? key}) : super(key: key);
@@ -67,9 +68,7 @@ class FoodTab extends StatelessWidget {
                           ));
                         }
                         return Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
+                          child: ListShimmer(height: 168,),
                         );
                       })
                 ],
