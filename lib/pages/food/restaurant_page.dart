@@ -9,6 +9,7 @@ import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/food/restaurant_model.dart';
+import '../../widgets/ui/list_shimmer.dart';
 
 class RestaurantPage extends StatelessWidget {
   const RestaurantPage({Key? key}) : super(key: key);
@@ -52,8 +53,8 @@ class RestaurantPage extends StatelessWidget {
                     ));
                   }
                   return Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
+                    child: ListShimmer(
+                      height: 130,
                     ),
                   );
                 }),

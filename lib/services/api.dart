@@ -4,9 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:onestop_dev/models/timetable.dart';
 
 class APIService {
-  static String restaurantURL = "https://onestop3.free.beeceptor.com/getAllOutlets";
+  static String restaurantURL =
+      "https://onestop3.free.beeceptor.com/getAllOutlets";
 
-  static Future<List<Map<String, dynamic>>>  getRestaurantData() async {
+  static Future<List<Map<String, dynamic>>> getRestaurantData() async {
     http.Response response = await http.get(Uri.parse(restaurantURL));
     var status = response.statusCode;
     var body = jsonDecode(response.body);
@@ -20,7 +21,6 @@ class APIService {
     } else {
       print(status);
       throw Exception("Data could not be fetched");
-      return [];
     }
   }
 
@@ -41,5 +41,4 @@ class APIService {
       throw Exception(response.statusCode);
     }
   }
-
 }

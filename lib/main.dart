@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           create: (_) => RestaurantStore(),
         ),
         Provider<TimetableStore>(
-            create: (_) => TimetableStore(),
+          create: (_) => TimetableStore(),
         )
       ],
       child: MaterialApp(

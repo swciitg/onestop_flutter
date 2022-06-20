@@ -102,7 +102,7 @@ class FoodTile extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(21),
                     bottomRight: Radius.circular(21)),
-                child: Image.network(dish.image, fit: BoxFit.fitHeight),
+                child: Image.network(dish.image, fit: BoxFit.cover),
               ),
             ),
           ],

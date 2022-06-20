@@ -10,6 +10,8 @@ import 'package:onestop_dev/widgets/food/restaurant/restaurant_tile.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/ui/list_shimmer.dart';
+
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
   static String id = "/foodSearchResults";
@@ -60,9 +62,10 @@ class SearchPage extends StatelessWidget {
                       default:
                         print('default');
                         return Center(
-                            child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ));
+                          child: ListShimmer(
+                            height: 168,
+                          ),
+                        );
                     }
                   },
                 ),

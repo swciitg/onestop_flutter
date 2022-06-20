@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webfeed/webfeed.dart';
 
 class Blogs extends StatefulWidget {
@@ -101,7 +102,7 @@ class _BlogState extends State<Blogs> {
   }
 
   Future<void> launchArticle(String url) async {
-    await launch(url);
+    await launchUrlString(url);
   }
 
   Future<void> getDetails() async {
@@ -167,12 +168,12 @@ class _BlogState extends State<Blogs> {
   }
 
   Widget _getLoadingIndicator() {
-    return Padding(
-        child: Container(
-            child: CircularProgressIndicator(strokeWidth: 3),
-            width: 32,
-            height: 32),
-        padding: EdgeInsets.only(bottom: 16));
+    return Expanded(
+      child: ListShimmer(
+        height: 170,
+        count: 8,
+      ),
+    );
   }
 
   Widget _getHeading() {
@@ -185,26 +186,85 @@ class _BlogState extends State<Blogs> {
         padding: EdgeInsets.only(bottom: 4));
   }
 
+  Widget _PageState(String title) {
+    while (title == "notnull") {
+      return Container(
+        padding: EdgeInsets.fromLTRB(0, 5, 0, 16),
+        color: Colors.black.withOpacity(0.8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _getLoadingIndicator(),
+            // _getHeading(),
+          ],
+        ),
+      );
+    }
+    return ListView.builder(
+      itemCount: _mediumArticles.length,
+      padding: const EdgeInsets.all(8),
+      itemBuilder: (BuildContext buildContext, int index) {
+        String link;
+
+        return InkWell(
+          onTap: () {
+            link = _mediumArticles[index].link;
+
+            print(link);
+            launchArticle(link.toString());
+          },
+          child: Card(
+            color: Color(273141),
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CachedNetworkImage(imageUrl: _mediumArticles[index].image),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _mediumArticles[index].title,
+                        style: TextStyle(
+                            fontFamily: 'montserrat',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 14),
+                      ),
+                      Text(
+                          // _mediumArticles[index]
+                          //     .title
+                          //     .toString()
+                          //     .split("|")[1]
+                          //     .trim(),
+                          _mediumArticles[index].author,
+                          style: TextStyle(
+                              fontFamily: 'montserrat',
+                              color: Colors.white,
+                              fontSize: 14))
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     print(_mediumArticles.length);
-    while (title == "notnull") {
-      return Material(
-        child: Container(
-            padding: EdgeInsets.all(16),
-            color: Colors.black.withOpacity(0.8),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _getLoadingIndicator(),
-                  _getHeading(),
-                ])),
-      );
-    }
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kBlueGrey,
+        backgroundColor: kAppBarGrey,
         leading: Container(),
         leadingWidth: 10,
         title: Text(
@@ -219,62 +279,7 @@ class _BlogState extends State<Blogs> {
               icon: Icon(Icons.close)),
         ],
       ),
-      body: ListView.builder(
-        itemCount: _mediumArticles.length,
-        padding: const EdgeInsets.all(8),
-        itemBuilder: (BuildContext buildContext, int index) {
-          String link;
-
-          return InkWell(
-            onTap: () {
-              link = _mediumArticles[index].link;
-
-              print(link);
-              launchArticle(link.toString());
-            },
-            child: Card(
-              color: Color(273141),
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              clipBehavior: Clip.antiAlias,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CachedNetworkImage(imageUrl: _mediumArticles[index].image),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _mediumArticles[index].title,
-                          style: TextStyle(
-                              fontFamily: 'montserrat',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 14),
-                        ),
-                        Text(
-                            // _mediumArticles[index]
-                            //     .title
-                            //     .toString()
-                            //     .split("|")[1]
-                            //     .trim(),
-                            _mediumArticles[index].author,
-                            style: TextStyle(
-                                fontFamily: 'montserrat',
-                                color: Colors.white,
-                                fontSize: 14))
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+      body: _PageState(title),
     );
   }
 }

@@ -35,7 +35,5 @@ class MessMeal extends StatelessWidget {
         ),
       ),
     );
-
-    ;
   }
 }

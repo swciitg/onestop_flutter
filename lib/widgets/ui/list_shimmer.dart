@@ -5,7 +5,12 @@ import 'package:shimmer/shimmer.dart';
 
 class ListShimmer extends StatelessWidget {
   late final double height;
-  ListShimmer({Key? key, this.height = 80}) : super(key: key);
+  late final int count;
+  ListShimmer({
+    Key? key,
+    this.height = 80,
+    this.count = 3,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,7 @@ class ListShimmer extends StatelessWidget {
         child: Container(
             height: 400,
             child: ListView.builder(
-                itemCount: 3,
+                itemCount: count,
                 itemBuilder: (_, __) => Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: sample,

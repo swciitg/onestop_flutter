@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/my_spaces.dart';
 import 'package:onestop_dev/widgets/login/login_button.dart';
 import 'package:onestop_dev/widgets/login/welcome_header.dart';
@@ -19,9 +17,9 @@ class WelcomePage extends StatelessWidget {
           child: Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/bg_triangle.png'),
-                  fit: BoxFit.fill,
-                )),
+              image: AssetImage('assets/images/bg_triangle.png'),
+              fit: BoxFit.fill,
+            )),
             child: WelcomeHeader(),
           ),
         ),
@@ -37,4 +35,3 @@ class WelcomePage extends StatelessWidget {
     );
   }
 }
-
