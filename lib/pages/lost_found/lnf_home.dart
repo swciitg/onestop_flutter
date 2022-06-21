@@ -26,11 +26,12 @@ class LostFoundHome extends StatefulWidget {
 
 class _LostFoundHomeState extends State<LostFoundHome> {
   StreamController selectedTypeController = StreamController();
+  final globalKey = GlobalKey<ScaffoldState>();
 
   Future<List> getLostItems() async {
     print("before");
     var res =
-        await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/all_lost'));
+    await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/lost'));
     print("after");
     var lostItemsDetails = jsonDecode(res.body);
     print("decoded json");
@@ -40,7 +41,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
   Future<List> getFoundItems() async {
     print("before");
     var res = await http
-        .get(Uri.parse('https://swc.iitg.ac.in/onestopapi/all_found'));
+        .get(Uri.parse('https://swc.iitg.ac.in/onestopapi/found'));
     print("after");
     var foundItemsDetails = jsonDecode(res.body);
     print("decoded json");
@@ -84,13 +85,13 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                     List<Widget> lostItems = [];
                     List<Widget> foundItems = [];
                     lostsSnapshot.data!.forEach((e) => {
-                          lostItems.add(LostItemTile(
-                              currentLostModel: LostModel.fromJson(e)))
-                        });
+                      lostItems.add(LostItemTile(
+                          currentLostModel: LostModel.fromJson(e)))
+                    });
                     foundsSnapshot.data!.forEach((e) => {
-                          foundItems.add(FoundItemTile(
-                              currentFoundModel: FoundModel.fromJson(e)))
-                        });
+                      foundItems.add(FoundItemTile(
+                          currentFoundModel: FoundModel.fromJson(e),homeKey: globalKey,))
+                    });
                     return StreamBuilder(
                       stream: typeStream,
                       builder: (context, AsyncSnapshot snapshot) {
@@ -109,18 +110,18 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                                     child: ItemTypeBar(
                                       text: "Lost",
                                       margin:
-                                          EdgeInsets.only(left: 16, bottom: 10),
+                                      EdgeInsets.only(left: 16, bottom: 10),
                                       textStyle: MyFonts.w500.size(14).setColor(
                                           snapshot.hasData == false
                                               ? kBlack
                                               : (snapshot.data! == "Lost"
-                                                  ? kBlack
-                                                  : kWhite)),
+                                              ? kBlack
+                                              : kWhite)),
                                       backgroundColor: snapshot.hasData == false
                                           ? lBlue2
                                           : (snapshot.data! == "Lost"
-                                              ? lBlue2
-                                              : kBlueGrey),
+                                          ? lBlue2
+                                          : kBlueGrey),
                                     ),
                                   ),
                                   GestureDetector(
@@ -136,18 +137,18 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                                     child: ItemTypeBar(
                                       text: "Found",
                                       margin:
-                                          EdgeInsets.only(left: 8, bottom: 10),
+                                      EdgeInsets.only(left: 8, bottom: 10),
                                       textStyle: MyFonts.w500.size(14).setColor(
                                           snapshot.hasData == false
                                               ? kWhite
                                               : (snapshot.data! == "Found"
-                                                  ? kBlack
-                                                  : kWhite)),
+                                              ? kBlack
+                                              : kWhite)),
                                       backgroundColor: snapshot.hasData == false
                                           ? kBlueGrey
                                           : (snapshot.data! == "Found"
-                                              ? lBlue2
-                                              : kBlueGrey),
+                                          ? lBlue2
+                                          : kBlueGrey),
                                     ),
                                   ),
                                 ],
@@ -155,31 +156,31 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                             ),
                             Expanded(
                                 child: (!snapshot.hasData ||
-                                        snapshot.data! == "Lost")
+                                    snapshot.data! == "Lost")
                                     ? (lostItems.length == 0
-                                        ? Center(
-                                            child: Text(
-                                              "No Lost Items as of now :)",
-                                              style: MyFonts.w500
-                                                  .size(16)
-                                                  .setColor(kWhite),
-                                            ),
-                                          )
-                                        : ListView(
-                                            children: lostItems,
-                                          ))
+                                    ? Center(
+                                  child: Text(
+                                    "No Lost Items as of now :)",
+                                    style: MyFonts.w500
+                                        .size(16)
+                                        .setColor(kWhite),
+                                  ),
+                                )
+                                    : ListView(
+                                  children: lostItems,
+                                ))
                                     : (foundItems.length == 0
-                                        ? Center(
-                                            child: Text(
-                                              "No found Items as of now :)",
-                                              style: MyFonts.w500
-                                                  .size(16)
-                                                  .setColor(kWhite),
-                                            ),
-                                          )
-                                        : ListView(
-                                            children: foundItems,
-                                          )))
+                                    ? Center(
+                                  child: Text(
+                                    "No found Items as of now :)",
+                                    style: MyFonts.w500
+                                        .size(16)
+                                        .setColor(kWhite),
+                                  ),
+                                )
+                                    : ListView(
+                                  children: foundItems,
+                                )))
                           ],
                         );
                       },
@@ -207,7 +208,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                         title:
-                            Text("From where do you want to take the photo?"),
+                        Text("From where do you want to take the photo?"),
                         content: SingleChildScrollView(
                           child: ListBody(
                             children: <Widget>[
@@ -235,7 +236,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               if (xFile != null) {
                 var bytes = File(xFile!.path).readAsBytesSync();
                 var imageSize =
-                    (bytes.lengthInBytes / (1048576)); // dividing by 1024*1024
+                (bytes.lengthInBytes / (1048576)); // dividing by 1024*1024
                 if (imageSize > 2.5) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("Maximum image size can be 2.5 MB")));
@@ -245,15 +246,15 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                 if (!snapshot.hasData || snapshot.data! == "Lost") {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => LostFoundForm(
-                            category: "Lost",
-                            imageString: imageString,
-                          )));
+                        category: "Lost",
+                        imageString: imageString,
+                      )));
                   return;
                 }
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => LostFoundLocationForm(
-                          imageString: imageString,
-                        )));
+                      imageString: imageString,
+                    )));
               }
             },
             child: Container(
@@ -268,7 +269,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                 children: [
                   Padding(
                     padding:
-                        const EdgeInsets.only(top: 17, bottom: 20, left: 20),
+                    const EdgeInsets.only(top: 17, bottom: 20, left: 20),
                     child: Icon(
                       Icons.add,
                       size: 30,
@@ -281,8 +282,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                       !snapshot.hasData
                           ? "Lost Item"
                           : (snapshot.data! == "Lost"
-                              ? "Lost Item"
-                              : "Found Item"),
+                          ? "Lost Item"
+                          : "Found Item"),
                       style: MyFonts.w600.size(14).setColor(kBlack),
                     ),
                   ),
@@ -303,10 +304,10 @@ class ItemTypeBar extends StatelessWidget {
   EdgeInsets margin;
   ItemTypeBar(
       {Key? key,
-      required this.text,
-      required this.textStyle,
-      required this.backgroundColor,
-      required this.margin})
+        required this.text,
+        required this.textStyle,
+        required this.backgroundColor,
+        required this.margin})
       : super(key: key);
 
   @override

@@ -1,10 +1,19 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/lostfound/lost_model.dart';
+import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 
 class ProgressBar extends StatelessWidget {
   final int blue;
@@ -19,40 +28,40 @@ class ProgressBar extends StatelessWidget {
       bars.add(
         Expanded(
             child: Container(
-          height: 4,
-          color: lBlue2,
-          margin: EdgeInsets.only(right: 2),
-        )),
+              height: 4,
+              color: lBlue2,
+              margin: EdgeInsets.only(right: 2),
+            )),
       );
     }
     for (int i = 1; i < blue; i++) {
       bars.add(
         Expanded(
             child: Container(
-          height: 4,
-          color: lBlue2,
-          margin: EdgeInsets.symmetric(horizontal: 2),
-        )),
+              height: 4,
+              color: lBlue2,
+              margin: EdgeInsets.symmetric(horizontal: 2),
+            )),
       );
     }
     for (int i = 0; i < grey - 1; i++) {
       bars.add(
         Expanded(
             child: Container(
-          height: 4,
-          color: kGrey,
-          margin: EdgeInsets.symmetric(horizontal: 2),
-        )),
+              height: 4,
+              color: kGrey,
+              margin: EdgeInsets.symmetric(horizontal: 2),
+            )),
       );
     }
     if (grey != 0) {
       bars.add(
         Expanded(
             child: Container(
-          height: 4,
-          color: kGrey,
-          margin: EdgeInsets.only(left: 2),
-        )),
+              height: 4,
+              color: kGrey,
+              margin: EdgeInsets.only(left: 2),
+            )),
       );
     }
     return Row(
@@ -72,7 +81,7 @@ class NewPageButton extends StatelessWidget {
       margin: EdgeInsets.only(left: 12, right: 12, bottom: 20),
       padding: EdgeInsets.symmetric(vertical: 16),
       decoration:
-          BoxDecoration(color: lBlue2, borderRadius: BorderRadius.circular(16)),
+      BoxDecoration(color: lBlue2, borderRadius: BorderRadius.circular(16)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -97,7 +106,7 @@ class LostItemTile extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     Duration passedDuration = DateTime.now().difference(currentLostModel.date);
     String timeagoString =
-        timeago.format(DateTime.now().subtract(passedDuration));
+    timeago.format(DateTime.now().subtract(passedDuration));
 
     void detailsDialogBox(String imageURL, String description, String location,
         String contactnumber, DateTime date) {
@@ -135,7 +144,7 @@ class LostItemTile extends StatelessWidget {
                             child: FadeInImage(
                               width: screenWidth - 30,
                               placeholder:
-                                  AssetImage("assets/images/loading.gif"),
+                              AssetImage("assets/images/loading.gif"),
                               image: NetworkImage(imageURL),
                               fit: BoxFit.cover,
                             ),
@@ -150,7 +159,7 @@ class LostItemTile extends StatelessWidget {
                           children: [
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 4),
+                              const EdgeInsets.symmetric(horizontal: 4),
                               child: Text(
                                 currentLostModel.title,
                                 style: MyFonts.w600.size(16).setColor(kWhite),
@@ -158,7 +167,7 @@ class LostItemTile extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                await launchUrlString("tel:+91$contactnumber");
+                                await launch("tel:+91$contactnumber");
                               },
                               child: Container(
                                   padding: EdgeInsets.symmetric(
@@ -292,7 +301,7 @@ class LostItemTile extends StatelessWidget {
                     ),
                     Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 13, vertical: 2.5),
+                      EdgeInsets.symmetric(horizontal: 13, vertical: 2.5),
                       margin: EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
                           color: kGrey9,
@@ -345,15 +354,17 @@ class LostItemTile extends StatelessWidget {
 
 class FoundItemTile extends StatelessWidget {
   final currentFoundModel;
-  const FoundItemTile({Key? key, required this.currentFoundModel});
+  final homeKey;
+  const FoundItemTile({Key? key, required this.currentFoundModel,required this.homeKey});
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    bool buttonPressed = false;
     Duration passedDuration = DateTime.now().difference(currentFoundModel.date);
     String timeagoString =
-        timeago.format(DateTime.now().subtract(passedDuration));
+    timeago.format(DateTime.now().subtract(passedDuration));
 
     void detailsDialogBox(String imageURL, String description, String location,
         String submitted, DateTime date) {
@@ -391,7 +402,7 @@ class FoundItemTile extends StatelessWidget {
                             child: FadeInImage(
                               width: screenWidth - 30,
                               placeholder:
-                                  AssetImage("assets/images/loading.gif"),
+                              AssetImage("assets/images/loading.gif"),
                               image: NetworkImage(imageURL),
                               fit: BoxFit.cover,
                             ),
@@ -406,13 +417,126 @@ class FoundItemTile extends StatelessWidget {
                           children: [
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 4),
+                              const EdgeInsets.symmetric(horizontal: 4),
                               child: Text(
                                 currentFoundModel.title,
                                 style: MyFonts.w600.size(16).setColor(kWhite),
                               ),
                             ),
+                            Visibility(
+                              visible: currentFoundModel.claimed==true ? false : true,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext claimDialogContext){
+                                        return AlertDialog(
+                                            title: Text("Are you sure to claim this item ?"),
+                                            content : ConstrainedBox(
+                                              constraints: BoxConstraints(maxHeight: screenHeight*0.3),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () async {
+                                                      print(buttonPressed);
+                                                      if(buttonPressed==true) return;
+                                                      buttonPressed=true;
+                                                      var name = context.read<LoginStore>().userData['name'];
+                                                      var email = context.read<LoginStore>().userData['email'];
+                                                      print(name);
+                                                      print(email);
+                                                      var res = await http.post(
+                                                          Uri.parse("https://swc.iitg.ac.in/onestopapi/found/claim"),
+                                                          body: {
+                                                            "id" : currentFoundModel.id,
+                                                            "claimerEmail" : email,
+                                                            "claimerName" : name
+                                                          }
+                                                      );
+                                                      var body = jsonDecode(res.body);
+                                                      print(body);
+                                                      if(body["saved"] == false){
+                                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body["message"])));
+                                                        Navigator.popUntil(context,ModalRoute.withName(LostFoundHome.id));
+                                                      }
+                                                      else{
+                                                        ScaffoldMessenger.of(homeKey.currentContext!).showSnackBar(SnackBar(content: Text("Claimed Item Successfully")));
+                                                        Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      child: Text(
+                                                        "YES",
+                                                        style: MyFonts.w600.size(17),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 2.5,
+                                                    height: 14,
+                                                    color: kBlack,
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: (){
+                                                      if(buttonPressed==true) return;
+                                                      buttonPressed=true;
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Container(
+                                                      child: Text(
+                                                        "NO",
+                                                        style: MyFonts.w600.size(17),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                        );
+                                      }
+                                  );
+                                },
+                                child: Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 12,vertical: 8),
+                                    margin: EdgeInsets.only(right: 8),
+                                    decoration: BoxDecoration(
+                                        color: kGrey9,
+                                        borderRadius: BorderRadius.circular(24)
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                                      children: [
+                                        Icon(Icons.pan_tool,size: 11,color: lBlue2,),
+                                        Text(
+                                          " Claim",
+                                          style: MyFonts.w500.size(11).setColor(lBlue2),
+                                        )
+                                      ],
+                                    )
+                                ),
+                              ),
+                            )
                           ],
+                        ),
+                      ),
+                      Visibility(
+                        visible: currentFoundModel.claimed==true ? true : false,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: screenWidth-62),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Text(
+                                "Claimed by: " + currentFoundModel.claimerName + " / " + currentFoundModel.claimerEmail,
+                                style: MyFonts.w500.size(14).setColor(kGrey6),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       Padding(
@@ -514,7 +638,7 @@ class FoundItemTile extends StatelessWidget {
                     ),
                     Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 13, vertical: 2.5),
+                      EdgeInsets.symmetric(horizontal: 13, vertical: 2.5),
                       margin: EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
                           color: kGrey9,
