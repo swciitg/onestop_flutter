@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -38,7 +39,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
       appBar: AppBar(
         backgroundColor: kBlueGrey,
         title: Text(
-            widget.category=="Lost" ? "2. Details" : "3. Details",
+          widget.category=="Lost" ? "2. Details" : "3. Details",
           style: MyFonts.w600.size(16).setColor(kWhite),
         ),
       ),
@@ -63,11 +64,11 @@ class _LostFoundFormState extends State<LostFoundForm> {
                   child: TextFormField(
                     style: MyFonts.w500.size(15).setColor(kWhite),
                     decoration: InputDecoration(
-                      hintText: "Title*",
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                      fillColor: kAppBarGrey,
-                      filled: true,
-                      hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
+                        hintText: "Title*",
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                        fillColor: kAppBarGrey,
+                        filled: true,
+                        hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
                         counterText: (title==null ? "" : title!.length.toString() + "/20"),
                         counterStyle: MyFonts.w500.size(12).setColor(kWhite)
                     ),
@@ -93,12 +94,12 @@ class _LostFoundFormState extends State<LostFoundForm> {
                         filled: true,
                         hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
                         counterText: (location==null ? "" : location!.length.toString() + "/20"),
-                      counterStyle: MyFonts.w500.size(12).setColor(kWhite)
+                        counterStyle: MyFonts.w500.size(12).setColor(kWhite)
                     ),
                     onChanged: (value){
-                     setState((){
-                       location=value;
-                     });
+                      setState((){
+                        location=value;
+                      });
                     },
                     maxLength: 20,
                     validator: (value){
@@ -120,7 +121,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
                           fillColor: kAppBarGrey,
                           filled: true,
                           hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
-                        counterText: (contactnumber==null ? "" : contactnumber!.length.toString() + "/10"),
+                          counterText: (contactnumber==null ? "" : contactnumber!.length.toString() + "/10"),
                           counterStyle: MyFonts.w500.size(12).setColor(kWhite)
                       ),
                       onChanged: (value){
@@ -181,18 +182,20 @@ class _LostFoundFormState extends State<LostFoundForm> {
           if(savingToDB==true) return;
           savingToDB=true;
           dbSavingController.sink.add(true);
+          print(userEmail);
+          print(username);
           if(widget.category=="Lost"){
             var res = await http.post(
-                Uri.parse("https://swc.iitg.ac.in/onestopapi/post_lost"),
-              body: {
-                'title': title!.trim(),
-                'description' : description!.trim(),
-                'location' : location!.trim(),
-                'imageString' : widget.imageString,
-                'phonenumber' : contactnumber!.trim(),
-                'email' : userEmail,
-                'username' : username
-              }
+                Uri.parse("https://swc.iitg.ac.in/onestopapi/lost"),
+                body: {
+                  'title': title!.trim(),
+                  'description' : description!.trim(),
+                  'location' : location!.trim(),
+                  'imageString' : widget.imageString,
+                  'phonenumber' : contactnumber!.trim(),
+                  'email' : userEmail,
+                  'username' : username
+                }
             );
             var body = jsonDecode(res.body);
             if(body["saved_successfully"]==true){
@@ -211,7 +214,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
           }
           else{
             var res = await http.post(
-                Uri.parse("https://swc.iitg.ac.in/onestopapi/post_found"),
+                Uri.parse("https://swc.iitg.ac.in/onestopapi/found"),
                 body: {
                   'title': title!,
                   'description' : description!,

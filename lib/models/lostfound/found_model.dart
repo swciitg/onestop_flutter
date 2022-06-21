@@ -13,8 +13,12 @@ class FoundModel{
   final String compressedImageURL;
   final DateTime date;
   final String submittedat;
+  bool claimed;
+  String claimerEmail;
+  String claimerName;
+  final String id;
 
-  const FoundModel({Key? key, required this.title, required this.description,required this.location,required this.imageURL,required this.compressedImageURL,required this.date,required this.submittedat});
+  FoundModel({Key? key, required this.title, required this.description,required this.location,required this.imageURL,required this.compressedImageURL,required this.date,required this.submittedat,required this.claimed,required this.claimerEmail,required this.claimerName,required this.id});
   factory FoundModel.fromJson(Map<String, dynamic> json) => _$FoundModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$FoundModelToJson(this);

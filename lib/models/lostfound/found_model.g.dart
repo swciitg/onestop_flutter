@@ -14,15 +14,23 @@ FoundModel _$FoundModelFromJson(Map<String, dynamic> json) => FoundModel(
       compressedImageURL: json['compressedImageURL'] as String,
       date: DateTime.parse(json['date'] as String),
       submittedat: json['submittedat'] as String,
-    );
+      claimed: json['claimed'] as bool,
+      claimerEmail: json['claimerEmail'] as String,
+      claimerName: json['claimerName'] as String,
+      id : json['_id'] as String,
+);
 
 Map<String, dynamic> _$FoundModelToJson(FoundModel instance) =>
     <String, dynamic>{
-      'title': instance.title,
-      'location': instance.location,
-      'description': instance.description,
-      'imageURL': instance.imageURL,
-      'compressedImageURL': instance.compressedImageURL,
-      'date': instance.date.toIso8601String(),
-      'submittedat': instance.submittedat,
+          'title': instance.title,
+          'location': instance.location,
+          'description': instance.description,
+          'imageURL': instance.imageURL,
+          'compressedImageURL': instance.compressedImageURL,
+          'date': instance.date.toIso8601String(),
+          'claimed' : instance.claimed,
+          'claimerEmail' : instance.claimerEmail,
+          'claimerName' : instance.claimerName,
+          'submittedat': instance.submittedat,
+          'id' : instance.id
     };
