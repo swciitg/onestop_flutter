@@ -29,7 +29,6 @@ class DataProvider
       List<Map<String,dynamic>> contactData = await APIService.getContactData();
       contactData.forEach((element) => people[element['name']] = ContactModel.fromJson(element));
       await LocalStorage.instance.storeData(contactData, "Contact");
-      print(contactData);
       return people;
     }
     print("Contact Data Exists in Cache");
