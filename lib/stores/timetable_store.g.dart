@@ -70,6 +70,22 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
+  late final _$showDropDownAtom =
+      Atom(name: '_TimetableStore.showDropDown', context: context);
+
+  @override
+  bool get showDropDown {
+    _$showDropDownAtom.reportRead();
+    return super.showDropDown;
+  }
+
+  @override
+  set showDropDown(bool value) {
+    _$showDropDownAtom.reportWrite(value, super.showDropDown, () {
+      super.showDropDown = value;
+    });
+  }
+
   late final _$setTimetableAsyncAction =
       AsyncAction('_TimetableStore.setTimetable', context: context);
 
@@ -93,10 +109,33 @@ mixin _$TimetableStore on _TimetableStore, Store {
   }
 
   @override
+  void toggleDropDown() {
+    final _$actionInfo = _$_TimetableStoreActionController.startAction(
+        name: '_TimetableStore.toggleDropDown');
+    try {
+      return super.toggleDropDown();
+    } finally {
+      _$_TimetableStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setDropDown(bool b) {
+    final _$actionInfo = _$_TimetableStoreActionController.startAction(
+        name: '_TimetableStore.setDropDown');
+    try {
+      return super.setDropDown(b);
+    } finally {
+      _$_TimetableStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 loadOperation: ${loadOperation},
 selectedDate: ${selectedDate},
+showDropDown: ${showDropDown},
 coursesLoaded: ${coursesLoaded},
 coursesLoading: ${coursesLoading},
 coursesError: ${coursesError},
