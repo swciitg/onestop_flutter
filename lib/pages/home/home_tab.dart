@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/home/date_course.dart';
 import 'package:onestop_dev/widgets/home/quick_links.dart';
 import 'package:onestop_dev/widgets/mapBox.dart';
-import 'package:onestop_dev/models/timetable.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 double lat = userlat;
 double long = userlong;
@@ -60,7 +56,7 @@ class _HomeTabState extends State<HomeTab> {
           SizedBox(
             height: 10,
           ),
-          DateCourse(), // <-Put all UI and Observer within DateCourse()
+          DateCourse(),
           SizedBox(
             height: 10,
           ),

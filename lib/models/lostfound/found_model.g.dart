@@ -17,20 +17,20 @@ FoundModel _$FoundModelFromJson(Map<String, dynamic> json) => FoundModel(
       claimed: json['claimed'] as bool,
       claimerEmail: json['claimerEmail'] as String,
       claimerName: json['claimerName'] as String,
-      id : json['_id'] as String,
-);
+      id: json['id'] as String,
+    );
 
 Map<String, dynamic> _$FoundModelToJson(FoundModel instance) =>
     <String, dynamic>{
-          'title': instance.title,
-          'location': instance.location,
-          'description': instance.description,
-          'imageURL': instance.imageURL,
-          'compressedImageURL': instance.compressedImageURL,
-          'date': instance.date.toIso8601String(),
-          'claimed' : instance.claimed,
-          'claimerEmail' : instance.claimerEmail,
-          'claimerName' : instance.claimerName,
-          'submittedat': instance.submittedat,
-          'id' : instance.id
+      'title': instance.title,
+      'location': instance.location,
+      'description': instance.description,
+      'imageURL': instance.imageURL,
+      'compressedImageURL': instance.compressedImageURL,
+      'date': instance.date.toIso8601String(),
+      'submittedat': instance.submittedat,
+      'claimed': instance.claimed,
+      'claimerEmail': instance.claimerEmail,
+      'claimerName': instance.claimerName,
+      'id': instance.id,
     };
