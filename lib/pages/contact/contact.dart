@@ -1,14 +1,12 @@
 import 'dart:collection';
-import 'dart:convert';
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'contact_detail.dart';
 import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
-import 'package:onestop_dev/functions/contact/starred_contact.dart';
 
 SplayTreeMap<String, ContactModel> people= SplayTreeMap();
 SplayTreeMap<String, ContactModel> people_search= SplayTreeMap();
@@ -25,11 +23,11 @@ class _ContactPageState extends State<ContactPage> {
 
   // Fetch content from the json file
   Future<void> readJson() async {
-    final String response = await rootBundle.loadString('lib/globals/contacts.json');
-    final data = await json.decode(response);
-    setState(() {});
-    data.forEach((element) => people[element['name']] = ContactModel.fromJson(element));
-    people_search = SplayTreeMap.from(people);
+    var peps = await DataProvider.getContacts();
+    setState(() {
+      people = SplayTreeMap.from(peps);
+    });
+    people_search = SplayTreeMap.from(peps);
     alphabets.forEach((e)=>people[e+"ADONOTUSE"]=ContactModel(name: "Random", contacts: [], group: ""));
   }
 
