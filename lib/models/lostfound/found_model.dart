@@ -16,6 +16,7 @@ class FoundModel{
   bool claimed;
   String claimerEmail;
   String claimerName;
+  @JsonKey(name:'_id')
   final String id;
 
   FoundModel({Key? key, required this.title, required this.description,required this.location,required this.imageURL,required this.compressedImageURL,required this.date,required this.submittedat,required this.claimed,required this.claimerEmail,required this.claimerName,required this.id});

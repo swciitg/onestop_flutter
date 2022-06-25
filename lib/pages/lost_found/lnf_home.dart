@@ -43,6 +43,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
     var res = await http
         .get(Uri.parse('https://swc.iitg.ac.in/onestopapi/found'));
     print("after");
+
     var foundItemsDetails = jsonDecode(res.body);
     print("decoded json");
     return foundItemsDetails["details"];
@@ -81,17 +82,22 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               return FutureBuilder<List>(
                 future: getFoundItems(),
                 builder: (context, foundsSnapshot) {
+                  print(foundsSnapshot.data);
                   if (foundsSnapshot.hasData) {
                     List<Widget> lostItems = [];
                     List<Widget> foundItems = [];
                     lostsSnapshot.data!.forEach((e) => {
+                      print("here"),
+                      print(e["username"]),
                       lostItems.add(LostItemTile(
                           currentLostModel: LostModel.fromJson(e)))
                     });
+                    print("here 2");
                     foundsSnapshot.data!.forEach((e) => {
                       foundItems.add(FoundItemTile(
                           currentFoundModel: FoundModel.fromJson(e),homeKey: globalKey,))
                     });
+                    print("here 3");
                     return StreamBuilder(
                       stream: typeStream,
                       builder: (context, AsyncSnapshot snapshot) {
