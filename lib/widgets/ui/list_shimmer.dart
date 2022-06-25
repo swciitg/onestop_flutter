@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/models/timetable.dart';
+import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ListShimmer extends StatelessWidget {
