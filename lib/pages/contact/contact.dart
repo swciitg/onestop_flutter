@@ -1,17 +1,16 @@
 import 'dart:collection';
-import 'dart:convert';
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
+import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'contact_detail.dart';
 import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
-import 'package:onestop_dev/functions/contact/starred_contact.dart';
 
-SplayTreeMap<String, ContactModel> people= SplayTreeMap();
-SplayTreeMap<String, ContactModel> people_search= SplayTreeMap();
+// SplayTreeMap<String, ContactModel> people= SplayTreeMap();
+// SplayTreeMap<String, ContactModel> people_search= SplayTreeMap();
 List<String> alphabets = [  "A",  "B",  "C",  "D",  "E",  "F", "I",  "L",  "M",  "N",  "O",  "P",  "Q",  "R",  "S",  "T",  "U",  "V"];
 
 class ContactPage extends StatefulWidget {
@@ -23,21 +22,9 @@ class ContactPage extends StatefulWidget {
 }
 class _ContactPageState extends State<ContactPage> {
 
-  // Fetch content from the json file
-  Future<void> readJson() async {
-    final String response = await rootBundle.loadString('lib/globals/contacts.json');
-    final data = await json.decode(response);
-    setState(() {});
-    data.forEach((element) => people[element['name']] = ContactModel.fromJson(element));
-    people_search = SplayTreeMap.from(people);
-    alphabets.forEach((e)=>people[e+"ADONOTUSE"]=ContactModel(name: "Random", contacts: [], group: ""));
-  }
-
   @override
   void initState() {
     super.initState();
-    people.clear();
-    readJson();
   }
 
   @override
@@ -165,54 +152,64 @@ class _ContactPageState extends State<ContactPage> {
               ),
             ),*/
             Expanded(
-              child: AlphabetScrollView(
-                list: people.keys.map((e) => AlphaModel(e)).toList(),
-                alignment: LetterAlignment.right,
-                itemExtent: 50,
-                unselectedTextStyle: MyFonts.w500.size(11).setColor(kGrey7),
-                selectedTextStyle: MyFonts.w500.size(11).setColor(kGrey7),
-                /*overlayWidget: (value) => Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Icon(Icons.circle, size: 30, color: Colors.grey,),
-                    Container(
-                      height: 50, width: 50,
-                      decoration: BoxDecoration(shape: BoxShape.rectangle,),
-                      alignment: Alignment.center,
-                      child: Text('$value'.toUpperCase(), style: MyFonts.medium.size(15).setColor(kWhite),),
-                    ),
-                  ],
-                ),*/
-                itemBuilder: (_, k, id) {
-                  if (id.contains("ADONOTUSE")) {
-                    return Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(),
-                        ),
-                        Expanded(
-                          flex: 22,
-                          child: Container(
-                            child: Text(id[0],style: MyFonts.w500.setColor(kWhite3).size(11),),
-                            height: 20,
-                            decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(width: 1, color: kAppBarGrey),
-                            ),
-                          ),),
-                        ),
-                        Expanded(flex: 2, child: Container()),
-                      ],
+              child: FutureBuilder<SplayTreeMap<String,ContactModel>>(
+                future: DataProvider.getContacts(),
+                builder: (context,snapshot) {
+                  if (snapshot.hasData) {
+                    SplayTreeMap<String,ContactModel> people = snapshot.data!;
+                    alphabets.forEach((e)=>people[e+"ADONOTUSE"]=ContactModel(name: "Random", contacts: [], group: ""));
+                    return AlphabetScrollView(
+                      list: people.keys.map((e) => AlphaModel(e)).toList(),
+                      alignment: LetterAlignment.right,
+                      itemExtent: 50,
+                      unselectedTextStyle: MyFonts.w500.size(11).setColor(kGrey7),
+                      selectedTextStyle: MyFonts.w500.size(11).setColor(kGrey7),
+                      /*overlayWidget: (value) => Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(Icons.circle, size: 30, color: Colors.grey,),
+                      Container(
+                        height: 50, width: 50,
+                        decoration: BoxDecoration(shape: BoxShape.rectangle,),
+                        alignment: Alignment.center,
+                        child: Text('$value'.toUpperCase(), style: MyFonts.medium.size(15).setColor(kWhite),),
+                      ),
+                    ],
+                  ),*/
+                      itemBuilder: (_, k, id) {
+                        if (id.contains("ADONOTUSE")) {
+                          return Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Container(),
+                              ),
+                              Expanded(
+                                flex: 22,
+                                child: Container(
+                                  child: Text(id[0],style: MyFonts.w500.setColor(kWhite3).size(11),),
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(width: 1, color: kAppBarGrey),
+                                    ),
+                                  ),),
+                              ),
+                              Expanded(flex: 2, child: Container()),
+                            ],
+                          );
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: GestureDetector(
+                            onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Contacts2(contact: people[id], title: 'Campus')),);},
+                            child: ListTile(title: Text(id, style: MyFonts.w600.setColor(kWhite).size(14),)),
+                          ),
+                        );
+                      },
                     );
                   }
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: GestureDetector(
-                      onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Contacts2(contact: people[id], title: 'Campus')),);},
-                      child: ListTile(title: Text(id, style: TextStyle(color: Colors.white),),),
-                    ),
-                  );
+                  return ListShimmer(height: 50,count: 20,);
                 },
               ),
             )
