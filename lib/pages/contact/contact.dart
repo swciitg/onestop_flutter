@@ -5,7 +5,6 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/services/data_provider.dart';
-import 'package:onestop_dev/widgets/food/food_search_bar.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'contact_detail.dart';
 import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
@@ -204,7 +203,7 @@ class _ContactPageState extends State<ContactPage> {
                           padding: const EdgeInsets.only(right: 20),
                           child: GestureDetector(
                             onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Contacts2(contact: people[id], title: 'Campus')),);},
-                            child: ListTile(title: Text(id, style: TextStyle(color: Colors.white),),),
+                            child: ListTile(title: Text(id, style: MyFonts.w600.setColor(kWhite).size(14),)),
                           ),
                         );
                       },

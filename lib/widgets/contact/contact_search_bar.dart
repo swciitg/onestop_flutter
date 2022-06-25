@@ -24,7 +24,7 @@ class ContactSearchBar extends StatelessWidget {
               onTap: () {
                 showSearch(
                     context: context,
-                    delegate: CitySearch(people_search: snapshot.data!));
+                    delegate: PeopleSearch(people_search: snapshot.data!));
               },
               child: TextField(
                 enabled: false,
@@ -61,12 +61,13 @@ class ContactSearchBar extends StatelessWidget {
   }
 }
 
-class CitySearch extends SearchDelegate<String> {
-  CitySearch({required this.people_search}) {
-    cities = people_search.keys.toList();
+class PeopleSearch extends SearchDelegate<String> {
+  PeopleSearch({required this.people_search}) {
+    people = people_search.keys.toList();
   }
+
   late final SplayTreeMap<String, ContactModel> people_search;
-  late final List<String> cities;
+  late final List<String> people;
   var x;
 
   @override
@@ -82,7 +83,7 @@ class CitySearch extends SearchDelegate<String> {
         toolbarTextStyle: TextTheme(
                 headline6: TextStyle(
                     // headline 6 affects the query text
-                    color: kGrey2,
+                    color: kWhite,
                     fontSize: 12.0,
                     fontWeight: FontWeight.bold))
             .bodyText2,
@@ -119,10 +120,11 @@ class CitySearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestions = cities.where((city) {
-      final cityLower = city.toLowerCase();
+    final suggestions = people.where((peps)
+    {
+      final peopleLower = peps.toLowerCase();
       final queryLower = query.toLowerCase();
-      return cityLower.contains(queryLower);
+      return peopleLower.contains(queryLower);
     }).toList();
     x = suggestions;
     return buildSuggestionsSuccess(suggestions);
@@ -167,7 +169,7 @@ class CitySearch extends SearchDelegate<String> {
             title: RichText(
               text: TextSpan(
                 text: suggestion,
-                style: MyFonts.w400.size(15).setColor(kWhite),
+                  style: MyFonts.w600.setColor(kWhite).size(14),
               ),
             ),
           );
