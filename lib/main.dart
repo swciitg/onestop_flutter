@@ -4,6 +4,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<TimetableStore>(
           create: (_) => TimetableStore(),
+        ),
+        Provider<MapBoxStore>(
+          create: (_) => MapBoxStore(),
         )
       ],
       child: MaterialApp(
