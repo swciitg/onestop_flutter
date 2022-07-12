@@ -31,8 +31,9 @@ abstract class _MapBoxStore with Store {
   @observable
   late List<Widget> bus_carousel_items;
   @observable
-  late Map<int,List<LatLng>> coordinates;
-
+  late List<Polyline> bus_stop_polylines;
+  @observable
+  ObservableFuture<List<LatLng>?> loadOperation = ObservableFuture.value(null);
 
   @action
   void setIndexMapBox(int i) {
@@ -40,9 +41,10 @@ abstract class _MapBoxStore with Store {
   }
 
   @action
-  void change_centre_zoom(double lat,double long){
-    this.myPos=LatLng(lat, long);
+  void change_centre_zoom(double lat, double long) {
+    this.myPos = LatLng(lat, long);
   }
+
   @action
   void setUserLatLng(double lat, double long) {
     this.userlat = lat;
@@ -52,29 +54,43 @@ abstract class _MapBoxStore with Store {
   @action
   void selectedCarousel(int i) {
     this.selectedCarouselIndex = i;
+    getPolylines(i);
   }
 
   @action
   void checkTravelPage(bool i) {
     this.isTravelPage = i;
   }
-
+  @action
+  Future<void> getPolylines(int i) async {
+      print("Call API for timetable ${loadOperation.status}");
+      loadOperation = APIService.getPolyline(source: LatLng(this.userlat,this.userlong), dest: LatLng(26.2027, 91.7004)).asObservable();
+      print(loadOperation.value);
+  }
   @action
   void initialiseCarouselforBuses() {
-      for (int index = 0; index < BusStops.length; index++) {
-        this.bus_carousel_data.add({'index': index,'time': BusStops[index]['time'],'lat':BusStops[index]['lat'],'long':BusStops[index]['long'],'status': BusStops[index]['status'],
-          'distance': BusStops[index]['distance'],'name':BusStops[index]['name']});
-      }
-      bus_carousel_data.sort((a, b) => a['distance'] < b['distance'] ? 0 : 1);
-      generate_bus_markers();
-      generate_polylines();
+    for (int index = 0; index < BusStops.length; index++) {
+      this.bus_carousel_data.add({
+        'index': index,
+        'time': BusStops[index]['time'],
+        'lat': BusStops[index]['lat'],
+        'long': BusStops[index]['long'],
+        'status': BusStops[index]['status'],
+        'distance': BusStops[index]['distance'],
+        'name': BusStops[index]['name']
+      });
+    }
+    bus_carousel_data.sort((a, b) => a['distance'] < b['distance'] ? 0 : 1);
+    generate_bus_markers();
+    // generate_polylines();
   }
 
   @computed
   List<Widget> get buses_carousel {
     List<Widget> l = List<Widget>.generate(
       this.bus_carousel_data.length,
-          (index) => carouselCard(this.bus_carousel_data[index]['index'],this.bus_carousel_data[index]['time']),
+      (index) => carouselCard(this.bus_carousel_data[index]['index'],
+          this.bus_carousel_data[index]['time']),
     );
     return l;
   }
@@ -131,45 +147,57 @@ abstract class _MapBoxStore with Store {
   }
 
   @action
-  void generate_bus_markers(){
-    List<Marker> l =List.generate(this.bus_carousel_data.length, (index)=>
-        Marker(
-          point: LatLng(this.bus_carousel_data[index]['lat'], this.bus_carousel_data[index]['long']),
-          width: 25.0,
-          height: 25.0,
-          builder: (ctx) => Container(
-            child: Image.asset(busIcon),
-          ),
+  void generate_bus_markers() {
+    List<Marker> l = List.generate(
+      this.bus_carousel_data.length,
+      (index) => Marker(
+        point: LatLng(this.bus_carousel_data[index]['lat'],
+            this.bus_carousel_data[index]['long']),
+        width: 25.0,
+        height: 25.0,
+        builder: (ctx) => Container(
+          child: Image.asset(busIcon),
         ),
+      ),
     );
-    this.markers=l;
+    this.markers = l;
   }
 
   @action
-  void generate_restaraunt_markers(){
-    List<Marker> l =List.generate(this.bus_carousel_data.length, (index)=>
-        Marker(
-          point: LatLng(this.bus_carousel_data[index]['lat'], this.bus_carousel_data[index]['long']),
-          width: 25.0,
-          height: 25.0,
-          builder: (ctx) => Container(
-            child: Image.asset(restaurauntIcon),
-          ),
+  void generate_restaraunt_markers() {
+    List<Marker> l = List.generate(
+      this.bus_carousel_data.length,
+      (index) => Marker(
+        point: LatLng(this.bus_carousel_data[index]['lat'],
+            this.bus_carousel_data[index]['long']),
+        width: 25.0,
+        height: 25.0,
+        builder: (ctx) => Container(
+          child: Image.asset(restaurauntIcon),
         ),
+      ),
     );
-    this.markers=l;
+    this.markers = l;
   }
 
-  @action
-  void generate_polylines(){
-    Map<int,List<LatLng>>m={};
-    for(int i=0;i<this.bus_carousel_data.length;i++){
-      var res=APIService.getPolyline(source: LatLng(this.userlat, this.userlong), dest: LatLng(26.1158, 91.7086));
-    }
-  }
+//   @action
+//   void generate_polylines() {
+//     List<Polyline> l = List.generate(
+//       this.bus_carousel_data.length,
+//       (index) => Polyline(
+//         points: ,
+// // isDotted: true,
+//         color: Color(0xFF669DF6),
+//         strokeWidth: 3.0,
+//         borderColor: Color(0xFF1967D2),
+//         borderStrokeWidth: 0.1,
+//       )),
+//     );
+//   }
 
   final pointIcon = 'assets/images/pointicon.png';
   final busIcon = 'assets/images/busicon.png';
-  final restaurauntIcon='assets/images/restaurantIcon.png';
+  final restaurauntIcon = 'assets/images/restaurantIcon.png';
 }
 // this.bus_carousel_data[i]['lat'], this.bus_carousel_data[i]['long']
+

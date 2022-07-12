@@ -68,22 +68,24 @@ class APIService {
 
   static Future<List<LatLng>> getPolyline ({required LatLng source, required LatLng dest}) async {
     final response = await http.get(
-      Uri.parse('https:// api.openrouteservice.org /v2/directions/driving-car? api_key = 5b3ce3597851110001cf6248b144cc92443247b7b9e0bd5df85012f2& start = ${source.latitude},${source.longitude}& end = ${dest.latitude},${dest.longitude}'),
+      Uri.parse('https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248b144cc92443247b7b9e0bd5df85012f2&start=8.681495,49.41461&end=8.687872,49.420318'),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
       },
     );
     if (response.statusCode == 200) {
-      print(jsonDecode(response.body));
+      var body=jsonDecode(response.body);
       List<LatLng>res=[];
-      // print(body['features'][0]['geometry']['coordinates'][0]);
-      // for(var r in body['features'][0]['geometry']['coordinates'][0]){
-      //   res.add(LatLng(r[0], r[1]));
-      // }
+      for(var r in body['features'][0]['geometry']['coordinates']){
+        res.add(LatLng(r[0], r[1]));
+      }
+      print(res);
       return res;
     } else {
-      print(response.statusCode);
-      throw Exception(response.statusCode);
+      print(response.reasonPhrase);
+      throw Exception(response.body);
     }
   }
 }
+
+//https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248b144cc92443247b7b9e0bd5df85012f2&start=${source.latitude},${source.longitude}&end=${dest.latitude},${dest.longitude}'),

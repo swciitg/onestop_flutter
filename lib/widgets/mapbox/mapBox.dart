@@ -67,17 +67,17 @@ class _MapBoxState extends State<MapBox> {
                   MarkerLayerOptions(
                     markers: mapbox_store.markers,
                   ),
-                  // if(mapbox_store.loadOperation.value!=null)
-                  //   PolylineLayerOptions(polylines: [
-                  //     Polyline(
-                  //       points: mapbox_store.loadOperation.value!,
-                  //       // isDotted: true,
-                  //       color: Color(0xFF669DF6),
-                  //       strokeWidth: 3.0,
-                  //       borderColor: Color(0xFF1967D2),
-                  //       borderStrokeWidth: 0.1,
-                  //     )
-                  //   ]),
+                  if(mapbox_store.loadOperation.value!=null)
+                    PolylineLayerOptions(polylines: [
+                      Polyline(
+                        points: mapbox_store.loadOperation.value!,
+                        // isDotted: true,
+                        color: Color(0xFF669DF6),
+                        strokeWidth: 3.0,
+                        borderColor: Color(0xFF1967D2),
+                        borderStrokeWidth: 0.1,
+                      )
+                    ]),
                 ],
               ),
             ),
