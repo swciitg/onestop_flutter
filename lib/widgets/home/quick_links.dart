@@ -20,10 +20,11 @@ class QuickLinks extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
+              flex: 3,
               child: FittedBox(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(8),
                   child: Text(
                     'Quick Links',
                     style: MyFonts.w500.size(10).setColor(kWhite),
@@ -32,46 +33,58 @@ class QuickLinks extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 2,
-              child: Row(
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    width: 5,
-                  ),
-                  HomeTabTile(
-                      label: "IP Settings",
-                      icon: Icons.computer_outlined,
-                      routeId: "/ip"),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  HomeTabTile(
-                    label: "Blogs",
-                    icon: Icons.article_outlined,
-                    routeId: "/blogs",
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  HomeTabTile(
-                    label: "Lost and Found",
-                    icon: Icons.find_in_page_outlined,
-                    routeId: "/lostFoundHome",
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  HomeTabTile(
-                    label: "Contacts",
-                    icon: Icons.contact_mail_outlined,
-                    routeId: "/contacto",
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                ],
+              flex: 4,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width-40),
+                child: ListView(
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    SizedBox(
+                      width: 5,
+                    ),
+                    HomeTabTile(
+                        label: "IP Settings",
+                        icon: Icons.computer_outlined,
+                        routeId: "/ip"),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    HomeTabTile(
+                      label: "Blogs",
+                      icon: Icons.article_outlined,
+                      routeId: "/blogs",
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    HomeTabTile(
+                      label: "Lost and Found",
+                      icon: Icons.find_in_page_outlined,
+                      routeId: "/lostFoundHome",
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    HomeTabTile(
+                      label: "Contacts",
+                      icon: Icons.contact_mail_outlined,
+                      routeId: "/contacto",
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    HomeTabTile(
+                      label: "Buy and Sell",
+                      icon: Icons.money_rounded,
+                      routeId: "/buySellHome",
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(

@@ -140,7 +140,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
                     style: MyFonts.w500.size(15).setColor(kWhite),
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
-                        hintText: "Description",
+                        hintText: "Description*",
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                         fillColor: kAppBarGrey,
                         filled: true,
@@ -214,9 +214,9 @@ class _LostFoundFormState extends State<LostFoundForm> {
             var res = await http.post(
                 Uri.parse("https://swc.iitg.ac.in/onestopapi/found"),
                 body: {
-                  'title': title!,
-                  'description' : description!,
-                  'location' : location!,
+                  'title': title!.trim(),
+                  'description' : description!.trim(),
+                  'location' : location!.trim(),
                   'imageString' : widget.imageString,
                   'submittedat' : widget.submittedat!,
                   'email' : userEmail,

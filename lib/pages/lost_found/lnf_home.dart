@@ -30,8 +30,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
 
   Future<List> getLostItems() async {
     print("before");
-    var res =
-    await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/lost'));
+    var res = await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/lost'));
     print("after");
     var lostItemsDetails = jsonDecode(res.body);
     print("decoded json");
