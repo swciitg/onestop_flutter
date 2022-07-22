@@ -40,7 +40,8 @@ class LoginWebView extends StatelessWidget {
           print(userInfoString);
           var userInfo = {};
 
-          List<String> values = userInfoString.split("/");
+          List<String> values = userInfoString.replaceAll('"', '').split("/");
+          //print(values[0]);print(values[1]);print(values[2]);print(values[3]);
           userInfo["displayName"] = values[0];
           userInfo["mail"] = values[1];
           userInfo["surname"] = values[2];
