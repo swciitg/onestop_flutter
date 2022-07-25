@@ -186,7 +186,7 @@ class _BuySellFormState extends State<BuySellForm> {
           if(widget.category=="Sell"){
             print("HERE");
             var res = await http.post(
-                Uri.parse("https://e7cz30.sse.codesandbox.io/v1/lost"),
+                Uri.parse("https://swc.iitg.ac.in/onestopapi/lost"),
                 body: {
                   'title': title!.trim(),
                   'description' : description!.trim(),

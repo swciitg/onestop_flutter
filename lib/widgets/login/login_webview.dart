@@ -38,13 +38,15 @@ class LoginWebView extends StatelessWidget {
           var userInfoString = await controller.runJavascriptReturningResult(
               "document.querySelector('#userInfo').innerText");
           print(userInfoString);
+          if(userInfoString=="ERROR OCCURED") return;
           var userInfo = {};
 
           List<String> values = userInfoString.split("/");
-          userInfo["displayName"] = values[0];
+          userInfo["displayName"] = values[0].substring(1);
           userInfo["mail"] = values[1];
           userInfo["surname"] = values[2];
-          userInfo["id"] = values[3];
+          userInfo["id"] = values[3].split('"')[0];
+          print(userInfo);
           SharedPreferences user = await SharedPreferences.getInstance();
           context.read<LoginStore>().saveToPreferences(user, userInfo);
           context.read<LoginStore>().saveToUserData(user);

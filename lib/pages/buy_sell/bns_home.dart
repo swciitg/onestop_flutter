@@ -21,9 +21,9 @@ class BuySellHome extends StatefulWidget {
 class _BuySellHomeState extends State<BuySellHome> {
   StreamController selectedTypeController = StreamController();
 
-  Future<List> getLostItems() async {
+  Future<List> getBuyItems() async {
     print("before");
-    var res = await http.get(Uri.parse('https://e7cz30.sse.codesandbox.io/v1/lost'));
+    var res = await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/lost'));
     print("after");
     var lostItemsDetails = jsonDecode(res.body);
     print("decoded json");
@@ -67,11 +67,11 @@ class _BuySellHomeState extends State<BuySellHome> {
         ],
       ),
       body:  FutureBuilder<List>(
-          future: getLostItems(),
+          future: getBuyItems(),
           builder: (context, lostsSnapshot) {
             if (lostsSnapshot.hasData) {
               return FutureBuilder<List>(
-                future: getLostItems(),
+                future: getBuyItems(),
                 builder: (context, foundsSnapshot) {
                   print(foundsSnapshot.data);
                   if (foundsSnapshot.hasData) {

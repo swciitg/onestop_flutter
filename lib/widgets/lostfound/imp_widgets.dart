@@ -423,103 +423,106 @@ class FoundItemTile extends StatelessWidget {
                                 style: MyFonts.w600.size(16).setColor(kWhite),
                               ),
                             ),
-                            Visibility(
-                              visible: currentFoundModel.claimed==true ? false : true,
-                              child: GestureDetector(
-                                onTap: () async {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext claimDialogContext){
-                                        return AlertDialog(
-                                            title: Text("Are you sure to claim this item ?"),
-                                            content : ConstrainedBox(
-                                              constraints: BoxConstraints(maxHeight: screenHeight*0.3),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () async {
-                                                      print(buttonPressed);
-                                                      if(buttonPressed==true) return;
-                                                      buttonPressed=true;
-                                                      var name = context.read<LoginStore>().userData['name'];
-                                                      var email = context.read<LoginStore>().userData['email'];
-                                                      print(name);
-                                                      print(email);
-                                                      var res = await http.post(
-                                                          Uri.parse("https://swc.iitg.ac.in/onestopapi/found/claim"),
-                                                          body: {
-                                                            "id" : currentFoundModel.id,
-                                                            "claimerEmail" : email,
-                                                            "claimerName" : name
-                                                          }
-                                                      );
-                                                      var body = jsonDecode(res.body);
-                                                      print(body);
-                                                      if(body["saved"] == false){
-                                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body["message"])));
-                                                        Navigator.popUntil(context,ModalRoute.withName(LostFoundHome.id));
-                                                      }
-                                                      else{
-                                                        ScaffoldMessenger.of(homeKey.currentContext!).showSnackBar(SnackBar(content: Text("Claimed Item Successfully")));
-                                                        Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                      child: Text(
-                                                        "YES",
-                                                        style: MyFonts.w600.size(17),
-                                                      ),
+                            GestureDetector(
+                              onTap: () async {
+                                if(currentFoundModel.claimed==true) return;
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext claimDialogContext){
+                                      return AlertDialog(
+                                          title: Text("Are you sure to claim this item ?"),
+                                          content : ConstrainedBox(
+                                            constraints: BoxConstraints(maxHeight: screenHeight*0.3),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    print(buttonPressed);
+                                                    if(buttonPressed==true) return;
+                                                    buttonPressed=true;
+                                                    var name = context.read<LoginStore>().userData['name'];
+                                                    var email = context.read<LoginStore>().userData['email'];
+                                                    print(name);
+                                                    print(email);
+                                                    var res = await http.post(
+                                                        Uri.parse("https://swc.iitg.ac.in/onestopapi/found/claim"),
+                                                        body: {
+                                                          "id" : currentFoundModel.id,
+                                                          "claimerEmail" : email,
+                                                          "claimerName" : name
+                                                        }
+                                                    );
+                                                    var body = jsonDecode(res.body);
+                                                    print(body);
+                                                    buttonPressed=false;
+                                                    if(body["saved"] == false){
+                                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body["message"])));
+                                                      Navigator.popUntil(context,ModalRoute.withName(LostFoundHome.id));
+                                                    }
+                                                    else{
+                                                      currentFoundModel.claimed=true;
+                                                      ScaffoldMessenger.of(homeKey.currentContext!).showSnackBar(SnackBar(content: Text("Claimed Item Successfully")));
+                                                      Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    child: Text(
+                                                      "YES",
+                                                      style: MyFonts.w600.size(17),
                                                     ),
                                                   ),
-                                                  Container(
-                                                    width: 2.5,
-                                                    height: 14,
-                                                    color: kBlack,
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: (){
-                                                      if(buttonPressed==true) return;
-                                                      buttonPressed=true;
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Container(
-                                                      child: Text(
-                                                        "NO",
-                                                        style: MyFonts.w600.size(17),
-                                                      ),
+                                                ),
+                                                Container(
+                                                  width: 2.5,
+                                                  height: 14,
+                                                  color: kBlack,
+                                                ),
+                                                GestureDetector(
+                                                  onTap: (){
+                                                    if(buttonPressed==true) return;
+                                                    buttonPressed=true;
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Container(
+                                                    child: Text(
+                                                      "NO",
+                                                      style: MyFonts.w600.size(17),
                                                     ),
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                        );
-                                      }
-                                  );
-                                },
-                                child: Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 12,vertical: 8),
-                                    margin: EdgeInsets.only(right: 8),
-                                    decoration: BoxDecoration(
-                                        color: kGrey9,
-                                        borderRadius: BorderRadius.circular(24)
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                      );
+                                    }
+                                );
+                              },
+                              child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 12,vertical: 8),
+                                  margin: EdgeInsets.only(right: 8),
+                                  decoration: BoxDecoration(
+                                      color: kGrey9,
+                                      borderRadius: BorderRadius.circular(24)
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: currentFoundModel.claimed==false ? Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
-                                      children: [
-                                        Icon(Icons.pan_tool,size: 11,color: lBlue2,),
-                                        Text(
-                                          " Claim",
-                                          style: MyFonts.w500.size(11).setColor(lBlue2),
-                                        )
-                                      ],
-                                    )
-                                ),
+                                    children: [
+                                      Icon(Icons.pan_tool,size: 11,color: lBlue2,),
+                                      Text(
+                                        " Claim",
+                                        style: MyFonts.w500.size(11).setColor(lBlue2),
+                                      )
+                                    ],
+                                  ) : Text(
+                                    " Already Claimed",
+                                    style: MyFonts.w500.size(11).setColor(lBlue2),
+                                  )
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
