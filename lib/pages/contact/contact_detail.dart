@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
+import 'package:onestop_dev/widgets/contact/contact_dialog.dart';
 import 'package:onestop_dev/widgets/contact/contact_display.dart';
 
 class Contacts2 extends StatefulWidget {
@@ -86,12 +87,21 @@ class _Contacts2State extends State<Contacts2> {
                   children: widget.contact!.contacts.map((item) {
                     return Padding(
                       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                      child: Row(
-                        children: [
-                          ContactText(text: item.name, align: AlignmentDirectional.topStart),
-                          ContactText(text: item.email, align: AlignmentDirectional.center),
-                          ContactText(text: item.contact.toString(), align: AlignmentDirectional.bottomEnd),
-                        ],
+                      child: GestureDetector(
+                        onTap: (){
+                          showDialog(
+                              context: context,
+                              builder: (_) => ContactDialog(details: item),
+                              barrierDismissible: true
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            ContactText(text: item.name, align: AlignmentDirectional.topStart),
+                            ContactText(text: item.email, align: AlignmentDirectional.center),
+                            ContactText(text: item.contact.toString(), align: AlignmentDirectional.bottomEnd),
+                          ],
+                        ),
                       ),
                     );
                   }).toList(),
