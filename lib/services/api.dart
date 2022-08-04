@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 class APIService {
   static String restaurantURL = "https://onestop4.free.beeceptor.com/getAllOutlets";
 
@@ -64,4 +64,27 @@ class APIService {
       throw Exception(response.statusCode);
     }
   }
+
+  static Future<List<LatLng>> getPolyline ({required LatLng source, required LatLng dest}) async {
+    final response = await http.get(
+      Uri.parse('https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248b144cc92443247b7b9e0bd5df85012f2&start=8.681495,49.41461&end=8.687872,49.420318'),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+      },
+    );
+    if (response.statusCode == 200) {
+      var body=jsonDecode(response.body);
+      List<LatLng>res=[];
+      for(var r in body['features'][0]['geometry']['coordinates']){
+        res.add(LatLng(r[0], r[1]));
+      }
+      print(res);
+      return res;
+    } else {
+      print(response.reasonPhrase);
+      throw Exception(response.body);
+    }
+  }
 }
+
+//https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248b144cc92443247b7b9e0bd5df85012f2&start=${source.latitude},${source.longitude}&end=${dest.latitude},${dest.longitude}'),

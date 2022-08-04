@@ -62,6 +62,8 @@ dependencies:
   json_annotation: ^4.5.0
   sembast: ^3.2.0
   shimmer: ^2.0.0
+  latlong2: ^0.8.1
+  google_maps_flutter: ^2.1.10
   html: ^0.15.0
 
 dev_dependencies:
