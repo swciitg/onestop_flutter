@@ -38,8 +38,6 @@ class _MapBoxState extends State<MapBox> {
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       var mapbox_store = context.read<MapBoxStore>();
-      mapbox_store.checkTravelPage(true);
-      Future.delayed(Duration(seconds: 10), mapbox_store.getLocation);
       mapbox_store.change_centre_zoom(
           mapbox_store.userlat, mapbox_store.userlong);
       return ClipRRect(
@@ -87,10 +85,14 @@ class _MapBoxState extends State<MapBox> {
                 width: double.infinity,
                 child: GoogleMap(
                   onMapCreated: onMapCreate,
-                  initialCameraPosition: CameraPosition(target: LatLng(0, 0), zoom: 15),
+                  initialCameraPosition: CameraPosition(target: LatLng(26.11, 91.70), zoom: 15),
                   markers: mapbox_store.markers.toSet(),
                   // polylines: poly.toSet(),
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  compassEnabled: true,
                   trafficEnabled: true,
+                  zoomControlsEnabled: false,
                 ),
             ),
             Column(
@@ -177,7 +179,7 @@ class _MapBoxState extends State<MapBox> {
                         ),
                       ),
                     ),
-                    (mapbox_store.isTravelPage)
+                    (!mapbox_store.isTravelPage)
                         ? TextButton(
                             onPressed: () {
                               setState(() {
@@ -264,7 +266,7 @@ class _MapBoxState extends State<MapBox> {
                     ),
                   ],
                 ),
-                (mapbox_store.isTravelPage)
+                (!mapbox_store.isTravelPage)
                     ? CarouselSlider(
                         items: mapbox_store.buses_carousel,
                         options: CarouselOptions(

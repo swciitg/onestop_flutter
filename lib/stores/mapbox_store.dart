@@ -142,7 +142,6 @@ abstract class _MapBoxStore with Store {
     //     child: Image.asset(pointIcon),
     //   ),
     // );
-    Marker user_m=Marker(markerId: MarkerId('User'),position: LatLng(this.userlat,this.userlong));
     // this.markers.add(user_marker);
   }
 

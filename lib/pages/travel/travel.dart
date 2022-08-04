@@ -22,6 +22,7 @@ class _TravelPageState extends State<TravelPage> {
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       var map_store = context.read<MapBoxStore>();
+      map_store.checkTravelPage(true);
       return SingleChildScrollView(
         child: Column(
           children: [
