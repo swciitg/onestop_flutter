@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 import 'ferry_details.dart';
 
 class DropButton extends StatefulWidget {
@@ -21,7 +22,7 @@ class _DropButtonState extends State<DropButton> {
         value: (widget.day == 1)?day:from,
         icon: const Icon(Icons.arrow_drop_down, color: kWhite, size: 13,),
         elevation: 16,
-        style: const TextStyle(color: kWhite),
+        style: MyFonts.w500.setColor(kWhite),
         onChanged: (String? newValue) {
           setState(() {
             if(widget.day == 1) {day = newValue!;}
@@ -34,7 +35,7 @@ class _DropButtonState extends State<DropButton> {
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value),
+            child: Text(value, style: MyFonts.w500,),
           );
         }).toList(),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/travel/data.dart';
 import 'bus_tile.dart';
 
@@ -24,11 +25,11 @@ class _BusDetailsState extends State<BusDetails> {
           child: ListTile(
             title: Text(
               'Campus -> City',
-              style: TextStyle(color: kWhite),
+              style: MyFonts.w500.setColor(kWhite),
             ),
             subtitle: Text(
               'Starting from Biotech park',
-              style: TextStyle(color: kGrey),
+              style: MyFonts.w500.setColor(Colors.grey),
             ),
             trailing: IconButton(
               icon: Icon(Icons.arrow_drop_down, color: Colors.white,),
@@ -49,11 +50,11 @@ class _BusDetailsState extends State<BusDetails> {
           child: ListTile(
             title: Text(
               'City -> Campus',
-              style: TextStyle(color: kWhite),
+              style: MyFonts.w500.setColor(kWhite),
             ),
             subtitle: Text(
               'Starting from City',
-              style: TextStyle(color: Colors.grey),
+              style: MyFonts.w500.setColor(Colors.grey),
             ),
             trailing: IconButton(
               icon: Icon(Icons.arrow_drop_down, color: kWhite,),

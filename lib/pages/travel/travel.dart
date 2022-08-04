@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/widgets/mapBox.dart';
 import 'package:onestop_dev/widgets/travel/bus_details.dart';
@@ -67,10 +68,7 @@ class _TravelPageState extends State<TravelPage> {
                             ),*/
                             Text(
                               "Stops",
-                              style: TextStyle(
-                                color: (selectBusesorStops == 0)
-                                    ? kBlueGrey : kWhite,
-                              ),
+                              style: (selectBusesorStops == 0) ? MyFonts.w500.setColor(kBlueGrey) : MyFonts.w500.setColor(kWhite)
                             ),
                           ],
                         ),
@@ -101,10 +99,8 @@ class _TravelPageState extends State<TravelPage> {
                             ),*/
                             Text(
                               "Bus",
-                              style: TextStyle(
-                                color: (selectBusesorStops == 1)
-                                    ? kBlueGrey : kWhite,
-                              ),
+                              style: (selectBusesorStops == 1) ? MyFonts.w500.setColor(kBlueGrey) : MyFonts.w500.setColor(kWhite),
+
                             ),
                           ],
                         ),
@@ -118,7 +114,7 @@ class _TravelPageState extends State<TravelPage> {
                       value: day,
                       icon: const Icon(Icons.arrow_drop_down, color: kWhite, size: 13,),
                       elevation: 16,
-                      style: const TextStyle(color: kWhite),
+                      style: MyFonts.w500.setColor(kWhite),
                       onChanged: (String? newValue) {
                         setState(() {
                           day = newValue!;
@@ -129,7 +125,7 @@ class _TravelPageState extends State<TravelPage> {
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(value),
+                          child: Text(value, style: MyFonts.w500,),
                         );
                       }).toList(),
                     ),
@@ -172,30 +168,30 @@ class _TravelPageState extends State<TravelPage> {
                           ),
                           title: Text(
                             item['name'],
-                            style: const TextStyle(color: kWhite),
+                            style: MyFonts.w500.setColor(kWhite),
                           ),
                           subtitle: Text(
                             item['distance'],
-                            style: const TextStyle(color: Color.fromRGBO(119, 126, 141, 1)),
+                            style: MyFonts.w500.setColor(Color.fromRGBO(119, 126, 141, 1))
                           ),
                           trailing: (item['status'] == 'left')
                               ? Column(
                             mainAxisAlignment:
                             MainAxisAlignment.center,
                             children: [
-                              const Text(
+                              Text(
                                 'Left',
-                                style: TextStyle(color: Color.fromRGBO(135, 145, 165, 1)),
+                                style: MyFonts.w500.setColor(Color.fromRGBO(135, 145, 165, 1)),
                               ),
                               Text(
                                 item['time'],
-                                style: const TextStyle(color: Color.fromRGBO(195, 198, 207, 1)),
+                                style: MyFonts.w500.setColor(Color.fromRGBO(195, 198, 207, 1)),
                               ),
                             ],
                           )
                               : Text(
                             item['time'],
-                            style: TextStyle(color: lBlue2),
+                            style: MyFonts.w500.setColor(lBlue2),
                           ),
                         ),
                       ),
