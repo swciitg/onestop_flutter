@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/pages/travel/data.dart';
 import 'package:onestop_dev/services/api.dart';
@@ -135,14 +134,15 @@ abstract class _MapBoxStore with Store {
     _locationData = await location.getLocation();
     this.userlat = _locationData!.latitude!;
     this.userlong = _locationData!.longitude!;
-    Marker user_marker = Marker(
-      point: LatLng(this.userlat, this.userlong),
-      width: 8,
-      height: 8,
-      builder: (ctx) => Container(
-        child: Image.asset(pointIcon),
-      ),
-    );
+    // Marker user_marker = Marker(
+    //   point: LatLng(this.userlat, this.userlong),
+    //   width: 8,
+    //   height: 8,
+    //   builder: (ctx) => Container(
+    //     child: Image.asset(pointIcon),
+    //   ),
+    // );
+    Marker user_m=Marker(markerId: MarkerId('User'),position: LatLng(this.userlat,this.userlong));
     // this.markers.add(user_marker);
   }
 
@@ -150,15 +150,17 @@ abstract class _MapBoxStore with Store {
   void generate_bus_markers() {
     List<Marker> l = List.generate(
       this.bus_carousel_data.length,
-      (index) => Marker(
-        point: LatLng(this.bus_carousel_data[index]['lat'],
-            this.bus_carousel_data[index]['long']),
-        width: 25.0,
-        height: 25.0,
-        builder: (ctx) => Container(
-          child: Image.asset(busIcon),
-        ),
-      ),
+      (index) =>
+      //     Marker(
+      //   point: LatLng(this.bus_carousel_data[index]['lat'],
+      //       this.bus_carousel_data[index]['long']),
+      //   width: 25.0,
+      //   height: 25.0,
+      //   builder: (ctx) => Container(
+      //     child: Image.asset(busIcon),
+      //   ),
+      // ),
+      Marker(markerId: MarkerId('bus$index'),position: LatLng(this.bus_carousel_data[index]['lat'], this.bus_carousel_data[index]['long'])),
     );
     this.markers = l;
   }
@@ -167,15 +169,17 @@ abstract class _MapBoxStore with Store {
   void generate_restaraunt_markers() {
     List<Marker> l = List.generate(
       this.bus_carousel_data.length,
-      (index) => Marker(
-        point: LatLng(this.bus_carousel_data[index]['lat'],
-            this.bus_carousel_data[index]['long']),
-        width: 25.0,
-        height: 25.0,
-        builder: (ctx) => Container(
-          child: Image.asset(restaurauntIcon),
-        ),
-      ),
+      (index) =>
+      //     Marker(
+      //   point: LatLng(this.bus_carousel_data[index]['lat'],
+      //       this.bus_carousel_data[index]['long']),
+      //   width: 25.0,
+      //   height: 25.0,
+      //   builder: (ctx) => Container(
+      //     child: Image.asset(restaurauntIcon),
+      //   ),
+      // ),
+      Marker(markerId: MarkerId('bus$index'),position: LatLng(this.bus_carousel_data[index]['lat'], this.bus_carousel_data[index]['long'])),
     );
     this.markers = l;
   }

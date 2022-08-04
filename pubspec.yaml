@@ -63,6 +63,7 @@ dependencies:
   sembast: ^3.2.0
   shimmer: ^2.0.0
   latlong2: ^0.8.1
+  google_maps_flutter: ^2.1.10
 
 dev_dependencies:
   flutter_test:

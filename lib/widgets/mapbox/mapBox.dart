@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
+// import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +21,8 @@ DateTime now = DateTime.now();
 String formattedTime = DateFormat.jm().format(now);
 
 class _MapBoxState extends State<MapBox> {
-  final MapController _mapController = MapController();
+  // final MapController _mapController = MapController();
+  late GoogleMapController _mapController;
   final myToken =
       'pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg';
   final pointIcon = 'assets/images/pointicon.png';
@@ -45,41 +46,52 @@ class _MapBoxState extends State<MapBox> {
         borderRadius: BorderRadius.all(Radius.circular(20)),
         child: Stack(
           children: [
+            // Container(
+            //   height: 365,
+            //   // width: 350,
+            //   child: FlutterMap(
+            //     mapController: _mapController,
+            //     options: MapOptions(
+            //       center: mapbox_store.myPos,
+            //       zoom: zoom,
+            //     ),
+            //     nonRotatedLayers: [
+            //       TileLayerOptions(
+            //         backgroundColor: kBlack,
+            //         urlTemplate:
+            //             'https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg',
+            //         additionalOptions: {
+            //           'accessToken': myToken,
+            //           'id': 'mapbox/light-v10',
+            //         },
+            //       ),
+            //       MarkerLayerOptions(
+            //         markers: mapbox_store.markers,
+            //       ),
+            //       if(mapbox_store.loadOperation.value!=null)
+            //         PolylineLayerOptions(polylines: [
+            //           Polyline(
+            //             points: mapbox_store.loadOperation.value!,
+            //             // isDotted: true,
+            //             color: Color(0xFF669DF6),
+            //             strokeWidth: 3.0,
+            //             borderColor: Color(0xFF1967D2),
+            //             borderStrokeWidth: 0.1,
+            //           )
+            //         ]),
+            //     ],
+            //   ),
+            // ),
             Container(
-              height: 365,
-              // width: 350,
-              child: FlutterMap(
-                mapController: _mapController,
-                options: MapOptions(
-                  center: mapbox_store.myPos,
-                  zoom: zoom,
+                height: 365,
+                width: double.infinity,
+                child: GoogleMap(
+                  onMapCreated: onMapCreate,
+                  initialCameraPosition: CameraPosition(target: LatLng(0, 0), zoom: 15),
+                  markers: mapbox_store.markers.toSet(),
+                  // polylines: poly.toSet(),
+                  trafficEnabled: true,
                 ),
-                nonRotatedLayers: [
-                  TileLayerOptions(
-                    backgroundColor: kBlack,
-                    urlTemplate:
-                        'https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg',
-                    additionalOptions: {
-                      'accessToken': myToken,
-                      'id': 'mapbox/light-v10',
-                    },
-                  ),
-                  MarkerLayerOptions(
-                    markers: mapbox_store.markers,
-                  ),
-                  if(mapbox_store.loadOperation.value!=null)
-                    PolylineLayerOptions(polylines: [
-                      Polyline(
-                        points: mapbox_store.loadOperation.value!,
-                        // isDotted: true,
-                        color: Color(0xFF669DF6),
-                        strokeWidth: 3.0,
-                        borderColor: Color(0xFF1967D2),
-                        borderStrokeWidth: 0.1,
-                      )
-                    ]),
-                ],
-              ),
             ),
             Column(
               children: [
@@ -236,11 +248,13 @@ class _MapBoxState extends State<MapBox> {
                           child: FloatingActionButton(
                             heroTag: null,
                             onPressed: () {
-                              _mapController.moveAndRotate(
-                                  LatLng(mapbox_store.userlat,
-                                      mapbox_store.userlong),
-                                  15,
-                                  17);
+                              // _mapController.
+                              // moveAndRotate(
+                              //     LatLng(mapbox_store.userlat,
+                              //         mapbox_store.userlong),
+                              //     15,
+                              //     17);
+                              zoomInMarker(mapbox_store.userlat, mapbox_store.userlong);
                             },
                             child: Icon(Icons.my_location),
                             mini: true,
@@ -273,6 +287,84 @@ class _MapBoxState extends State<MapBox> {
       );
     });
   }
+  void onMapCreate(controller) {
+    setState(() {
+      _mapController = controller;
+    });
+  }
+  void zoomInMarker(double lat, double long) {
+    _mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(lat, long), zoom: 17.0, bearing: 90.0, tilt: 45.0)));
+  }
+  // _zoomPolyline(LatLng ans) async {
+  //   double startLatitude = lat;
+  //   double startLongitude = long;
+  //
+  //   double destinationLatitude = ans.latitude;
+  //   double destinationLongitude = ans.longitude;
+  //   double miny = (startLatitude <= destinationLatitude)
+  //       ? startLatitude
+  //       : destinationLatitude;
+  //   double minx = (startLongitude <= destinationLongitude)
+  //       ? startLongitude
+  //       : destinationLongitude;
+  //   double maxy = (startLatitude <= destinationLatitude)
+  //       ? destinationLatitude
+  //       : startLatitude;
+  //   double maxx = (startLongitude <= destinationLongitude)
+  //       ? destinationLongitude
+  //       : startLongitude;
+  //
+  //   double southWestLatitude = miny;
+  //   double southWestLongitude = minx;
+  //
+  //   double northEastLatitude = maxy;
+  //   double northEastLongitude = maxx;
+  //
+  //   mapController.animateCamera(
+  //     CameraUpdate.newLatLngBounds(
+  //       LatLngBounds(
+  //         northeast: LatLng(northEastLatitude, northEastLongitude),
+  //         southwest: LatLng(southWestLatitude, southWestLongitude),
+  //       ),
+  //       100.0,
+  //     ),
+  //   );
+  //
+  //   await _createPolylines(startLatitude, startLongitude, destinationLatitude,
+  //       destinationLongitude);
+  // }
+  //
+  // late PolylinePoints polylinePoints;
+  // List<LatLng> polylineCoordinates = [];
+  //
+  // _createPolylines(double startlat, double startlong, double destlat,
+  //     double destlong) async {
+  //   polylinePoints = PolylinePoints();
+  //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+  //     api_key,
+  //     PointLatLng(startlat, startlong),
+  //     PointLatLng(destlat, destlong),
+  //     travelMode: TravelMode.transit,
+  //   );
+  //
+  //   if (result.points.isNotEmpty) {
+  //     result.points.forEach((PointLatLng point) {
+  //       polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+  //     });
+  //   }
+  //
+  //   PolylineId id = PolylineId('poly');
+  //   Polyline polyline = Polyline(
+  //     polylineId: id,
+  //     color: Colors.blue,
+  //     points: polylineCoordinates,
+  //     width: 3,
+  //   );
+  //   setState(() {
+  //     poly.add(polyline);
+  //   });
+  // }
 }
 
 //
