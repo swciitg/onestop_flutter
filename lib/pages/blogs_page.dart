@@ -8,8 +8,28 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webfeed/webfeed.dart';
+import 'package:onestop_dev/models/blogs/mediumArticle_model.dart';
+import 'package:html/parser.dart';
+
+String parseHtmlString(String htmlString) {
+  final document = parse(htmlString);
+  final elements = document.getElementsByTagName('p');
+  String parsedString = "";
+  for (var element in elements) {
+    if (parsedString != "") {
+      parsedString = parsedString + " " + element.text;
+    } else {
+      parsedString = element.text;
+    }
+  }
+
+  // final String parsedString = parse(document.body!.text).documentElement!.text;
+
+  return parsedString;
+}
 
 class Blogs extends StatefulWidget {
   static String id = "/blogs";
@@ -17,57 +37,6 @@ class Blogs extends StatefulWidget {
 
   @override
   _BlogState createState() => _BlogState();
-}
-
-class blogitem {
-  late String title;
-  late String pubdate;
-  late String guid;
-
-  blogitem({required this.title, required this.pubdate, required this.guid});
-}
-
-class MediumArticle {
-  String title;
-  String link;
-  String datePublished;
-  String image;
-  String author;
-
-  MediumArticle(
-      {required this.title,
-      required this.link,
-      required this.datePublished,
-      required this.image,
-      required this.author});
-
-  factory MediumArticle.fromJson(Map<String, dynamic> jsonData) {
-    return MediumArticle(
-        title: jsonData['title'],
-        link: jsonData['link'],
-        datePublished: jsonData['datePublished'],
-        image: jsonData['image'],
-        author: jsonData['author']);
-  }
-
-  static Map<String, dynamic> toMap(MediumArticle music) => {
-        'title': music.title,
-        'link': music.link,
-        'datePublished': music.datePublished,
-        'image': music.image,
-        'author': music.author
-      };
-
-  static String encode(List<MediumArticle> musics) => json.encode(
-        musics
-            .map<Map<String, dynamic>>((music) => MediumArticle.toMap(music))
-            .toList(),
-      );
-
-  static List<MediumArticle> decode(String musics) =>
-      (json.decode(musics) as List<dynamic>)
-          .map<MediumArticle>((item) => MediumArticle.fromJson(item))
-          .toList();
 }
 
 class _BlogState extends State<Blogs> {
@@ -89,8 +58,8 @@ class _BlogState extends State<Blogs> {
       final client = http.Client();
       final response = await client.get(Uri.parse(MEDIUM_PROFILE_RSS_FEED_URL));
       return RssFeed.parse(response.body);
-    } catch (e) {
-      print(e);
+    } catch (error) {
+      print(error);
     }
     return null;
   }
@@ -121,11 +90,12 @@ class _BlogState extends State<Blogs> {
             image = _rssFeed.image!.url!;
             var items = feed!.items;
 
+            // print(items![5]);
             for (RssItem x in items!) {
               if (x.pubDate != null) {
-                //print(x.content!.value);
                 final text = x.content!.value;
-                print(x.dc?.creator);
+                final content = parseHtmlString(text);
+                // print(x.dc?.creator);
                 String imagelink =
                     text.split("<img")[1].split("/>")[0].split(" src=")[1];
                 int p = imagelink.length;
@@ -138,6 +108,7 @@ class _BlogState extends State<Blogs> {
                     link: x.guid!,
                     datePublished: pdate,
                     image: imagelink2,
+                    content: content,
                     author: x.dc!.creator!);
                 _mediumArticles.add(res);
               }
@@ -169,21 +140,37 @@ class _BlogState extends State<Blogs> {
 
   Widget _getLoadingIndicator() {
     return Expanded(
-      child: ListShimmer(
-        height: 170,
-        count: 8,
-      ),
+      child: Shimmer.fromColors(
+          child: Container(
+            height: 400,
+            child: ListView.builder(
+              itemCount: 8,
+              itemBuilder: (_, __) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 180,
+                      decoration: BoxDecoration(
+                          color: kBlack,
+                          borderRadius: BorderRadius.circular(5)),
+                    ),
+                    // Divider(
+                    //   thickness: 1.5,
+                    //   color: kTabBar,
+                    // ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          period: Duration(seconds: 1),
+          baseColor: kHomeTile,
+          highlightColor: lGrey),
     );
-  }
-
-  Widget _getHeading() {
-    return Padding(
-        child: Text(
-          'Please wait …',
-          style: TextStyle(color: Colors.white, fontSize: 16),
-          textAlign: TextAlign.center,
-        ),
-        padding: EdgeInsets.only(bottom: 4));
   }
 
   Widget _PageState(String title) {
@@ -203,7 +190,10 @@ class _BlogState extends State<Blogs> {
     }
     return ListView.builder(
       itemCount: _mediumArticles.length,
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(
+        vertical: 28.0,
+        horizontal: 16.0,
+      ),
       itemBuilder: (BuildContext buildContext, int index) {
         String link;
 
@@ -211,48 +201,91 @@ class _BlogState extends State<Blogs> {
           onTap: () {
             link = _mediumArticles[index].link;
 
-            print(link);
+            // print(link);
             launchArticle(link.toString());
           },
-          child: Card(
-            color: Color(273141),
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            clipBehavior: Clip.antiAlias,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CachedNetworkImage(imageUrl: _mediumArticles[index].image),
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _mediumArticles[index].title,
-                        style: TextStyle(
-                            fontFamily: 'montserrat',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // CachedNetworkImage(imageUrl: _mediumArticles[index].image),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _mediumArticles[index]
+                          .title
+                          .toString()
+                          .split("|")[0]
+                          .trim(),
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: kWhite,
+                        letterSpacing: 0.1,
+                        height: 1.5,
                       ),
-                      Text(
-                          // _mediumArticles[index]
-                          //     .title
-                          //     .toString()
-                          //     .split("|")[1]
-                          //     .trim(),
-                          _mediumArticles[index].author,
-                          style: TextStyle(
-                              fontFamily: 'montserrat',
-                              color: Colors.white,
-                              fontSize: 14))
-                    ],
-                  ),
-                )
-              ],
-            ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(
+                      height: 4.0,
+                    ),
+                    Text(
+                      _mediumArticles[index].content,
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: kFontGrey,
+                        letterSpacing: 0.5,
+                        height: 1.2,
+                      ), // MyFonts.w500.size(11).setColor(kFontGrey)
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(
+                      height: 4.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: FittedBox(
+                                child:
+                                    Image.network(_mediumArticles[index].image),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                            child: Text(
+                              _mediumArticles[index].author,
+                              style: MyFonts.w700.size(11).setColor(lBlue4),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Divider(
+                thickness: 1.5,
+                color: kTabBar,
+              ),
+            ],
           ),
         );
       },
@@ -261,7 +294,7 @@ class _BlogState extends State<Blogs> {
 
   @override
   Widget build(BuildContext context) {
-    print(_mediumArticles.length);
+    // print(_mediumArticles.length);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAppBarGrey,
@@ -283,3 +316,10 @@ class _BlogState extends State<Blogs> {
     );
   }
 }
+
+
+// color: kBackground, // Color(273141),
+//             // elevation: 5,
+//             // shape: RoundedRectangleBorder(
+//             // borderRadius: BorderRadius.all(Radius.circular(20))),
+//             clipBehavior: Clip.antiAlias,

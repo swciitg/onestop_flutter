@@ -78,15 +78,11 @@ class PeopleSearch extends SearchDelegate<String> {
     return ThemeData(
       scaffoldBackgroundColor: Color.fromRGBO(27, 27, 29, 1),
       hintColor: kGrey2,
+      textTheme: TextTheme(
+        headline6: MyFonts.w600.setColor(kWhite).size(13),
+      ),
       appBarTheme: AppBarTheme(
         color: kBlueGrey,
-        toolbarTextStyle: TextTheme(
-                headline6: TextStyle(
-                    // headline 6 affects the query text
-                    color: kWhite,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.bold))
-            .bodyText2,
       ),
     );
   }

@@ -58,6 +58,15 @@ launchPhoneURL(String phoneNumber) async {
   }
 }
 
+launchEmailURL(String email) async {
+  String url = 'mailto:'+email+'?subject=&body=';
+  if (await canLaunchUrlString(url)) {
+    await launchUrlString(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
 openMap(double latitude, double longitude) async {
   String googleUrl =
       'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';

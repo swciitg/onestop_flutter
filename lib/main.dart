@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
