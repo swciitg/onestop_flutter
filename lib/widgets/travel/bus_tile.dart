@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 
 class BusTile extends StatelessWidget {
   final time;
@@ -24,9 +25,9 @@ class BusTile extends StatelessWidget {
             color: kAppBarGrey,
           ),
         ),
-        title: Text(time, style: const TextStyle(color: kWhite),),
+        title: Text(time, style: MyFonts.w500.setColor(kWhite),),
         trailing: isLeft ?
-        const Text('Left', style: TextStyle(color: kGrey11),) :
+        Text('Left', style: MyFonts.w500.setColor(kGrey11),) :
         const SizedBox(height: 0, width: 0,),
       ),
     );

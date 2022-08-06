@@ -8,13 +8,12 @@ class IpField extends StatelessWidget {
   final hostel;
   final texta;
   final textb;
-  final ht;
-  const IpField({Key? key, this.control, this.hostel, this.texta, this.textb, this.ht}) : super(key: key);
+  const IpField({Key? key, this.control, this.hostel, this.texta, this.textb}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: ht * 0.0768156,
+      height: 55,
       child: TextFormField(
           style: TextStyle(color: kWhite),
           validator: (value) {
