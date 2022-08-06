@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/contact/starred_contact.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
@@ -51,68 +52,68 @@ class _ContactPageState extends State<ContactPage> {
               padding: const EdgeInsets.fromLTRB(8,14,8,14),
               child: ContactSearchBar(),
             ),
-            /*Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0,0,10),
-              child: Row(
-                children: [
-                  Expanded(flex: 16, child: Container(),),
-                  Expanded(
-                    flex: 106,
-                    child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: lGrey,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.warning, color: kGrey8,),
-                          Text('Emergency', style: MyFonts.medium.size(10).setColor(kWhite),),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(flex: 5, child: Container(),),
-                  Expanded(
-                    flex: 106,
-                    child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: lGrey,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.directions_bus, color: kGrey8,),
-                          Text('Transport', style: MyFonts.medium.size(10).setColor(kWhite),),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(flex: 5, child: Container(),),
-                  Expanded(
-                    flex: 106,
-                    child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: lGrey,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.group, color: kGrey8,),
-                          Text('Gymkhana', style: MyFonts.medium.size(10).setColor(kWhite),),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(flex: 16, child: Container(),),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.fromLTRB(0, 0,0,10),
+            //   child: Row(
+            //     children: [
+            //       Expanded(flex: 16, child: Container(),),
+            //       Expanded(
+            //         flex: 106,
+            //         child: Container(
+            //           height: 100,
+            //           decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(20),
+            //             color: lGrey,
+            //           ),
+            //           child: Column(
+            //             mainAxisAlignment: MainAxisAlignment.center,
+            //             children: [
+            //               Icon(Icons.warning, color: kGrey8,),
+            //               Text('Emergency', style: MyFonts.medium.size(10).setColor(kWhite),),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //       Expanded(flex: 5, child: Container(),),
+            //       Expanded(
+            //         flex: 106,
+            //         child: Container(
+            //           height: 100,
+            //           decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(20),
+            //             color: lGrey,
+            //           ),
+            //           child: Column(
+            //             mainAxisAlignment: MainAxisAlignment.center,
+            //             children: [
+            //               Icon(Icons.directions_bus, color: kGrey8,),
+            //               Text('Transport', style: MyFonts.medium.size(10).setColor(kWhite),),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //       Expanded(flex: 5, child: Container(),),
+            //       Expanded(
+            //         flex: 106,
+            //         child: Container(
+            //           height: 100,
+            //           decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(20),
+            //             color: lGrey,
+            //           ),
+            //           child: Column(
+            //             mainAxisAlignment: MainAxisAlignment.center,
+            //             children: [
+            //               Icon(Icons.group, color: kGrey8,),
+            //               Text('Gymkhana', style: MyFonts.medium.size(10).setColor(kWhite),),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //       Expanded(flex: 16, child: Container(),),
+            //     ],
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 6),
               child: Row(
@@ -120,7 +121,7 @@ class _ContactPageState extends State<ContactPage> {
                   Icon(IconData(0xe5f9, fontFamily: 'MaterialIcons'), color: kGrey8, size: 15,),
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
-                    child: Text('Starred', style: MyFonts.regular.setColor(kGrey8),),
+                    child: Text('Starred', style: MyFonts.w400.setColor(kGrey8),),
                   ),
                   Expanded(child: Container(),),
                 ],
@@ -141,16 +142,16 @@ class _ContactPageState extends State<ContactPage> {
                     ]
                 )
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(3,0,3,0),
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 15,
-                  backgroundImage: NetworkImage('https://images.wallpapersden.com/image/wxl-loki-marvel-comics-show_78234.jpg'),
-                ),
-                title: Text('My Profile', style: MyFonts.medium.size(15).setColor(kWhite),),
-              ),
-            ),*/
+            // Padding(
+            //   padding: const EdgeInsets.fromLTRB(3,0,3,0),
+            //   child: ListTile(
+            //     leading: CircleAvatar(
+            //       radius: 15,
+            //       backgroundImage: NetworkImage('https://images.wallpapersden.com/image/wxl-loki-marvel-comics-show_78234.jpg'),
+            //     ),
+            //     title: Text('My Profile', style: MyFonts.w500.size(15).setColor(kWhite),),
+            //   ),
+            // ),
             Expanded(
               child: FutureBuilder<SplayTreeMap<String,ContactModel>>(
                 future: DataProvider.getContacts(),
