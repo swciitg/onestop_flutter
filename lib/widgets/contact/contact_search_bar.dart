@@ -5,7 +5,9 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/pages/contact/contact_detail.dart';
 import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:provider/provider.dart';
 
 class ContactSearchBar extends StatelessWidget {
   ContactSearchBar({
@@ -20,11 +22,14 @@ class ContactSearchBar extends StatelessWidget {
         future: DataProvider.getContacts(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            var contactStore = context.read<ContactStore>();
             return GestureDetector(
               onTap: () {
                 showSearch(
                     context: context,
-                    delegate: PeopleSearch(people_search: snapshot.data!));
+                    delegate: PeopleSearch(
+                        contactStore: contactStore,
+                        people_search: snapshot.data!));
               },
               child: TextField(
                 enabled: false,
@@ -62,13 +67,14 @@ class ContactSearchBar extends StatelessWidget {
 }
 
 class PeopleSearch extends SearchDelegate<String> {
-  PeopleSearch({required this.people_search}) {
+  PeopleSearch({required this.people_search, required this.contactStore}) {
     people = people_search.keys.toList();
   }
 
   late final SplayTreeMap<String, ContactModel> people_search;
   late final List<String> people;
   var x;
+  late ContactStore contactStore;
 
   @override
   String get searchFieldLabel => 'Search keyword (name, position etc)';
@@ -149,9 +155,13 @@ class PeopleSearch extends SearchDelegate<String> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => ContactDetailsPage(
-                    title: 'Campus',
-                    contact: people_search[query],
+                  builder: (BuildContext context) =>
+                      Provider<ContactStore>.value(
+                    value: contactStore,
+                    child: ContactDetailsPage(
+                      title: 'Campus',
+                      contact: people_search[query],
+                    ),
                   ),
                 ),
               );
