@@ -118,6 +118,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                               barrierDismissible: true);
                         },
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ContactText(
                                 text: item.name,

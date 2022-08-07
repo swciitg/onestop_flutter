@@ -176,7 +176,9 @@ class _ContactPageState extends State<ContactPage> {
                                   children: context
                                       .read<ContactStore>()
                                       .starContactScroll);
-                            }));
+                            }
+                            )
+                        );
                       }
                       return Container();
                     }),
