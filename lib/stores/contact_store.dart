@@ -27,7 +27,6 @@ abstract class _ContactStore with Store {
   @action
   void setStarredContacts(List<ContactDetailsModel> l) {
     starredContacts = ObservableList<ContactDetailsModel>.of(l);
-    print("Setting starred to $l");
   }
 
   @computed

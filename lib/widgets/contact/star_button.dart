@@ -36,7 +36,6 @@ class _StarButtonState extends State<StarButton> {
 
   @override
   Widget build(BuildContext context) {
-    print("In starred builder, ${context.read<ContactStore>()}");
     return FutureBuilder(
       future: this.isStarred(),
       builder: (context, snapshot) {

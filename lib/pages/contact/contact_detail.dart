@@ -95,7 +95,7 @@ class _Contacts2State extends State<Contacts2> {
                           showDialog(
                               context: context,
                               builder: (_) => Provider<ContactStore>.value(value: x,child: ContactDialog(details: item),),
-                              barrierDismissible: true
+                              barrierDismissible: false
                           );
                         },
                         child: Row(

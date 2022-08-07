@@ -200,7 +200,6 @@ class _ContactPageState extends State<ContactPage> {
                   child: FutureBuilder<SplayTreeMap<String, ContactModel>>(
                     future: DataProvider.getContacts(),
                     builder: (context, snapshot) {
-                      print("in this future builder ${context.read<ContactStore>()}");
                       if (snapshot.hasData) {
                         SplayTreeMap<String, ContactModel> people =
                             snapshot.data!;
@@ -217,7 +216,6 @@ class _ContactPageState extends State<ContactPage> {
                               MyFonts.w500.size(11).setColor(kGrey7),
                           itemBuilder: (context, k, id) {
                             var contactStore = context.read<ContactStore>();
-                            print("In item builder ${context.read<ContactStore>()}");
                             if (id.contains("ADONOTUSE")) {
                               return Row(
                                 children: [

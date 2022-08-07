@@ -17,9 +17,7 @@ class StarContactNameTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int size = contact.name.length;
-    print("In name tile");
-    var x = Provider.of<ContactStore>(context,listen:false);
-    print(x);
+    var contactStore = Provider.of<ContactStore>(context,listen:false);
 
     return TextButton(
       child: ClipRRect(
@@ -44,8 +42,8 @@ class StarContactNameTile extends StatelessWidget {
       ), onPressed: (){
       showDialog(
           context: context,
-          builder: (_) => Provider<ContactStore>.value(value: x,child: ContactDialog(details: contact),),
-          barrierDismissible: true
+          builder: (_) => Provider<ContactStore>.value(value: contactStore,child: ContactDialog(details: contact),),
+          barrierDismissible: false
       );
     },);
   }
