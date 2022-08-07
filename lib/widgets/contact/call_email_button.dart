@@ -28,13 +28,13 @@ class ContactButton extends StatelessWidget {
             children: [
               (type == ContactType.email)
                   ? Icon(
-                Icons.email,
-                color: kWhite,
-              )
+                      Icons.email,
+                      color: kWhite,
+                    )
                   : Icon(
-                Icons.call,
-                color: kWhite,
-              ),
+                      Icons.call,
+                      color: kWhite,
+                    ),
               Container(
                 width: 5,
               ),

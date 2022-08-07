@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:onestop_dev/functions/contact/starred_contact.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
@@ -14,8 +13,6 @@ import 'package:provider/provider.dart';
 import 'contact_detail.dart';
 import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
 
-// SplayTreeMap<String, ContactModel> people= SplayTreeMap();
-// SplayTreeMap<String, ContactModel> people_search= SplayTreeMap();
 List<String> alphabets = [
   "A",
   "B",
@@ -170,9 +167,6 @@ class _ContactPageState extends State<ContactPage> {
                         List<ContactDetailsModel> stars =
                             snapshot.data as List<ContactDetailsModel>;
                         context.read<ContactStore>().setStarredContacts(stars);
-                        if (stars.length == 0) {
-                          return Text("You have no starred contacts");
-                        }
                         return SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Observer(builder: (context) {
@@ -249,18 +243,14 @@ class _ContactPageState extends State<ContactPage> {
                               padding: const EdgeInsets.only(right: 20),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) {
-                                          return Provider<ContactStore>.value(
-                                            value: contactStore,
-                                            child: Contacts2(
-                                                contact: people[id],
-                                                title: 'Campus'),
-                                          );
-                                  }
-                                  ));
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return Provider<ContactStore>.value(
+                                      value: contactStore,
+                                      child: ContactDetailsPage(
+                                          contact: people[id], title: 'Campus'),
+                                    );
+                                  }));
                                 },
                                 child: ListTile(
                                     title: Text(

@@ -7,9 +7,6 @@ import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/widgets/contact/contact_dialog.dart';
 import 'package:provider/provider.dart';
 
-
-
-
 class StarContactNameTile extends StatelessWidget {
   ContactDetailsModel contact;
   StarContactNameTile({Key? key, required this.contact}) : super(key: key);
@@ -17,7 +14,7 @@ class StarContactNameTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int size = contact.name.length;
-    var contactStore = Provider.of<ContactStore>(context,listen:false);
+    var contactStore = Provider.of<ContactStore>(context, listen: false);
 
     return TextButton(
       child: ClipRRect(
@@ -26,7 +23,7 @@ class StarContactNameTile extends StatelessWidget {
         ),
         child: Container(
           height: 32,
-          width: 10*size+25,
+          width: 10 * size + 25,
           color: kGrey9,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,12 +36,16 @@ class StarContactNameTile extends StatelessWidget {
             ],
           ),
         ),
-      ), onPressed: (){
-      showDialog(
-          context: context,
-          builder: (_) => Provider<ContactStore>.value(value: contactStore,child: ContactDialog(details: contact),),
-          barrierDismissible: false
-      );
-    },);
+      ),
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: (_) => Provider<ContactStore>.value(
+                  value: contactStore,
+                  child: ContactDialog(details: contact),
+                ),
+            barrierDismissible: true);
+      },
+    );
   }
 }

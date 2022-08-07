@@ -116,8 +116,7 @@ class PeopleSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestions = people.where((peps)
-    {
+    final suggestions = people.where((peps) {
       final peopleLower = peps.toLowerCase();
       final queryLower = query.toLowerCase();
       return peopleLower.contains(queryLower);
@@ -150,7 +149,7 @@ class PeopleSearch extends SearchDelegate<String> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => Contacts2(
+                  builder: (BuildContext context) => ContactDetailsPage(
                     title: 'Campus',
                     contact: people_search[query],
                   ),
@@ -165,7 +164,7 @@ class PeopleSearch extends SearchDelegate<String> {
             title: RichText(
               text: TextSpan(
                 text: suggestion,
-                  style: MyFonts.w600.setColor(kWhite).size(14),
+                style: MyFonts.w600.setColor(kWhite).size(14),
               ),
             ),
           );

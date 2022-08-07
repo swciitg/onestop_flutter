@@ -14,7 +14,6 @@ class StarButton extends StatefulWidget {
 }
 
 class _StarButtonState extends State<StarButton> {
-
   Future<bool> isStarred() async {
     var starred = await LocalStorage.instance.getRecord("StarredContacts");
     if (starred == null) {
@@ -25,9 +24,9 @@ class _StarButtonState extends State<StarButton> {
         .map((e) => ContactDetailsModel.fromJson(e as Map<String, dynamic>))
         .toList();
     if (starredContacts
-        .where((element) => element.email == widget.contact.email)
-        .toList()
-        .length >
+            .where((element) => element.email == widget.contact.email)
+            .toList()
+            .length >
         0) {
       return true;
     }
@@ -44,22 +43,29 @@ class _StarButtonState extends State<StarButton> {
           if (isAlreadyStarred) {
             return IconButton(
               onPressed: () async {
-                var starred = await LocalStorage.instance.getRecord("StarredContacts");
+                var starred =
+                    await LocalStorage.instance.getRecord("StarredContacts");
                 if (starred == null) {
                   return;
                 }
                 var starredContacts = starred
-                    .map((e) => ContactDetailsModel.fromJson(e as Map<String, dynamic>))
+                    .map((e) =>
+                        ContactDetailsModel.fromJson(e as Map<String, dynamic>))
                     .toList();
-                starredContacts.removeWhere((element) => element.email == widget.contact.email);
-                context.read<ContactStore>().setStarredContacts(starredContacts);
+                starredContacts.removeWhere(
+                    (element) => element.email == widget.contact.email);
+                context
+                    .read<ContactStore>()
+                    .setStarredContacts(starredContacts);
                 if (starredContacts.length == 0) {
                   await LocalStorage.instance.deleteRecord("StarredContacts");
                 } else {
-                  List<Map<String,dynamic>> starList = starredContacts.map((e) => e.toJson()).toList();
-                  await LocalStorage.instance.storeData(starList, "StarredContacts");
+                  List<Map<String, dynamic>> starList =
+                      starredContacts.map((e) => e.toJson()).toList();
+                  await LocalStorage.instance
+                      .storeData(starList, "StarredContacts");
                 }
-                setState((){});
+                setState(() {});
               },
               icon: Icon(
                 Icons.star,
@@ -69,17 +75,23 @@ class _StarButtonState extends State<StarButton> {
           } else {
             return IconButton(
               onPressed: () async {
-                var starred = await LocalStorage.instance.getRecord("StarredContacts");
-                List<Map<String,dynamic>> starList = [];
+                var starred =
+                    await LocalStorage.instance.getRecord("StarredContacts");
+                List<Map<String, dynamic>> starList = [];
                 if (starred == null) {
                   starList.add(widget.contact.toJson());
-                  await LocalStorage.instance.storeData(starList, "StarredContacts");
+                  await LocalStorage.instance
+                      .storeData(starList, "StarredContacts");
                 } else {
-                  starList = starred.map((e) => e as Map<String,dynamic>).toList();
+                  starList =
+                      starred.map((e) => e as Map<String, dynamic>).toList();
                   starList.add(widget.contact.toJson());
-                  await LocalStorage.instance.storeData(starList, "StarredContacts");
+                  await LocalStorage.instance
+                      .storeData(starList, "StarredContacts");
                 }
-                context.read<ContactStore>().setStarredContacts(starList.map((e) => ContactDetailsModel.fromJson(e)).toList());
+                context.read<ContactStore>().setStarredContacts(starList
+                    .map((e) => ContactDetailsModel.fromJson(e))
+                    .toList());
                 setState(() {});
               },
               icon: Icon(
