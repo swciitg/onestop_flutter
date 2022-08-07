@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
+import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/widgets/contact/contact_dialog.dart';
 import 'package:onestop_dev/widgets/contact/contact_display.dart';
+import 'package:provider/provider.dart';
 
 class Contacts2 extends StatefulWidget {
   final String title;
@@ -16,6 +18,7 @@ class Contacts2 extends StatefulWidget {
 class _Contacts2State extends State<Contacts2> {
   @override
   Widget build(BuildContext context) {
+    var x = context.read<ContactStore>();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -91,7 +94,7 @@ class _Contacts2State extends State<Contacts2> {
                         onTap: (){
                           showDialog(
                               context: context,
-                              builder: (_) => ContactDialog(details: item),
+                              builder: (_) => Provider<ContactStore>.value(value: x,child: ContactDialog(details: item),),
                               barrierDismissible: true
                           );
                         },

@@ -1,29 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/contacts/contact_details.dart';
+import 'package:onestop_dev/services/local_storage.dart';
+import 'package:onestop_dev/stores/contact_store.dart';
+import 'package:onestop_dev/widgets/contact/contact_dialog.dart';
+import 'package:provider/provider.dart';
 
-starredContact(String contact)
-{
-  int size = contact.length;
-  return TextButton(
-    child: ClipRRect(
-      borderRadius: BorderRadius.all(
-        Radius.circular(40),
-      ),
-      child: Container(
-        height: 32,
-        width: 10*size+25,
-        color: kGrey9,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              contact,
-              style: MyFonts.w400.setColor(kWhite),
-            ),
-          ],
+
+
+
+class StarContactNameTile extends StatelessWidget {
+  ContactDetailsModel contact;
+  StarContactNameTile({Key? key, required this.contact}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    int size = contact.name.length;
+    print("In name tile");
+    var x = Provider.of<ContactStore>(context,listen:false);
+    print(x);
+
+    return TextButton(
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(
+          Radius.circular(40),
         ),
-      ),
-    ), onPressed: (){},);
+        child: Container(
+          height: 32,
+          width: 10*size+25,
+          color: kGrey9,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                contact.name,
+                style: MyFonts.w400.setColor(kWhite),
+              ),
+            ],
+          ),
+        ),
+      ), onPressed: (){
+      showDialog(
+          context: context,
+          builder: (_) => Provider<ContactStore>.value(value: x,child: ContactDialog(details: contact),),
+          barrierDismissible: true
+      );
+    },);
+  }
 }

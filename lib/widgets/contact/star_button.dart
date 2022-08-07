@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
 import 'package:onestop_dev/services/local_storage.dart';
+import 'package:onestop_dev/stores/contact_store.dart';
+import 'package:provider/provider.dart';
 
 class StarButton extends StatefulWidget {
   ContactDetailsModel contact;
@@ -34,6 +36,7 @@ class _StarButtonState extends State<StarButton> {
 
   @override
   Widget build(BuildContext context) {
+    print("In starred builder, ${context.read<ContactStore>()}");
     return FutureBuilder(
       future: this.isStarred(),
       builder: (context, snapshot) {
@@ -50,6 +53,7 @@ class _StarButtonState extends State<StarButton> {
                     .map((e) => ContactDetailsModel.fromJson(e as Map<String, dynamic>))
                     .toList();
                 starredContacts.removeWhere((element) => element.email == widget.contact.email);
+                context.read<ContactStore>().setStarredContacts(starredContacts);
                 if (starredContacts.length == 0) {
                   await LocalStorage.instance.deleteRecord("StarredContacts");
                 } else {
@@ -67,15 +71,16 @@ class _StarButtonState extends State<StarButton> {
             return IconButton(
               onPressed: () async {
                 var starred = await LocalStorage.instance.getRecord("StarredContacts");
+                List<Map<String,dynamic>> starList = [];
                 if (starred == null) {
-                  List<Map<String,dynamic>> starList = [];
                   starList.add(widget.contact.toJson());
                   await LocalStorage.instance.storeData(starList, "StarredContacts");
                 } else {
-                  List<Map<String,dynamic>> starList = starred.map((e) => e as Map<String,dynamic>).toList();
+                  starList = starred.map((e) => e as Map<String,dynamic>).toList();
                   starList.add(widget.contact.toJson());
                   await LocalStorage.instance.storeData(starList, "StarredContacts");
                 }
+                context.read<ContactStore>().setStarredContacts(starList.map((e) => ContactDetailsModel.fromJson(e)).toList());
                 setState(() {});
               },
               icon: Icon(
