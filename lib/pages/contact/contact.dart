@@ -13,26 +13,7 @@ import 'package:provider/provider.dart';
 import 'contact_detail.dart';
 import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
 
-List<String> alphabets = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "I",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V"
-];
+
 
 class ContactPage extends StatefulWidget {
   static String id = "/contacto";
@@ -196,12 +177,18 @@ class _ContactPageState extends State<ContactPage> {
                   child: FutureBuilder<SplayTreeMap<String, ContactModel>>(
                     future: DataProvider.getContacts(),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        SplayTreeMap<String, ContactModel> people =
-                            snapshot.data!;
-                        alphabets.forEach((e) => people[e + "ADONOTUSE"] =
-                            ContactModel(
-                                name: "Random", contacts: [], group: ""));
+                      if (snapshot.hasData)
+                      {
+                        SplayTreeMap<String, ContactModel> people = snapshot.data!;
+                        List<String> alphabets = [];
+                        ContactModel pep;
+                        people.forEach((key, value) {
+                          if(!alphabets.contains(key[0].toUpperCase()))
+                            {
+                              alphabets.add(key[0].toUpperCase());
+                            }
+                        });
+                        alphabets.forEach((e) => people[e + "ADONOTUSE"] = ContactModel(name: "Random", contacts: [], group: ""));
                         return AlphabetScrollView(
                           list: people.keys.map((e) => AlphaModel(e)).toList(),
                           alignment: LetterAlignment.right,
