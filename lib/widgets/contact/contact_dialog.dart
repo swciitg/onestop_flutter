@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
-import 'package:onestop_dev/widgets/food/restaurant/call_map_button.dart';
+import 'package:onestop_dev/widgets/contact/call_email_button.dart';
+import 'package:onestop_dev/widgets/contact/star_button.dart';
 
 class ContactDialog extends StatefulWidget {
   final ContactDetailsModel details;
@@ -40,24 +41,18 @@ class _ContactDialogState extends State<ContactDialog> {
           Expanded(
             flex: 2,
             child: Container(
-                child: IconButton(
-              onPressed: () {
-                setState(() {
-                  isStarred = !isStarred;
-                });
-              },
-              icon: isStarred
-                  ? Icon(Icons.star, color: Colors.amber,)
-                  : Icon(Icons.star_outline, color: kGrey,),
-            )),
+              child: StarButton(
+                contact: widget.details,
+              ),
+            ),
           ),
         ],
       ),
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          contact_button(1, widget.details.contact),
-          contact_button(0, widget.details.email),
+          ContactButton(type: ContactType.call, data: widget.details.contact),
+          ContactButton(type: ContactType.email, data: widget.details.email),
         ],
       ),
       actions: <Widget>[
@@ -70,52 +65,4 @@ class _ContactDialogState extends State<ContactDialog> {
       ],
     );
   }
-}
-
-contact_button(int x, String data) {
-  return TextButton(
-    child: ClipRRect(
-      borderRadius: BorderRadius.all(
-        Radius.circular(40),
-      ),
-      child: Container(
-        height: 32,
-        width: 100,
-        color: kGrey9,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            (x == 0)
-                ? Icon(
-                    Icons.email,
-                    color: kWhite,
-                  )
-                : Icon(
-                    Icons.call,
-                    color: kWhite,
-                  ),
-            Container(
-              width: 5,
-            ),
-            Text(
-              (x == 0) ? 'Email' : 'Call',
-              style: MyFonts.w500.setColor(kWhite).size(14),
-            ),
-          ],
-        ),
-      ),
-    ),
-    onPressed: () async {
-      try {
-        if (x == 0) {
-          await launchEmailURL(data);
-        } else {
-          await launchPhoneURL(data);
-        }
-      } catch (_e) {
-        print(_e);
-      }
-    },
-  );
 }

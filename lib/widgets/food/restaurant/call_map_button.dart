@@ -49,30 +49,3 @@ class Call_MapButton extends StatelessWidget {
   }
 }
 
-launchPhoneURL(String phoneNumber) async {
-  String url = 'tel:' + phoneNumber;
-  if (await canLaunchUrlString(url)) {
-    await launchUrlString(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
-launchEmailURL(String email) async {
-  String url = 'mailto:'+email+'?subject=&body=';
-  if (await canLaunchUrlString(url)) {
-    await launchUrlString(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
-openMap(double latitude, double longitude) async {
-  String googleUrl =
-      'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-  if (await canLaunchUrlString(googleUrl)) {
-    await launchUrlString(googleUrl);
-  } else {
-    throw 'Could not open the map.';
-  }
-}
