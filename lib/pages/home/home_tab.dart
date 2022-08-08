@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
@@ -30,13 +31,6 @@ class _HomeTabState extends State<HomeTab> {
     print("Init state");
     context.read<TimetableStore>().setTimetable(
         context.read<LoginStore>().userData["rollno"] ?? "190101109");
-  }
-
-  void rebuildParent(int newSelectedIndex) {
-    print('Reloaded');
-    setState(() {
-      selectedIndex = newSelectedIndex;
-    });
   }
 
   @override
