@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
@@ -24,10 +25,12 @@ class _TravelPageState extends State<TravelPage> {
     return Observer(builder: (context) {
       var map_store = context.read<MapBoxStore>();
       map_store.checkTravelPage(true);
+      var mapBoxWidget = MapBox();
       return SingleChildScrollView(
         child: Column(
           children: [
-            MapBox(),
+            //MapBox(),
+            mapBoxWidget,
             SizedBox(
               height: 10,
             ),

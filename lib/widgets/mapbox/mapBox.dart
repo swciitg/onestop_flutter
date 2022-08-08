@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
+import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
@@ -41,47 +42,10 @@ class _MapBoxState extends State<MapBox> {
       var mapbox_store = context.read<MapBoxStore>();
       mapbox_store.change_centre_zoom(
           mapbox_store.userlat, mapbox_store.userlong);
-      // zoomTwoMarkers(LatLng(mapbox_store.carousel_selected_lat, mapbox_store.carousel_selected_long),LatLng(mapbox_store.userlat,mapbox_store.userlong));
       return ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         child: Stack(
           children: [
-            // Container(
-            //   height: 365,
-            //   // width: 350,
-            //   child: FlutterMap(
-            //     mapController: _mapController,
-            //     options: MapOptions(
-            //       center: mapbox_store.myPos,
-            //       zoom: zoom,
-            //     ),
-            //     nonRotatedLayers: [
-            //       TileLayerOptions(
-            //         backgroundColor: kBlack,
-            //         urlTemplate:
-            //             'https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg',
-            //         additionalOptions: {
-            //           'accessToken': myToken,
-            //           'id': 'mapbox/light-v10',
-            //         },
-            //       ),
-            //       MarkerLayerOptions(
-            //         markers: mapbox_store.markers,
-            //       ),
-            //       if(mapbox_store.loadOperation.value!=null)
-            //         PolylineLayerOptions(polylines: [
-            //           Polyline(
-            //             points: mapbox_store.loadOperation.value!,
-            //             // isDotted: true,
-            //             color: Color(0xFF669DF6),
-            //             strokeWidth: 3.0,
-            //             borderColor: Color(0xFF1967D2),
-            //             borderStrokeWidth: 0.1,
-            //           )
-            //         ]),
-            //     ],
-            //   ),
-            // ),
             FutureBuilder(
                 future: mapbox_store.getLocation(),
                 builder: (context, snapshot) {
@@ -104,7 +68,7 @@ class _MapBoxState extends State<MapBox> {
                     );
                   } else {
                     return ListShimmer(
-                      height: 20,
+                      height: 365,
                       count: 1,
                     );
                   }
@@ -283,7 +247,29 @@ class _MapBoxState extends State<MapBox> {
                 ),
                 (!mapbox_store.isTravelPage)
                     ? CarouselSlider(
-                        items: mapbox_store.buses_carousel,
+                        items: mapbox_store.buses_carousel
+                            .map((e) => GestureDetector(
+                                  child: e,
+                                  onTap: () {
+                                    context
+                                        .read<MapBoxStore>()
+                                        .selectedCarousel(
+                                            (e as CarouselCard).index);
+                                    zoomTwoMarkers(
+                                        LatLng(
+                                            mapbox_store.bus_carousel_data[
+                                                    mapbox_store
+                                                        .selectedCarouselIndex]
+                                                ['lat'],
+                                            mapbox_store.bus_carousel_data[
+                                                    mapbox_store
+                                                        .selectedCarouselIndex]
+                                                ['long']),
+                                        LatLng(mapbox_store.userlat,
+                                            mapbox_store.userlong));
+                                  },
+                                ))
+                            .toList(),
                         options: CarouselOptions(
                           height: 100,
                           viewportFraction: 0.6,
@@ -315,7 +301,8 @@ class _MapBoxState extends State<MapBox> {
     _mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(lat, long), zoom: 17.0, bearing: 90.0, tilt: 45.0)));
   }
-  void zoomTwoMarkers(LatLng ans,LatLng user) async {
+
+  void zoomTwoMarkers(LatLng ans, LatLng user) async {
     double startLatitude = user.latitude;
     double startLongitude = user.longitude;
 
