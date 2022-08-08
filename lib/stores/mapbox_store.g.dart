@@ -201,14 +201,6 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
     return _$getPolylinesAsyncAction.run(() => super.getPolylines(i));
   }
 
-  late final _$getLocationAsyncAction =
-      AsyncAction('_MapBoxStore.getLocation', context: context);
-
-  @override
-  Future<dynamic> getLocation() {
-    return _$getLocationAsyncAction.run(() => super.getLocation());
-  }
-
   late final _$_MapBoxStoreActionController =
       ActionController(name: '_MapBoxStore', context: context);
 

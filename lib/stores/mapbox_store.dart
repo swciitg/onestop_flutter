@@ -53,8 +53,8 @@ abstract class _MapBoxStore with Store {
   @action
   void selectedCarousel(int i) {
     this.selectedCarouselIndex = i;
-    getPolylines(i);
   }
+
 
   @action
   void checkTravelPage(bool i) {
@@ -112,7 +112,6 @@ abstract class _MapBoxStore with Store {
   @observable
   List<Marker> markers = [];
 
-  @action
   Future<dynamic> getLocation() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -134,6 +133,7 @@ abstract class _MapBoxStore with Store {
     _locationData = await location.getLocation();
     this.userlat = _locationData!.latitude!;
     this.userlong = _locationData!.longitude!;
+    return LatLng(this.userlat, this.userlong);
     // Marker user_marker = Marker(
     //   point: LatLng(this.userlat, this.userlong),
     //   width: 8,
@@ -182,6 +182,7 @@ abstract class _MapBoxStore with Store {
     );
     this.markers = l;
   }
+
 
 //   @action
 //   void generate_polylines() {
