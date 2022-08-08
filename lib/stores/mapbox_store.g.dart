@@ -98,22 +98,6 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
     });
   }
 
-  late final _$map_createdAtom =
-      Atom(name: '_MapBoxStore.map_created', context: context);
-
-  @override
-  bool get map_created {
-    _$map_createdAtom.reportRead();
-    return super.map_created;
-  }
-
-  @override
-  set map_created(bool value) {
-    _$map_createdAtom.reportWrite(value, super.map_created, () {
-      super.map_created = value;
-    });
-  }
-
   late final _$myPosAtom = Atom(name: '_MapBoxStore.myPos', context: context);
 
   @override
@@ -276,17 +260,6 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   }
 
   @override
-  void create_map() {
-    final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.create_map');
-    try {
-      return super.create_map();
-    } finally {
-      _$_MapBoxStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void initialiseCarouselforBuses() {
     final _$actionInfo = _$_MapBoxStoreActionController.startAction(
         name: '_MapBoxStore.initialiseCarouselforBuses');
@@ -327,7 +300,6 @@ userlat: ${userlat},
 userlong: ${userlong},
 selectedCarouselIndex: ${selectedCarouselIndex},
 isTravelPage: ${isTravelPage},
-map_created: ${map_created},
 myPos: ${myPos},
 bus_carousel_data: ${bus_carousel_data},
 bus_carousel_items: ${bus_carousel_items},

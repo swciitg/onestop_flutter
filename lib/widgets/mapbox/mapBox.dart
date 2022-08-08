@@ -56,9 +56,6 @@ class _MapBoxState extends State<MapBox> {
                         onMapCreated: (mapcontroller){
                           controller=mapcontroller;
                           mapbox_store.mapController=mapcontroller;
-                          mapbox_store.create_map();
-                          print(mapbox_store.map_created);
-                          print("CREATED !!!");
                         },
                         initialCameraPosition: CameraPosition(
                             target: snapshot.data as LatLng, zoom: 15),
