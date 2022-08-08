@@ -23,8 +23,7 @@ DateTime now = DateTime.now();
 String formattedTime = DateFormat.jm().format(now);
 
 class _MapBoxState extends State<MapBox> {
-  // final MapController _mapController = MapController();
-  late GoogleMapController _mapController;
+  late GoogleMapController controller;
   final myToken =
       'pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg';
   final pointIcon = 'assets/images/pointicon.png';
@@ -54,7 +53,13 @@ class _MapBoxState extends State<MapBox> {
                       height: 365,
                       width: double.infinity,
                       child: GoogleMap(
-                        onMapCreated: onMapCreate,
+                        onMapCreated: (mapcontroller){
+                          controller=mapcontroller;
+                          mapbox_store.mapController=mapcontroller;
+                          mapbox_store.create_map();
+                          print(mapbox_store.map_created);
+                          print("CREATED !!!");
+                        },
                         initialCameraPosition: CameraPosition(
                             target: snapshot.data as LatLng, zoom: 15),
                         markers: mapbox_store.markers.toSet(),
@@ -291,14 +296,10 @@ class _MapBoxState extends State<MapBox> {
     });
   }
 
-  void onMapCreate(controller) {
-    setState(() {
-      _mapController = controller;
-    });
-  }
+
 
   void zoomInMarker(double lat, double long) {
-    _mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(lat, long), zoom: 17.0, bearing: 90.0, tilt: 45.0)));
   }
 
@@ -327,7 +328,7 @@ class _MapBoxState extends State<MapBox> {
     double northEastLatitude = maxy;
     double northEastLongitude = maxx;
 
-    _mapController.animateCamera(
+    controller.animateCamera(
       CameraUpdate.newLatLngBounds(
         LatLngBounds(
           northeast: LatLng(northEastLatitude, northEastLongitude),

@@ -13,6 +13,7 @@ abstract class _MapBoxStore with Store {
   _MapBoxStore() {
     initialiseCarouselforBuses();
   }
+  late GoogleMapController mapController;
   @observable
   int indexBusesorFerry = 0;
   @observable
@@ -23,6 +24,8 @@ abstract class _MapBoxStore with Store {
   int selectedCarouselIndex = 0;
   @observable
   bool isTravelPage = false;
+  @observable
+  bool map_created=false;
   @observable
   LatLng myPos = LatLng(-37.327154, -59.119667);
   @observable
@@ -58,6 +61,13 @@ abstract class _MapBoxStore with Store {
   @action
   void checkTravelPage(bool i) {
     this.isTravelPage = i;
+    this.map_created=false;
+    print(this.map_created);
+  }
+
+  @action
+  void create_map(){
+    this.map_created=true;
   }
 
   @action
