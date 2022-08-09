@@ -39,8 +39,7 @@ class _MapBoxState extends State<MapBox> {
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       var mapbox_store = context.read<MapBoxStore>();
-      mapbox_store.change_centre_zoom(
-          mapbox_store.userlat, mapbox_store.userlong);
+      print("rebuildMap Box");
       return ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         child: Stack(
@@ -274,7 +273,7 @@ class _MapBoxState extends State<MapBox> {
                             .toList(),
                         options: CarouselOptions(
                           height: 100,
-                          viewportFraction: 0.6,
+                          viewportFraction: 0.7,
                           initialPage: 0,
                           enableInfiniteScroll: false,
                           scrollDirection: Axis.horizontal,
