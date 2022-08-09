@@ -334,37 +334,5 @@ class _MapBoxState extends State<MapBox> {
       ),
     );
   }
-  //
-  // late PolylinePoints polylinePoints;
-  // List<LatLng> polylineCoordinates = [];
-  //
-  // _createPolylines(double startlat, double startlong, double destlat,
-  //     double destlong) async {
-  //   polylinePoints = PolylinePoints();
-  //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-  //     api_key,
-  //     PointLatLng(startlat, startlong),
-  //     PointLatLng(destlat, destlong),
-  //     travelMode: TravelMode.transit,
-  //   );
-  //
-  //   if (result.points.isNotEmpty) {
-  //     result.points.forEach((PointLatLng point) {
-  //       polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-  //     });
-  //   }
-  //
-  //   PolylineId id = PolylineId('poly');
-  //   Polyline polyline = Polyline(
-  //     polylineId: id,
-  //     color: Colors.blue,
-  //     points: polylineCoordinates,
-  //     width: 3,
-  //   );
-  //   setState(() {
-  //     poly.add(polyline);
-  //   });
-  // }
 }
 
-//

@@ -35,9 +35,19 @@ abstract class _MapBoxStore with Store {
   @observable
   ObservableFuture<List<LatLng>?> loadOperation = ObservableFuture.value(null);
 
+  @observable
+  ObservableList<Marker> markers = ObservableList<Marker>.of([]);
+
+  @action
+  void setMarkers(List<Marker> m) {
+    print("Setting markers");
+    this.markers = ObservableList<Marker>.of(m);
+  }
+
   @action
   void setIndexMapBox(int i) {
     this.indexBusesorFerry = i;
+
   }
 
   @action
@@ -54,6 +64,24 @@ abstract class _MapBoxStore with Store {
   @action
   void selectedCarousel(int i) {
     this.selectedCarouselIndex = i;
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(15, 15)), 'assets/images/busicon.png')
+        .then((d) {
+      print('Im Here $i');
+      List<Marker> l = List.generate(
+        this.bus_carousel_data.length,
+            (index) => Marker(
+            markerId: MarkerId('bus$index'),
+            position: LatLng(this.bus_carousel_data[index]['lat'],
+                this.bus_carousel_data[index]['long'])),
+      );
+      l[i]= Marker(
+          icon: d,
+          markerId: MarkerId('bus$i'),
+          position: LatLng(this.bus_carousel_data[i]['lat'],
+              this.bus_carousel_data[i]['long']));
+      setMarkers(l);
+    });
   }
 
   @action
@@ -115,9 +143,6 @@ abstract class _MapBoxStore with Store {
   Location location = new Location();
   LocationData? _locationData;
 
-  @observable
-  List<Marker> markers = [];
-
   Future<dynamic> getLocation() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -153,24 +178,15 @@ abstract class _MapBoxStore with Store {
 
   @action
   void generate_bus_markers() {
+    print('generate bs');
     List<Marker> l = List.generate(
       this.bus_carousel_data.length,
-      (index) =>
-          //     Marker(
-          //   point: LatLng(this.bus_carousel_data[index]['lat'],
-          //       this.bus_carousel_data[index]['long']),
-          //   width: 25.0,
-          //   height: 25.0,
-          //   builder: (ctx) => Container(
-          //     child: Image.asset(busIcon),
-          //   ),
-          // ),
-          Marker(
-              markerId: MarkerId('bus$index'),
-              position: LatLng(this.bus_carousel_data[index]['lat'],
-                  this.bus_carousel_data[index]['long'])),
+      (index) => Marker(
+          markerId: MarkerId('bus$index'),
+          position: LatLng(this.bus_carousel_data[index]['lat'],
+              this.bus_carousel_data[index]['long'])),
     );
-    this.markers = l;
+    this.markers = ObservableList<Marker>.of(l);
   }
 
   @action
@@ -192,7 +208,7 @@ abstract class _MapBoxStore with Store {
               position: LatLng(this.bus_carousel_data[index]['lat'],
                   this.bus_carousel_data[index]['long'])),
     );
-    this.markers = l;
+    this.markers = ObservableList<Marker>.of(l);;
   }
 
 //   @action
