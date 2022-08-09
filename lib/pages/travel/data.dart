@@ -5,7 +5,7 @@ List<Map<String, dynamic>> BusStops = [
     'long': 60.000000,
     'status': 'left',
     'time': '1:45 PM',
-    'distance': '1.4km',
+    'distance': 1.2,
     'ind': 0,
   },
   {
@@ -14,7 +14,7 @@ List<Map<String, dynamic>> BusStops = [
     'long': 50.000000,
     'status': 'left',
     'time': '1:45 PM',
-    'distance': '1.4km',
+    'distance': 1.4,
     'ind': 1,
   }
 ];

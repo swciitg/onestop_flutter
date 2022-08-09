@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/home/date_course.dart';
 import 'package:onestop_dev/widgets/home/quick_links.dart';
-import 'package:onestop_dev/widgets/mapBox.dart';
+import 'package:onestop_dev/widgets/mapbox/mapBox.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
-double lat = userlat;
-double long = userlong;
 
 class HomeTab extends StatefulWidget {
   const HomeTab({Key? key}) : super(key: key);
@@ -30,13 +33,6 @@ class _HomeTabState extends State<HomeTab> {
         context.read<LoginStore>().userData["rollno"] ?? "190101109");
   }
 
-  void rebuildParent(int newSelectedIndex) {
-    print('Reloaded');
-    setState(() {
-      selectedIndex = newSelectedIndex;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -46,17 +42,16 @@ class _HomeTabState extends State<HomeTab> {
           SizedBox(
             height: 10,
           ),
-          MapBox(
-            lat: (lat != 0) ? lat : null,
-            long: (long != 0) ? long : null,
-            selectedIndex: selectedIndex,
-            rebuildParent: rebuildParent,
-            istravel: true,
+          Builder(
+              builder: (context) {
+                context.read<MapBoxStore>().checkTravelPage(false);
+                return MapBox();
+              }
           ),
           SizedBox(
             height: 10,
           ),
-          DateCourse(),
+          DateCourse(), // <-Put all UI and Observer within DateCourse()
           SizedBox(
             height: 10,
           ),
