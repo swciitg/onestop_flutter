@@ -68,18 +68,19 @@ abstract class _MapBoxStore with Store {
         ImageConfiguration(size: Size(15, 15)), 'assets/images/busicon.png')
         .then((d) {
       print('Im Here $i');
-      List<Marker> l = List.generate(
-        this.bus_carousel_data.length,
-            (index) => Marker(
-            markerId: MarkerId('bus$index'),
-            position: LatLng(this.bus_carousel_data[index]['lat'],
-                this.bus_carousel_data[index]['long'])),
-      );
-      l[i]= Marker(
+      List<Marker> l = [];
+      // List<Marker> l = List.generate(
+      //   this.bus_carousel_data.length,
+      //       (index) => Marker(
+      //       markerId: MarkerId('bus$index'),
+      //       position: LatLng(this.bus_carousel_data[index]['lat'],
+      //           this.bus_carousel_data[index]['long'])),
+      // );
+      l.add(Marker(
           icon: d,
           markerId: MarkerId('bus$i'),
           position: LatLng(this.bus_carousel_data[i]['lat'],
-              this.bus_carousel_data[i]['long']));
+              this.bus_carousel_data[i]['long'])));
       setMarkers(l);
     });
   }
