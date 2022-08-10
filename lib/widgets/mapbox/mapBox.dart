@@ -10,6 +10,8 @@ import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
+import '../../globals/my_fonts.dart';
+
 class MapBox extends StatefulWidget {
   MapBox({
     Key? key,
@@ -48,31 +50,29 @@ class _MapBoxState extends State<MapBox> {
                 future: mapbox_store.getLocation(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Observer(
-                      builder: (context) {
-                        print("BUilder rebuild");
-                        return Container(
-                          height: 365,
-                          width: double.infinity,
-                          child: GoogleMap(
-                            onMapCreated: (mapcontroller){
-                              controller=mapcontroller;
-                              controller.setMapStyle(mapStyleString);
-                              mapbox_store.mapController=mapcontroller;
-                            },
-                            initialCameraPosition: CameraPosition(
-                                target: snapshot.data as LatLng, zoom: 15),
-                            markers: mapbox_store.markers.toSet(),
-                            // polylines: poly.toSet(),
-                            myLocationEnabled: true,
-                            myLocationButtonEnabled: false,
-                            compassEnabled: true,
-                            trafficEnabled: true,
-                            zoomControlsEnabled: false,
-                          ),
-                        );
-                      }
-                    );
+                    return Observer(builder: (context) {
+                      print("BUilder rebuild");
+                      return Container(
+                        height: 365,
+                        width: double.infinity,
+                        child: GoogleMap(
+                          onMapCreated: (mapcontroller) {
+                            controller = mapcontroller;
+                            controller.setMapStyle(mapStyleString);
+                            mapbox_store.mapController = mapcontroller;
+                          },
+                          initialCameraPosition: CameraPosition(
+                              target: snapshot.data as LatLng, zoom: 15),
+                          markers: mapbox_store.markers.toSet(),
+                          // polylines: poly.toSet(),
+                          myLocationEnabled: true,
+                          myLocationButtonEnabled: false,
+                          compassEnabled: true,
+                          trafficEnabled: true,
+                          zoomControlsEnabled: false,
+                        ),
+                      );
+                    });
                   } else {
                     return ListShimmer(
                       height: 365,
@@ -111,12 +111,13 @@ class _MapBoxState extends State<MapBox> {
                                     ? kBlueGrey
                                     : kWhite,
                               ),
-                              Text(
-                                "Bus",
-                                style: TextStyle(
-                                  color: (mapbox_store.indexBusesorFerry == 0)
-                                      ? kBlueGrey
-                                      : kWhite,
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text(
+                                  "Bus",
+                                  style: (mapbox_store.indexBusesorFerry == 0)
+                                      ? MyFonts.w500.setColor(kBlueGrey)
+                                      : MyFonts.w500.setColor(kWhite),
                                 ),
                               ),
                             ],
@@ -151,20 +152,19 @@ class _MapBoxState extends State<MapBox> {
                                     ? kBlueGrey
                                     : kWhite,
                               ),
-                              Text(
-                                "Ferry",
-                                style: TextStyle(
-                                  color: (mapbox_store.indexBusesorFerry == 1)
-                                      ? kBlueGrey
-                                      : kWhite,
-                                ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text("Ferry",
+                                    style: (mapbox_store.indexBusesorFerry == 1)
+                                        ? MyFonts.w500.setColor(kBlueGrey)
+                                        : MyFonts.w500.setColor(kWhite)),
                               ),
                             ],
                           ),
                         ),
                       ),
                     ),
-                    (!mapbox_store.isTravelPage)
+                    /*(!mapbox_store.isTravelPage)
                         ? TextButton(
                             onPressed: () {
                               setState(() {
@@ -193,22 +193,18 @@ class _MapBoxState extends State<MapBox> {
                                               ? kBlueGrey
                                               : kWhite,
                                     ),
-                                    Text(
-                                      "Food",
-                                      style: TextStyle(
-                                        color:
-                                            (mapbox_store.indexBusesorFerry ==
-                                                    2)
-                                                ? kBlueGrey
-                                                : kWhite,
-                                      ),
-                                    ),
+                                    Text("Food",
+                                        style: (mapbox_store
+                                                    .indexBusesorFerry ==
+                                                2)
+                                            ? MyFonts.w500.setColor(kBlueGrey)
+                                            : MyFonts.w500.setColor(kWhite)),
                                   ],
                                 ),
                               ),
                             ),
                           )
-                        : SizedBox(),
+                        : SizedBox(),*/
                   ],
                 ),
                 SizedBox(
@@ -297,8 +293,6 @@ class _MapBoxState extends State<MapBox> {
       );
     });
   }
-
-
 
   void zoomInMarker(double lat, double long) {
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -575,4 +569,3 @@ String mapStyleString = """[
     ]
   }
 ]""";
-
