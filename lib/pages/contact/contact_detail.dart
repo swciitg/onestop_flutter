@@ -88,7 +88,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                     width: MediaQuery.of(context).size.width / 3 - 10,
                     align: AlignmentDirectional.center),
                 ContactTextHeader(
-                    text: 'Contact No',
+                    text: 'Contact No ',
                     width: MediaQuery.of(context).size.width / 3 - 15,
                     align: AlignmentDirectional.bottomEnd),
               ],
@@ -106,7 +106,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: widget.contact!.contacts.map((item) {
                     return Padding(
-                      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0,right: 10),
                       child: GestureDetector(
                         onTap: () {
                           showDialog(

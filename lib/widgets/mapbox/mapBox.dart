@@ -1,12 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
+import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 
 class MapBox extends StatefulWidget {
   MapBox({
@@ -21,8 +24,8 @@ DateTime now = DateTime.now();
 String formattedTime = DateFormat.jm().format(now);
 
 class _MapBoxState extends State<MapBox> {
-  // final MapController _mapController = MapController();
-  late GoogleMapController _mapController;
+  String mapString = '';
+  late GoogleMapController controller;
   final myToken =
       'pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg';
   final pointIcon = 'assets/images/pointicon.png';
@@ -32,69 +35,60 @@ class _MapBoxState extends State<MapBox> {
 
   void initState() {
     super.initState();
+    rootBundle
+        .loadString('assets/json/map_style.json')
+        .then((value) => mapString = value);
   }
 
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       var mapbox_store = context.read<MapBoxStore>();
-      mapbox_store.change_centre_zoom(
-          mapbox_store.userlat, mapbox_store.userlong);
+      print("rebuildMap Box");
       return ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         child: Stack(
           children: [
-            // Container(
-            //   height: 365,
-            //   // width: 350,
-            //   child: FlutterMap(
-            //     mapController: _mapController,
-            //     options: MapOptions(
-            //       center: mapbox_store.myPos,
-            //       zoom: zoom,
-            //     ),
-            //     nonRotatedLayers: [
-            //       TileLayerOptions(
-            //         backgroundColor: kBlack,
-            //         urlTemplate:
-            //             'https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg',
-            //         additionalOptions: {
-            //           'accessToken': myToken,
-            //           'id': 'mapbox/light-v10',
-            //         },
-            //       ),
-            //       MarkerLayerOptions(
-            //         markers: mapbox_store.markers,
-            //       ),
-            //       if(mapbox_store.loadOperation.value!=null)
-            //         PolylineLayerOptions(polylines: [
-            //           Polyline(
-            //             points: mapbox_store.loadOperation.value!,
-            //             // isDotted: true,
-            //             color: Color(0xFF669DF6),
-            //             strokeWidth: 3.0,
-            //             borderColor: Color(0xFF1967D2),
-            //             borderStrokeWidth: 0.1,
-            //           )
-            //         ]),
-            //     ],
-            //   ),
-            // ),
-            Container(
-                height: 365,
-                width: double.infinity,
-                child: GoogleMap(
-                  onMapCreated: onMapCreate,
-                  initialCameraPosition: CameraPosition(target: LatLng(26.11, 91.70), zoom: 15),
-                  markers: mapbox_store.markers.toSet(),
-                  // polylines: poly.toSet(),
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: false,
-                  compassEnabled: true,
-                  trafficEnabled: true,
-                  zoomControlsEnabled: false,
-                ),
-            ),
+            FutureBuilder(
+                future: mapbox_store.getLocation(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Observer(builder: (context) {
+                      print("BUilder rebuild");
+                      return Container(
+                        height: 365,
+                        width: double.infinity,
+                        child: GoogleMap(
+                          onMapCreated: (mapcontroller) {
+                            controller = mapcontroller;
+                            controller.setMapStyle(mapString);
+                            mapbox_store.mapController = mapcontroller;
+                          },
+                          initialCameraPosition: CameraPosition(
+                              target: snapshot.data as LatLng, zoom: 15),
+                          markers: mapbox_store.markers.toSet(),
+                          // polylines: poly.toSet(),
+                          myLocationEnabled: true,
+                          myLocationButtonEnabled: false,
+                          compassEnabled: true,
+                          trafficEnabled: true,
+                          zoomControlsEnabled: false,
+                        ),
+                      );
+                    });
+                  }
+                  return Shimmer.fromColors(
+                      child: Container(
+                        height: 365,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: kBlack,
+                            borderRadius: BorderRadius.circular(25)),
+                      ),
+                      period: Duration(seconds: 1),
+                      baseColor: kHomeTile,
+                      highlightColor: lGrey);
+                }),
             Column(
               children: [
                 Row(
@@ -126,12 +120,13 @@ class _MapBoxState extends State<MapBox> {
                                     ? kBlueGrey
                                     : kWhite,
                               ),
-                              Text(
-                                "Bus",
-                                style: TextStyle(
-                                  color: (mapbox_store.indexBusesorFerry == 0)
-                                      ? kBlueGrey
-                                      : kWhite,
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text(
+                                  "Bus",
+                                  style: (mapbox_store.indexBusesorFerry == 0)
+                                      ? MyFonts.w500.setColor(kBlueGrey)
+                                      : MyFonts.w500.setColor(kWhite),
                                 ),
                               ),
                             ],
@@ -166,20 +161,19 @@ class _MapBoxState extends State<MapBox> {
                                     ? kBlueGrey
                                     : kWhite,
                               ),
-                              Text(
-                                "Ferry",
-                                style: TextStyle(
-                                  color: (mapbox_store.indexBusesorFerry == 1)
-                                      ? kBlueGrey
-                                      : kWhite,
-                                ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text("Ferry",
+                                    style: (mapbox_store.indexBusesorFerry == 1)
+                                        ? MyFonts.w500.setColor(kBlueGrey)
+                                        : MyFonts.w500.setColor(kWhite)),
                               ),
                             ],
                           ),
                         ),
                       ),
                     ),
-                    (!mapbox_store.isTravelPage)
+                    /*(!mapbox_store.isTravelPage)
                         ? TextButton(
                             onPressed: () {
                               setState(() {
@@ -208,22 +202,18 @@ class _MapBoxState extends State<MapBox> {
                                               ? kBlueGrey
                                               : kWhite,
                                     ),
-                                    Text(
-                                      "Food",
-                                      style: TextStyle(
-                                        color:
-                                            (mapbox_store.indexBusesorFerry ==
-                                                    2)
-                                                ? kBlueGrey
-                                                : kWhite,
-                                      ),
-                                    ),
+                                    Text("Food",
+                                        style: (mapbox_store
+                                                    .indexBusesorFerry ==
+                                                2)
+                                            ? MyFonts.w500.setColor(kBlueGrey)
+                                            : MyFonts.w500.setColor(kWhite)),
                                   ],
                                 ),
                               ),
                             ),
                           )
-                        : SizedBox(),
+                        : SizedBox(),*/
                   ],
                 ),
                 SizedBox(
@@ -256,7 +246,8 @@ class _MapBoxState extends State<MapBox> {
                               //         mapbox_store.userlong),
                               //     15,
                               //     17);
-                              zoomInMarker(mapbox_store.userlat, mapbox_store.userlong);
+                              zoomInMarker(
+                                  mapbox_store.userlat, mapbox_store.userlong);
                             },
                             child: Icon(Icons.my_location),
                             mini: true,
@@ -268,10 +259,41 @@ class _MapBoxState extends State<MapBox> {
                 ),
                 (!mapbox_store.isTravelPage)
                     ? CarouselSlider(
-                        items: mapbox_store.buses_carousel,
+                        items: mapbox_store.buses_carousel
+                            .map((e) => GestureDetector(
+                                  child: context
+                                              .read<MapBoxStore>()
+                                              .selectedCarouselIndex ==
+                                          (e as CarouselCard).index
+                                      ? e
+                                      : ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                              Colors.grey.shade600, BlendMode.modulate),
+                                          child: e,
+                                        ),
+                                  onTap: () {
+                                    context
+                                        .read<MapBoxStore>()
+                                        .selectedCarousel(
+                                            (e as CarouselCard).index);
+                                    zoomTwoMarkers(
+                                        LatLng(
+                                            mapbox_store.bus_carousel_data[
+                                                    mapbox_store
+                                                        .selectedCarouselIndex]
+                                                ['lat'],
+                                            mapbox_store.bus_carousel_data[
+                                                    mapbox_store
+                                                        .selectedCarouselIndex]
+                                                ['long']),
+                                        LatLng(mapbox_store.userlat,
+                                            mapbox_store.userlong));
+                                  },
+                                ))
+                            .toList(),
                         options: CarouselOptions(
                           height: 100,
-                          viewportFraction: 0.6,
+                          viewportFraction: 0.7,
                           initialPage: 0,
                           enableInfiniteScroll: false,
                           scrollDirection: Axis.horizontal,
@@ -289,84 +311,45 @@ class _MapBoxState extends State<MapBox> {
       );
     });
   }
-  void onMapCreate(controller) {
-    setState(() {
-      _mapController = controller;
-    });
-  }
+
   void zoomInMarker(double lat, double long) {
-    _mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(lat, long), zoom: 17.0, bearing: 90.0, tilt: 45.0)));
   }
-  // _zoomPolyline(LatLng ans) async {
-  //   double startLatitude = lat;
-  //   double startLongitude = long;
-  //
-  //   double destinationLatitude = ans.latitude;
-  //   double destinationLongitude = ans.longitude;
-  //   double miny = (startLatitude <= destinationLatitude)
-  //       ? startLatitude
-  //       : destinationLatitude;
-  //   double minx = (startLongitude <= destinationLongitude)
-  //       ? startLongitude
-  //       : destinationLongitude;
-  //   double maxy = (startLatitude <= destinationLatitude)
-  //       ? destinationLatitude
-  //       : startLatitude;
-  //   double maxx = (startLongitude <= destinationLongitude)
-  //       ? destinationLongitude
-  //       : startLongitude;
-  //
-  //   double southWestLatitude = miny;
-  //   double southWestLongitude = minx;
-  //
-  //   double northEastLatitude = maxy;
-  //   double northEastLongitude = maxx;
-  //
-  //   mapController.animateCamera(
-  //     CameraUpdate.newLatLngBounds(
-  //       LatLngBounds(
-  //         northeast: LatLng(northEastLatitude, northEastLongitude),
-  //         southwest: LatLng(southWestLatitude, southWestLongitude),
-  //       ),
-  //       100.0,
-  //     ),
-  //   );
-  //
-  //   await _createPolylines(startLatitude, startLongitude, destinationLatitude,
-  //       destinationLongitude);
-  // }
-  //
-  // late PolylinePoints polylinePoints;
-  // List<LatLng> polylineCoordinates = [];
-  //
-  // _createPolylines(double startlat, double startlong, double destlat,
-  //     double destlong) async {
-  //   polylinePoints = PolylinePoints();
-  //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-  //     api_key,
-  //     PointLatLng(startlat, startlong),
-  //     PointLatLng(destlat, destlong),
-  //     travelMode: TravelMode.transit,
-  //   );
-  //
-  //   if (result.points.isNotEmpty) {
-  //     result.points.forEach((PointLatLng point) {
-  //       polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-  //     });
-  //   }
-  //
-  //   PolylineId id = PolylineId('poly');
-  //   Polyline polyline = Polyline(
-  //     polylineId: id,
-  //     color: Colors.blue,
-  //     points: polylineCoordinates,
-  //     width: 3,
-  //   );
-  //   setState(() {
-  //     poly.add(polyline);
-  //   });
-  // }
-}
 
-//
+  void zoomTwoMarkers(LatLng ans, LatLng user) async {
+    double startLatitude = user.latitude;
+    double startLongitude = user.longitude;
+
+    double destinationLatitude = ans.latitude;
+    double destinationLongitude = ans.longitude;
+    double miny = (startLatitude <= destinationLatitude)
+        ? startLatitude
+        : destinationLatitude;
+    double minx = (startLongitude <= destinationLongitude)
+        ? startLongitude
+        : destinationLongitude;
+    double maxy = (startLatitude <= destinationLatitude)
+        ? destinationLatitude
+        : startLatitude;
+    double maxx = (startLongitude <= destinationLongitude)
+        ? destinationLongitude
+        : startLongitude;
+
+    double southWestLatitude = miny;
+    double southWestLongitude = minx;
+
+    double northEastLatitude = maxy;
+    double northEastLongitude = maxx;
+
+    controller.animateCamera(
+      CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+          northeast: LatLng(northEastLatitude, northEastLongitude),
+          southwest: LatLng(southWestLatitude, southWestLongitude),
+        ),
+        100.0,
+      ),
+    );
+  }
+}

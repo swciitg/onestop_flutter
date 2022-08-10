@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
@@ -21,9 +22,9 @@ class _TravelPageState extends State<TravelPage> {
 
   @override
   Widget build(BuildContext context) {
+    var map_store = context.read<MapBoxStore>();
+    map_store.checkTravelPage(true);
     return Observer(builder: (context) {
-      var map_store = context.read<MapBoxStore>();
-      map_store.checkTravelPage(true);
       return SingleChildScrollView(
         child: Column(
           children: [
@@ -62,10 +63,10 @@ class _TravelPageState extends State<TravelPage> {
                                       ? Color.fromRGBO(39, 49, 65, 1)
                                       : Colors.white,
                                 ),*/
-                                    Text(
-                                      "Stops",
-                                        style: (selectBusesorStops == 0) ? MyFonts.w500.setColor(kBlueGrey) : MyFonts.w500.setColor(kWhite)
-                                    ),
+                                    Text("Stops",
+                                        style: (selectBusesorStops == 0)
+                                            ? MyFonts.w500.setColor(kBlueGrey)
+                                            : MyFonts.w500.setColor(kWhite)),
                                   ],
                                 ),
                               ),
@@ -99,7 +100,9 @@ class _TravelPageState extends State<TravelPage> {
                                 ),*/
                                     Text(
                                       "Bus",
-                                      style: (selectBusesorStops == 1) ? MyFonts.w500.setColor(kBlueGrey) : MyFonts.w500.setColor(kWhite),
+                                      style: (selectBusesorStops == 1)
+                                          ? MyFonts.w500.setColor(kBlueGrey)
+                                          : MyFonts.w500.setColor(kWhite),
                                     ),
                                   ],
                                 ),
@@ -109,35 +112,39 @@ class _TravelPageState extends State<TravelPage> {
                           Expanded(
                             child: Container(),
                           ),
-                          Theme(
-                            data: Theme.of(context)
-                                .copyWith(canvasColor: kAppBarGrey),
-                            child: DropdownButton<String>(
-                              value: day,
-                              icon: const Icon(
-                                Icons.arrow_drop_down,
-                                color: kWhite,
-                                size: 13,
-                              ),
-                              elevation: 16,
-                              style: MyFonts.w500.setColor(kWhite),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  day = newValue!;
-                                });
-                              },
-                              underline: Container(),
-                              items: <String>[
-                                'Weekdays',
-                                'Weekends'
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value, style: MyFonts.w500,),
-                                );
-                              }).toList(),
-                            ),
-                          )
+                          (selectBusesorStops == 0)
+                              ? Container()
+                              : Theme(
+                                  data: Theme.of(context)
+                                      .copyWith(canvasColor: kAppBarGrey),
+                                  child: DropdownButton<String>(
+                                    value: day,
+                                    icon: const Icon(
+                                      Icons.arrow_drop_down,
+                                      color: kWhite,
+                                      size: 13,
+                                    ),
+                                    elevation: 16,
+                                    style: MyFonts.w500.setColor(kWhite),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        day = newValue!;
+                                      });
+                                    },
+                                    underline: Container(),
+                                    items: <String>['Weekdays', 'Weekends']
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value,
+                                          style: MyFonts.w500,
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                )
                         ],
                       ),
                       (selectBusesorStops == 0)
@@ -156,6 +163,19 @@ class _TravelPageState extends State<TravelPage> {
                                     onTap: () {
                                       setState(() {
                                         map_store.selectedCarousel(index);
+                                        zoomTwoMarkers(
+                                            LatLng(
+                                                map_store.bus_carousel_data[
+                                                        map_store
+                                                            .selectedCarouselIndex]
+                                                    ['lat'],
+                                                map_store.bus_carousel_data[
+                                                        map_store
+                                                            .selectedCarouselIndex]
+                                                    ['long']),
+                                            LatLng(map_store.userlat,
+                                                map_store.userlong),
+                                            map_store.mapController);
                                       });
                                     },
                                     child: Container(
@@ -194,10 +214,13 @@ class _TravelPageState extends State<TravelPage> {
                                           style: MyFonts.w500.setColor(kWhite),
                                         ),
                                         subtitle: Text(
-                                          map_store.bus_carousel_data[index]
-                                              ['distance'].toString()+" km",
-                                          style: MyFonts.w500.setColor(Color.fromRGBO(119, 126, 141, 1))
-                                        ),
+                                            map_store.bus_carousel_data[index]
+                                                        ['distance']
+                                                    .toString() +
+                                                " km",
+                                            style: MyFonts.w500.setColor(
+                                                Color.fromRGBO(
+                                                    119, 126, 141, 1))),
                                         trailing: (map_store.bus_carousel_data[
                                                     index]['status'] ==
                                                 'left')
@@ -207,26 +230,33 @@ class _TravelPageState extends State<TravelPage> {
                                                 children: [
                                                   Text(
                                                     'Left',
-                                                    style: MyFonts.w500.setColor(Color.fromRGBO(135, 145, 165, 1)),
+                                                    style: MyFonts.w500
+                                                        .setColor(
+                                                            Color.fromRGBO(135,
+                                                                145, 165, 1)),
                                                   ),
                                                   Text(
                                                     map_store.bus_carousel_data[
                                                         index]['time'],
-                                                    style: MyFonts.w500.setColor(Color.fromRGBO(195, 198, 207, 1)),
+                                                    style: MyFonts.w500
+                                                        .setColor(
+                                                            Color.fromRGBO(195,
+                                                                198, 207, 1)),
                                                   ),
                                                 ],
                                               )
                                             : Text(
                                                 map_store.bus_carousel_data[
                                                     index]['time'],
-                                                style: MyFonts.w500.setColor(lBlue2),
+                                                style: MyFonts.w500
+                                                    .setColor(lBlue2),
                                               ),
                                       ),
                                     ),
                                   ),
                                 );
                               })
-                          : BusDetails(day: day),
+                          : BusDetails(index: (day == 'Weekdays') ? 1 : 0),
                     ],
                   )
                 : FerryDetails(),
@@ -235,10 +265,41 @@ class _TravelPageState extends State<TravelPage> {
       );
     });
   }
+
+  void zoomTwoMarkers(
+      LatLng ans, LatLng user, GoogleMapController controller) async {
+    double startLatitude = user.latitude;
+    double startLongitude = user.longitude;
+
+    double destinationLatitude = ans.latitude;
+    double destinationLongitude = ans.longitude;
+    double miny = (startLatitude <= destinationLatitude)
+        ? startLatitude
+        : destinationLatitude;
+    double minx = (startLongitude <= destinationLongitude)
+        ? startLongitude
+        : destinationLongitude;
+    double maxy = (startLatitude <= destinationLatitude)
+        ? destinationLatitude
+        : startLatitude;
+    double maxx = (startLongitude <= destinationLongitude)
+        ? destinationLongitude
+        : startLongitude;
+
+    double southWestLatitude = miny;
+    double southWestLongitude = minx;
+
+    double northEastLatitude = maxy;
+    double northEastLongitude = maxx;
+
+    controller.animateCamera(
+      CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+          northeast: LatLng(northEastLatitude, northEastLongitude),
+          southwest: LatLng(southWestLatitude, southWestLongitude),
+        ),
+        100.0,
+      ),
+    );
+  }
 }
-
-// Column(
-// children: map_store.bus_carousel_data.map((item) {
-
-// }).toList(),
-// ) :

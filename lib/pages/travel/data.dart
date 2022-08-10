@@ -1,8 +1,8 @@
 List<Map<String, dynamic>> BusStops = [
   {
-    'name': 'Kameng Bus Stop',
-    'lat': 30.000000,
-    'long': 60.000000,
+    'name': 'Market Complex Bus Stop',
+    'lat': 26.187,
+    'long':91.690,
     'status': 'left',
     'time': '1:45 PM',
     'distance': 1.2,
@@ -10,8 +10,8 @@ List<Map<String, dynamic>> BusStops = [
   },
   {
     'name': 'Manas Bus Stop',
-    'lat': 40.000000,
-    'long': 50.000000,
+    'lat': 26.191,
+    'long': 91.693,
     'status': 'left',
     'time': '1:45 PM',
     'distance': 1.4,
