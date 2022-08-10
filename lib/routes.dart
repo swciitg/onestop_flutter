@@ -1,4 +1,5 @@
 import 'package:onestop_dev/pages/blogs_page.dart';
+import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/pages/home/home.dart';
@@ -18,4 +19,5 @@ final routes = {
   SearchPage.id: (context) => const SearchPage(),
   LostFoundHome.id: (context) => LostFoundHome(),
   ContactPage.id: (context) => ContactPage(),
+  BuySellHome.id: (context) => BuySellHome()
 };

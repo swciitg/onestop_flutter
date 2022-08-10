@@ -1,34 +1,27 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/lostfound/found_model.dart';
+import 'package:onestop_dev/models/buysell/buy_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
-import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
+import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
 import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
-import 'package:onestop_dev/pages/lost_found/lnf_form.dart';
-import 'package:timeago/timeago.dart' as timeago;
-
-class LostFoundHome extends StatefulWidget {
-  static const id = "/lostFoundHome";
-  const LostFoundHome({Key? key}) : super(key: key);
+class BuySellHome extends StatefulWidget {
+  static const id = "/buySellHome";
+  const BuySellHome({Key? key}) : super(key: key);
 
   @override
-  State<LostFoundHome> createState() => _LostFoundHomeState();
+  State<BuySellHome> createState() => _BuySellHomeState();
 }
 
-class _LostFoundHomeState extends State<LostFoundHome> {
+class _BuySellHomeState extends State<BuySellHome> {
   StreamController selectedTypeController = StreamController();
-  final globalKey = GlobalKey<ScaffoldState>();
 
-  Future<List> getLostItems() async {
+  Future<List> getBuyItems() async {
     print("before");
     var res = await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/lost'));
     print("after");
@@ -55,7 +48,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
       appBar: AppBar(
         backgroundColor: kBlueGrey,
         title: Text(
-          "Lost and Found",
+          "Buy and Sell",
           style: MyFonts.w500.size(20).setColor(kWhite),
         ),
         elevation: 0,
@@ -73,28 +66,26 @@ class _LostFoundHomeState extends State<LostFoundHome> {
           )
         ],
       ),
-      // wrap column of body with future builder to fetch all lost and found
-      body: FutureBuilder<List>(
-          future: getLostItems(),
+      body:  FutureBuilder<List>(
+          future: getBuyItems(),
           builder: (context, lostsSnapshot) {
             if (lostsSnapshot.hasData) {
               return FutureBuilder<List>(
-                future: getFoundItems(),
+                future: getBuyItems(),
                 builder: (context, foundsSnapshot) {
                   print(foundsSnapshot.data);
                   if (foundsSnapshot.hasData) {
-                    List<Widget> lostItems = [];
+                    List<Widget> buyItems = [];
                     List<Widget> foundItems = [];
                     lostsSnapshot.data!.forEach((e) => {
                       print("here"),
                       print(e["username"]),
-                      lostItems.add(LostItemTile(
-                          currentLostModel: LostModel.fromJson(e)))
+                      buyItems.add(LostItemTile(
+                          currentLostModel: BuyModel.fromJson(e)))
                     });
                     print("here 2");
                     foundsSnapshot.data!.forEach((e) => {
-                      foundItems.add(FoundItemTile(
-                          currentFoundModel: FoundModel.fromJson(e),homeKey: globalKey,))
+                      foundItems.add(LostItemTile(currentLostModel: LostModel.fromJson(e)))
                     });
                     print("here 3");
                     return StreamBuilder(
@@ -109,22 +100,22 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                                   GestureDetector(
                                     onTap: () {
                                       if (snapshot.hasData &&
-                                          snapshot.data! != "Lost")
-                                        selectedTypeController.sink.add("Lost");
+                                          snapshot.data! != "Sell")
+                                        selectedTypeController.sink.add("Sell");
                                     },
                                     child: ItemTypeBar(
-                                      text: "Lost",
+                                      text: "Sell",
                                       margin:
                                       EdgeInsets.only(left: 16, bottom: 10),
                                       textStyle: MyFonts.w500.size(14).setColor(
                                           snapshot.hasData == false
                                               ? kBlack
-                                              : (snapshot.data! == "Lost"
+                                              : (snapshot.data! == "Sell"
                                               ? kBlack
                                               : kWhite)),
                                       backgroundColor: snapshot.hasData == false
                                           ? lBlue2
-                                          : (snapshot.data! == "Lost"
+                                          : (snapshot.data! == "Sell"
                                           ? lBlue2
                                           : kBlueGrey),
                                     ),
@@ -133,25 +124,25 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                                     onTap: () {
                                       if (!snapshot.hasData)
                                         selectedTypeController.sink
-                                            .add("Found");
+                                            .add("Buy");
                                       if (snapshot.hasData &&
-                                          snapshot.data! != "Found")
+                                          snapshot.data! != "Buy")
                                         selectedTypeController.sink
-                                            .add("Found");
+                                            .add("Buy");
                                     },
                                     child: ItemTypeBar(
-                                      text: "Found",
+                                      text: "Buy",
                                       margin:
                                       EdgeInsets.only(left: 8, bottom: 10),
                                       textStyle: MyFonts.w500.size(14).setColor(
                                           snapshot.hasData == false
                                               ? kWhite
-                                              : (snapshot.data! == "Found"
+                                              : (snapshot.data! == "Buy"
                                               ? kBlack
                                               : kWhite)),
                                       backgroundColor: snapshot.hasData == false
                                           ? kBlueGrey
-                                          : (snapshot.data! == "Found"
+                                          : (snapshot.data! == "Buy"
                                           ? lBlue2
                                           : kBlueGrey),
                                     ),
@@ -161,23 +152,23 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                             ),
                             Expanded(
                                 child: (!snapshot.hasData ||
-                                    snapshot.data! == "Lost")
-                                    ? (lostItems.length == 0
+                                    snapshot.data! == "Sell")
+                                    ? (buyItems.length == 0
                                     ? Center(
                                   child: Text(
-                                    "No Lost Items as of now :)",
+                                    "No Items on sell as of now :)",
                                     style: MyFonts.w500
                                         .size(16)
                                         .setColor(kWhite),
                                   ),
                                 )
                                     : ListView(
-                                  children: lostItems,
+                                  children: buyItems,
                                 ))
                                     : (foundItems.length == 0
                                     ? Center(
                                   child: Text(
-                                    "No found Items as of now :)",
+                                    "No Items on Buy as of now :)",
                                     style: MyFonts.w500
                                         .size(16)
                                         .setColor(kWhite),
@@ -248,18 +239,20 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                   return;
                 }
                 var imageString = base64Encode(bytes);
-                if (!snapshot.hasData || snapshot.data! == "Lost") {
+                if (!snapshot.hasData || snapshot.data! == "Sell") {
+                  print("Lost clicked");
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => LostFoundForm(
-                        category: "Lost",
+                      builder: (context) => BuySellForm(
+                        category: "Sell",
                         imageString: imageString,
                       )));
                   return;
                 }
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => LostFoundLocationForm(
-                      imageString: imageString,
-                    )));
+                print("Found clicked");
+                // Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (context) => LostFoundLocationForm(
+                //       imageString: imageString,
+                //     )));
               }
             },
             child: Container(
@@ -285,10 +278,10 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                         top: 15, left: 16, right: 20, bottom: 18),
                     child: Text(
                       !snapshot.hasData
-                          ? "Lost Item"
-                          : (snapshot.data! == "Lost"
-                          ? "Lost Item"
-                          : "Found Item"),
+                          ? "Sell Item"
+                          : (snapshot.data! == "Sell"
+                          ? "Sell Item"
+                          : "Request Item"),
                       style: MyFonts.w600.size(14).setColor(kBlack),
                     ),
                   ),
