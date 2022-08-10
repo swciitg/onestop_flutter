@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/travel/data.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +18,6 @@ class CarouselCard extends StatelessWidget {
       child: Observer(
         builder: (context) {
           return Container(
-
             decoration: BoxDecoration(
               color: Color.fromRGBO(34, 36, 41, 1),
               borderRadius: BorderRadius.all(Radius.circular(20)),

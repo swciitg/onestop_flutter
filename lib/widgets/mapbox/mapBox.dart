@@ -12,7 +12,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
 class MapBox extends StatefulWidget {
-
   MapBox({
     Key? key,
   }) : super(key: key);
@@ -36,10 +35,10 @@ class _MapBoxState extends State<MapBox> {
 
   void initState() {
     super.initState();
-    rootBundle.loadString('assets/json/map_style.json').then((value) => mapString = value);
+    rootBundle
+        .loadString('assets/json/map_style.json')
+        .then((value) => mapString = value);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -78,17 +77,17 @@ class _MapBoxState extends State<MapBox> {
                       );
                     });
                   }
-                    return Shimmer.fromColors(
-                        child: Container(
-                            height: 365,
-                          width: double.infinity,
-                          decoration:
-                            BoxDecoration(color: kBlack, borderRadius: BorderRadius.circular(25)),
-                        ),
-                        period: Duration(seconds: 1),
-                        baseColor: kHomeTile,
-                        highlightColor: lGrey);
-
+                  return Shimmer.fromColors(
+                      child: Container(
+                        height: 365,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: kBlack,
+                            borderRadius: BorderRadius.circular(25)),
+                      ),
+                      period: Duration(seconds: 1),
+                      baseColor: kHomeTile,
+                      highlightColor: lGrey);
                 }),
             Column(
               children: [
@@ -262,7 +261,16 @@ class _MapBoxState extends State<MapBox> {
                     ? CarouselSlider(
                         items: mapbox_store.buses_carousel
                             .map((e) => GestureDetector(
-                                  child: e,
+                                  child: context
+                                              .read<MapBoxStore>()
+                                              .selectedCarouselIndex ==
+                                          (e as CarouselCard).index
+                                      ? e
+                                      : ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                              Colors.grey.shade600, BlendMode.modulate),
+                                          child: e,
+                                        ),
                                   onTap: () {
                                     context
                                         .read<MapBoxStore>()
