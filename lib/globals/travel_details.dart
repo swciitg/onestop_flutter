@@ -1,3 +1,8 @@
+
+//index 0 -> Campus to city weekends
+//index 1 -> Campus to city weekdays
+//index 2 -> City to Campus weekends
+//index 3 -> City to Campus weekdays
 List<List<String>> FERRYTIME =
 [
   [
@@ -53,18 +58,37 @@ List<List<String>> FERRYTIME =
 
 ];
 
+//index 0 -> Campus to city weekends
+//index 1 -> Campus to city weekdays
+//index 2 -> City to Campus weekends
+//index 3 -> City to Campus weekdays
 List<List<String>> BUSTIME =
 [
   [
-    'a',
+    '10:00 AM',
+    '12:00 PM',
+    '3:00 PM',
+    '4:30 PM',
+    '5:30 PM',
+    '6:30 PM',
   ],
   [
-    'b',
+    '8:00 AM',
+    '5:00 PM',
+    '6:30 PM',
   ],
   [
-    'c',
+    '10:45 AM',
+    '12:45 PM',
+    '3:40 PM',
+    '5:15 PM',
+    '6:15 PM',
+    '7:30 PM',
   ],
   [
-    'd',
+    '3:15 PM',
+    '6:00 PM',
+    '7:30 PM',
   ],
+
 ];

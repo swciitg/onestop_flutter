@@ -17,45 +17,53 @@ class FerryDetails extends StatefulWidget {
 class _FerryDetailsState extends State<FerryDetails> {
   int index = 0;
 
-  int _selectdata()
-  {
-    if(from == 'Campus to City')
-    {if(day == 'Weekends') {return 0;} else {return 1;}}
-    else {if(day == 'Weekends') {return 2;} else {return 3;}}
+  int _selectdata() {
+    if (from == 'Campus to City') {
+      if (day == 'Weekends') {
+        return 0;
+      } else {
+        return 1;
+      }
+    } else {
+      if (day == 'Weekends') {
+        return 2;
+      } else {
+        return 3;
+      }
+    }
   }
 
   refresh() {
     setState(() {});
-    hasLeft('1:30 PM');
     index = _selectdata();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Column(children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              DropButton(day: 0, data: ['Campus to City', 'City to Campus'], f:refresh),
-              DropButton(day: 1, data: ['Weekdays', 'Weekends'], f: refresh,),
-            ],
+          DropButton(
+              day: 0, data: ['Campus to City', 'City to Campus'], f: refresh),
+          DropButton(
+            day: 1,
+            data: ['Weekdays', 'Weekends'],
+            f: refresh,
           ),
-          Column(
-            children: FERRYTIME[index].map((e) {
-              return Padding(
-                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                child: BusTile(
-                  time: e,
-                  isLeft: hasLeft(e.toString()),
-                ),
-              );
-            }).toList(),
-          )
-        ]
-    );
+        ],
+      ),
+      Column(
+        children: FERRYTIME[index].map((e) {
+          return Padding(
+            padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+            child: BusTile(
+              time: e,
+              isLeft: hasLeft(e.toString()),
+            ),
+          );
+        }).toList(),
+      )
+    ]);
   }
 }
-
-
-
