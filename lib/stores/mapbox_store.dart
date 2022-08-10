@@ -13,6 +13,7 @@ abstract class _MapBoxStore with Store {
   _MapBoxStore() {
     initialiseCarouselforBuses();
   }
+  late GoogleMapController mapController;
   @observable
   int indexBusesorFerry = 0;
   @observable
@@ -20,7 +21,7 @@ abstract class _MapBoxStore with Store {
   @observable
   double userlong = 0;
   @observable
-  int selectedCarouselIndex = -1;
+  int selectedCarouselIndex = 0;
   @observable
   bool isTravelPage = false;
   @observable
@@ -34,9 +35,19 @@ abstract class _MapBoxStore with Store {
   @observable
   ObservableFuture<List<LatLng>?> loadOperation = ObservableFuture.value(null);
 
+  @observable
+  ObservableList<Marker> markers = ObservableList<Marker>.of([]);
+
+  @action
+  void setMarkers(List<Marker> m) {
+    print("Setting markers");
+    this.markers = ObservableList<Marker>.of(m);
+  }
+
   @action
   void setIndexMapBox(int i) {
     this.indexBusesorFerry = i;
+
   }
 
   @action
@@ -53,19 +64,42 @@ abstract class _MapBoxStore with Store {
   @action
   void selectedCarousel(int i) {
     this.selectedCarouselIndex = i;
-    getPolylines(i);
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(15, 15)), 'assets/images/busicon.png')
+        .then((d) {
+      print('Im Here $i');
+      List<Marker> l = [];
+      // List<Marker> l = List.generate(
+      //   this.bus_carousel_data.length,
+      //       (index) => Marker(
+      //       markerId: MarkerId('bus$index'),
+      //       position: LatLng(this.bus_carousel_data[index]['lat'],
+      //           this.bus_carousel_data[index]['long'])),
+      // );
+      l.add(Marker(
+          icon: d,
+          markerId: MarkerId('bus$i'),
+          position: LatLng(this.bus_carousel_data[i]['lat'],
+              this.bus_carousel_data[i]['long'])));
+      setMarkers(l);
+    });
   }
 
   @action
   void checkTravelPage(bool i) {
     this.isTravelPage = i;
   }
+
   @action
   Future<void> getPolylines(int i) async {
-      print("Call API for timetable ${loadOperation.status}");
-      loadOperation = APIService.getPolyline(source: LatLng(this.userlat,this.userlong), dest: LatLng(26.2027, 91.7004)).asObservable();
-      print(loadOperation.value);
+    print("Call API for timetable ${loadOperation.status}");
+    loadOperation = APIService.getPolyline(
+            source: LatLng(this.userlat, this.userlong),
+            dest: LatLng(26.2027, 91.7004))
+        .asObservable();
+    print(loadOperation.value);
   }
+
   @action
   void initialiseCarouselforBuses() {
     for (int index = 0; index < BusStops.length; index++) {
@@ -88,8 +122,9 @@ abstract class _MapBoxStore with Store {
   List<Widget> get buses_carousel {
     List<Widget> l = List<Widget>.generate(
       this.bus_carousel_data.length,
-      (index) => carouselCard(this.bus_carousel_data[index]['index'],
-          this.bus_carousel_data[index]['time']),
+      (index) => CarouselCard(
+          index: this.bus_carousel_data[index]['index'],
+          time: this.bus_carousel_data[index]['time']),
     );
     return l;
   }
@@ -109,10 +144,6 @@ abstract class _MapBoxStore with Store {
   Location location = new Location();
   LocationData? _locationData;
 
-  @observable
-  List<Marker> markers = [];
-
-  @action
   Future<dynamic> getLocation() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -134,6 +165,7 @@ abstract class _MapBoxStore with Store {
     _locationData = await location.getLocation();
     this.userlat = _locationData!.latitude!;
     this.userlong = _locationData!.longitude!;
+    return LatLng(this.userlat, this.userlong);
     // Marker user_marker = Marker(
     //   point: LatLng(this.userlat, this.userlong),
     //   width: 8,
@@ -147,21 +179,15 @@ abstract class _MapBoxStore with Store {
 
   @action
   void generate_bus_markers() {
+    print('generate bs');
     List<Marker> l = List.generate(
       this.bus_carousel_data.length,
-      (index) =>
-      //     Marker(
-      //   point: LatLng(this.bus_carousel_data[index]['lat'],
-      //       this.bus_carousel_data[index]['long']),
-      //   width: 25.0,
-      //   height: 25.0,
-      //   builder: (ctx) => Container(
-      //     child: Image.asset(busIcon),
-      //   ),
-      // ),
-      Marker(markerId: MarkerId('bus$index'),position: LatLng(this.bus_carousel_data[index]['lat'], this.bus_carousel_data[index]['long'])),
+      (index) => Marker(
+          markerId: MarkerId('bus$index'),
+          position: LatLng(this.bus_carousel_data[index]['lat'],
+              this.bus_carousel_data[index]['long'])),
     );
-    this.markers = l;
+    this.markers = ObservableList<Marker>.of(l);
   }
 
   @action
@@ -169,18 +195,21 @@ abstract class _MapBoxStore with Store {
     List<Marker> l = List.generate(
       this.bus_carousel_data.length,
       (index) =>
-      //     Marker(
-      //   point: LatLng(this.bus_carousel_data[index]['lat'],
-      //       this.bus_carousel_data[index]['long']),
-      //   width: 25.0,
-      //   height: 25.0,
-      //   builder: (ctx) => Container(
-      //     child: Image.asset(restaurauntIcon),
-      //   ),
-      // ),
-      Marker(markerId: MarkerId('bus$index'),position: LatLng(this.bus_carousel_data[index]['lat'], this.bus_carousel_data[index]['long'])),
+          //     Marker(
+          //   point: LatLng(this.bus_carousel_data[index]['lat'],
+          //       this.bus_carousel_data[index]['long']),
+          //   width: 25.0,
+          //   height: 25.0,
+          //   builder: (ctx) => Container(
+          //     child: Image.asset(restaurauntIcon),
+          //   ),
+          // ),
+          Marker(
+              markerId: MarkerId('bus$index'),
+              position: LatLng(this.bus_carousel_data[index]['lat'],
+                  this.bus_carousel_data[index]['long'])),
     );
-    this.markers = l;
+    this.markers = ObservableList<Marker>.of(l);;
   }
 
 //   @action
@@ -203,4 +232,3 @@ abstract class _MapBoxStore with Store {
   final restaurauntIcon = 'assets/images/restaurantIcon.png';
 }
 // this.bus_carousel_data[i]['lat'], this.bus_carousel_data[i]['long']
-

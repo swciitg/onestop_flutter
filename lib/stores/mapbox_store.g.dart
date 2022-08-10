@@ -181,13 +181,13 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
       Atom(name: '_MapBoxStore.markers', context: context);
 
   @override
-  List<Marker> get markers {
+  ObservableList<Marker> get markers {
     _$markersAtom.reportRead();
     return super.markers;
   }
 
   @override
-  set markers(List<Marker> value) {
+  set markers(ObservableList<Marker> value) {
     _$markersAtom.reportWrite(value, super.markers, () {
       super.markers = value;
     });
@@ -201,16 +201,19 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
     return _$getPolylinesAsyncAction.run(() => super.getPolylines(i));
   }
 
-  late final _$getLocationAsyncAction =
-      AsyncAction('_MapBoxStore.getLocation', context: context);
-
-  @override
-  Future<dynamic> getLocation() {
-    return _$getLocationAsyncAction.run(() => super.getLocation());
-  }
-
   late final _$_MapBoxStoreActionController =
       ActionController(name: '_MapBoxStore', context: context);
+
+  @override
+  void setMarkers(List<Marker> m) {
+    final _$actionInfo = _$_MapBoxStoreActionController.startAction(
+        name: '_MapBoxStore.setMarkers');
+    try {
+      return super.setMarkers(m);
+    } finally {
+      _$_MapBoxStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setIndexMapBox(int i) {
