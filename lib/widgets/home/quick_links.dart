@@ -22,5 +22,4 @@ List<HomeTabTile> quickLinks = [
     icon: Icons.article_outlined,
     routeId: "/blogs",
   ),
-
 ];

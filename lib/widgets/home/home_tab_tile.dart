@@ -36,10 +36,9 @@ class HomeTabTile extends StatelessWidget {
                     style: MyFonts.w500.size(23).setColor(lBlue),
                     textAlign: TextAlign.center)
               ],
-            ),
-          ),
+
         ),
       ),
-    );
-  }
+    )));
+    }
 }
