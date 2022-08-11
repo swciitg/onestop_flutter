@@ -12,28 +12,32 @@ class HomeTabTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, routeId ?? "/"),
-      child: Container(
-        //margin: EdgeInsets.all(4),
-        // height: 50,
-        width: 90,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18), color: lGrey),
-        padding: EdgeInsets.all(6.0),
-        child: Column(
-          // Replace with a Row for horizontal icon + text
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Icon(
-              icon,
-              size: 20,
-              color: lBlue,
+    return Expanded(
+      child: FittedBox(
+        child: GestureDetector(
+          onTap: () => Navigator.pushNamed(context, routeId ?? "/"),
+          child: Container(
+            //margin: EdgeInsets.all(4),
+            height: 150,
+            width: 150,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25), color: lGrey),
+            padding: EdgeInsets.all(4.0),
+            child: Column(
+              // Replace with a Row for horizontal icon + text
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Icon(
+                  icon,
+                  size: 30,
+                  color: lBlue,
+                ),
+                Text(label,
+                    style: MyFonts.w500.size(23).setColor(lBlue),
+                    textAlign: TextAlign.center)
+              ],
             ),
-            Text(label,
-                style: MyFonts.w500.size(13).setColor(lBlue),
-                textAlign: TextAlign.center)
-          ],
+          ),
         ),
       ),
     );
