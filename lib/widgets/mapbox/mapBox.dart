@@ -1,4 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -59,6 +61,11 @@ class _MapBoxState extends State<MapBox> {
                         height: 365,
                         width: double.infinity,
                         child: GoogleMap(
+                          gestureRecognizers:
+                              <Factory<OneSequenceGestureRecognizer>>[
+                            new Factory<OneSequenceGestureRecognizer>(
+                                () => new EagerGestureRecognizer())
+                          ].toSet(),
                           onMapCreated: (mapcontroller) {
                             controller = mapcontroller;
                             controller.setMapStyle(mapString);
@@ -268,7 +275,8 @@ class _MapBoxState extends State<MapBox> {
                                       ? e
                                       : ColorFiltered(
                                           colorFilter: ColorFilter.mode(
-                                              Colors.grey.shade600, BlendMode.modulate),
+                                              Colors.grey.shade600,
+                                              BlendMode.modulate),
                                           child: e,
                                         ),
                                   onTap: () {
