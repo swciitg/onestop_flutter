@@ -348,7 +348,7 @@ class _MapBoxState extends State<MapBox> {
           northeast: LatLng(northEastLatitude, northEastLongitude),
           southwest: LatLng(southWestLatitude, southWestLongitude),
         ),
-        100.0,
+        120.0,
       ),
     );
   }
