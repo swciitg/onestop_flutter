@@ -79,7 +79,8 @@ flutter_native_splash:
 
   color: "#3d82ff"
   image: "assets/images/logo.png"
-
+  branding: "assets/images/branding.png"
+  branding_mode: "bottom"
 
   android: true
   ios: true

@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -122,7 +123,7 @@ class _MapBoxState extends State<MapBox> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                IconData(0xe1d5, fontFamily: 'MaterialIcons'),
+                                FluentIcons.vehicle_bus_24_regular,
                                 color: (mapbox_store.indexBusesorFerry == 0)
                                     ? kBlueGrey
                                     : kWhite,
@@ -163,7 +164,7 @@ class _MapBoxState extends State<MapBox> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                IconData(0xefc2, fontFamily: 'MaterialIcons'),
+                                FluentIcons.vehicle_ship_24_regular,
                                 color: (mapbox_store.indexBusesorFerry == 1)
                                     ? kBlueGrey
                                     : kWhite,
@@ -237,8 +238,9 @@ class _MapBoxState extends State<MapBox> {
                           padding: const EdgeInsets.only(right: 4, bottom: 8),
                           child: FloatingActionButton(
                             heroTag: null,
+                            backgroundColor: kAppBarGrey,
                             onPressed: () {},
-                            child: Icon(Icons.navigate_before_outlined),
+                            child: Icon(FluentIcons.directions_24_regular, color: lBlue2,),
                             mini: true,
                           ),
                         ),
@@ -246,6 +248,7 @@ class _MapBoxState extends State<MapBox> {
                           padding: const EdgeInsets.only(bottom: 8, right: 4),
                           child: FloatingActionButton(
                             heroTag: null,
+                            backgroundColor: kAppBarGrey,
                             onPressed: () {
                               // _mapController.
                               // moveAndRotate(
@@ -256,7 +259,7 @@ class _MapBoxState extends State<MapBox> {
                               zoomInMarker(
                                   mapbox_store.userlat, mapbox_store.userlong);
                             },
-                            child: Icon(Icons.my_location),
+                            child: Icon(FluentIcons.my_location_24_regular,color: lBlue2,),
                             mini: true,
                           ),
                         ),

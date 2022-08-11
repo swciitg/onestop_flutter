@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -201,10 +202,7 @@ class _TravelPageState extends State<TravelPage> {
                                               Color.fromRGBO(255, 227, 125, 1),
                                           radius: 26,
                                           child: Icon(
-                                            IconData(
-                                              0xe1d5,
-                                              fontFamily: 'MaterialIcons',
-                                            ),
+                                            FluentIcons.vehicle_bus_24_filled,
                                             color: kBlueGrey,
                                           ),
                                         ),
