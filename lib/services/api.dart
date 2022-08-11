@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
-import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 class APIService {
   static String restaurantURL = "https://onestop4.free.beeceptor.com/getAllOutlets";
@@ -45,6 +45,21 @@ class APIService {
       print(status);
       throw Exception("contact Data could not be fetched");
     }
+  }
+
+
+  static Future<List<List<String>>> getBusData() async
+  {
+    String data = await rootBundle.loadString('lib/globals/bus_time.json');
+    var json = jsonDecode(data);
+    List<List<String>>time = [];
+    print(json.runtimeType);
+    time.add((json["CollegeToCity_Holiday"] as List<dynamic>).map((e) => e as String).toList());
+    time.add((json["CollegeToCity_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
+
+    time.add((json["CityToCollege_Holiday"] as List<dynamic>).map((e) => e as String).toList());
+    time.add((json["CityToCollege_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
+    return time;
   }
 
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {

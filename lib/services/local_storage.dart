@@ -31,6 +31,12 @@ class LocalStorage {
     _dbOpenCompleter.complete(database);
   }
 
+  Future<void> storeBusData(List<List<String>> busTime, String recordName) async {
+    var store = StoreRef<String,List<Object?>>.main();
+    Database localDB = await LocalStorage.instance.database;
+    await store.record(recordName).put(localDB, busTime);
+  }
+
   Future<void> storeData(List<Map<String,dynamic>> json, String recordName) async {
     var store = StoreRef<String,List<Object?>>.main();
     Database localDB = await LocalStorage.instance.database;

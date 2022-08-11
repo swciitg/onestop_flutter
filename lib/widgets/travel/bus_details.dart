@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/functions/travel/has_left.dart';
-import 'package:onestop_dev/globals/travel_details.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'bus_tile.dart';
 
 class BusDetails extends StatefulWidget {
@@ -16,6 +16,19 @@ class BusDetails extends StatefulWidget {
 class _BusDetailsState extends State<BusDetails> {
   bool isCity = false;
   bool isCampus = false;
+  List<List<String>> BUSTIME = [];
+
+  @override
+  void initState() {
+
+    super.initState();
+    function();
+  }
+
+  function () async{
+    BUSTIME = await DataProvider.getBusTimings();
+    print(BUSTIME);
+  }
 
   @override
   Widget build(BuildContext context) {
