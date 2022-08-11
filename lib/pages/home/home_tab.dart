@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/home/date_course.dart';
+import 'package:onestop_dev/widgets/home/home_links.dart';
 import 'package:onestop_dev/widgets/home/quick_links.dart';
+import 'package:onestop_dev/widgets/home/service_links.dart';
 import 'package:onestop_dev/widgets/mapbox/mapBox.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
-
 
 class HomeTab extends StatefulWidget {
   const HomeTab({Key? key}) : super(key: key);
@@ -42,12 +38,10 @@ class _HomeTabState extends State<HomeTab> {
           SizedBox(
             height: 10,
           ),
-          Builder(
-              builder: (context) {
-                context.read<MapBoxStore>().checkTravelPage(false);
-                return MapBox();
-              }
-          ),
+          Builder(builder: (context) {
+            context.read<MapBoxStore>().checkTravelPage(false);
+            return MapBox();
+          }),
           SizedBox(
             height: 10,
           ),
@@ -55,14 +49,20 @@ class _HomeTabState extends State<HomeTab> {
           SizedBox(
             height: 10,
           ),
-          QuickLinks(),
+          HomeLinks(
+            links: serviceLinks,
+            title: 'Services',
+          ),
           SizedBox(
             height: 10,
           ),
-          // Services(),
-          // SizedBox(
-          //   height: 10,
-          // ),
+          HomeLinks(
+            links: quickLinks,
+            title: 'Quick Links',
+          ),
+          SizedBox(
+            height: 10,
+          ),
         ],
       ),
     );
