@@ -19,8 +19,8 @@ List<Map<String, dynamic>> BusStops = [
   },
   {
     'name': 'Guest House Bus Stop',
-    'lat': 26.19735073676064,
-    'long': 91.69429780581677,
+    'lat': 26.195232814372122,
+    'long': 91.69460894178067,
     'status': 'left',
     'time': '1:45 PM',
     'distance': 1.4,
