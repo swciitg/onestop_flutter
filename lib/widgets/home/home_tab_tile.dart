@@ -39,6 +39,6 @@ class HomeTabTile extends StatelessWidget {
 
         ),
       ),
-    );
-  }
+    )));
+    }
 }
