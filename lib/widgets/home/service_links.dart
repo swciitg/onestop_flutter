@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'home_tab_tile.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 List<HomeTabTile> serviceLinks = [
   HomeTabTile(
-      label: "IP Settings",
-      icon: Icons.computer_outlined,
-      routeId: "/ip"
+    label: "LAN",
+    icon: FluentIcons.desktop_24_regular,
+    routeId: "/ip",
   ),
   HomeTabTile(
     label: "Contacts",
-    icon: Icons.contact_mail_outlined,
+    icon: FluentIcons.contact_card_group_24_regular,
     routeId: "/contacto",
   ),
   HomeTabTile(
     label: "Lost and Found",
-    icon: Icons.find_in_page_outlined,
+    icon: FluentIcons.document_search_24_regular,
     routeId: "/lostFoundHome",
   ),
   HomeTabTile(
     label: "Buy and Sell",
-    icon: Icons.article_outlined,
+    icon: FluentIcons.money_20_regular,
     routeId: "/buySellHome",
   ),
 ];

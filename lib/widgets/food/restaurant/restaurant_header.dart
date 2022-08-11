@@ -4,6 +4,7 @@ import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'call_map_button.dart';
 
 class RestaurantHeader extends StatelessWidget {
@@ -96,18 +97,20 @@ class RestaurantHeader extends StatelessWidget {
                         child: Call_MapButton(
                           fontSize: 14,
                           Call_Map: 'Call',
-                          icon: Icons.phone_outlined,
+                          icon: FluentIcons.call_24_regular,
                           callback: () {
                             launchPhoneURL(restaurant.phone_number);
                           },
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Expanded(
                         child: Call_MapButton(
                           fontSize: 14,
                           Call_Map: 'Map',
-                          icon: Icons.location_on_outlined,
+                          icon: FluentIcons.location_24_regular,
                           callback: () {
                             openMap(restaurant.latitude, restaurant.longitude);
                             ;
