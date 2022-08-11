@@ -1,37 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 List<Widget> bottomNavIcons() {
   return [
     NavigationDestination(
-      icon: Icon(Icons.home_outlined),
+      icon: Icon(FluentIcons.home_24_regular),
       label: 'Home',
       selectedIcon: Icon(
-        Icons.home_filled,
+        FluentIcons.home_24_filled,
         color: lBlue2,
       ),
     ),
     NavigationDestination(
-      icon: Icon(Icons.restaurant_outlined),
+      icon: Icon(FluentIcons.food_24_regular),
       label: 'Food',
       selectedIcon: Icon(
-        Icons.restaurant_outlined,
+        FluentIcons.food_24_filled,
         color: lBlue2,
       ),
     ),
     NavigationDestination(
-      icon: Icon(Icons.directions_bus_outlined),
+      icon: Icon(FluentIcons.vehicle_bus_24_regular),
       label: 'Travel',
       selectedIcon: Icon(
-        Icons.directions_bus,
+        FluentIcons.vehicle_bus_24_filled,
         color: lBlue2,
       ),
     ),
     NavigationDestination(
-      icon: Icon(Icons.calendar_month_outlined),
+      icon: Icon(FluentIcons.calendar_ltr_24_regular),
       label: 'Timetable',
       selectedIcon: Icon(
-        Icons.calendar_month,
+        FluentIcons.calendar_ltr_24_filled,
         color: lBlue2,
       ),
     )
