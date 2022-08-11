@@ -1,0 +1,29 @@
+
+  {
+    "CollegeToCity_WorkingDay": [
+      "8:00 AM",
+      "5:00 PM",
+      "6:30 PM"
+    ],
+    "CityToCollege_WorkingDay": [
+      "3:15 PM",
+      "6:00 PM",
+      "7:30 PM"
+    ],
+    "CollegeToCity_Holiday": [
+      "10:45 AM",
+      "12:45 PM",
+      "3:40 PM",
+      "5:15 PM",
+      "6:15 PM",
+      "7:30 PM"
+    ],
+    "CityToCollege_Holiday": [
+      "10:00 AM",
+      "12:00 PM",
+      "3:00 PM",
+      "4:30 PM",
+      "5:30 PM",
+      "6:30 PM"
+    ]
+  }
