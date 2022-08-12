@@ -43,7 +43,9 @@ class _BlogState extends State<Blogs> {
   late RssFeed _rssFeed; // RSS Feed Object
   List<String> mediumLists = [
     'https://medium.com/feed/@cepstrumeeeiitg',
-    'https://medium.com/feed/@csea.iitg'
+    'https://medium.com/feed/@csea.iitg',
+    'https://medium.com/feed/@media-techniche',
+    'https://medium.com/feed/@codingclubiitg'
   ];
   static String MEDIUM_PROFILE_RSS_FEED_URL =
       'https://medium.com/feed/@csea.iitg';

@@ -7,6 +7,7 @@ import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:provider/provider.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'call_map_button.dart';
 
 class RestaurantTile extends StatelessWidget {
@@ -66,7 +67,9 @@ class RestaurantTile extends StatelessWidget {
                           'Waiting time: ${restaurant_model.waiting_time}',
                           style: MyFonts.w500.size(11).setColor(kTabText),
                         ),
-                        SizedBox(height: 1,),
+                        SizedBox(
+                          height: 1,
+                        ),
                         Text(
                           'Closes at ${restaurant_model.closing_time}',
                           style: MyFonts.w500.size(11).setColor(lRed2),
@@ -78,15 +81,17 @@ class RestaurantTile extends StatelessWidget {
                           children: [
                             Call_MapButton(
                               Call_Map: 'Call',
-                              icon: Icons.phone_outlined,
+                              icon: FluentIcons.call_20_regular,
                               callback: () {
                                 launchPhoneURL(restaurant_model.phone_number);
                               },
                             ),
-                            SizedBox(width: 4,),
+                            SizedBox(
+                              width: 4,
+                            ),
                             Call_MapButton(
                               Call_Map: 'Map',
-                              icon: Icons.location_on_outlined,
+                              icon: FluentIcons.location_24_regular,
                               callback: () {
                                 openMap(restaurant_model.latitude,
                                     restaurant_model.longitude);

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -21,24 +23,32 @@ class HomeTabTile extends StatelessWidget {
             height: 150,
             width: 150,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25), color: lGrey),
+                borderRadius: BorderRadius.circular(50), color: lGrey),
             padding: EdgeInsets.all(4.0),
             child: Column(
               // Replace with a Row for horizontal icon + text
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Icon(
-                  icon,
-                  size: 30,
-                  color: lBlue,
+                SizedBox(
+                  height: 8,
                 ),
-                Text(label,
-                    style: MyFonts.w500.size(23).setColor(lBlue),
-                    textAlign: TextAlign.center)
+                Expanded(
+                  child: Icon(
+                    icon,
+                    size: 40,
+                    color: lBlue,
+                  ),
+                ),
+                Expanded(
+                  child: Text(label,
+                      style: MyFonts.w500.size(23).setColor(lBlue),
+                      textAlign: TextAlign.center),
+                ),
               ],
-
+            ),
+          ),
         ),
       ),
-    )));
-    }
+    );
+  }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/qr.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 // TODO: Make profile picture clickable and redirect to QR
 AppBar appBar(BuildContext context, {bool displayIcon = true}) {
@@ -17,7 +18,7 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
             ? CircleAvatar(
                 child: IconButton(
                   icon: const Icon(
-                    Icons.account_circle,
+                    FluentIcons.person_24_filled,
                     color: lBlue2,
                   ),
                   onPressed: () {
@@ -38,18 +39,35 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
         RichText(
           text: TextSpan(children: [
             WidgetSpan(
-              child: Text(
-                "One",
-                textAlign: TextAlign.center,
-                style: MyFonts.w600.size(22).letterSpace(1.0).setColor(lBlue2),
+              child: Row(
+                children: [
+                  Text(
+                    "One",
+                    textAlign: TextAlign.center,
+                    style:
+                        MyFonts.w600.size(23).letterSpace(1.0).setColor(lBlue2),
+                  ),
+                  Text(
+                    ".",
+                    textAlign: TextAlign.center,
+                    style: MyFonts.w500.size(23).setColor(kYellow),
+                  ),
+                ],
               ),
             ),
-            TextSpan(
-              text: '.',
-              style: MyFonts.w500.factor(5.85).setColor(kYellow),
-            )
+            // TextSpan(
+            //   text: '.',
+            //   style: MyFonts.w500.factor(5).setColor(kYellow),
+            // )
           ]),
+          // textAlign: TextAlign.start,
         ),
+        // Expanded(
+        //   child: Image.asset(
+        //     'assets/images/AppLogo.png',
+        //     // scale: 4,
+        //   ),
+        // ),
         SizedBox(
           width: 35,
           height: 35,
