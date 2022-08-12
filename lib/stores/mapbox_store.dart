@@ -13,7 +13,7 @@ abstract class _MapBoxStore with Store {
   _MapBoxStore() {
     initialiseCarouselforBuses();
   }
-  late GoogleMapController mapController;
+  GoogleMapController? mapController;
   @observable
   int indexBusesorFerry = 0;
   @observable
@@ -165,7 +165,7 @@ abstract class _MapBoxStore with Store {
     double northEastLatitude = maxy;
     double northEastLongitude = maxx;
 
-    this.mapController.animateCamera(
+    this.mapController?.animateCamera(
           CameraUpdate.newLatLngBounds(
             LatLngBounds(
               northeast: LatLng(northEastLatitude, northEastLongitude),

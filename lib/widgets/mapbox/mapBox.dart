@@ -34,11 +34,18 @@ class _MapBoxState extends State<MapBox> {
 
   double zoom = 13.0;
 
+  @override
   void initState() {
     super.initState();
     rootBundle
         .loadString('assets/json/map_style.json')
         .then((value) => mapString = value);
+  }
+
+  @override
+  void dispose() {
+    context.read<MapBoxStore>().mapController = null;
+    super.dispose();
   }
 
   @override
@@ -142,9 +149,7 @@ class _MapBoxState extends State<MapBox> {
                     ),
                     TextButton(
                       onPressed: () {
-                        setState(() {
                           mapbox_store.setIndexMapBox(1);
-                        });
                       },
                       //padding: EdgeInsets.only(left: 10),
                       child: ClipRRect(
