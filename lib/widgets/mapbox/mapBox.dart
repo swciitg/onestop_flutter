@@ -68,9 +68,9 @@ class _MapBoxState extends State<MapBox> {
                         width: double.infinity,
                         child: GoogleMap(
                           gestureRecognizers:
-                          <Factory<OneSequenceGestureRecognizer>>[
+                              <Factory<OneSequenceGestureRecognizer>>[
                             new Factory<OneSequenceGestureRecognizer>(
-                                    () => new EagerGestureRecognizer())
+                                () => new EagerGestureRecognizer())
                           ].toSet(),
                           onMapCreated: (mapcontroller) {
                             controller = mapcontroller;
@@ -149,7 +149,7 @@ class _MapBoxState extends State<MapBox> {
                     ),
                     TextButton(
                       onPressed: () {
-                          mapbox_store.setIndexMapBox(1);
+                        mapbox_store.setIndexMapBox(1);
                       },
                       //padding: EdgeInsets.only(left: 10),
                       child: ClipRRect(
@@ -278,51 +278,50 @@ class _MapBoxState extends State<MapBox> {
                 ),
                 (!mapbox_store.isTravelPage)
                     ? CarouselSlider(
-                  items: mapbox_store.buses_carousel
-                      .map((e) =>
-                      GestureDetector(
-                        child: context
-                            .read<MapBoxStore>()
-                            .selectedCarouselIndex ==
-                            (e as CarouselCard).index
-                            ? e
-                            : ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                              Colors.grey.shade600,
-                              BlendMode.modulate),
-                          child: e,
+                        items: mapbox_store.buses_carousel
+                            .map((e) => GestureDetector(
+                                  child: context
+                                              .read<MapBoxStore>()
+                                              .selectedCarouselIndex ==
+                                          (e as CarouselCard).index
+                                      ? e
+                                      : ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                              Colors.grey.shade600,
+                                              BlendMode.modulate),
+                                          child: e,
+                                        ),
+                                  onTap: () {
+                                    mapbox_store.selectedCarousel(
+                                        (e as CarouselCard).index);
+                                    mapbox_store.zoomTwoMarkers(
+                                        LatLng(
+                                            mapbox_store.bus_carousel_data[
+                                                    mapbox_store
+                                                        .selectedCarouselIndex]
+                                                ['lat'],
+                                            mapbox_store.bus_carousel_data[
+                                                    mapbox_store
+                                                        .selectedCarouselIndex]
+                                                ['long']),
+                                        LatLng(mapbox_store.userlat,
+                                            mapbox_store.userlong),
+                                        120.0);
+                                  },
+                                ))
+                            .toList(),
+                        options: CarouselOptions(
+                          height: 100,
+                          viewportFraction: 0.7,
+                          initialPage: 0,
+                          enableInfiniteScroll: false,
+                          scrollDirection: Axis.horizontal,
+                          // onPageChanged:
+                          //     (int index, CarouselPageChangedReason reason) async {
+                          //
+                          // },
                         ),
-                        onTap: () {
-                          mapbox_store.selectedCarousel(
-                              (e as CarouselCard).index);
-                          mapbox_store.zoomTwoMarkers(
-                              LatLng(
-                                  mapbox_store.bus_carousel_data[
-                                  mapbox_store
-                                      .selectedCarouselIndex]
-                                  ['lat'],
-                                  mapbox_store.bus_carousel_data[
-                                  mapbox_store
-                                      .selectedCarouselIndex]
-                                  ['long']),
-                              LatLng(mapbox_store.userlat,
-                                  mapbox_store.userlong),
-                              120.0);
-                        },
-                      ))
-                      .toList(),
-                  options: CarouselOptions(
-                    height: 100,
-                    viewportFraction: 0.7,
-                    initialPage: 0,
-                    enableInfiniteScroll: false,
-                    scrollDirection: Axis.horizontal,
-                    // onPageChanged:
-                    //     (int index, CarouselPageChangedReason reason) async {
-                    //
-                    // },
-                  ),
-                )
+                      )
                     : SizedBox(),
               ],
             ),
