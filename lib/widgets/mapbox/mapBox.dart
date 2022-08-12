@@ -13,7 +13,6 @@ import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:geolocator/geolocator.dart';
 
 class MapBox extends StatefulWidget {
   MapBox({

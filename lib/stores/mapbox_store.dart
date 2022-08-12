@@ -247,6 +247,8 @@ abstract class _MapBoxStore with Store {
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
     Position pos=await Geolocator.getCurrentPosition();
+    this.userlat=pos.latitude;
+    this.userlong=pos.longitude;
     return LatLng(pos.latitude, pos.longitude);
   }
   @action
