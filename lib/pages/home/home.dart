@@ -9,6 +9,7 @@ import 'package:onestop_dev/pages/home/home_tab.dart';
 import 'package:onestop_dev/pages/timetable/timetable.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:provider/provider.dart';
 
@@ -46,6 +47,7 @@ class _HomePageState extends State<HomePage> {
           selectedIndex: index,
           onDestinationSelected: (index) => setState(() {
             this.index = index;
+            context.read<MapBoxStore>().mapController=null;
           }),
           destinations: bottomNavIcons(),
         ),
