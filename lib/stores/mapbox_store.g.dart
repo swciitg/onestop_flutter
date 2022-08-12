@@ -282,17 +282,6 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   }
 
   @override
-  void initialiseCarouselforFerry() {
-    final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.initialiseCarouselforFerry');
-    try {
-      return super.initialiseCarouselforFerry();
-    } finally {
-      _$_MapBoxStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void generate_bus_markers() {
     final _$actionInfo = _$_MapBoxStoreActionController.startAction(
         name: '_MapBoxStore.generate_bus_markers');

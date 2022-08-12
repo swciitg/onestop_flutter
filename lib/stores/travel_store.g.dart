@@ -101,22 +101,6 @@ mixin _$TravelStore on _TravelStore, Store {
     });
   }
 
-  late final _$ferryGhatTypeAtom =
-      Atom(name: '_TravelStore.ferryGhatType', context: context);
-
-  @override
-  String get ferryGhatType {
-    _$ferryGhatTypeAtom.reportRead();
-    return super.ferryGhatType;
-  }
-
-  @override
-  set ferryGhatType(String value) {
-    _$ferryGhatTypeAtom.reportWrite(value, super.ferryGhatType, () {
-      super.ferryGhatType = value;
-    });
-  }
-
   late final _$_TravelStoreActionController =
       ActionController(name: '_TravelStore', context: context);
 
@@ -142,16 +126,6 @@ mixin _$TravelStore on _TravelStore, Store {
     }
   }
 
-  @override
-  void setFerryGhatType(String s) {
-    final _$actionInfo = _$_TravelStoreActionController.startAction(
-        name: '_TravelStore.setFerryGhatType');
-    try {
-      return super.setFerryGhatType(s);
-    } finally {
-      _$_TravelStoreActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   void setFerryToCampus() {
@@ -215,7 +189,6 @@ selectBusesorStops: ${selectBusesorStops},
 busDayType: ${busDayType},
 ferryDirection: ${ferryDirection},
 ferryDayType: ${ferryDayType},
-ferryGhatType: ${ferryGhatType},
 ferryDataIndex: ${ferryDataIndex},
 busDayTypeIndex: ${busDayTypeIndex},
 busPage: ${busPage},

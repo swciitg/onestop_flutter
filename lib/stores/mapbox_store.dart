@@ -117,23 +117,6 @@ abstract class _MapBoxStore with Store {
     // generate_polylines();
   }
 
-  @action
-  void initialiseCarouselforFerry() {
-    for (int index = 0; index < BusStops.length; index++) {
-      this.bus_carousel_data.add({
-        'index': index,
-        'time': BusStops[index]['time'],
-        'lat': BusStops[index]['lat'],
-        'long': BusStops[index]['long'],
-        'status': BusStops[index]['status'],
-        'distance': BusStops[index]['distance'],
-        'name': BusStops[index]['name']
-      });
-    }
-    bus_carousel_data.sort((a, b) => a['distance'] < b['distance'] ? 0 : 1);
-    generate_bus_markers();
-    // generate_polylines();
-  }
 
   @computed
   List<Widget> get buses_carousel {
