@@ -29,8 +29,6 @@ String formattedTime = DateFormat.jm().format(now);
 class _MapBoxState extends State<MapBox> {
   String mapString = '';
   late GoogleMapController controller;
-  final myToken =
-      'pk.eyJ1IjoibGVhbmQ5NjYiLCJhIjoiY2t1cmpreDdtMG5hazJvcGp5YzNxa3VubyJ9.laphl_yeaw_9SUbcebw9Rg';
   final pointIcon = 'assets/images/pointicon.png';
   final busIcon = 'assets/images/busicon.png';
 
@@ -63,9 +61,9 @@ class _MapBoxState extends State<MapBox> {
                         width: double.infinity,
                         child: GoogleMap(
                           gestureRecognizers:
-                              <Factory<OneSequenceGestureRecognizer>>[
+                          <Factory<OneSequenceGestureRecognizer>>[
                             new Factory<OneSequenceGestureRecognizer>(
-                                () => new EagerGestureRecognizer())
+                                    () => new EagerGestureRecognizer())
                           ].toSet(),
                           onMapCreated: (mapcontroller) {
                             controller = mapcontroller;
@@ -240,7 +238,10 @@ class _MapBoxState extends State<MapBox> {
                             heroTag: null,
                             backgroundColor: kAppBarGrey,
                             onPressed: () {},
-                            child: Icon(FluentIcons.directions_24_regular, color: lBlue2,),
+                            child: Icon(
+                              FluentIcons.directions_24_regular,
+                              color: lBlue2,
+                            ),
                             mini: true,
                           ),
                         ),
@@ -259,7 +260,10 @@ class _MapBoxState extends State<MapBox> {
                               zoomInMarker(
                                   mapbox_store.userlat, mapbox_store.userlong);
                             },
-                            child: Icon(FluentIcons.my_location_24_regular,color: lBlue2,),
+                            child: Icon(
+                              FluentIcons.my_location_24_regular,
+                              color: lBlue2,
+                            ),
                             mini: true,
                           ),
                         ),
@@ -269,51 +273,51 @@ class _MapBoxState extends State<MapBox> {
                 ),
                 (!mapbox_store.isTravelPage)
                     ? CarouselSlider(
-                        items: mapbox_store.buses_carousel
-                            .map((e) => GestureDetector(
-                                  child: context
-                                              .read<MapBoxStore>()
-                                              .selectedCarouselIndex ==
-                                          (e as CarouselCard).index
-                                      ? e
-                                      : ColorFiltered(
-                                          colorFilter: ColorFilter.mode(
-                                              Colors.grey.shade600,
-                                              BlendMode.modulate),
-                                          child: e,
-                                        ),
-                                  onTap: () {
-                                    context
-                                        .read<MapBoxStore>()
-                                        .selectedCarousel(
-                                            (e as CarouselCard).index);
-                                    zoomTwoMarkers(
-                                        LatLng(
-                                            mapbox_store.bus_carousel_data[
-                                                    mapbox_store
-                                                        .selectedCarouselIndex]
-                                                ['lat'],
-                                            mapbox_store.bus_carousel_data[
-                                                    mapbox_store
-                                                        .selectedCarouselIndex]
-                                                ['long']),
-                                        LatLng(mapbox_store.userlat,
-                                            mapbox_store.userlong));
-                                  },
-                                ))
-                            .toList(),
-                        options: CarouselOptions(
-                          height: 100,
-                          viewportFraction: 0.7,
-                          initialPage: 0,
-                          enableInfiniteScroll: false,
-                          scrollDirection: Axis.horizontal,
-                          // onPageChanged:
-                          //     (int index, CarouselPageChangedReason reason) async {
-                          //
-                          // },
+                  items: mapbox_store.buses_carousel
+                      .map((e) =>
+                      GestureDetector(
+                        child: context
+                            .read<MapBoxStore>()
+                            .selectedCarouselIndex ==
+                            (e as CarouselCard).index
+                            ? e
+                            : ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                              Colors.grey.shade600,
+                              BlendMode.modulate),
+                          child: e,
                         ),
-                      )
+                        onTap: () {
+                          mapbox_store.selectedCarousel(
+                              (e as CarouselCard).index);
+                          mapbox_store.zoomTwoMarkers(
+                              LatLng(
+                                  mapbox_store.bus_carousel_data[
+                                  mapbox_store
+                                      .selectedCarouselIndex]
+                                  ['lat'],
+                                  mapbox_store.bus_carousel_data[
+                                  mapbox_store
+                                      .selectedCarouselIndex]
+                                  ['long']),
+                              LatLng(mapbox_store.userlat,
+                                  mapbox_store.userlong),
+                              120.0);
+                        },
+                      ))
+                      .toList(),
+                  options: CarouselOptions(
+                    height: 100,
+                    viewportFraction: 0.7,
+                    initialPage: 0,
+                    enableInfiniteScroll: false,
+                    scrollDirection: Axis.horizontal,
+                    // onPageChanged:
+                    //     (int index, CarouselPageChangedReason reason) async {
+                    //
+                    // },
+                  ),
+                )
                     : SizedBox(),
               ],
             ),
@@ -326,41 +330,5 @@ class _MapBoxState extends State<MapBox> {
   void zoomInMarker(double lat, double long) {
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(lat, long), zoom: 17.0, bearing: 90.0, tilt: 45.0)));
-  }
-
-  void zoomTwoMarkers(LatLng ans, LatLng user) async {
-    double startLatitude = user.latitude;
-    double startLongitude = user.longitude;
-
-    double destinationLatitude = ans.latitude;
-    double destinationLongitude = ans.longitude;
-    double miny = (startLatitude <= destinationLatitude)
-        ? startLatitude
-        : destinationLatitude;
-    double minx = (startLongitude <= destinationLongitude)
-        ? startLongitude
-        : destinationLongitude;
-    double maxy = (startLatitude <= destinationLatitude)
-        ? destinationLatitude
-        : startLatitude;
-    double maxx = (startLongitude <= destinationLongitude)
-        ? destinationLongitude
-        : startLongitude;
-
-    double southWestLatitude = miny;
-    double southWestLongitude = minx;
-
-    double northEastLatitude = maxy;
-    double northEastLongitude = maxx;
-
-    controller.animateCamera(
-      CameraUpdate.newLatLngBounds(
-        LatLngBounds(
-          northeast: LatLng(northEastLatitude, northEastLongitude),
-          southwest: LatLng(southWestLatitude, southWestLongitude),
-        ),
-        120.0,
-      ),
-    );
   }
 }

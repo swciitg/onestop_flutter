@@ -52,5 +52,7 @@
 		<true/>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Your location is needed to make use of the map.</string>
 	</dict>
 </plist>

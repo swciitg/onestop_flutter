@@ -30,6 +30,7 @@ class BusStopList extends StatelessWidget {
                       map_store.bus_carousel_data[
                           map_store.selectedCarouselIndex]['long']),
                   LatLng(map_store.userlat, map_store.userlong),
+                  100.0
                 );
               },
               child: Observer(builder: (context) {
@@ -61,8 +62,7 @@ class BusStopList extends StatelessWidget {
                         map_store.bus_carousel_data[index]['distance']
                                 .toString() +
                             " km",
-                        style: MyFonts.w500
-                            .setColor(kGrey13)),
+                        style: MyFonts.w500.setColor(kGrey13)),
                     trailing: (map_store.bus_carousel_data[index]['status'] ==
                             'left')
                         ? Column(
