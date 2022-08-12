@@ -1,0 +1,89 @@
+[
+  {
+    "name": "A",
+    "MonToFri_GuwahatiToNorthGuwahati": [
+      "8:00 AM",
+      "5:00 PM",
+      "6:30 PM"
+    ],
+    "MonToFri_NorthGuwahatiToGuwahati": [
+      "3:15 PM",
+      "6:00 PM",
+      "7:30 PM"
+    ],
+    "Sunday_GuwahatiToNorthGuwahati": [
+      "10:45 AM",
+      "12:45 PM",
+      "3:40 PM",
+      "5:15 PM",
+      "6:15 PM",
+      "7:30 PM"
+    ],
+    "Sunday_NorthGuwahatiToGuwahati": [
+      "10:00 AM",
+      "12:00 PM",
+      "3:00 PM",
+      "4:30 PM",
+      "5:30 PM",
+      "6:30 PM"
+    ]
+  },
+  {
+    "name": "B",
+    "MonToFri_GuwahatiToNorthGuwahati": [
+      "8:00 AM",
+      "5:00 PM",
+      "6:30 PM"
+    ],
+    "MonToFri_NorthGuwahatiToGuwahati": [
+      "3:15 PM",
+      "6:00 PM",
+      "7:30 PM"
+    ],
+    "Sunday_GuwahatiToNorthGuwahati": [
+      "10:45 AM",
+      "12:45 PM",
+      "3:40 PM",
+      "5:15 PM",
+      "6:15 PM",
+      "7:30 PM"
+    ],
+    "Sunday_NorthGuwahatiToGuwahati": [
+      "10:00 AM",
+      "12:00 PM",
+      "3:00 PM",
+      "4:30 PM",
+      "5:30 PM",
+      "6:30 PM"
+    ]
+  },
+  {
+    "name": "C",
+    "MonToFri_GuwahatiToNorthGuwahati": [
+      "8:00 AM",
+      "5:00 PM",
+      "6:30 PM"
+    ],
+    "MonToFri_NorthGuwahatiToGuwahati": [
+      "3:15 PM",
+      "6:00 PM",
+      "7:30 PM"
+    ],
+    "Sunday_GuwahatiToNorthGuwahati": [
+      "10:45 AM",
+      "12:45 PM",
+      "3:40 PM",
+      "5:15 PM",
+      "6:15 PM",
+      "7:30 PM"
+    ],
+    "Sunday_NorthGuwahatiToGuwahati": [
+      "10:00 AM",
+      "12:00 PM",
+      "3:00 PM",
+      "4:30 PM",
+      "5:30 PM",
+      "6:30 PM"
+    ]
+  }
+]

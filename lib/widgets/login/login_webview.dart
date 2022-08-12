@@ -23,6 +23,9 @@ class LoginWebView extends StatelessWidget {
       onWebViewCreated: (controller) {
         _controller.complete(controller);
       },
+      onWebResourceError: (context) {
+        print("Error web resource");
+      },
       onPageFinished: (url) async {
         if (url.startsWith(
             "https://swc.iitg.ac.in/onestopapi/auth/microsoft/redirect?code")) {
@@ -41,16 +44,17 @@ class LoginWebView extends StatelessWidget {
           var userInfo = {};
 
           List<String> values = userInfoString.replaceAll('"', '').split("/");
-          //print(values[0]);print(values[1]);print(values[2]);print(values[3]);
-          userInfo["displayName"] = values[0];
-          userInfo["mail"] = values[1];
-          userInfo["surname"] = values[2];
-          userInfo["id"] = values[3];
-          SharedPreferences user = await SharedPreferences.getInstance();
-          context.read<LoginStore>().saveToPreferences(user, userInfo);
-          context.read<LoginStore>().saveToUserData(user);
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+          if (!values[0].toLowerCase().contains("error")) {
+            userInfo["displayName"] = values[0];
+            userInfo["mail"] = values[1];
+            userInfo["surname"] = values[2];
+            userInfo["id"] = values[3];
+            SharedPreferences user = await SharedPreferences.getInstance();
+            context.read<LoginStore>().saveToPreferences(user, userInfo);
+            context.read<LoginStore>().saveToUserData(user);
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+          }
         }
       },
     );

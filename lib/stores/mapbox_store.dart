@@ -13,7 +13,7 @@ abstract class _MapBoxStore with Store {
   _MapBoxStore() {
     initialiseCarouselforBuses();
   }
-  late GoogleMapController mapController;
+  GoogleMapController? mapController;
   @observable
   int indexBusesorFerry = 0;
   @observable
@@ -47,7 +47,6 @@ abstract class _MapBoxStore with Store {
   @action
   void setIndexMapBox(int i) {
     this.indexBusesorFerry = i;
-
   }
 
   @action
@@ -65,7 +64,7 @@ abstract class _MapBoxStore with Store {
   void selectedCarousel(int i) {
     this.selectedCarouselIndex = i;
     BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(15, 15)), 'assets/images/busicon.png')
+            ImageConfiguration(size: Size(15, 15)), 'assets/images/busicon.png')
         .then((d) {
       print('Im Here $i');
       List<Marker> l = [];
@@ -141,6 +140,42 @@ abstract class _MapBoxStore with Store {
   //   return kBusStopsList;
   // }
 
+  void zoomTwoMarkers(LatLng ans, LatLng user, double zoom) async {
+    double startLatitude = user.latitude;
+    double startLongitude = user.longitude;
+
+    double destinationLatitude = ans.latitude;
+    double destinationLongitude = ans.longitude;
+    double miny = (startLatitude <= destinationLatitude)
+        ? startLatitude
+        : destinationLatitude;
+    double minx = (startLongitude <= destinationLongitude)
+        ? startLongitude
+        : destinationLongitude;
+    double maxy = (startLatitude <= destinationLatitude)
+        ? destinationLatitude
+        : startLatitude;
+    double maxx = (startLongitude <= destinationLongitude)
+        ? destinationLongitude
+        : startLongitude;
+
+    double southWestLatitude = miny;
+    double southWestLongitude = minx;
+
+    double northEastLatitude = maxy;
+    double northEastLongitude = maxx;
+
+    this.mapController?.animateCamera(
+          CameraUpdate.newLatLngBounds(
+            LatLngBounds(
+              northeast: LatLng(northEastLatitude, northEastLongitude),
+              southwest: LatLng(southWestLatitude, southWestLongitude),
+            ),
+            zoom,
+          ),
+        );
+  }
+
   Location location = new Location();
   LocationData? _locationData;
 
@@ -209,7 +244,8 @@ abstract class _MapBoxStore with Store {
               position: LatLng(this.bus_carousel_data[index]['lat'],
                   this.bus_carousel_data[index]['long'])),
     );
-    this.markers = ObservableList<Marker>.of(l);;
+    this.markers = ObservableList<Marker>.of(l);
+    ;
   }
 
 //   @action

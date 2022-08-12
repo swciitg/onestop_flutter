@@ -15,9 +15,7 @@ class DataProvider {
       print(busTime);
       return busTime;
     }
-
-    List<List<String>> bustime = [];
-    print("BusTImings Data Exists in Cache");
+    print("Bus Timings Data Exists in Cache");
     return cachedData.map((e) => (e as List<dynamic>).map((e) => e as String).toList()).toList();
   }
 

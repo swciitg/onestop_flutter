@@ -1,29 +1,31 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
-class BusTile extends StatelessWidget {
-  final time;
-  final isLeft;
-  const BusTile({Key? key, required this.time, this.isLeft}) : super(key: key);
+class TimingTile extends StatelessWidget {
+  final String time;
+  final bool isLeft;
+  final IconData icon;
+
+  const TimingTile(
+      {Key? key, required this.time, required this.isLeft, required this.icon})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.95,
       decoration: const BoxDecoration(
-          color: Color.fromRGBO(34, 36, 41, 1),
+          color: kTileBackground,
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: ListTile(
         textColor: kWhite,
-        leading: const CircleAvatar(
-          backgroundColor: Color.fromRGBO(255, 227, 125, 1),
+        leading: CircleAvatar(
+          backgroundColor: lYellow2,
           radius: 20,
           child: Icon(
-            IconData(
-              0xe1d5,
-              fontFamily: 'MaterialIcons',
-            ),
+            icon,
             color: kAppBarGrey,
           ),
         ),

@@ -62,22 +62,3 @@ List<List<String>> FERRYTIME =
 //index 1 -> Campus to city weekdays
 //index 2 -> City to Campus weekends
 //index 3 -> City to Campus weekdays
-List<List<String>> BUSTIME =
-[
-  [
-    '10:00 AM',
-    '12:00 PM',
-    '3:00 PM',
-    '4:30 PM',
-    '5:30 PM',
-    '6:30 PM',
-  ],
-  [
-    '8:00 AM',
-    '5:00 PM',
-    '6:30 PM',
-  ],
-
-
-
-];
