@@ -8,7 +8,7 @@ import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_dev/widgets/mapbox/mapBox.dart';
 import 'package:onestop_dev/widgets/travel/bus_details.dart';
-import 'package:onestop_dev/widgets/travel/bus_list.dart';
+import 'package:onestop_dev/widgets/travel/stops_bus_details.dart';
 import 'package:onestop_dev/widgets/travel/ferry_details.dart';
 import 'package:provider/provider.dart';
 import 'data.dart';
@@ -36,7 +36,7 @@ class _TravelPageState extends State<TravelPage> {
             Provider<TravelStore>(create: (_) => TravelStore(), builder: (context, _) {
               return Observer(builder: (context) {
                 return (map_store.indexBusesorFerry == 0)
-                    ? BusList()
+                    ? StopsBusDetails()
                     : FerryDetails();
               });
             },)

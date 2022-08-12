@@ -9,6 +9,13 @@ part of 'travel_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TravelStore on _TravelStore, Store {
+  Computed<int>? _$ferryDataIndexComputed;
+
+  @override
+  int get ferryDataIndex =>
+      (_$ferryDataIndexComputed ??= Computed<int>(() => super.ferryDataIndex,
+              name: '_TravelStore.ferryDataIndex'))
+          .value;
   Computed<int>? _$busDayTypeIndexComputed;
 
   @override
@@ -62,8 +69,84 @@ mixin _$TravelStore on _TravelStore, Store {
     });
   }
 
+  late final _$ferryDirectionAtom =
+      Atom(name: '_TravelStore.ferryDirection', context: context);
+
+  @override
+  String get ferryDirection {
+    _$ferryDirectionAtom.reportRead();
+    return super.ferryDirection;
+  }
+
+  @override
+  set ferryDirection(String value) {
+    _$ferryDirectionAtom.reportWrite(value, super.ferryDirection, () {
+      super.ferryDirection = value;
+    });
+  }
+
+  late final _$ferryDayTypeAtom =
+      Atom(name: '_TravelStore.ferryDayType', context: context);
+
+  @override
+  String get ferryDayType {
+    _$ferryDayTypeAtom.reportRead();
+    return super.ferryDayType;
+  }
+
+  @override
+  set ferryDayType(String value) {
+    _$ferryDayTypeAtom.reportWrite(value, super.ferryDayType, () {
+      super.ferryDayType = value;
+    });
+  }
+
   late final _$_TravelStoreActionController =
       ActionController(name: '_TravelStore', context: context);
+
+  @override
+  void setFerryDayType(String s) {
+    final _$actionInfo = _$_TravelStoreActionController.startAction(
+        name: '_TravelStore.setFerryDayType');
+    try {
+      return super.setFerryDayType(s);
+    } finally {
+      _$_TravelStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setFerryToCity() {
+    final _$actionInfo = _$_TravelStoreActionController.startAction(
+        name: '_TravelStore.setFerryToCity');
+    try {
+      return super.setFerryToCity();
+    } finally {
+      _$_TravelStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setFerryToCampus() {
+    final _$actionInfo = _$_TravelStoreActionController.startAction(
+        name: '_TravelStore.setFerryToCampus');
+    try {
+      return super.setFerryToCampus();
+    } finally {
+      _$_TravelStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setFerryDirection(String s) {
+    final _$actionInfo = _$_TravelStoreActionController.startAction(
+        name: '_TravelStore.setFerryDirection');
+    try {
+      return super.setFerryDirection(s);
+    } finally {
+      _$_TravelStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void selectBusButton() {
@@ -103,6 +186,9 @@ mixin _$TravelStore on _TravelStore, Store {
     return '''
 selectBusesorStops: ${selectBusesorStops},
 busDayType: ${busDayType},
+ferryDirection: ${ferryDirection},
+ferryDayType: ${ferryDayType},
+ferryDataIndex: ${ferryDataIndex},
 busDayTypeIndex: ${busDayTypeIndex},
 busPage: ${busPage},
 isBusSelected: ${isBusSelected}

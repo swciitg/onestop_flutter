@@ -24,8 +24,8 @@ class CarouselCard extends StatelessWidget {
               border: Border.all(
                   color:
                       (context.read<MapBoxStore>().selectedCarouselIndex == index)
-                          ? Color.fromRGBO(101, 144, 210, 1)
-                          : Color.fromRGBO(34, 36, 41, 1)),
+                          ? lBlue5
+                          : kTileBackground),
             ),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -35,7 +35,7 @@ class CarouselCard extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: CircleAvatar(
-                      backgroundColor: Color.fromRGBO(255, 227, 125, 1),
+                      backgroundColor: lYellow2,
                       radius: 16,
                       child: Icon(
                         IconData(
@@ -67,7 +67,7 @@ class CarouselCard extends StatelessWidget {
                           'Next Bus at: ${context.read<MapBoxStore>().bus_carousel_data[index]['time']}',
                           style: MyFonts.w500
                               .size(11)
-                              .setColor(Color.fromRGBO(119, 126, 141, 1)),
+                              .setColor(kGrey13),
                         ),
                       ],
                     ),

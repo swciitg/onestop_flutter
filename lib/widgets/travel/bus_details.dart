@@ -1,10 +1,11 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/functions/travel/has_left.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
-import 'bus_tile.dart';
+import 'timing_tile.dart';
 
 class BusDetails extends StatefulWidget {
   late int index;
@@ -37,6 +38,7 @@ class _BusDetailsState extends State<BusDetails> {
                   onTap: () {
                     setState(() {
                       isCity = !isCity;
+                      isCampus = false;
                     });
                   },
                   child: Container(
@@ -61,9 +63,10 @@ class _BusDetailsState extends State<BusDetails> {
                         children: busTime[widget.index].map((e) {
                         return Padding(
                           padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                          child: BusTile(
+                          child: TimingTile(
                             time: e,
                             isLeft: hasLeft(e.toString()),
+                            icon: FluentIcons.vehicle_bus_24_filled,
                           ),
                         );
                       }).toList())
@@ -72,6 +75,7 @@ class _BusDetailsState extends State<BusDetails> {
                   onTap: () {
                     setState(() {
                       isCampus = !isCampus;
+                      isCity = false;
                     });
                   },
                   child: Container(
@@ -96,9 +100,10 @@ class _BusDetailsState extends State<BusDetails> {
                         children: busTime[widget.index + 2].map((e) {
                         return Padding(
                           padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                          child: BusTile(
+                          child: TimingTile(
                             time: e,
                             isLeft: hasLeft(e.toString()),
+                            icon: FluentIcons.vehicle_bus_24_filled,
                           ),
                         );
                       }).toList())
