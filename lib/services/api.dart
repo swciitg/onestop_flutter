@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:onestop_dev/models/travel/ferry_data_model.dart';
 class APIService {
   static String restaurantURL = "https://onestop4.free.beeceptor.com/getAllOutlets";
 
@@ -62,18 +63,17 @@ class APIService {
     return time;
   }
 
-  static Future<List<List<String>>> getFerryData() async
+  static Future<List<Map<String,dynamic>>> getFerryData() async
   {
     String data = await rootBundle.loadString('lib/globals/ferry_data.json');
     var json = jsonDecode(data);
-    List<List<String>>time = [];
+    List<Map<String,dynamic>>answer = [];
     print(json.runtimeType);
-    time.add((json["CollegeToCity_Holiday"] as List<dynamic>).map((e) => e as String).toList());
-    time.add((json["CollegeToCity_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
-
-    time.add((json["CityToCollege_Holiday"] as List<dynamic>).map((e) => e as String).toList());
-    time.add((json["CityToCollege_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
-    return time;
+    for (var temp in json)
+    {
+      answer.add(temp);
+    }
+    return answer;
   }
 
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {

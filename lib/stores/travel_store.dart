@@ -19,6 +19,9 @@ abstract class _TravelStore with Store {
   @observable
   String ferryDayType = "Mon - Sat";
 
+  @observable
+  String ferryGhatType = "Apple";
+
   @action
   void setFerryDayType(String s) {
     ferryDayType = s;
@@ -27,6 +30,11 @@ abstract class _TravelStore with Store {
   @action
   void setFerryToCity() {
     ferryDirection = "Campus to City";
+  }
+
+  @action
+  void setFerryGhatType(String s) {
+    ferryGhatType = s;
   }
 
   @computed
