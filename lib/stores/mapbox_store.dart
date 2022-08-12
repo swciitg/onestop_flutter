@@ -141,6 +141,43 @@ abstract class _MapBoxStore with Store {
   //   return kBusStopsList;
   // }
 
+  void zoomTwoMarkers(
+      LatLng ans, LatLng user) async {
+    double startLatitude = user.latitude;
+    double startLongitude = user.longitude;
+
+    double destinationLatitude = ans.latitude;
+    double destinationLongitude = ans.longitude;
+    double miny = (startLatitude <= destinationLatitude)
+        ? startLatitude
+        : destinationLatitude;
+    double minx = (startLongitude <= destinationLongitude)
+        ? startLongitude
+        : destinationLongitude;
+    double maxy = (startLatitude <= destinationLatitude)
+        ? destinationLatitude
+        : startLatitude;
+    double maxx = (startLongitude <= destinationLongitude)
+        ? destinationLongitude
+        : startLongitude;
+
+    double southWestLatitude = miny;
+    double southWestLongitude = minx;
+
+    double northEastLatitude = maxy;
+    double northEastLongitude = maxx;
+
+    this.mapController.animateCamera(
+      CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+          northeast: LatLng(northEastLatitude, northEastLongitude),
+          southwest: LatLng(southWestLatitude, southWestLongitude),
+        ),
+        100.0,
+      ),
+    );
+  }
+
   Location location = new Location();
   LocationData? _locationData;
 
