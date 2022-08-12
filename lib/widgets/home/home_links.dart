@@ -3,11 +3,11 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
-
 class HomeLinks extends StatelessWidget {
-  final List<HomeTabTile>links;
+  final List<HomeTabTile> links;
   final String title;
-  HomeLinks({Key? key, required this.links, required this.title}) : super(key: key);
+  HomeLinks({Key? key, required this.links, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
