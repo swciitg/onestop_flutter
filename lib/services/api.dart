@@ -62,6 +62,20 @@ class APIService {
     return time;
   }
 
+  static Future<List<List<String>>> getFerryData() async
+  {
+    String data = await rootBundle.loadString('lib/globals/ferry_data.json');
+    var json = jsonDecode(data);
+    List<List<String>>time = [];
+    print(json.runtimeType);
+    time.add((json["CollegeToCity_Holiday"] as List<dynamic>).map((e) => e as String).toList());
+    time.add((json["CollegeToCity_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
+
+    time.add((json["CityToCollege_Holiday"] as List<dynamic>).map((e) => e as String).toList());
+    time.add((json["CityToCollege_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
+    return time;
+  }
+
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {
     final response = await http.post(
       Uri.parse('https://hidden-depths-09275.herokuapp.com/get-my-courses'),

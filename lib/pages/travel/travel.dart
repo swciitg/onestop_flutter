@@ -18,7 +18,6 @@ class TravelPage extends StatefulWidget {
 
 class _TravelPageState extends State<TravelPage> {
   int selectBusesorStops = 0;
-  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
