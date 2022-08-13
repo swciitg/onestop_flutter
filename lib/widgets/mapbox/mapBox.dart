@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:map_launcher/map_launcher.dart' as Launch;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
@@ -242,7 +243,12 @@ class _MapBoxState extends State<MapBox> {
                           child: FloatingActionButton(
                             heroTag: null,
                             backgroundColor: kAppBarGrey,
-                            onPressed: () {},
+                            onPressed: () async {
+                              await Launch.MapLauncher.showMarker(
+                                coords: Launch.Coords(37.759392, -122.5107336),
+                                title: "Ocean Beach", mapType: Launch.MapType.google,
+                              );
+                            },
                             child: Icon(
                               FluentIcons.directions_24_regular,
                               color: lBlue2,
