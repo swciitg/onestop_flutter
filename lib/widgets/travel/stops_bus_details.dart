@@ -30,7 +30,7 @@ class StopsBusDetails extends StatelessWidget {
                     width: 83,
                     color: (!context.read<TravelStore>().isBusSelected)
                         ? lBlue2
-                        : kBlueGrey,
+                        : kGrey2,
                     child: Center(
                       child: Text("Stops",
                           style: (!context.read<TravelStore>().isBusSelected)
@@ -53,7 +53,7 @@ class StopsBusDetails extends StatelessWidget {
                     width: 83,
                     color: (context.read<TravelStore>().isBusSelected)
                         ? lBlue2
-                        : kBlueGrey,
+                        : kGrey2,
                     child: Center(
                       child: Text(
                         "Bus",

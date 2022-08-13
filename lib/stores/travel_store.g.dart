@@ -9,11 +9,11 @@ part of 'travel_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TravelStore on _TravelStore, Store {
-  Computed<int>? _$ferryDataIndexComputed;
+  Computed<String>? _$ferryDataIndexComputed;
 
   @override
-  int get ferryDataIndex =>
-      (_$ferryDataIndexComputed ??= Computed<int>(() => super.ferryDataIndex,
+  String get ferryDataIndex =>
+      (_$ferryDataIndexComputed ??= Computed<String>(() => super.ferryDataIndex,
               name: '_TravelStore.ferryDataIndex'))
           .value;
   Computed<int>? _$busDayTypeIndexComputed;
@@ -101,6 +101,38 @@ mixin _$TravelStore on _TravelStore, Store {
     });
   }
 
+  late final _$selectedFerryGhatAtom =
+      Atom(name: '_TravelStore.selectedFerryGhat', context: context);
+
+  @override
+  String get selectedFerryGhat {
+    _$selectedFerryGhatAtom.reportRead();
+    return super.selectedFerryGhat;
+  }
+
+  @override
+  set selectedFerryGhat(String value) {
+    _$selectedFerryGhatAtom.reportWrite(value, super.selectedFerryGhat, () {
+      super.selectedFerryGhat = value;
+    });
+  }
+
+  late final _$ferryTimingsAtom =
+      Atom(name: '_TravelStore.ferryTimings', context: context);
+
+  @override
+  ObservableFuture<List<FerryTimeData>> get ferryTimings {
+    _$ferryTimingsAtom.reportRead();
+    return super.ferryTimings;
+  }
+
+  @override
+  set ferryTimings(ObservableFuture<List<FerryTimeData>> value) {
+    _$ferryTimingsAtom.reportWrite(value, super.ferryTimings, () {
+      super.ferryTimings = value;
+    });
+  }
+
   late final _$_TravelStoreActionController =
       ActionController(name: '_TravelStore', context: context);
 
@@ -125,7 +157,6 @@ mixin _$TravelStore on _TravelStore, Store {
       _$_TravelStoreActionController.endAction(_$actionInfo);
     }
   }
-
 
   @override
   void setFerryToCampus() {
@@ -183,12 +214,25 @@ mixin _$TravelStore on _TravelStore, Store {
   }
 
   @override
+  void setFerryGhat(String s) {
+    final _$actionInfo = _$_TravelStoreActionController.startAction(
+        name: '_TravelStore.setFerryGhat');
+    try {
+      return super.setFerryGhat(s);
+    } finally {
+      _$_TravelStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 selectBusesorStops: ${selectBusesorStops},
 busDayType: ${busDayType},
 ferryDirection: ${ferryDirection},
 ferryDayType: ${ferryDayType},
+selectedFerryGhat: ${selectedFerryGhat},
+ferryTimings: ${ferryTimings},
 ferryDataIndex: ${ferryDataIndex},
 busDayTypeIndex: ${busDayTypeIndex},
 busPage: ${busPage},
