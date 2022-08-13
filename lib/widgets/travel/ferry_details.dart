@@ -9,6 +9,7 @@ import 'package:onestop_dev/pages/travel/data.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_dev/widgets/travel/timing_tile.dart';
 import 'package:onestop_dev/widgets/travel/travel_drop_down.dart';
+import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
 
@@ -100,7 +101,11 @@ class FerryDetails extends StatelessWidget {
           )
         ]);
       }
-      return CircularProgressIndicator();
+
+      return ListShimmer(
+        count: 3,
+        height: 50,
+      );
     });
   }
 }

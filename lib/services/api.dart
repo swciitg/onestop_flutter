@@ -54,7 +54,7 @@ class APIService {
     String data = await rootBundle.loadString('lib/globals/bus_time.json');
     var json = jsonDecode(data);
     List<List<String>>time = [];
-    print(json.runtimeType);
+    //print(json.runtimeType);
     time.add((json["CollegeToCity_Holiday"] as List<dynamic>).map((e) => e as String).toList());
     time.add((json["CollegeToCity_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
 

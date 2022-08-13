@@ -62,12 +62,10 @@ class DataProvider {
 
   static Future<List<FerryTimeData>> getFerryTimings() async {
     var cachedData = await LocalStorage.instance.getRecord("FerryTimings");
-    print("In ferry");
     if (cachedData == null) {
       print("Ferry Data not in Cache. Using API...");
       List<Map<String,dynamic>> ferryData = await APIService.getFerryData();
-      print("Json data $ferryData");
-      await LocalStorage.instance.storeData(ferryData,"FerryTime");
+      await LocalStorage.instance.storeData(ferryData,"FerryTimings");
       List<FerryTimeData> answer = ferryData.map((e) => FerryTimeData.fromJson(e)).toList();
       return answer;
     }
