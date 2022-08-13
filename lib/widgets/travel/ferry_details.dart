@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/models/travel/ferry_data_model.dart';
+import 'package:onestop_dev/pages/travel/data.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_dev/widgets/travel/timing_tile.dart';
@@ -20,36 +21,7 @@ class FerryDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       return Column(children: [
-        FutureBuilder(
-            future: DataProvider.getFerryTimings(),
-            builder: (context, snapshot) {
-              print(snapshot.data);
-              // if (snapshot.hasData)
-              //   return TextButton(
-              //     onPressed: () {
-              //       context.read<TravelStore>().selectStopButton();
-              //     },
-              //     child: ClipRRect(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(40),
-              //       ),
-              //       child: Container(
-              //         height: 32,
-              //         width: 83,
-              //         color: (!context.read<TravelStore>().isBusSelected)
-              //             ? lBlue2
-              //             : kBlueGrey,
-              //         child: Center(
-              //           child: Text((snapshot.data!as List<FerryTimeData>)[0].Name,
-              //               style: (!context.read<TravelStore>().isBusSelected)
-              //                   ? MyFonts.w500.setColor(kBlueGrey)
-              //                   : MyFonts.w500.setColor(kWhite)),
-              //         ),
-              //       ),
-              //     ),
-              //   );
-              return CircularProgressIndicator();
-            }),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
