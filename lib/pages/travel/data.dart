@@ -10,8 +10,8 @@ const List<Map<String, dynamic>> BusStops = [
   },
   {
     'name': 'Medical Bus Stop',
-    'lat': 26.198274901744217,
-    'long': 91.69755937176768,
+    'lat': 26.195988607483898,
+    'long': 91.6972106643999,
     'status': 'left',
     'time': '1:45 PM',
     'distance': 1.4,
