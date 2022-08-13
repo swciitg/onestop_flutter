@@ -126,6 +126,7 @@ mixin _$TravelStore on _TravelStore, Store {
     }
   }
 
+
   @override
   void setFerryToCampus() {
     final _$actionInfo = _$_TravelStoreActionController.startAction(

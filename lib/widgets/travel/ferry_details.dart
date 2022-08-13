@@ -1,12 +1,18 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:onestop_dev/models/travel/ferry_data_model.dart';
+import 'package:onestop_dev/pages/travel/data.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_dev/widgets/travel/timing_tile.dart';
 import 'package:onestop_dev/widgets/travel/travel_drop_down.dart';
 import 'package:provider/provider.dart';
 import 'package:onestop_dev/globals/travel_details.dart';
 import 'package:onestop_dev/functions/travel/has_left.dart';
+
+import '../../globals/my_colors.dart';
+import '../../globals/my_fonts.dart';
 
 class FerryDetails extends StatelessWidget {
   const FerryDetails({Key? key}) : super(key: key);
@@ -15,6 +21,7 @@ class FerryDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       return Column(children: [
+
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

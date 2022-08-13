@@ -117,6 +117,7 @@ abstract class _MapBoxStore with Store {
     // generate_polylines();
   }
 
+
   @computed
   List<Widget> get buses_carousel {
     List<Widget> l = List<Widget>.generate(
@@ -128,17 +129,7 @@ abstract class _MapBoxStore with Store {
     return l;
   }
 
-  // @computed
-  // List<CameraPosition> get bus_camera_positions{
-  //   // initialize map symbols in the same order as carousel widgets
-  //   List<CameraPosition> kBusStopsList = List<CameraPosition>.generate(
-  //       BusStops.length,
-  //           (index) => CameraPosition(
-  //           target: this.bus_carousel_data[index]['index'],
-  //           zoom: 15),
-  //   );
-  //   return kBusStopsList;
-  // }
+
 
   void zoomTwoMarkers(LatLng ans, LatLng user, double zoom) async {
     double startLatitude = user.latitude;

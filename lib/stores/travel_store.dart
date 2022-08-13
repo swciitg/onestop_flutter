@@ -19,6 +19,7 @@ abstract class _TravelStore with Store {
   @observable
   String ferryDayType = "Mon - Sat";
 
+
   @action
   void setFerryDayType(String s) {
     ferryDayType = s;
