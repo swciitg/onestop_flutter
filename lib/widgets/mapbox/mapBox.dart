@@ -110,7 +110,7 @@ class _MapBoxState extends State<MapBox> {
                     TextButton(
                       onPressed: () {
                         mapbox_store.setIndexMapBox(0);
-                        mapbox_store.generate_bus_markers();
+                        // mapbox_store.generate_bus_markers();
                       },
                       //padding: EdgeInsets.only(left: 10),
                       child: ClipRRect(
@@ -277,51 +277,57 @@ class _MapBoxState extends State<MapBox> {
                   ],
                 ),
                 (!mapbox_store.isTravelPage)
-                    ? CarouselSlider(
-                        items: mapbox_store.buses_carousel
-                            .map((e) => GestureDetector(
-                                  child: context
-                                              .read<MapBoxStore>()
-                                              .selectedCarouselIndex ==
-                                          (e as CarouselCard).index
-                                      ? e
-                                      : ColorFiltered(
-                                          colorFilter: ColorFilter.mode(
-                                              Colors.grey.shade600,
-                                              BlendMode.modulate),
-                                          child: e,
-                                        ),
-                                  onTap: () {
-                                    mapbox_store.selectedCarousel(
-                                        (e as CarouselCard).index);
-                                    mapbox_store.zoomTwoMarkers(
-                                        LatLng(
-                                            mapbox_store.bus_carousel_data[
-                                                    mapbox_store
-                                                        .selectedCarouselIndex]
-                                                ['lat'],
-                                            mapbox_store.bus_carousel_data[
-                                                    mapbox_store
-                                                        .selectedCarouselIndex]
-                                                ['long']),
-                                        LatLng(mapbox_store.userlat,
-                                            mapbox_store.userlong),
-                                        120.0);
-                                  },
-                                ))
-                            .toList(),
-                        options: CarouselOptions(
-                          height: 100,
-                          viewportFraction: 0.7,
-                          initialPage: 0,
-                          enableInfiniteScroll: false,
-                          scrollDirection: Axis.horizontal,
-                          // onPageChanged:
-                          //     (int index, CarouselPageChangedReason reason) async {
-                          //
-                          // },
-                        ),
-                      )
+                    ? Observer(
+                      builder: (context) {
+                        print("carousel rebuild");
+                        print("${mapbox_store.carouselCards.toString()}");
+                        return CarouselSlider(
+                            items: mapbox_store.carouselCards
+                                .map((e) => GestureDetector(
+                                      child: mapbox_store
+                                                  .selectedCarouselIndex ==
+                                              (e as CarouselCard).index
+                                          ? e
+                                          : ColorFiltered(
+                                              colorFilter: ColorFilter.mode(
+                                                  Colors.grey.shade600,
+                                                  BlendMode.modulate),
+                                              child: e,
+                                            ),
+                                      onTap: () {
+                                        mapbox_store.selectedCarousel(
+                                            (e as CarouselCard).index);
+                                        mapbox_store.zoomTwoMarkers(
+                                            // LatLng(
+                                            //     mapbox_store.bus_carousel_data[
+                                            //             mapbox_store
+                                            //                 .selectedCarouselIndex]
+                                            //         ['lat'],
+                                            //     mapbox_store.bus_carousel_data[
+                                            //             mapbox_store
+                                            //                 .selectedCarouselIndex]
+                                            //         ['long']),
+                                          mapbox_store.selectedCarouselLatLng,
+                                            LatLng(mapbox_store.userlat,
+                                                mapbox_store.userlong),
+                                            120.0);
+                                      },
+                                    ))
+                                .toList(),
+                            options: CarouselOptions(
+                              height: 100,
+                              viewportFraction: 0.7,
+                              initialPage: 0,
+                              enableInfiniteScroll: false,
+                              scrollDirection: Axis.horizontal,
+                              // onPageChanged:
+                              //     (int index, CarouselPageChangedReason reason) async {
+                              //
+                              // },
+                            ),
+                          );
+                      }
+                    )
                     : SizedBox(),
               ],
             ),

@@ -9,12 +9,27 @@ part of 'mapbox_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$MapBoxStore on _MapBoxStore, Store {
-  Computed<List<Widget>>? _$buses_carouselComputed;
+  Computed<List<Map<String, dynamic>>>? _$allLocationDataComputed;
 
   @override
-  List<Widget> get buses_carousel => (_$buses_carouselComputed ??=
-          Computed<List<Widget>>(() => super.buses_carousel,
-              name: '_MapBoxStore.buses_carousel'))
+  List<Map<String, dynamic>> get allLocationData =>
+      (_$allLocationDataComputed ??= Computed<List<Map<String, dynamic>>>(
+              () => super.allLocationData,
+              name: '_MapBoxStore.allLocationData'))
+          .value;
+  Computed<LatLng>? _$selectedCarouselLatLngComputed;
+
+  @override
+  LatLng get selectedCarouselLatLng => (_$selectedCarouselLatLngComputed ??=
+          Computed<LatLng>(() => super.selectedCarouselLatLng,
+              name: '_MapBoxStore.selectedCarouselLatLng'))
+      .value;
+  Computed<List<Widget>>? _$carouselCardsComputed;
+
+  @override
+  List<Widget> get carouselCards => (_$carouselCardsComputed ??=
+          Computed<List<Widget>>(() => super.carouselCards,
+              name: '_MapBoxStore.carouselCards'))
       .value;
 
   late final _$indexBusesorFerryAtom =
@@ -113,38 +128,6 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
     });
   }
 
-  late final _$bus_carousel_dataAtom =
-      Atom(name: '_MapBoxStore.bus_carousel_data', context: context);
-
-  @override
-  List<Map<dynamic, dynamic>> get bus_carousel_data {
-    _$bus_carousel_dataAtom.reportRead();
-    return super.bus_carousel_data;
-  }
-
-  @override
-  set bus_carousel_data(List<Map<dynamic, dynamic>> value) {
-    _$bus_carousel_dataAtom.reportWrite(value, super.bus_carousel_data, () {
-      super.bus_carousel_data = value;
-    });
-  }
-
-  late final _$bus_carousel_itemsAtom =
-      Atom(name: '_MapBoxStore.bus_carousel_items', context: context);
-
-  @override
-  List<Widget> get bus_carousel_items {
-    _$bus_carousel_itemsAtom.reportRead();
-    return super.bus_carousel_items;
-  }
-
-  @override
-  set bus_carousel_items(List<Widget> value) {
-    _$bus_carousel_itemsAtom.reportWrite(value, super.bus_carousel_items, () {
-      super.bus_carousel_items = value;
-    });
-  }
-
   late final _$bus_stop_polylinesAtom =
       Atom(name: '_MapBoxStore.bus_stop_polylines', context: context);
 
@@ -227,6 +210,17 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   }
 
   @override
+  void generateAllMarkers() {
+    final _$actionInfo = _$_MapBoxStoreActionController.startAction(
+        name: '_MapBoxStore.generateAllMarkers');
+    try {
+      return super.generateAllMarkers();
+    } finally {
+      _$_MapBoxStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void change_centre_zoom(double lat, double long) {
     final _$actionInfo = _$_MapBoxStoreActionController.startAction(
         name: '_MapBoxStore.change_centre_zoom');
@@ -271,39 +265,6 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   }
 
   @override
-  void initialiseCarouselforBuses() {
-    final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.initialiseCarouselforBuses');
-    try {
-      return super.initialiseCarouselforBuses();
-    } finally {
-      _$_MapBoxStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void generate_bus_markers() {
-    final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.generate_bus_markers');
-    try {
-      return super.generate_bus_markers();
-    } finally {
-      _$_MapBoxStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void generate_restaraunt_markers() {
-    final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.generate_restaraunt_markers');
-    try {
-      return super.generate_restaraunt_markers();
-    } finally {
-      _$_MapBoxStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 indexBusesorFerry: ${indexBusesorFerry},
@@ -312,12 +273,12 @@ userlong: ${userlong},
 selectedCarouselIndex: ${selectedCarouselIndex},
 isTravelPage: ${isTravelPage},
 myPos: ${myPos},
-bus_carousel_data: ${bus_carousel_data},
-bus_carousel_items: ${bus_carousel_items},
 bus_stop_polylines: ${bus_stop_polylines},
 loadOperation: ${loadOperation},
 markers: ${markers},
-buses_carousel: ${buses_carousel}
+allLocationData: ${allLocationData},
+selectedCarouselLatLng: ${selectedCarouselLatLng},
+carouselCards: ${carouselCards}
     ''';
   }
 }

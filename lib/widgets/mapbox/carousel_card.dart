@@ -6,9 +6,10 @@ import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:provider/provider.dart';
 
 class CarouselCard extends StatelessWidget {
+  String name;
   int index;
   String time;
-  CarouselCard({Key? key, required this.index, required this.time})
+  CarouselCard({Key? key, required this.index, required this.time, required this.name})
       : super(key: key);
 
   @override
@@ -56,15 +57,14 @@ class CarouselCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          context.read<MapBoxStore>().bus_carousel_data[index]
-                              ['name'],
+                          name,
                           style: MyFonts.w600.size(14).setColor(kWhite),
                         ),
                         SizedBox(
                           height: 5,
                         ),
                         Text(
-                          'Next Bus at: ${context.read<MapBoxStore>().bus_carousel_data[index]['time']}',
+                          'Next Bus at: ${context.read<MapBoxStore>().allLocationData[index]['time']}',
                           style: MyFonts.w500
                               .size(11)
                               .setColor(kGrey13),
