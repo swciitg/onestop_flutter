@@ -44,7 +44,7 @@ class _MapBoxState extends State<MapBox> {
 
   @override
   void dispose() {
-    context.read<MapBoxStore>().mapController = null;
+    // context.read<MapBoxStore>().mapController = null;
     super.dispose();
   }
 

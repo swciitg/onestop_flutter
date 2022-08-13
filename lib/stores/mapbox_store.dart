@@ -1,10 +1,15 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/pages/travel/data.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
 import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
+import 'dart:ui' as ui;
 part 'mapbox_store.g.dart';
 
 class MapBoxStore = _MapBoxStore with _$MapBoxStore;
@@ -63,25 +68,15 @@ abstract class _MapBoxStore with Store {
   @action
   void selectedCarousel(int i) {
     this.selectedCarouselIndex = i;
-    BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(15, 15)), 'assets/images/busicon.png')
-        .then((d) {
-      print('Im Here $i');
+    getBytesFromAsset('assets/images/busicon.png', 100).then((d) {
       List<Marker> l = [];
-      // List<Marker> l = List.generate(
-      //   this.bus_carousel_data.length,
-      //       (index) => Marker(
-      //       markerId: MarkerId('bus$index'),
-      //       position: LatLng(this.bus_carousel_data[index]['lat'],
-      //           this.bus_carousel_data[index]['long'])),
-      // );
       l.add(Marker(
-          icon: d,
+          icon: BitmapDescriptor.fromBytes(d),
           markerId: MarkerId('bus$i'),
           position: LatLng(this.bus_carousel_data[i]['lat'],
               this.bus_carousel_data[i]['long'])));
       setMarkers(l);
-    });
+    }) ;
   }
 
   @action
@@ -167,42 +162,80 @@ abstract class _MapBoxStore with Store {
         );
   }
 
-  Location location = new Location();
-  LocationData? _locationData;
-
+  // Location location = new Location();
+  // LocationData? _locationData;
+  //
+  // Future<dynamic> getLocation() async {
+  //   bool _serviceEnabled;
+  //   PermissionStatus _permissionGranted;
+  //
+  //   _serviceEnabled = await location.serviceEnabled();
+  //   if (!_serviceEnabled) {
+  //     _serviceEnabled = await location.requestService();
+  //     if (!_serviceEnabled) {
+  //       return;
+  //     }
+  //   }
+  //   _permissionGranted = await location.hasPermission();
+  //   if (_permissionGranted == PermissionStatus.denied) {
+  //     _permissionGranted = await location.requestPermission();
+  //     if (_permissionGranted != PermissionStatus.granted) {
+  //       return;
+  //     }
+  //   }
+  //   _locationData = await location.getLocation();
+  //   this.userlat = _locationData!.latitude!;
+  //   this.userlong = _locationData!.longitude!;
+  //   return LatLng(this.userlat, this.userlong);
+  //   // Marker user_marker = Marker(
+  //   //   point: LatLng(this.userlat, this.userlong),
+  //   //   width: 8,
+  //   //   height: 8,
+  //   //   builder: (ctx) => Container(
+  //   //     child: Image.asset(pointIcon),
+  //   //   ),
+  //   // );
+  //   // this.markers.add(user_marker);
+  // }
   Future<dynamic> getLocation() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
+    bool serviceEnabled;
+    LocationPermission permission;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
       }
     }
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
     }
-    _locationData = await location.getLocation();
-    this.userlat = _locationData!.latitude!;
-    this.userlong = _locationData!.longitude!;
-    return LatLng(this.userlat, this.userlong);
-    // Marker user_marker = Marker(
-    //   point: LatLng(this.userlat, this.userlong),
-    //   width: 8,
-    //   height: 8,
-    //   builder: (ctx) => Container(
-    //     child: Image.asset(pointIcon),
-    //   ),
-    // );
-    // this.markers.add(user_marker);
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    Position pos=await Geolocator.getCurrentPosition();
+    this.userlat=pos.latitude;
+    this.userlong=pos.longitude;
+    return LatLng(pos.latitude, pos.longitude);
   }
-
   @action
   void generate_bus_markers() {
     print('generate bs');
@@ -257,5 +290,11 @@ abstract class _MapBoxStore with Store {
   final pointIcon = 'assets/images/pointicon.png';
   final busIcon = 'assets/images/busicon.png';
   final restaurauntIcon = 'assets/images/restaurantIcon.png';
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+  }
 }
 // this.bus_carousel_data[i]['lat'], this.bus_carousel_data[i]['long']
