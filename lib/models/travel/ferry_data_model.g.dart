@@ -8,7 +8,7 @@ part of 'ferry_data_model.dart';
 
 FerryTimeData _$FerryTimeDataFromJson(Map<String, dynamic> json) =>
     FerryTimeData(
-      json['Name'] as String,
+      json['name'] as String,
       (json['MonToFri_GuwahatiToNorthGuwahati'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
@@ -25,7 +25,7 @@ FerryTimeData _$FerryTimeDataFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$FerryTimeDataToJson(FerryTimeData instance) =>
     <String, dynamic>{
-      'Name': instance.Name,
+      'name': instance.name,
       'MonToFri_GuwahatiToNorthGuwahati':
           instance.MonToFri_GuwahatiToNorthGuwahati,
       'MonToFri_NorthGuwahatiToGuwahati':
