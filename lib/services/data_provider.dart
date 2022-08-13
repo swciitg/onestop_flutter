@@ -67,6 +67,7 @@ class DataProvider {
     if (cachedData == null) {
       print("Ferry Data not in Cache. Using API...");
       List<Map<String,dynamic>> ferryData = await APIService.getFerryData();
+      print("Json data $ferryData");
       await LocalStorage.instance.storeData(ferryData,"FerryTime");
       ferryData.map((e) => answer.add(FerryTimeData.fromJson(e)));
       return answer;
