@@ -73,6 +73,15 @@ dev_dependencies:
   build_runner: ^2.1.10
   mobx_codegen: ^2.0.5+2
   json_serializable: ^6.2.0
+  flutter_launcher_icons: ^0.10.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_launcher_icon.png"
+  remove_alpha_ios: true
+  adaptive_icon_background: "#001B3E"
+  adaptive_icon_foreground: "assets/images/app_launcher_icon.png"
 
 flutter_native_splash:
 

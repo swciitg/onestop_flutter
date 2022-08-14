@@ -32,21 +32,33 @@ class _MapBoxState extends State<MapBox> {
   late GoogleMapController controller;
   final pointIcon = 'assets/images/pointicon.png';
   final busIcon = 'assets/images/busicon.png';
+  late MapBoxStore mapboxStore;
 
   double zoom = 13.0;
 
   @override
   void initState() {
     super.initState();
-    rootBundle
-        .loadString('assets/json/map_style.json')
-        .then((value) => mapString = value);
+    mapboxStore = context.read<MapBoxStore>();
   }
 
   @override
   void dispose() {
-    // context.read<MapBoxStore>().mapController = null;
+    mapboxStore.mapController = null;
     super.dispose();
+  }
+
+  Future<dynamic> initialiseAndGetLocation() async {
+    var mapStyle = await rootBundle.loadString('assets/json/map_style.json');
+    mapString = mapStyle;
+    LatLng coordinates;
+    try {
+      coordinates = await mapboxStore.getLocation() as LatLng;
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not fetch your current location")));
+      return LatLng(26.192613073419974, 91.69907177061708);
+    }
+    return mapboxStore.getLocation();
   }
 
   @override
@@ -59,7 +71,7 @@ class _MapBoxState extends State<MapBox> {
         child: Stack(
           children: [
             FutureBuilder(
-                future: mapbox_store.getLocation(),
+                future: initialiseAndGetLocation(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Observer(builder: (context) {
