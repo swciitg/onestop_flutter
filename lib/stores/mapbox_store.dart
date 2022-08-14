@@ -7,7 +7,6 @@ import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/pages/travel/data.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
-import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:ui' as ui;
 part 'mapbox_store.g.dart';
@@ -15,28 +14,34 @@ part 'mapbox_store.g.dart';
 class MapBoxStore = _MapBoxStore with _$MapBoxStore;
 
 abstract class _MapBoxStore with Store {
+
   _MapBoxStore() {
-    initialiseCarouselforBuses();
+    generateAllMarkers();
   }
+
   GoogleMapController? mapController;
+
   @observable
   int indexBusesorFerry = 0;
+
   @observable
   double userlat = 0;
+
   @observable
   double userlong = 0;
+
   @observable
   int selectedCarouselIndex = 0;
+
   @observable
   bool isTravelPage = false;
+
   @observable
   LatLng myPos = LatLng(-37.327154, -59.119667);
-  @observable
-  List<Map> bus_carousel_data = [];
-  @observable
-  late List<Widget> bus_carousel_items;
+
   @observable
   late List<Polyline> bus_stop_polylines;
+
   @observable
   ObservableFuture<List<LatLng>?> loadOperation = ObservableFuture.value(null);
 
@@ -52,6 +57,19 @@ abstract class _MapBoxStore with Store {
   @action
   void setIndexMapBox(int i) {
     this.indexBusesorFerry = i;
+    generateAllMarkers();
+  }
+
+  @action
+  void generateAllMarkers() {
+    List<Marker> l = List.generate(
+      this.allLocationData.length,
+          (index) => Marker(
+          markerId: MarkerId('bus$index'),
+          position: LatLng(this.allLocationData[index]['lat'],
+              this.allLocationData[index]['long'])),
+    );
+    this.markers = ObservableList<Marker>.of(l);
   }
 
   @action
@@ -73,10 +91,10 @@ abstract class _MapBoxStore with Store {
       l.add(Marker(
           icon: BitmapDescriptor.fromBytes(d),
           markerId: MarkerId('bus$i'),
-          position: LatLng(this.bus_carousel_data[i]['lat'],
-              this.bus_carousel_data[i]['long'])));
-      setMarkers(l);
-    }) ;
+          position: LatLng(allLocationData[i]['lat'],
+              allLocationData[i]['long'])));
+      this.markers = ObservableList<Marker>.of(l);
+    });
   }
 
   @action
@@ -94,37 +112,56 @@ abstract class _MapBoxStore with Store {
     print(loadOperation.value);
   }
 
-  @action
-  void initialiseCarouselforBuses() {
-    for (int index = 0; index < BusStops.length; index++) {
-      this.bus_carousel_data.add({
-        'index': index,
-        'time': BusStops[index]['time'],
-        'lat': BusStops[index]['lat'],
-        'long': BusStops[index]['long'],
-        'status': BusStops[index]['status'],
-        'distance': BusStops[index]['distance'],
-        'name': BusStops[index]['name']
-      });
+  @computed
+  List<Map<String,dynamic>> get allLocationData {
+    List<Map<String, dynamic>> dataMap = [];
+    switch (this.indexBusesorFerry) {
+      case 0:
+        dataMap = BusStops;
+        break;
+      case 1:
+        dataMap = ferryGhats;
+        break;
+      default:
+        dataMap = [];
     }
-    bus_carousel_data.sort((a, b) => a['distance'] < b['distance'] ? 0 : 1);
-    generate_bus_markers();
-    // generate_polylines();
+    return dataMap;
   }
 
+  @computed
+  LatLng get selectedCarouselLatLng {
+    var dataMap = this.allLocationData;
+    return LatLng(dataMap[selectedCarouselIndex]['lat'],
+        dataMap[selectedCarouselIndex]['long']);
+  }
 
   @computed
-  List<Widget> get buses_carousel {
+  List<Widget> get carouselCards {
+    int carouselLength = 0;
+    List<Map<String, dynamic>> dataMap;
+    switch (this.indexBusesorFerry) {
+      case 0:
+        carouselLength = BusStops.length;
+        dataMap = BusStops;
+        break;
+      case 1:
+        carouselLength = ferryGhats.length;
+        dataMap = ferryGhats;
+        break;
+      default:
+        carouselLength = 0;
+        dataMap = [];
+    }
+    print("Data map is $dataMap");
     List<Widget> l = List<Widget>.generate(
-      this.bus_carousel_data.length,
+      carouselLength,
       (index) => CarouselCard(
-          index: this.bus_carousel_data[index]['index'],
-          time: this.bus_carousel_data[index]['time']),
+          name: dataMap[index]['name'],
+          index: dataMap[index]['ind'],
+          time: dataMap[index]['time']),
     );
     return l;
   }
-
-
 
   void zoomTwoMarkers(LatLng ans, LatLng user, double zoom) async {
     double startLatitude = user.latitude;
@@ -162,41 +199,6 @@ abstract class _MapBoxStore with Store {
         );
   }
 
-  // Location location = new Location();
-  // LocationData? _locationData;
-  //
-  // Future<dynamic> getLocation() async {
-  //   bool _serviceEnabled;
-  //   PermissionStatus _permissionGranted;
-  //
-  //   _serviceEnabled = await location.serviceEnabled();
-  //   if (!_serviceEnabled) {
-  //     _serviceEnabled = await location.requestService();
-  //     if (!_serviceEnabled) {
-  //       return;
-  //     }
-  //   }
-  //   _permissionGranted = await location.hasPermission();
-  //   if (_permissionGranted == PermissionStatus.denied) {
-  //     _permissionGranted = await location.requestPermission();
-  //     if (_permissionGranted != PermissionStatus.granted) {
-  //       return;
-  //     }
-  //   }
-  //   _locationData = await location.getLocation();
-  //   this.userlat = _locationData!.latitude!;
-  //   this.userlong = _locationData!.longitude!;
-  //   return LatLng(this.userlat, this.userlong);
-  //   // Marker user_marker = Marker(
-  //   //   point: LatLng(this.userlat, this.userlong),
-  //   //   width: 8,
-  //   //   height: 8,
-  //   //   builder: (ctx) => Container(
-  //   //     child: Image.asset(pointIcon),
-  //   //   ),
-  //   // );
-  //   // this.markers.add(user_marker);
-  // }
   Future<dynamic> getLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -231,70 +233,22 @@ abstract class _MapBoxStore with Store {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    Position pos=await Geolocator.getCurrentPosition();
-    this.userlat=pos.latitude;
-    this.userlong=pos.longitude;
+    Position pos = await Geolocator.getCurrentPosition();
+    this.userlat = pos.latitude;
+    this.userlong = pos.longitude;
     return LatLng(pos.latitude, pos.longitude);
   }
-  @action
-  void generate_bus_markers() {
-    print('generate bs');
-    List<Marker> l = List.generate(
-      this.bus_carousel_data.length,
-      (index) => Marker(
-          markerId: MarkerId('bus$index'),
-          position: LatLng(this.bus_carousel_data[index]['lat'],
-              this.bus_carousel_data[index]['long'])),
-    );
-    this.markers = ObservableList<Marker>.of(l);
-  }
-
-  @action
-  void generate_restaraunt_markers() {
-    List<Marker> l = List.generate(
-      this.bus_carousel_data.length,
-      (index) =>
-          //     Marker(
-          //   point: LatLng(this.bus_carousel_data[index]['lat'],
-          //       this.bus_carousel_data[index]['long']),
-          //   width: 25.0,
-          //   height: 25.0,
-          //   builder: (ctx) => Container(
-          //     child: Image.asset(restaurauntIcon),
-          //   ),
-          // ),
-          Marker(
-              markerId: MarkerId('bus$index'),
-              position: LatLng(this.bus_carousel_data[index]['lat'],
-                  this.bus_carousel_data[index]['long'])),
-    );
-    this.markers = ObservableList<Marker>.of(l);
-    ;
-  }
-
-//   @action
-//   void generate_polylines() {
-//     List<Polyline> l = List.generate(
-//       this.bus_carousel_data.length,
-//       (index) => Polyline(
-//         points: ,
-// // isDotted: true,
-//         color: Color(0xFF669DF6),
-//         strokeWidth: 3.0,
-//         borderColor: Color(0xFF1967D2),
-//         borderStrokeWidth: 0.1,
-//       )),
-//     );
-//   }
 
   final pointIcon = 'assets/images/pointicon.png';
   final busIcon = 'assets/images/busicon.png';
   final restaurauntIcon = 'assets/images/restaurantIcon.png';
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 }
-// this.bus_carousel_data[i]['lat'], this.bus_carousel_data[i]['long']

@@ -1,11 +1,13 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/functions/travel/has_left.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/travel/data.dart';
+import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_dev/widgets/travel/timing_tile.dart';
 import 'package:onestop_dev/widgets/travel/travel_drop_down.dart';
@@ -19,8 +21,6 @@ class FerryDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
-      print("status=  ${context.read<TravelStore>().ferryTimings.status} ");
-      print("data = ${context.read<TravelStore>().ferryTimings.value}");
       if (context.read<TravelStore>().ferryTimings.status ==
           FutureStatus.fulfilled) {
         var ferryModel = context
@@ -39,6 +39,14 @@ class FerryDetails extends StatelessWidget {
                   .map((e) => TextButton(
                         onPressed: () {
                           context.read<TravelStore>().setFerryGhat(e['name']);
+                          var mapbox_store = context.read<MapBoxStore>();
+                          int i = mapbox_store.allLocationData.indexWhere((element) => e['name'] == element['name']);
+                          mapbox_store.selectedCarousel(i);
+                          mapbox_store.zoomTwoMarkers(
+                              mapbox_store.selectedCarouselLatLng,
+                              LatLng(mapbox_store.userlat,
+                                  mapbox_store.userlong),
+                              90.0);
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.all(

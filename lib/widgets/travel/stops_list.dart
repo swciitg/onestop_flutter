@@ -15,7 +15,7 @@ class BusStopList extends StatelessWidget {
     return ListView.builder(
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
-        itemCount: context.read<MapBoxStore>().bus_carousel_data.length,
+        itemCount: context.read<MapBoxStore>().allLocationData.length,
         itemBuilder: (BuildContext context, int index) {
           var map_store = context.read<MapBoxStore>();
           return Padding(
@@ -25,9 +25,9 @@ class BusStopList extends StatelessWidget {
                 map_store.selectedCarousel(index);
                 map_store.zoomTwoMarkers(
                   LatLng(
-                      map_store.bus_carousel_data[
+                      map_store.allLocationData[
                           map_store.selectedCarouselIndex]['lat'],
-                      map_store.bus_carousel_data[
+                      map_store.allLocationData[
                           map_store.selectedCarouselIndex]['long']),
                   LatLng(map_store.userlat, map_store.userlong),
                   100.0
@@ -55,15 +55,15 @@ class BusStopList extends StatelessWidget {
                       ),
                     ),
                     title: Text(
-                      map_store.bus_carousel_data[index]['name'],
+                      map_store.allLocationData[index]['name'],
                       style: MyFonts.w500.setColor(kWhite),
                     ),
                     subtitle: Text(
-                        map_store.bus_carousel_data[index]['distance']
+                        map_store.allLocationData[index]['distance']
                                 .toString() +
                             " km",
                         style: MyFonts.w500.setColor(kGrey13)),
-                    trailing: (map_store.bus_carousel_data[index]['status'] ==
+                    trailing: (map_store.allLocationData[index]['status'] ==
                             'left')
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -74,14 +74,14 @@ class BusStopList extends StatelessWidget {
                                     .setColor(Color.fromRGBO(135, 145, 165, 1)),
                               ),
                               Text(
-                                map_store.bus_carousel_data[index]['time'],
+                                map_store.allLocationData[index]['time'],
                                 style: MyFonts.w500
                                     .setColor(Color.fromRGBO(195, 198, 207, 1)),
                               ),
                             ],
                           )
                         : Text(
-                            map_store.bus_carousel_data[index]['time'],
+                            map_store.allLocationData[index]['time'],
                             style: MyFonts.w500.setColor(lBlue2),
                           ),
                   ),
