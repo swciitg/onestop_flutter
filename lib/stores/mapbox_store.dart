@@ -165,39 +165,6 @@ abstract class _MapBoxStore with Store {
     return l;
   }
 
-
-  Future<List<String>> getAppropriateTimings() async{
-    // Bus = index 0
-    // Ferry = index 1
-    // if (this.indexBusesorFerry == 0)
-       var busTimes = await DataProvider.getBusTimings();
-       if(checkWeekday())
-         {
-           return busTimes[1];
-         }
-       else
-         {
-           return busTimes[0];
-         }
-    // else if(this.indexBusesorFerry == 1)
-    //   {
-    //     var ferryTimes = await DataProvider.getFerryTimings();
-    //     var ghatName = allLocationData[selectedCarouselIndex]['name'];
-    //     var requiredModel = ferryTimes.firstWhere((element) => element.name == ghatName);
-    //     if(checkWeekday())
-    //       {
-    //         return requiredModel.MonToFri_NorthGuwahatiToGuwahati;
-    //       }
-    //     else
-    //       {
-    //         return requiredModel.Sunday_NorthGuwahatiToGuwahati;
-    //       }
-    //   }
-
-    return [];
-
-  }
-
   void zoomTwoMarkers(LatLng ans, LatLng user, double zoom) async {
     double startLatitude = user.latitude;
     double startLongitude = user.longitude;

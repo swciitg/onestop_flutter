@@ -133,22 +133,6 @@ mixin _$TravelStore on _TravelStore, Store {
     });
   }
 
-  late final _$busTimingsAtom =
-      Atom(name: '_TravelStore.busTimings', context: context);
-
-  @override
-  ObservableFuture<List<List<String>>> get busTimings {
-    _$busTimingsAtom.reportRead();
-    return super.busTimings;
-  }
-
-  @override
-  set busTimings(ObservableFuture<List<List<String>>> value) {
-    _$busTimingsAtom.reportWrite(value, super.busTimings, () {
-      super.busTimings = value;
-    });
-  }
-
   late final _$_TravelStoreActionController =
       ActionController(name: '_TravelStore', context: context);
 
@@ -249,7 +233,6 @@ ferryDirection: ${ferryDirection},
 ferryDayType: ${ferryDayType},
 selectedFerryGhat: ${selectedFerryGhat},
 ferryTimings: ${ferryTimings},
-busTimings: ${busTimings},
 ferryDataIndex: ${ferryDataIndex},
 busDayTypeIndex: ${busDayTypeIndex},
 busPage: ${busPage},

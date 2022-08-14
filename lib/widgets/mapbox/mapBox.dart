@@ -55,7 +55,7 @@ class _MapBoxState extends State<MapBox> {
     try {
       coordinates = await mapboxStore.getLocation() as LatLng;
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not fetch your current location")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not fetch your current location", style: MyFonts.w500,)));
       return LatLng(26.192613073419974, 91.69907177061708);
     }
     return mapboxStore.getLocation();
@@ -273,7 +273,7 @@ class _MapBoxState extends State<MapBox> {
                                         mapStore
                                             .selectedCarouselLatLng.longitude));
                               } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not open map.")));
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not open map.",style: MyFonts.w500,)));
                               }
                             },
                             child: Icon(
