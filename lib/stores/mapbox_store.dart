@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
+import 'package:onestop_dev/functions/travel/check_weekday.dart';
 import 'package:onestop_dev/pages/travel/data.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:ui' as ui;
@@ -158,9 +160,42 @@ abstract class _MapBoxStore with Store {
       (index) => CarouselCard(
           name: dataMap[index]['name'],
           index: dataMap[index]['ind'],
-          time: dataMap[index]['time']),
+          ),
     );
     return l;
+  }
+
+
+  Future<List<String>> getAppropriateTimings() async{
+    // Bus = index 0
+    // Ferry = index 1
+    // if (this.indexBusesorFerry == 0)
+       var busTimes = await DataProvider.getBusTimings();
+       if(checkWeekday())
+         {
+           return busTimes[1];
+         }
+       else
+         {
+           return busTimes[0];
+         }
+    // else if(this.indexBusesorFerry == 1)
+    //   {
+    //     var ferryTimes = await DataProvider.getFerryTimings();
+    //     var ghatName = allLocationData[selectedCarouselIndex]['name'];
+    //     var requiredModel = ferryTimes.firstWhere((element) => element.name == ghatName);
+    //     if(checkWeekday())
+    //       {
+    //         return requiredModel.MonToFri_NorthGuwahatiToGuwahati;
+    //       }
+    //     else
+    //       {
+    //         return requiredModel.Sunday_NorthGuwahatiToGuwahati;
+    //       }
+    //   }
+
+    return [];
+
   }
 
   void zoomTwoMarkers(LatLng ans, LatLng user, double zoom) async {

@@ -336,10 +336,6 @@ class _MapBoxState extends State<MapBox> {
                             initialPage: 0,
                             enableInfiniteScroll: false,
                             scrollDirection: Axis.horizontal,
-                            // onPageChanged:
-                            //     (int index, CarouselPageChangedReason reason) async {
-                            //
-                            // },
                           ),
                         );
                       })

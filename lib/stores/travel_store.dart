@@ -27,6 +27,9 @@ abstract class _TravelStore with Store {
   @observable
   ObservableFuture<List<FerryTimeData>> ferryTimings = ObservableFuture(DataProvider.getFerryTimings());
 
+  @observable
+  ObservableFuture<List<List<String>>> busTimings = ObservableFuture(DataProvider.getBusTimings());
+
   @action
   void setFerryDayType(String s) {
     ferryDayType = s;

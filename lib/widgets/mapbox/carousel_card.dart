@@ -1,21 +1,52 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:onestop_dev/functions/travel/check_weekday.dart';
+import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:provider/provider.dart';
 
 class CarouselCard extends StatelessWidget {
   String name;
   int index;
-  String time;
+
   CarouselCard(
-      {Key? key, required this.index, required this.time, required this.name})
+      {Key? key, required this.index, required this.name})
       : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
+    Future<String> getNextTime()async {
+      print('next time function');
+      if(context.read<MapBoxStore>().indexBusesorFerry == 0)
+        {
+          var busTimes = await DataProvider.getBusTimings();
+          if(checkWeekday())
+          {
+            return 'Next Bus at: '+nextTime(busTimes[1]);
+          }
+          else
+          {
+            return 'Next Bus at: '+nextTime(busTimes[0]);
+          }
+        }
+      else
+        {
+          var ferryTimes = await DataProvider.getFerryTimings();
+          var requiredModel = ferryTimes.firstWhere((element) => element.name == this.name);
+          if(checkWeekday())
+          {
+            return 'Next Ferry at: '+nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati);
+          }
+          else {
+            return 'Next Ferry at: '+nextTime(requiredModel.Sunday_NorthGuwahatiToGuwahati);
+          }
+        }
+    }
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 3.0, right: 3),
       child: Observer(builder: (context) {
@@ -63,9 +94,17 @@ class CarouselCard extends StatelessWidget {
                       SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        'Next Bus at: ${context.read<MapBoxStore>().allLocationData[index]['time']}',
-                        style: MyFonts.w500.size(11).setColor(kGrey13),
+                      FutureBuilder(
+                        future: getNextTime(),
+                        builder: (context,snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                              snapshot.data! as String,
+                              style: MyFonts.w500.size(11).setColor(kGrey13),
+                            );
+                          }
+                          return Container();
+                        }
                       ),
                     ],
                   ),
