@@ -8,6 +8,7 @@ String nextTime(List<String>timings)
       if(!hasLeft(time))
         {
           answer = time;
+          break;
         }
     }
   if(answer == "Nothing")
@@ -15,5 +16,5 @@ String nextTime(List<String>timings)
       answer = timings[0];
     }
 
-  return "";
+  return answer;
 }
