@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
+import 'package:onestop_dev/functions/travel/check_weekday.dart';
 import 'package:onestop_dev/pages/travel/data.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:ui' as ui;
@@ -158,7 +160,7 @@ abstract class _MapBoxStore with Store {
       (index) => CarouselCard(
           name: dataMap[index]['name'],
           index: dataMap[index]['ind'],
-          time: dataMap[index]['time']),
+          ),
     );
     return l;
   }

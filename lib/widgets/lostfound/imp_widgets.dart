@@ -457,12 +457,12 @@ class FoundItemTile extends StatelessWidget {
                                                     print(body);
                                                     buttonPressed=false;
                                                     if(body["saved"] == false){
-                                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body["message"])));
+                                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body["message"], style: MyFonts.w500,)));
                                                       Navigator.popUntil(context,ModalRoute.withName(LostFoundHome.id));
                                                     }
                                                     else{
                                                       currentFoundModel.claimed=true;
-                                                      ScaffoldMessenger.of(homeKey.currentContext!).showSnackBar(SnackBar(content: Text("Claimed Item Successfully")));
+                                                      ScaffoldMessenger.of(homeKey.currentContext!).showSnackBar(SnackBar(content: Text("Claimed Item Successfully", style: MyFonts.w500,)));
                                                       Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
                                                     }
                                                   },
