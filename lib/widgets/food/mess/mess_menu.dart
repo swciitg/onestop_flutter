@@ -26,6 +26,13 @@ class MessMenu extends StatelessWidget {
     "Dihing",
     "Disang"
   ];
+  initState()
+  {
+    DateTime now = DateTime.now();
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,91 +90,97 @@ class MessMenu extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                PopupMenuButton<String>(
-                                  onSelected: (value) => print(value),
-                                  itemBuilder: (context) {
-                                    return days
-                                        .map(
-                                          (value) => PopupMenuItem(
-                                            onTap: () {
-                                              messStore.setDay(value);
-                                            },
-                                            value: value,
-                                            child: Text(value),
+                                Theme(
+                                  data: Theme.of(context).copyWith(cardColor: kGrey2),
+                                  child: PopupMenuButton<String>(
+                                    onSelected: (value) => print(value),
+                                    itemBuilder: (context) {
+                                      return days
+                                          .map(
+                                            (value) => PopupMenuItem(
+                                              onTap: () {
+                                                messStore.setDay(value);
+                                              },
+                                              value: value,
+                                              child: Text(value, style: MyFonts.w500.setColor(kWhite)),
+                                            ),
+                                          )
+                                          .toList();
+                                    },
+                                    offset: Offset(1, 40),
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 7.0, horizontal: 12.0),
+                                      decoration: BoxDecoration(
+                                          color: kGrey2,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(messStore.selectedDay,
+                                              style: MyFonts.w500
+                                                  .setColor(lBlue)
+                                                  .size(screenWidth <= 380
+                                                      ? 10
+                                                      : 13)),
+                                          Icon(
+                                            Icons.keyboard_arrow_down_outlined,
+                                            color: lBlue,
+                                            size: screenWidth <= 380 ? 15 : 20,
                                           ),
-                                        )
-                                        .toList();
-                                  },
-                                  offset: Offset(1, 40),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 7.0, horizontal: 12.0),
-                                    decoration: BoxDecoration(
-                                        color: kGrey2,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(messStore.selectedDay,
-                                            style: MyFonts.w500
-                                                .setColor(lBlue)
-                                                .size(screenWidth <= 380
-                                                    ? 10
-                                                    : 13)),
-                                        Icon(
-                                          Icons.keyboard_arrow_down_outlined,
-                                          color: lBlue,
-                                          size: screenWidth <= 380 ? 15 : 20,
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                                PopupMenuButton<String>(
-                                  onSelected: (value) => print(value),
-                                  itemBuilder: (context) {
-                                    return hostels
-                                        .map(
-                                          (value) => PopupMenuItem(
-                                            onTap: () {
-                                              messStore.setHostel(value);
-                                            },
-                                            value: value,
-                                            child: Text(
-                                              value,
+                                Theme(
+                                  data: Theme.of(context).copyWith(cardColor: kBlueGrey),
+                                  child: PopupMenuButton<String>(
+                                    onSelected: (value) => print(value),
+                                    itemBuilder: (context) {
+                                      return hostels
+                                          .map(
+                                            (value) => PopupMenuItem(
+                                              onTap: () {
+                                                messStore.setHostel(value);
+                                              },
+                                              value: value,
+                                              child: Text(
+                                                value, style: MyFonts.w500.setColor(kWhite),
+                                              ),
                                             ),
+                                          )
+                                          .toList();
+                                    },
+                                    offset: Offset(1, 40),
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 6.0, horizontal: 12.0),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: lBlue),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(messStore.selectedHostel,
+                                              style: MyFonts.w500
+                                                  .setColor(lBlue)
+                                                  .size(screenWidth <= 380
+                                                      ? 10
+                                                      : 13)),
+                                          Icon(
+                                            Icons.keyboard_arrow_down_outlined,
+                                            color: lBlue,
+                                            size: screenWidth <= 380 ? 15 : 20,
                                           ),
-                                        )
-                                        .toList();
-                                  },
-                                  offset: Offset(1, 40),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 6.0, horizontal: 12.0),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: lBlue),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(messStore.selectedHostel,
-                                            style: MyFonts.w500
-                                                .setColor(lBlue)
-                                                .size(screenWidth <= 380
-                                                    ? 10
-                                                    : 13)),
-                                        Icon(
-                                          Icons.keyboard_arrow_down_outlined,
-                                          color: lBlue,
-                                          size: screenWidth <= 380 ? 15 : 20,
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),

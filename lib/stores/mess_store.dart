@@ -1,5 +1,5 @@
-import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
+import 'package:onestop_dev/functions/food/get_day.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 
@@ -14,7 +14,7 @@ abstract class _MessStore with Store {
   }
 
   @observable
-  String selectedDay = DateFormat("EEE").format(DateTime.now());
+  String selectedDay = get_day();
 
   @observable
   String selectedMeal = "Breakfast";
