@@ -7,7 +7,6 @@ import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/pages/travel/data.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
-import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:ui' as ui;
 part 'mapbox_store.g.dart';

@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:map_launcher/map_launcher.dart' as Launch;
+import 'package:map_launcher/map_launcher.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
@@ -244,10 +244,25 @@ class _MapBoxState extends State<MapBox> {
                             heroTag: null,
                             backgroundColor: kAppBarGrey,
                             onPressed: () async {
-                              await Launch.MapLauncher.showMarker(
-                                coords: Launch.Coords(37.759392, -122.5107336),
-                                title: "Ocean Beach", mapType: Launch.MapType.google,
-                              );
+                              var mapStore = context.read<MapBoxStore>();
+                              var availableMap =
+                                  (await MapLauncher.installedMaps)
+                                      .first;
+                              try {
+                                await availableMap.showDirections(
+                                    originTitle: 'User Location',
+                                    destinationTitle: 'Bus Stop',
+                                    directionsMode:
+                                    DirectionsMode.walking,
+                                    destination: Coords(
+                                        mapStore.userlat, mapStore.userlong),
+                                    origin: Coords(
+                                        mapStore.selectedCarouselLatLng.latitude,
+                                        mapStore
+                                            .selectedCarouselLatLng.longitude));
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not open map.")));
+                              }
                             },
                             child: Icon(
                               FluentIcons.directions_24_regular,
@@ -262,12 +277,6 @@ class _MapBoxState extends State<MapBox> {
                             heroTag: null,
                             backgroundColor: kAppBarGrey,
                             onPressed: () {
-                              // _mapController.
-                              // moveAndRotate(
-                              //     LatLng(mapbox_store.userlat,
-                              //         mapbox_store.userlong),
-                              //     15,
-                              //     17);
                               zoomInMarker(
                                   mapbox_store.userlat, mapbox_store.userlong);
                             },
@@ -283,48 +292,45 @@ class _MapBoxState extends State<MapBox> {
                   ],
                 ),
                 (!mapbox_store.isTravelPage)
-                    ? Observer(
-                      builder: (context) {
+                    ? Observer(builder: (context) {
                         print("carousel rebuild");
                         print("${mapbox_store.carouselCards.toString()}");
                         return CarouselSlider(
-                            items: mapbox_store.carouselCards
-                                .map((e) => GestureDetector(
-                                      child: mapbox_store
-                                                  .selectedCarouselIndex ==
-                                              (e as CarouselCard).index
-                                          ? e
-                                          : ColorFiltered(
-                                              colorFilter: ColorFilter.mode(
-                                                  Colors.grey.shade600,
-                                                  BlendMode.modulate),
-                                              child: e,
-                                            ),
-                                      onTap: () {
-                                        mapbox_store.selectedCarousel(
-                                            (e as CarouselCard).index);
-                                        mapbox_store.zoomTwoMarkers(
+                          items: mapbox_store.carouselCards
+                              .map((e) => GestureDetector(
+                                    child: mapbox_store.selectedCarouselIndex ==
+                                            (e as CarouselCard).index
+                                        ? e
+                                        : ColorFiltered(
+                                            colorFilter: ColorFilter.mode(
+                                                Colors.grey.shade600,
+                                                BlendMode.modulate),
+                                            child: e,
+                                          ),
+                                    onTap: () {
+                                      mapbox_store.selectedCarousel(
+                                          (e as CarouselCard).index);
+                                      mapbox_store.zoomTwoMarkers(
                                           mapbox_store.selectedCarouselLatLng,
-                                            LatLng(mapbox_store.userlat,
-                                                mapbox_store.userlong),
-                                            120.0);
-                                      },
-                                    ))
-                                .toList(),
-                            options: CarouselOptions(
-                              height: 100,
-                              viewportFraction: 0.7,
-                              initialPage: 0,
-                              enableInfiniteScroll: false,
-                              scrollDirection: Axis.horizontal,
-                              // onPageChanged:
-                              //     (int index, CarouselPageChangedReason reason) async {
-                              //
-                              // },
-                            ),
-                          );
-                      }
-                    )
+                                          LatLng(mapbox_store.userlat,
+                                              mapbox_store.userlong),
+                                          120.0);
+                                    },
+                                  ))
+                              .toList(),
+                          options: CarouselOptions(
+                            height: 100,
+                            viewportFraction: 0.7,
+                            initialPage: 0,
+                            enableInfiniteScroll: false,
+                            scrollDirection: Axis.horizontal,
+                            // onPageChanged:
+                            //     (int index, CarouselPageChangedReason reason) async {
+                            //
+                            // },
+                          ),
+                        );
+                      })
                     : SizedBox(),
               ],
             ),

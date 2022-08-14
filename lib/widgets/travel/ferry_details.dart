@@ -21,8 +21,6 @@ class FerryDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
-      print("status=  ${context.read<TravelStore>().ferryTimings.status} ");
-      print("data = ${context.read<TravelStore>().ferryTimings.value}");
       if (context.read<TravelStore>().ferryTimings.status ==
           FutureStatus.fulfilled) {
         var ferryModel = context
@@ -43,7 +41,6 @@ class FerryDetails extends StatelessWidget {
                           context.read<TravelStore>().setFerryGhat(e['name']);
                           var mapbox_store = context.read<MapBoxStore>();
                           int i = mapbox_store.allLocationData.indexWhere((element) => e['name'] == element['name']);
-                          print("map data = ${mapbox_store.allLocationData}");
                           mapbox_store.selectedCarousel(i);
                           mapbox_store.zoomTwoMarkers(
                               mapbox_store.selectedCarouselLatLng,
