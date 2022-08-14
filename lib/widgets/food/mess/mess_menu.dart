@@ -11,10 +11,6 @@ class MessMenu extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  StreamController mealController = StreamController();
-  StreamController<String> dayController = StreamController();
-  StreamController<String> hostelController = StreamController();
-
   List<String> days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   List<String> hostels = [
     "Brahmaputra",
@@ -39,71 +35,43 @@ class MessMenu extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Row(children: [
-            StreamBuilder(
-                stream: mealController.stream,
-                builder: (context, mealSnapshot) {
-                  return Expanded(
-                      flex: 1,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        // mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                                onTap: () {
-                                  if (mealSnapshot.hasData == true &&
-                                      mealSnapshot.data == "Breakfast") {
-                                    return;
-                                  }
-                                  mealController.sink.add("Breakfast");
-                                },
-                                child: MessMeal(
-                                  mealName: "Breakfast",
-                                  selected: (mealSnapshot.hasData == true &&
-                                          mealSnapshot.data == "Breakfast")
-                                      ? true
-                                      : false,
-                                )),
-                          ),
-                          Expanded(
-                            child: GestureDetector(
-                                onTap: () {
-                                  if (mealSnapshot.hasData == true &&
-                                      mealSnapshot.data == "Lunch") {
-                                    return;
-                                  }
-                                  mealController.sink.add("Lunch");
-                                },
-                                child: MessMeal(
-                                  mealName: "Lunch",
-                                  selected: (mealSnapshot.hasData == true &&
-                                          mealSnapshot.data == "Lunch")
-                                      ? true
-                                      : false,
-                                )),
-                          ),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                if (mealSnapshot.hasData == true &&
-                                    mealSnapshot.data == "Dinner") {
-                                  return;
-                                }
-                                mealController.sink.add("Dinner");
-                              },
-                              child: MessMeal(
-                                mealName: "Dinner",
-                                selected: (mealSnapshot.hasData == true &&
-                                        mealSnapshot.data == "Dinner")
-                                    ? true
-                                    : false,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ));
-                }),
+            Expanded(
+                flex: 1,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                          onTap: () {
+                          },
+                          child: MessMeal(
+                            mealName: "Breakfast",
+                            selected: true,
+                          )),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                          onTap: () {
+                          },
+                          child: MessMeal(
+                            mealName: "Lunch",
+                            selected:false,
+                          )),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                        },
+                        child: MessMeal(
+                          mealName: "Dinner",
+                          selected: false,
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
             SizedBox(
               width: 16,
             ),
@@ -139,7 +107,6 @@ class MessMenu extends StatelessWidget {
                                   .map(
                                     (value) => PopupMenuItem(
                                       onTap: () {
-                                        dayController.sink.add(value);
                                       },
                                       value: value,
                                       child: Text(value),
@@ -160,19 +127,13 @@ class MessMenu extends StatelessWidget {
                                     MainAxisAlignment.spaceAround,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  StreamBuilder<String>(
-                                      stream: dayController.stream,
-                                      builder: (context, daySnapshot) {
-                                        return Text(
-                                            daySnapshot.hasData == true
-                                                ? daySnapshot.data!
-                                                : "Mon",
-                                            style: MyFonts.w500
-                                                .setColor(lBlue)
-                                                .size(screenWidth <= 380
-                                                    ? 10
-                                                    : 13));
-                                      }),
+                                  Text(
+                                      "Mon",
+                                      style: MyFonts.w500
+                                          .setColor(lBlue)
+                                          .size(screenWidth <= 380
+                                          ? 10
+                                          : 13)),
                                   Icon(
                                     Icons.keyboard_arrow_down_outlined,
                                     color: lBlue,
@@ -192,7 +153,6 @@ class MessMenu extends StatelessWidget {
                                   .map(
                                     (value) => PopupMenuItem(
                                       onTap: () {
-                                        hostelController.sink.add(value);
                                       },
                                       value: value,
                                       child: Text(
@@ -215,19 +175,13 @@ class MessMenu extends StatelessWidget {
                                     MainAxisAlignment.spaceAround,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  StreamBuilder<String>(
-                                      stream: hostelController.stream,
-                                      builder: (context, hostelSnapshot) {
-                                        return Text(
-                                            hostelSnapshot.hasData == true
-                                                ? hostelSnapshot.data!
-                                                : "Brahmaputra",
-                                            style: MyFonts.w500
-                                                .setColor(lBlue)
-                                                .size(screenWidth <= 380
-                                                    ? 10
-                                                    : 13));
-                                      }),
+                                  Text(
+                                      "Brahma",
+                                      style: MyFonts.w500
+                                          .setColor(lBlue)
+                                          .size(screenWidth <= 380
+                                          ? 10
+                                          : 13)),
                                   Icon(
                                     Icons.keyboard_arrow_down_outlined,
                                     color: lBlue,
