@@ -26,12 +26,6 @@ class MessMenu extends StatelessWidget {
     "Dihing",
     "Disang"
   ];
-  initState()
-  {
-    DateTime now = DateTime.now();
-
-  }
-
 
 
   @override
