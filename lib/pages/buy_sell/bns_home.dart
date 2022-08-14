@@ -9,7 +9,11 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/buysell/buy_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
+import 'package:onestop_dev/widgets/buySell/ads_tile.dart';
+import 'package:onestop_dev/widgets/buySell/buy_tile.dart';
 import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+
 class BuySellHome extends StatefulWidget {
   static const id = "/buySellHome";
   const BuySellHome({Key? key}) : super(key: key);
@@ -23,7 +27,8 @@ class _BuySellHomeState extends State<BuySellHome> {
 
   Future<List> getBuyItems() async {
     print("before");
-    var res = await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/lost'));
+    var res =
+        await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/lost'));
     print("after");
     var lostItemsDetails = jsonDecode(res.body);
     print("decoded json");
@@ -32,8 +37,8 @@ class _BuySellHomeState extends State<BuySellHome> {
 
   Future<List> getFoundItems() async {
     print("before");
-    var res = await http
-        .get(Uri.parse('https://swc.iitg.ac.in/onestopapi/found'));
+    var res =
+        await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/found'));
     print("after");
 
     var foundItemsDetails = jsonDecode(res.body);
@@ -55,18 +60,17 @@ class _BuySellHomeState extends State<BuySellHome> {
         automaticallyImplyLeading: false,
         leadingWidth: 18,
         actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
             },
-            child: Image.asset(
-              "assets/images/dismiss_icon.png",
-              height: 18,
+            icon: Icon(
+              IconData(0xe16a, fontFamily: 'MaterialIcons'),
             ),
           )
         ],
       ),
-      body:  FutureBuilder<List>(
+      body: FutureBuilder<List>(
           future: getBuyItems(),
           builder: (context, lostsSnapshot) {
             if (lostsSnapshot.hasData) {
@@ -76,17 +80,21 @@ class _BuySellHomeState extends State<BuySellHome> {
                   print(foundsSnapshot.data);
                   if (foundsSnapshot.hasData) {
                     List<Widget> buyItems = [];
-                    List<Widget> foundItems = [];
+                    List<Widget> sellItems = [];
+                    List<Widget> myAds = [];
                     lostsSnapshot.data!.forEach((e) => {
-                      print("here"),
-                      print(e["username"]),
-                      buyItems.add(LostItemTile(
-                          currentLostModel: BuyModel.fromJson(e)))
-                    });
+                          print("here"),
+                          print(e["username"]),
+                          buyItems.add(
+                            BuyTile(
+                              model: LostModel.fromJson(e),
+                            ),
+                          )
+                        });
                     print("here 2");
                     foundsSnapshot.data!.forEach((e) => {
-                      foundItems.add(LostItemTile(currentLostModel: LostModel.fromJson(e)))
-                    });
+                          sellItems.add(MyAdsTile(model: LostModel.fromJson(e)))
+                        });
                     print("here 3");
                     return StreamBuilder(
                       stream: typeStream,
@@ -106,77 +114,103 @@ class _BuySellHomeState extends State<BuySellHome> {
                                     child: ItemTypeBar(
                                       text: "Sell",
                                       margin:
-                                      EdgeInsets.only(left: 16, bottom: 10),
+                                          EdgeInsets.only(left: 16, bottom: 10),
                                       textStyle: MyFonts.w500.size(14).setColor(
                                           snapshot.hasData == false
                                               ? kBlack
                                               : (snapshot.data! == "Sell"
-                                              ? kBlack
-                                              : kWhite)),
+                                                  ? kBlack
+                                                  : kWhite)),
                                       backgroundColor: snapshot.hasData == false
                                           ? lBlue2
                                           : (snapshot.data! == "Sell"
-                                          ? lBlue2
-                                          : kBlueGrey),
+                                              ? lBlue2
+                                              : kBlueGrey),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (!snapshot.hasData)
+                                        selectedTypeController.sink.add("Buy");
+                                      if (snapshot.hasData &&
+                                          snapshot.data! != "Buy")
+                                        selectedTypeController.sink.add("Buy");
+                                    },
+                                    child: ItemTypeBar(
+                                      text: "Buy",
+                                      margin:
+                                          EdgeInsets.only(left: 8, bottom: 10),
+                                      textStyle: MyFonts.w500.size(14).setColor(
+                                          snapshot.hasData == false
+                                              ? kWhite
+                                              : (snapshot.data! == "Buy"
+                                                  ? kBlack
+                                                  : kWhite)),
+                                      backgroundColor: snapshot.hasData == false
+                                          ? kBlueGrey
+                                          : (snapshot.data! == "Buy"
+                                              ? lBlue2
+                                              : kBlueGrey),
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: () {
                                       if (!snapshot.hasData)
                                         selectedTypeController.sink
-                                            .add("Buy");
+                                            .add("My Ads");
                                       if (snapshot.hasData &&
-                                          snapshot.data! != "Buy")
+                                          snapshot.data! != "My Ads")
                                         selectedTypeController.sink
-                                            .add("Buy");
+                                            .add("My Ads");
                                     },
                                     child: ItemTypeBar(
-                                      text: "Buy",
+                                      text: "My Ads",
                                       margin:
-                                      EdgeInsets.only(left: 8, bottom: 10),
+                                          EdgeInsets.only(left: 8, bottom: 10),
                                       textStyle: MyFonts.w500.size(14).setColor(
                                           snapshot.hasData == false
                                               ? kWhite
-                                              : (snapshot.data! == "Buy"
-                                              ? kBlack
-                                              : kWhite)),
+                                              : (snapshot.data! == "My Ads"
+                                                  ? kBlack
+                                                  : kWhite)),
                                       backgroundColor: snapshot.hasData == false
                                           ? kBlueGrey
-                                          : (snapshot.data! == "Buy"
-                                          ? lBlue2
-                                          : kBlueGrey),
+                                          : (snapshot.data! == "My Ads"
+                                              ? lBlue2
+                                              : kBlueGrey),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                             Expanded(
-                                child: (!snapshot.hasData ||
-                                    snapshot.data! == "Sell")
-                                    ? (buyItems.length == 0
-                                    ? Center(
-                                  child: Text(
-                                    "No Items on sell as of now :)",
-                                    style: MyFonts.w500
-                                        .size(16)
-                                        .setColor(kWhite),
-                                  ),
-                                )
-                                    : ListView(
-                                  children: buyItems,
-                                ))
-                                    : (foundItems.length == 0
-                                    ? Center(
-                                  child: Text(
-                                    "No Items on Buy as of now :)",
-                                    style: MyFonts.w500
-                                        .size(16)
-                                        .setColor(kWhite),
-                                  ),
-                                )
-                                    : ListView(
-                                  children: foundItems,
-                                )))
+                              child: (!snapshot.hasData ||
+                                      snapshot.data! == "Sell")
+                                  ? (buyItems.length == 0
+                                      ? Center(
+                                          child: Text(
+                                            "No Items on sell as of now :)",
+                                            style: MyFonts.w500
+                                                .size(16)
+                                                .setColor(kWhite),
+                                          ),
+                                        )
+                                      : ListView(
+                                          children: buyItems,
+                                        ))
+                                  : (sellItems.length == 0
+                                      ? Center(
+                                          child: Text(
+                                            "No Items on Buy as of now :)",
+                                            style: MyFonts.w500
+                                                .size(16)
+                                                .setColor(kWhite),
+                                          ),
+                                        )
+                                      : ListView(
+                                          children: sellItems,
+                                        )),
+                            ),
                           ],
                         );
                       },
@@ -204,7 +238,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                         title:
-                        Text("From where do you want to take the photo?"),
+                            Text("From where do you want to take the photo?"),
                         content: SingleChildScrollView(
                           child: ListBody(
                             children: <Widget>[
@@ -232,7 +266,7 @@ class _BuySellHomeState extends State<BuySellHome> {
               if (xFile != null) {
                 var bytes = File(xFile!.path).readAsBytesSync();
                 var imageSize =
-                (bytes.lengthInBytes / (1048576)); // dividing by 1024*1024
+                    (bytes.lengthInBytes / (1048576)); // dividing by 1024*1024
                 if (imageSize > 2.5) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("Maximum image size can be 2.5 MB")));
@@ -243,9 +277,9 @@ class _BuySellHomeState extends State<BuySellHome> {
                   print("Lost clicked");
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => BuySellForm(
-                        category: "Sell",
-                        imageString: imageString,
-                      )));
+                            category: "Sell",
+                            imageString: imageString,
+                          )));
                   return;
                 }
                 print("Found clicked");
@@ -267,7 +301,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                 children: [
                   Padding(
                     padding:
-                    const EdgeInsets.only(top: 17, bottom: 20, left: 20),
+                        const EdgeInsets.only(top: 17, bottom: 20, left: 20),
                     child: Icon(
                       Icons.add,
                       size: 30,
@@ -280,8 +314,8 @@ class _BuySellHomeState extends State<BuySellHome> {
                       !snapshot.hasData
                           ? "Sell Item"
                           : (snapshot.data! == "Sell"
-                          ? "Sell Item"
-                          : "Request Item"),
+                              ? "Sell Item"
+                              : "Request Item"),
                       style: MyFonts.w600.size(14).setColor(kBlack),
                     ),
                   ),
@@ -302,10 +336,10 @@ class ItemTypeBar extends StatelessWidget {
   EdgeInsets margin;
   ItemTypeBar(
       {Key? key,
-        required this.text,
-        required this.textStyle,
-        required this.backgroundColor,
-        required this.margin})
+      required this.text,
+      required this.textStyle,
+      required this.backgroundColor,
+      required this.margin})
       : super(key: key);
 
   @override
@@ -322,3 +356,35 @@ class ItemTypeBar extends StatelessWidget {
     );
   }
 }
+
+/*
+Widget selectList(String type, List<Widget> buyList, List<Widget> sellList,
+      List<Widget> myList) {
+    List<Widget> finalList;
+    if (type == "NULL") {
+      return Center(
+        child: Text(
+          "No Items here as of now :)",
+          style: MyFonts.w500.size(16).setColor(kWhite),
+        ),
+      );
+    }
+    if (type == "Sell") {
+      finalList = sellList;
+    } else if (type == "Sell") {
+      finalList = buyList;
+    } else {
+      finalList = myList;
+    }
+    return (finalList.length == 0
+        ? Center(
+            child: Text(
+              "No Items here as of now :)",
+              style: MyFonts.w500.size(16).setColor(kWhite),
+            ),
+          )
+        : ListView(
+            children: finalList,
+          ));
+  }
+  */

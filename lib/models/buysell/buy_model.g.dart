@@ -14,6 +14,7 @@ BuyModel _$BuyModelFromJson(Map<String, dynamic> json) => BuyModel(
       compressedImageURL: json['compressedImageURL'] as String,
       date: DateTime.parse(json['date'] as String),
       phonenumber: json['phonenumber'] as String,
+      price: json['price'] as String,
     );
 
 Map<String, dynamic> _$BuyModelToJson(BuyModel instance) => <String, dynamic>{
@@ -23,5 +24,6 @@ Map<String, dynamic> _$BuyModelToJson(BuyModel instance) => <String, dynamic>{
       'imageURL': instance.imageURL,
       'compressedImageURL': instance.compressedImageURL,
       'phonenumber': instance.phonenumber,
+      'price': instance.price,
       'date': instance.date.toIso8601String(),
     };
