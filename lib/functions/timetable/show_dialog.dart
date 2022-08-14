@@ -6,7 +6,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 Future<void> showMyDialog(BuildContext context) async {
   return showDialog<void>(
     context: context,
-    barrierDismissible: false, // user must tap button!
+    barrierDismissible: true,
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: Colors.blueGrey.shade900,

@@ -304,15 +304,6 @@ class _MapBoxState extends State<MapBox> {
                                         mapbox_store.selectedCarousel(
                                             (e as CarouselCard).index);
                                         mapbox_store.zoomTwoMarkers(
-                                            // LatLng(
-                                            //     mapbox_store.bus_carousel_data[
-                                            //             mapbox_store
-                                            //                 .selectedCarouselIndex]
-                                            //         ['lat'],
-                                            //     mapbox_store.bus_carousel_data[
-                                            //             mapbox_store
-                                            //                 .selectedCarouselIndex]
-                                            //         ['long']),
                                           mapbox_store.selectedCarouselLatLng,
                                             LatLng(mapbox_store.userlat,
                                                 mapbox_store.userlong),
