@@ -258,11 +258,11 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
       floatingActionButton: GestureDetector(
         onTap: (){
           if(checkBox==false){
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Mark the checkbox if you have submitted the item")));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Mark the checkbox if you have submitted the item", style: MyFonts.w500,)));
             return;
           }
           if(selectedLocation==null || ["Library","Hostel","Core","SAC"].contains(selectedLocation)){
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select location of item submission")));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select location of item submission", style: MyFonts.w500,)));
             return;
           }
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => LostFoundForm(category: "Found",imageString: widget.imageString, submittedat: selectedLocation,)));

@@ -315,31 +315,16 @@ class FoundItemTile extends StatelessWidget {
                                                     var body =
                                                         jsonDecode(res.body);
                                                     print(body);
-                                                    buttonPressed = false;
-                                                    if (body["saved"] ==
-                                                        false) {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(SnackBar(
-                                                              content: Text(body[
-                                                                  "message"])));
-                                                      Navigator.popUntil(
-                                                          context,
-                                                          ModalRoute.withName(
-                                                              LostFoundHome
-                                                                  .id));
-                                                    } else {
-                                                      currentFoundModel
-                                                          .claimed = true;
-                                                      ScaffoldMessenger.of(homeKey
-                                                              .currentContext!)
-                                                          .showSnackBar(SnackBar(
-                                                              content: Text(
-                                                                  "Claimed Item Successfully")));
-                                                      Navigator.popUntil(
-                                                          context,
-                                                          ModalRoute.withName(
-                                                              HomePage.id));
+                                                    buttonPressed=false;
+                                                    if(body["saved"] == false){
+                                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body["message"], style: MyFonts.w500,)));
+                                                      Navigator.popUntil(context,ModalRoute.withName(LostFoundHome.id));
+                                                    }
+                                                    else{
+                                                      currentFoundModel.claimed=true;
+                                                      ScaffoldMessenger.of(homeKey.currentContext!).showSnackBar(SnackBar(content: Text("Claimed Item Successfully", style: MyFonts.w500,)));
+                                                      Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
+
                                                     }
                                                   },
                                                   child: Container(

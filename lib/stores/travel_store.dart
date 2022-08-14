@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:onestop_dev/models/travel/ferry_data_model.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/travel/bus_details.dart';
 import 'package:onestop_dev/widgets/travel/stops_list.dart';
 part 'travel_store.g.dart';
@@ -19,6 +21,12 @@ abstract class _TravelStore with Store {
   @observable
   String ferryDayType = "Mon - Sat";
 
+  @observable
+  String selectedFerryGhat = "Rajaduwar";
+
+  @observable
+  ObservableFuture<List<FerryTimeData>> ferryTimings = ObservableFuture(DataProvider.getFerryTimings());
+
   @action
   void setFerryDayType(String s) {
     ferryDayType = s;
@@ -30,18 +38,18 @@ abstract class _TravelStore with Store {
   }
 
   @computed
-  int get ferryDataIndex {
+  String get ferryDataIndex {
     if (ferryDirection == 'Campus to City') {
       if (ferryDayType == 'Sunday') {
-        return 0;
+        return "Sunday_NorthGuwahatiToGuwahati";
       } else {
-        return 1;
+        return "MonToFri_NorthGuwahatiToGuwahati";
       }
     } else {
       if (ferryDayType == 'Sunday') {
-        return 2;
+        return "Sunday_GuwahatiToNorthGuwahati";
       } else {
-        return 3;
+        return "MonToFri_GuwahatiToNorthGuwahati";
       }
     }
   }
@@ -83,6 +91,11 @@ abstract class _TravelStore with Store {
   @action
   void setBusDayString(String s) {
     this.busDayType = s;
+  }
+
+  @action
+  void setFerryGhat (String s) {
+    this.selectedFerryGhat = s;
   }
 
 

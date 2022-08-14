@@ -1,8 +1,8 @@
 [
   {
-    "name": "A",
+    "name": "Rajaduwar",
     "MonToFri_GuwahatiToNorthGuwahati": [
-      "8:00 AM",
+      "8:01 AM",
       "5:00 PM",
       "6:30 PM"
     ],
@@ -29,9 +29,9 @@
     ]
   },
   {
-    "name": "B",
+    "name": "Madhyamkhanda",
     "MonToFri_GuwahatiToNorthGuwahati": [
-      "8:00 AM",
+      "8:02 AM",
       "5:00 PM",
       "6:30 PM"
     ],
@@ -53,14 +53,14 @@
       "12:00 PM",
       "3:00 PM",
       "4:30 PM",
-      "5:30 PM",
+      "5:32 PM",
       "6:30 PM"
     ]
   },
   {
-    "name": "C",
+    "name": "Mazgaon",
     "MonToFri_GuwahatiToNorthGuwahati": [
-      "8:00 AM",
+      "8:03 AM",
       "5:00 PM",
       "6:30 PM"
     ],
@@ -82,7 +82,7 @@
       "12:00 PM",
       "3:00 PM",
       "4:30 PM",
-      "5:30 PM",
+      "5:33 PM",
       "6:30 PM"
     ]
   }

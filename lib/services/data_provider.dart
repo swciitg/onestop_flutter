@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
+import 'package:onestop_dev/models/travel/ferry_data_model.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
@@ -57,5 +58,24 @@ class DataProvider {
       people[x['name']] = ContactModel.fromJson(x);
     });
     return people;
+  }
+
+  static Future<List<FerryTimeData>> getFerryTimings() async {
+    var cachedData = await LocalStorage.instance.getRecord("FerryTimings");
+    if (cachedData == null) {
+      print("Ferry Data not in Cache. Using API...");
+      List<Map<String,dynamic>> ferryData = await APIService.getFerryData();
+      await LocalStorage.instance.storeData(ferryData,"FerryTimings");
+      List<FerryTimeData> answer = ferryData.map((e) => FerryTimeData.fromJson(e)).toList();
+      return answer;
+    }
+    List<FerryTimeData>answer = [];
+    print("Ferry Data Exists in Cache");
+    cachedData.forEach((element) {
+      var x = element as Map<String, dynamic>;
+      answer.add(FerryTimeData.fromJson(x));
+    });
+    print("Ferry returning $answer");
+    return answer;
   }
 }

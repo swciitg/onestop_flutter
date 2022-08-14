@@ -269,7 +269,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                     (bytes.lengthInBytes / (1048576)); // dividing by 1024*1024
                 if (imageSize > 2.5) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("Maximum image size can be 2.5 MB")));
+                      content: Text("Maximum image size can be 2.5 MB", style: MyFonts.w500,)));
                   return;
                 }
                 var imageString = base64Encode(bytes);

@@ -200,18 +200,18 @@ class _BuySellFormState extends State<BuySellForm> {
             print(res.body);
             var body = jsonDecode(res.body);
             if(body["saved_successfully"]==true){
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Saved data successfully")));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Saved data successfully", style: MyFonts.w500,)));
               Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
             }
             else{
               dbSavingController.sink.add(false);
               savingToDB=false;
               if(body["image_safe"]==false){
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("The chosen image is not safe for work !!")));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("The chosen image is not safe for work !!", style: MyFonts.w500,)));
                 return;
               }
               print(body["error"]);
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Some error occured, please try again")));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Some error occured, please try again", style: MyFonts.w500,)));
             }
           }
           else{
@@ -229,17 +229,17 @@ class _BuySellFormState extends State<BuySellForm> {
             );
             var body = jsonDecode(res.body);
             if(body["saved_successfully"]==true){
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Saved data successfully")));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Saved data successfully", style: MyFonts.w500,)));
               Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
             }
             else{
               dbSavingController.sink.add(false);
               savingToDB=false;
               if(body["image_safe"]==false){
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("The chosen image is not safe for work !!")));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("The chosen image is not safe for work !!", style: MyFonts.w500,)));
                 return;
               }
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Some error occured, please try again")));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Some error occured, please try again", style: MyFonts.w500,)));
             }
           }
         },
