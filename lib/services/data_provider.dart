@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/models/travel/ferry_data_model.dart';
 import 'package:onestop_dev/services/local_storage.dart';
@@ -17,11 +18,12 @@ class DataProvider {
       return busTime;
     }
     print("Bus Timings Data Exists in Cache");
-    return cachedData.map((e) => (e as List<dynamic>).map((e) => e as String).toList()).toList();
+    return cachedData
+        .map((e) => (e as List<dynamic>).map((e) => e as String).toList())
+        .toList();
   }
 
   static Future<List<RestaurantModel>> getRestaurants() async {
-
     var cachedData = await LocalStorage.instance.getRecord("Restaurant");
 
     if (cachedData == null) {
@@ -60,16 +62,34 @@ class DataProvider {
     return people;
   }
 
+  static Future<List<MessMenuModel>> getMessMenu() async {
+    // return Future.delayed(Duration(seconds: 10),() => throw Exception("hello"));
+    var cachedData = await LocalStorage.instance.getRecord("MessMenu");
+    if (cachedData == null) {
+      print("Mess Data not in Cache. Using API...");
+      List<Map<String, dynamic>> messMenuData = await APIService.getMessMenu();
+      List<MessMenuModel> answer =
+          messMenuData.map((e) => MessMenuModel.fromJson(e)).toList();
+      await LocalStorage.instance.storeData(messMenuData, "MessMenu");
+      return answer;
+    }
+    List<MessMenuModel> answer = cachedData
+        .map((e) => MessMenuModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return answer;
+  }
+
   static Future<List<FerryTimeData>> getFerryTimings() async {
     var cachedData = await LocalStorage.instance.getRecord("FerryTimings");
     if (cachedData == null) {
       print("Ferry Data not in Cache. Using API...");
-      List<Map<String,dynamic>> ferryData = await APIService.getFerryData();
-      await LocalStorage.instance.storeData(ferryData,"FerryTimings");
-      List<FerryTimeData> answer = ferryData.map((e) => FerryTimeData.fromJson(e)).toList();
+      List<Map<String, dynamic>> ferryData = await APIService.getFerryData();
+      await LocalStorage.instance.storeData(ferryData, "FerryTimings");
+      List<FerryTimeData> answer =
+          ferryData.map((e) => FerryTimeData.fromJson(e)).toList();
       return answer;
     }
-    List<FerryTimeData>answer = [];
+    List<FerryTimeData> answer = [];
     print("Ferry Data Exists in Cache");
     cachedData.forEach((element) {
       var x = element as Map<String, dynamic>;

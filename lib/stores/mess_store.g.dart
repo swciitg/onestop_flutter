@@ -57,6 +57,38 @@ mixin _$MessStore on _MessStore, Store {
     });
   }
 
+  late final _$selectedMessModelAtom =
+      Atom(name: '_MessStore.selectedMessModel', context: context);
+
+  @override
+  MessMenuModel? get selectedMessModel {
+    _$selectedMessModelAtom.reportRead();
+    return super.selectedMessModel;
+  }
+
+  @override
+  set selectedMessModel(MessMenuModel? value) {
+    _$selectedMessModelAtom.reportWrite(value, super.selectedMessModel, () {
+      super.selectedMessModel = value;
+    });
+  }
+
+  late final _$allMessDataAtom =
+      Atom(name: '_MessStore.allMessData', context: context);
+
+  @override
+  ObservableFuture<List<MessMenuModel>> get allMessData {
+    _$allMessDataAtom.reportRead();
+    return super.allMessData;
+  }
+
+  @override
+  set allMessData(ObservableFuture<List<MessMenuModel>> value) {
+    _$allMessDataAtom.reportWrite(value, super.allMessData, () {
+      super.allMessData = value;
+    });
+  }
+
   late final _$_MessStoreActionController =
       ActionController(name: '_MessStore', context: context);
 
@@ -94,11 +126,24 @@ mixin _$MessStore on _MessStore, Store {
   }
 
   @override
+  void setSelectedMessModel(MessMenuModel m) {
+    final _$actionInfo = _$_MessStoreActionController.startAction(
+        name: '_MessStore.setSelectedMessModel');
+    try {
+      return super.setSelectedMessModel(m);
+    } finally {
+      _$_MessStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 selectedDay: ${selectedDay},
 selectedMeal: ${selectedMeal},
-selectedHostel: ${selectedHostel}
+selectedHostel: ${selectedHostel},
+selectedMessModel: ${selectedMessModel},
+allMessData: ${allMessData}
     ''';
   }
 }

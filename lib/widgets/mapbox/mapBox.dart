@@ -306,7 +306,6 @@ class _MapBoxState extends State<MapBox> {
                 (!mapbox_store.isTravelPage)
                     ? Observer(builder: (context) {
                         print("carousel rebuild");
-                        print("${mapbox_store.carouselCards.toString()}");
                         return CarouselSlider(
                           items: mapbox_store.carouselCards
                               .map((e) => GestureDetector(

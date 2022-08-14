@@ -152,7 +152,6 @@ abstract class _MapBoxStore with Store {
         carouselLength = 0;
         dataMap = [];
     }
-    print("Data map is $dataMap");
     List<Widget> l = List<Widget>.generate(
       carouselLength,
       (index) => CarouselCard(
