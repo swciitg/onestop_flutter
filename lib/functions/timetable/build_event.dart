@@ -7,3 +7,4 @@ Event buildEvent({required String title}) {
     endDate: DateTime.now().add(Duration(hours: 1)),
   );
 }
+

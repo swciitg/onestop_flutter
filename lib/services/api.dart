@@ -7,6 +7,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onestop_dev/models/travel/ferry_data_model.dart';
 class APIService {
   static String restaurantURL = "https://onestop4.free.beeceptor.com/getAllOutlets";
+  static String contactURL = "https://contacts.free.beeceptor.com/contact";
+  static String timetableURL = "https://hidden-depths-09275.herokuapp.com/get-my-courses";
+  static String ferryURL = 'lib/globals/ferry_data.json';
+  static String busURL = 'lib/globals/bus_time.json';
+  static String messURL = "https://onestopiitg2022.free.beeceptor.com/mess";
 
   static Future<List<Map<String, dynamic>>> getRestaurantData() async {
     http.Response response = await http.get(Uri.parse(restaurantURL));
@@ -24,8 +29,6 @@ class APIService {
       throw Exception("Data could not be fetched");
     }
   }
-
-  static String contactURL = "https://contacts.free.beeceptor.com/contact";
 
   static Future<List<Map<String, dynamic>>> getContactData() async {
     http.Response response = await http.get(Uri.parse(contactURL));
@@ -51,7 +54,7 @@ class APIService {
 
   static Future<List<List<String>>> getBusData() async
   {
-    String data = await rootBundle.loadString('lib/globals/bus_time.json');
+    String data = await rootBundle.loadString(busURL);
     var json = jsonDecode(data);
     List<List<String>>time = [];
     //print(json.runtimeType);
@@ -65,7 +68,7 @@ class APIService {
 
   static Future<List<Map<String,dynamic>>> getFerryData() async
   {
-    String data = await rootBundle.loadString('lib/globals/ferry_data.json');
+    String data = await rootBundle.loadString(ferryURL);
     var json = jsonDecode(data);
     List<Map<String,dynamic>>answer = [];
     print(json.runtimeType);
@@ -78,7 +81,7 @@ class APIService {
 
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {
     final response = await http.post(
-      Uri.parse('https://hidden-depths-09275.herokuapp.com/get-my-courses'),
+      Uri.parse(timetableURL),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
       },
@@ -91,6 +94,27 @@ class APIService {
     } else {
       print(response.statusCode);
       throw Exception(response.statusCode);
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> getMessMenu() async {
+    http.Response response = await http.get(Uri.parse(messURL));
+    var status = response.statusCode;
+    var body = jsonDecode(response.body);
+    print("Sending GET request to $messURL");
+    if (status == 200)
+    {
+      List<Map<String, dynamic>> data = [];
+      for (var json in body)
+      {
+        data.add(json);
+      }
+      return data;
+    }
+    else
+    {
+      print(status);
+      throw Exception("contact Data could not be fetched");
     }
   }
 
@@ -115,5 +139,3 @@ class APIService {
     }
   }
 }
-
-//https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248b144cc92443247b7b9e0bd5df85012f2&start=${source.latitude},${source.longitude}&end=${dest.latitude},${dest.longitude}'),
