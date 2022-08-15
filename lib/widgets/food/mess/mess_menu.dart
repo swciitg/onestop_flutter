@@ -87,7 +87,6 @@ class MessMenu extends StatelessWidget {
                                 Theme(
                                   data: Theme.of(context).copyWith(cardColor: kGrey2),
                                   child: PopupMenuButton<String>(
-                                    onSelected: (value) => print(value),
                                     itemBuilder: (context) {
                                       return days
                                           .map(
@@ -133,7 +132,6 @@ class MessMenu extends StatelessWidget {
                                 Theme(
                                   data: Theme.of(context).copyWith(cardColor: kBlueGrey),
                                   child: PopupMenuButton<String>(
-                                    onSelected: (value) => print(value),
                                     itemBuilder: (context) {
                                       return hostels
                                           .map(

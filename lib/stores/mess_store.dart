@@ -9,7 +9,6 @@ class MessStore = _MessStore with _$MessStore;
 
 abstract class _MessStore with Store {
   _MessStore() {
-    print("Creating mess store");
     setupReactions();
   }
 
