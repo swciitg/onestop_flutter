@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/buysell/buy_model.dart';
 
 import '../../models/lostfound/lost_model.dart';
 import 'details_dialog.dart';
@@ -65,7 +66,7 @@ class BuyTile extends StatelessWidget {
                             //TODO::Implemnt the correct design
                             Expanded(
                               child: Text(
-                                '\u{20B9}${model.phonenumber}/-',
+                                '\u{20B9}${model.date}/-',
                                 style: MyFonts.w600.size(14).setColor(lBlue4),
                               ),
                             ),

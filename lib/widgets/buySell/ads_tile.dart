@@ -4,18 +4,18 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/buysell/buy_model.dart';
+import 'package:http/http.dart' as http;
 
-import '../../models/lostfound/lost_model.dart';
 import 'details_dialog.dart';
 
 class MyAdsTile extends StatefulWidget {
-  final LostModel model;
+  final BuyModel model;
 
   MyAdsTile({
     Key? key,
     required this.model,
   }) : super(key: key);
-  final String url = "https://iitg.ac.in/acad/academic_calender.php";
 
   @override
   State<MyAdsTile> createState() => _MyAdsTile();
@@ -66,9 +66,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                                   Expanded(
                                     flex: 1,
                                     child: TextButton(
-                                      onPressed: () {
-                                        //change from state 1 to state 2
-                                      },
+                                      onPressed: () {},
                                       child: Icon(
                                         FluentIcons.more_vertical_28_filled,
                                         size: 15,
@@ -147,17 +145,26 @@ class _MyAdsTile extends State<MyAdsTile> {
                 color: lBlue2,
               ),
               child: TextButton(
-                  child: Text(
-                    "Delete",
-                    style: MyFonts.w400.size(14).setColor(kBlack),
-                  ),
-                  onPressed: () {
-                    // Navigator.of(context).pop();
-                    setState(() {
-                      TileSate = AdsTileState(context, model, false);
-                    });
-                  },
-                  onFocusChange: (change) {}),
+                child: Text(
+                  "Delete",
+                  style: MyFonts.w400.size(14).setColor(kBlack),
+                ),
+                onPressed: () {
+                  // Navigator.of(context).pop();
+                  setState(() async {
+                    await http.post(
+                        Uri.parse("https://swc.iitg.ac.in/onestopapi/myads"),
+                        body: {'ID': model.id!.trim()});
+                    TileSate = AdsTileState(context, model, false);
+                  });
+                },
+                onFocusChange: (change) {
+                  print(!change);
+                  setState(() {
+                    TileSate = AdsTileState(context, model, !change);
+                  });
+                },
+              ),
             ),
           ),
         ],
@@ -231,7 +238,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                               //TODO::Implemnt the correct design
                               Expanded(
                                 child: Text(
-                                  '\u{20B9}${model.phonenumber}/-',
+                                  '\u{20B9}${model.price}/-',
                                   style: MyFonts.w600.size(14).setColor(lBlue4),
                                 ),
                               ),
