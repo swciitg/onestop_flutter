@@ -8,6 +8,21 @@ import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 
 class DataProvider {
+
+  static Future<Map<String, dynamic>?> getLastUpdated() async {
+    var cachedData = await LocalStorage.instance.getRecord("LastUpdated");
+    if (cachedData == null) {
+      // print("Last Update not in Cache. Using API...");
+      // Map<String, dynamic> lastUpdate = await APIService.getLastUpdated();
+      // await LocalStorage.instance.storeData([lastUpdate], "LastUpdated");
+      // print(lastUpdate);
+      // return lastUpdate;
+      return null;
+    }
+    print("Last Update Data Exists in Cache");
+    return(cachedData as List<Map<String, dynamic>>)[0];
+  }
+
   static Future<List<List<String>>> getBusTimings() async {
     var cachedData = await LocalStorage.instance.getRecord("BusTimings");
     if (cachedData == null) {

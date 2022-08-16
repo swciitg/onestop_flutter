@@ -49,6 +49,16 @@ class LocalStorage {
     await store.record(recordName).delete(localDB);
   }
 
+  Future<void> deleteAllRecord() async {
+    var store = StoreRef<String,List<Object?>>.main();
+    Database localDB = await LocalStorage.instance.database;
+    await store.record('BusTimings').delete(localDB);
+    await store.record('Restaurant').delete(localDB);
+    await store.record('Contact').delete(localDB);
+    await store.record('MessMenu').delete(localDB);
+    await store.record('FerryTimings').delete(localDB);
+  }
+
   Future<List<Object?>?> getRecord(String recordName) async {
     var store = StoreRef<String,List<Object?>>.main();
     Database localDB = await LocalStorage.instance.database;

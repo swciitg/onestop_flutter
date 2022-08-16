@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onestop_dev/models/travel/ferry_data_model.dart';
 class APIService {
   static String restaurantURL = "https://onestop4.free.beeceptor.com/getAllOutlets";
+  static String lastUpdatedURL = "https://swc.iitg.ac.in/onestopapi/getLastUpdate";
   static String contactURL = "https://contacts.free.beeceptor.com/contact";
   static String timetableURL = "https://hidden-depths-09275.herokuapp.com/get-my-courses";
   static String ferryURL = 'lib/globals/ferry_data.json';
@@ -23,6 +24,20 @@ class APIService {
       for (var json in body) {
         data.add(json);
       }
+      return data;
+    } else {
+      print(status);
+      throw Exception("Data could not be fetched");
+    }
+  }
+
+  static Future<Map<String, dynamic>> getLastUpdated() async {
+    http.Response response = await http.get(Uri.parse(lastUpdatedURL));
+    var status = response.statusCode;
+    var body = jsonDecode(response.body);
+    print("Sending GET request to $lastUpdatedURL");
+    if (status == 200) {
+      Map<String, dynamic> data = body;
       return data;
     } else {
       print(status);

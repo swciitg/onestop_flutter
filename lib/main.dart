@@ -8,10 +8,13 @@ import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:provider/provider.dart';
 
+import 'package:onestop_dev/functions/utility/check_last_updated.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+  checkLastUpdated();
   runApp(const MyApp());
 }
 
