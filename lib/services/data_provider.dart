@@ -20,7 +20,7 @@ class DataProvider {
       return null;
     }
     print("Last Update Data Exists in Cache");
-    return(cachedData as List<Map<String, dynamic>>)[0];
+    return cachedData[0] as Map<String, dynamic>;
   }
 
   static Future<List<List<String>>> getBusTimings() async {

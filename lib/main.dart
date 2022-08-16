@@ -10,11 +10,11 @@ import 'package:provider/provider.dart';
 
 import 'package:onestop_dev/functions/utility/check_last_updated.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
-  checkLastUpdated();
+  await checkLastUpdated();
   runApp(const MyApp());
 }
 

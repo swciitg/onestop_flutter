@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onestop_dev/models/travel/ferry_data_model.dart';
 class APIService {
   static String restaurantURL = "https://onestop4.free.beeceptor.com/getAllOutlets";
-  static String lastUpdatedURL = "https://swc.iitg.ac.in/onestopapi/getLastUpdate";
+  static String lastUpdatedURL = "https://lastupdated.free.beeceptor.com";
   static String contactURL = "https://contacts.free.beeceptor.com/contact";
   static String timetableURL = "https://hidden-depths-09275.herokuapp.com/get-my-courses";
   static String ferryURL = 'lib/globals/ferry_data.json';

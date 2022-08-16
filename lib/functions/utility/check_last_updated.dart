@@ -10,21 +10,28 @@ Map<String,List<String>> recordNames = {
 };
 
 Future<bool> checkLastUpdated() async{
+  print("checkUpdated called");
   Map<String, dynamic>? lastUpdated = await DataProvider.getLastUpdated();
+  print(lastUpdated);
   Map<String,dynamic> last = await APIService.getLastUpdated();
+  print(last);
   if(lastUpdated == null)
     {
-      LocalStorage.instance.deleteAllRecord();
-      LocalStorage.instance.storeData([last], 'LastUpdated');
+      await LocalStorage.instance.deleteAllRecord();
+      await LocalStorage.instance.storeData([last], 'LastUpdated');
       return true;
     }
   for(var key in lastUpdated.keys)
     {
       if(lastUpdated[key] != last[key])
         {
-          recordNames[key]?.forEach((element) { LocalStorage.instance.deleteRecord(element);});
+          print('Key mismatch $key');
+           recordNames[key]?.forEach((element) async { await LocalStorage.instance.deleteRecord(element);});
         }
     }
+    await LocalStorage.instance.storeData([last], 'LastUpdated');
+    lastUpdated = await DataProvider.getLastUpdated();
+    print(lastUpdated);
 
   return true;
 }
