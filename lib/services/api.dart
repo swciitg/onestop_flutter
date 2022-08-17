@@ -12,7 +12,7 @@ class APIService {
   static String timetableURL = "https://hidden-depths-09275.herokuapp.com/get-my-courses";
   static String ferryURL = 'lib/globals/ferry_data.json';
   static String busURL = 'lib/globals/bus_time.json';
-  static String messURL = "https://onestopiitg2022.free.beeceptor.com/mess";
+  static String messURL = "https://swc.iitg.ac.in/onestopapi/hostelsMessMenu";
 
   static Future<List<Map<String, dynamic>>> getRestaurantData() async {
     http.Response response = await http.get(Uri.parse(restaurantURL));
