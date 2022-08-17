@@ -5,6 +5,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/timetable/home_shimmer.dart';
+import 'package:onestop_dev/widgets/ui/animated_expand.dart';
 import 'package:provider/provider.dart';
 
 class DateCourse extends StatelessWidget {
@@ -69,8 +70,8 @@ class TimetableRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
-      if (context.read<TimetableStore>().showDropDown) {
-        return Column(
+      return AnimatedExpand(
+        child: Column(
           children: classes
               .map((e) => Row(
                     children: [
@@ -86,9 +87,10 @@ class TimetableRow extends StatelessWidget {
                     ],
                   ))
               .toList(),
-        );
-      }
-      return SizedBox();
+        ),
+        expand: context.read<TimetableStore>().showDropDown,
+      );
+      //return SizedBox();
     });
   }
 }
@@ -98,8 +100,8 @@ class ArrowButton extends StatelessWidget {
   late final bool showArrow;
   @override
   Widget build(BuildContext context) {
-    return Observer(builder: (context) {
-      if (showArrow) {
+    if (showArrow) {
+      return Observer(builder: (context) {
         return Expanded(
             flex: 7,
             child: GestureDetector(
@@ -120,8 +122,8 @@ class ArrowButton extends StatelessWidget {
                 ),
               ),
             ));
-      }
-      return SizedBox();
-    });
+      });
+    }
+    return SizedBox();
   }
 }
