@@ -35,7 +35,7 @@ String calculatedetails(hostelDetails args, String initials)
       selectedHostel == "Lohit" ||
       selectedHostel == "Married Scholars" ||
       selectedHostel == "Dibang")
-  {ipAddress = "i dont know";}
+  {ipAddress = "Unavailable";}
   else if (selectedHostel == "Dihing" ||
       selectedHostel == "Kapili" ||
       selectedHostel == "Siang")

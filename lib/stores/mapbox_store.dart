@@ -88,7 +88,12 @@ abstract class _MapBoxStore with Store {
   @action
   void selectedCarousel(int i) {
     this.selectedCarouselIndex = i;
-    getBytesFromAsset('assets/images/busicon.png', 100).then((d) {
+    String name = 'busicon';
+    if(indexBusesorFerry == 1)
+      {
+        name = 'ferry_marker';
+      }
+    getBytesFromAsset('assets/images/${name}.png', 100).then((d) {
       List<Marker> l = [];
       l.add(Marker(
           icon: BitmapDescriptor.fromBytes(d),
