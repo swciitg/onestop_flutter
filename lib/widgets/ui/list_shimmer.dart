@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
@@ -21,7 +23,7 @@ class ListShimmer extends StatelessWidget {
     );
     return Shimmer.fromColors(
         child: Container(
-            height: 400,
+            height: max(400, count*height),
             child: ListView.builder(
                 itemCount: count,
                 itemBuilder: (_, __) => Padding(

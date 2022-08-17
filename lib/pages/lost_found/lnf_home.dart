@@ -14,7 +14,9 @@ import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
 import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_form.dart';
+import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:webfeed/domain/media/media.dart';
 
 class LostFoundHome extends StatefulWidget {
   static const id = "/lostFoundHome";
@@ -30,7 +32,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
 
   Future<List> getLostItems() async {
     print("before");
-    var res = await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/lost'));
+    var res =
+        await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/lost'));
     print("after");
     var lostItemsDetails = jsonDecode(res.body);
     print("decoded json");
@@ -39,8 +42,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
 
   Future<List> getFoundItems() async {
     print("before");
-    var res = await http
-        .get(Uri.parse('https://swc.iitg.ac.in/onestopapi/found'));
+    var res =
+        await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/found'));
     print("after");
 
     var foundItemsDetails = jsonDecode(res.body);
@@ -86,19 +89,22 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                     List<Widget> lostItems = [];
                     List<Widget> foundItems = [];
                     lostsSnapshot.data!.forEach((e) => {
-                      print("here"),
-                      print(e["username"]),
-                      lostItems.add(LostItemTile(
-                          currentLostModel: LostModel.fromJson(e)))
-                    });
+                          print("here"),
+                          print(e["username"]),
+                          lostItems.add(LostItemTile(
+                              currentLostModel: LostModel.fromJson(e)))
+                        });
                     print("here 2");
                     foundsSnapshot.data!.forEach((e) => {
-                      foundItems.add(FoundItemTile(
-                          currentFoundModel: FoundModel.fromJson(e),homeKey: globalKey,))
-                    });
+                          foundItems.add(FoundItemTile(
+                            currentFoundModel: FoundModel.fromJson(e),
+                            homeKey: globalKey,
+                          ))
+                        });
                     print("here 3");
                     return StreamBuilder(
                       stream: typeStream,
+                      initialData: "Lost",
                       builder: (context, AsyncSnapshot snapshot) {
                         return Column(
                           children: [
@@ -106,197 +112,211 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                               padding: const EdgeInsets.only(top: 15),
                               child: Row(
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (snapshot.hasData &&
-                                          snapshot.data! != "Lost")
-                                        selectedTypeController.sink.add("Lost");
-                                    },
-                                    child: ItemTypeBar(
-                                      text: "Lost",
-                                      margin:
-                                      EdgeInsets.only(left: 16, bottom: 10),
-                                      textStyle: MyFonts.w500.size(14).setColor(
-                                          snapshot.hasData == false
-                                              ? kBlack
-                                              : (snapshot.data! == "Lost"
-                                              ? kBlack
-                                              : kWhite)),
-                                      backgroundColor: snapshot.hasData == false
-                                          ? lBlue2
-                                          : (snapshot.data! == "Lost"
-                                          ? lBlue2
-                                          : kBlueGrey),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (!snapshot.hasData)
-                                        selectedTypeController.sink
-                                            .add("Found");
-                                      if (snapshot.hasData &&
-                                          snapshot.data! != "Found")
-                                        selectedTypeController.sink
-                                            .add("Found");
-                                    },
-                                    child: ItemTypeBar(
-                                      text: "Found",
-                                      margin:
-                                      EdgeInsets.only(left: 8, bottom: 10),
-                                      textStyle: MyFonts.w500.size(14).setColor(
-                                          snapshot.hasData == false
-                                              ? kWhite
-                                              : (snapshot.data! == "Found"
-                                              ? kBlack
-                                              : kWhite)),
-                                      backgroundColor: snapshot.hasData == false
-                                          ? kBlueGrey
-                                          : (snapshot.data! == "Found"
-                                          ? lBlue2
-                                          : kBlueGrey),
-                                    ),
-                                  ),
+                                  LostFoundButton(
+                                      label: "Lost",
+                                      snapshot: snapshot,
+                                      selectedTypeController:
+                                          selectedTypeController),
+                                  LostFoundButton(
+                                      selectedTypeController:
+                                          selectedTypeController,
+                                      snapshot: snapshot,
+                                      label: "Found"),
                                 ],
                               ),
                             ),
                             Expanded(
                                 child: (!snapshot.hasData ||
-                                    snapshot.data! == "Lost")
+                                        snapshot.data! == "Lost")
                                     ? (lostItems.length == 0
-                                    ? Center(
-                                  child: Text(
-                                    "No Lost Items as of now :)",
-                                    style: MyFonts.w500
-                                        .size(16)
-                                        .setColor(kWhite),
-                                  ),
-                                )
-                                    : ListView(
-                                  children: lostItems,
-                                ))
+                                        ? Center(
+                                            child: Text(
+                                              "No Lost Items",
+                                              style: MyFonts.w500
+                                                  .size(16)
+                                                  .setColor(kWhite),
+                                            ),
+                                          )
+                                        : ListView(
+                                            children: lostItems,
+                                          ))
                                     : (foundItems.length == 0
-                                    ? Center(
-                                  child: Text(
-                                    "No found Items as of now :)",
-                                    style: MyFonts.w500
-                                        .size(16)
-                                        .setColor(kWhite),
-                                  ),
-                                )
-                                    : ListView(
-                                  children: foundItems,
-                                )))
+                                        ? Center(
+                                            child: Text(
+                                              "No found Items as of now :)",
+                                              style: MyFonts.w500
+                                                  .size(16)
+                                                  .setColor(kWhite),
+                                            ),
+                                          )
+                                        : ListView(
+                                            children: foundItems,
+                                          )))
                           ],
                         );
                       },
                     );
                   }
-                  return Center(
-                    child: CircularProgressIndicator(),
+                  return ListShimmer(
+                    count: 5,
+                    height: 150,
                   );
                 },
               );
             }
-            return Center(
-              child: CircularProgressIndicator(),
+            return ListShimmer(
+              count: 5,
+              height: 150,
             );
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: StreamBuilder(
-        stream: typeStream,
-        builder: (context, AsyncSnapshot snapshot) {
-          return GestureDetector(
-            onTap: () async {
-              XFile? xFile;
-              await showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                        title:
-                        Text("From where do you want to take the photo?"),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              GestureDetector(
-                                child: Text("Gallery"),
-                                onTap: () async {
-                                  xFile = await ImagePicker()
-                                      .pickImage(source: ImageSource.gallery);
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              Padding(padding: EdgeInsets.all(8.0)),
-                              GestureDetector(
-                                child: Text("Camera"),
-                                onTap: () async {
-                                  xFile = await ImagePicker()
-                                      .pickImage(source: ImageSource.camera);
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ],
-                          ),
-                        ));
-                  });
-              if (xFile != null) {
-                var bytes = File(xFile!.path).readAsBytesSync();
-                var imageSize =
-                (bytes.lengthInBytes / (1048576)); // dividing by 1024*1024
-                if (imageSize > 2.5) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("Maximum image size can be 2.5 MB", style: MyFonts.w500,)));
-                  return;
-                }
-                var imageString = base64Encode(bytes);
-                if (!snapshot.hasData || snapshot.data! == "Lost") {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => LostFoundForm(
-                        category: "Lost",
+      floatingActionButton: AddItemButton(typeStream: typeStream),
+    );
+  }
+}
+
+class AddItemButton extends StatelessWidget {
+  const AddItemButton({
+    Key? key,
+    required this.typeStream,
+  }) : super(key: key);
+
+  final Stream typeStream;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: typeStream,
+      initialData: "Lost",
+      builder: (context, AsyncSnapshot snapshot) {
+        return GestureDetector(
+          onTap: () async {
+            XFile? xFile;
+            await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                      title:
+                          Text("From where do you want to take the photo?"),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: <Widget>[
+                            GestureDetector(
+                              child: Text("Gallery"),
+                              onTap: () async {
+                                xFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            Padding(padding: EdgeInsets.all(8.0)),
+                            GestureDetector(
+                              child: Text("Camera"),
+                              onTap: () async {
+                                xFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.camera);
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        ),
+                      ));
+                });
+            if (xFile != null) {
+              var bytes = File(xFile!.path).readAsBytesSync();
+              var imageSize =
+                  (bytes.lengthInBytes / (1048576)); // dividing by 1024*1024
+              if (imageSize > 2.5) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                  "Maximum image size can be 2.5 MB",
+                  style: MyFonts.w500,
+                )));
+                return;
+              }
+              var imageString = base64Encode(bytes);
+              if (!snapshot.hasData || snapshot.data! == "Lost") {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => LostFoundForm(
+                          category: "Lost",
+                          imageString: imageString,
+                        )));
+                return;
+              }
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => LostFoundLocationForm(
                         imageString: imageString,
                       )));
-                  return;
-                }
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => LostFoundLocationForm(
-                      imageString: imageString,
-                    )));
-              }
-            },
-            child: Container(
-              margin: EdgeInsets.only(bottom: 18),
-              decoration: BoxDecoration(
-                color: lBlue2,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding:
-                    const EdgeInsets.only(top: 17, bottom: 20, left: 20),
-                    child: Icon(
-                      Icons.add,
-                      size: 30,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 15, left: 16, right: 20, bottom: 18),
-                    child: Text(
-                      !snapshot.hasData
-                          ? "Lost Item"
-                          : (snapshot.data! == "Lost"
-                          ? "Lost Item"
-                          : "Found Item"),
-                      style: MyFonts.w600.size(14).setColor(kBlack),
-                    ),
-                  ),
-                ],
-              ),
+            }
+          },
+          child: Container(
+            margin: EdgeInsets.only(bottom: 18),
+            decoration: BoxDecoration(
+              color: lBlue2,
+              borderRadius: BorderRadius.circular(12),
             ),
-          );
-        },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 17, bottom: 20, left: 20),
+                  child: Icon(
+                    Icons.add,
+                    size: 30,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 15, left: 16, right: 20, bottom: 18),
+                  child: Text(
+                  "${snapshot.data} Item",
+                    style: MyFonts.w600.size(14).setColor(kBlack),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class LostFoundButton extends StatelessWidget {
+  const LostFoundButton({
+    Key? key,
+    required this.selectedTypeController,
+    required this.snapshot,
+    required this.label,
+  }) : super(key: key);
+
+  final StreamController selectedTypeController;
+  final AsyncSnapshot snapshot;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (!snapshot.hasData)
+              selectedTypeController.sink
+                  .add(label);
+            if (snapshot.hasData &&
+                snapshot.data! != label)
+              selectedTypeController.sink
+                  .add(label);
+      },
+      child: ItemTypeBar(
+        text: label,
+        margin: EdgeInsets.only(left: 16, bottom: 10),
+        textStyle: MyFonts.w500.size(14).setColor(snapshot.hasData == false
+            ? kBlack
+            : (snapshot.data! == label ? kBlack : kWhite)),
+        backgroundColor: snapshot.hasData == false
+            ? lBlue2
+            : (snapshot.data! == label ? lBlue2 : kBlueGrey),
       ),
     );
   }
@@ -309,10 +329,10 @@ class ItemTypeBar extends StatelessWidget {
   EdgeInsets margin;
   ItemTypeBar(
       {Key? key,
-        required this.text,
-        required this.textStyle,
-        required this.backgroundColor,
-        required this.margin})
+      required this.text,
+      required this.textStyle,
+      required this.backgroundColor,
+      required this.margin})
       : super(key: key);
 
   @override

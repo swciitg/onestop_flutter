@@ -44,11 +44,10 @@ class FoodTab extends StatelessWidget {
                     height: 10,
                   ),
                   FutureBuilder<List<RestaurantModel>>(
-                      future: ReadJsonData(),
+                      future: DataProvider.getRestaurants(),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<RestaurantModel>> snapshot) {
                         if (snapshot.hasData) {
-                          // print(snapshot.data);
                           List<Widget> foodList = snapshot.data!
                               .map(
                                 (e) => RestaurantTile(
@@ -79,9 +78,4 @@ class FoodTab extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<List<RestaurantModel>> ReadJsonData() async {
-  List<RestaurantModel> l = await DataProvider.getRestaurants();
-  return l;
 }
