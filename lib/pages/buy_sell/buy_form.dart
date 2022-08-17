@@ -186,8 +186,8 @@ class _BuySellFormState extends State<BuySellForm> {
           if(widget.category=="Sell"){
             print("HERE");
             var res = await http.post(
-                Uri.parse("https://swc.iitg.ac.in/onestopapi/lost"),
-                body: {
+                Uri.parse("https://swc.iitg.ac.in/onestopapi/sell"),
+                body: jsonEncode({
                   'title': title!.trim(),
                   'description' : description!.trim(),
                   'location' : location!.trim(),
@@ -195,7 +195,7 @@ class _BuySellFormState extends State<BuySellForm> {
                   'phonenumber' : contactnumber!.trim(),
                   'email' : userEmail,
                   'username' : username
-                }
+                })
             );
             print(res.body);
             var body = jsonDecode(res.body);
@@ -216,8 +216,8 @@ class _BuySellFormState extends State<BuySellForm> {
           }
           else{
             var res = await http.post(
-                Uri.parse("https://swc.iitg.ac.in/onestopapi/found"),
-                body: {
+                Uri.parse("https://swc.iitg.ac.in/onestopapi/buy"),
+                body: jsonEncode({
                   'title': title!.trim(),
                   'description' : description!.trim(),
                   'location' : location!.trim(),
@@ -225,7 +225,7 @@ class _BuySellFormState extends State<BuySellForm> {
                   'submittedat' : widget.submittedat!,
                   'email' : userEmail,
                   'username' : username
-                }
+                })
             );
             var body = jsonDecode(res.body);
             if(body["saved_successfully"]==true){

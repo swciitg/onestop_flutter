@@ -185,7 +185,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
           if(widget.category=="Lost"){
             var res = await http.post(
                 Uri.parse("https://swc.iitg.ac.in/onestopapi/lost"),
-                body: {
+                body: jsonEncode({
                   'title': title!.trim(),
                   'description' : description!.trim(),
                   'location' : location!.trim(),
@@ -193,8 +193,10 @@ class _LostFoundFormState extends State<LostFoundForm> {
                   'phonenumber' : contactnumber!.trim(),
                   'email' : userEmail,
                   'username' : username
-                }
+                }),
+                headers: {'Content-Type': 'application/json'}
             );
+            print(res.body);
             var body = jsonDecode(res.body);
             if(body["saved_successfully"]==true){
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Saved data successfully", style: MyFonts.w500,)));
@@ -213,7 +215,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
           else{
             var res = await http.post(
                 Uri.parse("https://swc.iitg.ac.in/onestopapi/found"),
-                body: {
+                body: jsonEncode({
                   'title': title!.trim(),
                   'description' : description!.trim(),
                   'location' : location!.trim(),
@@ -221,7 +223,8 @@ class _LostFoundFormState extends State<LostFoundForm> {
                   'submittedat' : widget.submittedat!,
                   'email' : userEmail,
                   'username' : username
-                }
+                }),
+                headers: {'Content-Type': 'application/json'}
             );
             var body = jsonDecode(res.body);
             if(body["saved_successfully"]==true){
