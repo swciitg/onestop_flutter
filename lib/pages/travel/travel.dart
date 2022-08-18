@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:onestop_dev/functions/timetable/time_range.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_dev/widgets/mapbox/mapBox.dart';
@@ -21,6 +22,7 @@ class _TravelPageState extends State<TravelPage> {
   Widget build(BuildContext context) {
     var map_store = context.read<MapBoxStore>();
     map_store.checkTravelPage(true);
+
       return SingleChildScrollView(
         child: Column(
           children: [

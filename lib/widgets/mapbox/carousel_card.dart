@@ -46,7 +46,7 @@ class CarouselCard extends StatelessWidget {
           var requiredModel = ferryTimes.firstWhere((element) => element.name == this.name);
           if(today == 'Sat')
           {
-            return 'Next Ferry at: '+nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati);
+            return 'Next Ferry at: '+nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati, firstTime:  requiredModel.Sunday_NorthGuwahatiToGuwahati[0]);
           }
           else if(today == 'Sun'){
             return 'Next Ferry at: '+nextTime(requiredModel.Sunday_NorthGuwahatiToGuwahati,firstTime:  requiredModel.MonToFri_NorthGuwahatiToGuwahati[0]);
