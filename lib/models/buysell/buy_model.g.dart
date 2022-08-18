@@ -7,8 +7,6 @@ part of 'buy_model.dart';
 // **************************************************************************
 
 BuyModel _$BuyModelFromJson(Map<String, dynamic> json) => BuyModel(
-      json['username'] as String,
-      json['email'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
       imageURL: json['imageURL'] as String,
@@ -16,6 +14,9 @@ BuyModel _$BuyModelFromJson(Map<String, dynamic> json) => BuyModel(
       date: DateTime.parse(json['date'] as String),
       phonenumber: json['phonenumber'] as String,
       price: json['price'] as String,
+      email: json['email'] as String,
+      id: json['_id'] as String,
+      username: json['username'] as String,
     );
 
 Map<String, dynamic> _$BuyModelToJson(BuyModel instance) => <String, dynamic>{
@@ -28,4 +29,5 @@ Map<String, dynamic> _$BuyModelToJson(BuyModel instance) => <String, dynamic>{
       'date': instance.date.toIso8601String(),
       'username': instance.username,
       'email': instance.email,
+      '_id': instance.id,
     };

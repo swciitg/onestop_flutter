@@ -64,7 +64,7 @@ class BuyTile extends StatelessWidget {
                             //TODO::Implemnt the correct design
                             Expanded(
                               child: Text(
-                                '\u{20B9}${model.date}/-',
+                                '\u{20B9}${model.price}/-',
                                 style: MyFonts.w600.size(14).setColor(lBlue4),
                               ),
                             ),

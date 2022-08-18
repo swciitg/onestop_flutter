@@ -20,21 +20,19 @@ class MyAdsTile extends StatefulWidget {
 }
 
 class _MyAdsTile extends State<MyAdsTile> {
-  late Widget TileSate;
   bool isOverlay = false;
-  @override
-  void initState() {
-    super.initState();
-    TileSate = AdsTileState(context, widget.model, isOverlay);
-  }
 
-  Widget AdsTileState(context, model, bool overlay) {
-    if (overlay) {
+
+  @override
+  Widget build(BuildContext context) {
+    if (isOverlay) {
       return Stack(
         children: [
           GestureDetector(
             onTap: () {
-              detailsDialogBox(context, model);
+              setState(() {
+                isOverlay = false;
+              });
             },
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
@@ -75,7 +73,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                                   Expanded(
                                     flex: 6,
                                     child: Text(
-                                      model.title,
+                                      widget.model.title,
                                       style: MyFonts.w600
                                           .size(16)
                                           .setColor(kWhite.withAlpha(80)),
@@ -90,7 +88,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      model.description,
+                                      widget.model.description,
                                       style: MyFonts.w500
                                           .size(12)
                                           .setColor(kGrey6.withAlpha(80)),
@@ -99,7 +97,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                                   //TODO::Implemnt the correct design
                                   Expanded(
                                     child: Text(
-                                      '\u{20B9}${model.phonenumber}/-',
+                                      '\u{20B9}${widget.model.price}/-',
                                       style: MyFonts.w600
                                           .size(14)
                                           .setColor(lBlue4.withAlpha(80)),
@@ -121,7 +119,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                         child: Opacity(
                           opacity: 0.25,
                           child: Image.network(
-                            model.imageURL,
+                            widget.model.imageURL,
                             fit: BoxFit.cover,
                             color: kBlack,
                             colorBlendMode: BlendMode.overlay,
@@ -150,16 +148,16 @@ class _MyAdsTile extends State<MyAdsTile> {
                 onPressed: () {
                   // Navigator.of(context).pop();
                   setState(() async {
-                    await http.post(
-                        Uri.parse("https://swc.iitg.ac.in/onestopapi/myads"),
-                        body: {'ID': model.id!.trim()});
-                    TileSate = AdsTileState(context, model, false);
+                    // await http.post(
+                    //     Uri.parse("https://swc.iitg.ac.in/onestopapi/myads"),
+                    //     body: {'ID': widget.model.id.trim()});
+                    // TileSate = AdsTileState(context, widget.model, false);
                   });
                 },
                 onFocusChange: (change) {
                   print(!change);
                   setState(() {
-                    TileSate = AdsTileState(context, model, !change);
+                   // TileSate = AdsTileState(context, widget.model, !change);
                   });
                 },
               ),
@@ -170,7 +168,7 @@ class _MyAdsTile extends State<MyAdsTile> {
     } else {
       return GestureDetector(
         onTap: () {
-          detailsDialogBox(context, model);
+          detailsDialogBox(context, widget.model);
         },
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
@@ -202,8 +200,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                                 child: TextButton(
                                   onPressed: () {
                                     setState(() {
-                                      TileSate =
-                                          AdsTileState(context, model, true);
+                                      isOverlay = true;
                                     });
                                   },
                                   child: Icon(
@@ -216,7 +213,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                               Expanded(
                                 flex: 5,
                                 child: Text(
-                                  model.title,
+                                  widget.model.title,
                                   style: MyFonts.w600.size(16).setColor(kWhite),
                                 ),
                               ),
@@ -229,14 +226,14 @@ class _MyAdsTile extends State<MyAdsTile> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  model.description,
+                                  widget.model.description,
                                   style: MyFonts.w500.size(12).setColor(kGrey6),
                                 ),
                               ),
                               //TODO::Implemnt the correct design
                               Expanded(
                                 child: Text(
-                                  '\u{20B9}${model.price}/-',
+                                  '\u{20B9}${widget.model.price}/-',
                                   style: MyFonts.w600.size(14).setColor(lBlue4),
                                 ),
                               ),
@@ -253,7 +250,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(21),
                         bottomRight: Radius.circular(21)),
-                    child: Image.network(model.imageURL, fit: BoxFit.cover),
+                    child: Image.network(widget.model.imageURL, fit: BoxFit.cover),
                   ),
                 ),
               ],
@@ -261,11 +258,6 @@ class _MyAdsTile extends State<MyAdsTile> {
           ),
         ),
       );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return TileSate;
+    };
   }
 }

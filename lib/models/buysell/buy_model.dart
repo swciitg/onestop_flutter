@@ -15,8 +15,10 @@ class BuyModel {
   final DateTime date;
   final String username;
   final String email;
+  @JsonKey(name:'_id')
+  final String id;
 
-  const BuyModel(this.username, this.email,
+  const BuyModel(
       {Key? key,
       required this.title,
       required this.description,
@@ -24,7 +26,10 @@ class BuyModel {
       required this.compressedImageURL,
       required this.date,
       required this.phonenumber,
-      required this.price});
+      required this.price,
+      required this.email,
+      required this.id,
+      required this.username });
 
   factory BuyModel.fromJson(Map<String, dynamic> json) =>
       _$BuyModelFromJson(json);

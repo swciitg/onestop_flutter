@@ -21,10 +21,13 @@ Future<List> getSellItems() async {
 }
 
 Future<List> getMyItems() async {
-  var res = await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/sell'));
+  var res = await http.post(
+      Uri.parse('https://swc.iitg.ac.in/onestopapi/myads'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': 'h.nandigrama@iitg.ac.in'}));
 
   var MyItemsDetails = jsonDecode(res.body);
-  return MyItemsDetails["details"];
+  return [...MyItemsDetails["details"]["sellList"],...MyItemsDetails["details"]["buyList"]];
 }
 
 Future<List> getItems() async {
@@ -67,6 +70,7 @@ Widget selectList(dynamic snapshot, List<Widget> buyList, List<Widget> sellList,
 Widget AddButton(Stream<dynamic> typeStream) {
   return StreamBuilder(
     stream: typeStream,
+    initialData: "Sell",
     builder: (context, AsyncSnapshot snapshot) {
       if (snapshot.data == "My Ads") {
         return Container();
@@ -116,16 +120,21 @@ Widget AddButton(Stream<dynamic> typeStream) {
               return;
             }
             var imageString = base64Encode(bytes);
-            if (!snapshot.hasData || snapshot.data! == "Sell") {
-              print("Lost clicked");
+            if (snapshot.data == "Sell") {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => BuySellForm(
                         category: "Sell",
                         imageString: imageString,
                       )));
               return;
+            } else if (snapshot.data == "Buy") {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => BuySellForm(
+                        category: "Buy",
+                        imageString: imageString,
+                      )));
+              return;
             }
-            print("Found clicked");
           }
         },
         child: Container(
@@ -149,11 +158,7 @@ Widget AddButton(Stream<dynamic> typeStream) {
                 padding: const EdgeInsets.only(
                     top: 15, left: 16, right: 20, bottom: 18),
                 child: Text(
-                  !snapshot.hasData
-                      ? "Sell Item"
-                      : (snapshot.data! == "Sell"
-                          ? "Sell Item"
-                          : "Request Item"),
+                  snapshot.data! == "Sell" ? "Sell Item" : "Request Item",
                   style: MyFonts.w600.size(14).setColor(kBlack),
                 ),
               ),

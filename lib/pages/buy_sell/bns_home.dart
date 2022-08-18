@@ -17,10 +17,17 @@ class BuySellHome extends StatefulWidget {
 
 class _BuySellHomeState extends State<BuySellHome> {
   StreamController selectedTypeController = StreamController();
+  late Stream typeStream;
+
+  @override
+  void initState() {
+    super.initState();
+    typeStream = selectedTypeController.stream.asBroadcastStream();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Stream typeStream = selectedTypeController.stream.asBroadcastStream();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kBlueGrey,
@@ -45,11 +52,11 @@ class _BuySellHomeState extends State<BuySellHome> {
       body: FutureBuilder<List>(
           future: getItems(),
           builder: (context, Snapshot) {
-            // print(Snapshot.hasData);
             if (Snapshot.hasData) {
               List<Widget> buyItems = [];
               List<Widget> sellItems = [];
               List<Widget> myAds = [];
+              try{
               if (!(Snapshot.data![0].isEmpty)) {
                 Snapshot.data![0].forEach((e) => {
                       buyItems.add(
@@ -74,6 +81,10 @@ class _BuySellHomeState extends State<BuySellHome> {
                         ),
                       )
                     });
+              }}
+              catch(e){
+                print(e);
+                return Text('Some Error Occured');
               }
               return StreamBuilder(
                 stream: typeStream,

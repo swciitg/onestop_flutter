@@ -188,47 +188,55 @@ class _BuySellFormState extends State<BuySellForm> {
           print(contactnumber);
           print(description);
           if(widget.category=="Sell"){
-            print("HERE");
-            var res = await http.post(
-                Uri.parse("https://swc.iitg.ac.in/onestopapi/sell"),
-                body: jsonEncode({
-                  'title': title!.trim(),
-                  'description' : description!.trim(),
-                  'location' : location!.trim(),
-                  'imageString' : widget.imageString,
-                  'phonenumber' : contactnumber!.trim(),
-                  'email' : userEmail,
-                  'username' : username
-                })
-            );
-            print(res.body);
-            var body = jsonDecode(res.body);
-            if(body["saved_successfully"]==true){
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Saved data successfully", style: MyFonts.w500,)));
-              Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
-            }
-            else{
-              dbSavingController.sink.add(false);
-              savingToDB=false;
-              if(body["image_safe"]==false){
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("The chosen image is not safe for work !!", style: MyFonts.w500,)));
-                return;
+            try {
+              print("HERE");
+              var res = await http.post(
+                  Uri.parse("https://swc.iitg.ac.in/onestopapi/sell"),
+                  headers: {'Content-Type': 'application/json'},
+                  body: jsonEncode({
+                    'title': title!.trim(),
+                    'description' : description!.trim(),
+                    'location' : location!.trim(),
+                    'imageString' : widget.imageString,
+                    'email' : userEmail,
+                    'username' : username,
+                    'price': 'asa',
+                    'phonenumber': 'asasa',
+                  })
+              );
+              print(res.body);
+              var body = jsonDecode(res.body);
+              if(body["saved_successfully"]==true){
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Saved data successfully", style: MyFonts.w500,)));
+                Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
               }
-              print(body["error"]);
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Some error occured, please try again", style: MyFonts.w500,)));
+              else{
+                dbSavingController.sink.add(false);
+                savingToDB=false;
+                if(body["image_safe"]==false){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("The chosen image is not safe for work !!", style: MyFonts.w500,)));
+                  return;
+                }
+                print(body["error"]);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Some error occured, please try again", style: MyFonts.w500,)));
+              }
+            } catch (e) {
+              print(e);
             }
           }
           else{
             var res = await http.post(
                 Uri.parse("https://swc.iitg.ac.in/onestopapi/buy"),
+                headers: {'Content-Type': 'application/json'},
                 body: jsonEncode({
                   'title': title!.trim(),
                   'description' : description!.trim(),
                   'location' : location!.trim(),
                   'imageString' : widget.imageString,
-                  'submittedat' : widget.submittedat!,
                   'email' : userEmail,
-                  'username' : username
+                  'username' : username,
+                  'price': 'asa',
+                  'phonenumber': 'asasa',
                 })
             );
             var body = jsonDecode(res.body);

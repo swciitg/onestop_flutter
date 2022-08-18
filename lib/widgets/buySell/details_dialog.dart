@@ -1,16 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:intl/src/intl/date_format.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
+import 'package:onestop_dev/models/buysell/buy_model.dart';
 
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 
-void detailsDialogBox(context, dynamic Model) {
+void detailsDialogBox(context, dynamic model) {
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
   showDialog(
       context: context,
       builder: (BuildContext context) {
+        Widget priceOrLocation;
+        if (model is BuyModel) {
+          priceOrLocation = Padding(
+            padding:
+            const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+            child: Text(
+              "Price: " + model.price,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: MyFonts.w500.size(14).setColor(kGrey6),
+            ),
+          );
+        } else {
+          priceOrLocation = Padding(
+            padding:
+            const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+            child: Text(
+              "Lost at: " + model.location,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: MyFonts.w500.size(14).setColor(kGrey6),
+            ),
+          );
+        }
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(21),
@@ -41,7 +66,7 @@ void detailsDialogBox(context, dynamic Model) {
                         child: FadeInImage(
                           width: screenWidth - 30,
                           placeholder: AssetImage("assets/images/loading.gif"),
-                          image: NetworkImage(Model.imageURL),
+                          image: NetworkImage(model.imageURL),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -56,13 +81,13 @@ void detailsDialogBox(context, dynamic Model) {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Text(
-                            Model.title,
+                            model.title,
                             style: MyFonts.w600.size(16).setColor(kWhite),
                           ),
                         ),
                         GestureDetector(
                           onTap: () async {
-                            await launchPhoneURL("tel:+91${Model.phonenumber}");
+                            await launchPhoneURL("tel:+91${model.phonenumber}");
                           },
                           child: Container(
                               padding: EdgeInsets.symmetric(
@@ -93,16 +118,7 @@ void detailsDialogBox(context, dynamic Model) {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16, right: 16, bottom: 8),
-                    child: Text(
-                      "Lost at: " + Model.location,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: MyFonts.w500.size(14).setColor(kGrey6),
-                    ),
-                  ),
+                  priceOrLocation,
                   ConstrainedBox(
                     constraints: BoxConstraints(
                         maxHeight: screenHeight * 0.2,
@@ -112,7 +128,7 @@ void detailsDialogBox(context, dynamic Model) {
                         padding: const EdgeInsets.only(
                             left: 16, right: 16, bottom: 13),
                         child: Text(
-                          "Description: " + Model.description,
+                          "Description: " + model.description,
                           style: MyFonts.w300.size(14).setColor(kGrey10),
                         ),
                       ),
@@ -122,14 +138,14 @@ void detailsDialogBox(context, dynamic Model) {
                     padding: EdgeInsets.only(right: 16, bottom: 16),
                     alignment: Alignment.centerRight,
                     child: Text(
-                      Model.date.day.toString() +
+                      model.date.day.toString() +
                           "-" +
-                          Model.date.month.toString() +
+                          model.date.month.toString() +
                           "-" +
-                          Model.date.year.toString() +
+                          model.date.year.toString() +
                           " | " +
                           DateFormat.jm()
-                              .format(Model.date.toLocal())
+                              .format(model.date.toLocal())
                               .toString(),
                       style: MyFonts.w300.size(13).setColor(kGrey7),
                     ),
