@@ -46,7 +46,9 @@ class FoodTab extends StatelessWidget {
                       future: DataProvider.getRestaurants(),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<RestaurantModel>> snapshot) {
+                        print(snapshot.hasData);
                         if (snapshot.hasData) {
+                          print("${snapshot.data}");
                           List<Widget> foodList = snapshot.data!
                               .map(
                                 (e) => RestaurantTile(

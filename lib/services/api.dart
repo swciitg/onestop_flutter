@@ -6,12 +6,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 class APIService {
-  static String restaurantURL = "https://onestop4.free.beeceptor.com/getAllOutlets";
-  static String lastUpdatedURL = "https://lastupdated.free.beeceptor.com";
-  static String contactURL = "https://contacts.free.beeceptor.com/contact";
+  static String restaurantURL = "https://swc.iitg.ac.in/onestopapi/getAllOutlets";
+  static String lastUpdatedURL = "https://swc.iitg.ac.in/onestopapi/lastDataUpdate";
+  static String contactURL = "https://swc.iitg.ac.in/onestopapi/getContacts";
   static String timetableURL = "https://hidden-depths-09275.herokuapp.com/get-my-courses";
-  static String ferryURL = 'lib/globals/ferry_data.json';
-  static String busURL = 'lib/globals/bus_time.json';
+  static String ferryURL = 'https://swc.iitg.ac.in/onestopapi/ferryTimings';
+  static String busURL = 'https://swc.iitg.ac.in/onestopapi/busTimings';
   static String messURL = "https://swc.iitg.ac.in/onestopapi/hostelsMessMenu";
 
   static Future<List<Map<String, dynamic>>> getRestaurantData() async {

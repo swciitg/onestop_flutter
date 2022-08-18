@@ -24,6 +24,13 @@ class FoodTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Image dishImage;
+    try {
+      dishImage = Image.network(dish.image, fit: BoxFit.cover);
+    } catch (e) {
+      print(e);
+      dishImage = Image.asset("assets/images/res_foodimg.jpg");
+    }
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
       child: Container(
@@ -102,7 +109,7 @@ class FoodTile extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(21),
                     bottomRight: Radius.circular(21)),
-                child: Image.network(dish.image, fit: BoxFit.cover),
+                child: Image.network(dish.image, fit: BoxFit.cover, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){return Image.asset("assets/images/res_foodimg.jpg",fit: BoxFit.cover,);},),
               ),
             ),
           ],

@@ -17,7 +17,7 @@ class RestaurantModel {
   @JsonKey(defaultValue: "2 hrs")
   late String waiting_time;
 
-  @JsonKey(defaultValue: " ")
+  @JsonKey(defaultValue: " ", fromJson: fromJsonPhone, toJson: toJsonPhone)
   late String phone_number;
 
   @JsonKey(defaultValue: 26.19247153449412)
@@ -69,4 +69,13 @@ class RestaurantModel {
   factory RestaurantModel.fromJson(Map<String, dynamic> json) => _$RestaurantModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$RestaurantModelToJson(this);
+
+
+}
+String fromJsonPhone(int i) {
+  return i.toString();
+}
+
+int toJsonPhone(String x) {
+  return int.parse(x);
 }

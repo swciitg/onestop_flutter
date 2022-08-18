@@ -46,9 +46,13 @@ class DataProvider {
       print("Restaurant Data not in Cache. Using API...");
       List<Map<String, dynamic>> restaurantData =
           await APIService.getRestaurantData();
+      print("here 1");
+      print(restaurantData);
       List<RestaurantModel> restaurants =
           restaurantData.map((e) => RestaurantModel.fromJson(e)).toList();
+      print("here 2");
       await LocalStorage.instance.storeData(restaurantData, "Restaurant");
+      print("here 3");
       return restaurants;
     }
     print("Restaurant Data Exists in Cache");

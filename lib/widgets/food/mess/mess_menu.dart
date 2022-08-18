@@ -20,7 +20,8 @@ class MessMenu extends StatelessWidget {
     "Barak",
     "Manas",
     "Dihing",
-    "Disang"
+    "Disang",
+    "Siang"
   ];
 
 
