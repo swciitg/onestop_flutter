@@ -16,70 +16,54 @@ class NextTimeCard extends StatefulWidget {
 class _NextTimeCardState extends State<NextTimeCard> {
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        return Container(
-          width: MediaQuery.of(context).size.width * 0.95,
-          decoration: BoxDecoration(
-            color: kGrey14,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            border: Border.all(
-                color: lBlue5),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: ListTile(
-              textColor: kWhite,
-              leading: CircleAvatar(
-                backgroundColor: lYellow2,
-                radius: 26,
-                child: (context.read<MapBoxStore>().indexBusesorFerry == 1) ? Icon(
-                  FluentIcons.vehicle_ship_24_filled,
-                  color: kBlueGrey,
-                ) :Icon(
-                  FluentIcons.vehicle_bus_24_filled,
-                  color: kBlueGrey,
-                ),
-              ),
-              title: Text(
-                /*map_store.allLocationData[index]['name']*/'Madhyamkhanda',
-                style: MyFonts.w500.setColor(kWhite),
-              ),
-              subtitle: Text(
-                  /*map_store.allLocationData[index]['distance']
-                      .toString() +
-                      " km",*/ 'Madhyamkhanda',
-                  style: MyFonts.w500.setColor(kGrey13)),
-              // trailing: (map_store.allLocationData[index]['status'] ==
-              //     'left')
-              //     ? Column(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Text(
-              //       'Left',
-              //       style: MyFonts.w500
-              //           .setColor(Color.fromRGBO(135, 145, 165, 1)),
-              //     ),
-              //     Text(
-              //       map_store.allLocationData[index]['time'],
-              //       style: MyFonts.w500
-              //           .setColor(Color.fromRGBO(195, 198, 207, 1)),
-              //     ),
-              //   ],
-              // )
-              //     :
-              //
-              trailing: SizedBox(
-                width: 80,
-                child: Text(
-                  'Next Bus in 1000 sec',
-                  style: MyFonts.w500.setColor(lBlue2),
-                ),
+    var mapStore = context.read<MapBoxStore>();
+    return Observer(builder: (context) {
+      return Container(
+        width: MediaQuery.of(context).size.width * 0.95,
+        decoration: BoxDecoration(
+          color: kGrey14,
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          border: Border.all(color: lBlue5),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: ListTile(
+            textColor: kWhite,
+            leading: CircleAvatar(
+              backgroundColor: lYellow2,
+              radius: 20,
+              child: (context.read<MapBoxStore>().indexBusesorFerry == 1)
+                  ? Icon(
+                FluentIcons.vehicle_ship_24_filled,
+                color: kBlueGrey,
+              )
+                  : Icon(
+                FluentIcons.vehicle_bus_24_filled,
+                color: kBlueGrey,
               ),
             ),
+            title:Text(
+              mapStore.allLocationData[mapStore.selectedCarouselIndex]['name'],
+              style: MyFonts.w500.setColor(kWhite).size(14),
+            ),
+            subtitle: Text(
+                mapStore.allLocationData[mapStore.selectedCarouselIndex]['distance']
+                    .toString() +
+                    " km",
+                style: MyFonts.w500.setColor(kGrey13).size(11)),
+            trailing: SizedBox(
+                width: 80,
+                child: (mapStore.indexBusesorFerry == 0) ?Text(
+                  'Next Bus in 15 min',
+                  style: MyFonts.w500.setColor(lBlue2).size(14),
+                ) : Text(
+                  'Next Ferry in 15 min',
+                  style: MyFonts.w500.setColor(lBlue2).size(14),
+                )
+            ),
           ),
-        );
-      }
-    );
+        ),
+      );
+    });
   }
 }
