@@ -10,8 +10,8 @@ import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:provider/provider.dart';
 
 class CarouselCard extends StatelessWidget {
-  String name;
-  int index;
+  final String name;
+  final int index;
 
   CarouselCard(
       {Key? key, required this.index, required this.name})

@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 class ContactDetailsPage extends StatefulWidget {
   final String title;
-  ContactModel? contact;
+  final ContactModel? contact;
   ContactDetailsPage({Key? key, this.contact, required this.title})
       : super(key: key);
   @override

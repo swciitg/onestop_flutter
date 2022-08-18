@@ -1,18 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home/home.dart';
-import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 import 'package:provider/provider.dart';
 class LostFoundForm extends StatefulWidget {
   static const id = "/lostFoundForm";
   final String category;
   final String imageString;
-  String? submittedat;
+  final String? submittedat;
   LostFoundForm({Key? key,required this.category,required this.imageString,this.submittedat}) : super(key: key);
 
   @override
@@ -78,6 +79,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
                     },
                     validator: (value){
                       if(value==null || value=="") return "This field cannot be null";
+                      return null;
                     },
                   ),
                 ),
@@ -102,6 +104,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
                     maxLength: 20,
                     validator: (value){
                       if(value==null || value=="") return "This field cannot be null";
+                      return null;
                     },
                   ),
                 ),
@@ -130,6 +133,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
                       validator: (value){
                         if(value==null || value=="") return "This field cannot be null";
                         if(value.trim().length!=10) return "The contact should have 10 digits";
+                        return null;
                       },
                     ),
                   ),
@@ -157,6 +161,7 @@ class _LostFoundFormState extends State<LostFoundForm> {
                     },
                     validator: (value){
                       if(value==null || value=="") return "This field cannot be null";
+                      return null;
                     },
                   ),
                 ),

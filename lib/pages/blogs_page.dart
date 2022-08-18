@@ -1,18 +1,15 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:onestop_dev/models/blogs/mediumArticle_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webfeed/webfeed.dart';
-import 'package:onestop_dev/models/blogs/mediumArticle_model.dart';
-import 'package:html/parser.dart';
 
 String parseHtmlString(String htmlString) {
   final document = parse(htmlString);
@@ -47,8 +44,7 @@ class _BlogState extends State<Blogs> {
     'https://medium.com/feed/@media-techniche',
     'https://medium.com/feed/@codingclubiitg'
   ];
-  static String MEDIUM_PROFILE_RSS_FEED_URL =
-      'https://medium.com/feed/@csea.iitg';
+
   List<MediumArticle> _mediumArticles = [];
   String title = "notnull";
   String image =

@@ -6,7 +6,7 @@ import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:provider/provider.dart';
 
 class StarButton extends StatefulWidget {
-  ContactDetailsModel contact;
+  final ContactDetailsModel contact;
   StarButton({Key? key, required this.contact}) : super(key: key);
 
   @override

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
-import 'package:onestop_dev/functions/timetable/time_range.dart';
-import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
+import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/timetable/timetable_day.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/timetable/lunch_divider.dart';

@@ -1,14 +1,15 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/travel/has_left.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/functions/travel/has_left.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+
 import 'timing_tile.dart';
 
 class BusDetails extends StatefulWidget {
-  late int index;
+  late final int index;
   BusDetails({Key? key, required this.index}) : super(key: key);
 
   @override

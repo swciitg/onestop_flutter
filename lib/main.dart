@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:onestop_dev/functions/utility/check_last_updated.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -7,8 +8,6 @@ import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:provider/provider.dart';
-
-import 'package:onestop_dev/functions/utility/check_last_updated.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

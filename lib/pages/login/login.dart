@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/size_config.dart';
-import 'package:onestop_dev/widgets/login/login_webview.dart';
 import 'package:onestop_dev/pages/login/welcome.dart';
+import 'package:onestop_dev/widgets/login/login_webview.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginPage extends StatefulWidget {

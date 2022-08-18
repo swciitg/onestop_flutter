@@ -4,7 +4,7 @@ import 'package:onestop_dev/widgets/login/login_button.dart';
 import 'package:onestop_dev/widgets/login/welcome_header.dart';
 
 class WelcomePage extends StatelessWidget {
-  late Function setLoading;
+  late final Function setLoading;
   WelcomePage({Key? key, required this.setLoading}) : super(key: key);
 
   @override

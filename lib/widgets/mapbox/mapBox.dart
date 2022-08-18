@@ -9,11 +9,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 
 class MapBox extends StatefulWidget {
   MapBox({
@@ -58,7 +58,7 @@ class _MapBoxState extends State<MapBox> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not fetch your current location", style: MyFonts.w500,)));
       return LatLng(26.192613073419974, 91.69907177061708);
     }
-    return mapboxStore.getLocation();
+    return coordinates;
   }
 
   @override
@@ -320,7 +320,7 @@ class _MapBoxState extends State<MapBox> {
                                           ),
                                     onTap: () {
                                       mapbox_store.selectedCarousel(
-                                          (e as CarouselCard).index);
+                                          e.index);
                                       mapbox_store.zoomTwoMarkers(
                                           mapbox_store.selectedCarouselLatLng,
                                           LatLng(mapbox_store.userlat,

@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/widgets/ip/ip_input.dart';
-import 'package:onestop_dev/pages/ip/ip_settings.dart';
+import 'package:onestop_dev/functions/ip/ip_calculator.dart';
 import 'package:onestop_dev/functions/ip/ip_decoration.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/functions/ip/ip_calculator.dart';
+import 'package:onestop_dev/pages/ip/ip_settings.dart';
+import 'package:onestop_dev/widgets/ip/ip_input.dart';
 
 List<String> textdata = [
   'Open Start-> Control Panel -> Network and Internet-> Network and Sharing Center ',

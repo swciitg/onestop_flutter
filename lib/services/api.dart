@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:onestop_dev/models/travel/ferry_data_model.dart';
 class APIService {
   static String restaurantURL = "https://onestop4.free.beeceptor.com/getAllOutlets";
   static String lastUpdatedURL = "https://lastupdated.free.beeceptor.com";

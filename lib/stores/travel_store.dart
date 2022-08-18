@@ -4,6 +4,7 @@ import 'package:onestop_dev/models/travel/ferry_data_model.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/travel/bus_details.dart';
 import 'package:onestop_dev/widgets/travel/stops_list.dart';
+
 part 'travel_store.g.dart';
 
 class TravelStore = _TravelStore with _$TravelStore;

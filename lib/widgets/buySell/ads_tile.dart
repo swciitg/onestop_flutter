@@ -1,11 +1,9 @@
-import 'dart:ffi';
-
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/buysell/buy_model.dart';
-import 'package:http/http.dart' as http;
 
 import 'details_dialog.dart';
 

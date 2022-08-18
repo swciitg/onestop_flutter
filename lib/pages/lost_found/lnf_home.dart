@@ -2,21 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
-import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_form.dart';
+import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
-import 'package:timeago/timeago.dart' as timeago;
-import 'package:webfeed/domain/media/media.dart';
 
 class LostFoundHome extends StatefulWidget {
   static const id = "/lostFoundHome";
@@ -324,9 +320,9 @@ class LostFoundButton extends StatelessWidget {
 
 class ItemTypeBar extends StatelessWidget {
   final text;
-  TextStyle textStyle;
-  Color backgroundColor;
-  EdgeInsets margin;
+  final TextStyle textStyle;
+  final Color backgroundColor;
+  final EdgeInsets margin;
   ItemTypeBar(
       {Key? key,
       required this.text,

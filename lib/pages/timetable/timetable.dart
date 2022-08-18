@@ -1,9 +1,8 @@
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/functions/timetable/time_range.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/timetable/date_slider.dart';
-import 'package:onestop_dev/widgets/timetable/home_shimmer.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 

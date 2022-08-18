@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/functions/ip/ip_decoration.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
 
 class IpField extends StatelessWidget {
   final control;

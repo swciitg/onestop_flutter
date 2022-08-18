@@ -1,4 +1,5 @@
 import 'dart:collection';
+
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -8,10 +9,11 @@ import 'package:onestop_dev/models/contacts/contact_details.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
+import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
+
 import 'contact_detail.dart';
-import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
 
 
 
@@ -181,7 +183,6 @@ class _ContactPageState extends State<ContactPage> {
                       {
                         SplayTreeMap<String, ContactModel> people = snapshot.data!;
                         List<String> alphabets = [];
-                        ContactModel pep;
                         people.forEach((key, value) {
                           if(!alphabets.contains(key[0].toUpperCase()))
                             {

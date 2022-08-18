@@ -12,7 +12,6 @@ class MessMeal extends StatelessWidget {
   }) : super(key: key);
 
   final String mealName;
-  bool selected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class MessMeal extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: Observer(builder: (context) {
-            selected = context.read<MessStore>().selectedMeal == mealName;
+            bool selected = context.read<MessStore>().selectedMeal == mealName;
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(

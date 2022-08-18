@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/buysell/buy_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
-import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
 import 'package:onestop_dev/widgets/buySell/ads_tile.dart';
 import 'package:onestop_dev/widgets/buySell/buy_tile.dart';
 import 'package:onestop_dev/widgets/buySell/utility.dart';
@@ -180,9 +178,9 @@ class _BuySellHomeState extends State<BuySellHome> {
 
 class ItemTypeBar extends StatelessWidget {
   final text;
-  TextStyle textStyle;
-  Color backgroundColor;
-  EdgeInsets margin;
+  final TextStyle textStyle;
+  final Color backgroundColor;
+  final EdgeInsets margin;
   ItemTypeBar(
       {Key? key,
       required this.text,

@@ -1,22 +1,18 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_meal.dart';
 import 'package:provider/provider.dart';
-import 'package:webfeed/domain/media/media.dart';
 
 class MessMenu extends StatelessWidget {
   MessMenu({
     Key? key,
   }) : super(key: key);
 
-  List<String> days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  List<String> hostels = [
+  final List<String> days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  final List<String> hostels = [
     "Brahma",
     "Lohit",
     "Kameng",

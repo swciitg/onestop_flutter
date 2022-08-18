@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/open_map.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
@@ -7,7 +8,7 @@ import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:provider/provider.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+
 import 'call_map_button.dart';
 
 class RestaurantTile extends StatelessWidget {

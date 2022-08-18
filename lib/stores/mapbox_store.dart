@@ -1,16 +1,15 @@
 import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
-import 'package:onestop_dev/functions/travel/check_weekday.dart';
 import 'package:onestop_dev/pages/travel/data.dart';
 import 'package:onestop_dev/services/api.dart';
-import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
-import 'package:geolocator/geolocator.dart';
-import 'dart:ui' as ui;
+
 part 'mapbox_store.g.dart';
 
 class MapBoxStore = _MapBoxStore with _$MapBoxStore;

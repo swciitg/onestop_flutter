@@ -6,8 +6,8 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 enum ContactType { call, email }
 
 class ContactButton extends StatelessWidget {
-  ContactType type;
-  String data;
+  final ContactType type;
+  final String data;
   ContactButton({Key? key, required this.type, required this.data})
       : super(key: key);
 

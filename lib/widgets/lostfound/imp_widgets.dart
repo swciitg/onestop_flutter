@@ -1,20 +1,17 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/lostfound/lost_model.dart';
-import 'package:onestop_dev/pages/home/home.dart';
-import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
-import 'package:onestop_dev/widgets/buySell/details_dialog.dart';
-import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:timeago/timeago.dart' as timeago;
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/widgets/buySell/details_dialog.dart';
+import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ProgressBar extends StatelessWidget {
   final int blue;
@@ -104,7 +101,6 @@ class LostItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     Duration passedDuration = DateTime.now().difference(currentLostModel.date);
     String timeagoString =
         timeago.format(DateTime.now().subtract(passedDuration));

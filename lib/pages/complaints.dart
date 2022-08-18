@@ -2,10 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/retry.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
 
 class Complaints extends StatefulWidget {
   static String id = "/complaints";

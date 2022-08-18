@@ -1,8 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:onestop_dev/widgets/ip/ip_values.dart';
 import 'package:onestop_dev/functions/ip/ip_calculator.dart';
+import 'package:onestop_dev/widgets/ip/ip_values.dart';
 
 class IpPage extends StatefulWidget {
   final argso;

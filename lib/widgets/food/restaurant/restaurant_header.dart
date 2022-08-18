@@ -1,10 +1,11 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/open_map.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+
 import 'call_map_button.dart';
 
 class RestaurantHeader extends StatelessWidget {

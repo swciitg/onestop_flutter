@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/widgets/contact/starred_contact.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
 import 'package:onestop_dev/services/local_storage.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/widgets/contact/starred_contact.dart';
+
 part 'contact_store.g.dart';
 
 class ContactStore = _ContactStore with _$ContactStore;

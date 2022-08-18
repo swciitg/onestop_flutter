@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/src/intl/date_format.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
-import 'package:intl/src/intl/date_format.dart';
 
 void detailsDialogBox(context, dynamic Model) {
   final screenWidth = MediaQuery.of(context).size.width;

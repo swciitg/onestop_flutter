@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_form.dart';
+import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 class LostFoundLocationForm extends StatefulWidget {
   final String imageString;
   LostFoundLocationForm({Key? key,required this.imageString}) : super(key: key);
@@ -23,8 +22,6 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
 
   @override
   Widget build(BuildContext context) {
-    double HEIGHT = MediaQuery.of(context).size.height;
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
