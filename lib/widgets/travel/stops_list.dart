@@ -2,7 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:onestop_dev/functions/travel/check_weekday.dart';
+import 'package:onestop_dev/functions/food/get_day.dart';
 import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -29,8 +29,6 @@ class BusStopList extends StatelessWidget {
                 {
                   var busTime = snapshot.data as List<List<String>>;
                   print(busTime);
-                  bool weekDay = checkWeekday();
-                  print(weekDay);
                   print(nextTime(busTime[0]));
                   return Padding(
                     padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -96,7 +94,7 @@ class BusStopList extends StatelessWidget {
                             // )
                             //     :
                             //
-                            trailing: weekDay ? Text(
+                            trailing: (get_day() == 'Saturday' || get_day() == 'Sunday') ? Text(
                             nextTime(busTime[1]),
                               style: MyFonts.w500.setColor(lBlue2),
                             ) : Text(

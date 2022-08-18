@@ -1,7 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:onestop_dev/functions/travel/check_weekday.dart';
+import 'package:onestop_dev/functions/food/get_day.dart';
 import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -22,29 +22,36 @@ class CarouselCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Future<String> getNextTime()async {
       print('next time function');
+      String today = get_day();
       if(context.read<MapBoxStore>().indexBusesorFerry == 0)
         {
           var busTimes = await DataProvider.getBusTimings();
-          if(checkWeekday())
+          if(today == 'Fri')
           {
-            return 'Next Bus at: '+nextTime(busTimes[1]);
+            return 'Next Bus at: '+nextTime(busTimes[1], firstTime: busTimes[0][0]);
           }
-          else
+          else if(today == 'Sun')
           {
-            return 'Next Bus at: '+nextTime(busTimes[0]);
+            return 'Next Bus at: '+nextTime(busTimes[0],firstTime:  busTimes[1][0]);
           }
+          else if(today == 'Sat')
+          {
+              return 'Next Bus at: '+nextTime(busTimes[0]);
+          }
+          return 'Next Bus at: '+nextTime(busTimes[1]);
         }
       else
         {
           var ferryTimes = await DataProvider.getFerryTimings();
           var requiredModel = ferryTimes.firstWhere((element) => element.name == this.name);
-          if(checkWeekday())
+          if(today == 'Sat')
           {
             return 'Next Ferry at: '+nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati);
           }
-          else {
-            return 'Next Ferry at: '+nextTime(requiredModel.Sunday_NorthGuwahatiToGuwahati);
+          else if(today == 'Sun'){
+            return 'Next Ferry at: '+nextTime(requiredModel.Sunday_NorthGuwahatiToGuwahati,firstTime:  requiredModel.MonToFri_NorthGuwahatiToGuwahati[0]);
           }
+          return 'Next Ferry at: '+nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati);
         }
     }
     return Padding(
