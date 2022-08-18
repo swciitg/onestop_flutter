@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/buysell/buy_model.dart';
-import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/widgets/buySell/ads_tile.dart';
 import 'package:onestop_dev/widgets/buySell/buy_tile.dart';
 import 'package:onestop_dev/widgets/buySell/utility.dart';
@@ -55,7 +54,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                 Snapshot.data![0].forEach((e) => {
                       buyItems.add(
                         BuyTile(
-                          model: LostModel.fromJson(e),
+                          model: BuyModel.fromJson(e),
                         ),
                       )
                     });
@@ -63,7 +62,7 @@ class _BuySellHomeState extends State<BuySellHome> {
               if (!(Snapshot.data![2].isEmpty)) {
                 Snapshot.data![2].forEach((e) => {
                       sellItems.add(
-                        BuyTile(model: LostModel.fromJson(e)),
+                        BuyTile(model: BuyModel.fromJson(e)),
                       ),
                     });
               }

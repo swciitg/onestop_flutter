@@ -7,19 +7,19 @@ part 'buy_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class BuyModel {
   final String title;
-  final String location;
   final String description;
   final String imageURL;
   final String compressedImageURL;
   final String phonenumber;
   final String price;
   final DateTime date;
+  final String username;
+  final String email;
 
-  const BuyModel(
+  const BuyModel(this.username, this.email,
       {Key? key,
       required this.title,
       required this.description,
-      required this.location,
       required this.imageURL,
       required this.compressedImageURL,
       required this.date,

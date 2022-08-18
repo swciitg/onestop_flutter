@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-
-import '../../models/lostfound/lost_model.dart';
+import 'package:onestop_dev/models/buysell/buy_model.dart';
 import 'details_dialog.dart';
 
 class BuyTile extends StatelessWidget {
@@ -11,7 +10,7 @@ class BuyTile extends StatelessWidget {
     required this.model,
   }) : super(key: key);
 
-  final LostModel model;
+  final BuyModel model;
 
   @override
   Widget build(BuildContext context) {
