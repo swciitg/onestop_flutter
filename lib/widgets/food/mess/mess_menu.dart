@@ -13,15 +13,18 @@ class MessMenu extends StatelessWidget {
 
   final List<String> days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   final List<String> hostels = [
-    "Brahma",
-    "Lohit",
     "Kameng",
-    "Umiam",
     "Barak",
+    "Lohit",
+    "Brahma",
+    "Disang",
     "Manas",
     "Dihing",
-    "Disang",
-    "Siang"
+    "Umiam",
+    "Siang",
+    "Kapili",
+    "Dhansiri",
+    "Subhansiri"
   ];
 
 
