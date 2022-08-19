@@ -12,6 +12,7 @@ import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/buySell/details_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:onestop_dev/stores/login_store.dart';
 
 class ProgressBar extends StatelessWidget {
   final int blue;
@@ -198,9 +199,9 @@ class LostItemTile extends StatelessWidget {
 
 class FoundItemTile extends StatelessWidget {
   final currentFoundModel;
-  final homeKey;
+  final BuildContext parentContext;
   const FoundItemTile(
-      {Key? key, required this.currentFoundModel, required this.homeKey});
+      {Key? key, required this.parentContext,required this.currentFoundModel});
 
   @override
   Widget build(BuildContext context) {
@@ -301,13 +302,14 @@ class FoundItemTile extends StatelessWidget {
                                                     var res = await http.post(
                                                         Uri.parse(
                                                             "https://swc.iitg.ac.in/onestopapi/found/claim"),
-                                                        body: {
+                                                        headers: {'Content-Type': 'application/json'},
+                                                        body: jsonEncode({
                                                           "id":
-                                                              currentFoundModel
-                                                                  .id,
+                                                          currentFoundModel
+                                                              .id,
                                                           "claimerEmail": email,
                                                           "claimerName": name
-                                                        });
+                                                        }));
                                                     var body =
                                                         jsonDecode(res.body);
                                                     print(body);
@@ -318,9 +320,9 @@ class FoundItemTile extends StatelessWidget {
                                                     }
                                                     else{
                                                       currentFoundModel.claimed=true;
-                                                      ScaffoldMessenger.of(homeKey.currentContext!).showSnackBar(SnackBar(content: Text("Claimed Item Successfully", style: MyFonts.w500,)));
-                                                      Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
-
+                                                      currentFoundModel.claimerEmail=context.read<LoginStore>().userData["email"];
+                                                      Navigator.popUntil(context, ModalRoute.withName(LostFoundHome.id));
+                                                      ScaffoldMessenger.of(parentContext).showSnackBar(SnackBar(content: Text("Claimed Item Successfully", style: MyFonts.w500,)));
                                                     }
                                                   },
                                                   child: Container(
@@ -384,11 +386,11 @@ class FoundItemTile extends StatelessWidget {
                                           ],
                                         )
                                       : Text(
-                                          " Already Claimed",
-                                          style: MyFonts.w500
-                                              .size(11)
-                                              .setColor(lBlue2),
-                                        )),
+                                    currentFoundModel.claimerEmail==context.read<LoginStore>().userData["email"] ? " You claimed" : " Already Claimed",
+                                    style: MyFonts.w500
+                                        .size(11)
+                                        .setColor(lBlue2),
+                                  )),
                             ),
                           ],
                         ),
