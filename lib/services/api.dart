@@ -69,29 +69,69 @@ class APIService {
 
   static Future<List<List<String>>> getBusData() async
   {
-    String data = await rootBundle.loadString(busURL);
-    var json = jsonDecode(data);
-    List<List<String>>time = [];
-    //print(json.runtimeType);
-    time.add((json["CollegeToCity_Holiday"] as List<dynamic>).map((e) => e as String).toList());
-    time.add((json["CollegeToCity_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
+    // String data = await rootBundle.loadString(busURL);
+    // var json = jsonDecode(data);
+    // List<List<String>>time = [];
+    // //print(json.runtimeType);
+    // time.add((json["CollegeToCity_Holiday"] as List<dynamic>).map((e) => e as String).toList());
+    // time.add((json["CollegeToCity_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
+    //
+    // time.add((json["CityToCollege_Holiday"] as List<dynamic>).map((e) => e as String).toList());
+    // time.add((json["CityToCollege_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
+    // return time;
+    http.Response response = await http.get(Uri.parse(busURL));
+    var status = response.statusCode;
+    var json = jsonDecode(response.body);
+    print("Sending GET request to $busURL");
+    if (status == 200)
+    {
+      List<List<String>>time = [];
+      //print(json.runtimeType);
+      time.add((json["CollegeToCity_Holiday"] as List<dynamic>).map((e) => e as String).toList());
+      time.add((json["CollegeToCity_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
 
-    time.add((json["CityToCollege_Holiday"] as List<dynamic>).map((e) => e as String).toList());
-    time.add((json["CityToCollege_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
-    return time;
+      time.add((json["CityToCollege_Holiday"] as List<dynamic>).map((e) => e as String).toList());
+      time.add((json["CityToCollege_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
+      return time;
+    }
+    else
+    {
+      print(status);
+      throw Exception("Bus Data could not be fetched");
+    }
   }
 
   static Future<List<Map<String,dynamic>>> getFerryData() async
   {
-    String data = await rootBundle.loadString(ferryURL);
-    var json = jsonDecode(data);
-    List<Map<String,dynamic>>answer = [];
-    print(json.runtimeType);
-    for (var temp in json)
+    // String data = await rootBundle.loadString(ferryURL);
+    // var json = jsonDecode(data);
+    // List<Map<String,dynamic>>answer = [];
+    // print(json.runtimeType);
+    // for (var temp in json)
+    // {
+    //   answer.add(temp);
+    // }
+    // return answer;
+    http.Response response = await http.get(Uri.parse(ferryURL));
+    var status = response.statusCode;
+    var json = jsonDecode(response.body);
+    print("Sending GET request to $ferryURL");
+    print(json);
+    if (status == 200)
     {
-      answer.add(temp);
+      List<Map<String,dynamic>>answer = [];
+      print(json.runtimeType);
+      for (var temp in json)
+      {
+        answer.add(temp);
+      }
+      return answer;
     }
-    return answer;
+    else
+    {
+      print(status);
+      throw Exception("Ferry Data could not be fetched");
+    }
   }
 
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {
