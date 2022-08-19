@@ -10,8 +10,8 @@ class APIService {
   static String lastUpdatedURL = "https://swc.iitg.ac.in/onestopapi/lastDataUpdate";
   static String contactURL = "https://swc.iitg.ac.in/onestopapi/getContacts";
   static String timetableURL = "https://hidden-depths-09275.herokuapp.com/get-my-courses";
-  static String ferryURL = 'https://swc.iitg.ac.in/onestopapi/ferryTimings';
-  static String busURL = 'https://swc.iitg.ac.in/onestopapi/busTimings';
+  static String ferryURL = 'https://swc.iitg.ac.in/onestopapi/ferrytimings';
+  static String busURL = 'https://swc.iitg.ac.in/onestopapi/bustimings';
   static String messURL = "https://swc.iitg.ac.in/onestopapi/hostelsMessMenu";
 
   static Future<List<Map<String, dynamic>>> getRestaurantData() async {
@@ -78,6 +78,7 @@ class APIService {
 
     time.add((json["CityToCollege_Holiday"] as List<dynamic>).map((e) => e as String).toList());
     time.add((json["CityToCollege_WorkingDay"] as List<dynamic>).map((e) => e as String).toList());
+    print(time);
     return time;
   }
 
@@ -91,6 +92,7 @@ class APIService {
     {
       answer.add(temp);
     }
+    print(answer);
     return answer;
   }
 
