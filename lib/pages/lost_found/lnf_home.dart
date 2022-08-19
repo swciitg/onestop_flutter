@@ -24,7 +24,6 @@ class LostFoundHome extends StatefulWidget {
 
 class _LostFoundHomeState extends State<LostFoundHome> {
   StreamController selectedTypeController = StreamController();
-  final globalKey = GlobalKey<ScaffoldState>();
 
   Future<List> getLostItems() async {
     print("before");
@@ -93,8 +92,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                     print("here 2");
                     foundsSnapshot.data!.forEach((e) => {
                           foundItems.add(FoundItemTile(
+                            parentContext: context,
                             currentFoundModel: FoundModel.fromJson(e),
-                            homeKey: globalKey,
                           ))
                         });
                     print("here 3");
@@ -109,15 +108,19 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                               child: Row(
                                 children: [
                                   LostFoundButton(
-                                      label: "Lost",
+                                      label: "Lost Items",
                                       snapshot: snapshot,
                                       selectedTypeController:
-                                          selectedTypeController),
+                                          selectedTypeController,
+                                    category: "Lost",
+                                  ),
                                   LostFoundButton(
                                       selectedTypeController:
                                           selectedTypeController,
                                       snapshot: snapshot,
-                                      label: "Found"),
+                                      label: "Found Items",
+                                    category: "Found",
+                                  ),
                                 ],
                               ),
                             ),
@@ -286,33 +289,32 @@ class LostFoundButton extends StatelessWidget {
     required this.selectedTypeController,
     required this.snapshot,
     required this.label,
+    required this.category
   }) : super(key: key);
 
   final StreamController selectedTypeController;
   final AsyncSnapshot snapshot;
   final String label;
+  final String category;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (!snapshot.hasData)
-              selectedTypeController.sink
-                  .add(label);
-            if (snapshot.hasData &&
-                snapshot.data! != label)
-              selectedTypeController.sink
-                  .add(label);
+        if (!snapshot.hasData) return;
+        else{
+          selectedTypeController.sink.add(snapshot.data! =="Lost" ? "Found" : "Lost");
+        }
       },
       child: ItemTypeBar(
         text: label,
         margin: EdgeInsets.only(left: 16, bottom: 10),
         textStyle: MyFonts.w500.size(14).setColor(snapshot.hasData == false
             ? kBlack
-            : (snapshot.data! == label ? kBlack : kWhite)),
+            : (snapshot.data! == category ? kBlack : kWhite)),
         backgroundColor: snapshot.hasData == false
             ? lBlue2
-            : (snapshot.data! == label ? lBlue2 : kBlueGrey),
+            : (snapshot.data! == category ? lBlue2 : kBlueGrey),
       ),
     );
   }
