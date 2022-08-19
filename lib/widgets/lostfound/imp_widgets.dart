@@ -321,7 +321,6 @@ class FoundItemTile extends StatelessWidget {
                                                     else{
                                                       currentFoundModel.claimed=true;
                                                       currentFoundModel.claimerEmail=context.read<LoginStore>().userData["email"];
-                                                      currentFoundModel.claimerName=context.read<LoginStore>().userData["name"];
                                                       Navigator.popUntil(context, ModalRoute.withName(LostFoundHome.id));
                                                       ScaffoldMessenger.of(parentContext).showSnackBar(SnackBar(content: Text("Claimed Item Successfully", style: MyFonts.w500,)));
                                                     }
@@ -406,9 +405,7 @@ class FoundItemTile extends StatelessWidget {
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
-                                "Claimed by: " +
-                                    currentFoundModel.claimerName +
-                                    " / " +
+                                "Claimer: " +
                                     currentFoundModel.claimerEmail,
                                 style: MyFonts.w500.size(14).setColor(kGrey6),
                               ),

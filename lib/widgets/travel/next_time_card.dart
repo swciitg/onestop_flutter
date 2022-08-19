@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/functions/food/get_day.dart';
 import 'package:onestop_dev/functions/travel/distance.dart';
+import 'package:onestop_dev/functions/travel/duration_left.dart';
 import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -93,11 +94,11 @@ class _NextTimeCardState extends State<NextTimeCard> {
                         width: 80,
                         child: (mapStore.indexBusesorFerry == 0)
                             ? Text(
-                                snapshot.data.toString(),
+                                'Next Bus in ' + durationLeft(snapshot.data.toString()),
                                 style: MyFonts.w500.setColor(lBlue2).size(14),
                               )
                             : Text(
-                                snapshot.data.toString(),
+                                'Next Ferry in ' +durationLeft(snapshot.data.toString()),
                                 style: MyFonts.w500.setColor(lBlue2).size(14),
                               ));
                   }
