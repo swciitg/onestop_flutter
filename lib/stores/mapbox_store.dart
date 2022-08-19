@@ -142,6 +142,11 @@ abstract class _MapBoxStore with Store {
   }
 
   @computed
+  LatLng get userLatLng {
+    return LatLng(this.userlat,this.userlong);
+  }
+
+  @computed
   List<Widget> get carouselCards {
     int carouselLength = 0;
     List<Map<String, dynamic>> dataMap;
