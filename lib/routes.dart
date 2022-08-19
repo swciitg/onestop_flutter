@@ -1,8 +1,8 @@
-import 'package:onestop_dev/pages/academic_calendar.dart';
-import 'package:onestop_dev/pages/academic_sso.dart';
-import 'package:onestop_dev/pages/blogs_page.dart';
+import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
+import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
+import 'package:onestop_dev/pages/quick_links/blogs_page.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
-import 'package:onestop_dev/pages/complaints.dart';
+import 'package:onestop_dev/pages/quick_links/complaints.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/pages/home/home.dart';
