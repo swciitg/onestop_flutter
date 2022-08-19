@@ -100,8 +100,8 @@ class _BuySellFormState extends State<BuySellForm> {
           if (savingToDB == true) return;
           savingToDB = true;
           dbSavingController.sink.add(true);
-          if (widget.category == "Sell") {
-            try {
+          if (widget.category == "Sell")
+          {
               print("HERE IN SELL");
               var res = await http.post(
                   Uri.parse("https://swc.iitg.ac.in/onestopapi/sell"),
@@ -144,10 +144,9 @@ class _BuySellFormState extends State<BuySellForm> {
                   style: MyFonts.w500,
                 )));
               }
-            } catch (e) {
-              print(e);
-            }
-          } else {
+          }
+          if(widget.category == "Buy"){
+            print("Here IN BUY");
             var res = await http.post(
                 Uri.parse("https://swc.iitg.ac.in/onestopapi/buy"),
                 headers: {'Content-Type': 'application/json'},

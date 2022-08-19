@@ -11,6 +11,7 @@ import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_form.dart';
+import 'package:onestop_dev/widgets/buySell/item_type_bar.dart';
 import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 
@@ -315,34 +316,6 @@ class LostFoundButton extends StatelessWidget {
         backgroundColor: snapshot.hasData == false
             ? lBlue2
             : (snapshot.data! == category ? lBlue2 : kBlueGrey),
-      ),
-    );
-  }
-}
-
-class ItemTypeBar extends StatelessWidget {
-  final text;
-  final TextStyle textStyle;
-  final Color backgroundColor;
-  final EdgeInsets margin;
-  ItemTypeBar(
-      {Key? key,
-      required this.text,
-      required this.textStyle,
-      required this.backgroundColor,
-      required this.margin})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: margin,
-      decoration: BoxDecoration(
-          color: backgroundColor, borderRadius: BorderRadius.circular(100)),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      child: Text(
-        text,
-        style: textStyle,
       ),
     );
   }

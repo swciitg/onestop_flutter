@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/buysell/buy_model.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/buySell/ads_tile.dart';
 import 'package:onestop_dev/widgets/buySell/buy_tile.dart';
+import 'package:onestop_dev/widgets/buySell/item_type_bar.dart';
 import 'package:onestop_dev/widgets/buySell/utility.dart';
+import 'package:provider/provider.dart';
 
 class BuySellHome extends StatefulWidget {
   static const id = "/buySellHome";
@@ -50,7 +53,7 @@ class _BuySellHomeState extends State<BuySellHome> {
         ],
       ),
       body: FutureBuilder<List>(
-          future: getItems(),
+          future: getItems(context.read<LoginStore>().userData['email']),
           builder: (context, Snapshot) {
             if (Snapshot.hasData) {
               List<Widget> buyItems = [];
@@ -66,21 +69,22 @@ class _BuySellHomeState extends State<BuySellHome> {
                       )
                     });
               }
-              if (!(Snapshot.data![2].isEmpty)) {
-                Snapshot.data![2].forEach((e) => {
+              if (!(Snapshot.data![1].isEmpty)) {
+                Snapshot.data![1].forEach((e) => {
                       sellItems.add(
                         BuyTile(model: BuyModel.fromJson(e)),
                       ),
                     });
               }
-              if (!(Snapshot.data![1].isEmpty)) {
-                Snapshot.data![1].forEach((e) => {
+              if (!(Snapshot.data![2].isEmpty)) {
+                Snapshot.data![2].forEach((e) => {
                       myAds.add(
                         MyAdsTile(
                           model: BuyModel.fromJson(e),
                         ),
                       )
                     });
+                print(myAds.length);
               }}
               catch(e){
                 print(e);
@@ -181,34 +185,6 @@ class _BuySellHomeState extends State<BuySellHome> {
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AddButton(typeStream),
-    );
-  }
-}
-
-class ItemTypeBar extends StatelessWidget {
-  final text;
-  final TextStyle textStyle;
-  final Color backgroundColor;
-  final EdgeInsets margin;
-  ItemTypeBar(
-      {Key? key,
-      required this.text,
-      required this.textStyle,
-      required this.backgroundColor,
-      required this.margin})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: margin,
-      decoration: BoxDecoration(
-          color: backgroundColor, borderRadius: BorderRadius.circular(100)),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      child: Text(
-        text,
-        style: textStyle,
-      ),
     );
   }
 }

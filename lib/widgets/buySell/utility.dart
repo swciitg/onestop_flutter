@@ -15,25 +15,25 @@ Future<List> getBuyItems() async {
 
 Future<List> getSellItems() async {
   var res = await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/sell'));
-
   var foundItemsDetails = jsonDecode(res.body);
   return foundItemsDetails["details"];
 }
 
-Future<List> getMyItems() async {
+Future<List> getMyItems(mail) async {
   var res = await http.post(
       Uri.parse('https://swc.iitg.ac.in/onestopapi/myads'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email': 'h.nandigrama@iitg.ac.in'}));
+      body: jsonEncode({'email': mail}));
 
   var MyItemsDetails = jsonDecode(res.body);
+  //print([...MyItemsDetails["details"]["sellList"],...MyItemsDetails["details"]["buyList"]].length);
   return [...MyItemsDetails["details"]["sellList"],...MyItemsDetails["details"]["buyList"]];
 }
 
-Future<List> getItems() async {
+Future<List> getItems(mail) async {
   var list1 = await getBuyItems();
   var list2 = await getSellItems();
-  var list3 = await getMyItems();
+  var list3 = await getMyItems(mail);
   return [list1, list2, list3];
 }
 
@@ -70,8 +70,10 @@ Widget selectList(dynamic snapshot, List<Widget> buyList, List<Widget> sellList,
 Widget AddButton(Stream<dynamic> typeStream) {
   return StreamBuilder(
     stream: typeStream,
-    initialData: "Sell",
+    initialData: "Buy",
     builder: (context, AsyncSnapshot snapshot) {
+      print("The snapshot data in AddButton Widget is ");
+      print(snapshot.data);
       if (snapshot.data == "My Ads") {
         return Container();
       }
@@ -120,14 +122,17 @@ Widget AddButton(Stream<dynamic> typeStream) {
               return;
             }
             var imageString = base64Encode(bytes);
-            if (snapshot.data == "Sell") {
+            if (snapshot.data == "Sell")
+            {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => BuySellForm(
                         category: "Sell",
                         imageString: imageString,
                       )));
               return;
-            } else if (snapshot.data == "Buy") {
+            }
+            else if (snapshot.data == "Buy")
+            {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => BuySellForm(
                         category: "Buy",

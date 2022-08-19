@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -145,14 +147,21 @@ class _MyAdsTile extends State<MyAdsTile> {
                   "Delete",
                   style: MyFonts.w400.size(14).setColor(kBlack),
                 ),
-                onPressed: () {
-                  // Navigator.of(context).pop();
-                  setState(() async {
-                    // await http.post(
-                    //     Uri.parse("https://swc.iitg.ac.in/onestopapi/myads"),
-                    //     body: {'ID': widget.model.id.trim()});
-                    // TileSate = AdsTileState(context, widget.model, false);
-                  });
+                onPressed: () async {
+                  print('delete pressed');
+                  print('awaiting post request');
+                  await http.post(
+                      Uri.parse("https://swc.iitg.ac.in/onestopapi/buy/remove"),
+                      headers: {'Content-Type': 'application/json'},
+                      body: jsonEncode({'id': widget.model.id,'email': widget.model.email})
+                  );
+                  await http.post(
+                      Uri.parse("https://swc.iitg.ac.in/onestopapi/sell/remove"),
+                      headers: {'Content-Type': 'application/json'},
+                      body: jsonEncode({'id': widget.model.id,'email': widget.model.email})
+                  );
+                  print('post request complete');
+                  Navigator.of(context).pop();
                 },
                 onFocusChange: (change) {
                   print(!change);
