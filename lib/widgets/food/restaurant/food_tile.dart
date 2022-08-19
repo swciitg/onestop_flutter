@@ -109,7 +109,17 @@ class FoodTile extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(21),
                     bottomRight: Radius.circular(21)),
-                child: Image.network(dish.image, fit: BoxFit.cover, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){return Image.asset("assets/images/res_foodimg.jpg",fit: BoxFit.cover,);},),
+                child: Image.network(
+                  dish.image,
+                  fit: BoxFit.cover,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return Image.asset(
+                      "assets/images/res_foodimg.jpg",
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
               ),
             ),
           ],

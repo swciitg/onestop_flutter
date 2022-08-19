@@ -17,7 +17,8 @@ abstract class _RestaurantStore with Store {
       latitude: 0,
       longitude: 0,
       address: "NA",
-      tags: []);
+      tags: [],
+      image: "");
 
   @observable
   String _searchString = "";

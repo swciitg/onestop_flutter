@@ -43,7 +43,14 @@ class RestaurantTile extends StatelessWidget {
                     width: imageWidth,
                     height: double.infinity,
                     child: Image.network(restaurant_model.image,
-                        fit: BoxFit.fitHeight),
+                        fit: BoxFit.fitHeight,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          return Image.asset(
+                            "assets/images/res_foodimg.jpg",
+                            fit: BoxFit.cover,
+                          );
+                        }),
                   ),
                 ),
                 Expanded(

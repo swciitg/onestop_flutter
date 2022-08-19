@@ -35,7 +35,8 @@ class RestaurantModel {
   @JsonKey(defaultValue: [])
   late List<DishModel> menu;
 
-  String image;
+  @JsonKey(name: "imageURL")
+  late String image;
 
   RestaurantModel(
       {required this.name,
@@ -47,7 +48,7 @@ class RestaurantModel {
       required this.longitude,
       required this.address,
       required this.tags,
-        this.image =  "https://live.staticflickr.com/3281/5813689894_a558bb341f_b.jpg"});
+      required this.image});
 
   // RestaurantModel.fromJson(Map<String, dynamic> json) {
   //   name = json['name'] ?? "Unnamed";= "https://live.staticflickr.com/3281/5813689894_a558bb341f_b.jpg"
@@ -65,13 +66,12 @@ class RestaurantModel {
   //   });
   // }
 
-
-  factory RestaurantModel.fromJson(Map<String, dynamic> json) => _$RestaurantModelFromJson(json);
+  factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$RestaurantModelToJson(this);
-
-
 }
+
 String fromJsonPhone(int i) {
   return i.toString();
 }
