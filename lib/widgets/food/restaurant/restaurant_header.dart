@@ -1,10 +1,15 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:onestop_dev/functions/food/get_restaurant_distance.dart';
+import 'package:onestop_dev/functions/travel/distance.dart';
 import 'package:onestop_dev/functions/utility/open_map.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
+import 'package:onestop_dev/stores/mapbox_store.dart';
+import 'package:provider/provider.dart';
 
 import 'call_map_button.dart';
 
@@ -27,7 +32,7 @@ class RestaurantHeader extends StatelessWidget {
             children: [
               Text(
                 restaurant.name,
-                style: MyFonts.w500.size(22).setColor(kWhite),
+                style: MyFonts.w600.size(22).setColor(kWhite),
               ),
               Text(
                 restaurant.caption,
@@ -45,7 +50,7 @@ class RestaurantHeader extends StatelessWidget {
                         style: MyFonts.w700.size(12).setColor(kWhite),
                       ),
                       TextSpan(
-                        text: '2 kms',
+                        text: getRestaurantDistance(context, restaurant),
                         style: MyFonts.w500.size(13).setColor(kWhite),
                       ),
                     ],
@@ -53,7 +58,7 @@ class RestaurantHeader extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 2, 60, 12),
+                padding: const EdgeInsets.fromLTRB(0, 2, 0, 12),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(150),
@@ -72,6 +77,14 @@ class RestaurantHeader extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: Icon(Icons.circle, color: kWhite, size: 5),
+                        ),
+                        const Icon(
+                          FluentIcons.clock_24_regular,
+                          color: lRed2,
+                          size: 12,
+                        ),
+                        SizedBox(
+                          width: 4,
                         ),
                         Text(
                           'Closing time: ${restaurant.closing_time}',

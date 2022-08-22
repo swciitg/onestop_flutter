@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/food/get_restaurant_distance.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/functions/utility/open_map.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
@@ -116,7 +117,7 @@ class RestaurantTile extends StatelessWidget {
                             ),
                             Expanded(child: Container()),
                             Text(
-                              '2 kms',
+                              getRestaurantDistance(context, restaurant_model),
                               style: MyFonts.w500.size(11).setColor(kWhite),
                             ),
                             Expanded(child: Container()),
