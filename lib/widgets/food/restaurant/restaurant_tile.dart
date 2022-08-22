@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/functions/utility/open_map.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -8,6 +9,7 @@ import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'call_map_button.dart';
 
@@ -42,15 +44,22 @@ class RestaurantTile extends StatelessWidget {
                   child: Container(
                     width: imageWidth,
                     height: double.infinity,
-                    child: Image.network(restaurant_model.image,
-                        fit: BoxFit.fitHeight,
-                        errorBuilder: (BuildContext context, Object exception,
-                            StackTrace? stackTrace) {
-                          return Image.asset(
-                            "assets/images/res_foodimg.jpg",
-                            fit: BoxFit.cover,
-                          );
-                        }),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Image.network(restaurant_model.image,
+                          fit: BoxFit.cover,
+                          errorBuilder:
+                              (BuildContext context, Object exception,
+                                  StackTrace? stackTrace) {
+                        return Image.asset(
+                          "assets/images/res_foodimg.jpg",
+                          fit: BoxFit.cover,
+                        );
+                      },
+                        frameBuilder: restaurantTileFrameBuilder,
+
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
