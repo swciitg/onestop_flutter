@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/lost_found/lnf_form.dart';
+import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
 import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 class LostFoundLocationForm extends StatefulWidget {
   final String imageString;
@@ -262,7 +262,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select location of item submission", style: MyFonts.w500,)));
             return;
           }
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => LostFoundForm(category: "Found",imageString: widget.imageString, submittedat: selectedLocation,)));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuySellForm(category: "Found",imageString: widget.imageString, submittedAt: selectedLocation,)));
         },
         child: NewPageButton(title: "Next",),
       ),

@@ -8,6 +8,7 @@ import 'package:onestop_dev/widgets/buySell/ads_tile.dart';
 import 'package:onestop_dev/widgets/buySell/buy_tile.dart';
 import 'package:onestop_dev/widgets/buySell/item_type_bar.dart';
 import 'package:onestop_dev/widgets/buySell/utility.dart';
+import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:provider/provider.dart';
 
 class BuySellHome extends StatefulWidget {
@@ -184,7 +185,7 @@ class _BuySellHomeState extends State<BuySellHome> {
             );
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: AddButton(typeStream),
+      floatingActionButton: AddItemButton(typeStream: typeStream, initialData: "Sell",),
     );
   }
 }

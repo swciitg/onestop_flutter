@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 class APIService {
   static String restaurantURL = "https://swc.iitg.ac.in/onestopapi/getAllOutlets";
@@ -30,6 +31,80 @@ class APIService {
       throw Exception("Data could not be fetched");
     }
   }
+
+  static Future<Response> postSellData(Map<String, String> data)
+  async {
+    var res = await http.post(
+        Uri.parse("https://swc.iitg.ac.in/onestopapi/sell"),
+        body: jsonEncode({
+          'title': data['title'],
+          'description' : data['description'],
+          'price' : data['price'],
+          'imageString' : data['image'],
+          'phonenumber' : data['contact'],
+          'email' : data['email'],
+          'username' : data['name']
+        }),
+        headers: {'Content-Type': 'application/json'}
+    );
+    return res;
+  }
+
+  static Future<Response> postBuyData(Map<String, String> data)
+  async {
+    var res = await http.post(
+        Uri.parse("https://swc.iitg.ac.in/onestopapi/buy"),
+        body: jsonEncode({
+          'title': data['title'],
+          'description' : data['description'],
+          'price' : data['total_price'],
+          'imageString' : data['image'],
+          'phonenumber' : data['contact'],
+          'email' : data['email'],
+          'username' : data['name']
+        }),
+        headers: {'Content-Type': 'application/json'}
+    );
+    return res;
+  }
+
+  static Future<Response> postLostData(Map<String, String> data)
+  async {
+    print(data);
+    var res = await http.post(
+        Uri.parse("https://swc.iitg.ac.in/onestopapi/lost"),
+        body: jsonEncode({
+          'title': data['title'],
+          'description' : data['description'],
+          'location' : data['location'],
+          'imageString' : data['image'],
+          'phonenumber' : data['contact'],
+          'email' : data['email'],
+          'username' : data['name']
+        }),
+        headers: {'Content-Type': 'application/json'}
+    );
+    return res;
+  }
+
+  static Future<Response> postFoundData(Map<String, String> data)
+  async {
+    var res = await http.post(
+        Uri.parse("https://swc.iitg.ac.in/onestopapi/found"),
+        body: jsonEncode({
+          'title': data['title'],
+          'description' : data['description'],
+          'location' : data['location'],
+          'imageString' : data['image'],
+          'submittedat' : data['submittedAt'],
+          'email' : data['email'],
+          'username' : data['name']
+        }),
+        headers: {'Content-Type': 'application/json'}
+    );
+    return res;
+  }
+
 
   static Future<Map<String, dynamic>> getLastUpdated() async {
     http.Response response = await http.get(Uri.parse(lastUpdatedURL));
