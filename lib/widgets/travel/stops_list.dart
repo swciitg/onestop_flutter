@@ -70,9 +70,11 @@ class BusStopList extends StatelessWidget {
                             style: MyFonts.w500.setColor(kWhite),
                           ),
                           subtitle: Text(
-                              calculateDistance(map_store.userLatLng,
-                                          map_store.selectedCarouselLatLng)
-                                      .toStringAsFixed(2) +
+                              calculateDistance(map_store.userLatLng, LatLng(
+                                  map_store.allLocationData[
+                                  index]['lat'],
+                                  map_store.allLocationData[
+                                  index]['long']),).toStringAsFixed(2) +
                                   " km",
                               style: MyFonts.w500.setColor(kGrey13)),
                           // trailing: (map_store.allLocationData[index]['status'] ==
