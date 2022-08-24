@@ -13,7 +13,7 @@ class CarouselCard extends StatelessWidget {
   final String name;
   final int index;
 
-  CarouselCard(
+  const CarouselCard(
       {Key? key, required this.index, required this.name})
       : super(key: key);
 
@@ -21,37 +21,36 @@ class CarouselCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<String> getNextTime()async {
-      print('next time function');
-      String today = get_day();
+      String today = getFormattedDay();
       if(context.read<MapBoxStore>().indexBusesorFerry == 0)
         {
           var busTimes = await DataProvider.getBusTimings();
           if(today == 'Fri')
           {
-            return 'Next Bus at: '+nextTime(busTimes[1], firstTime: busTimes[0][0]);
+            return 'Next Bus at: ${nextTime(busTimes[1], firstTime: busTimes[0][0])}';
           }
           else if(today == 'Sun')
           {
-            return 'Next Bus at: '+nextTime(busTimes[0],firstTime:  busTimes[1][0]);
+            return 'Next Bus at: ${nextTime(busTimes[0],firstTime:  busTimes[1][0])}';
           }
           else if(today == 'Sat')
           {
-              return 'Next Bus at: '+nextTime(busTimes[0]);
+              return 'Next Bus at: ${nextTime(busTimes[0])}';
           }
-          return 'Next Bus at: '+nextTime(busTimes[1]);
+          return 'Next Bus at: ${nextTime(busTimes[1])}';
         }
       else
         {
           var ferryTimes = await DataProvider.getFerryTimings();
-          var requiredModel = ferryTimes.firstWhere((element) => element.name == this.name);
+          var requiredModel = ferryTimes.firstWhere((element) => element.name == name);
           if(today == 'Sat')
           {
-            return 'Next Ferry at: '+nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati, firstTime:  requiredModel.Sunday_NorthGuwahatiToGuwahati[0]);
+            return 'Next Ferry at: ${nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati, firstTime:  requiredModel.Sunday_NorthGuwahatiToGuwahati[0])}';
           }
           else if(today == 'Sun'){
-            return 'Next Ferry at: '+nextTime(requiredModel.Sunday_NorthGuwahatiToGuwahati,firstTime:  requiredModel.MonToFri_NorthGuwahatiToGuwahati[0]);
+            return 'Next Ferry at: ${nextTime(requiredModel.Sunday_NorthGuwahatiToGuwahati,firstTime:  requiredModel.MonToFri_NorthGuwahatiToGuwahati[0])}';
           }
-          return 'Next Ferry at: '+nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati);
+          return 'Next Ferry at: ${nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati)}';
         }
     }
     return Padding(
@@ -59,8 +58,8 @@ class CarouselCard extends StatelessWidget {
       child: Observer(builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: Color.fromRGBO(34, 36, 41, 1),
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: const Color.fromRGBO(34, 36, 41, 1),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
             border: Border.all(
                 color:
                     (context.read<MapBoxStore>().selectedCarouselIndex == index)
@@ -85,7 +84,7 @@ class CarouselCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Expanded(
@@ -98,7 +97,7 @@ class CarouselCard extends StatelessWidget {
                         name,
                         style: MyFonts.w600.size(14).setColor(kWhite),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       FutureBuilder(

@@ -19,29 +19,27 @@ class BusStopList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
         shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         itemCount: context.read<MapBoxStore>().allLocationData.length,
         itemBuilder: (BuildContext context, int index) {
-          var map_store = context.read<MapBoxStore>();
+          var mapStore = context.read<MapBoxStore>();
           return FutureBuilder(
             future: DataProvider.getBusTimings(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var busTime = snapshot.data as List<List<String>>;
-                print(busTime);
-                print(nextTime(busTime[0]));
                 return Padding(
                   padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                   child: GestureDetector(
                     onTap: () {
-                      map_store.selectedCarousel(index);
-                      map_store.zoomTwoMarkers(
+                      mapStore.selectedCarousel(index);
+                      mapStore.zoomTwoMarkers(
                           LatLng(
-                              map_store.allLocationData[
-                                  map_store.selectedCarouselIndex]['lat'],
-                              map_store.allLocationData[
-                                  map_store.selectedCarouselIndex]['long']),
-                          LatLng(map_store.userlat, map_store.userlong),
+                              mapStore.allLocationData[
+                                  mapStore.selectedCarouselIndex]['lat'],
+                              mapStore.allLocationData[
+                                  mapStore.selectedCarouselIndex]['long']),
+                          LatLng(mapStore.userlat, mapStore.userlong),
                           100.0);
                     },
                     child: Observer(builder: (context) {
@@ -49,9 +47,9 @@ class BusStopList extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.95,
                         decoration: BoxDecoration(
                           color: kTileBackground,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          borderRadius: const BorderRadius.all(Radius.circular(20)),
                           border: Border.all(
-                              color: (map_store.selectedCarouselIndex == index)
+                              color: (mapStore.selectedCarouselIndex == index)
                                   ? lBlue5
                                   : kTileBackground),
                         ),
@@ -66,16 +64,15 @@ class BusStopList extends StatelessWidget {
                             ),
                           ),
                           title: Text(
-                            map_store.allLocationData[index]['name'],
+                            mapStore.allLocationData[index]['name'],
                             style: MyFonts.w500.setColor(kWhite),
                           ),
                           subtitle: Text(
-                              calculateDistance(map_store.userLatLng, LatLng(
-                                  map_store.allLocationData[
+                              "${calculateDistance(mapStore.userLatLng, LatLng(
+                                  mapStore.allLocationData[
                                   index]['lat'],
-                                  map_store.allLocationData[
-                                  index]['long']),).toStringAsFixed(2) +
-                                  " km",
+                                  mapStore.allLocationData[
+                                  index]['long']),).toStringAsFixed(2)} km",
                               style: MyFonts.w500.setColor(kGrey13)),
                           // trailing: (map_store.allLocationData[index]['status'] ==
                           //     'left')
@@ -97,7 +94,7 @@ class BusStopList extends StatelessWidget {
                           //     :
                           //
                           trailing:
-                              (get_day() == 'Saturday' || get_day() == 'Sunday')
+                              (getFormattedDay() == 'Saturday' || getFormattedDay() == 'Sunday')
                                   ? Text(
                                       nextTime(busTime[1]),
                                       style: MyFonts.w500.setColor(lBlue2),

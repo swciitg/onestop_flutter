@@ -6,7 +6,7 @@ class TravelDropDown extends StatelessWidget {
   final String value;
   final Function onChange;
   final List<String> items;
-  TravelDropDown(
+  const TravelDropDown(
       {Key? key,
       required this.value,
       required this.onChange,

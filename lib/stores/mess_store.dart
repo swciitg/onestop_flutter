@@ -13,7 +13,7 @@ abstract class _MessStore with Store {
   }
 
   @observable
-  String selectedDay = get_day();
+  String selectedDay = getFormattedDay();
 
   @observable
   String selectedMeal = "Breakfast";

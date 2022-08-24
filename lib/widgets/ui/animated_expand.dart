@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+
 class AnimatedExpand extends StatefulWidget {
   final Widget child;
   final bool expand;
-  AnimatedExpand({this.expand = false, required this.child});
+  const AnimatedExpand({Key? key, this.expand = false, required this.child}) : super(key: key);
 
   @override
-  _AnimatedExpandState createState() => _AnimatedExpandState();
+  State<AnimatedExpand> createState() => _AnimatedExpandState();
 }
 
 class _AnimatedExpandState extends State<AnimatedExpand>
@@ -18,7 +19,7 @@ class _AnimatedExpandState extends State<AnimatedExpand>
   void initState() {
     super.initState();
     expandController =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
     animation = CurvedAnimation(
       parent: expandController,
       curve: Curves.fastOutSlowIn,

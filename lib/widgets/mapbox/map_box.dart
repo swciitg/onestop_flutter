@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MapBox extends StatefulWidget {
-  MapBox({
+  const MapBox({
     Key? key,
   }) : super(key: key);
 
@@ -55,8 +55,9 @@ class _MapBoxState extends State<MapBox> {
     try {
       coordinates = await mapboxStore.getLocation() as LatLng;
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not fetch your current location", style: MyFonts.w500,)));
-      return LatLng(26.192613073419974, 91.69907177061708);
+      return const LatLng(26.192613073419974, 91.69907177061708);
     }
     return coordinates;
   }
@@ -64,10 +65,12 @@ class _MapBoxState extends State<MapBox> {
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
-      var mapbox_store = context.read<MapBoxStore>();
-      print("rebuildMap Box");
+      var mapStore = context.read<MapBoxStore>();
+      if (kDebugMode) {
+        print("rebuildMap Box");
+      }
       return ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
         child: Stack(
           children: [
             FutureBuilder(
@@ -75,24 +78,26 @@ class _MapBoxState extends State<MapBox> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Observer(builder: (context) {
-                      print("BUilder rebuild");
-                      return Container(
+                      if (kDebugMode) {
+                        print("BUilder rebuild");
+                      }
+                      return SizedBox(
                         height: 365,
                         width: double.infinity,
                         child: GoogleMap(
                           gestureRecognizers:
-                              <Factory<OneSequenceGestureRecognizer>>[
-                            new Factory<OneSequenceGestureRecognizer>(
-                                () => new EagerGestureRecognizer())
-                          ].toSet(),
+                              <Factory<OneSequenceGestureRecognizer>>{
+                            Factory<OneSequenceGestureRecognizer>(
+                                () => EagerGestureRecognizer())
+                          },
                           onMapCreated: (mapcontroller) {
                             controller = mapcontroller;
                             controller.setMapStyle(mapString);
-                            mapbox_store.mapController = mapcontroller;
+                            mapStore.mapController = mapcontroller;
                           },
                           initialCameraPosition: CameraPosition(
                               target: snapshot.data as LatLng, zoom: 15),
-                          markers: mapbox_store.markers.toSet(),
+                          markers: mapStore.markers.toSet(),
                           // polylines: poly.toSet(),
                           myLocationEnabled: true,
                           myLocationButtonEnabled: false,
@@ -104,16 +109,16 @@ class _MapBoxState extends State<MapBox> {
                     });
                   }
                   return Shimmer.fromColors(
+                      period: const Duration(seconds: 1),
+                      baseColor: kHomeTile,
+                      highlightColor: lGrey,
                       child: Container(
                         height: 365,
                         width: double.infinity,
                         decoration: BoxDecoration(
                             color: kBlack,
                             borderRadius: BorderRadius.circular(25)),
-                      ),
-                      period: Duration(seconds: 1),
-                      baseColor: kHomeTile,
-                      highlightColor: lGrey);
+                      ));
                 }),
             Column(
               children: [
@@ -122,18 +127,18 @@ class _MapBoxState extends State<MapBox> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        mapbox_store.setIndexMapBox(0);
+                        mapStore.setIndexMapBox(0);
                         // mapbox_store.generate_bus_markers();
                       },
                       //padding: EdgeInsets.only(left: 10),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.all(
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(40),
                         ),
                         child: Container(
                           height: 32,
                           width: 83,
-                          color: (mapbox_store.indexBusesorFerry == 0)
+                          color: (mapStore.indexBusesorFerry == 0)
                               ? lBlue2
                               : kBlueGrey,
                           child: Row(
@@ -142,7 +147,7 @@ class _MapBoxState extends State<MapBox> {
                             children: [
                               Icon(
                                 FluentIcons.vehicle_bus_24_regular,
-                                color: (mapbox_store.indexBusesorFerry == 0)
+                                color: (mapStore.indexBusesorFerry == 0)
                                     ? kBlueGrey
                                     : kWhite,
                               ),
@@ -150,7 +155,7 @@ class _MapBoxState extends State<MapBox> {
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Text(
                                   "Bus",
-                                  style: (mapbox_store.indexBusesorFerry == 0)
+                                  style: (mapStore.indexBusesorFerry == 0)
                                       ? MyFonts.w500.setColor(kBlueGrey)
                                       : MyFonts.w500.setColor(kWhite),
                                 ),
@@ -162,17 +167,17 @@ class _MapBoxState extends State<MapBox> {
                     ),
                     TextButton(
                       onPressed: () {
-                        mapbox_store.setIndexMapBox(1);
+                        mapStore.setIndexMapBox(1);
                       },
                       //padding: EdgeInsets.only(left: 10),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.all(
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(40),
                         ),
                         child: Container(
                           height: 32,
                           width: 83,
-                          color: (mapbox_store.indexBusesorFerry == 1)
+                          color: (mapStore.indexBusesorFerry == 1)
                               ? lBlue2
                               : kBlueGrey,
                           child: Row(
@@ -181,14 +186,14 @@ class _MapBoxState extends State<MapBox> {
                             children: [
                               Icon(
                                 FluentIcons.vehicle_ship_24_regular,
-                                color: (mapbox_store.indexBusesorFerry == 1)
+                                color: (mapStore.indexBusesorFerry == 1)
                                     ? kBlueGrey
                                     : kWhite,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Text("Ferry",
-                                    style: (mapbox_store.indexBusesorFerry == 1)
+                                    style: (mapStore.indexBusesorFerry == 1)
                                         ? MyFonts.w500.setColor(kBlueGrey)
                                         : MyFonts.w500.setColor(kWhite)),
                               ),
@@ -240,7 +245,7 @@ class _MapBoxState extends State<MapBox> {
                         : SizedBox(),*/
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 90,
                 ),
                 Row(
@@ -273,14 +278,15 @@ class _MapBoxState extends State<MapBox> {
                                         mapStore
                                             .selectedCarouselLatLng.longitude));
                               } catch (e) {
+                                if (!mounted) return;
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not open map.",style: MyFonts.w500,)));
                               }
                             },
-                            child: Icon(
+                            mini: true,
+                            child: const Icon(
                               FluentIcons.directions_24_regular,
                               color: lBlue2,
                             ),
-                            mini: true,
                           ),
                         ),
                         Padding(
@@ -290,26 +296,25 @@ class _MapBoxState extends State<MapBox> {
                             backgroundColor: kAppBarGrey,
                             onPressed: () {
                               zoomInMarker(
-                                  mapbox_store.userlat, mapbox_store.userlong);
+                                  mapStore.userlat, mapStore.userlong);
                             },
-                            child: Icon(
+                            mini: true,
+                            child: const Icon(
                               FluentIcons.my_location_24_regular,
                               color: lBlue2,
                             ),
-                            mini: true,
                           ),
                         ),
                       ],
                     ),
                   ],
                 ),
-                (!mapbox_store.isTravelPage)
+                (!mapStore.isTravelPage)
                     ? Observer(builder: (context) {
-                        print("carousel rebuild");
                         return CarouselSlider(
-                          items: mapbox_store.carouselCards
+                          items: mapStore.carouselCards
                               .map((e) => GestureDetector(
-                                    child: mapbox_store.selectedCarouselIndex ==
+                                    child: mapStore.selectedCarouselIndex ==
                                             (e as CarouselCard).index
                                         ? e
                                         : ColorFiltered(
@@ -319,12 +324,12 @@ class _MapBoxState extends State<MapBox> {
                                             child: e,
                                           ),
                                     onTap: () {
-                                      mapbox_store.selectedCarousel(
+                                      mapStore.selectedCarousel(
                                           e.index);
-                                      mapbox_store.zoomTwoMarkers(
-                                          mapbox_store.selectedCarouselLatLng,
-                                          LatLng(mapbox_store.userlat,
-                                              mapbox_store.userlong),
+                                      mapStore.zoomTwoMarkers(
+                                          mapStore.selectedCarouselLatLng,
+                                          LatLng(mapStore.userlat,
+                                              mapStore.userlong),
                                           120.0);
                                     },
                                   ))
@@ -338,7 +343,7 @@ class _MapBoxState extends State<MapBox> {
                           ),
                         );
                       })
-                    : SizedBox(),
+                    : const SizedBox(),
               ],
             ),
           ],

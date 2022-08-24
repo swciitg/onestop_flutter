@@ -7,7 +7,7 @@ import 'package:onestop_dev/widgets/home/date_course.dart';
 import 'package:onestop_dev/widgets/home/home_links.dart';
 import 'package:onestop_dev/widgets/home/quick_links.dart';
 import 'package:onestop_dev/widgets/home/service_links.dart';
-import 'package:onestop_dev/widgets/mapbox/mapBox.dart';
+import 'package:onestop_dev/widgets/mapbox/map_box.dart';
 import 'package:provider/provider.dart';
 
 class HomeTab extends StatefulWidget {

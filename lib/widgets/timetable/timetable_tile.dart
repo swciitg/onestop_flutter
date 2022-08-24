@@ -5,9 +5,9 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
 
 class TimetableTile extends StatelessWidget {
-  late final CourseModel course;
-  late final bool inHomePage;
-  TimetableTile({Key? key, required this.course, this.inHomePage = false})
+  final CourseModel course;
+  final bool inHomePage;
+  const TimetableTile({Key? key, required this.course, this.inHomePage = false})
       : super(key: key);
 
   @override
@@ -15,12 +15,12 @@ class TimetableTile extends StatelessWidget {
     String sel = findTimeRange();
     Color bg = (sel == course.timing)
         ? kTimetableGreen
-        : Color.fromRGBO(120, 120, 120, 0.16);
+        : const Color.fromRGBO(120, 120, 120, 0.16);
     if (inHomePage) bg = kTimetableGreen;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: 85),
+        constraints: const BoxConstraints(minHeight: 85),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
@@ -42,7 +42,7 @@ class TimetableTile extends StatelessWidget {
                       Container(
                         height: 50,
                         width: 50,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.blue,
                         ),
@@ -60,14 +60,14 @@ class TimetableTile extends StatelessWidget {
                         course.timing,
                         style: MyFonts.w300.size(12).setColor(kWhite),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5.0,
                       ),
                       Text(
                         course.course!,
                         style: MyFonts.w500.size(15).setColor(kWhite),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 3.0,
                       ),
                       Text(

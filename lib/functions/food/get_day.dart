@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-String get_day(){
+String getFormattedDay(){
   DateTime now = DateTime.now();
   return DateFormat("EEE").format(now);
 }

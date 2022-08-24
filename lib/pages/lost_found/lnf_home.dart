@@ -21,6 +21,13 @@ class LostFoundHome extends StatefulWidget {
 
 class _LostFoundHomeState extends State<LostFoundHome> {
   StreamController selectedTypeController = StreamController();
+  late Stream typeStream;
+
+  @override
+  void initState() {
+    super.initState();
+    typeStream = selectedTypeController.stream.asBroadcastStream();
+  }
 
   Future<List> getLostItems() async {
     print("before");
@@ -45,7 +52,6 @@ class _LostFoundHomeState extends State<LostFoundHome> {
 
   @override
   Widget build(BuildContext context) {
-    Stream typeStream = selectedTypeController.stream.asBroadcastStream();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kBlueGrey,
@@ -151,22 +157,29 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                       },
                     );
                   }
-                  return ListShimmer(
-                    count: 5,
-                    height: 150,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: ListShimmer(
+                      count: 10,
+                      height: 120,
+                    ),
                   );
                 },
               );
             }
-            return ListShimmer(
-              count: 5,
-              height: 150,
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: ListShimmer(
+                count: 10,
+                height:  120,
+              ),
             );
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: AddItemButton(typeStream: typeStream, initialData: 'Lost',),
+      floatingActionButton: AddItemButton(
+        typeStream: typeStream,
+        initialData: 'Lost',
+      ),
     );
   }
 }
-
-

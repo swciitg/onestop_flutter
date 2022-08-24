@@ -12,7 +12,7 @@ import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:provider/provider.dart';
 
 class NextTimeCard extends StatefulWidget {
-  NextTimeCard({Key? key}) : super(key: key);
+  const NextTimeCard({Key? key}) : super(key: key);
 
   @override
   State<NextTimeCard> createState() => _NextTimeCardState();
@@ -23,8 +23,7 @@ class _NextTimeCardState extends State<NextTimeCard> {
   Widget build(BuildContext context) {
     var mapStore = context.read<MapBoxStore>();
     Future<String> getNextTime() async {
-      print('next time function');
-      String today = get_day();
+      String today = getFormattedDay();
       if (mapStore.indexBusesorFerry == 0) {
         var busTimes = await DataProvider.getBusTimings();
         if (today == 'Fri') {
@@ -56,7 +55,7 @@ class _NextTimeCardState extends State<NextTimeCard> {
         width: MediaQuery.of(context).size.width * 0.95,
         decoration: BoxDecoration(
           color: kGrey14,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           border: Border.all(color: lBlue5),
         ),
         child: Padding(
@@ -67,11 +66,11 @@ class _NextTimeCardState extends State<NextTimeCard> {
               backgroundColor: lYellow2,
               radius: 20,
               child: (context.read<MapBoxStore>().indexBusesorFerry == 1)
-                  ? Icon(
+                  ? const Icon(
                       FluentIcons.vehicle_ship_24_filled,
                       color: kBlueGrey,
                     )
-                  : Icon(
+                  : const Icon(
                       FluentIcons.vehicle_bus_24_filled,
                       color: kBlueGrey,
                     ),
@@ -81,10 +80,9 @@ class _NextTimeCardState extends State<NextTimeCard> {
               style: MyFonts.w500.setColor(kWhite).size(14),
             ),
             subtitle: Text(
-                calculateDistance(mapStore.selectedCarouselLatLng,
+                "${calculateDistance(mapStore.selectedCarouselLatLng,
                             mapStore.userLatLng)
-                        .toStringAsFixed(2) +
-                    " km",
+                        .toStringAsFixed(2)} km",
                 style: MyFonts.w500.setColor(kGrey13).size(11)),
             trailing: FutureBuilder(
                 future: getNextTime(),
@@ -94,15 +92,15 @@ class _NextTimeCardState extends State<NextTimeCard> {
                         width: 80,
                         child: (mapStore.indexBusesorFerry == 0)
                             ? Text(
-                                'Next Bus in ' + durationLeft(snapshot.data.toString()),
+                                'Next Bus in ${durationLeft(snapshot.data.toString())}',
                                 style: MyFonts.w500.setColor(lBlue2).size(14),
                               )
                             : Text(
-                                'Next Ferry in ' +durationLeft(snapshot.data.toString()),
+                                'Next Ferry in ${durationLeft(snapshot.data.toString())}',
                                 style: MyFonts.w500.setColor(lBlue2).size(14),
                               ));
                   }
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }),
           ),
         ),

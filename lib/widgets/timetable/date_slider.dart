@@ -7,7 +7,7 @@ import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:provider/provider.dart';
 
 class DateSlider extends StatefulWidget {
-  DateSlider({Key? key}) : super(key: key);
+  const DateSlider({Key? key}) : super(key: key);
   @override
   State<DateSlider> createState() => _DateSliderState();
 }
@@ -31,8 +31,9 @@ class _DateSliderState extends State<DateSlider> {
                 child: Observer(builder: (context) {
                   bool selected = ttStore.selectedDate == index;
                   TextStyle tStyle = MyFonts.w500.size(14).setColor(kWhite);
-                  if (!selected)
+                  if (!selected) {
                     tStyle = MyFonts.w500.size(14).setColor(kGrey7);
+                  }
                   return Container(
                     // height: 125,
                     decoration: BoxDecoration(

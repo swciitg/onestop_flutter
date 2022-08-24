@@ -23,16 +23,16 @@ class LostFoundButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (!snapshot.hasData)
+        if (!snapshot.hasData) {
           return;
-        else {
+        } else {
           selectedTypeController.sink
               .add(snapshot.data! == "Lost" ? "Found" : "Lost");
         }
       },
       child: ItemTypeBar(
         text: label,
-        margin: EdgeInsets.only(left: 16, bottom: 10),
+        margin: const EdgeInsets.only(left: 16, bottom: 10),
         textStyle: MyFonts.w500.size(14).setColor(snapshot.hasData == false
             ? kBlack
             : (snapshot.data! == category ? kBlack : kWhite)),

@@ -8,7 +8,7 @@ import 'package:onestop_dev/pages/qr.dart';
 AppBar appBar(BuildContext context, {bool displayIcon = true}) {
   return AppBar(
     backgroundColor: kBackground,
-    iconTheme: IconThemeData(color: kAppBarGrey),
+    iconTheme: const IconThemeData(color: kAppBarGrey),
     automaticallyImplyLeading: false,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -16,6 +16,7 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
       children: [
         displayIcon
             ? CircleAvatar(
+                backgroundColor: kAppBarGrey,
                 child: IconButton(
                   icon: const Icon(
                     FluentIcons.person_24_filled,
@@ -25,16 +26,15 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
                     Navigator.pushNamed(context, QRPage.id);
                   },
                 ),
-                backgroundColor: kAppBarGrey,
               )
             : CircleAvatar(
+                backgroundColor: kAppBarGrey,
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back_rounded, color: lBlue2),
                   onPressed: () {
                     Navigator.pop(context);
                   },
                 ),
-                backgroundColor: kAppBarGrey,
               ),
         RichText(
           text: TextSpan(children: [
@@ -68,7 +68,7 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
         //     // scale: 4,
         //   ),
         // ),
-        SizedBox(
+        const SizedBox(
           width: 35,
           height: 35,
         )
