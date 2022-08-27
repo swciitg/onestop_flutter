@@ -10,7 +10,7 @@ class APIService {
   static String restaurantURL = "https://swc.iitg.ac.in/onestopapi/getAllOutlets";
   static String lastUpdatedURL = "https://swc.iitg.ac.in/onestopapi/lastDataUpdate";
   static String contactURL = "https://swc.iitg.ac.in/onestopapi/getContacts";
-  static String timetableURL = "https://hidden-depths-09275.herokuapp.com/get-my-courses";
+  static String timetableURL = "https://onestopiitgtimetable.herokuapp.com/get-my-courses";
   static String ferryURL = 'https://swc.iitg.ac.in/onestopapi/ferryTimings';
   static String busURL = 'https://swc.iitg.ac.in/onestopapi/busTimings';
   static String messURL = "https://swc.iitg.ac.in/onestopapi/hostelsMessMenu";
