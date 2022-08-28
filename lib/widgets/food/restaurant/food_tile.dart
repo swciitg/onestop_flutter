@@ -5,18 +5,19 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/dish_model.dart';
 
 class FoodTile extends StatelessWidget {
-  FoodTile({
+  const FoodTile({
     Key? key,
     required this.dish,
   }) : super(key: key);
 
   final DishModel dish;
 
-  Color getIconColor(Veg) {
-    if (Veg)
+  Color getIconColor(veg) {
+    if (veg) {
       return Colors.green;
-    else
+    } else {
       return Colors.red;
+    }
   }
 
   String getIngredients(ingredientsList) {
@@ -26,7 +27,7 @@ class FoodTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+      padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
       child: IntrinsicHeight(
         child: Container(
           decoration: BoxDecoration(
@@ -75,10 +76,10 @@ class FoodTile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            this.getIngredients(dish.ingredients),
+                            getIngredients(dish.ingredients),
                             style: MyFonts.w400.size(14).setColor(kGrey6),
                           ),
-                          SizedBox(height: 8,),
+                          const SizedBox(height: 8,),
                           Text(
                             '\u{20B9} ${dish.price}/-',
                             style: MyFonts.w600.size(14).setColor(lBlue4),
@@ -92,7 +93,7 @@ class FoodTile extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(21),
                       bottomRight: Radius.circular(21)),
                   child: AspectRatio(

@@ -135,19 +135,19 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
     });
   }
 
-  late final _$bus_stop_polylinesAtom =
-      Atom(name: '_MapBoxStore.bus_stop_polylines', context: context);
+  late final _$busStopPolylinesAtom =
+      Atom(name: '_MapBoxStore.busStopPolylines', context: context);
 
   @override
-  List<Polyline> get bus_stop_polylines {
-    _$bus_stop_polylinesAtom.reportRead();
-    return super.bus_stop_polylines;
+  List<Polyline> get busStopPolylines {
+    _$busStopPolylinesAtom.reportRead();
+    return super.busStopPolylines;
   }
 
   @override
-  set bus_stop_polylines(List<Polyline> value) {
-    _$bus_stop_polylinesAtom.reportWrite(value, super.bus_stop_polylines, () {
-      super.bus_stop_polylines = value;
+  set busStopPolylines(List<Polyline> value) {
+    _$busStopPolylinesAtom.reportWrite(value, super.busStopPolylines, () {
+      super.busStopPolylines = value;
     });
   }
 
@@ -228,11 +228,11 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   }
 
   @override
-  void change_centre_zoom(double lat, double long) {
+  void changeCenterZoom(double lat, double long) {
     final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.change_centre_zoom');
+        name: '_MapBoxStore.changeCenterZoom');
     try {
-      return super.change_centre_zoom(lat, long);
+      return super.changeCenterZoom(lat, long);
     } finally {
       _$_MapBoxStoreActionController.endAction(_$actionInfo);
     }
@@ -280,7 +280,7 @@ userlong: ${userlong},
 selectedCarouselIndex: ${selectedCarouselIndex},
 isTravelPage: ${isTravelPage},
 myPos: ${myPos},
-bus_stop_polylines: ${bus_stop_polylines},
+busStopPolylines: ${busStopPolylines},
 loadOperation: ${loadOperation},
 markers: ${markers},
 allLocationData: ${allLocationData},

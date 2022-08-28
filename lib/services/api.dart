@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 
 class APIService {

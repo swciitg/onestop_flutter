@@ -8,7 +8,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
 import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
 
-class AddItemButton extends StatelessWidget {
+class AddItemButton extends StatefulWidget {
   const AddItemButton({
     Key? key,
     required this.typeStream, required this.initialData,
@@ -18,10 +18,15 @@ class AddItemButton extends StatelessWidget {
   final String initialData;
 
   @override
+  State<AddItemButton> createState() => _AddItemButtonState();
+}
+
+class _AddItemButtonState extends State<AddItemButton> {
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: typeStream,
-      initialData: initialData,
+      stream: widget.typeStream,
+      initialData: widget.initialData,
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.data == "My Ads") {
           return Container();
@@ -43,6 +48,7 @@ class AddItemButton extends StatelessWidget {
                               onTap: () async {
                                 xFile = await ImagePicker()
                                     .pickImage(source: ImageSource.gallery);
+                                if(!mounted) return;
                                 Navigator.of(context).pop();
                               },
                             ),
@@ -52,6 +58,7 @@ class AddItemButton extends StatelessWidget {
                               onTap: () async {
                                 xFile = await ImagePicker()
                                     .pickImage(source: ImageSource.camera);
+                                if(!mounted) return;
                                 Navigator.of(context).pop();
                               },
                             )
@@ -60,6 +67,7 @@ class AddItemButton extends StatelessWidget {
                       ));
                 });
 
+            if(!mounted) return;
             if (xFile != null) {
               var bytes = File(xFile!.path).readAsBytesSync();
               var imageSize =
@@ -73,7 +81,7 @@ class AddItemButton extends StatelessWidget {
                 return;
               }
               var imageString = base64Encode(bytes);
-              if(initialData == "Lost")
+              if(widget.initialData == "Lost")
                 {
                   if (snapshot.data == "Lost") {
                     Navigator.of(context).push(MaterialPageRoute(

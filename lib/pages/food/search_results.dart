@@ -51,7 +51,7 @@ class SearchPage extends StatelessWidget {
 
                         List<RestaurantModel> results = futureList.result;
                         List<Widget> foodList = results
-                            .map((e) => RestaurantTile(restaurant_model: e))
+                            .map((e) => RestaurantTile(restaurantModel: e))
                             .toList();
                         return ListView(
                           children: foodList,

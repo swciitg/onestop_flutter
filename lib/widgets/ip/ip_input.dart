@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:onestop_dev/functions/ip/ip_calculator.dart';
 import 'package:onestop_dev/functions/ip/ip_decoration.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 
 class IpField extends StatelessWidget {
-  final control;
-  final hostel;
-  final texta;
-  final textb;
-  const IpField({Key? key, this.control, this.hostel, this.texta, this.textb}) : super(key: key);
+  final TextEditingController control;
+  final HostelDetails hostel;
+  final String texta;
+  final String textb;
+  const IpField({Key? key, required this.control, required this.hostel, required this.texta, required this.textb}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 55,
       child: TextFormField(
-          style: TextStyle(color: kWhite),
+          style: const TextStyle(color: kWhite),
           validator: (value) {
             if (value == null ||
                 value.isEmpty) {

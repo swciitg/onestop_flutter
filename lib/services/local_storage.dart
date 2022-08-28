@@ -13,7 +13,7 @@ class LocalStorage {
 
   static LocalStorage get instance => _singleton;
 
-  Completer<Database> _dbOpenCompleter = Completer();
+  final Completer<Database> _dbOpenCompleter = Completer();
 
   bool isOpen = false;
 

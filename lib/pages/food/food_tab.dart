@@ -52,7 +52,7 @@ class FoodTab extends StatelessWidget {
                           List<Widget> foodList = snapshot.data!
                               .map(
                                 (e) => RestaurantTile(
-                                  restaurant_model: e,
+                                  restaurantModel: e,
                                 ),
                               )
                               .toList();

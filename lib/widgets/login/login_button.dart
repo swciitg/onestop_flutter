@@ -17,8 +17,8 @@ class LoginButton extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
-          child: Container(),
           flex: 1,
+          child: Container(),
         ),
         Expanded(
           flex: 2,
@@ -42,8 +42,8 @@ class LoginButton extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Container(),
           flex: 1,
+          child: Container(),
         )
       ],
     );

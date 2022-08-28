@@ -19,7 +19,6 @@ class _StarButtonState extends State<StarButton> {
     if (starred == null) {
       return false;
     }
-    print("Starred is $starred");
     var starredContacts = starred
         .map((e) => ContactDetailsModel.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -52,6 +51,7 @@ class _StarButtonState extends State<StarButton> {
                     .toList();
                 starredContacts.removeWhere(
                     (element) => element.email == widget.contact.email);
+                if(!mounted) return;
                 context
                     .read<ContactStore>()
                     .setStarredContacts(starredContacts);
@@ -87,6 +87,7 @@ class _StarButtonState extends State<StarButton> {
                   await LocalStorage.instance
                       .storeData(starList, "StarredContacts");
                 }
+                if(!mounted) return;
                 context.read<ContactStore>().setStarredContacts(starList
                     .map((e) => ContactDetailsModel.fromJson(e))
                     .toList());

@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/lostfound/found_model.dart';
+import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/buySell/details_dialog.dart';
@@ -93,7 +95,7 @@ class NewPageButton extends StatelessWidget {
 }
 
 class LostItemTile extends StatelessWidget {
-  final currentLostModel;
+  final LostModel currentLostModel;
   const LostItemTile({Key? key, required this.currentLostModel})
       : super(key: key);
 
@@ -136,7 +138,7 @@ class LostItemTile extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
-                        "Lost at: " + currentLostModel.location,
+                        "Lost at: ${currentLostModel.location}",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: MyFonts.w300.size(14).setColor(kWhite),
@@ -195,18 +197,23 @@ class LostItemTile extends StatelessWidget {
   }
 }
 
-class FoundItemTile extends StatelessWidget {
-  final currentFoundModel;
+class FoundItemTile extends StatefulWidget {
+  final FoundModel currentFoundModel;
   final BuildContext parentContext;
   const FoundItemTile(
       {Key? key, required this.parentContext,required this.currentFoundModel}) : super(key: key);
 
   @override
+  State<FoundItemTile> createState() => _FoundItemTileState();
+}
+
+class _FoundItemTileState extends State<FoundItemTile> {
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     bool buttonPressed = false;
-    Duration passedDuration = DateTime.now().difference(currentFoundModel.date);
+    Duration passedDuration = DateTime.now().difference(widget.currentFoundModel.date);
     String timeagoString =
         timeago.format(DateTime.now().subtract(passedDuration));
 
@@ -263,13 +270,13 @@ class FoundItemTile extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 4),
                               child: Text(
-                                currentFoundModel.title,
+                                widget.currentFoundModel.title,
                                 style: MyFonts.w600.size(16).setColor(kWhite),
                               ),
                             ),
                             GestureDetector(
                               onTap: () async {
-                                if (currentFoundModel.claimed == true) return;
+                                if (widget.currentFoundModel.claimed == true) return;
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext claimDialogContext) {
@@ -285,9 +292,10 @@ class FoundItemTile extends StatelessWidget {
                                               children: [
                                                 GestureDetector(
                                                   onTap: () async {
-                                                    print(buttonPressed);
-                                                    if (buttonPressed == true)
+
+                                                    if (buttonPressed == true) {
                                                       return;
+                                                    }
                                                     buttonPressed = true;
                                                     var name = context
                                                         .read<LoginStore>()
@@ -295,40 +303,38 @@ class FoundItemTile extends StatelessWidget {
                                                     var email = context
                                                         .read<LoginStore>()
                                                         .userData['email'];
-                                                    print(name);
-                                                    print(email);
+
                                                     var res = await http.post(
                                                         Uri.parse(
                                                             "https://swc.iitg.ac.in/onestopapi/found/claim"),
                                                         headers: {'Content-Type': 'application/json'},
                                                         body: jsonEncode({
                                                           "id":
-                                                          currentFoundModel
+                                                          widget.currentFoundModel
                                                               .id,
                                                           "claimerEmail": email,
                                                           "claimerName": name
                                                         }));
                                                     var body =
                                                         jsonDecode(res.body);
-                                                    print(body);
+
                                                     buttonPressed=false;
+                                                    if(!mounted) return ;
                                                     if(body["saved"] == false){
                                                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body["message"], style: MyFonts.w500,)));
                                                       Navigator.popUntil(context,ModalRoute.withName(LostFoundHome.id));
                                                     }
                                                     else{
-                                                      currentFoundModel.claimed=true;
-                                                      currentFoundModel.claimerEmail=context.read<LoginStore>().userData["email"];
+                                                      widget.currentFoundModel.claimed=true;
+                                                      widget.currentFoundModel.claimerEmail=context.read<LoginStore>().userData["email"]!;
                                                       Navigator.popUntil(context, ModalRoute.withName(LostFoundHome.id));
-                                                      ScaffoldMessenger.of(parentContext).showSnackBar(SnackBar(content: Text("Claimed Item Successfully", style: MyFonts.w500,)));
+                                                      ScaffoldMessenger.of(widget.parentContext).showSnackBar(SnackBar(content: Text("Claimed Item Successfully", style: MyFonts.w500,)));
                                                     }
                                                   },
-                                                  child: Container(
-                                                    child: Text(
-                                                      "YES",
-                                                      style:
-                                                          MyFonts.w600.size(17),
-                                                    ),
+                                                  child: Text(
+                                                    "YES",
+                                                    style:
+                                                        MyFonts.w600.size(17),
                                                   ),
                                                 ),
                                                 Container(
@@ -338,16 +344,15 @@ class FoundItemTile extends StatelessWidget {
                                                 ),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    if (buttonPressed == true)
+                                                    if (buttonPressed == true) {
                                                       return;
+                                                    }
                                                     Navigator.pop(context);
                                                   },
-                                                  child: Container(
-                                                    child: Text(
-                                                      "NO",
-                                                      style:
-                                                          MyFonts.w600.size(17),
-                                                    ),
+                                                  child: Text(
+                                                    "NO",
+                                                    style:
+                                                        MyFonts.w600.size(17),
                                                   ),
                                                 )
                                               ],
@@ -363,7 +368,7 @@ class FoundItemTile extends StatelessWidget {
                                       color: kGrey9,
                                       borderRadius: BorderRadius.circular(24)),
                                   alignment: Alignment.center,
-                                  child: currentFoundModel.claimed == false
+                                  child: widget.currentFoundModel.claimed == false
                                       ? Row(
                                           mainAxisSize: MainAxisSize.min,
                                           //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -383,7 +388,7 @@ class FoundItemTile extends StatelessWidget {
                                           ],
                                         )
                                       : Text(
-                                    currentFoundModel.claimerEmail==context.read<LoginStore>().userData["email"] ? " You claimed" : " Already Claimed",
+                                    widget.currentFoundModel.claimerEmail==context.read<LoginStore>().userData["email"] ? " You claimed" : " Already Claimed",
                                     style: MyFonts.w500
                                         .size(11)
                                         .setColor(lBlue2),
@@ -394,7 +399,7 @@ class FoundItemTile extends StatelessWidget {
                       ),
                       Visibility(
                         visible:
-                            currentFoundModel.claimed == true ? true : false,
+                            widget.currentFoundModel.claimed == true ? true : false,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: ConstrainedBox(
@@ -403,8 +408,7 @@ class FoundItemTile extends StatelessWidget {
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
-                                "Claimer: " +
-                                    currentFoundModel.claimerEmail,
+                                "Claimer: ${widget.currentFoundModel.claimerEmail}",
                                 style: MyFonts.w500.size(14).setColor(kGrey6),
                               ),
                             ),
@@ -462,11 +466,11 @@ class FoundItemTile extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         detailsDialogBox(
-            currentFoundModel.imageURL,
-            currentFoundModel.description,
-            currentFoundModel.location,
-            currentFoundModel.submittedat,
-            currentFoundModel.date);
+            widget.currentFoundModel.imageURL,
+            widget.currentFoundModel.description,
+            widget.currentFoundModel.location,
+            widget.currentFoundModel.submittedat,
+            widget.currentFoundModel.date);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
@@ -487,7 +491,7 @@ class FoundItemTile extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(top: 16, bottom: 5),
                       child: Text(
-                        currentFoundModel.title,
+                        widget.currentFoundModel.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: MyFonts.w500.size(16).setColor(kWhite),
@@ -496,7 +500,7 @@ class FoundItemTile extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
-                        "Found at: " + currentFoundModel.location,
+                        "Found at: ${widget.currentFoundModel.location}",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: MyFonts.w300.size(14).setColor(kWhite),
@@ -525,7 +529,7 @@ class FoundItemTile extends StatelessWidget {
                     topRight: Radius.circular(21),
                     bottomRight: Radius.circular(21)),
                 child: CachedNetworkImage(
-                  imageUrl: currentFoundModel.compressedImageURL,
+                  imageUrl: widget.currentFoundModel.compressedImageURL,
                   imageBuilder: (context, imageProvider) => Container(
                     alignment: Alignment.center,
                     width: screenWidth * 0.35,

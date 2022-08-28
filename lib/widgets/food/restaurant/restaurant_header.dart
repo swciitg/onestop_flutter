@@ -1,15 +1,14 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:onestop_dev/functions/food/get_restaurant_distance.dart';
-import 'package:onestop_dev/functions/travel/distance.dart';
+
 import 'package:onestop_dev/functions/utility/open_map.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
-import 'package:onestop_dev/stores/mapbox_store.dart';
-import 'package:provider/provider.dart';
+
 
 import 'call_map_button.dart';
 
@@ -74,16 +73,16 @@ class RestaurantHeader extends StatelessWidget {
                           'Waiting time: ${restaurant.waiting_time}',
                           style: MyFonts.w300.size(12).setColor(kWhite),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Icon(Icons.circle, color: kWhite, size: 5),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.0),
+                          child:  Icon(Icons.circle, color: kWhite, size: 5),
                         ),
                         const Icon(
                           FluentIcons.clock_24_regular,
                           color: lRed2,
                           size: 12,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 4,
                         ),
                         Text(
@@ -102,32 +101,31 @@ class RestaurantHeader extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
-                child: Container(
+                child: SizedBox(
                   height: 36,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Expanded(
-                        child: Call_MapButton(
+                        child: CallMapButton(
                           fontSize: 14,
-                          Call_Map: 'Call',
+                          callMap: 'Call',
                           icon: FluentIcons.call_24_regular,
                           callback: () {
                             launchPhoneURL(restaurant.phone_number);
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Expanded(
-                        child: Call_MapButton(
+                        child: CallMapButton(
                           fontSize: 14,
-                          Call_Map: 'Map',
+                          callMap: 'Map',
                           icon: FluentIcons.location_24_regular,
                           callback: () {
                             openMap(restaurant.latitude, restaurant.longitude);
-                            ;
                           },
                         ),
                       ),

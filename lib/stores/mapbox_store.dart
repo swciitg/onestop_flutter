@@ -38,10 +38,10 @@ abstract class _MapBoxStore with Store {
   bool isTravelPage = false;
 
   @observable
-  LatLng myPos = LatLng(-37.327154, -59.119667);
+  LatLng myPos = const LatLng(-37.327154, -59.119667);
 
   @observable
-  late List<Polyline> bus_stop_polylines;
+  late List<Polyline> busStopPolylines;
 
   @observable
   ObservableFuture<List<LatLng>?> loadOperation = ObservableFuture.value(null);
@@ -51,77 +51,77 @@ abstract class _MapBoxStore with Store {
 
   @action
   void setMarkers(List<Marker> m) {
-    print("Setting markers");
-    this.markers = ObservableList<Marker>.of(m);
+
+    markers = ObservableList<Marker>.of(m);
   }
 
   @action
   void setIndexMapBox(int i) {
-    this.indexBusesorFerry = i;
+    indexBusesorFerry = i;
     generateAllMarkers();
   }
 
   @action
   void generateAllMarkers() {
     List<Marker> l = List.generate(
-      this.allLocationData.length,
+      allLocationData.length,
           (index) => Marker(
           markerId: MarkerId('bus$index'),
-          position: LatLng(this.allLocationData[index]['lat'],
-              this.allLocationData[index]['long'])),
+          position: LatLng(allLocationData[index]['lat'],
+              allLocationData[index]['long'])),
     );
-    this.markers = ObservableList<Marker>.of(l);
+    markers = ObservableList<Marker>.of(l);
   }
 
   @action
-  void change_centre_zoom(double lat, double long) {
-    this.myPos = LatLng(lat, long);
+  void changeCenterZoom(double lat, double long) {
+    myPos = LatLng(lat, long);
   }
 
   @action
   void setUserLatLng(double lat, double long) {
-    this.userlat = lat;
-    this.userlong = long;
+    userlat = lat;
+    userlong = long;
   }
 
   @action
   void selectedCarousel(int i) {
-    this.selectedCarouselIndex = i;
+    selectedCarouselIndex = i;
     String name = 'busicon';
     if(indexBusesorFerry == 1)
       {
         name = 'ferry_marker';
       }
-    getBytesFromAsset('assets/images/${name}.png', 100).then((d) {
+    getBytesFromAsset('assets/images/$name.png', 100).then((d) {
       List<Marker> l = [];
       l.add(Marker(
           icon: BitmapDescriptor.fromBytes(d),
           markerId: MarkerId('bus$i'),
           position: LatLng(allLocationData[i]['lat'],
               allLocationData[i]['long'])));
-      this.markers = ObservableList<Marker>.of(l);
+      markers = ObservableList<Marker>.of(l);
     });
   }
 
   @action
   void checkTravelPage(bool i) {
-    this.isTravelPage = i;
+    isTravelPage = i;
   }
 
   @action
   Future<void> getPolylines(int i) async {
-    print("Call API for timetable ${loadOperation.status}");
+
     loadOperation = APIService.getPolyline(
-            source: LatLng(this.userlat, this.userlong),
-            dest: LatLng(26.2027, 91.7004))
+            source: LatLng(userlat, userlong),
+            dest: const LatLng(26.2027, 91.7004))
         .asObservable();
-    print(loadOperation.value);
+
   }
 
   @computed
   List<Map<String,dynamic>> get allLocationData {
     List<Map<String, dynamic>> dataMap = [];
-    switch (this.indexBusesorFerry) {
+    switch (indexBusesorFerry) {
       case 0:
         dataMap = busStopsData;
         break;
@@ -136,21 +136,21 @@ abstract class _MapBoxStore with Store {
 
   @computed
   LatLng get selectedCarouselLatLng {
-    var dataMap = this.allLocationData;
+    var dataMap = allLocationData;
     return LatLng(dataMap[selectedCarouselIndex]['lat'],
         dataMap[selectedCarouselIndex]['long']);
   }
 
   @computed
   LatLng get userLatLng {
-    return LatLng(this.userlat,this.userlong);
+    return LatLng(userlat,userlong);
   }
 
   @computed
   List<Widget> get carouselCards {
     int carouselLength = 0;
     List<Map<String, dynamic>> dataMap;
-    switch (this.indexBusesorFerry) {
+    switch (indexBusesorFerry) {
       case 0:
         carouselLength = busStopsData.length;
         dataMap = busStopsData;
@@ -198,7 +198,7 @@ abstract class _MapBoxStore with Store {
     double northEastLatitude = maxy;
     double northEastLongitude = maxx;
 
-    this.mapController?.animateCamera(
+    mapController?.animateCamera(
           CameraUpdate.newLatLngBounds(
             LatLngBounds(
               northeast: LatLng(northEastLatitude, northEastLongitude),
@@ -244,8 +244,8 @@ abstract class _MapBoxStore with Store {
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
     Position pos = await Geolocator.getCurrentPosition();
-    this.userlat = pos.latitude;
-    this.userlong = pos.longitude;
+    userlat = pos.latitude;
+    userlong = pos.longitude;
     return LatLng(pos.latitude, pos.longitude);
   }
 

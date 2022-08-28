@@ -70,6 +70,7 @@ class LoginStore {
     SharedPreferences user = await SharedPreferences.getInstance();
     user.clear();
     userData.clear();
+
     Navigator.of(context)
         .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
   }

@@ -10,20 +10,19 @@ import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 import 'call_map_button.dart';
 
 class RestaurantTile extends StatelessWidget {
-  RestaurantTile({Key? key, required this.restaurant_model}) : super(key: key);
+  const RestaurantTile({Key? key, required this.restaurantModel}) : super(key: key);
 
-  final RestaurantModel restaurant_model;
+  final RestaurantModel restaurantModel;
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        context.read<RestaurantStore>().setSelectedRestaurant(restaurant_model);
+        context.read<RestaurantStore>().setSelectedRestaurant(restaurantModel);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const RestaurantPage()));
       },
@@ -39,15 +38,15 @@ class RestaurantTile extends StatelessWidget {
             child: Row(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(23),
                       bottomLeft: Radius.circular(23)),
-                  child: Container(
+                  child: SizedBox(
                     width: imageWidth,
                     height: double.infinity,
                     child: AspectRatio(
                       aspectRatio: 1,
-                      child: Image.network(restaurant_model.image,
+                      child: Image.network(restaurantModel.image,
                           fit: BoxFit.cover,
                           errorBuilder:
                               (BuildContext context, Object exception,
@@ -65,59 +64,59 @@ class RestaurantTile extends StatelessWidget {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          restaurant_model.name,
+                          restaurantModel.name,
                           textAlign: TextAlign.left,
                           style: MyFonts.w600.size(16).setColor(kWhite),
                         ),
                         Text(
-                          restaurant_model.caption,
+                          restaurantModel.caption,
                           style: MyFonts.w400.size(14).setColor(kFontGrey),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Text(
-                          'Waiting time: ${restaurant_model.waiting_time}',
+                          'Waiting time: ${restaurantModel.waiting_time}',
                           style: MyFonts.w500.size(11).setColor(kTabText),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 1,
                         ),
                         Text(
-                          'Closes at ${restaurant_model.closing_time}',
+                          'Closes at ${restaurantModel.closing_time}',
                           style: MyFonts.w500.size(11).setColor(lRed2),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Row(
                           children: [
-                            Call_MapButton(
-                              Call_Map: 'Call',
+                            CallMapButton(
+                              callMap: 'Call',
                               icon: FluentIcons.call_20_regular,
                               callback: () {
-                                launchPhoneURL(restaurant_model.phone_number);
+                                launchPhoneURL(restaurantModel.phone_number);
                               },
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 4,
                             ),
-                            Call_MapButton(
-                              Call_Map: 'Map',
+                            CallMapButton(
+                              callMap: 'Map',
                               icon: FluentIcons.location_24_regular,
                               callback: () {
-                                openMap(restaurant_model.latitude,
-                                    restaurant_model.longitude);
+                                openMap(restaurantModel.latitude,
+                                    restaurantModel.longitude);
                               },
                             ),
                             Expanded(child: Container()),
                             Text(
-                              getRestaurantDistance(context, restaurant_model),
+                              getRestaurantDistance(context, restaurantModel),
                               style: MyFonts.w500.size(11).setColor(kWhite),
                             ),
                             Expanded(child: Container()),
