@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -8,14 +9,14 @@ enum ContactType { call, email }
 class ContactButton extends StatelessWidget {
   final ContactType type;
   final String data;
-  ContactButton({Key? key, required this.type, required this.data})
+  const ContactButton({Key? key, required this.type, required this.data})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       child: ClipRRect(
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(40),
         ),
         child: Container(
@@ -27,11 +28,11 @@ class ContactButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               (type == ContactType.email)
-                  ? Icon(
+                  ? const Icon(
                       Icons.email,
                       color: kWhite,
                     )
-                  : Icon(
+                  : const Icon(
                       Icons.call,
                       color: kWhite,
                     ),
@@ -53,8 +54,10 @@ class ContactButton extends StatelessWidget {
           } else {
             await launchPhoneURL(data);
           }
-        } catch (_e) {
-          print(_e);
+        } catch (e) {
+          if (kDebugMode) {
+            print(e);
+          }
         }
       },
     );

@@ -17,7 +17,7 @@ String parseHtmlString(String htmlString) {
   String parsedString = "";
   for (var element in elements) {
     if (parsedString != "") {
-      parsedString = parsedString + " " + element.text;
+      parsedString = "$parsedString ${element.text}";
     } else {
       parsedString = element.text;
     }
@@ -51,10 +51,10 @@ class _BlogState extends State<Blogs> {
       "https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.cyberark.com%2Fwp-content%2Fuploads%2F2019%2F11%2FDeveloper.jpg&imgrefurl=https%3A%2F%2Fwww.cyberark.com%2Fresources%2Fblog%2Fsecure-developer-workstations-without-slowing-them-down&tbnid=fJMc6OspVdPfgM&vet=12ahUKEwivmoytyOb1AhXlZWwGHZAPBZkQMygAegUIARDTAQ..i&docid=X2dX4HlN_niOsM&w=943&h=536&q=developer&ved=2ahUKEwivmoytyOb1AhXlZWwGHZAPBZkQMygAegUIARDTAQ";
 
   // Get the Medium RSSFeed data
-  Future<RssFeed?> getMediumRSSFeedData(MEDIUM_PROFILE_RSS_FEED_URL) async {
+  Future<RssFeed?> getMediumRSSFeedData(MEDIUMPROFILERSSFEEDURL) async {
     try {
       final client = http.Client();
-      final response = await client.get(Uri.parse(MEDIUM_PROFILE_RSS_FEED_URL));
+      final response = await client.get(Uri.parse(MEDIUMPROFILERSSFEEDURL));
       return RssFeed.parse(response.body);
     } catch (error) {
       print(error);
@@ -99,7 +99,6 @@ class _BlogState extends State<Blogs> {
                 int p = imagelink.length;
                 String imagelink2 = imagelink.substring(1, p - 2);
 
-                // print(imagelink2);
                 String pdate = x.pubDate.toString();
                 MediumArticle res = MediumArticle(
                     title: x.title!,
@@ -139,7 +138,10 @@ class _BlogState extends State<Blogs> {
   Widget _getLoadingIndicator() {
     return Expanded(
       child: Shimmer.fromColors(
-          child: Container(
+          period: const Duration(seconds: 1),
+          baseColor: kHomeTile,
+          highlightColor: lGrey,
+          child: SizedBox(
             height: 400,
             child: ListView.builder(
               itemCount: 8,
@@ -157,24 +159,21 @@ class _BlogState extends State<Blogs> {
                     //   thickness: 1.5,
                     //   color: kTabBar,
                     // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-          period: Duration(seconds: 1),
-          baseColor: kHomeTile,
-          highlightColor: lGrey),
+          )),
     );
   }
 
   Widget _PageState(String title) {
     while (title == "notnull") {
       return Container(
-        padding: EdgeInsets.fromLTRB(0, 5, 0, 16),
+        padding: const EdgeInsets.fromLTRB(0, 5, 0, 16),
         color: Colors.black.withOpacity(0.8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -207,7 +206,7 @@ class _BlogState extends State<Blogs> {
             children: [
               // CachedNetworkImage(imageUrl: _mediumArticles[index].image),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -217,7 +216,7 @@ class _BlogState extends State<Blogs> {
                           .toString()
                           .split("|")[0]
                           .trim(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -228,12 +227,12 @@ class _BlogState extends State<Blogs> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 4.0,
                     ),
                     Text(
                       _mediumArticles[index].content,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
@@ -244,7 +243,7 @@ class _BlogState extends State<Blogs> {
                       maxLines: 5,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 4.0,
                     ),
                     Padding(
@@ -258,13 +257,13 @@ class _BlogState extends State<Blogs> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(30),
                               child: FittedBox(
+                                fit: BoxFit.cover,
                                 child:
                                     Image.network(_mediumArticles[index].image),
-                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           Expanded(
@@ -279,7 +278,7 @@ class _BlogState extends State<Blogs> {
                   ],
                 ),
               ),
-              Divider(
+              const Divider(
                 thickness: 1.5,
                 color: kTabBar,
               ),
@@ -307,7 +306,7 @@ class _BlogState extends State<Blogs> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              icon: Icon(Icons.close)),
+              icon: const Icon(Icons.close)),
         ],
       ),
       body: _PageState(title),

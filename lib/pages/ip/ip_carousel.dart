@@ -30,7 +30,7 @@ class RouterPage extends StatefulWidget {
 class _RouterPageState extends State<RouterPage> {
   int page = 1;
   Widget seven = Column();
-  CarouselController _buttonCarouselController = CarouselController();
+  CarouselController buttonCarouselController = CarouselController();
   TextEditingController roomController = TextEditingController();
   TextEditingController blockController = TextEditingController();
   TextEditingController floorController = TextEditingController();
@@ -70,8 +70,8 @@ class _RouterPageState extends State<RouterPage> {
 
   @override
   Widget build(BuildContext context) {
-    double HEIGHT = MediaQuery.of(context).size.height;
-    double WIDTH = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 55,
@@ -87,7 +87,7 @@ class _RouterPageState extends State<RouterPage> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              icon: Icon(IconData(0xe16a, fontFamily: 'MaterialIcons')))
+              icon: const Icon(IconData(0xe16a, fontFamily: 'MaterialIcons')))
         ],
       ),
       body: GestureDetector(
@@ -108,13 +108,13 @@ class _RouterPageState extends State<RouterPage> {
               Container(
                 alignment: Alignment.topCenter,
                 height: 520,
-                width: WIDTH * 0.95,
+                width: width * 0.95,
                 decoration: BoxDecoration(
                     color: kAppBarGrey,
                     border: Border.all(),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                    borderRadius: const BorderRadius.all( Radius.circular(20))),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(16, 24, 16, 0),
+                  padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                   child: Column(
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     //mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -142,7 +142,7 @@ class _RouterPageState extends State<RouterPage> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Text(
@@ -150,7 +150,7 @@ class _RouterPageState extends State<RouterPage> {
                                     style:
                                         MyFonts.w400.size(14).setColor(kGrey6),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   (i == 6)
@@ -158,7 +158,7 @@ class _RouterPageState extends State<RouterPage> {
                                           key: _keyform,
                                           child: Column(
                                             children: [
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 15,
                                               ),
                                               Theme(
@@ -172,7 +172,7 @@ class _RouterPageState extends State<RouterPage> {
                                                         DropdownButtonFormField<
                                                             String>(
                                                       value: dropdownValue,
-                                                      icon: Icon(Icons
+                                                      icon: const Icon(Icons
                                                           .arrow_drop_down),
                                                       style: MyFonts.w500
                                                           .size(16)
@@ -207,7 +207,7 @@ class _RouterPageState extends State<RouterPage> {
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(height: 10),
+                                              const SizedBox(height: 10),
                                               IpField(
                                                 texta:
                                                     "Remember your room number correctly",
@@ -215,7 +215,7 @@ class _RouterPageState extends State<RouterPage> {
                                                 hostel: hostel,
                                                 control: roomController,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 10,
                                               ),
                                               IpField(
@@ -225,7 +225,7 @@ class _RouterPageState extends State<RouterPage> {
                                                 hostel: hostel,
                                                 control: blockController,
                                               ),
-                                              SizedBox(height: 10),
+                                              const SizedBox(height: 10),
                                               IpField(
                                                 texta:
                                                     "remember your floor number correctly",
@@ -256,18 +256,16 @@ class _RouterPageState extends State<RouterPage> {
                                                   )
                                                   : (i != 8)
                                                       ? Image.asset(
-                                                          'assets/images/lan' +
-                                                              i.toString() +
-                                                              '.png')
+                                                          'assets/images/lan$i.png')
                                                       : SizedBox(
-                                                          height: HEIGHT * 0,
+                                                          height: height * 0,
                                                         )
                                 ],
                               );
                             },
                           );
                         }).toList(),
-                        carouselController: _buttonCarouselController,
+                        carouselController: buttonCarouselController,
                         options: CarouselOptions(
                             onPageChanged: (index, reason) {
                               setState(() {
@@ -279,7 +277,7 @@ class _RouterPageState extends State<RouterPage> {
                             viewportFraction: 0.95,
                             height: 445,
                             initialPage: 0,
-                            scrollPhysics: NeverScrollableScrollPhysics()),
+                            scrollPhysics: const NeverScrollableScrollPhysics()),
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,8 +291,8 @@ class _RouterPageState extends State<RouterPage> {
                                     seven = Column();
                                   });
                                 }
-                                await _buttonCarouselController.previousPage(
-                                    duration: Duration(milliseconds: 300),
+                                await buttonCarouselController.previousPage(
+                                    duration: const Duration(milliseconds: 300),
                                     curve: Curves.linear);
                               }
                             },
@@ -306,16 +304,16 @@ class _RouterPageState extends State<RouterPage> {
                           IconButton(
                             onPressed: () async {
                               if (page < 8 && page != 6) {
-                                await _buttonCarouselController.nextPage(
-                                    duration: Duration(milliseconds: 300),
+                                await buttonCarouselController.nextPage(
+                                    duration: const Duration(milliseconds: 300),
                                     curve: Curves.linear);
                               } else if (page == 6) {
                                 if (dropdownValue != 'Select Hostel') {
                                   if (_keyform.currentState!.validate()) {
                                     function(hostel);
                                     fg = false;
-                                    await _buttonCarouselController.nextPage(
-                                        duration: Duration(milliseconds: 300),
+                                    await buttonCarouselController.nextPage(
+                                        duration: const Duration(milliseconds: 300),
                                         curve: Curves.linear);
                                   }
                                 }
@@ -332,7 +330,7 @@ class _RouterPageState extends State<RouterPage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
             ],

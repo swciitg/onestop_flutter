@@ -42,7 +42,7 @@ class DateCourse extends StatelessWidget {
                   ),
                 ),
                 Expanded(flex: 36, child: classes[0]),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 ArrowButton(
@@ -54,7 +54,7 @@ class DateCourse extends StatelessWidget {
           ],
         );
       }
-      return HomeTimetableShimmer();
+      return const HomeTimetableShimmer();
     });
   }
 }
@@ -71,24 +71,24 @@ class TimetableRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       return AnimatedExpand(
+        expand: context.read<TimetableStore>().showDropDown,
         child: Column(
           children: classes
               .map((e) => Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         flex: 10,
                         child: SizedBox(),
                       ),
                       Expanded(flex: 36, child: e),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
-                      Expanded(flex: 7, child: SizedBox()),
+                      const Expanded(flex: 7, child: SizedBox()),
                     ],
                   ))
               .toList(),
         ),
-        expand: context.read<TimetableStore>().showDropDown,
       );
       //return SizedBox();
     });
@@ -110,20 +110,20 @@ class ArrowButton extends StatelessWidget {
               },
               child: Container(
                 height: 85,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: kTimetableGreen,
+                ),
                 child: Icon(
                   (!context.read<TimetableStore>().showDropDown)
                       ? Icons.keyboard_arrow_down_sharp
                       : Icons.keyboard_arrow_up_sharp,
                   color: Colors.green.shade800,
                 ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: kTimetableGreen,
-                ),
               ),
             ));
       });
     }
-    return SizedBox();
+    return const SizedBox();
   }
 }

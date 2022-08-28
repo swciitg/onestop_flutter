@@ -49,13 +49,13 @@ class MessMenu extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: const [
                         MessMeal(mealName: "Breakfast"),
                         MessMeal(mealName: "Lunch"),
                         MessMeal(mealName: "Dinner")
                       ],
                     )),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Observer(builder: (context) {
@@ -100,11 +100,11 @@ class MessMenu extends StatelessWidget {
                                           )
                                           .toList();
                                     },
-                                    offset: Offset(1, 40),
+                                    offset: const Offset(1, 40),
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           vertical: 7.0, horizontal: 12.0),
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                           color: kGrey2,
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(20))),
@@ -147,13 +147,13 @@ class MessMenu extends StatelessWidget {
                                           )
                                           .toList();
                                     },
-                                    offset: Offset(1, 40),
+                                    offset: const Offset(1, 40),
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           vertical: 6.0, horizontal: 12.0),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: lBlue),
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                               Radius.circular(20))),
                                       child: Row(
                                         mainAxisAlignment:
@@ -176,7 +176,7 @@ class MessMenu extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(),
+                                const SizedBox(),
                               ],
                             ),
                           )

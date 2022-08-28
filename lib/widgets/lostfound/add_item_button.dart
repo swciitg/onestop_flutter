@@ -34,21 +34,21 @@ class AddItemButton extends StatelessWidget {
                 builder: (BuildContext context) {
                   return AlertDialog(
                       title:
-                      Text("From where do you want to take the photo?"),
+                      const Text("From where do you want to take the photo?"),
                       content: SingleChildScrollView(
                         child: ListBody(
                           children: <Widget>[
                             GestureDetector(
-                              child: Text("Gallery"),
+                              child: const Text("Gallery"),
                               onTap: () async {
                                 xFile = await ImagePicker()
                                     .pickImage(source: ImageSource.gallery);
                                 Navigator.of(context).pop();
                               },
                             ),
-                            Padding(padding: EdgeInsets.all(8.0)),
+                            const Padding(padding: EdgeInsets.all(8.0)),
                             GestureDetector(
-                              child: Text("Camera"),
+                              child: const Text("Camera"),
                               onTap: () async {
                                 xFile = await ImagePicker()
                                     .pickImage(source: ImageSource.camera);
@@ -113,7 +113,7 @@ class AddItemButton extends StatelessWidget {
             }
           },
           child: Container(
-            margin: EdgeInsets.only(bottom: 18),
+            margin: const EdgeInsets.only(bottom: 18),
             decoration: BoxDecoration(
               color: lBlue2,
               borderRadius: BorderRadius.circular(12),
@@ -122,9 +122,9 @@ class AddItemButton extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
+                const Padding(
                   padding:
-                  const EdgeInsets.only(top: 17, bottom: 20, left: 20),
+                  EdgeInsets.only(top: 17, bottom: 20, left: 20),
                   child: Icon(
                     Icons.add,
                     size: 30,

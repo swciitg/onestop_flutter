@@ -5,14 +5,14 @@ import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
 import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 class LostFoundLocationForm extends StatefulWidget {
   final String imageString;
-  LostFoundLocationForm({Key? key,required this.imageString}) : super(key: key);
+  const LostFoundLocationForm({Key? key,required this.imageString}) : super(key: key);
 
   @override
   State<LostFoundLocationForm> createState() => _LostFoundLocationFormState();
 }
 
 class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
-  String? selectedLocation=null;
+  String? selectedLocation;
   bool checkBox=false;
   String? selectedDropdown;
   List<String> libraries = ["Library","Central library"];
@@ -34,7 +34,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProgressBar(blue: 2, grey: 1),
+            const ProgressBar(blue: 2, grey: 1),
             Container(
               margin: const EdgeInsets.only(top: 40,left: 16,right: 16,bottom: 15),
               child: Text(
@@ -43,9 +43,9 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
               ),
             ),
             ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 50),
+              constraints: const BoxConstraints(maxHeight: 50),
               child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 12),
+                  margin: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
                       color: kBlueGrey,
                       borderRadius: BorderRadius.circular(25)
@@ -93,12 +93,12 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                   data: Theme.of(context).copyWith(
                       canvasColor: kBlueGrey),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12,vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 5),
                     child: DropdownButtonFormField<
                         String>(
 
                       value: selectedDropdown=="Library" ? selectedLocation : "Library",
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.keyboard_arrow_down_outlined,
                         color: kWhite,
                       ),
@@ -135,11 +135,11 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                   data: Theme.of(context).copyWith(
                       canvasColor: kBlueGrey),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12,vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 5),
                     child: DropdownButtonFormField<
                         String>(
                       value: selectedDropdown=="Hostel" ? selectedLocation : "Hostel",
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.keyboard_arrow_down_outlined,
                         color: kWhite,
                       ),
@@ -174,11 +174,11 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                   data: Theme.of(context).copyWith(
                       canvasColor: kBlueGrey),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12,vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 5),
                     child: DropdownButtonFormField<
                         String>(
                       value: selectedDropdown=="SAC" ? selectedLocation : "SAC",
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.keyboard_arrow_down_outlined,
                         color: kWhite,
                       ),
@@ -213,11 +213,11 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                   data: Theme.of(context).copyWith(
                       canvasColor: kBlueGrey),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12,vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 5),
                     child: DropdownButtonFormField<
                         String>(
                       value: selectedDropdown=="Core" ? selectedLocation : "Core",
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.keyboard_arrow_down_outlined,
                         color: kWhite,
                       ),
@@ -264,7 +264,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
           }
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuySellForm(category: "Found",imageString: widget.imageString, submittedAt: selectedLocation,)));
         },
-        child: NewPageButton(title: "Next",),
+        child: const NewPageButton(title: "Next",),
       ),
     );
   }
@@ -276,11 +276,11 @@ decfunction(String x) {
     labelStyle: MyFonts.w500.setColor(kGrey7),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(25.0),
-      borderSide: BorderSide(color: kGrey2, width: 1),
+      borderSide: const BorderSide(color: kGrey2, width: 1),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(25.0),
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: kGrey2,
         width: 1,
       ),

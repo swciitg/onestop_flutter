@@ -38,7 +38,7 @@ class FoodSearchBar extends StatelessWidget {
             borderRadius: BorderRadius.circular(100),
           ),
           filled: true,
-          prefixIcon: Icon(
+          prefixIcon: const Icon(
             Icons.search,
             color: kWhite,
           ),

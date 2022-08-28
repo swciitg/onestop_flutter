@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: new ThemeData(
+        theme: ThemeData(
             scaffoldBackgroundColor: kBackground,
             splashColor: Colors.transparent),
         title: 'OneStop 2.0',

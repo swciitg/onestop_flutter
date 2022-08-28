@@ -11,7 +11,7 @@ import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
 class ContactSearchBar extends StatelessWidget {
-  ContactSearchBar({
+  const ContactSearchBar({
     Key? key,
   }) : super(key: key);
 
@@ -30,7 +30,7 @@ class ContactSearchBar extends StatelessWidget {
                     context: context,
                     delegate: PeopleSearch(
                         contactStore: contactStore,
-                        people_search: snapshot.data!));
+                        poepleSearch: snapshot.data!));
               },
               child: TextField(
                 enabled: false,
@@ -42,10 +42,10 @@ class ContactSearchBar extends StatelessWidget {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(100.0),
-                      borderSide: BorderSide(color: kBlueGrey, width: 1),
+                      borderSide: const BorderSide(color: kBlueGrey, width: 1),
                     ),
                     filled: true,
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.search,
                       color: kWhite,
                       size: 12,
@@ -68,11 +68,11 @@ class ContactSearchBar extends StatelessWidget {
 }
 
 class PeopleSearch extends SearchDelegate<String> {
-  PeopleSearch({required this.people_search, required this.contactStore}) {
-    people = people_search.keys.toList();
+  PeopleSearch({required this.poepleSearch, required this.contactStore}) {
+    people = poepleSearch.keys.toList();
   }
 
-  late final SplayTreeMap<String, ContactModel> people_search;
+  late final SplayTreeMap<String, ContactModel> poepleSearch;
   late final List<String> people;
   var x;
   late ContactStore contactStore;
@@ -83,12 +83,12 @@ class PeopleSearch extends SearchDelegate<String> {
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
-      scaffoldBackgroundColor: Color.fromRGBO(27, 27, 29, 1),
+      scaffoldBackgroundColor: const Color.fromRGBO(27, 27, 29, 1),
       hintColor: kGrey2,
       textTheme: TextTheme(
         headline6: MyFonts.w600.setColor(kWhite).size(13),
       ),
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         color: kBlueGrey,
       ),
     );
@@ -97,7 +97,7 @@ class PeopleSearch extends SearchDelegate<String> {
   @override
   List<Widget> buildActions(BuildContext context) => [
         IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.clear,
             color: kWhite,
           ),
@@ -114,7 +114,7 @@ class PeopleSearch extends SearchDelegate<String> {
 
   @override
   Widget buildLeading(BuildContext context) => IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back,
           color: kWhite,
         ),
@@ -161,13 +161,13 @@ class PeopleSearch extends SearchDelegate<String> {
                     value: contactStore,
                     child: ContactDetailsPage(
                       title: 'Campus',
-                      contact: people_search[query],
+                      contact: poepleSearch[query],
                     ),
                   ),
                 ),
               );
             },
-            leading: Icon(
+            leading: const Icon(
               Icons.people,
               color: kWhite,
             ),

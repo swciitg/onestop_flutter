@@ -45,7 +45,7 @@ class RestaurantPage extends StatelessWidget {
                       children: foodList,
                     );
                   } else if (snapshot.hasError) {
-                    print(snapshot.error);
+
                     return Center(
                         child: Text(
                       "An error occurred",
@@ -66,5 +66,5 @@ class RestaurantPage extends StatelessWidget {
 }
 
 Future<List<DishModel>> getMenu(RestaurantModel restaurantModel) async {
-  return await restaurantModel.menu;
+  return restaurantModel.menu;
 }

@@ -12,7 +12,7 @@ import 'details_dialog.dart';
 class MyAdsTile extends StatefulWidget {
   final BuyModel model;
 
-  MyAdsTile({
+  const MyAdsTile({
     Key? key,
     required this.model,
   }) : super(key: key);
@@ -37,7 +37,7 @@ class _MyAdsTile extends State<MyAdsTile> {
               });
             },
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+              padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
               child: Container(
                 height: 115,
                 decoration: BoxDecoration(
@@ -115,7 +115,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                     Expanded(
                       flex: 4,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(21),
                             bottomRight: Radius.circular(21)),
                         child: Opacity(
@@ -135,7 +135,7 @@ class _MyAdsTile extends State<MyAdsTile> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(52.0, 19.0, 15.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(52.0, 19.0, 15.0, 0.0),
             child: Container(
               height: 33,
               decoration: BoxDecoration(
@@ -148,8 +148,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                   style: MyFonts.w400.size(14).setColor(kBlack),
                 ),
                 onPressed: () async {
-                  print('delete pressed');
-                  print('awaiting post request');
+
                   await http.post(
                       Uri.parse("https://swc.iitg.ac.in/onestopapi/buy/remove"),
                       headers: {'Content-Type': 'application/json'},
@@ -160,11 +159,10 @@ class _MyAdsTile extends State<MyAdsTile> {
                       headers: {'Content-Type': 'application/json'},
                       body: jsonEncode({'id': widget.model.id,'email': widget.model.email})
                   );
-                  print('post request complete');
+
                   Navigator.of(context).pop();
                 },
                 onFocusChange: (change) {
-                  print(!change);
                   setState(() {
                    // TileSate = AdsTileState(context, widget.model, !change);
                   });
@@ -180,7 +178,7 @@ class _MyAdsTile extends State<MyAdsTile> {
           detailsDialogBox(context, widget.model);
         },
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
           child: Container(
             height: 115,
             decoration: BoxDecoration(
@@ -212,7 +210,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                                       isOverlay = true;
                                     });
                                   },
-                                  child: Icon(
+                                  child: const Icon(
                                     FluentIcons.more_vertical_28_filled,
                                     size: 15,
                                     color: kWhite,
@@ -256,7 +254,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                 Expanded(
                   flex: 4,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(21),
                         bottomRight: Radius.circular(21)),
                     child: Image.network(widget.model.imageURL, fit: BoxFit.cover),
@@ -267,6 +265,6 @@ class _MyAdsTile extends State<MyAdsTile> {
           ),
         ),
       );
-    };
+    }
   }
 }

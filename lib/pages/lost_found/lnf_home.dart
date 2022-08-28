@@ -30,23 +30,23 @@ class _LostFoundHomeState extends State<LostFoundHome> {
   }
 
   Future<List> getLostItems() async {
-    print("before");
+
     var res =
         await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/lost'));
-    print("after");
+
     var lostItemsDetails = jsonDecode(res.body);
-    print("decoded json");
+
     return lostItemsDetails["details"];
   }
 
   Future<List> getFoundItems() async {
-    print("before");
+
     var res =
         await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/found'));
-    print("after");
+
 
     var foundItemsDetails = jsonDecode(res.body);
-    print("decoded json");
+
     return foundItemsDetails["details"];
   }
 
@@ -82,24 +82,27 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               return FutureBuilder<List>(
                 future: getFoundItems(),
                 builder: (context, foundsSnapshot) {
-                  print(foundsSnapshot.data);
+
                   if (foundsSnapshot.hasData) {
                     List<Widget> lostItems = [];
                     List<Widget> foundItems = [];
-                    lostsSnapshot.data!.forEach((e) => {
-                          print("here"),
-                          print(e["username"]),
+                    for (var e in lostsSnapshot.data!) {
+                      {
+
                           lostItems.add(LostItemTile(
-                              currentLostModel: LostModel.fromJson(e)))
-                        });
-                    print("here 2");
-                    foundsSnapshot.data!.forEach((e) => {
+                              currentLostModel: LostModel.fromJson(e)));
+                        }
+                    }
+
+                    for (var e in foundsSnapshot.data!) {
+                      {
                           foundItems.add(FoundItemTile(
                             parentContext: context,
                             currentFoundModel: FoundModel.fromJson(e),
-                          ))
-                        });
-                    print("here 3");
+                          ));
+                        }
+                    }
+
                     return StreamBuilder(
                       stream: typeStream,
                       initialData: "Lost",
@@ -128,7 +131,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                             Expanded(
                                 child: (!snapshot.hasData ||
                                         snapshot.data! == "Lost")
-                                    ? (lostItems.length == 0
+                                    ? (lostItems.isEmpty
                                         ? Center(
                                             child: Text(
                                               "No Lost Items",
@@ -140,7 +143,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                                         : ListView(
                                             children: lostItems,
                                           ))
-                                    : (foundItems.length == 0
+                                    : (foundItems.isEmpty
                                         ? Center(
                                             child: Text(
                                               "No found Items as of now :)",

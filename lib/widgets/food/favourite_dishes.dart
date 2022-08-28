@@ -22,14 +22,14 @@ class FavoriteDishes extends StatelessWidget {
           // ((constraints.maxWidth)/4 - 65)/2
           // Since col width is Flex, each cell is maxWidth/4
           Padding(
-            padding: EdgeInsets.fromLTRB(16, 12, 0, 8),
+            padding: const EdgeInsets.fromLTRB(16, 12, 0, 8),
             child: Text(
               'Your Favourite Dishes',
               style: MyFonts.w600.size(14).setColor(kWhite),
             ),
           ),
           Table(
-            defaultColumnWidth: FlexColumnWidth(),
+            defaultColumnWidth: const FlexColumnWidth(),
             children: [
               TableRow(
                 children: [
@@ -71,7 +71,7 @@ class FavoriteDishes extends StatelessWidget {
                   ),
                 ],
               ),
-              TableRow(children: [
+              const TableRow(children: [
                 SizedBox(
                   height: 8,
                 ),

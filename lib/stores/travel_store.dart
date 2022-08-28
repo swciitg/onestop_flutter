@@ -71,32 +71,32 @@ abstract class _TravelStore with Store {
   @computed
   Widget get busPage {
     if (!isBusSelected) {
-      return BusStopList();
+      return const BusStopList();
     }
     return BusDetails(index: busDayTypeIndex);
   }
 
   @action
   void selectBusButton() {
-    this.selectBusesorStops = 1;
+    selectBusesorStops = 1;
   }
 
   @action
   void selectStopButton() {
-    this.selectBusesorStops = 0;
+    selectBusesorStops = 0;
   }
 
   @computed
-  bool get isBusSelected => this.selectBusesorStops == 1;
+  bool get isBusSelected => selectBusesorStops == 1;
 
   @action
   void setBusDayString(String s) {
-    this.busDayType = s;
+    busDayType = s;
   }
 
   @action
   void setFerryGhat (String s) {
-    this.selectedFerryGhat = s;
+    selectedFerryGhat = s;
   }
 
 

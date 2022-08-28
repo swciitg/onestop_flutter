@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:onestop_dev/functions/timetable/time_range.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_dev/widgets/mapbox/map_box.dart';
@@ -26,17 +25,17 @@ class _TravelPageState extends State<TravelPage> {
       return SingleChildScrollView(
         child: Column(
           children: [
-            MapBox(),
-            SizedBox(
+            const MapBox(),
+            const SizedBox(
               height: 10,
             ),
-            NextTimeCard(),
-            SizedBox(height: 10,),
+            const NextTimeCard(),
+            const SizedBox(height: 10,),
             Provider<TravelStore>(create: (_) => TravelStore(), builder: (context, _) {
               return Observer(builder: (context) {
                 return (map_store.indexBusesorFerry == 0)
-                    ? StopsBusDetails()
-                    : FerryDetails();
+                    ? const StopsBusDetails()
+                    : const FerryDetails();
               });
             },)
           ],

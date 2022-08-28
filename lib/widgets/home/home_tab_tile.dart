@@ -3,7 +3,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
 class HomeTabTile extends StatelessWidget {
-  HomeTabTile({Key? key, required this.label, required this.icon, this.routeId})
+  const HomeTabTile({Key? key, required this.label, required this.icon, this.routeId})
       : super(key: key);
 
   final String label;
@@ -22,12 +22,12 @@ class HomeTabTile extends StatelessWidget {
             width: 150,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50), color: lGrey),
-            padding: EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(4.0),
             child: Column(
               // Replace with a Row for horizontal icon + text
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Expanded(

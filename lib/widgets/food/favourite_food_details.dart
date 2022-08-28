@@ -30,11 +30,11 @@ class FavouriteFoodDetails extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: FittedBox(
-                  child: img,
                   fit: BoxFit.cover,
+                  child: img,
                 ),
               )),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(foodName,
               style: MyFonts.w500.size(11).setColor(lBlue),
               textAlign: TextAlign.center),

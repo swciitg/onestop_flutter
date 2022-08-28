@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 class ItemTypeBar extends StatelessWidget {
-  final text;
+  final String text;
   final TextStyle textStyle;
   final Color backgroundColor;
   final EdgeInsets margin;
-  ItemTypeBar(
+  const ItemTypeBar(
       {Key? key,
         required this.text,
         required this.textStyle,
@@ -19,7 +19,7 @@ class ItemTypeBar extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
           color: backgroundColor, borderRadius: BorderRadius.circular(100)),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: Text(
         text,
         style: textStyle,

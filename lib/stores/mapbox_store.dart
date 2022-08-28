@@ -123,7 +123,7 @@ abstract class _MapBoxStore with Store {
     List<Map<String, dynamic>> dataMap = [];
     switch (this.indexBusesorFerry) {
       case 0:
-        dataMap = BusStops;
+        dataMap = busStopsData;
         break;
       case 1:
         dataMap = ferryGhats;
@@ -152,8 +152,8 @@ abstract class _MapBoxStore with Store {
     List<Map<String, dynamic>> dataMap;
     switch (this.indexBusesorFerry) {
       case 0:
-        carouselLength = BusStops.length;
-        dataMap = BusStops;
+        carouselLength = busStopsData.length;
+        dataMap = busStopsData;
         break;
       case 1:
         carouselLength = ferryGhats.length;

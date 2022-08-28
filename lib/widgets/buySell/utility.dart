@@ -23,9 +23,9 @@ Future<List> getMyItems(mail) async {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': mail}));
 
-  var MyItemsDetails = jsonDecode(res.body);
-  //print([...MyItemsDetails["details"]["sellList"],...MyItemsDetails["details"]["buyList"]].length);
-  return [...MyItemsDetails["details"]["sellList"],...MyItemsDetails["details"]["buyList"]];
+  var myItemsDetails = jsonDecode(res.body);
+  //print([...myItemsDetails["details"]["sellList"],...myItemsDetails["details"]["buyList"]].length);
+  return [...myItemsDetails["details"]["sellList"],...myItemsDetails["details"]["buyList"]];
 }
 
 Future<List> getItems(mail) async {
@@ -53,7 +53,7 @@ Widget selectList(dynamic snapshot, List<Widget> buyList, List<Widget> sellList,
   } else {
     finalList = myList;
   }
-  return (finalList.length == 0
+  return (finalList.isEmpty
       ? Center(
           child: Text(
             "No Items here as of now :)",

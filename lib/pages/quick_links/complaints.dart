@@ -17,7 +17,7 @@ class Complaints extends StatefulWidget {
 }
 
 class _Complaints extends State<Complaints> {
-  Completer<WebViewController> _controller = Completer<WebViewController>();
+  final Completer<WebViewController> _controller = Completer<WebViewController>();
   @override
   void initState() {
     super.initState();
@@ -71,7 +71,6 @@ class _Complaints extends State<Complaints> {
           _controller.complete(controller);
         },
         onWebResourceError: (context) {
-          print("Error web resource");
         },
       ),
     );

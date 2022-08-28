@@ -38,7 +38,7 @@ class Services extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
+                children: const [
                   SizedBox(
                     width: 5,
                   ),
@@ -62,7 +62,7 @@ class Services extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             )
           ],

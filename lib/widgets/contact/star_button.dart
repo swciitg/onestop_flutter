@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class StarButton extends StatefulWidget {
   final ContactDetailsModel contact;
-  StarButton({Key? key, required this.contact}) : super(key: key);
+  const StarButton({Key? key, required this.contact}) : super(key: key);
 
   @override
   State<StarButton> createState() => _StarButtonState();
@@ -25,9 +25,7 @@ class _StarButtonState extends State<StarButton> {
         .toList();
     if (starredContacts
             .where((element) => element.email == widget.contact.email)
-            .toList()
-            .length >
-        0) {
+            .toList().isNotEmpty) {
       return true;
     }
     return false;
@@ -36,7 +34,7 @@ class _StarButtonState extends State<StarButton> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: this.isStarred(),
+      future: isStarred(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           bool isAlreadyStarred = snapshot.data as bool;
@@ -57,7 +55,7 @@ class _StarButtonState extends State<StarButton> {
                 context
                     .read<ContactStore>()
                     .setStarredContacts(starredContacts);
-                if (starredContacts.length == 0) {
+                if (starredContacts.isEmpty) {
                   await LocalStorage.instance.deleteRecord("StarredContacts");
                 } else {
                   List<Map<String, dynamic>> starList =
@@ -67,7 +65,7 @@ class _StarButtonState extends State<StarButton> {
                 }
                 setState(() {});
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.star,
                 color: Colors.amber,
               ),
@@ -94,7 +92,7 @@ class _StarButtonState extends State<StarButton> {
                     .toList());
                 setState(() {});
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.star_outline,
                 color: kGrey,
               ),

@@ -20,7 +20,7 @@ class WelcomePage extends StatelessWidget {
               image: AssetImage('assets/images/bg_triangle.png'),
               fit: BoxFit.fill,
             )),
-            child: WelcomeHeader(),
+            child: const WelcomeHeader(),
           ),
         ),
         Expanded(

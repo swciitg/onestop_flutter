@@ -27,10 +27,10 @@ class ContactText extends StatelessWidget {
 }
 
 class ContactTextHeader extends StatelessWidget {
-  final text;
+  final String text;
   final width;
   final align;
-  const ContactTextHeader({Key? key, this.text, this.width, this.align})
+  const ContactTextHeader({Key? key, required this.text, this.width, this.align})
       : super(key: key);
 
   @override

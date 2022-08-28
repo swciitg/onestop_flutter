@@ -30,17 +30,17 @@ abstract class _MessStore with Store {
 
   @action
   void setDay(String s) {
-    this.selectedDay = s;
+    selectedDay = s;
   }
 
   @action
   void setMeal(String s) {
-    this.selectedMeal = s;
+    selectedMeal = s;
   }
 
   @action
   void setHostel(String s) {
-    this.selectedHostel = s;
+    selectedHostel = s;
   }
 
   @action

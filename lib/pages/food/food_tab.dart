@@ -21,11 +21,11 @@ class FoodTab extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           FoodSearchBar(),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Expanded(
@@ -33,22 +33,22 @@ class FoodTab extends StatelessWidget {
               child: Column(
                 children: [
                   MessMenu(),
-                  SizedBox(height: 16),
-                  FavoriteDishes(),
-                  SizedBox(
+                  const SizedBox(height: 16),
+                  const FavoriteDishes(),
+                  const SizedBox(
                     height: 16,
                   ),
-                  OutletsFilter(),
-                  SizedBox(
+                  const OutletsFilter(),
+                  const SizedBox(
                     height: 10,
                   ),
                   FutureBuilder<List<RestaurantModel>>(
                       future: DataProvider.getRestaurants(),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<RestaurantModel>> snapshot) {
-                        print(snapshot.hasData);
+
                         if (snapshot.hasData) {
-                          print("${snapshot.data}");
+
                           List<Widget> foodList = snapshot.data!
                               .map(
                                 (e) => RestaurantTile(
@@ -60,7 +60,6 @@ class FoodTab extends StatelessWidget {
                             children: foodList,
                           );
                         } else if (snapshot.hasError) {
-                          print(snapshot.error);
                           return Center(
                               child: Text(
                             "An error occurred",

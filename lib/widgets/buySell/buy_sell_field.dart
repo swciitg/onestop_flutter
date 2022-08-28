@@ -3,9 +3,9 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
 class InputField extends StatefulWidget {
-  final controller;
-  final type;
-  InputField({Key? key, this.controller, this.type}) : super(key: key);
+  final TextEditingController controller;
+  final String type;
+  const InputField({Key? key, required this.controller, required this.type}) : super(key: key);
 
   @override
   State<InputField> createState() => _InputFieldState();
@@ -15,7 +15,7 @@ class _InputFieldState extends State<InputField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       child: TextFormField(
         style: MyFonts.w500.size(15).setColor(kWhite),
         keyboardType: (widget.type == "Contact Number" ||
@@ -24,7 +24,7 @@ class _InputFieldState extends State<InputField> {
             : TextInputType.text,
         controller: widget.controller,
         decoration: InputDecoration(
-          hintText: widget.type + '*',
+          hintText: '${widget.type}*',
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           fillColor: kAppBarGrey,
           filled: true,
@@ -37,7 +37,7 @@ class _InputFieldState extends State<InputField> {
                       ? "/20"
                       : (widget.type == "Contact Number"
                           ? "/10"
-                          : (widget.type.toString().contains('Price') == "Price"
+                          : (widget.type.toString().contains('Price')
                               ? "/10"
                               : "/100"))),
         ),
@@ -52,14 +52,17 @@ class _InputFieldState extends State<InputField> {
                 : (widget.type.toString().contains('Price') ? 10 : 100)),
         validator: (value) {
           if (widget.type == "Contact Number") {
-            if (value == null || value == "")
+            if (value == null || value == "") {
               return "This field cannot be null";
-            if (value.trim().length != 10)
+            }
+            if (value.trim().length != 10) {
               return "The contact should have 10 digits";
+            }
             return null;
           } else {
-            if (value == null || value == "")
+            if (value == null || value == "") {
               return "This field cannot be null";
+            }
             return null;
           }
         },

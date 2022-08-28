@@ -62,10 +62,10 @@ class _IpPageState extends State<IpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        IpValues(text: 'Your details:'),
-        IpValues(text: 'Gateway: ' + gateway),
-        IpValues(text: 'Subnet: ' + subnet),
-        IpValues(text: 'IP Address: ' + ipAdress),
+        const IpValues(text: 'Your details:'),
+        IpValues(text: 'Gateway: $gateway'),
+        IpValues(text: 'Subnet: $subnet'),
+        IpValues(text: 'IP Address: $ipAdress'),
       ],
     );
   }

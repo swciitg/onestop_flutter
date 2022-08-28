@@ -5,7 +5,7 @@ import 'package:onestop_dev/models/buysell/buy_model.dart';
 import 'details_dialog.dart';
 
 class BuyTile extends StatelessWidget {
-  BuyTile({
+  const BuyTile({
     Key? key,
     required this.model,
   }) : super(key: key);
@@ -19,7 +19,7 @@ class BuyTile extends StatelessWidget {
         detailsDialogBox(context, model);
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+        padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
         child: Container(
           height: 115,
           decoration: BoxDecoration(
@@ -78,7 +78,7 @@ class BuyTile extends StatelessWidget {
               Expanded(
                 flex: 4,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(21),
                       bottomRight: Radius.circular(21)),
                   child: Image.network(model.imageURL, fit: BoxFit.cover),

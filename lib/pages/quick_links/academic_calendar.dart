@@ -15,7 +15,7 @@ class AcademicCalendar extends StatefulWidget {
 }
 
 class _AcademicCalendar extends State<AcademicCalendar> {
-  Completer<WebViewController> _controller = Completer<WebViewController>();
+  final Completer<WebViewController> _controller = Completer<WebViewController>();
 
   @override
   void initState() {
@@ -35,7 +35,6 @@ class _AcademicCalendar extends State<AcademicCalendar> {
           _controller.complete(controller);
         },
         onWebResourceError: (context) {
-          print("Error web resource");
         },
       ),
     );

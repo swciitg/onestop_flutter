@@ -33,7 +33,7 @@ abstract class _ContactStore with Store {
 
   @computed
   List<Widget> get starContactScroll {
-    if (starredContacts.length == 0) {
+    if (starredContacts.isEmpty) {
       return [Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Text("You have no starred contacts", style: MyFonts.w400.setColor(kGrey8),),

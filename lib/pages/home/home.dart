@@ -23,10 +23,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int index = 0;
   final tabs = [
-    HomeTab(),
-    FoodTab(),
-    TravelPage(),
-    TimeTableTab(),
+    const HomeTab(),
+    const FoodTab(),
+    const TravelPage(),
+    const TimeTableTab(),
   ];
 
   @override
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
             labelTextStyle:
                 MaterialStateProperty.all(MyFonts.w500.setColor(kTabText)),
             iconTheme:
-                MaterialStateProperty.all(IconThemeData(color: kTabText))),
+                MaterialStateProperty.all(const IconThemeData(color: kTabText))),
         child: NavigationBar(
           backgroundColor: kTabBar,
           selectedIndex: index,
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: tabs[index],
         ),
       ),
