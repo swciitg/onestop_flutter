@@ -6,17 +6,18 @@ import 'package:onestop_dev/functions/ip/ip_calculator.dart';
 import 'package:onestop_dev/widgets/ip/ip_values.dart';
 
 class IpPage extends StatefulWidget {
-  final argso;
+   final HostelDetails argso;
   const IpPage({Key? key, required this.argso}) : super(key: key);
 
   @override
-  _IpPageState createState() => _IpPageState();
+  State<IpPage> createState() => _IpPageState();
 }
 
 class _IpPageState extends State<IpPage> {
   List _items = [];
+  // ignore: prefer_typing_uninitialized_variables
   var hostel;
-  late var args;
+  late HostelDetails args;
   // Fetch content from the json file
   Future<void> readJson() async {
     final String response = await rootBundle.loadString('lib/globals/ip.json');

@@ -4,8 +4,8 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 
 class ContactText extends StatelessWidget {
   final String text;
-  final align;
-  const ContactText({Key? key, required this.text, this.align})
+  final AlignmentDirectional align;
+  const ContactText({Key? key, required this.text, required this.align})
       : super(key: key);
 
   @override
@@ -28,9 +28,9 @@ class ContactText extends StatelessWidget {
 
 class ContactTextHeader extends StatelessWidget {
   final String text;
-  final width;
-  final align;
-  const ContactTextHeader({Key? key, required this.text, this.width, this.align})
+  final double width;
+  final AlignmentDirectional align;
+  const ContactTextHeader({Key? key, required this.text, required this.width, required this.align})
       : super(key: key);
 
   @override

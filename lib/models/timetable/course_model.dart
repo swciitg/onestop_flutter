@@ -17,15 +17,16 @@ class CourseModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['course'] = this.course;
-    data['ltpc'] = this.ltpc;
-    data['slot'] = this.slot;
-    data['instructor'] = this.instructor;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['course'] = course;
+    data['ltpc'] = ltpc;
+    data['slot'] = slot;
+    data['instructor'] = instructor;
     return data;
   }
 
+  @override
   String toString() {
     return "$timing : $course";
   }

@@ -1,6 +1,5 @@
 // import 'package:aad_oauth/aad_oauth.dart';
 // import 'package:aad_oauth/model/config.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
@@ -65,13 +64,11 @@ class LoginStore {
     userData["id"] = instance.getString("id") ?? " ";
   }
 
-  void logOut(BuildContext context) async {
+  void logOut(Function navigationPopCallBack) async {
     await cookieManager.clearCookies();
     SharedPreferences user = await SharedPreferences.getInstance();
     user.clear();
     userData.clear();
-
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+    navigationPopCallBack();
   }
 }

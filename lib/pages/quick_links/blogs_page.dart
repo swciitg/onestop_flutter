@@ -1,11 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/blogs/mediumArticle_model.dart';
+import 'package:onestop_dev/models/blogs/medium_article_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -33,7 +34,7 @@ class Blogs extends StatefulWidget {
   const Blogs({Key? key}) : super(key: key);
 
   @override
-  _BlogState createState() => _BlogState();
+  State<Blogs> createState() => _BlogState();
 }
 
 class _BlogState extends State<Blogs> {
@@ -51,13 +52,15 @@ class _BlogState extends State<Blogs> {
       "https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.cyberark.com%2Fwp-content%2Fuploads%2F2019%2F11%2FDeveloper.jpg&imgrefurl=https%3A%2F%2Fwww.cyberark.com%2Fresources%2Fblog%2Fsecure-developer-workstations-without-slowing-them-down&tbnid=fJMc6OspVdPfgM&vet=12ahUKEwivmoytyOb1AhXlZWwGHZAPBZkQMygAegUIARDTAQ..i&docid=X2dX4HlN_niOsM&w=943&h=536&q=developer&ved=2ahUKEwivmoytyOb1AhXlZWwGHZAPBZkQMygAegUIARDTAQ";
 
   // Get the Medium RSSFeed data
-  Future<RssFeed?> getMediumRSSFeedData(MEDIUMPROFILERSSFEEDURL) async {
+  Future<RssFeed?> getMediumRSSFeedData(mediumProfilesRSSFeedURL) async {
     try {
       final client = http.Client();
-      final response = await client.get(Uri.parse(MEDIUMPROFILERSSFEEDURL));
+      final response = await client.get(Uri.parse(mediumProfilesRSSFeedURL));
       return RssFeed.parse(response.body);
     } catch (error) {
-      print(error);
+      if (kDebugMode) {
+        print(error);
+      }
     }
     return null;
   }
@@ -170,7 +173,7 @@ class _BlogState extends State<Blogs> {
     );
   }
 
-  Widget _PageState(String title) {
+  Widget _pageState(String title) {
     while (title == "notnull") {
       return Container(
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 16),
@@ -309,7 +312,7 @@ class _BlogState extends State<Blogs> {
               icon: const Icon(Icons.close)),
         ],
       ),
-      body: _PageState(title),
+      body: _pageState(title),
     );
   }
 }

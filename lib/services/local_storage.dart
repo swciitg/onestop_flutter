@@ -1,12 +1,11 @@
 import 'dart:async';
 
-import 'package:path/path.dart' ;
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
 class LocalStorage {
-
   LocalStorage._();
 
   static final LocalStorage _singleton = LocalStorage._();
@@ -32,26 +31,28 @@ class LocalStorage {
     _dbOpenCompleter.complete(database);
   }
 
-  Future<void> storeBusData(List<List<String>> busTime, String recordName) async {
-    var store = StoreRef<String,List<Object?>>.main();
+  Future<void> storeBusData(
+      List<List<String>> busTime, String recordName) async {
+    var store = StoreRef<String, List<Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
     await store.record(recordName).put(localDB, busTime);
   }
 
-  Future<void> storeData(List<Map<String,dynamic>> json, String recordName) async {
-    var store = StoreRef<String,List<Object?>>.main();
+  Future<void> storeData(
+      List<Map<String, dynamic>> json, String recordName) async {
+    var store = StoreRef<String, List<Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
     await store.record(recordName).put(localDB, json);
   }
 
   Future<void> deleteRecord(String recordName) async {
-    var store = StoreRef<String,List<Object?>>.main();
+    var store = StoreRef<String, List<Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
     await store.record(recordName).delete(localDB);
   }
 
   Future<void> deleteAllRecord() async {
-    var store = StoreRef<String,List<Object?>>.main();
+    var store = StoreRef<String, List<Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
     await store.record('BusTimings').delete(localDB);
     await store.record('Restaurant').delete(localDB);
@@ -61,7 +62,7 @@ class LocalStorage {
   }
 
   Future<List<Object?>?> getRecord(String recordName) async {
-    var store = StoreRef<String,List<Object?>>.main();
+    var store = StoreRef<String, List<Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
     List<Object?>? value = await store.record(recordName).get(localDB);
     return value;

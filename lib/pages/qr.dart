@@ -13,7 +13,7 @@ class QRPage extends StatefulWidget {
   const QRPage({Key? key}) : super(key: key);
 
   @override
-  _QRPageState createState() => _QRPageState();
+  State<QRPage> createState() => _QRPageState();
 }
 
 class _QRPageState extends State<QRPage> {
@@ -84,7 +84,9 @@ class _QRPageState extends State<QRPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: ElevatedButton(
                       onPressed: () {
-                        context.read<LoginStore>().logOut(context);
+                        context.read<LoginStore>().logOut(() =>
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/', (Route<dynamic> route) => false));
                       },
                       style: ElevatedButton.styleFrom(
                           elevation: 0, primary: kAppBarGrey),

@@ -36,11 +36,6 @@ class _LoginWebViewState extends State<LoginWebView> {
             "https://swc.iitg.ac.in/onestopapi/auth/microsoft/redirect?code")) {
           WebViewController controller = await widget._controller.future;
 
-          await controller
-              .runJavascriptReturningResult(
-                  "document.querySelector('#userInfo').innerText")
-              .then((value) => print(value))
-              .catchError((err) => print(err));
           var userInfoString = await controller.runJavascriptReturningResult(
               "document.querySelector('#userInfo').innerText");
 

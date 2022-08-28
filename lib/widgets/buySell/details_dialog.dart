@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/src/intl/date_format.dart';
+import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/models/buysell/buy_model.dart';
 

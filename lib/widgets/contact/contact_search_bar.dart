@@ -74,7 +74,7 @@ class PeopleSearch extends SearchDelegate<String> {
 
   late final SplayTreeMap<String, ContactModel> poepleSearch;
   late final List<String> people;
-  var x;
+  List<String> suggestionsList = [];
   late ContactStore contactStore;
 
   @override
@@ -128,12 +128,12 @@ class PeopleSearch extends SearchDelegate<String> {
       final queryLower = query.toLowerCase();
       return peopleLower.contains(queryLower);
     }).toList();
-    x = suggestions;
+    suggestionsList = suggestions;
     return buildSuggestionsSuccess(suggestions);
   }
 
   @override
-  Widget buildResults(BuildContext context) => buildSuggestionsSuccess(x);
+  Widget buildResults(BuildContext context) => buildSuggestionsSuccess(suggestionsList);
 
   Widget buildSuggestionsSuccess(List<String> suggestions) => ListView.builder(
         itemCount: suggestions.length,

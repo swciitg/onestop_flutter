@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/functions/food/get_day.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';

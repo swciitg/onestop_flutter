@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:fuzzy/fuzzy.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
@@ -45,7 +47,7 @@ abstract class _RestaurantStore with Store {
   void setSearchString(String str) {
 
     _searchString = str;
-    searchResults = ObservableFuture(SearchResults());
+    searchResults = ObservableFuture(executeFuzzySearch());
     _searchPageHeader = "Showing results for $str";
   }
 
@@ -54,7 +56,7 @@ abstract class _RestaurantStore with Store {
     _searchPageHeader = str;
   }
 
-  Future<List<RestaurantModel>> SearchResults() async {
+  Future<List<RestaurantModel>> executeFuzzySearch() async {
     List<RestaurantModel> allRestaurants = await DataProvider.getRestaurants();
     List<RestaurantModel> searchResults = [];
     for (var element in allRestaurants) {

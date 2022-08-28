@@ -159,7 +159,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                       headers: {'Content-Type': 'application/json'},
                       body: jsonEncode({'id': widget.model.id,'email': widget.model.email})
                   );
-
+                  if (!mounted) return;
                   Navigator.of(context).pop();
                 },
                 onFocusChange: (change) {

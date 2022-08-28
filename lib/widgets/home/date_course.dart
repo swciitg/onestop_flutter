@@ -96,8 +96,8 @@ class TimetableRow extends StatelessWidget {
 }
 
 class ArrowButton extends StatelessWidget {
-  ArrowButton({Key? key, this.showArrow = false}) : super(key: key);
-  late final bool showArrow;
+  const ArrowButton({Key? key, this.showArrow = false}) : super(key: key);
+  final bool showArrow;
   @override
   Widget build(BuildContext context) {
     if (showArrow) {
