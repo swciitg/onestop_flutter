@@ -79,7 +79,9 @@ class FoodTile extends StatelessWidget {
                             getIngredients(dish.ingredients),
                             style: MyFonts.w400.size(14).setColor(kGrey6),
                           ),
-                          const SizedBox(height: 8,),
+                          const SizedBox(
+                            height: 8,
+                          ),
                           Text(
                             '\u{20B9} ${dish.price}/-',
                             style: MyFonts.w600.size(14).setColor(lBlue4),

@@ -6,7 +6,7 @@ import 'package:onestop_dev/functions/ip/ip_calculator.dart';
 import 'package:onestop_dev/widgets/ip/ip_values.dart';
 
 class IpPage extends StatefulWidget {
-   final HostelDetails argso;
+  final HostelDetails argso;
   const IpPage({Key? key, required this.argso}) : super(key: key);
 
   @override
@@ -41,9 +41,11 @@ class _IpPageState extends State<IpPage> {
     String subnet;
     String ipAdress;
 
-    if (hostel == null)
-    {subnet = "255.255.255.255";ipAdress = " macfe";gateway = "evadiki telsu";}
-    else {
+    if (hostel == null) {
+      subnet = "255.255.255.255";
+      ipAdress = " macfe";
+      gateway = "evadiki telsu";
+    } else {
       gateway = hostel["Default Gateway"];
       subnet = hostel["Subnet mask"];
       ipAdress = hostel["IP Adress Range"];
@@ -71,5 +73,3 @@ class _IpPageState extends State<IpPage> {
     );
   }
 }
-
-

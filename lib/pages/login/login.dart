@@ -17,7 +17,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool loading = false;
-  final Completer<WebViewController> _controller = Completer<WebViewController>();
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
 
   @override
   void initState() {

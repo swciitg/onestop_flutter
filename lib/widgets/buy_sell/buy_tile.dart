@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/buysell/buy_model.dart';
+import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'details_dialog.dart';
 
 class BuyTile extends StatelessWidget {

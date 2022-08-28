@@ -30,7 +30,8 @@ class ContactTextHeader extends StatelessWidget {
   final String text;
   final double width;
   final AlignmentDirectional align;
-  const ContactTextHeader({Key? key, required this.text, required this.width, required this.align})
+  const ContactTextHeader(
+      {Key? key, required this.text, required this.width, required this.align})
       : super(key: key);
 
   @override

@@ -17,7 +17,6 @@ part 'mapbox_store.g.dart';
 class MapBoxStore = _MapBoxStore with _$MapBoxStore;
 
 abstract class _MapBoxStore with Store {
-
   _MapBoxStore() {
     generateAllMarkers();
   }
@@ -53,7 +52,6 @@ abstract class _MapBoxStore with Store {
 
   @action
   void setMarkers(List<Marker> m) {
-
     markers = ObservableList<Marker>.of(m);
   }
 
@@ -67,10 +65,10 @@ abstract class _MapBoxStore with Store {
   void generateAllMarkers() {
     List<Marker> l = List.generate(
       allLocationData.length,
-          (index) => Marker(
+      (index) => Marker(
           markerId: MarkerId('bus$index'),
-          position: LatLng(allLocationData[index]['lat'],
-              allLocationData[index]['long'])),
+          position: LatLng(
+              allLocationData[index]['lat'], allLocationData[index]['long'])),
     );
     markers = ObservableList<Marker>.of(l);
   }
@@ -90,17 +88,16 @@ abstract class _MapBoxStore with Store {
   void selectedCarousel(int i) {
     selectedCarouselIndex = i;
     String name = 'busicon';
-    if(indexBusesorFerry == 1)
-      {
-        name = 'ferry_marker';
-      }
+    if (indexBusesorFerry == 1) {
+      name = 'ferry_marker';
+    }
     getBytesFromAsset('assets/images/$name.png', 100).then((d) {
       List<Marker> l = [];
       l.add(Marker(
           icon: BitmapDescriptor.fromBytes(d),
           markerId: MarkerId('bus$i'),
-          position: LatLng(allLocationData[i]['lat'],
-              allLocationData[i]['long'])));
+          position:
+              LatLng(allLocationData[i]['lat'], allLocationData[i]['long'])));
       markers = ObservableList<Marker>.of(l);
     });
   }
@@ -112,16 +109,14 @@ abstract class _MapBoxStore with Store {
 
   @action
   Future<void> getPolylines(int i) async {
-
     loadOperation = APIService.getPolyline(
             source: LatLng(userlat, userlong),
             dest: const LatLng(26.2027, 91.7004))
         .asObservable();
-
   }
 
   @computed
-  List<Map<String,dynamic>> get allLocationData {
+  List<Map<String, dynamic>> get allLocationData {
     List<Map<String, dynamic>> dataMap = [];
     switch (indexBusesorFerry) {
       case 0:
@@ -145,7 +140,7 @@ abstract class _MapBoxStore with Store {
 
   @computed
   LatLng get userLatLng {
-    return LatLng(userlat,userlong);
+    return LatLng(userlat, userlong);
   }
 
   @computed
@@ -168,9 +163,9 @@ abstract class _MapBoxStore with Store {
     List<Widget> l = List<Widget>.generate(
       carouselLength,
       (index) => CarouselCard(
-          name: dataMap[index]['name'],
-          index: dataMap[index]['ind'],
-          ),
+        name: dataMap[index]['name'],
+        index: dataMap[index]['ind'],
+      ),
     );
     return l;
   }
@@ -201,14 +196,14 @@ abstract class _MapBoxStore with Store {
     double northEastLongitude = maxx;
 
     mapController?.animateCamera(
-          CameraUpdate.newLatLngBounds(
-            LatLngBounds(
-              northeast: LatLng(northEastLatitude, northEastLongitude),
-              southwest: LatLng(southWestLatitude, southWestLongitude),
-            ),
-            zoom,
-          ),
-        );
+      CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+          northeast: LatLng(northEastLatitude, northEastLongitude),
+          southwest: LatLng(southWestLatitude, southWestLongitude),
+        ),
+        zoom,
+      ),
+    );
   }
 
   Future<dynamic> getLocation() async {

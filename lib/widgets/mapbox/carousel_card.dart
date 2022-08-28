@@ -13,46 +13,36 @@ class CarouselCard extends StatelessWidget {
   final String name;
   final int index;
 
-  const CarouselCard(
-      {Key? key, required this.index, required this.name})
+  const CarouselCard({Key? key, required this.index, required this.name})
       : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
-    Future<String> getNextTime()async {
+    Future<String> getNextTime() async {
       String today = getFormattedDay();
-      if(context.read<MapBoxStore>().indexBusesorFerry == 0)
-        {
-          var busTimes = await DataProvider.getBusTimings();
-          if(today == 'Fri')
-          {
-            return 'Next Bus at: ${nextTime(busTimes[1], firstTime: busTimes[0][0])}';
-          }
-          else if(today == 'Sun')
-          {
-            return 'Next Bus at: ${nextTime(busTimes[0],firstTime:  busTimes[1][0])}';
-          }
-          else if(today == 'Sat')
-          {
-              return 'Next Bus at: ${nextTime(busTimes[0])}';
-          }
-          return 'Next Bus at: ${nextTime(busTimes[1])}';
+      if (context.read<MapBoxStore>().indexBusesorFerry == 0) {
+        var busTimes = await DataProvider.getBusTimings();
+        if (today == 'Fri') {
+          return 'Next Bus at: ${nextTime(busTimes[1], firstTime: busTimes[0][0])}';
+        } else if (today == 'Sun') {
+          return 'Next Bus at: ${nextTime(busTimes[0], firstTime: busTimes[1][0])}';
+        } else if (today == 'Sat') {
+          return 'Next Bus at: ${nextTime(busTimes[0])}';
         }
-      else
-        {
-          var ferryTimes = await DataProvider.getFerryTimings();
-          var requiredModel = ferryTimes.firstWhere((element) => element.name == name);
-          if(today == 'Sat')
-          {
-            return 'Next Ferry at: ${nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati, firstTime:  requiredModel.Sunday_NorthGuwahatiToGuwahati[0])}';
-          }
-          else if(today == 'Sun'){
-            return 'Next Ferry at: ${nextTime(requiredModel.Sunday_NorthGuwahatiToGuwahati,firstTime:  requiredModel.MonToFri_NorthGuwahatiToGuwahati[0])}';
-          }
-          return 'Next Ferry at: ${nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati)}';
+        return 'Next Bus at: ${nextTime(busTimes[1])}';
+      } else {
+        var ferryTimes = await DataProvider.getFerryTimings();
+        var requiredModel =
+            ferryTimes.firstWhere((element) => element.name == name);
+        if (today == 'Sat') {
+          return 'Next Ferry at: ${nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati, firstTime: requiredModel.Sunday_NorthGuwahatiToGuwahati[0])}';
+        } else if (today == 'Sun') {
+          return 'Next Ferry at: ${nextTime(requiredModel.Sunday_NorthGuwahatiToGuwahati, firstTime: requiredModel.MonToFri_NorthGuwahatiToGuwahati[0])}';
         }
+        return 'Next Ferry at: ${nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati)}';
+      }
     }
+
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 3.0, right: 3),
       child: Observer(builder: (context) {
@@ -101,17 +91,16 @@ class CarouselCard extends StatelessWidget {
                         height: 5,
                       ),
                       FutureBuilder(
-                        future: getNextTime(),
-                        builder: (context,snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(
-                              snapshot.data! as String,
-                              style: MyFonts.w500.size(11).setColor(kGrey13),
-                            );
-                          }
-                          return Container();
-                        }
-                      ),
+                          future: getNextTime(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(
+                                snapshot.data! as String,
+                                style: MyFonts.w500.size(11).setColor(kGrey13),
+                              );
+                            }
+                            return Container();
+                          }),
                     ],
                   ),
                 ),

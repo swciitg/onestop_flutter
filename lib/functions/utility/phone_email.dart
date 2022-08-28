@@ -17,4 +17,3 @@ launchEmailURL(String email) async {
     throw 'Could not launch $url';
   }
 }
-

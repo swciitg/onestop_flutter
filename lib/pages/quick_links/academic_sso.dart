@@ -15,7 +15,8 @@ class AcademicSSO extends StatefulWidget {
 }
 
 class _AcademicSSO extends State<AcademicSSO> {
-  final Completer<WebViewController> _controller = Completer<WebViewController>();
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
 
   @override
   void initState() {
@@ -34,8 +35,7 @@ class _AcademicSSO extends State<AcademicSSO> {
         onWebViewCreated: (controller) {
           _controller.complete(controller);
         },
-        onWebResourceError: (context) {
-        },
+        onWebResourceError: (context) {},
       ),
     );
   }

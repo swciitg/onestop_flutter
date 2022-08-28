@@ -112,7 +112,7 @@ class _RouterPageState extends State<RouterPage> {
                 decoration: BoxDecoration(
                     color: kAppBarGrey,
                     border: Border.all(),
-                    borderRadius: const BorderRadius.all( Radius.circular(20))),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                   child: Column(
@@ -251,9 +251,9 @@ class _RouterPageState extends State<RouterPage> {
                                                 )
                                               : (i == 4)
                                                   ? Image.asset(
-                                                    'assets/images/lan4.png',
-                                                    height: 290,
-                                                  )
+                                                      'assets/images/lan4.png',
+                                                      height: 290,
+                                                    )
                                                   : (i != 8)
                                                       ? Image.asset(
                                                           'assets/images/lan$i.png')
@@ -277,7 +277,8 @@ class _RouterPageState extends State<RouterPage> {
                             viewportFraction: 0.95,
                             height: 445,
                             initialPage: 0,
-                            scrollPhysics: const NeverScrollableScrollPhysics()),
+                            scrollPhysics:
+                                const NeverScrollableScrollPhysics()),
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,7 +314,8 @@ class _RouterPageState extends State<RouterPage> {
                                     function(hostel);
                                     fg = false;
                                     await buttonCarouselController.nextPage(
-                                        duration: const Duration(milliseconds: 300),
+                                        duration:
+                                            const Duration(milliseconds: 300),
                                         curve: Curves.linear);
                                   }
                                 }

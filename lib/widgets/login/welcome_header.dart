@@ -28,36 +28,28 @@ class WelcomeHeader extends StatelessWidget {
                     child: FittedBox(
                         fit: BoxFit.fitWidth,
                         child: Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.center,
-                          crossAxisAlignment:
-                          CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 8.0),
+                              padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
                                 'Welcome to',
-                                style: MyFonts.w500
-                                    .setColor(kWhite),
+                                style: MyFonts.w500.setColor(kWhite),
                               ),
                             ),
                             Text('your OneStop',
-                                style: MyFonts.w500
-                                    .setColor(kWhite)),
+                                style: MyFonts.w500.setColor(kWhite)),
                             Text('solution for all',
-                                style: MyFonts.w500
-                                    .setColor(kWhite)),
+                                style: MyFonts.w500.setColor(kWhite)),
                             Text('things IITG',
-                                style: MyFonts.w500
-                                    .setColor(kWhite)),
+                                style: MyFonts.w500.setColor(kWhite)),
                           ],
                         )),
                   ),
                   Expanded(
                     flex: 1,
-                    child: Image.asset(
-                        'assets/images/login_illustration.png'),
+                    child: Image.asset('assets/images/login_illustration.png'),
                   ),
                 ],
               ),

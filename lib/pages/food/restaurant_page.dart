@@ -45,7 +45,6 @@ class RestaurantPage extends StatelessWidget {
                       children: foodList,
                     );
                   } else if (snapshot.hasError) {
-
                     return Center(
                         child: Text(
                       "An error occurred",

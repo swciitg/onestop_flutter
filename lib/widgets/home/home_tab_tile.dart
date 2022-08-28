@@ -3,7 +3,8 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
 class HomeTabTile extends StatelessWidget {
-  const HomeTabTile({Key? key, required this.label, required this.icon, this.routeId})
+  const HomeTabTile(
+      {Key? key, required this.label, required this.icon, this.routeId})
       : super(key: key);
 
   final String label;

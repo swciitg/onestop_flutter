@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
-import 'package:onestop_dev/models/buysell/buy_model.dart';
+import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -15,8 +15,7 @@ void detailsDialogBox(context, dynamic model) {
         Widget priceOrLocation;
         if (model is BuyModel) {
           priceOrLocation = Padding(
-            padding:
-            const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
             child: Text(
               "Price: ${model.price}",
               maxLines: 1,
@@ -26,8 +25,7 @@ void detailsDialogBox(context, dynamic model) {
           );
         } else {
           priceOrLocation = Padding(
-            padding:
-            const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
             child: Text(
               "Lost at: ${model.location}",
               maxLines: 1,
@@ -62,7 +60,8 @@ void detailsDialogBox(context, dynamic model) {
                       child: SingleChildScrollView(
                         child: FadeInImage(
                           width: screenWidth - 30,
-                          placeholder: const AssetImage("assets/images/loading.gif"),
+                          placeholder:
+                              const AssetImage("assets/images/loading.gif"),
                           image: NetworkImage(model.imageURL),
                           fit: BoxFit.cover,
                         ),
@@ -135,8 +134,7 @@ void detailsDialogBox(context, dynamic model) {
                     padding: const EdgeInsets.only(right: 16, bottom: 16),
                     alignment: Alignment.centerRight,
                     child: Text(
-                      "${model.date.day}-${model.date.month}-${model.date.year} | ${DateFormat.jm()
-                              .format(model.date.toLocal())}",
+                      "${model.date.day}-${model.date.month}-${model.date.year} | ${DateFormat.jm().format(model.date.toLocal())}",
                       style: MyFonts.w300.size(13).setColor(kGrey7),
                     ),
                   ),

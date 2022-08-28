@@ -28,9 +28,7 @@ class _LoginWebViewState extends State<LoginWebView> {
       onWebViewCreated: (controller) {
         widget._controller.complete(controller);
       },
-      onWebResourceError: (context) {
-
-      },
+      onWebResourceError: (context) {},
       onPageFinished: (url) async {
         if (url.startsWith(
             "https://swc.iitg.ac.in/onestopapi/auth/microsoft/redirect?code")) {
@@ -48,7 +46,7 @@ class _LoginWebViewState extends State<LoginWebView> {
             userInfo["surname"] = values[2];
             userInfo["id"] = values[3];
             SharedPreferences user = await SharedPreferences.getInstance();
-            if(!mounted) return;
+            if (!mounted) return;
             context.read<LoginStore>().saveToPreferences(user, userInfo);
             context.read<LoginStore>().saveToUserData(user);
             Navigator.of(context)
@@ -59,4 +57,3 @@ class _LoginWebViewState extends State<LoginWebView> {
     );
   }
 }
-

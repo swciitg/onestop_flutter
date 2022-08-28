@@ -104,7 +104,8 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: widget.contact!.contacts.map((item) {
                     return Padding(
-                      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0,right: 10),
+                      padding: const EdgeInsets.only(
+                          top: 4.0, bottom: 4.0, right: 10),
                       child: GestureDetector(
                         onTap: () {
                           showDialog(

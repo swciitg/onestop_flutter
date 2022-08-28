@@ -15,7 +15,6 @@ Future<void> showMyDialog(BuildContext context) async {
           children: [
             GestureDetector(
               onTap: () {
-
                 Add2Calendar.addEvent2Cal(
                   buildEvent(title: 'Assignment'),
                 );
@@ -49,7 +48,6 @@ Future<void> showMyDialog(BuildContext context) async {
             ),
             GestureDetector(
               onTap: () {
-
                 Add2Calendar.addEvent2Cal(
                   buildEvent(title: 'Exam'),
                 );

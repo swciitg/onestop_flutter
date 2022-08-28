@@ -9,7 +9,6 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
 
-
 import 'call_map_button.dart';
 
 class RestaurantHeader extends StatelessWidget {
@@ -75,7 +74,7 @@ class RestaurantHeader extends StatelessWidget {
                         ),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.0),
-                          child:  Icon(Icons.circle, color: kWhite, size: 5),
+                          child: Icon(Icons.circle, color: kWhite, size: 5),
                         ),
                         const Icon(
                           FluentIcons.clock_24_regular,

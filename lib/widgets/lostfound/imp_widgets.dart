@@ -10,7 +10,7 @@ import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:onestop_dev/widgets/buySell/details_dialog.dart';
+import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -145,8 +145,8 @@ class LostItemTile extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 13, vertical: 2.5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 13, vertical: 2.5),
                       margin: const EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
                           color: kGrey9,
@@ -201,7 +201,8 @@ class FoundItemTile extends StatefulWidget {
   final FoundModel currentFoundModel;
   final BuildContext parentContext;
   const FoundItemTile(
-      {Key? key, required this.parentContext,required this.currentFoundModel}) : super(key: key);
+      {Key? key, required this.parentContext, required this.currentFoundModel})
+      : super(key: key);
 
   @override
   State<FoundItemTile> createState() => _FoundItemTileState();
@@ -213,7 +214,8 @@ class _FoundItemTileState extends State<FoundItemTile> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     bool buttonPressed = false;
-    Duration passedDuration = DateTime.now().difference(widget.currentFoundModel.date);
+    Duration passedDuration =
+        DateTime.now().difference(widget.currentFoundModel.date);
     String timeagoString =
         timeago.format(DateTime.now().subtract(passedDuration));
 
@@ -276,7 +278,9 @@ class _FoundItemTileState extends State<FoundItemTile> {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                if (widget.currentFoundModel.claimed == true) return;
+                                if (widget.currentFoundModel.claimed == true) {
+                                  return;
+                                }
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext claimDialogContext) {
@@ -292,7 +296,6 @@ class _FoundItemTileState extends State<FoundItemTile> {
                                               children: [
                                                 GestureDetector(
                                                   onTap: () async {
-
                                                     if (buttonPressed == true) {
                                                       return;
                                                     }
@@ -307,10 +310,13 @@ class _FoundItemTileState extends State<FoundItemTile> {
                                                     var res = await http.post(
                                                         Uri.parse(
                                                             "https://swc.iitg.ac.in/onestopapi/found/claim"),
-                                                        headers: {'Content-Type': 'application/json'},
+                                                        headers: {
+                                                          'Content-Type':
+                                                              'application/json'
+                                                        },
                                                         body: jsonEncode({
-                                                          "id":
-                                                          widget.currentFoundModel
+                                                          "id": widget
+                                                              .currentFoundModel
                                                               .id,
                                                           "claimerEmail": email,
                                                           "claimerName": name
@@ -318,17 +324,45 @@ class _FoundItemTileState extends State<FoundItemTile> {
                                                     var body =
                                                         jsonDecode(res.body);
 
-                                                    buttonPressed=false;
-                                                    if(!mounted) return ;
-                                                    if(body["saved"] == false){
-                                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body["message"], style: MyFonts.w500,)));
-                                                      Navigator.popUntil(context,ModalRoute.withName(LostFoundHome.id));
-                                                    }
-                                                    else{
-                                                      widget.currentFoundModel.claimed=true;
-                                                      widget.currentFoundModel.claimerEmail=context.read<LoginStore>().userData["email"]!;
-                                                      Navigator.popUntil(context, ModalRoute.withName(LostFoundHome.id));
-                                                      ScaffoldMessenger.of(widget.parentContext).showSnackBar(SnackBar(content: Text("Claimed Item Successfully", style: MyFonts.w500,)));
+                                                    buttonPressed = false;
+                                                    if (!mounted) return;
+                                                    if (body["saved"] ==
+                                                        false) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              SnackBar(
+                                                                  content: Text(
+                                                        body["message"],
+                                                        style: MyFonts.w500,
+                                                      )));
+                                                      Navigator.popUntil(
+                                                          context,
+                                                          ModalRoute.withName(
+                                                              LostFoundHome
+                                                                  .id));
+                                                    } else {
+                                                      widget.currentFoundModel
+                                                          .claimed = true;
+                                                      widget.currentFoundModel
+                                                              .claimerEmail =
+                                                          context
+                                                              .read<
+                                                                  LoginStore>()
+                                                              .userData["email"]!;
+                                                      Navigator.popUntil(
+                                                          context,
+                                                          ModalRoute.withName(
+                                                              LostFoundHome
+                                                                  .id));
+                                                      ScaffoldMessenger.of(widget
+                                                              .parentContext)
+                                                          .showSnackBar(
+                                                              SnackBar(
+                                                                  content: Text(
+                                                        "Claimed Item Successfully",
+                                                        style: MyFonts.w500,
+                                                      )));
                                                     }
                                                   },
                                                   child: Text(
@@ -368,38 +402,46 @@ class _FoundItemTileState extends State<FoundItemTile> {
                                       color: kGrey9,
                                       borderRadius: BorderRadius.circular(24)),
                                   alignment: Alignment.center,
-                                  child: widget.currentFoundModel.claimed == false
-                                      ? Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  child:
+                                      widget.currentFoundModel.claimed == false
+                                          ? Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
-                                          children: [
-                                            const Icon(
-                                              Icons.pan_tool,
-                                              size: 11,
-                                              color: lBlue2,
-                                            ),
-                                            Text(
-                                              " Claim",
+                                              children: [
+                                                const Icon(
+                                                  Icons.pan_tool,
+                                                  size: 11,
+                                                  color: lBlue2,
+                                                ),
+                                                Text(
+                                                  " Claim",
+                                                  style: MyFonts.w500
+                                                      .size(11)
+                                                      .setColor(lBlue2),
+                                                )
+                                              ],
+                                            )
+                                          : Text(
+                                              widget.currentFoundModel
+                                                          .claimerEmail ==
+                                                      context
+                                                          .read<LoginStore>()
+                                                          .userData["email"]
+                                                  ? " You claimed"
+                                                  : " Already Claimed",
                                               style: MyFonts.w500
                                                   .size(11)
                                                   .setColor(lBlue2),
-                                            )
-                                          ],
-                                        )
-                                      : Text(
-                                    widget.currentFoundModel.claimerEmail==context.read<LoginStore>().userData["email"] ? " You claimed" : " Already Claimed",
-                                    style: MyFonts.w500
-                                        .size(11)
-                                        .setColor(lBlue2),
-                                  )),
+                                            )),
                             ),
                           ],
                         ),
                       ),
                       Visibility(
-                        visible:
-                            widget.currentFoundModel.claimed == true ? true : false,
+                        visible: widget.currentFoundModel.claimed == true
+                            ? true
+                            : false,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: ConstrainedBox(
@@ -507,8 +549,8 @@ class _FoundItemTileState extends State<FoundItemTile> {
                       ),
                     ),
                     Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 13, vertical: 2.5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 13, vertical: 2.5),
                       margin: const EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
                           color: kGrey9,

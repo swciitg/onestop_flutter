@@ -56,7 +56,11 @@ class _MapBoxState extends State<MapBox> {
       coordinates = await mapboxStore.getLocation() as LatLng;
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not fetch your current location", style: MyFonts.w500,)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+        "Could not fetch your current location",
+        style: MyFonts.w500,
+      )));
       return const LatLng(26.192613073419974, 91.69907177061708);
     }
     return coordinates;
@@ -85,8 +89,8 @@ class _MapBoxState extends State<MapBox> {
                         height: 365,
                         width: double.infinity,
                         child: GoogleMap(
-                          gestureRecognizers:
-                              <Factory<OneSequenceGestureRecognizer>>{
+                          gestureRecognizers: <
+                              Factory<OneSequenceGestureRecognizer>>{
                             Factory<OneSequenceGestureRecognizer>(
                                 () => EagerGestureRecognizer())
                           },
@@ -263,23 +267,27 @@ class _MapBoxState extends State<MapBox> {
                             onPressed: () async {
                               var mapStore = context.read<MapBoxStore>();
                               var availableMap =
-                                  (await MapLauncher.installedMaps)
-                                      .first;
+                                  (await MapLauncher.installedMaps).first;
                               try {
                                 await availableMap.showDirections(
                                     originTitle: 'User Location',
                                     destinationTitle: 'Bus Stop',
-                                    directionsMode:
-                                    DirectionsMode.walking,
+                                    directionsMode: DirectionsMode.walking,
                                     destination: Coords(
                                         mapStore.userlat, mapStore.userlong),
                                     origin: Coords(
-                                        mapStore.selectedCarouselLatLng.latitude,
+                                        mapStore
+                                            .selectedCarouselLatLng.latitude,
                                         mapStore
                                             .selectedCarouselLatLng.longitude));
                               } catch (e) {
                                 if (!mounted) return;
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not open map.",style: MyFonts.w500,)));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                        content: Text(
+                                  "Could not open map.",
+                                  style: MyFonts.w500,
+                                )));
                               }
                             },
                             mini: true,
@@ -295,8 +303,7 @@ class _MapBoxState extends State<MapBox> {
                             heroTag: null,
                             backgroundColor: kAppBarGrey,
                             onPressed: () {
-                              zoomInMarker(
-                                  mapStore.userlat, mapStore.userlong);
+                              zoomInMarker(mapStore.userlat, mapStore.userlong);
                             },
                             mini: true,
                             child: const Icon(
@@ -324,8 +331,7 @@ class _MapBoxState extends State<MapBox> {
                                             child: e,
                                           ),
                                     onTap: () {
-                                      mapStore.selectedCarousel(
-                                          e.index);
+                                      mapStore.selectedCarousel(e.index);
                                       mapStore.zoomTwoMarkers(
                                           mapStore.selectedCarouselLatLng,
                                           LatLng(mapStore.userlat,

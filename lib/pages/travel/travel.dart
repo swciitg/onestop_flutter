@@ -22,26 +22,29 @@ class _TravelPageState extends State<TravelPage> {
     var mapStore = context.read<MapBoxStore>();
     mapStore.checkTravelPage(true);
 
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            const MapBox(),
-            const SizedBox(
-              height: 10,
-            ),
-            const NextTimeCard(),
-            const SizedBox(height: 10,),
-            Provider<TravelStore>(create: (_) => TravelStore(), builder: (context, _) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const MapBox(),
+          const SizedBox(
+            height: 10,
+          ),
+          const NextTimeCard(),
+          const SizedBox(
+            height: 10,
+          ),
+          Provider<TravelStore>(
+            create: (_) => TravelStore(),
+            builder: (context, _) {
               return Observer(builder: (context) {
                 return (mapStore.indexBusesorFerry == 0)
                     ? const StopsBusDetails()
                     : const FerryDetails();
               });
-            },)
-          ],
-        ),
-      );
+            },
+          )
+        ],
+      ),
+    );
   }
-
-
 }

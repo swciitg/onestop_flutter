@@ -34,9 +34,7 @@ class LoginButton extends StatelessWidget {
               fit: BoxFit.fitWidth,
               child: Text(
                 'LOGIN WITH OUTLOOK',
-                style: MyFonts.w500
-                    .factor(3.66)
-                    .setColor(kBlack),
+                style: MyFonts.w500.factor(3.66).setColor(kBlack),
               ),
             ),
           ),
@@ -49,4 +47,3 @@ class LoginButton extends StatelessWidget {
     );
   }
 }
-

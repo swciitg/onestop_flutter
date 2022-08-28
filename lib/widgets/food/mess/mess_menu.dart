@@ -27,7 +27,6 @@ class MessMenu extends StatelessWidget {
     "Subhansiri"
   ];
 
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -85,7 +84,8 @@ class MessMenu extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Theme(
-                                  data: Theme.of(context).copyWith(cardColor: kGrey2),
+                                  data: Theme.of(context)
+                                      .copyWith(cardColor: kGrey2),
                                   child: PopupMenuButton<String>(
                                     itemBuilder: (context) {
                                       return days
@@ -95,7 +95,9 @@ class MessMenu extends StatelessWidget {
                                                 messStore.setDay(value);
                                               },
                                               value: value,
-                                              child: Text(value, style: MyFonts.w500.setColor(kWhite)),
+                                              child: Text(value,
+                                                  style: MyFonts.w500
+                                                      .setColor(kWhite)),
                                             ),
                                           )
                                           .toList();
@@ -130,7 +132,8 @@ class MessMenu extends StatelessWidget {
                                   ),
                                 ),
                                 Theme(
-                                  data: Theme.of(context).copyWith(cardColor: kBlueGrey),
+                                  data: Theme.of(context)
+                                      .copyWith(cardColor: kBlueGrey),
                                   child: PopupMenuButton<String>(
                                     itemBuilder: (context) {
                                       return hostels
@@ -141,7 +144,9 @@ class MessMenu extends StatelessWidget {
                                               },
                                               value: value,
                                               child: Text(
-                                                value, style: MyFonts.w500.setColor(kWhite),
+                                                value,
+                                                style: MyFonts.w500
+                                                    .setColor(kWhite),
                                               ),
                                             ),
                                           )

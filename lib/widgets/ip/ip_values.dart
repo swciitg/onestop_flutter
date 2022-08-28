@@ -9,7 +9,7 @@ class IpValues extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0,8.0,8.0,8.0),
+      padding: const EdgeInsets.fromLTRB(0, 8.0, 8.0, 8.0),
       child: Text(
         text,
         style: MyFonts.w400.size(14).setColor(kGrey6),

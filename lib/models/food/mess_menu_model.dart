@@ -31,4 +31,3 @@ class MessMenuModel {
 
   Map<String, dynamic> toJson() => _$MessMenuModelToJson(this);
 }
-

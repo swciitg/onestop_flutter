@@ -8,7 +8,8 @@ import 'package:provider/provider.dart';
 
 class StarContactNameTile extends StatelessWidget {
   final ContactDetailsModel contact;
-  const StarContactNameTile({Key? key, required this.contact}) : super(key: key);
+  const StarContactNameTile({Key? key, required this.contact})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

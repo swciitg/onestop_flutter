@@ -80,9 +80,7 @@ class _NextTimeCardState extends State<NextTimeCard> {
               style: MyFonts.w500.setColor(kWhite).size(14),
             ),
             subtitle: Text(
-                "${calculateDistance(mapStore.selectedCarouselLatLng,
-                            mapStore.userLatLng)
-                        .toStringAsFixed(2)} km",
+                "${calculateDistance(mapStore.selectedCarouselLatLng, mapStore.userLatLng).toStringAsFixed(2)} km",
                 style: MyFonts.w500.setColor(kGrey13).size(11)),
             trailing: FutureBuilder(
                 future: getNextTime(),

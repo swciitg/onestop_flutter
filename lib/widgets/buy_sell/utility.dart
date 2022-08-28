@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
-
 Future<List> getBuyItems() async {
   var res = await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/buy'));
   var lostItemsDetails = jsonDecode(res.body);
@@ -25,7 +24,10 @@ Future<List> getMyItems(mail) async {
 
   var myItemsDetails = jsonDecode(res.body);
   //print([...myItemsDetails["details"]["sellList"],...myItemsDetails["details"]["buyList"]].length);
-  return [...myItemsDetails["details"]["sellList"],...myItemsDetails["details"]["buyList"]];
+  return [
+    ...myItemsDetails["details"]["sellList"],
+    ...myItemsDetails["details"]["buyList"]
+  ];
 }
 
 Future<List> getItems(mail) async {

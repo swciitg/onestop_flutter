@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/buysell/buy_model.dart';
+import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:onestop_dev/widgets/buySell/ads_tile.dart';
-import 'package:onestop_dev/widgets/buySell/buy_tile.dart';
-import 'package:onestop_dev/widgets/buySell/item_type_bar.dart';
-import 'package:onestop_dev/widgets/buySell/utility.dart';
+import 'package:onestop_dev/widgets/buy_sell/ads_tile.dart';
+import 'package:onestop_dev/widgets/buy_sell/buy_tile.dart';
+import 'package:onestop_dev/widgets/buy_sell/item_type_bar.dart';
+import 'package:onestop_dev/widgets/buy_sell/utility.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,6 @@ class _BuySellHomeState extends State<BuySellHome> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kBlueGrey,
@@ -60,35 +59,33 @@ class _BuySellHomeState extends State<BuySellHome> {
               List<Widget> buyItems = [];
               List<Widget> sellItems = [];
               List<Widget> myAds = [];
-              try{
-              if (!(snapshot2.data![0].isEmpty)) {
-                snapshot2.data![0].forEach((e) => {
-                      buyItems.add(
-                        BuyTile(
-                          model: BuyModel.fromJson(e),
+              try {
+                if (!(snapshot2.data![0].isEmpty)) {
+                  snapshot2.data![0].forEach((e) => {
+                        buyItems.add(
+                          BuyTile(
+                            model: BuyModel.fromJson(e),
+                          ),
+                        )
+                      });
+                }
+                if (!(snapshot2.data![1].isEmpty)) {
+                  snapshot2.data![1].forEach((e) => {
+                        sellItems.add(
+                          BuyTile(model: BuyModel.fromJson(e)),
                         ),
-                      )
-                    });
-              }
-              if (!(snapshot2.data![1].isEmpty)) {
-                snapshot2.data![1].forEach((e) => {
-                      sellItems.add(
-                        BuyTile(model: BuyModel.fromJson(e)),
-                      ),
-                    });
-              }
-              if (!(snapshot2.data![2].isEmpty)) {
-                snapshot2.data![2].forEach((e) => {
-                      myAds.add(
-                        MyAdsTile(
-                          model: BuyModel.fromJson(e),
-                        ),
-                      )
-                    });
-
-              }}
-              catch(e){
-
+                      });
+                }
+                if (!(snapshot2.data![2].isEmpty)) {
+                  snapshot2.data![2].forEach((e) => {
+                        myAds.add(
+                          MyAdsTile(
+                            model: BuyModel.fromJson(e),
+                          ),
+                        )
+                      });
+                }
+              } catch (e) {
                 return const Text('Some Error Occured');
               }
               return StreamBuilder(
@@ -109,7 +106,8 @@ class _BuySellHomeState extends State<BuySellHome> {
                               },
                               child: ItemTypeBar(
                                 text: "Sell",
-                                margin: const EdgeInsets.only(left: 16, bottom: 10),
+                                margin:
+                                    const EdgeInsets.only(left: 16, bottom: 10),
                                 textStyle: MyFonts.w500.size(14).setColor(
                                     snapshot.hasData == false
                                         ? kBlack
@@ -128,13 +126,15 @@ class _BuySellHomeState extends State<BuySellHome> {
                                 if (!snapshot.hasData) {
                                   selectedTypeController.sink.add("Buy");
                                 }
-                                if (snapshot.hasData && snapshot.data! != "Buy") {
+                                if (snapshot.hasData &&
+                                    snapshot.data! != "Buy") {
                                   selectedTypeController.sink.add("Buy");
                                 }
                               },
                               child: ItemTypeBar(
                                 text: "Buy",
-                                margin: const EdgeInsets.only(left: 8, bottom: 10),
+                                margin:
+                                    const EdgeInsets.only(left: 8, bottom: 10),
                                 textStyle: MyFonts.w500.size(14).setColor(
                                     snapshot.hasData == false
                                         ? kWhite
@@ -160,7 +160,8 @@ class _BuySellHomeState extends State<BuySellHome> {
                               },
                               child: ItemTypeBar(
                                 text: "My Ads",
-                                margin: const EdgeInsets.only(left: 8, bottom: 10),
+                                margin:
+                                    const EdgeInsets.only(left: 8, bottom: 10),
                                 textStyle: MyFonts.w500.size(14).setColor(
                                     snapshot.hasData == false
                                         ? kWhite
@@ -190,7 +191,10 @@ class _BuySellHomeState extends State<BuySellHome> {
             );
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: AddItemButton(typeStream: typeStream, initialData: "Sell",),
+      floatingActionButton: AddItemButton(
+        typeStream: typeStream,
+        initialData: "Sell",
+      ),
     );
   }
 }

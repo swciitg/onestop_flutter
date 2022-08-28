@@ -317,7 +317,6 @@ class _BlogState extends State<Blogs> {
   }
 }
 
-
 // color: kBackground, // Color(273141),
 //             // elevation: 5,
 //             // shape: RoundedRectangleBorder(

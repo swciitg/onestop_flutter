@@ -46,9 +46,7 @@ class FoodTab extends StatelessWidget {
                       future: DataProvider.getRestaurants(),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<RestaurantModel>> snapshot) {
-
                         if (snapshot.hasData) {
-
                           List<Widget> foodList = snapshot.data!
                               .map(
                                 (e) => RestaurantTile(
@@ -67,7 +65,9 @@ class FoodTab extends StatelessWidget {
                           ));
                         }
                         return Center(
-                          child: ListShimmer(height: 168,),
+                          child: ListShimmer(
+                            height: 168,
+                          ),
                         );
                       })
                 ],

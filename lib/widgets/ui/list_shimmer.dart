@@ -26,7 +26,7 @@ class ListShimmer extends StatelessWidget {
         baseColor: kHomeTile,
         highlightColor: lGrey,
         child: SizedBox(
-            height: max(400, count*height),
+            height: max(400, count * height),
             child: ListView.builder(
                 itemCount: count,
                 itemBuilder: (_, __) => Padding(

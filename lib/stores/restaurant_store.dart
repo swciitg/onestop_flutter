@@ -25,7 +25,6 @@ abstract class _RestaurantStore with Store {
   @observable
   String _searchString = "";
 
-
   @observable
   String _searchPageHeader =
       ""; // Use this only when user clicks on Your Favourite Dishes
@@ -45,7 +44,6 @@ abstract class _RestaurantStore with Store {
 
   @action
   void setSearchString(String str) {
-
     _searchString = str;
     searchResults = ObservableFuture(executeFuzzySearch());
     _searchPageHeader = "Showing results for $str";

@@ -30,7 +30,6 @@ class _LostFoundHomeState extends State<LostFoundHome> {
   }
 
   Future<List> getLostItems() async {
-
     var res =
         await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/lost'));
 
@@ -40,10 +39,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
   }
 
   Future<List> getFoundItems() async {
-
     var res =
         await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/found'));
-
 
     var foundItemsDetails = jsonDecode(res.body);
 
@@ -82,25 +79,23 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               return FutureBuilder<List>(
                 future: getFoundItems(),
                 builder: (context, foundsSnapshot) {
-
                   if (foundsSnapshot.hasData) {
                     List<Widget> lostItems = [];
                     List<Widget> foundItems = [];
                     for (var e in lostsSnapshot.data!) {
                       {
-
-                          lostItems.add(LostItemTile(
-                              currentLostModel: LostModel.fromJson(e)));
-                        }
+                        lostItems.add(LostItemTile(
+                            currentLostModel: LostModel.fromJson(e)));
+                      }
                     }
 
                     for (var e in foundsSnapshot.data!) {
                       {
-                          foundItems.add(FoundItemTile(
-                            parentContext: context,
-                            currentFoundModel: FoundModel.fromJson(e),
-                          ));
-                        }
+                        foundItems.add(FoundItemTile(
+                          parentContext: context,
+                          currentFoundModel: FoundModel.fromJson(e),
+                        ));
+                      }
                     }
 
                     return StreamBuilder(
@@ -116,11 +111,13 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                                   LostFoundButton(
                                     label: "Lost Items",
                                     snapshot: snapshot,
-                                    selectedTypeController: selectedTypeController,
+                                    selectedTypeController:
+                                        selectedTypeController,
                                     category: "Lost",
                                   ),
                                   LostFoundButton(
-                                    selectedTypeController: selectedTypeController,
+                                    selectedTypeController:
+                                        selectedTypeController,
                                     snapshot: snapshot,
                                     label: "Found Items",
                                     category: "Found",
@@ -174,7 +171,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: ListShimmer(
                 count: 10,
-                height:  120,
+                height: 120,
               ),
             );
           }),

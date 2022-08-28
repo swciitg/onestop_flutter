@@ -7,4 +7,3 @@ Event buildEvent({required String title}) {
     endDate: DateTime.now().add(const Duration(hours: 1)),
   );
 }
-

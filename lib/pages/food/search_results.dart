@@ -48,7 +48,6 @@ class SearchPage extends StatelessWidget {
                         context.read<RestaurantStore>().searchResults;
                     switch (futureList.status) {
                       case FutureStatus.fulfilled:
-
                         List<RestaurantModel> results = futureList.result;
                         List<Widget> foodList = results
                             .map((e) => RestaurantTile(restaurantModel: e))
@@ -57,9 +56,9 @@ class SearchPage extends StatelessWidget {
                           children: foodList,
                         );
                       case FutureStatus.rejected:
-                        return const Center(child: Text("An error has occurred"));
+                        return const Center(
+                            child: Text("An error has occurred"));
                       default:
-
                         return Center(
                           child: ListShimmer(
                             height: 168,

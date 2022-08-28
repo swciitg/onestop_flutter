@@ -133,7 +133,8 @@ class PeopleSearch extends SearchDelegate<String> {
   }
 
   @override
-  Widget buildResults(BuildContext context) => buildSuggestionsSuccess(suggestionsList);
+  Widget buildResults(BuildContext context) =>
+      buildSuggestionsSuccess(suggestionsList);
 
   Widget buildSuggestionsSuccess(List<String> suggestions) => ListView.builder(
         itemCount: suggestions.length,

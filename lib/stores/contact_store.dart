@@ -36,10 +36,15 @@ abstract class _ContactStore with Store {
   @computed
   List<Widget> get starContactScroll {
     if (starredContacts.isEmpty) {
-      return [Padding(
-        padding: const EdgeInsets.only(left: 15),
-        child: Text("You have no starred contacts", style: MyFonts.w400.setColor(kGrey8),),
-      )];
+      return [
+        Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Text(
+            "You have no starred contacts",
+            style: MyFonts.w400.setColor(kGrey8),
+          ),
+        )
+      ];
     }
     return starredContacts
         .map((element) => StarContactNameTile(contact: element))

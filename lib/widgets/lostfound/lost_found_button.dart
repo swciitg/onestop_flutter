@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/widgets/buySell/item_type_bar.dart';
+import 'package:onestop_dev/widgets/buy_sell/item_type_bar.dart';
 
 class LostFoundButton extends StatelessWidget {
   const LostFoundButton(
       {Key? key,
-        required this.selectedTypeController,
-        required this.snapshot,
-        required this.label,
-        required this.category})
+      required this.selectedTypeController,
+      required this.snapshot,
+      required this.label,
+      required this.category})
       : super(key: key);
 
   final StreamController selectedTypeController;

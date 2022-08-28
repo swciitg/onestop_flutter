@@ -14,7 +14,8 @@ import 'package:provider/provider.dart';
 import 'call_map_button.dart';
 
 class RestaurantTile extends StatelessWidget {
-  const RestaurantTile({Key? key, required this.restaurantModel}) : super(key: key);
+  const RestaurantTile({Key? key, required this.restaurantModel})
+      : super(key: key);
 
   final RestaurantModel restaurantModel;
 
@@ -46,18 +47,17 @@ class RestaurantTile extends StatelessWidget {
                     height: double.infinity,
                     child: AspectRatio(
                       aspectRatio: 1,
-                      child: Image.network(restaurantModel.image,
-                          fit: BoxFit.cover,
-                          errorBuilder:
-                              (BuildContext context, Object exception,
-                                  StackTrace? stackTrace) {
-                        return Image.asset(
-                          "assets/images/res_foodimg.jpg",
-                          fit: BoxFit.cover,
-                        );
-                      },
+                      child: Image.network(
+                        restaurantModel.image,
+                        fit: BoxFit.cover,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          return Image.asset(
+                            "assets/images/res_foodimg.jpg",
+                            fit: BoxFit.cover,
+                          );
+                        },
                         frameBuilder: restaurantTileFrameBuilder,
-
                       ),
                     ),
                   ),

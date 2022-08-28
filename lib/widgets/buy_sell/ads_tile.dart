@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/buysell/buy_model.dart';
+import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 
 import 'details_dialog.dart';
 
@@ -24,7 +24,6 @@ class MyAdsTile extends StatefulWidget {
 class _MyAdsTile extends State<MyAdsTile> {
   bool isOverlay = false;
 
-
   @override
   Widget build(BuildContext context) {
     if (isOverlay) {
@@ -37,7 +36,8 @@ class _MyAdsTile extends State<MyAdsTile> {
               });
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
               child: Container(
                 height: 115,
                 decoration: BoxDecoration(
@@ -148,23 +148,27 @@ class _MyAdsTile extends State<MyAdsTile> {
                   style: MyFonts.w400.size(14).setColor(kBlack),
                 ),
                 onPressed: () async {
-
                   await http.post(
                       Uri.parse("https://swc.iitg.ac.in/onestopapi/buy/remove"),
                       headers: {'Content-Type': 'application/json'},
-                      body: jsonEncode({'id': widget.model.id,'email': widget.model.email})
-                  );
+                      body: jsonEncode({
+                        'id': widget.model.id,
+                        'email': widget.model.email
+                      }));
                   await http.post(
-                      Uri.parse("https://swc.iitg.ac.in/onestopapi/sell/remove"),
+                      Uri.parse(
+                          "https://swc.iitg.ac.in/onestopapi/sell/remove"),
                       headers: {'Content-Type': 'application/json'},
-                      body: jsonEncode({'id': widget.model.id,'email': widget.model.email})
-                  );
+                      body: jsonEncode({
+                        'id': widget.model.id,
+                        'email': widget.model.email
+                      }));
                   if (!mounted) return;
                   Navigator.of(context).pop();
                 },
                 onFocusChange: (change) {
                   setState(() {
-                   // TileSate = AdsTileState(context, widget.model, !change);
+                    // TileSate = AdsTileState(context, widget.model, !change);
                   });
                 },
               ),
@@ -257,7 +261,8 @@ class _MyAdsTile extends State<MyAdsTile> {
                     borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(21),
                         bottomRight: Radius.circular(21)),
-                    child: Image.network(widget.model.imageURL, fit: BoxFit.cover),
+                    child:
+                        Image.network(widget.model.imageURL, fit: BoxFit.cover),
                   ),
                 ),
               ],

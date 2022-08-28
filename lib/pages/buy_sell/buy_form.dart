@@ -4,7 +4,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:onestop_dev/widgets/buySell/buy_sell_field.dart';
+import 'package:onestop_dev/widgets/buy_sell/buy_sell_field.dart';
 import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:onestop_dev/services/api.dart';
@@ -18,7 +18,7 @@ class BuySellForm extends StatefulWidget {
       {Key? key,
       required this.category,
       required this.imageString,
-        this.submittedAt})
+      this.submittedAt})
       : super(key: key);
 
   @override
@@ -42,11 +42,10 @@ class _BuySellFormState extends State<BuySellForm> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
-            if(!isLoading)
-              {
-                Navigator.of(context).pop();
-              }
+          onPressed: () {
+            if (!isLoading) {
+              Navigator.of(context).pop();
+            }
           },
           icon: const Icon(Icons.chevron_left_sharp),
         ),
@@ -66,16 +65,10 @@ class _BuySellFormState extends State<BuySellForm> {
                   ? const LinearProgressIndicator()
                   : const ProgressBar(blue: 2, grey: 0),
               Container(
-                margin:
-                    const EdgeInsets.only(top: 40, left: 15, right: 5, bottom: 15),
+                margin: const EdgeInsets.only(
+                    top: 40, left: 15, right: 5, bottom: 15),
                 child: Text(
-                  "Fill in the details of ${widget.category == "Buy"
-                      ? "Requested Item"
-                      : widget.category == "Sell"
-                          ? "Selling Item"
-                          : widget.category == "Lost"
-                              ? "lost object"
-                              : "found object"}",
+                  "Fill in the details of ${widget.category == "Buy" ? "Requested Item" : widget.category == "Sell" ? "Selling Item" : widget.category == "Lost" ? "lost object" : "found object"}",
                   style: MyFonts.w400.size(16).setColor(kWhite),
                 ),
               ),
@@ -135,14 +128,14 @@ class _BuySellFormState extends State<BuySellForm> {
             isLoading = true;
           });
 
-
           if (savingToDB == true) return;
           savingToDB = true;
           dbSavingController.sink.add(true);
           var res = {};
-          Map<String, String>data = {};
+          Map<String, String> data = {};
           data['title'] = _title.text.trim();
-          data['submittedAt'] = (widget.submittedAt == null)?"":widget.submittedAt!;
+          data['submittedAt'] =
+              (widget.submittedAt == null) ? "" : widget.submittedAt!;
           data['description'] = _description.text.trim();
           data['price'] = _price.text.trim();
           data['location'] = _price.text.trim();
@@ -154,15 +147,12 @@ class _BuySellFormState extends State<BuySellForm> {
 
           if (widget.category == "Sell") {
             res = await APIService.postSellData(data);
-
           }
           if (widget.category == "Buy") {
-
             res = await APIService.postBuyData(data);
           }
-          if(widget.category=="Lost"){
+          if (widget.category == "Lost") {
             res = await APIService.postLostData(data);
-
           }
           if (widget.category == "Found") {
             res = await APIService.postFoundData(data);
@@ -171,18 +161,14 @@ class _BuySellFormState extends State<BuySellForm> {
           var body = res;
 
           if (!mounted) return;
-          if (body["saved_successfully"] == true)
-          {
-
+          if (body["saved_successfully"] == true) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
-                  "Saved data successfully",
-                  style: MyFonts.w500,
-                )));
+              "Saved data successfully",
+              style: MyFonts.w500,
+            )));
             Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
-          }
-          else
-            {
+          } else {
             dbSavingController.sink.add(false);
             savingToDB = false;
             setState(() {
@@ -191,9 +177,9 @@ class _BuySellFormState extends State<BuySellForm> {
             if (body["image_safe"] == false) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(
-                    "The chosen image is not safe for work !!",
-                    style: MyFonts.w500,
-                  )));
+                "The chosen image is not safe for work !!",
+                style: MyFonts.w500,
+              )));
               return;
             }
             setState(() {
@@ -201,9 +187,9 @@ class _BuySellFormState extends State<BuySellForm> {
             });
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
-                  "Some error occured, please try again",
-                  style: MyFonts.w500,
-                )));
+              "Some error occured, please try again",
+              style: MyFonts.w500,
+            )));
           }
         },
         child: StreamBuilder(

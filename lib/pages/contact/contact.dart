@@ -15,8 +15,6 @@ import 'package:provider/provider.dart';
 
 import 'contact_detail.dart';
 
-
-
 class ContactPage extends StatefulWidget {
   static String id = "/contacto";
   const ContactPage({Key? key}) : super(key: key);
@@ -159,9 +157,7 @@ class _ContactPageState extends State<ContactPage> {
                                   children: context
                                       .read<ContactStore>()
                                       .starContactScroll);
-                            }
-                            )
-                        );
+                            }));
                       }
                       return Container();
                     }),
@@ -179,18 +175,18 @@ class _ContactPageState extends State<ContactPage> {
                   child: FutureBuilder<SplayTreeMap<String, ContactModel>>(
                     future: DataProvider.getContacts(),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData)
-                      {
-                        SplayTreeMap<String, ContactModel> people = snapshot.data!;
+                      if (snapshot.hasData) {
+                        SplayTreeMap<String, ContactModel> people =
+                            snapshot.data!;
                         List<String> alphabets = [];
                         people.forEach((key, value) {
-                          if(!alphabets.contains(key[0].toUpperCase()))
-                            {
-                              alphabets.add(key[0].toUpperCase());
-                            }
+                          if (!alphabets.contains(key[0].toUpperCase())) {
+                            alphabets.add(key[0].toUpperCase());
+                          }
                         });
                         for (var e in alphabets) {
-                          people["${e}ADONOTUSE"] = ContactModel(name: "Random", contacts: [], group: "");
+                          people["${e}ADONOTUSE"] = ContactModel(
+                              name: "Random", contacts: [], group: "");
                         }
                         return AlphabetScrollView(
                           list: people.keys.map((e) => AlphaModel(e)).toList(),

@@ -28,7 +28,8 @@ abstract class _TravelStore with Store {
   String selectedFerryGhat = "Rajaduwar";
 
   @observable
-  ObservableFuture<List<FerryTimeData>> ferryTimings = ObservableFuture(DataProvider.getFerryTimings());
+  ObservableFuture<List<FerryTimeData>> ferryTimings =
+      ObservableFuture(DataProvider.getFerryTimings());
 
   @action
   void setFerryDayType(String s) {
@@ -97,10 +98,7 @@ abstract class _TravelStore with Store {
   }
 
   @action
-  void setFerryGhat (String s) {
+  void setFerryGhat(String s) {
     selectedFerryGhat = s;
   }
-
-
-
 }

@@ -11,7 +11,8 @@ import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
 class AddItemButton extends StatefulWidget {
   const AddItemButton({
     Key? key,
-    required this.typeStream, required this.initialData,
+    required this.typeStream,
+    required this.initialData,
   }) : super(key: key);
 
   final Stream typeStream;
@@ -38,8 +39,8 @@ class _AddItemButtonState extends State<AddItemButton> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                      title:
-                      const Text("From where do you want to take the photo?"),
+                      title: const Text(
+                          "From where do you want to take the photo?"),
                       content: SingleChildScrollView(
                         child: ListBody(
                           children: <Widget>[
@@ -48,7 +49,7 @@ class _AddItemButtonState extends State<AddItemButton> {
                               onTap: () async {
                                 xFile = await ImagePicker()
                                     .pickImage(source: ImageSource.gallery);
-                                if(!mounted) return;
+                                if (!mounted) return;
                                 Navigator.of(context).pop();
                               },
                             ),
@@ -58,7 +59,7 @@ class _AddItemButtonState extends State<AddItemButton> {
                               onTap: () async {
                                 xFile = await ImagePicker()
                                     .pickImage(source: ImageSource.camera);
-                                if(!mounted) return;
+                                if (!mounted) return;
                                 Navigator.of(context).pop();
                               },
                             )
@@ -67,57 +68,50 @@ class _AddItemButtonState extends State<AddItemButton> {
                       ));
                 });
 
-            if(!mounted) return;
+            if (!mounted) return;
             if (xFile != null) {
               var bytes = File(xFile!.path).readAsBytesSync();
               var imageSize =
-              (bytes.lengthInBytes / (1048576)); // dividing by 1024*1024
+                  (bytes.lengthInBytes / (1048576)); // dividing by 1024*1024
               if (imageSize > 2.5) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(
-                      "Maximum image size can be 2.5 MB",
-                      style: MyFonts.w500,
-                    )));
+                  "Maximum image size can be 2.5 MB",
+                  style: MyFonts.w500,
+                )));
                 return;
               }
               var imageString = base64Encode(bytes);
-              if(widget.initialData == "Lost")
-                {
-                  if (snapshot.data == "Lost") {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => BuySellForm(
-                          category: "Lost",
-                          imageString: imageString,
-                        )));
-                    return;
-                  }
+              if (widget.initialData == "Lost") {
+                if (snapshot.data == "Lost") {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => LostFoundLocationForm(
-                        imageString: imageString,
-                      )));
+                      builder: (context) => BuySellForm(
+                            category: "Lost",
+                            imageString: imageString,
+                          )));
+                  return;
                 }
-              else
-                {
-                  if (snapshot.data == "Sell")
-                  {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => BuySellForm(
-                          category: "Sell",
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => LostFoundLocationForm(
                           imageString: imageString,
                         )));
-                    return;
-                  }
-                  else if (snapshot.data == "Buy")
-                  {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => BuySellForm(
-                          category: "Buy",
-                          imageString: imageString,
-                        )));
-                    return;
-                  }
+              } else {
+                if (snapshot.data == "Sell") {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BuySellForm(
+                            category: "Sell",
+                            imageString: imageString,
+                          )));
+                  return;
+                } else if (snapshot.data == "Buy") {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BuySellForm(
+                            category: "Buy",
+                            imageString: imageString,
+                          )));
+                  return;
                 }
-
+              }
             }
           },
           child: Container(
@@ -131,8 +125,7 @@ class _AddItemButtonState extends State<AddItemButton> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
-                  padding:
-                  EdgeInsets.only(top: 17, bottom: 20, left: 20),
+                  padding: EdgeInsets.only(top: 17, bottom: 20, left: 20),
                   child: Icon(
                     Icons.add,
                     size: 30,

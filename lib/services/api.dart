@@ -31,7 +31,8 @@ class APIService {
     }
   }
 
-  static Future<Map<String,dynamic>> postSellData(Map<String, String> data) async {
+  static Future<Map<String, dynamic>> postSellData(
+      Map<String, String> data) async {
     var res =
         await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/sell"),
             body: jsonEncode({
@@ -47,7 +48,8 @@ class APIService {
     return jsonDecode(res.body);
   }
 
-  static Future<Map<String,dynamic>> postBuyData(Map<String, String> data) async {
+  static Future<Map<String, dynamic>> postBuyData(
+      Map<String, String> data) async {
     var res =
         await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/buy"),
             body: jsonEncode({
@@ -60,10 +62,11 @@ class APIService {
               'username': data['name']
             }),
             headers: {'Content-Type': 'application/json'});
-    return  jsonDecode(res.body);
+    return jsonDecode(res.body);
   }
 
-  static Future<Map<String,dynamic>> postLostData(Map<String, String> data) async {
+  static Future<Map<String, dynamic>> postLostData(
+      Map<String, String> data) async {
     var res =
         await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/lost"),
             body: jsonEncode({
@@ -76,10 +79,11 @@ class APIService {
               'username': data['name']
             }),
             headers: {'Content-Type': 'application/json'});
-    return  jsonDecode(res.body);
+    return jsonDecode(res.body);
   }
 
-  static Future<Map<String,dynamic>> postFoundData(Map<String, String> data) async {
+  static Future<Map<String, dynamic>> postFoundData(
+      Map<String, String> data) async {
     var res =
         await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/found"),
             body: jsonEncode({
@@ -92,7 +96,7 @@ class APIService {
               'username': data['name']
             }),
             headers: {'Content-Type': 'application/json'});
-    return  jsonDecode(res.body);
+    return jsonDecode(res.body);
   }
 
   static Future<Map<String, dynamic>> getLastUpdated() async {

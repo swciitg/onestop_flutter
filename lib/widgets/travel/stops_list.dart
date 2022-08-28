@@ -47,7 +47,8 @@ class BusStopList extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.95,
                         decoration: BoxDecoration(
                           color: kTileBackground,
-                          borderRadius: const BorderRadius.all(Radius.circular(20)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20)),
                           border: Border.all(
                               color: (mapStore.selectedCarouselIndex == index)
                                   ? lBlue5
@@ -68,11 +69,11 @@ class BusStopList extends StatelessWidget {
                             style: MyFonts.w500.setColor(kWhite),
                           ),
                           subtitle: Text(
-                              "${calculateDistance(mapStore.userLatLng, LatLng(
-                                  mapStore.allLocationData[
-                                  index]['lat'],
-                                  mapStore.allLocationData[
-                                  index]['long']),).toStringAsFixed(2)} km",
+                              "${calculateDistance(
+                                mapStore.userLatLng,
+                                LatLng(mapStore.allLocationData[index]['lat'],
+                                    mapStore.allLocationData[index]['long']),
+                              ).toStringAsFixed(2)} km",
                               style: MyFonts.w500.setColor(kGrey13)),
                           // trailing: (map_store.allLocationData[index]['status'] ==
                           //     'left')
@@ -93,16 +94,16 @@ class BusStopList extends StatelessWidget {
                           // )
                           //     :
                           //
-                          trailing:
-                              (getFormattedDay() == 'Saturday' || getFormattedDay() == 'Sunday')
-                                  ? Text(
-                                      nextTime(busTime[1]),
-                                      style: MyFonts.w500.setColor(lBlue2),
-                                    )
-                                  : Text(
-                                      nextTime(busTime[0]),
-                                      style: MyFonts.w500.setColor(lBlue2),
-                                    ),
+                          trailing: (getFormattedDay() == 'Saturday' ||
+                                  getFormattedDay() == 'Sunday')
+                              ? Text(
+                                  nextTime(busTime[1]),
+                                  style: MyFonts.w500.setColor(lBlue2),
+                                )
+                              : Text(
+                                  nextTime(busTime[0]),
+                                  style: MyFonts.w500.setColor(lBlue2),
+                                ),
                         ),
                       );
                     }),

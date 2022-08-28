@@ -14,7 +14,6 @@ import 'package:onestop_dev/widgets/travel/travel_drop_down.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
-
 class FerryDetails extends StatelessWidget {
   const FerryDetails({Key? key}) : super(key: key);
 
@@ -40,12 +39,12 @@ class FerryDetails extends StatelessWidget {
                         onPressed: () {
                           context.read<TravelStore>().setFerryGhat(e['name']);
                           var mapboxStore = context.read<MapBoxStore>();
-                          int i = mapboxStore.allLocationData.indexWhere((element) => e['name'] == element['name']);
+                          int i = mapboxStore.allLocationData.indexWhere(
+                              (element) => e['name'] == element['name']);
                           mapboxStore.selectedCarousel(i);
                           mapboxStore.zoomTwoMarkers(
                               mapboxStore.selectedCarouselLatLng,
-                              LatLng(mapboxStore.userlat,
-                                  mapboxStore.userlong),
+                              LatLng(mapboxStore.userlat, mapboxStore.userlong),
                               90.0);
                         },
                         child: ClipRRect(
@@ -96,7 +95,9 @@ class FerryDetails extends StatelessWidget {
             ),
           ),
           Column(
-            children: (ferryMap[context.read<TravelStore>().ferryDataIndex] as List<String>).map((e) {
+            children: (ferryMap[context.read<TravelStore>().ferryDataIndex]
+                    as List<String>)
+                .map((e) {
               return Padding(
                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: TimingTile(

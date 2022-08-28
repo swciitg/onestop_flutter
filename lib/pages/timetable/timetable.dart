@@ -19,7 +19,6 @@ class _TimeTableTabState extends State<TimeTableTab> {
   List<Map<int, List<List<String>>>> data1 = [];
   @override
   Widget build(BuildContext context) {
-
     sel = findTimeRange();
     return SingleChildScrollView(
       child: Column(
