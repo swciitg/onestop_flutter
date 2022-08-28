@@ -30,7 +30,7 @@ class TimetableTile extends StatelessWidget {
                 : Border.all(color: Colors.transparent),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10, right: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
