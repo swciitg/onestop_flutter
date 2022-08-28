@@ -16,27 +16,26 @@ class TimeTableTab extends StatefulWidget {
 class _TimeTableTabState extends State<TimeTableTab> {
   int select = 0;
   String sel = "";
-  List<Map<int, List<List<String>>>> Data1 = [];
+  List<Map<int, List<List<String>>>> data1 = [];
   @override
   Widget build(BuildContext context) {
-    print("Rebuild course_model.dart");
+
     sel = findTimeRange();
-    //adjustTime();
     return SingleChildScrollView(
       child: Column(
         children: [
-          Container(
+          const SizedBox(
             height: 130,
             child: DateSlider(),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Observer(builder: (context) {
             if (context.read<TimetableStore>().coursesLoaded) {
               return ListView.builder(
                   shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   itemCount:
                       context.read<TimetableStore>().todayTimeTable.length,
                   itemBuilder: (context, index) =>

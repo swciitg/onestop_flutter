@@ -34,8 +34,8 @@ class _RouterPageState extends State<RouterPage> {
   TextEditingController roomController = TextEditingController();
   TextEditingController blockController = TextEditingController();
   TextEditingController floorController = TextEditingController();
-  hostelDetails hostel =
-      hostelDetails("nothing", "--", "--=-=-===", "something");
+  HostelDetails hostel =
+      HostelDetails("nothing", "--", "--=-=-===", "something");
   String dropdownValue = "Select Hostel";
   List<String> spinnerItems = [
     'Select Hostel',

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/services/local_storage.dart';
@@ -10,12 +11,12 @@ Map<String,List<String>> recordNames = {
 };
 
 Future<bool> checkLastUpdated() async{
-  print("checkUpdated called");
+
   Map<String, dynamic>? lastUpdated = await DataProvider.getLastUpdated();
-  print(lastUpdated);
+
   try {
     Map<String,dynamic> last = await APIService.getLastUpdated();
-    print(last);
+
     if(lastUpdated == null)
     {
       await LocalStorage.instance.deleteAllRecord();
@@ -26,13 +27,15 @@ Future<bool> checkLastUpdated() async{
     {
       if(lastUpdated[key] != last[key])
       {
-        print('Key mismatch $key');
+
         recordNames[key]?.forEach((element) async { await LocalStorage.instance.deleteRecord(element);});
       }
     }
     await LocalStorage.instance.storeData([last], 'LastUpdated');
   } catch (e) {
-    print(e);
+    if (kDebugMode) {
+      print(e);
+    }
   }
 
   return true;

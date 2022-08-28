@@ -8,11 +8,11 @@ decfunction(String x) {
     labelStyle: MyFonts.w500.setColor(kGrey7),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30.0),
-      borderSide: BorderSide(color: kGrey7, width: 1),
+      borderSide: const BorderSide(color: kGrey7, width: 1),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30.0),
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: kGrey7,
         width: 1,
       ),

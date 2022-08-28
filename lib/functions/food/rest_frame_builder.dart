@@ -9,10 +9,10 @@ Widget restaurantTileFrameBuilder(BuildContext context, Widget child,
   }
   if (frame == null) {
     return Shimmer.fromColors(
-        child: Container(color: kBlack, height: 190),
-        period: Duration(seconds: 1),
+        period: const Duration(seconds: 1),
         baseColor: kBlueGrey,
-        highlightColor: Color.fromRGBO(68, 86, 120, 1));
+        highlightColor: const Color.fromRGBO(68, 86, 120, 1),
+        child: Container(color: kBlack, height: 190));
   }
   return child;
 }

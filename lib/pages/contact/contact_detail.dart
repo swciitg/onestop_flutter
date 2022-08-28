@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class ContactDetailsPage extends StatefulWidget {
   final String title;
   final ContactModel? contact;
-  ContactDetailsPage({Key? key, this.contact, required this.title})
+  const ContactDetailsPage({Key? key, this.contact, required this.title})
       : super(key: key);
   @override
   State<ContactDetailsPage> createState() => _ContactDetailsPageState();
@@ -33,48 +33,46 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(IconData(0xe16a, fontFamily: 'MaterialIcons')))
+                icon: const Icon(IconData(0xe16a, fontFamily: 'MaterialIcons')))
           ],
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Container(
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      widget.contact!.name,
-                      style: MyFonts.w600.size(16).setColor(kWhite),
-                    ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    widget.contact!.name,
+                    style: MyFonts.w600.size(16).setColor(kWhite),
                   ),
-                  Expanded(child: SizedBox()),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Text(
-                      widget.contact!.group,
-                      style: MyFonts.w400.size(14).setColor(kGrey2),
-                    ),
-                  )
-                ],
-              ),
+                ),
+                const Expanded(child: SizedBox()),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    widget.contact!.group,
+                    style: MyFonts.w400.size(14).setColor(kGrey2),
+                  ),
+                )
+              ],
             ),
             Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0, top: 2),
                   child: Text(
-                    widget.contact!.contacts.length.toString() + ' contacts',
+                    '${widget.contact!.contacts.length} contacts',
                     style: MyFonts.w500.size(12).setColor(kGrey11),
                   ),
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Row(
@@ -95,7 +93,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.96,
-              child: Divider(
+              child: const Divider(
                 color: Colors.blueGrey,
                 thickness: 1,
               ),

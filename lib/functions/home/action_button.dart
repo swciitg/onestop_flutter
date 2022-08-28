@@ -9,7 +9,7 @@ Widget homeActionButton(BuildContext context, int index) {
     onPressed: () {
       showMyDialog(context);
     },
-    child: Icon(Icons.add),
+    child: const Icon(Icons.add),
   )
-      : SizedBox();
+      : const SizedBox();
 }

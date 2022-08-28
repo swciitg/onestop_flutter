@@ -5,7 +5,7 @@ String durationLeft(String time)
   DateFormat dateFormat = DateFormat("hh:mm a");
   DateTime inputTime = dateFormat.parse(time);
   DateTime nowTime = dateFormat.parse(dateFormat.format(DateTime.now()));
-  Duration diff = inputTime.add(Duration(days:1)).difference(nowTime);
+  Duration diff = inputTime.add(const Duration(days:1)).difference(nowTime);
   int ans = diff.inHours;
   if(ans >= 24)
   {
@@ -14,9 +14,8 @@ String durationLeft(String time)
 
   if(ans >= 1)
   {
-    print(ans);
-    print("Hours remaining");
-    return ans.toString() + ' hrs';
+
+    return '$ans hrs';
   }
   else
   {
@@ -26,8 +25,6 @@ String durationLeft(String time)
       ans -= 1440;
     }
 
-    print(ans);
-    print("Minutes");
-    return ans.toString() + 'min';
+    return '${ans}min';
   }
 }

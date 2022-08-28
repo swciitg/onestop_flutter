@@ -1,4 +1,4 @@
-String calculatedetails(hostelDetails args, String initials)
+String calculatedetails(HostelDetails args, String initials)
 {
   String block = args.block;
   int W = -1, X = -1, Y = -1, Z = -1;
@@ -39,38 +39,38 @@ String calculatedetails(hostelDetails args, String initials)
   else if (selectedHostel == "Dihing" ||
       selectedHostel == "Kapili" ||
       selectedHostel == "Siang")
-  {ipAddress = initials + "." + X.toString() + "." + Y.toString();}
+  {ipAddress = "$initials.$X.$Y";}
   else if (selectedHostel == "Brahmaputra")
   {
     if (W != 0)
     {
-      ipAddress = initials + "." + W.toString() + X.toString() + "." + Z.toString();
+      ipAddress = "$initials.$W$X.$Z";
     }
     else
       {
-        ipAddress = initials + "." + X.toString() + "." + Z.toString();
+        ipAddress = "$initials.$X.$Z";
       }
   }
   else
   {
     if (W != 0)
     {
-      ipAddress = initials + "." + W.toString() + X.toString() + "." + Y.toString();
+      ipAddress = "$initials.$W$X.$Y";
     }
     else
       {
-      ipAddress = initials + "." + X.toString() + "." + Y.toString();
+      ipAddress = "$initials.$X.$Y";
     }
   }
 
   return ipAddress;
 }
 
-class hostelDetails
+class HostelDetails
 {
   late String hostelName;
   late String block;
   late String floor;
   late String roomNo;
-  hostelDetails(this.hostelName, this.block, this.floor, this.roomNo);
+  HostelDetails(this.hostelName, this.block, this.floor, this.roomNo);
 }

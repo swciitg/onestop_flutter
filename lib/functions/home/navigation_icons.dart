@@ -4,7 +4,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 
 List<Widget> bottomNavIcons() {
   return [
-    NavigationDestination(
+    const NavigationDestination(
       icon: Icon(FluentIcons.home_24_regular),
       label: 'Home',
       selectedIcon: Icon(
@@ -12,7 +12,7 @@ List<Widget> bottomNavIcons() {
         color: lBlue2,
       ),
     ),
-    NavigationDestination(
+    const NavigationDestination(
       icon: Icon(FluentIcons.food_24_regular),
       label: 'Food',
       selectedIcon: Icon(
@@ -20,15 +20,15 @@ List<Widget> bottomNavIcons() {
         color: lBlue2,
       ),
     ),
-    NavigationDestination(
+    const NavigationDestination(
       icon: Icon(FluentIcons.vehicle_bus_24_regular),
       label: 'Travel',
-      selectedIcon: Icon(
+      selectedIcon: const Icon(
         FluentIcons.vehicle_bus_24_filled,
         color: lBlue2,
       ),
     ),
-    NavigationDestination(
+    const NavigationDestination(
       icon: Icon(FluentIcons.calendar_ltr_24_regular),
       label: 'Timetable',
       selectedIcon: Icon(

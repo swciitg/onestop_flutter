@@ -19,8 +19,8 @@ class _TravelPageState extends State<TravelPage> {
 
   @override
   Widget build(BuildContext context) {
-    var map_store = context.read<MapBoxStore>();
-    map_store.checkTravelPage(true);
+    var mapStore = context.read<MapBoxStore>();
+    mapStore.checkTravelPage(true);
 
       return SingleChildScrollView(
         child: Column(
@@ -33,7 +33,7 @@ class _TravelPageState extends State<TravelPage> {
             const SizedBox(height: 10,),
             Provider<TravelStore>(create: (_) => TravelStore(), builder: (context, _) {
               return Observer(builder: (context) {
-                return (map_store.indexBusesorFerry == 0)
+                return (mapStore.indexBusesorFerry == 0)
                     ? const StopsBusDetails()
                     : const FerryDetails();
               });

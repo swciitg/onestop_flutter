@@ -7,12 +7,11 @@ import 'package:provider/provider.dart';
 
 String getRestaurantDistance(BuildContext context, RestaurantModel restaurant) {
   try {
-    return calculateDistance(
+    return '${calculateDistance(
         context.read<MapBoxStore>().userLatLng,
         LatLng(restaurant.latitude,
             restaurant.longitude))
-        .toStringAsFixed(2) +
-        ' km';
+        .toStringAsFixed(2)} km';
   } catch (e) {
     return '';
   }

@@ -47,7 +47,7 @@ class _BuySellHomeState extends State<BuySellHome> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(
+            icon: const Icon(
               IconData(0xe16a, fontFamily: 'MaterialIcons'),
             ),
           )
@@ -55,14 +55,14 @@ class _BuySellHomeState extends State<BuySellHome> {
       ),
       body: FutureBuilder<List>(
           future: getItems(context.read<LoginStore>().userData['email']),
-          builder: (context, Snapshot) {
-            if (Snapshot.hasData) {
+          builder: (context, snapshot2) {
+            if (snapshot2.hasData) {
               List<Widget> buyItems = [];
               List<Widget> sellItems = [];
               List<Widget> myAds = [];
               try{
-              if (!(Snapshot.data![0].isEmpty)) {
-                Snapshot.data![0].forEach((e) => {
+              if (!(snapshot2.data![0].isEmpty)) {
+                snapshot2.data![0].forEach((e) => {
                       buyItems.add(
                         BuyTile(
                           model: BuyModel.fromJson(e),
@@ -70,26 +70,26 @@ class _BuySellHomeState extends State<BuySellHome> {
                       )
                     });
               }
-              if (!(Snapshot.data![1].isEmpty)) {
-                Snapshot.data![1].forEach((e) => {
+              if (!(snapshot2.data![1].isEmpty)) {
+                snapshot2.data![1].forEach((e) => {
                       sellItems.add(
                         BuyTile(model: BuyModel.fromJson(e)),
                       ),
                     });
               }
-              if (!(Snapshot.data![2].isEmpty)) {
-                Snapshot.data![2].forEach((e) => {
+              if (!(snapshot2.data![2].isEmpty)) {
+                snapshot2.data![2].forEach((e) => {
                       myAds.add(
                         MyAdsTile(
                           model: BuyModel.fromJson(e),
                         ),
                       )
                     });
-                print(myAds.length);
+
               }}
               catch(e){
-                print(e);
-                return Text('Some Error Occured');
+
+                return const Text('Some Error Occured');
               }
               return StreamBuilder(
                 stream: typeStream,
@@ -103,12 +103,13 @@ class _BuySellHomeState extends State<BuySellHome> {
                             GestureDetector(
                               onTap: () {
                                 if (snapshot.hasData &&
-                                    snapshot.data! != "Sell")
+                                    snapshot.data! != "Sell") {
                                   selectedTypeController.sink.add("Sell");
+                                }
                               },
                               child: ItemTypeBar(
                                 text: "Sell",
-                                margin: EdgeInsets.only(left: 16, bottom: 10),
+                                margin: const EdgeInsets.only(left: 16, bottom: 10),
                                 textStyle: MyFonts.w500.size(14).setColor(
                                     snapshot.hasData == false
                                         ? kBlack
@@ -124,14 +125,16 @@ class _BuySellHomeState extends State<BuySellHome> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                if (!snapshot.hasData)
+                                if (!snapshot.hasData) {
                                   selectedTypeController.sink.add("Buy");
-                                if (snapshot.hasData && snapshot.data! != "Buy")
+                                }
+                                if (snapshot.hasData && snapshot.data! != "Buy") {
                                   selectedTypeController.sink.add("Buy");
+                                }
                               },
                               child: ItemTypeBar(
                                 text: "Buy",
-                                margin: EdgeInsets.only(left: 8, bottom: 10),
+                                margin: const EdgeInsets.only(left: 8, bottom: 10),
                                 textStyle: MyFonts.w500.size(14).setColor(
                                     snapshot.hasData == false
                                         ? kWhite
@@ -147,15 +150,17 @@ class _BuySellHomeState extends State<BuySellHome> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                if (!snapshot.hasData)
+                                if (!snapshot.hasData) {
                                   selectedTypeController.sink.add("My Ads");
+                                }
                                 if (snapshot.hasData &&
-                                    snapshot.data! != "My Ads")
+                                    snapshot.data! != "My Ads") {
                                   selectedTypeController.sink.add("My Ads");
+                                }
                               },
                               child: ItemTypeBar(
                                 text: "My Ads",
-                                margin: EdgeInsets.only(left: 8, bottom: 10),
+                                margin: const EdgeInsets.only(left: 8, bottom: 10),
                                 textStyle: MyFonts.w500.size(14).setColor(
                                     snapshot.hasData == false
                                         ? kWhite
@@ -180,7 +185,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                 },
               );
             }
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }),

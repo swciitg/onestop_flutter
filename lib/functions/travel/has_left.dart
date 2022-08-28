@@ -2,16 +2,16 @@ import 'package:intl/intl.dart';
 
 bool hasLeft(String input_time)
 {
-  var current_time = DateTime.now();
-  List<String>current_hour = DateFormat.j().format(current_time).toString().split(' ');
-  List<String>input_hour = input_time.split(' ');
+  var currentTime = DateTime.now();
+  List<String>currentHour = DateFormat.j().format(currentTime).toString().split(' ');
+  List<String>inputHour = input_time.split(' ');
 
   //Checking if both AM or both PM
-  if(input_hour[1] == current_hour[1])
+  if(inputHour[1] == currentHour[1])
   {
-    List<String>hm = input_hour[0].split(':');
+    List<String>hm = inputHour[0].split(':');
     int a = int.parse(hm[0]);
-    int b = int.parse(current_hour[0]);
+    int b = int.parse(currentHour[0]);
 
     if(a == 12) {a = 0;}
     if(b == 12) {b = 0;}
@@ -23,14 +23,14 @@ bool hasLeft(String input_time)
     {
       //Checking if both have same minute
       a = int.parse(hm[1]);
-      b = int.parse(DateFormat.m().format(current_time));
+      b = int.parse(DateFormat.m().format(currentTime));
       if(a > b){return false;}
       else{return true;}
     }
   }
   else
   {
-    if(input_hour[1] ==  'AM') {return true;}
+    if(inputHour[1] ==  'AM') {return true;}
     else {return false;}
   }
 

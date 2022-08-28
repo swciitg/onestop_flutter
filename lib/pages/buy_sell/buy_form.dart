@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -15,7 +14,7 @@ class BuySellForm extends StatefulWidget {
   final String category;
   final String imageString;
   final String? submittedAt;
-  BuySellForm(
+  const BuySellForm(
       {Key? key,
       required this.category,
       required this.imageString,
@@ -28,11 +27,11 @@ class BuySellForm extends StatefulWidget {
 
 class _BuySellFormState extends State<BuySellForm> {
   final formKey = GlobalKey<FormState>();
-  TextEditingController _title = TextEditingController();
-  TextEditingController _description = TextEditingController();
-  TextEditingController _contactNumber = TextEditingController();
-  TextEditingController _price = TextEditingController();
-  TextEditingController _price2 = TextEditingController();
+  final TextEditingController _title = TextEditingController();
+  final TextEditingController _description = TextEditingController();
+  final TextEditingController _contactNumber = TextEditingController();
+  final TextEditingController _price = TextEditingController();
+  final TextEditingController _price2 = TextEditingController();
   bool savingToDB = false;
   bool isLoading = false;
   StreamController dbSavingController = StreamController();
@@ -49,7 +48,7 @@ class _BuySellFormState extends State<BuySellForm> {
                 Navigator.of(context).pop();
               }
           },
-          icon: Icon(Icons.chevron_left_sharp),
+          icon: const Icon(Icons.chevron_left_sharp),
         ),
         backgroundColor: kBlueGrey,
         title: Text(
@@ -64,19 +63,19 @@ class _BuySellFormState extends State<BuySellForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               isLoading
-                  ? LinearProgressIndicator()
-                  : ProgressBar(blue: 2, grey: 0),
+                  ? const LinearProgressIndicator()
+                  : const ProgressBar(blue: 2, grey: 0),
               Container(
                 margin:
-                    EdgeInsets.only(top: 40, left: 15, right: 5, bottom: 15),
+                    const EdgeInsets.only(top: 40, left: 15, right: 5, bottom: 15),
                 child: Text(
-                  "Fill in the details of " + (widget.category == "Buy"
+                  "Fill in the details of ${widget.category == "Buy"
                       ? "Requested Item"
                       : widget.category == "Sell"
                           ? "Selling Item"
                           : widget.category == "Lost"
                               ? "lost object"
-                              : "found object"),
+                              : "found object"}",
                   style: MyFonts.w400.size(16).setColor(kWhite),
                 ),
               ),
@@ -118,7 +117,7 @@ class _BuySellFormState extends State<BuySellForm> {
                 controller: _description,
                 type: "Description",
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               )
             ],
@@ -140,7 +139,7 @@ class _BuySellFormState extends State<BuySellForm> {
           if (savingToDB == true) return;
           savingToDB = true;
           dbSavingController.sink.add(true);
-          var res;
+          var res = {};
           Map<String, String>data = {};
           data['title'] = _title.text.trim();
           data['submittedAt'] = (widget.submittedAt == null)?"":widget.submittedAt!;
@@ -151,28 +150,30 @@ class _BuySellFormState extends State<BuySellForm> {
           data['image'] = widget.imageString;
           data['name'] = context.read<LoginStore>().userData["name"]!;
           data['email'] = context.read<LoginStore>().userData["email"]!;
-          data['total_price'] = _price.text.toString() + "-" + _price2.text.toString();
+          data['total_price'] = "${_price.text}-${_price2.text}";
 
           if (widget.category == "Sell") {
             res = await APIService.postSellData(data);
-            print(res.body);
+
           }
           if (widget.category == "Buy") {
-            print("Here IN BUY");
+
             res = await APIService.postBuyData(data);
           }
           if(widget.category=="Lost"){
             res = await APIService.postLostData(data);
-            print(res.body);
+
           }
           if (widget.category == "Found") {
             res = await APIService.postFoundData(data);
           }
 
-          var body = jsonDecode(res.body);
-          print(body);
+          var body = res;
+
+          if (!mounted) return;
           if (body["saved_successfully"] == true)
           {
+
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
                   "Saved data successfully",
@@ -209,9 +210,9 @@ class _BuySellFormState extends State<BuySellForm> {
           stream: dbSavingController.stream,
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData && snapshot.data == true) {
-              return NewPageButton(title: "Saving...");
+              return const NewPageButton(title: "Saving...");
             }
-            return NewPageButton(title: "Submit");
+            return const NewPageButton(title: "Submit");
           },
         ),
       ),
