@@ -23,7 +23,7 @@ List<Widget> bottomNavIcons() {
     const NavigationDestination(
       icon: Icon(FluentIcons.vehicle_bus_24_regular),
       label: 'Travel',
-      selectedIcon: const Icon(
+      selectedIcon: Icon(
         FluentIcons.vehicle_bus_24_filled,
         color: lBlue2,
       ),

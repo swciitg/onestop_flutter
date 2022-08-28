@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 part 'dish_model.g.dart';
-
+// ignore_for_file: non_constant_identifier_names
 @JsonSerializable()
 class DishModel {
   @JsonKey(defaultValue: "Unnamed")
@@ -11,6 +11,7 @@ class DishModel {
   @JsonKey(defaultValue: " ",fromJson: ingredientsFromJson, toJson: ingredientsToJson)
   late String ingredients;
   @JsonKey(defaultValue: 2)
+
   late int waiting_time;
   @JsonKey(defaultValue: 150)
   late int price;

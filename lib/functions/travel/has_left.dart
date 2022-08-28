@@ -1,10 +1,10 @@
 import 'package:intl/intl.dart';
 
-bool hasLeft(String input_time)
+bool hasLeft(String inputTime)
 {
   var currentTime = DateTime.now();
   List<String>currentHour = DateFormat.j().format(currentTime).toString().split(' ');
-  List<String>inputHour = input_time.split(' ');
+  List<String>inputHour = inputTime.split(' ');
 
   //Checking if both AM or both PM
   if(inputHour[1] == currentHour[1])
