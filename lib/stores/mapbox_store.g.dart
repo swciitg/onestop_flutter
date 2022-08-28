@@ -24,6 +24,13 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
           Computed<LatLng>(() => super.selectedCarouselLatLng,
               name: '_MapBoxStore.selectedCarouselLatLng'))
       .value;
+  Computed<String>? _$selectedCarouselNameComputed;
+
+  @override
+  String get selectedCarouselName => (_$selectedCarouselNameComputed ??=
+          Computed<String>(() => super.selectedCarouselName,
+              name: '_MapBoxStore.selectedCarouselName'))
+      .value;
   Computed<LatLng>? _$userLatLngComputed;
 
   @override
@@ -285,6 +292,7 @@ loadOperation: ${loadOperation},
 markers: ${markers},
 allLocationData: ${allLocationData},
 selectedCarouselLatLng: ${selectedCarouselLatLng},
+selectedCarouselName: ${selectedCarouselName},
 userLatLng: ${userLatLng},
 carouselCards: ${carouselCards}
     ''';

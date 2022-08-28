@@ -271,7 +271,7 @@ class _MapBoxState extends State<MapBox> {
                               try {
                                 await availableMap.showDirections(
                                     originTitle: 'User Location',
-                                    destinationTitle: 'Bus Stop',
+                                    destinationTitle: mapStore.selectedCarouselName,
                                     directionsMode: DirectionsMode.walking,
                                     destination: Coords(
                                         mapStore.userlat, mapStore.userlong),

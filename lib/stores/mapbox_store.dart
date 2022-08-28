@@ -57,8 +57,10 @@ abstract class _MapBoxStore with Store {
 
   @action
   void setIndexMapBox(int i) {
-    indexBusesorFerry = i;
-    generateAllMarkers();
+    if (indexBusesorFerry != i) {
+      indexBusesorFerry = i;
+      generateAllMarkers();
+    }
   }
 
   @action
@@ -86,20 +88,22 @@ abstract class _MapBoxStore with Store {
 
   @action
   void selectedCarousel(int i) {
-    selectedCarouselIndex = i;
-    String name = 'busicon';
-    if (indexBusesorFerry == 1) {
-      name = 'ferry_marker';
+    if (selectedCarouselIndex != i) {
+      selectedCarouselIndex = i;
+      String name = 'busicon';
+      if (indexBusesorFerry == 1) {
+        name = 'ferry_marker';
+      }
+      getBytesFromAsset('assets/images/$name.png', 100).then((d) {
+        List<Marker> l = [];
+        l.add(Marker(
+            icon: BitmapDescriptor.fromBytes(d),
+            markerId: MarkerId('bus$i'),
+            position:
+                LatLng(allLocationData[i]['lat'], allLocationData[i]['long'])));
+        markers = ObservableList<Marker>.of(l);
+      });
     }
-    getBytesFromAsset('assets/images/$name.png', 100).then((d) {
-      List<Marker> l = [];
-      l.add(Marker(
-          icon: BitmapDescriptor.fromBytes(d),
-          markerId: MarkerId('bus$i'),
-          position:
-              LatLng(allLocationData[i]['lat'], allLocationData[i]['long'])));
-      markers = ObservableList<Marker>.of(l);
-    });
   }
 
   @action
@@ -137,6 +141,10 @@ abstract class _MapBoxStore with Store {
     return LatLng(dataMap[selectedCarouselIndex]['lat'],
         dataMap[selectedCarouselIndex]['long']);
   }
+
+  @computed
+  String get selectedCarouselName =>
+      allLocationData[selectedCarouselIndex]['name'];
 
   @computed
   LatLng get userLatLng {
