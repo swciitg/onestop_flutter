@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
@@ -91,6 +92,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                                   Expanded(
                                     child: Text(
                                       widget.model.description,
+                                      overflow: TextOverflow.ellipsis,
                                       style: MyFonts.w500
                                           .size(12)
                                           .setColor(kGrey6.withAlpha(80)),
@@ -238,6 +240,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                               Expanded(
                                 child: Text(
                                   widget.model.description,
+                                  overflow: TextOverflow.ellipsis,
                                   style: MyFonts.w500.size(12).setColor(kGrey6),
                                 ),
                               ),
@@ -261,8 +264,9 @@ class _MyAdsTile extends State<MyAdsTile> {
                     borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(21),
                         bottomRight: Radius.circular(21)),
-                    child:
-                        Image.network(widget.model.imageURL, fit: BoxFit.cover),
+                    child: Image.network(widget.model.imageURL,
+                        fit: BoxFit.cover,
+                        frameBuilder: restaurantTileFrameBuilder),
                   ),
                 ),
               ],

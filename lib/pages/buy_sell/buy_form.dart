@@ -145,23 +145,28 @@ class _BuySellFormState extends State<BuySellForm> {
           data['email'] = context.read<LoginStore>().userData["email"]!;
           data['total_price'] = "${_price.text}-${_price2.text}";
 
-          if (widget.category == "Sell") {
-            res = await APIService.postSellData(data);
-          }
-          if (widget.category == "Buy") {
-            res = await APIService.postBuyData(data);
-          }
-          if (widget.category == "Lost") {
-            res = await APIService.postLostData(data);
-          }
-          if (widget.category == "Found") {
-            res = await APIService.postFoundData(data);
+          try {
+            if (widget.category == "Sell") {
+              res = await APIService.postSellData(data);
+            }
+            if (widget.category == "Buy") {
+              res = await APIService.postBuyData(data);
+            }
+            if (widget.category == "Lost") {
+              res = await APIService.postLostData(data);
+            }
+            if (widget.category == "Found") {
+              res = await APIService.postFoundData(data);
+            }
+          // ignore: empty_catches
+          } catch (e) {
+            // Error snackbar shown below
           }
 
-          var body = res;
+          var responseBody = res;
 
           if (!mounted) return;
-          if (body["saved_successfully"] == true) {
+          if (responseBody["saved_successfully"] == true) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
               "Saved data successfully",
@@ -174,7 +179,7 @@ class _BuySellFormState extends State<BuySellForm> {
             setState(() {
               isLoading = false;
             });
-            if (body["image_safe"] == false) {
+            if (responseBody["image_safe"] == false) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(
                 "The chosen image is not safe for work !!",

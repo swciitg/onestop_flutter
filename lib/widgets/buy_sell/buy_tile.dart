@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
@@ -59,9 +60,9 @@ class BuyTile extends StatelessWidget {
                               child: Text(
                                 model.description,
                                 style: MyFonts.w500.size(12).setColor(kGrey6),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            //TODO::Implemnt the correct design
                             Expanded(
                               child: Text(
                                 '\u{20B9}${model.price}/-',
@@ -81,7 +82,11 @@ class BuyTile extends StatelessWidget {
                   borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(21),
                       bottomRight: Radius.circular(21)),
-                  child: Image.network(model.imageURL, fit: BoxFit.cover),
+                  child: Image.network(
+                    model.imageURL,
+                    fit: BoxFit.cover,
+                    frameBuilder: restaurantTileFrameBuilder,
+                  ),
                 ),
               ),
             ],

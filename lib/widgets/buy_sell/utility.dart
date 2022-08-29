@@ -62,7 +62,8 @@ Widget selectList(dynamic snapshot, List<Widget> buyList, List<Widget> sellList,
             style: MyFonts.w500.size(16).setColor(kWhite),
           ),
         )
-      : ListView(
-          children: finalList,
+      : ListView.builder(
+          itemBuilder: (context, index) => finalList[index],
+          itemCount: finalList.length,
         ));
 }
