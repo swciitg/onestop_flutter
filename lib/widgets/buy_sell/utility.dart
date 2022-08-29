@@ -1,39 +1,12 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-
-Future<List> getBuyItems() async {
-  var res = await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/buy'));
-  var lostItemsDetails = jsonDecode(res.body);
-  return lostItemsDetails["details"];
-}
-
-Future<List> getSellItems() async {
-  var res = await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/sell'));
-  var foundItemsDetails = jsonDecode(res.body);
-  return foundItemsDetails["details"];
-}
-
-Future<List> getMyItems(mail) async {
-  var res = await http.post(
-      Uri.parse('https://swc.iitg.ac.in/onestopapi/myads'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email': mail}));
-
-  var myItemsDetails = jsonDecode(res.body);
-  //print([...myItemsDetails["details"]["sellList"],...myItemsDetails["details"]["buyList"]].length);
-  return [
-    ...myItemsDetails["details"]["sellList"],
-    ...myItemsDetails["details"]["buyList"]
-  ];
-}
+import 'package:onestop_dev/services/api.dart';
 
 Future<List> getItems(mail) async {
-  var list1 = await getBuyItems();
-  var list2 = await getSellItems();
-  var list3 = await getMyItems(mail);
+  var list1 = await APIService.getBuyItems();
+  var list2 = await APIService.getSellItems();
+  var list3 = await APIService.getMyItems(mail);
   return [list1, list2, list3];
 }
 

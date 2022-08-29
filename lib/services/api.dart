@@ -15,6 +15,11 @@ class APIService {
   static String ferryURL = 'https://swc.iitg.ac.in/onestopapi/ferryTimings';
   static String busURL = 'https://swc.iitg.ac.in/onestopapi/busTimings';
   static String messURL = "https://swc.iitg.ac.in/onestopapi/hostelsMessMenu";
+  static String buyURL = 'https://swc.iitg.ac.in/onestopapi/buy';
+  static String sellURL = 'https://swc.iitg.ac.in/onestopapi/sell';
+  static String myAdsURL = 'https://swc.iitg.ac.in/onestopapi/myads';
+  static String lostURL = 'https://swc.iitg.ac.in/onestopapi/lost';
+  static String foundURL = 'https://swc.iitg.ac.in/onestopapi/found';
 
   static Future<List<Map<String, dynamic>>> getRestaurantData() async {
     http.Response response = await http.get(Uri.parse(restaurantURL));
@@ -29,6 +34,61 @@ class APIService {
     } else {
       throw Exception("Data could not be fetched");
     }
+  }
+
+  static Future<dynamic> claimFoundItem(
+      {required String name, required String email, required String id}) async {
+    var res = await http.post(
+        Uri.parse("https://swc.iitg.ac.in/onestopapi/found/claim"),
+        headers: {'Content-Type': 'application/json'},
+        body:
+            jsonEncode({"id": id, "claimerEmail": email, "claimerName": name}));
+    return jsonDecode(res.body);
+  }
+
+  static Future<void> deleteMyAd(String id, String email) async {
+    await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/buy/remove"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'id': id, 'email': email}));
+    await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/sell/remove"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'id': id, 'email': email}));
+  }
+
+  static Future<List> getBuyItems() async {
+    var res = await http.get(Uri.parse(buyURL));
+    var lostItemsDetails = jsonDecode(res.body);
+    return lostItemsDetails["details"];
+  }
+
+  static Future<List> getSellItems() async {
+    var res = await http.get(Uri.parse(sellURL));
+    var foundItemsDetails = jsonDecode(res.body);
+    return foundItemsDetails["details"];
+  }
+
+  static Future<List> getMyItems(String mail) async {
+    var res = await http.post(Uri.parse(myAdsURL),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': mail}));
+
+    var myItemsDetails = jsonDecode(res.body);
+    return [
+      ...myItemsDetails["details"]["sellList"],
+      ...myItemsDetails["details"]["buyList"]
+    ];
+  }
+
+  static Future<List> getLostItems() async {
+    var res = await http.get(Uri.parse(lostURL));
+    var lostItemsDetails = jsonDecode(res.body);
+    return lostItemsDetails["details"];
+  }
+
+  static Future<List> getFoundItems() async {
+    var res = await http.get(Uri.parse(foundURL));
+    var foundItemsDetails = jsonDecode(res.body);
+    return foundItemsDetails["details"];
   }
 
   static Future<Map<String, dynamic>> postSellData(

@@ -1,14 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
-import 'package:onestop_dev/widgets/lostfound/imp_widgets.dart';
+import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/widgets/lostfound/found_tile.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_button.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
+import 'package:onestop_dev/widgets/lostfound/lost_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 
 class LostFoundHome extends StatefulWidget {
@@ -29,23 +29,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
     typeStream = selectedTypeController.stream.asBroadcastStream();
   }
 
-  Future<List> getLostItems() async {
-    var res =
-        await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/lost'));
 
-    var lostItemsDetails = jsonDecode(res.body);
-
-    return lostItemsDetails["details"];
-  }
-
-  Future<List> getFoundItems() async {
-    var res =
-        await http.get(Uri.parse('https://swc.iitg.ac.in/onestopapi/found'));
-
-    var foundItemsDetails = jsonDecode(res.body);
-
-    return foundItemsDetails["details"];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,11 +57,11 @@ class _LostFoundHomeState extends State<LostFoundHome> {
       ),
       // wrap column of body with future builder to fetch all lost and found
       body: FutureBuilder<List>(
-          future: getLostItems(),
+          future: APIService.getLostItems(),
           builder: (context, lostsSnapshot) {
             if (lostsSnapshot.hasData) {
               return FutureBuilder<List>(
-                future: getFoundItems(),
+                future: APIService.getFoundItems(),
                 builder: (context, foundsSnapshot) {
                   if (foundsSnapshot.hasData) {
                     List<Widget> lostItems = [];

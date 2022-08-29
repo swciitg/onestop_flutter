@@ -1,13 +1,10 @@
-import 'dart:convert';
-
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
-
+import 'package:onestop_dev/services/api.dart';
 import 'details_dialog.dart';
 
 class MyAdsTile extends StatefulWidget {
@@ -150,21 +147,8 @@ class _MyAdsTile extends State<MyAdsTile> {
                   style: MyFonts.w400.size(14).setColor(kBlack),
                 ),
                 onPressed: () async {
-                  await http.post(
-                      Uri.parse("https://swc.iitg.ac.in/onestopapi/buy/remove"),
-                      headers: {'Content-Type': 'application/json'},
-                      body: jsonEncode({
-                        'id': widget.model.id,
-                        'email': widget.model.email
-                      }));
-                  await http.post(
-                      Uri.parse(
-                          "https://swc.iitg.ac.in/onestopapi/sell/remove"),
-                      headers: {'Content-Type': 'application/json'},
-                      body: jsonEncode({
-                        'id': widget.model.id,
-                        'email': widget.model.email
-                      }));
+                  await APIService.deleteMyAd(
+                      widget.model.id, widget.model.email);
                   if (!mounted) return;
                   Navigator.of(context).pop();
                 },
