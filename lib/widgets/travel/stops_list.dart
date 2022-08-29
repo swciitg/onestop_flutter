@@ -28,6 +28,7 @@ class BusStopList extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var busTime = snapshot.data as List<List<String>>;
+                print(busTime);
                 return Padding(
                   padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                   child: GestureDetector(
@@ -55,56 +56,57 @@ class BusStopList extends StatelessWidget {
                                   : kTileBackground),
                         ),
                         child: ListTile(
-                          textColor: kWhite,
-                          leading: const CircleAvatar(
-                            backgroundColor: lYellow2,
-                            radius: 26,
-                            child: Icon(
-                              FluentIcons.vehicle_bus_24_filled,
-                              color: kBlueGrey,
+                            textColor: kWhite,
+                            leading: const CircleAvatar(
+                              backgroundColor: lYellow2,
+                              radius: 26,
+                              child: Icon(
+                                FluentIcons.vehicle_bus_24_filled,
+                                color: kBlueGrey,
+                              ),
                             ),
-                          ),
-                          title: Text(
-                            mapStore.allLocationData[index]['name'],
-                            style: MyFonts.w500.setColor(kWhite),
-                          ),
-                          subtitle: Text(
-                              "${calculateDistance(
-                                mapStore.userLatLng,
-                                LatLng(mapStore.allLocationData[index]['lat'],
-                                    mapStore.allLocationData[index]['long']),
-                              ).toStringAsFixed(2)} km",
-                              style: MyFonts.w500.setColor(kGrey13)),
-                          // trailing: (map_store.allLocationData[index]['status'] ==
-                          //     'left')
-                          //     ? Column(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: [
-                          //     Text(
-                          //       'Left',
-                          //       style: MyFonts.w500
-                          //           .setColor(Color.fromRGBO(135, 145, 165, 1)),
-                          //     ),
-                          //     Text(
-                          //       map_store.allLocationData[index]['time'],
-                          //       style: MyFonts.w500
-                          //           .setColor(Color.fromRGBO(195, 198, 207, 1)),
-                          //     ),
-                          //   ],
-                          // )
-                          //     :
-                          //
-                          trailing: (getFormattedDay() == 'Saturday' ||
-                                  getFormattedDay() == 'Sunday')
-                              ? Text(
-                                  nextTime(busTime[1]),
-                                  style: MyFonts.w500.setColor(lBlue2),
-                                )
-                              : Text(
-                                  nextTime(busTime[0]),
-                                  style: MyFonts.w500.setColor(lBlue2),
-                                ),
-                        ),
+                            title: Text(
+                              mapStore.allLocationData[index]['name'],
+                              style: MyFonts.w500.setColor(kWhite),
+                            ),
+                            subtitle: Text(
+                                "${calculateDistance(
+                                  mapStore.userLatLng,
+                                  LatLng(mapStore.allLocationData[index]['lat'],
+                                      mapStore.allLocationData[index]['long']),
+                                ).toStringAsFixed(2)} km",
+                                style: MyFonts.w500.setColor(kGrey13)),
+                            // trailing: (map_store.allLocationData[index]['status'] ==
+                            //     'left')
+                            //     ? Column(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Text(
+                            //       'Left',
+                            //       style: MyFonts.w500
+                            //           .setColor(Color.fromRGBO(135, 145, 165, 1)),
+                            //     ),
+                            //     Text(
+                            //       map_store.allLocationData[index]['time'],
+                            //       style: MyFonts.w500
+                            //           .setColor(Color.fromRGBO(195, 198, 207, 1)),
+                            //     ),
+                            //   ],
+                            // )
+                            //     :
+                            //
+                            trailing: Text(
+                              (getFormattedDay() == 'Friday')
+                                  ? nextTime(busTime[1],
+                                      firstTime: busTime[0][0])
+                                  : (getFormattedDay() == 'Sunday')
+                                      ? nextTime(busTime[0],
+                                          firstTime: busTime[1][0])
+                                      : (getFormattedDay() == 'Saturday')
+                                          ? nextTime(busTime[0])
+                                          : nextTime(busTime[1]),
+                              style: MyFonts.w500.setColor(lBlue2),
+                            )),
                       );
                     }),
                   ),
