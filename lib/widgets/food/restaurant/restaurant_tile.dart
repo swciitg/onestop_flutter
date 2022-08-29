@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/food/get_restaurant_distance.dart';
@@ -47,17 +48,17 @@ class RestaurantTile extends StatelessWidget {
                     height: double.infinity,
                     child: AspectRatio(
                       aspectRatio: 1,
-                      child: Image.network(
-                        restaurantModel.image,
-                        fit: BoxFit.cover,
-                        errorBuilder: (BuildContext context, Object exception,
-                            StackTrace? stackTrace) {
-                          return Image.asset(
-                            "assets/images/res_foodimg.jpg",
-                            fit: BoxFit.cover,
-                          );
-                        },
-                        frameBuilder: restaurantTileFrameBuilder,
+                      child: CachedNetworkImage(
+                        imageUrl: restaurantModel.image,
+                        imageBuilder: (context, imageProvider) => Image(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                        placeholder: cachedImagePlaceholder,
+                        errorWidget: (context, url, error) => Image.asset(
+                          "assets/images/res_foodimg.jpg",
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),

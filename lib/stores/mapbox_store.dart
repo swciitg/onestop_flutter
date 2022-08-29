@@ -88,7 +88,9 @@ abstract class _MapBoxStore with Store {
 
   @action
   void selectedCarousel(int i) {
-    if (selectedCarouselIndex != i) {
+    // Avoid unnecessary rebuilds
+    // Handle case: Store is just created, index = 0, and user clicks on 0
+    if (selectedCarouselIndex != i || markers.length != 1) {
       selectedCarouselIndex = i;
       String name = 'busicon';
       if (indexBusesorFerry == 1) {

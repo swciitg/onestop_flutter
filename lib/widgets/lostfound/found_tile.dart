@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
@@ -120,8 +120,13 @@ class _FoundItemTileState extends State<FoundItemTile> {
                                                         .read<LoginStore>()
                                                         .userData['email'];
 
-
-                                                    var body = await APIService.claimFoundItem(name: name!, email: email!, id: widget.currentFoundModel.id);
+                                                    var body = await APIService
+                                                        .claimFoundItem(
+                                                            name: name!,
+                                                            email: email!,
+                                                            id: widget
+                                                                .currentFoundModel
+                                                                .id);
 
                                                     buttonPressed = false;
                                                     if (!mounted) return;
@@ -369,27 +374,11 @@ class _FoundItemTileState extends State<FoundItemTile> {
                 borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(21),
                     bottomRight: Radius.circular(21)),
-                child: CachedNetworkImage(
-                  imageUrl: widget.currentFoundModel.compressedImageURL,
-                  imageBuilder: (context, imageProvider) => Container(
-                    alignment: Alignment.center,
-                    width: screenWidth * 0.35,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  placeholder: (context, url) => Container(
-                    alignment: Alignment.center,
-                    width: screenWidth * 0.35,
-                    child: Text("Loading...",
-                        style: MyFonts.w500.size(14).setColor(kGrey9)),
-                  ),
-                  errorWidget: (context, url, error) => const Center(
-                    child: Icon(Icons.error),
-                  ),
+                child: Image.network(
+                  widget.currentFoundModel.compressedImageURL,
+                  width: screenWidth * 0.35,
+                  fit: BoxFit.cover,
+                  frameBuilder: restaurantTileFrameBuilder,
                 ),
               ),
             )

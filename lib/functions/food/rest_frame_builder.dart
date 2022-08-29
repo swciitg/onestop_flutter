@@ -16,3 +16,11 @@ Widget restaurantTileFrameBuilder(BuildContext context, Widget child,
   }
   return child;
 }
+
+Widget cachedImagePlaceholder(BuildContext context, String url) {
+  return Shimmer.fromColors(
+      period: const Duration(seconds: 1),
+      baseColor: kBlueGrey,
+      highlightColor: const Color.fromRGBO(68, 86, 120, 1),
+      child: Container(color: kBlack, height: 190));
+}

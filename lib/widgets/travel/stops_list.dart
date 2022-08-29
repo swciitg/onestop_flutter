@@ -28,7 +28,6 @@ class BusStopList extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var busTime = snapshot.data as List<List<String>>;
-                print(busTime);
                 return Padding(
                   padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                   child: GestureDetector(

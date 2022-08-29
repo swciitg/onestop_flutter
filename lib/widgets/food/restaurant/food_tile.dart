@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -100,18 +101,18 @@ class FoodTile extends StatelessWidget {
                       bottomRight: Radius.circular(21)),
                   child: AspectRatio(
                     aspectRatio: 1,
-                    child: Image.network(
-                      dish.image,
-                      fit: BoxFit.cover,
-                      frameBuilder: restaurantTileFrameBuilder,
-                      errorBuilder: (BuildContext context, Object exception,
-                          StackTrace? stackTrace) {
-                        return Image.asset(
-                          "assets/images/res_foodimg.jpg",
-                          fit: BoxFit.cover,
-                        );
-                      },
-                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: dish.image,
+                      imageBuilder: (context, imageProvider) => Image(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                      placeholder: cachedImagePlaceholder,
+                      errorWidget: (context, url, error) => Image.asset(
+                        "assets/images/res_foodimg.jpg",
+                        fit: BoxFit.cover,
+                      ),
+                    )
                   ),
                 ),
               ),
