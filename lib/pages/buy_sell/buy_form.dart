@@ -202,9 +202,9 @@ class _BuySellFormState extends State<BuySellForm> {
           stream: dbSavingController.stream,
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData && snapshot.data == true) {
-              return const NewPageButton(title: "Saving...");
+              return const NextButton(title: "Saving...");
             }
-            return const NewPageButton(title: "Submit");
+            return const NextButton(title: "Submit");
           },
         ),
       ),

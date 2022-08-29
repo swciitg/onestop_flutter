@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
-class NewPageButton extends StatelessWidget {
+class NextButton extends StatelessWidget {
   final String title;
-  const NewPageButton({Key? key, required this.title}) : super(key: key);
+  const NextButton({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -271,7 +271,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                     submittedAt: selectedLocation,
                   )));
         },
-        child: const NewPageButton(
+        child: const NextButton(
           title: "Next",
         ),
       ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/buysell/get_items.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
@@ -7,7 +8,7 @@ import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/buy_sell/ads_tile.dart';
 import 'package:onestop_dev/widgets/buy_sell/buy_tile.dart';
 import 'package:onestop_dev/widgets/buy_sell/item_type_bar.dart';
-import 'package:onestop_dev/widgets/buy_sell/utility.dart';
+import 'package:onestop_dev/widgets/buy_sell/select_list.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:provider/provider.dart';
 
@@ -53,7 +54,7 @@ class _BuySellHomeState extends State<BuySellHome> {
         ],
       ),
       body: FutureBuilder<List>(
-          future: getItems(context.read<LoginStore>().userData['email']),
+          future: getBuySellItems(context.read<LoginStore>().userData['email']),
           builder: (context, snapshot2) {
             if (snapshot2.hasData) {
               List<Widget> buyItems = [];
