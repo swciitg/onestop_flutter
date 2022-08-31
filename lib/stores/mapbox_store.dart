@@ -60,7 +60,29 @@ abstract class _MapBoxStore with Store {
     if (indexBusesorFerry != i) {
       indexBusesorFerry = i;
       generateAllMarkers();
+      mapController?.animateCamera(
+          CameraUpdate.newLatLngBounds(_bounds(markers.toSet()), 120));
     }
+  }
+
+  LatLngBounds _bounds(Set<Marker> markers) {
+    return _createBounds(markers.map((m) => m.position).toList());
+  }
+
+  LatLngBounds _createBounds(List<LatLng> positions) {
+    final southwestLat = positions.map((p) => p.latitude).reduce(
+        (value, element) => value < element ? value : element); // smallest
+    final southwestLon = positions
+        .map((p) => p.longitude)
+        .reduce((value, element) => value < element ? value : element);
+    final northeastLat = positions.map((p) => p.latitude).reduce(
+        (value, element) => value > element ? value : element); // biggest
+    final northeastLon = positions
+        .map((p) => p.longitude)
+        .reduce((value, element) => value > element ? value : element);
+    return LatLngBounds(
+        southwest: LatLng(southwestLat, southwestLon),
+        northeast: LatLng(northeastLat, northeastLon));
   }
 
   @action
@@ -68,6 +90,7 @@ abstract class _MapBoxStore with Store {
     List<Marker> l = List.generate(
       allLocationData.length,
       (index) => Marker(
+          infoWindow: InfoWindow(title: allLocationData[index]['name']),
           markerId: MarkerId('bus$index'),
           position: LatLng(
               allLocationData[index]['lat'], allLocationData[index]['long'])),
@@ -99,6 +122,7 @@ abstract class _MapBoxStore with Store {
       getBytesFromAsset('assets/images/$name.png', 100).then((d) {
         List<Marker> l = [];
         l.add(Marker(
+            infoWindow: InfoWindow(title: allLocationData[i]['name']),
             icon: BitmapDescriptor.fromBytes(d),
             markerId: MarkerId('bus$i'),
             position:
