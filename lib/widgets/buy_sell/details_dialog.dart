@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 
@@ -58,12 +59,13 @@ void detailsDialogBox(context, dynamic model) {
                           maxHeight: screenHeight * 0.3,
                           maxWidth: screenWidth - 30),
                       child: SingleChildScrollView(
-                        child: FadeInImage(
-                          width: screenWidth - 30,
-                          placeholder:
-                              const AssetImage("assets/images/loading.gif"),
-                          image: NetworkImage(model.imageURL),
+                        child: Image.network(
+                          model.imageURL,
                           fit: BoxFit.cover,
+                          frameBuilder: restaurantTileFrameBuilder,
+                          width: screenWidth - 30,
+                          cacheWidth: (screenWidth - 30).round(),
+                          errorBuilder: (_, __, ___) => Container(),
                         ),
                       ),
                     ),

@@ -85,6 +85,7 @@ class BuyTile extends StatelessWidget {
                   child: Image.network(
                     model.imageURL,
                     fit: BoxFit.cover,
+                    cacheWidth: 100,
                     frameBuilder: restaurantTileFrameBuilder,
                   ),
                 ),

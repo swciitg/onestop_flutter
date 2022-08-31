@@ -65,13 +65,14 @@ class _FoundItemTileState extends State<FoundItemTile> {
                               maxHeight: screenHeight * 0.3,
                               maxWidth: screenWidth - 30),
                           child: SingleChildScrollView(
-                            child: FadeInImage(
-                              width: screenWidth - 30,
-                              placeholder:
-                                  const AssetImage("assets/images/loading.gif"),
-                              image: NetworkImage(imageURL),
+                            child: Image.network(
+                              imageURL,
                               fit: BoxFit.cover,
-                            ),
+                              frameBuilder: restaurantTileFrameBuilder,
+                              width: screenWidth - 30,
+                              cacheWidth: (screenWidth - 30).round(),
+                              errorBuilder: (_, __, ___) => Container(),
+                            )
                           ),
                         ),
                       ),
@@ -377,6 +378,7 @@ class _FoundItemTileState extends State<FoundItemTile> {
                 child: Image.network(
                   widget.currentFoundModel.compressedImageURL,
                   width: screenWidth * 0.35,
+                  cacheWidth: (screenWidth * 0.35).round(),
                   fit: BoxFit.cover,
                   frameBuilder: restaurantTileFrameBuilder,
                 ),

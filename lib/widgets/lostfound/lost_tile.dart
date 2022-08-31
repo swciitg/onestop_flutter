@@ -81,6 +81,7 @@ class LostItemTile extends StatelessWidget {
                 child: Image.network(
                   currentLostModel.compressedImageURL,
                   width: screenWidth * 0.35,
+                  cacheWidth: (screenWidth * 0.35).round(),
                   fit: BoxFit.cover,
                   frameBuilder: restaurantTileFrameBuilder,
                 ),

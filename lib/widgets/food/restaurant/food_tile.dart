@@ -102,6 +102,7 @@ class FoodTile extends StatelessWidget {
                   child: AspectRatio(
                     aspectRatio: 1,
                     child: CachedNetworkImage(
+                      maxHeightDiskCache: 200,
                       imageUrl: dish.image,
                       imageBuilder: (context, imageProvider) => Image(
                         image: imageProvider,
