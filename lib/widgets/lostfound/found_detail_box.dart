@@ -9,8 +9,8 @@ import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
 
-void detailsDialogBox(FoundModel foundModel,
-    BuildContext context, BuildContext parentContext) {
+void foundDialogBox(FoundModel foundModel,
+    BuildContext context, BuildContext parentContext, var mounted) {
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
   bool buttonPressed = false;
@@ -105,7 +105,7 @@ void detailsDialogBox(FoundModel foundModel,
                                                         id: foundModel.id);
 
                                                 buttonPressed = false;
-                                                //if (!mounted) return;
+                                                if (!mounted) return;
                                                 if (body["saved"] == false) {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(SnackBar(

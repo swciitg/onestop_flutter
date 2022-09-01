@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
+import 'package:onestop_dev/widgets/lostfound/found_detail_box.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class LostFoundTile extends StatefulWidget {
-  final LostModel currentLostModel;
-  const LostFoundTile({Key? key, required this.currentLostModel})
+  final currentModel;
+  BuildContext? parentContext;
+  LostFoundTile({Key? key, required this.currentModel, this.parentContext})
       : super(key: key);
 
   @override
@@ -19,12 +20,18 @@ class _LostFoundTileState extends State<LostFoundTile> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    Duration passedDuration = DateTime.now().difference(widget.currentLostModel.date);
-    String timeagoString = timeago.format(DateTime.now().subtract(passedDuration));
+    Duration passedDuration =
+        DateTime.now().difference(widget.currentModel.date);
+    String timeagoString =
+        timeago.format(DateTime.now().subtract(passedDuration));
 
     return GestureDetector(
       onTap: () {
-        detailsDialogBox(context, widget.currentLostModel);
+        if (widget.parentContext != null) {
+          foundDialogBox(widget.currentModel, context, widget.parentContext!, mounted);
+        } else {
+          detailsDialogBox(context, widget.currentModel);
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
@@ -45,7 +52,7 @@ class _LostFoundTileState extends State<LostFoundTile> {
                     Container(
                       margin: const EdgeInsets.only(top: 16, bottom: 5),
                       child: Text(
-                        widget.currentLostModel.title,
+                        widget.currentModel.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: MyFonts.w500.size(16).setColor(kWhite),
@@ -54,7 +61,7 @@ class _LostFoundTileState extends State<LostFoundTile> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
-                        "Lost at: ${widget.currentLostModel.location}",
+                        "Lost at: ${widget.currentModel.location}",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: MyFonts.w300.size(14).setColor(kWhite),
@@ -83,7 +90,7 @@ class _LostFoundTileState extends State<LostFoundTile> {
                     topRight: Radius.circular(21),
                     bottomRight: Radius.circular(21)),
                 child: Image.network(
-                  widget.currentLostModel.compressedImageURL,
+                  widget.currentModel.compressedImageURL,
                   width: screenWidth * 0.35,
                   cacheWidth: (screenWidth * 0.35).round(),
                   fit: BoxFit.cover,

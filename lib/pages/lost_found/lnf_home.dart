@@ -5,10 +5,9 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/services/api.dart';
-import 'package:onestop_dev/widgets/lostfound/found_tile.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_button.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
-import 'package:onestop_dev/widgets/lostfound/lost_tile.dart';
+import 'package:onestop_dev/widgets/lostfound/lost_found_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 
 class LostFoundHome extends StatefulWidget {
@@ -69,15 +68,15 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                     for (var e in lostsSnapshot.data!) {
                       {
                         lostItems.add(LostFoundTile(
-                            currentLostModel: LostModel.fromJson(e)));
+                            currentModel: LostModel.fromJson(e)));
                       }
                     }
 
                     for (var e in foundsSnapshot.data!) {
                       {
-                        foundItems.add(FoundItemTile(
+                        foundItems.add(LostFoundTile(
                           parentContext: context,
-                          currentFoundModel: FoundModel.fromJson(e),
+                          currentModel: FoundModel.fromJson(e),
                         ));
                       }
                     }
