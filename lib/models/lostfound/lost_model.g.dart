@@ -11,6 +11,7 @@ LostModel _$LostModelFromJson(Map<String, dynamic> json) => LostModel(
       description: json['description'] as String,
       location: json['location'] as String,
       imageURL: json['imageURL'] as String,
+      email: json['email'] as String,
       compressedImageURL: json['compressedImageURL'] as String,
       date: DateTime.parse(json['date'] as String),
       phonenumber: json['phonenumber'] as String,
@@ -23,5 +24,6 @@ Map<String, dynamic> _$LostModelToJson(LostModel instance) => <String, dynamic>{
       'imageURL': instance.imageURL,
       'compressedImageURL': instance.compressedImageURL,
       'phonenumber': instance.phonenumber,
+      'email': instance.email,
       'date': instance.date.toIso8601String(),
     };

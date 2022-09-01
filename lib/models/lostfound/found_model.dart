@@ -12,6 +12,7 @@ class FoundModel {
   final String imageURL;
   final String compressedImageURL;
   final DateTime date;
+  final String email;
   final String submittedat;
   bool claimed;
   String claimerEmail;
@@ -25,6 +26,7 @@ class FoundModel {
       required this.description,
       required this.location,
       required this.imageURL,
+      required this.email,
       required this.compressedImageURL,
       required this.date,
       required this.submittedat,

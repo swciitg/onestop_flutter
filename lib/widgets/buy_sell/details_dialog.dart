@@ -124,9 +124,24 @@ void detailsDialogBox(context, dynamic model) {
                     child: SingleChildScrollView(
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            left: 16, right: 16, bottom: 13),
+                            left: 16, right: 16, bottom: 5),
                         child: Text(
                           "Description: ${model.description}",
+                          style: MyFonts.w300.size(14).setColor(kGrey10),
+                        ),
+                      ),
+                    ),
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxHeight: screenHeight * 0.2,
+                        maxWidth: screenWidth - 40),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 16, right: 16, bottom: 13),
+                        child: Text(
+                          "Posted By: ${model.email}",
                           style: MyFonts.w300.size(14).setColor(kGrey10),
                         ),
                       ),

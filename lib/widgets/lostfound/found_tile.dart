@@ -33,7 +33,7 @@ class _FoundItemTileState extends State<FoundItemTile> {
         timeago.format(DateTime.now().subtract(passedDuration));
 
     void detailsDialogBox(String imageURL, String description, String location,
-        String submitted, DateTime date) {
+        String submitted, DateTime date, String email) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -286,9 +286,24 @@ class _FoundItemTileState extends State<FoundItemTile> {
                         child: SingleChildScrollView(
                           child: Padding(
                             padding: const EdgeInsets.only(
-                                left: 16, right: 16, bottom: 13),
+                                left: 16, right: 16, bottom: 5),
                             child: Text(
                               "Description: $description",
+                              style: MyFonts.w300.size(14).setColor(kGrey10),
+                            ),
+                          ),
+                        ),
+                      ),
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                            maxHeight: screenHeight * 0.2,
+                            maxWidth: screenWidth - 40),
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 16, bottom: 13),
+                            child: Text(
+                              "Posted By: $email",
                               style: MyFonts.w300.size(14).setColor(kGrey10),
                             ),
                           ),
@@ -317,7 +332,9 @@ class _FoundItemTileState extends State<FoundItemTile> {
             widget.currentFoundModel.description,
             widget.currentFoundModel.location,
             widget.currentFoundModel.submittedat,
-            widget.currentFoundModel.date);
+            widget.currentFoundModel.date,
+          widget.currentFoundModel.email,
+        );
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),

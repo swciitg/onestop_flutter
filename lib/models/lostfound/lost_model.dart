@@ -12,6 +12,7 @@ class LostModel {
   final String imageURL;
   final String compressedImageURL;
   final String phonenumber;
+  final String email;
   final DateTime date;
 
   const LostModel(
@@ -20,6 +21,7 @@ class LostModel {
       required this.description,
       required this.location,
       required this.imageURL,
+      required this.email,
       required this.compressedImageURL,
       required this.date,
       required this.phonenumber});
