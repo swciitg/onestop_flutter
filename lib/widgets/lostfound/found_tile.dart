@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
-import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
-import 'package:onestop_dev/services/api.dart';
-import 'package:onestop_dev/stores/login_store.dart';
-import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
 import 'found_detail_box.dart';
 
 class FoundItemTile extends StatefulWidget {
@@ -27,18 +21,13 @@ class _FoundItemTileState extends State<FoundItemTile> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-    bool buttonPressed = false;
-    Duration passedDuration =
-        DateTime.now().difference(widget.currentFoundModel.date);
-    String timeagoString =
-        timeago.format(DateTime.now().subtract(passedDuration));
+    Duration passedDuration = DateTime.now().difference(widget.currentFoundModel.date);
+    String timeagoString = timeago.format(DateTime.now().subtract(passedDuration));
 
     return GestureDetector(
       onTap: () {
         detailsDialogBox(
             widget.currentFoundModel,
-            widget.currentFoundModel.date,
           context,widget.parentContext
         );
       },

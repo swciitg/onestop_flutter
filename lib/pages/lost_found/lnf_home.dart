@@ -68,7 +68,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                     List<Widget> foundItems = [];
                     for (var e in lostsSnapshot.data!) {
                       {
-                        lostItems.add(LostItemTile(
+                        lostItems.add(LostFoundTile(
                             currentLostModel: LostModel.fromJson(e)));
                       }
                     }

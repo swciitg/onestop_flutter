@@ -9,7 +9,7 @@ import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
 
-void detailsDialogBox(FoundModel foundModel, DateTime date,
+void detailsDialogBox(FoundModel foundModel,
     BuildContext context, BuildContext parentContext) {
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
@@ -272,7 +272,7 @@ void detailsDialogBox(FoundModel foundModel, DateTime date,
                     padding: const EdgeInsets.only(right: 16, bottom: 16),
                     alignment: Alignment.centerRight,
                     child: Text(
-                      "${date.day}-${date.month}-${date.year} | ${DateFormat.jm().format(date.toLocal())}",
+                      "${foundModel.date.day}-${foundModel.date.month}-${foundModel.date.year} | ${DateFormat.jm().format(foundModel.date.toLocal())}",
                       style: MyFonts.w300.size(13).setColor(kGrey7),
                     ),
                   ),

@@ -6,21 +6,25 @@ import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class LostItemTile extends StatelessWidget {
+class LostFoundTile extends StatefulWidget {
   final LostModel currentLostModel;
-  const LostItemTile({Key? key, required this.currentLostModel})
+  const LostFoundTile({Key? key, required this.currentLostModel})
       : super(key: key);
 
   @override
+  State<LostFoundTile> createState() => _LostFoundTileState();
+}
+
+class _LostFoundTileState extends State<LostFoundTile> {
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    Duration passedDuration = DateTime.now().difference(currentLostModel.date);
-    String timeagoString =
-    timeago.format(DateTime.now().subtract(passedDuration));
+    Duration passedDuration = DateTime.now().difference(widget.currentLostModel.date);
+    String timeagoString = timeago.format(DateTime.now().subtract(passedDuration));
 
     return GestureDetector(
       onTap: () {
-        detailsDialogBox(context, currentLostModel);
+        detailsDialogBox(context, widget.currentLostModel);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
@@ -41,7 +45,7 @@ class LostItemTile extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(top: 16, bottom: 5),
                       child: Text(
-                        currentLostModel.title,
+                        widget.currentLostModel.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: MyFonts.w500.size(16).setColor(kWhite),
@@ -50,7 +54,7 @@ class LostItemTile extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
-                        "Lost at: ${currentLostModel.location}",
+                        "Lost at: ${widget.currentLostModel.location}",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: MyFonts.w300.size(14).setColor(kWhite),
@@ -79,7 +83,7 @@ class LostItemTile extends StatelessWidget {
                     topRight: Radius.circular(21),
                     bottomRight: Radius.circular(21)),
                 child: Image.network(
-                  currentLostModel.compressedImageURL,
+                  widget.currentLostModel.compressedImageURL,
                   width: screenWidth * 0.35,
                   cacheWidth: (screenWidth * 0.35).round(),
                   fit: BoxFit.cover,
