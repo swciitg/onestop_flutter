@@ -13,9 +13,7 @@ class StarContactNameTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int size = contact.name.length;
     var contactStore = Provider.of<ContactStore>(context, listen: false);
-
     return TextButton(
       child: ClipRRect(
         borderRadius: const BorderRadius.all(
@@ -23,15 +21,17 @@ class StarContactNameTile extends StatelessWidget {
         ),
         child: Container(
           height: 32,
-          width: 10 * size + 25,
           color: kGrey9,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                contact.name,
-                style: MyFonts.w400.setColor(kWhite),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.5, right: 12.5),
+                child: Text(
+                  contact.name,
+                  style: MyFonts.w400.setColor(kWhite),
+                ),
               ),
             ],
           ),
