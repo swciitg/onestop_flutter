@@ -274,12 +274,12 @@ class _MapBoxState extends State<MapBox> {
                                     destinationTitle: mapStore.selectedCarouselName,
                                     directionsMode: DirectionsMode.walking,
                                     destination: Coords(
-                                        mapStore.userlat, mapStore.userlong),
-                                    origin: Coords(
                                         mapStore
                                             .selectedCarouselLatLng.latitude,
                                         mapStore
-                                            .selectedCarouselLatLng.longitude));
+                                            .selectedCarouselLatLng.longitude),
+                                    origin: Coords(
+                                        mapStore.userlat, mapStore.userlong));
                               } catch (e) {
                                 if (!mounted) return;
                                 ScaffoldMessenger.of(context)
