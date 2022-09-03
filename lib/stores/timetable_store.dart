@@ -17,6 +17,11 @@ class TimetableStore = _TimetableStore with _$TimetableStore;
 abstract class _TimetableStore with Store {
   _TimetableStore() {
     setupReactions();
+    initialiseDates();
+  }
+
+  void initialiseDates() {
+    dates = List.filled(5, DateTime.now());
     if (dates[0].weekday == 6 || dates[0].weekday == 7) {
       while (dates[0].weekday != 1) {
         dates[0] = dates[0].add(const Duration(days: 1));
