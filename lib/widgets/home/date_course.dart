@@ -95,7 +95,6 @@ class LifecycleEventHandler extends WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        print("Resume");
         resumeCallBack();
         break;
       case AppLifecycleState.inactive:
