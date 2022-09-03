@@ -151,6 +151,11 @@ class _MyAdsTile extends State<MyAdsTile> {
                       widget.model.id, widget.model.email);
                   if (!mounted) return;
                   Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                        "Deleted Your Ad Successfully",
+                        style: MyFonts.w500,
+                      )));
                 },
                 onFocusChange: (change) {
                   setState(() {
