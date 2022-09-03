@@ -16,6 +16,7 @@ class _DateSliderState extends State<DateSlider> {
   @override
   Widget build(BuildContext context) {
     TimetableStore ttStore = context.read<TimetableStore>();
+    ttStore.initialiseDates();
     return ListView.builder(
         padding: const EdgeInsets.all(8),
         scrollDirection: Axis.horizontal,

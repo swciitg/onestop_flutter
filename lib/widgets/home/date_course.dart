@@ -4,18 +4,35 @@ import 'package:onestop_dev/globals/days.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
+import 'package:onestop_dev/widgets/timetable/dropdown_arrow.dart';
 import 'package:onestop_dev/widgets/timetable/home_shimmer.dart';
-import 'package:onestop_dev/widgets/ui/animated_expand.dart';
+import 'package:onestop_dev/widgets/timetable/timetable_row.dart';
 import 'package:provider/provider.dart';
 
-class DateCourse extends StatelessWidget {
+class DateCourse extends StatefulWidget {
   const DateCourse({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<DateCourse> createState() => _DateCourseState();
+}
+
+class _DateCourseState extends State<DateCourse> {
+  late LifecycleEventHandler lifeCycleHandler;
+
+  @override
+  void initState() {
+    super.initState();
+    lifeCycleHandler = LifecycleEventHandler(resumeCallBack: () => setState((){}));
+    WidgetsBinding.instance.addObserver(lifeCycleHandler);
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
+    context.read<TimetableStore>().initialiseDates();
     return Observer(builder: (context) {
       if (context.read<TimetableStore>().coursesLoaded) {
         var classes = context.read<TimetableStore>().homeTimeTable;
@@ -57,73 +74,34 @@ class DateCourse extends StatelessWidget {
       return const HomeTimetableShimmer();
     });
   }
-}
-
-class TimetableRow extends StatelessWidget {
-  const TimetableRow({
-    Key? key,
-    required this.classes,
-  }) : super(key: key);
-
-  final List<Widget> classes;
 
   @override
-  Widget build(BuildContext context) {
-    return Observer(builder: (context) {
-      return AnimatedExpand(
-        expand: context.read<TimetableStore>().showDropDown,
-        child: Column(
-          children: classes
-              .map((e) => Row(
-                    children: [
-                      const Expanded(
-                        flex: 10,
-                        child: SizedBox(),
-                      ),
-                      Expanded(flex: 36, child: e),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      const Expanded(flex: 7, child: SizedBox()),
-                    ],
-                  ))
-              .toList(),
-        ),
-      );
-      //return SizedBox();
-    });
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(lifeCycleHandler);
   }
 }
 
-class ArrowButton extends StatelessWidget {
-  const ArrowButton({Key? key, this.showArrow = false}) : super(key: key);
-  final bool showArrow;
+
+
+class LifecycleEventHandler extends WidgetsBindingObserver {
+  final Function resumeCallBack;
+
+  LifecycleEventHandler({
+    required this.resumeCallBack,
+  });
+
   @override
-  Widget build(BuildContext context) {
-    if (showArrow) {
-      return Observer(builder: (context) {
-        return Expanded(
-            flex: 7,
-            child: GestureDetector(
-              onTap: () {
-                context.read<TimetableStore>().toggleDropDown();
-              },
-              child: Container(
-                height: 85,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: kTimetableGreen,
-                ),
-                child: Icon(
-                  (!context.read<TimetableStore>().showDropDown)
-                      ? Icons.keyboard_arrow_down_sharp
-                      : Icons.keyboard_arrow_up_sharp,
-                  color: Colors.green.shade800,
-                ),
-              ),
-            ));
-      });
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        print("Resume");
+        resumeCallBack();
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        break;
     }
-    return const SizedBox();
   }
 }
