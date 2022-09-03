@@ -16,14 +16,15 @@ void main() async {
   await checkLastUpdated();
   runApp(const MyApp());
 }
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     debugInvertOversizedImages = true;
+
     return MultiProvider(
       providers: [
         Provider<LoginStore>(
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        scaffoldMessengerKey: rootScaffoldMessengerKey,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             scaffoldBackgroundColor: kBackground,

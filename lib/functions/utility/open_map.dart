@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/main.dart';
 
 void openMap(double latitude, double longitude, BuildContext context,
     String title) async {
@@ -11,10 +12,11 @@ void openMap(double latitude, double longitude, BuildContext context,
       title: title,
     );
   } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    rootScaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
         content: Text(
-      "Could not open map.",
-      style: MyFonts.w500,
-    )));
+          "Could not open map.",
+          style: MyFonts.w500,
+        )));
+    //ScaffoldMessenger.of(context).showSnackBar();
   }
 }

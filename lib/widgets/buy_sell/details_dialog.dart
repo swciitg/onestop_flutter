@@ -1,20 +1,21 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
-import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
-
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/lostfound/found_model.dart';
+import 'package:onestop_dev/widgets/lostfound/claim_call_button.dart';
 
-void detailsDialogBox(context, dynamic model) {
+void detailsDialogBox(context, dynamic model, [parentContext]) {
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
+  parentContext ??= context;
   showDialog(
       context: context,
       builder: (BuildContext context) {
         Widget priceOrLocation;
+        Widget submitClaimDetails = Container();
         if (model is BuyModel) {
           priceOrLocation = Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
@@ -26,16 +27,51 @@ void detailsDialogBox(context, dynamic model) {
             ),
           );
         } else {
-          priceOrLocation = Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
-            child: Text(
-              "Lost at: ${model.location}",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: MyFonts.w500.size(14).setColor(kGrey6),
-            ),
+          priceOrLocation = Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+                child: Text(
+                  "${(model is FoundModel)?"Found":"Lost"}at: ${model.location}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: MyFonts.w500.size(14).setColor(kGrey6),
+                ),
+              ),
+            ],
           );
         }
+        if(model is FoundModel)
+          {
+            submitClaimDetails = Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Visibility(
+                  visible: model.claimed == true ? true : false,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: screenWidth - 62),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Text(
+                          "Claimer: ${model.claimerEmail}",
+                          style: MyFonts.w500.size(14).setColor(kGrey6),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    "Submitted at: ${model.submittedat}",
+                    style: MyFonts.w500.size(14).setColor(kGrey6),
+                  ),
+                ),
+              ],
+            );
+          }
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(21),
@@ -84,45 +120,11 @@ void detailsDialogBox(context, dynamic model) {
                             style: MyFonts.w600.size(16).setColor(kWhite),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            try {
-                              await launchPhoneURL(model.phonenumber);
-                            } catch (e) {
-                              if (kDebugMode) {
-                                print(e);
-                              }
-                            }
-                          },
-                          child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 8),
-                              margin: const EdgeInsets.only(right: 8),
-                              decoration: BoxDecoration(
-                                  color: kGrey9,
-                                  borderRadius: BorderRadius.circular(24)),
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-                                children: [
-                                  const Icon(
-                                    Icons.phone,
-                                    size: 11,
-                                    color: lBlue2,
-                                  ),
-                                  Text(
-                                    " Call",
-                                    style:
-                                        MyFonts.w500.size(11).setColor(lBlue2),
-                                  )
-                                ],
-                              )),
-                        ),
+                        ClaimCallButton(model: model, parentContext: parentContext,),
                       ],
                     ),
                   ),
+                  submitClaimDetails,
                   priceOrLocation,
                   ConstrainedBox(
                     constraints: BoxConstraints(

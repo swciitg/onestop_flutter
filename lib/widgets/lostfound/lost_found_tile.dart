@@ -3,7 +3,6 @@ import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
-import 'package:onestop_dev/widgets/lostfound/found_detail_box.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class LostFoundTile extends StatefulWidget {
@@ -28,7 +27,7 @@ class _LostFoundTileState extends State<LostFoundTile> {
     return GestureDetector(
       onTap: () {
         if (widget.parentContext != null) {
-          foundDialogBox(widget.currentModel, context, widget.parentContext!, mounted);
+          detailsDialogBox(context, widget.currentModel,widget.parentContext!);
         } else {
           detailsDialogBox(context, widget.currentModel);
         }
