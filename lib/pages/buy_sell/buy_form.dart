@@ -125,6 +125,18 @@ class _BuySellFormState extends State<BuySellForm> {
           if (!isValid) {
             return;
           }
+          if(widget.category == "Buy")
+            {
+              if((int.parse(_price2.text)-int.parse(_price.text)) < 0)
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                        "Min price should be smaller than max price",
+                        style: MyFonts.w500,
+                      )));
+                  return;
+                }
+            }
           setState(() {
             isLoading = true;
           });

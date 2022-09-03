@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
@@ -85,7 +86,13 @@ void detailsDialogBox(context, dynamic model) {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            await launchPhoneURL("tel:+91${model.phonenumber}");
+                            try {
+                              await launchPhoneURL(model.phonenumber);
+                            } catch (e) {
+                              if (kDebugMode) {
+                                print(e);
+                              }
+                            }
                           },
                           child: Container(
                               padding: const EdgeInsets.symmetric(
