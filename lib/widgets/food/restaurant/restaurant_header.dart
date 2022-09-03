@@ -124,7 +124,7 @@ class RestaurantHeader extends StatelessWidget {
                           callMap: 'Map',
                           icon: FluentIcons.location_24_regular,
                           callback: () {
-                            openMap(restaurant.latitude, restaurant.longitude,context);
+                            openMap(restaurant.latitude, restaurant.longitude,context,restaurant.name);
                           },
                         ),
                       ),

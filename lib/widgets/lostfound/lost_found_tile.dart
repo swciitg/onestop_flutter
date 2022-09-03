@@ -7,9 +7,9 @@ import 'package:onestop_dev/widgets/lostfound/found_detail_box.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class LostFoundTile extends StatefulWidget {
-  final currentModel;
-  BuildContext? parentContext;
-  LostFoundTile({Key? key, required this.currentModel, this.parentContext})
+  final dynamic currentModel;
+  final BuildContext? parentContext;
+  const LostFoundTile({Key? key, required this.currentModel, this.parentContext})
       : super(key: key);
 
   @override

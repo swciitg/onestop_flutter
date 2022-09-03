@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
-openMap(double latitude, double longitude, BuildContext context) async {
+void openMap(double latitude, double longitude, BuildContext context,
+    String title) async {
   var availableMap = (await MapLauncher.installedMaps).first;
   try {
     await availableMap.showMarker(
       coords: Coords(latitude, longitude),
-      title: "Restaurant",
+      title: title,
     );
   } catch (e) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
-          "Could not open map.",
-          style: MyFonts.w500,
-        )));
+      "Could not open map.",
+      style: MyFonts.w500,
+    )));
   }
 }

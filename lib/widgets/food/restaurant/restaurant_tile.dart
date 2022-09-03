@@ -112,8 +112,11 @@ class RestaurantTile extends StatelessWidget {
                               callMap: 'Map',
                               icon: FluentIcons.location_24_regular,
                               callback: () {
-                                openMap(restaurantModel.latitude,
-                                    restaurantModel.longitude,context);
+                                openMap(
+                                    restaurantModel.latitude,
+                                    restaurantModel.longitude,
+                                    context,
+                                    restaurantModel.name);
                               },
                             ),
                             Expanded(child: Container()),
