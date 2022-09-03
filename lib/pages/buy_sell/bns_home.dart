@@ -106,7 +106,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                                 }
                               },
                               child: ItemTypeBar(
-                                text: "Sell",
+                                text: "For Sale",
                                 margin:
                                     const EdgeInsets.only(left: 16, bottom: 10),
                                 textStyle: MyFonts.w500.size(14).setColor(
@@ -133,7 +133,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                                 }
                               },
                               child: ItemTypeBar(
-                                text: "Buy",
+                                text: "Requested Item",
                                 margin:
                                     const EdgeInsets.only(left: 8, bottom: 10),
                                 textStyle: MyFonts.w500.size(14).setColor(
