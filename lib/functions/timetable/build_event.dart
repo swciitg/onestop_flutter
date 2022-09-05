@@ -4,7 +4,6 @@ Event buildEvent({required String title}) {
   return Event(
     title: title,
     startDate: DateTime.now(),
-    endDate: DateTime.now().add(Duration(hours: 1)),
+    endDate: DateTime.now().add(const Duration(hours: 1)),
   );
 }
-

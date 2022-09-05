@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:onestop_dev/models/food/dish_model.dart';
 
@@ -17,7 +19,7 @@ class RestaurantModel {
   @JsonKey(defaultValue: "2 hrs")
   late String waiting_time;
 
-  @JsonKey(defaultValue: " ")
+  @JsonKey(defaultValue: " ", fromJson: fromJsonPhone, toJson: toJsonPhone)
   late String phone_number;
 
   @JsonKey(defaultValue: 26.19247153449412)
@@ -35,7 +37,8 @@ class RestaurantModel {
   @JsonKey(defaultValue: [])
   late List<DishModel> menu;
 
-  String image;
+  @JsonKey(name: "imageURL")
+  late String image;
 
   RestaurantModel(
       {required this.name,
@@ -47,7 +50,7 @@ class RestaurantModel {
       required this.longitude,
       required this.address,
       required this.tags,
-        this.image =  "https://live.staticflickr.com/3281/5813689894_a558bb341f_b.jpg"});
+      required this.image});
 
   // RestaurantModel.fromJson(Map<String, dynamic> json) {
   //   name = json['name'] ?? "Unnamed";= "https://live.staticflickr.com/3281/5813689894_a558bb341f_b.jpg"
@@ -65,8 +68,16 @@ class RestaurantModel {
   //   });
   // }
 
-
-  factory RestaurantModel.fromJson(Map<String, dynamic> json) => _$RestaurantModelFromJson(json);
+  factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$RestaurantModelToJson(this);
+}
+
+String fromJsonPhone(int i) {
+  return i.toString();
+}
+
+int toJsonPhone(String x) {
+  return int.parse(x);
 }

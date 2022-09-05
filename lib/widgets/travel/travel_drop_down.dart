@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/stores/travel_store.dart';
-import 'package:provider/provider.dart';
 
 class TravelDropDown extends StatelessWidget {
-  String value;
-  Function onChange;
-  List<String> items;
-  TravelDropDown(
+  final String value;
+  final Function onChange;
+  final List<String> items;
+  const TravelDropDown(
       {Key? key,
       required this.value,
       required this.onChange,

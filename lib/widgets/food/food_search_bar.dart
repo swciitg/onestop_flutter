@@ -10,7 +10,7 @@ class FoodSearchBar extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  TextEditingController searchStringController = TextEditingController();
+  final TextEditingController searchStringController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class FoodSearchBar extends StatelessWidget {
             borderRadius: BorderRadius.circular(100),
           ),
           filled: true,
-          prefixIcon: Icon(
+          prefixIcon: const Icon(
             Icons.search,
             color: kWhite,
           ),

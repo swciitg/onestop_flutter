@@ -6,7 +6,7 @@ import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 class HomeLinks extends StatelessWidget {
   final List<HomeTabTile> links;
   final String title;
-  HomeLinks({Key? key, required this.links, required this.title})
+  const HomeLinks({Key? key, required this.links, required this.title})
       : super(key: key);
 
   @override
@@ -40,29 +40,29 @@ class HomeLinks extends StatelessWidget {
                 // crossAxisAlignment: CrossAxisAlignment.stretch,
                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   links[0],
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   links[1],
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   links[2],
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   links[3],
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             )
           ],

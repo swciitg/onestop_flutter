@@ -1,18 +1,16 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:onestop_dev/models/blogs/medium_article_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webfeed/webfeed.dart';
-import 'package:onestop_dev/models/blogs/mediumArticle_model.dart';
-import 'package:html/parser.dart';
 
 String parseHtmlString(String htmlString) {
   final document = parse(htmlString);
@@ -20,7 +18,7 @@ String parseHtmlString(String htmlString) {
   String parsedString = "";
   for (var element in elements) {
     if (parsedString != "") {
-      parsedString = parsedString + " " + element.text;
+      parsedString = "$parsedString ${element.text}";
     } else {
       parsedString = element.text;
     }
@@ -36,7 +34,7 @@ class Blogs extends StatefulWidget {
   const Blogs({Key? key}) : super(key: key);
 
   @override
-  _BlogState createState() => _BlogState();
+  State<Blogs> createState() => _BlogState();
 }
 
 class _BlogState extends State<Blogs> {
@@ -47,21 +45,22 @@ class _BlogState extends State<Blogs> {
     'https://medium.com/feed/@media-techniche',
     'https://medium.com/feed/@codingclubiitg'
   ];
-  static String MEDIUM_PROFILE_RSS_FEED_URL =
-      'https://medium.com/feed/@csea.iitg';
+
   List<MediumArticle> _mediumArticles = [];
   String title = "notnull";
   String image =
       "https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.cyberark.com%2Fwp-content%2Fuploads%2F2019%2F11%2FDeveloper.jpg&imgrefurl=https%3A%2F%2Fwww.cyberark.com%2Fresources%2Fblog%2Fsecure-developer-workstations-without-slowing-them-down&tbnid=fJMc6OspVdPfgM&vet=12ahUKEwivmoytyOb1AhXlZWwGHZAPBZkQMygAegUIARDTAQ..i&docid=X2dX4HlN_niOsM&w=943&h=536&q=developer&ved=2ahUKEwivmoytyOb1AhXlZWwGHZAPBZkQMygAegUIARDTAQ";
 
   // Get the Medium RSSFeed data
-  Future<RssFeed?> getMediumRSSFeedData(MEDIUM_PROFILE_RSS_FEED_URL) async {
+  Future<RssFeed?> getMediumRSSFeedData(mediumProfilesRSSFeedURL) async {
     try {
       final client = http.Client();
-      final response = await client.get(Uri.parse(MEDIUM_PROFILE_RSS_FEED_URL));
+      final response = await client.get(Uri.parse(mediumProfilesRSSFeedURL));
       return RssFeed.parse(response.body);
     } catch (error) {
-      print(error);
+      if (kDebugMode) {
+        print(error);
+      }
     }
     return null;
   }
@@ -103,7 +102,6 @@ class _BlogState extends State<Blogs> {
                 int p = imagelink.length;
                 String imagelink2 = imagelink.substring(1, p - 2);
 
-                // print(imagelink2);
                 String pdate = x.pubDate.toString();
                 MediumArticle res = MediumArticle(
                     title: x.title!,
@@ -143,7 +141,10 @@ class _BlogState extends State<Blogs> {
   Widget _getLoadingIndicator() {
     return Expanded(
       child: Shimmer.fromColors(
-          child: Container(
+          period: const Duration(seconds: 1),
+          baseColor: kHomeTile,
+          highlightColor: lGrey,
+          child: SizedBox(
             height: 400,
             child: ListView.builder(
               itemCount: 8,
@@ -161,24 +162,21 @@ class _BlogState extends State<Blogs> {
                     //   thickness: 1.5,
                     //   color: kTabBar,
                     // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-          period: Duration(seconds: 1),
-          baseColor: kHomeTile,
-          highlightColor: lGrey),
+          )),
     );
   }
 
-  Widget _PageState(String title) {
+  Widget _pageState(String title) {
     while (title == "notnull") {
       return Container(
-        padding: EdgeInsets.fromLTRB(0, 5, 0, 16),
+        padding: const EdgeInsets.fromLTRB(0, 5, 0, 16),
         color: Colors.black.withOpacity(0.8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -211,7 +209,7 @@ class _BlogState extends State<Blogs> {
             children: [
               // CachedNetworkImage(imageUrl: _mediumArticles[index].image),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -221,7 +219,7 @@ class _BlogState extends State<Blogs> {
                           .toString()
                           .split("|")[0]
                           .trim(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -232,12 +230,12 @@ class _BlogState extends State<Blogs> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 4.0,
                     ),
                     Text(
                       _mediumArticles[index].content,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
@@ -248,7 +246,7 @@ class _BlogState extends State<Blogs> {
                       maxLines: 5,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 4.0,
                     ),
                     Padding(
@@ -262,13 +260,13 @@ class _BlogState extends State<Blogs> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(30),
                               child: FittedBox(
+                                fit: BoxFit.cover,
                                 child:
                                     Image.network(_mediumArticles[index].image),
-                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           Expanded(
@@ -283,7 +281,7 @@ class _BlogState extends State<Blogs> {
                   ],
                 ),
               ),
-              Divider(
+              const Divider(
                 thickness: 1.5,
                 color: kTabBar,
               ),
@@ -311,14 +309,13 @@ class _BlogState extends State<Blogs> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              icon: Icon(Icons.close)),
+              icon: const Icon(Icons.close)),
         ],
       ),
-      body: _PageState(title),
+      body: _pageState(title),
     );
   }
 }
-
 
 // color: kBackground, // Color(273141),
 //             // elevation: 5,

@@ -1,13 +1,18 @@
 import 'package:json_annotation/json_annotation.dart';
+
 part 'dish_model.g.dart';
 
+// ignore_for_file: non_constant_identifier_names
 @JsonSerializable()
 class DishModel {
   @JsonKey(defaultValue: "Unnamed")
   late String name;
   @JsonKey(defaultValue: false)
   late bool veg;
-  @JsonKey(defaultValue: " ",fromJson: ingredientsFromJson, toJson: ingredientsToJson)
+  @JsonKey(
+      defaultValue: " ",
+      fromJson: ingredientsFromJson,
+      toJson: ingredientsToJson)
   late String ingredients;
   @JsonKey(defaultValue: 2)
   late int waiting_time;
@@ -16,16 +21,17 @@ class DishModel {
 
   String image;
 
-
   DishModel(
       {required this.name,
       required this.veg,
       required this.ingredients,
       required this.waiting_time,
       required this.price,
-      this.image= "https://d4t7t8y8xqo0t.cloudfront.net/resized/750X436/eazytrendz%2F3070%2Ftrend20210218124824.jpg"});
+      this.image =
+          "https://d4t7t8y8xqo0t.cloudfront.net/resized/750X436/eazytrendz%2F3070%2Ftrend20210218124824.jpg"});
 
-  factory DishModel.fromJson(Map<String, dynamic> json) => _$DishModelFromJson(json);
+  factory DishModel.fromJson(Map<String, dynamic> json) =>
+      _$DishModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$DishModelToJson(this);
 
@@ -43,6 +49,6 @@ String ingredientsFromJson(List<dynamic> ing) {
 }
 
 List<String> ingredientsToJson(String ing) {
-  ing = ing.substring(1,ing.length-1);
+  ing = ing.substring(1, ing.length - 1);
   return ing.split(',').toList();
 }

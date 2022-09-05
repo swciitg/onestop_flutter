@@ -17,8 +17,8 @@ class LoginButton extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
-          child: Container(),
           flex: 1,
+          child: Container(),
         ),
         Expanded(
           flex: 2,
@@ -34,19 +34,16 @@ class LoginButton extends StatelessWidget {
               fit: BoxFit.fitWidth,
               child: Text(
                 'LOGIN WITH OUTLOOK',
-                style: MyFonts.w500
-                    .factor(3.66)
-                    .setColor(kBlack),
+                style: MyFonts.w500.factor(3.66).setColor(kBlack),
               ),
             ),
           ),
         ),
         Expanded(
-          child: Container(),
           flex: 1,
+          child: Container(),
         )
       ],
     );
   }
 }
-

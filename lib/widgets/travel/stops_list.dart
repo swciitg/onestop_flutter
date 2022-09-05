@@ -2,7 +2,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:onestop_dev/functions/travel/check_weekday.dart';
+import 'package:onestop_dev/functions/food/get_day.dart';
+import 'package:onestop_dev/functions/travel/distance.dart';
 import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -18,47 +19,42 @@ class BusStopList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
         shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         itemCount: context.read<MapBoxStore>().allLocationData.length,
         itemBuilder: (BuildContext context, int index) {
-          var map_store = context.read<MapBoxStore>();
+          var mapStore = context.read<MapBoxStore>();
           return FutureBuilder(
             future: DataProvider.getBusTimings(),
-            builder: (context, snapshot){
-              if(snapshot.hasData)
-                {
-                  var busTime = snapshot.data as List<List<String>>;
-                  print(busTime);
-                  bool weekDay = checkWeekday();
-                  print(weekDay);
-                  print(nextTime(busTime[0]));
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        map_store.selectedCarousel(index);
-                        map_store.zoomTwoMarkers(
-                            LatLng(
-                                map_store.allLocationData[
-                                map_store.selectedCarouselIndex]['lat'],
-                                map_store.allLocationData[
-                                map_store.selectedCarouselIndex]['long']),
-                            LatLng(map_store.userlat, map_store.userlong),
-                            100.0
-                        );
-                      },
-                      child: Observer(builder: (context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width * 0.95,
-                          decoration: BoxDecoration(
-                            color: kTileBackground,
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            border: Border.all(
-                                color: (map_store.selectedCarouselIndex == index)
-                                    ? lBlue5
-                                    : kTileBackground),
-                          ),
-                          child: ListTile(
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var busTime = snapshot.data as List<List<String>>;
+                return Padding(
+                  padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      mapStore.selectedCarousel(index);
+                      mapStore.zoomTwoMarkers(
+                          LatLng(
+                              mapStore.allLocationData[
+                                  mapStore.selectedCarouselIndex]['lat'],
+                              mapStore.allLocationData[
+                                  mapStore.selectedCarouselIndex]['long']),
+                          LatLng(mapStore.userlat, mapStore.userlong),
+                          100.0);
+                    },
+                    child: Observer(builder: (context) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        decoration: BoxDecoration(
+                          color: kTileBackground,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20)),
+                          border: Border.all(
+                              color: (mapStore.selectedCarouselIndex == index)
+                                  ? lBlue5
+                                  : kTileBackground),
+                        ),
+                        child: ListTile(
                             textColor: kWhite,
                             leading: const CircleAvatar(
                               backgroundColor: lYellow2,
@@ -69,13 +65,15 @@ class BusStopList extends StatelessWidget {
                               ),
                             ),
                             title: Text(
-                              map_store.allLocationData[index]['name'],
+                              mapStore.allLocationData[index]['name'],
                               style: MyFonts.w500.setColor(kWhite),
                             ),
                             subtitle: Text(
-                                map_store.allLocationData[index]['distance']
-                                    .toString() +
-                                    " km",
+                                "${calculateDistance(
+                                  mapStore.userLatLng,
+                                  LatLng(mapStore.allLocationData[index]['lat'],
+                                      mapStore.allLocationData[index]['long']),
+                                ).toStringAsFixed(2)} km",
                                 style: MyFonts.w500.setColor(kGrey13)),
                             // trailing: (map_store.allLocationData[index]['status'] ==
                             //     'left')
@@ -96,19 +94,23 @@ class BusStopList extends StatelessWidget {
                             // )
                             //     :
                             //
-                            trailing: weekDay ? Text(
-                            nextTime(busTime[1]),
+                            trailing: Text(
+                              (getFormattedDay() == 'Friday')
+                                  ? nextTime(busTime[1],
+                                      firstTime: busTime[0][0])
+                                  : (getFormattedDay() == 'Sunday')
+                                      ? nextTime(busTime[0],
+                                          firstTime: busTime[1][0])
+                                      : (getFormattedDay() == 'Saturday')
+                                          ? nextTime(busTime[0])
+                                          : nextTime(busTime[1]),
                               style: MyFonts.w500.setColor(lBlue2),
-                            ) : Text(
-                              nextTime(busTime[0]),
-                              style: MyFonts.w500.setColor(lBlue2),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                  );
-                }
+                            )),
+                      );
+                    }),
+                  ),
+                );
+              }
               return ListShimmer();
             },
           );

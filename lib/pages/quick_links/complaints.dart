@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/retry.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/widgets/ui/appbar.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Complaints extends StatefulWidget {
   static String id = "/complaints";
@@ -18,7 +18,8 @@ class Complaints extends StatefulWidget {
 }
 
 class _Complaints extends State<Complaints> {
-  Completer<WebViewController> _controller = Completer<WebViewController>();
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
   @override
   void initState() {
     super.initState();
@@ -64,16 +65,17 @@ class _Complaints extends State<Complaints> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: WebView(
-        initialUrl: widget.url,
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (controller) {
-          _controller.complete(controller);
-        },
-        onWebResourceError: (context) {
-          print("Error web resource");
-        },
+    return Scaffold(
+      appBar: appBar(context, displayIcon: false),
+      body: SafeArea(
+        child: WebView(
+          initialUrl: widget.url,
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (controller) {
+            _controller.complete(controller);
+          },
+          onWebResourceError: (context) {},
+        ),
       ),
     );
   }

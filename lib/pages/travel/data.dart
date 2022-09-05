@@ -1,4 +1,4 @@
-const List<Map<String, dynamic>> BusStops = [
+const List<Map<String, dynamic>> busStopsData = [
   {
     'name': 'TIC Bus Stop',
     'lat': 26.193339399452704,

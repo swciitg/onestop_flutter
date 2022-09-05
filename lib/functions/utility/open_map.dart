@@ -1,11 +1,22 @@
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:flutter/material.dart';
+import 'package:map_launcher/map_launcher.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/main.dart';
 
-openMap(double latitude, double longitude) async {
-  String googleUrl =
-      'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-  if (await canLaunchUrlString(googleUrl)) {
-    await launchUrlString(googleUrl);
-  } else {
-    throw 'Could not open the map.';
+void openMap(double latitude, double longitude, BuildContext context,
+    String title) async {
+  var availableMap = (await MapLauncher.installedMaps).first;
+  try {
+    await availableMap.showMarker(
+      coords: Coords(latitude, longitude),
+      title: title,
+    );
+  } catch (e) {
+    rootScaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
+        content: Text(
+          "Could not open map.",
+          style: MyFonts.w500,
+        )));
+    //ScaffoldMessenger.of(context).showSnackBar();
   }
 }

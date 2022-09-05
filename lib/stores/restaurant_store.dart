@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:fuzzy/fuzzy.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
@@ -17,11 +19,11 @@ abstract class _RestaurantStore with Store {
       latitude: 0,
       longitude: 0,
       address: "NA",
-      tags: []);
+      tags: [],
+      image: "");
 
   @observable
   String _searchString = "";
-
 
   @observable
   String _searchPageHeader =
@@ -42,9 +44,8 @@ abstract class _RestaurantStore with Store {
 
   @action
   void setSearchString(String str) {
-    print("Search String set to $str");
     _searchString = str;
-    searchResults = ObservableFuture(SearchResults());
+    searchResults = ObservableFuture(executeFuzzySearch());
     _searchPageHeader = "Showing results for $str";
   }
 
@@ -53,14 +54,14 @@ abstract class _RestaurantStore with Store {
     _searchPageHeader = str;
   }
 
-  Future<List<RestaurantModel>> SearchResults() async {
+  Future<List<RestaurantModel>> executeFuzzySearch() async {
     List<RestaurantModel> allRestaurants = await DataProvider.getRestaurants();
     List<RestaurantModel> searchResults = [];
-    allRestaurants.forEach((element) {
+    for (var element in allRestaurants) {
       List<String> searchFields = element.tags;
-      element.menu.forEach((dish) {
+      for (var dish in element.menu) {
         searchFields.add(dish.name);
-      });
+      }
       final fuse = Fuzzy(
         searchFields,
         options: FuzzyOptions(
@@ -71,10 +72,10 @@ abstract class _RestaurantStore with Store {
       );
 
       final result = fuse.search(_searchString);
-      if (result.length != 0) {
+      if (result.isNotEmpty) {
         searchResults.add(element);
       }
-    });
+    }
     return searchResults;
   }
 }

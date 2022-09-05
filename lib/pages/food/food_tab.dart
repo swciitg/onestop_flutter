@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -22,11 +21,11 @@ class FoodTab extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           FoodSearchBar(),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Expanded(
@@ -34,25 +33,24 @@ class FoodTab extends StatelessWidget {
               child: Column(
                 children: [
                   MessMenu(),
-                  SizedBox(height: 16),
-                  FavoriteDishes(),
-                  SizedBox(
+                  const SizedBox(height: 16),
+                  const FavoriteDishes(),
+                  const SizedBox(
                     height: 16,
                   ),
-                  OutletsFilter(),
-                  SizedBox(
+                  const OutletsFilter(),
+                  const SizedBox(
                     height: 10,
                   ),
                   FutureBuilder<List<RestaurantModel>>(
-                      future: ReadJsonData(),
+                      future: DataProvider.getRestaurants(),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<RestaurantModel>> snapshot) {
                         if (snapshot.hasData) {
-                          // print(snapshot.data);
                           List<Widget> foodList = snapshot.data!
                               .map(
                                 (e) => RestaurantTile(
-                                  restaurant_model: e,
+                                  restaurantModel: e,
                                 ),
                               )
                               .toList();
@@ -60,7 +58,6 @@ class FoodTab extends StatelessWidget {
                             children: foodList,
                           );
                         } else if (snapshot.hasError) {
-                          print(snapshot.error);
                           return Center(
                               child: Text(
                             "An error occurred",
@@ -68,7 +65,9 @@ class FoodTab extends StatelessWidget {
                           ));
                         }
                         return Center(
-                          child: ListShimmer(height: 168,),
+                          child: ListShimmer(
+                            height: 168,
+                          ),
                         );
                       })
                 ],
@@ -79,9 +78,4 @@ class FoodTab extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<List<RestaurantModel>> ReadJsonData() async {
-  List<RestaurantModel> l = await DataProvider.getRestaurants();
-  return l;
 }

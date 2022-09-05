@@ -1,9 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
-import 'package:onestop_dev/functions/timetable/time_range.dart';
-import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
+import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/timetable/timetable_day.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/timetable/lunch_divider.dart';
@@ -16,15 +17,20 @@ class TimetableStore = _TimetableStore with _$TimetableStore;
 abstract class _TimetableStore with Store {
   _TimetableStore() {
     setupReactions();
+    initialiseDates();
+  }
+
+  void initialiseDates() {
+    dates = List.filled(5, DateTime.now());
     if (dates[0].weekday == 6 || dates[0].weekday == 7) {
       while (dates[0].weekday != 1) {
-        dates[0] = dates[0].add(Duration(days: 1));
+        dates[0] = dates[0].add(const Duration(days: 1));
       }
     }
     for (int i = 1; i < 5; i++) {
-      dates[i] = dates[i - 1].add(Duration(days: 1));
+      dates[i] = dates[i - 1].add(const Duration(days: 1));
       if (dates[i].weekday == 6) {
-        dates[i] = dates[i].add(Duration(days: 2));
+        dates[i] = dates[i].add(const Duration(days: 2));
       }
     }
   }
@@ -32,7 +38,7 @@ abstract class _TimetableStore with Store {
   List<DateTime> dates = List.filled(5, DateTime.now());
 
   List<TimetableDay> allTimetableCourses =
-      List.generate(5, (index) => new TimetableDay());
+      List.generate(5, (index) => TimetableDay());
 
   @observable
   ObservableFuture<RegisteredCourses?> loadOperation =
@@ -52,7 +58,6 @@ abstract class _TimetableStore with Store {
   @action
   Future<void> setTimetable(String rollNumber) async {
     if (loadOperation.value == null) {
-      print("Call API for timetable ${loadOperation.status}");
       loadOperation = APIService.getTimeTable(roll: rollNumber).asObservable();
     }
   }
@@ -86,7 +91,7 @@ abstract class _TimetableStore with Store {
           .morning
           .map((e) => TimetableTile(course: e))
           .toList(),
-      LunchDivider(),
+      const LunchDivider(),
       ...allTimetableCourses[timetableIndex]
           .afternoon
           .map((e) => TimetableTile(course: e))
@@ -98,7 +103,7 @@ abstract class _TimetableStore with Store {
   List<Widget> get homeTimeTable {
     DateTime current = DateTime.now();
     if (current.weekday == 6 || current.weekday == 7) {
-      CourseModel noClass = new CourseModel();
+      CourseModel noClass = CourseModel();
       noClass.instructor = '';
       noClass.course = 'Happy Weekend !';
       noClass.timing = '';
@@ -126,8 +131,8 @@ abstract class _TimetableStore with Store {
               ))
           .toList()
     ];
-    if (l.length == 0) {
-      CourseModel noClass = new CourseModel();
+    if (l.isEmpty) {
+      CourseModel noClass = CourseModel();
       noClass.instructor = '';
       noClass.course = 'No upcoming classes';
       noClass.timing = '';
@@ -146,7 +151,7 @@ abstract class _TimetableStore with Store {
 
   void processTimetable() {
     List<TimetableDay> timetableCourses =
-        List.generate(5, (index) => new TimetableDay());
+        List.generate(5, (index) => TimetableDay());
     var courseList = loadOperation.value!;
     courseList.courses!.sort((a, b) => a.slot!.compareTo(b.slot!));
     for (int i = 0; i <= 4; i++) {
@@ -310,6 +315,6 @@ abstract class _TimetableStore with Store {
         }
       }
     }
-    this.allTimetableCourses = timetableCourses;
+    allTimetableCourses = timetableCourses;
   }
 }

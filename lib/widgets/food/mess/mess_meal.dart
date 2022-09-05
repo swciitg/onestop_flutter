@@ -6,13 +6,12 @@ import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:provider/provider.dart';
 
 class MessMeal extends StatelessWidget {
-  MessMeal({
+  const MessMeal({
     Key? key,
     required this.mealName,
   }) : super(key: key);
 
   final String mealName;
-  bool selected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class MessMeal extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: Observer(builder: (context) {
-            selected = context.read<MessStore>().selectedMeal == mealName;
+            bool selected = context.read<MessStore>().selectedMeal == mealName;
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
@@ -41,7 +40,7 @@ class MessMeal extends StatelessWidget {
                         .setColor(kBlueGrey)
                     : MyFonts.w500
                         .size(screenWidth <= 380 ? 13 : 14)
-                        .setColor(Color.fromRGBO(91, 146, 227, 1)),
+                        .setColor(const Color.fromRGBO(91, 146, 227, 1)),
               ),
             );
           }),

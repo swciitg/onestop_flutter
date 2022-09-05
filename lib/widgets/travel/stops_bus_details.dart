@@ -11,7 +11,6 @@ class StopsBusDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(context.read<TravelStore>());
     return Observer(builder: (context) {
       return Column(
         children: [
@@ -22,7 +21,7 @@ class StopsBusDetails extends StatelessWidget {
                   context.read<TravelStore>().selectStopButton();
                 },
                 child: ClipRRect(
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(40),
                   ),
                   child: Container(
@@ -45,7 +44,7 @@ class StopsBusDetails extends StatelessWidget {
                   context.read<TravelStore>().selectBusButton();
                 },
                 child: ClipRRect(
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(40),
                   ),
                   child: Container(
@@ -72,7 +71,7 @@ class StopsBusDetails extends StatelessWidget {
                   ? TravelDropDown(
                       value: context.read<TravelStore>().busDayType,
                       onChange: context.read<TravelStore>().setBusDayString,
-                      items: ['Weekdays', 'Weekends'],
+                      items: const ['Weekdays', 'Weekends'],
                     )
                   : Container()
             ],

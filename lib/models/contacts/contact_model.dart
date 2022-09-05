@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
+
 part 'contact_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)

@@ -4,8 +4,8 @@ import 'package:onestop_dev/widgets/login/login_button.dart';
 import 'package:onestop_dev/widgets/login/welcome_header.dart';
 
 class WelcomePage extends StatelessWidget {
-  late Function setLoading;
-  WelcomePage({Key? key, required this.setLoading}) : super(key: key);
+  final Function setLoading;
+  const WelcomePage({Key? key, required this.setLoading}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class WelcomePage extends StatelessWidget {
               image: AssetImage('assets/images/bg_triangle.png'),
               fit: BoxFit.fill,
             )),
-            child: WelcomeHeader(),
+            child: const WelcomeHeader(),
           ),
         ),
         Expanded(

@@ -14,7 +14,6 @@ import 'package:onestop_dev/widgets/travel/travel_drop_down.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
-
 class FerryDetails extends StatelessWidget {
   const FerryDetails({Key? key}) : super(key: key);
 
@@ -31,7 +30,7 @@ class FerryDetails extends StatelessWidget {
                 element.name == context.read<TravelStore>().selectedFerryGhat);
         var ferryMap = ferryModel.toJson();
         return Column(children: [
-          Container(
+          SizedBox(
             height: 50,
             child: ListView(
               scrollDirection: Axis.horizontal,
@@ -39,17 +38,17 @@ class FerryDetails extends StatelessWidget {
                   .map((e) => TextButton(
                         onPressed: () {
                           context.read<TravelStore>().setFerryGhat(e['name']);
-                          var mapbox_store = context.read<MapBoxStore>();
-                          int i = mapbox_store.allLocationData.indexWhere((element) => e['name'] == element['name']);
-                          mapbox_store.selectedCarousel(i);
-                          mapbox_store.zoomTwoMarkers(
-                              mapbox_store.selectedCarouselLatLng,
-                              LatLng(mapbox_store.userlat,
-                                  mapbox_store.userlong),
+                          var mapboxStore = context.read<MapBoxStore>();
+                          int i = mapboxStore.allLocationData.indexWhere(
+                              (element) => e['name'] == element['name']);
+                          mapboxStore.selectedCarousel(i);
+                          mapboxStore.zoomTwoMarkers(
+                              mapboxStore.selectedCarouselLatLng,
+                              LatLng(mapboxStore.userlat, mapboxStore.userlong),
                               90.0);
                         },
                         child: ClipRRect(
-                          borderRadius: BorderRadius.all(
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(40),
                           ),
                           child: Container(
@@ -87,18 +86,20 @@ class FerryDetails extends StatelessWidget {
                 TravelDropDown(
                     value: context.read<TravelStore>().ferryDirection,
                     onChange: context.read<TravelStore>().setFerryDirection,
-                    items: ["Campus to City", "City to Campus"]),
+                    items: const ["Campus to City", "City to Campus"]),
                 TravelDropDown(
                     value: context.read<TravelStore>().ferryDayType,
                     onChange: context.read<TravelStore>().setFerryDayType,
-                    items: ["Mon - Sat", "Sunday"])
+                    items: const ["Mon - Sat", "Sunday"])
               ],
             ),
           ),
           Column(
-            children: (ferryMap[context.read<TravelStore>().ferryDataIndex] as List<String>).map((e) {
+            children: (ferryMap[context.read<TravelStore>().ferryDataIndex]
+                    as List<String>)
+                .map((e) {
               return Padding(
-                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: TimingTile(
                   time: e,
                   isLeft: hasLeft(e.toString()),

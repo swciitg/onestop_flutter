@@ -6,8 +6,8 @@ import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:provider/provider.dart';
 
 class StarButton extends StatefulWidget {
-  ContactDetailsModel contact;
-  StarButton({Key? key, required this.contact}) : super(key: key);
+  final ContactDetailsModel contact;
+  const StarButton({Key? key, required this.contact}) : super(key: key);
 
   @override
   State<StarButton> createState() => _StarButtonState();
@@ -19,15 +19,13 @@ class _StarButtonState extends State<StarButton> {
     if (starred == null) {
       return false;
     }
-    print("Starred is $starred");
     var starredContacts = starred
         .map((e) => ContactDetailsModel.fromJson(e as Map<String, dynamic>))
         .toList();
     if (starredContacts
-            .where((element) => element.email == widget.contact.email)
-            .toList()
-            .length >
-        0) {
+        .where((element) => element.email == widget.contact.email)
+        .toList()
+        .isNotEmpty) {
       return true;
     }
     return false;
@@ -36,7 +34,7 @@ class _StarButtonState extends State<StarButton> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: this.isStarred(),
+      future: isStarred(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           bool isAlreadyStarred = snapshot.data as bool;
@@ -54,10 +52,11 @@ class _StarButtonState extends State<StarButton> {
                     .toList();
                 starredContacts.removeWhere(
                     (element) => element.email == widget.contact.email);
+                if (!mounted) return;
                 context
                     .read<ContactStore>()
                     .setStarredContacts(starredContacts);
-                if (starredContacts.length == 0) {
+                if (starredContacts.isEmpty) {
                   await LocalStorage.instance.deleteRecord("StarredContacts");
                 } else {
                   List<Map<String, dynamic>> starList =
@@ -67,7 +66,7 @@ class _StarButtonState extends State<StarButton> {
                 }
                 setState(() {});
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.star,
                 color: Colors.amber,
               ),
@@ -89,12 +88,13 @@ class _StarButtonState extends State<StarButton> {
                   await LocalStorage.instance
                       .storeData(starList, "StarredContacts");
                 }
+                if (!mounted) return;
                 context.read<ContactStore>().setStarredContacts(starList
                     .map((e) => ContactDetailsModel.fromJson(e))
                     .toList());
                 setState(() {});
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.star_outline,
                 color: kGrey,
               ),

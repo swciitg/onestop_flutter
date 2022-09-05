@@ -10,7 +10,7 @@ class LunchDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(children: <Widget>[
-      Expanded(
+      const Expanded(
           child: Divider(
         color: kGrey8,
       )),
@@ -21,7 +21,7 @@ class LunchDivider extends StatelessWidget {
           style: MyFonts.w500.size(12).setColor(kGrey8),
         ),
       ),
-      Expanded(
+      const Expanded(
           child: Divider(
         color: kGrey8,
       )),

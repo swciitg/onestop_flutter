@@ -25,7 +25,7 @@ class SearchPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               FoodSearchBar(),
@@ -48,19 +48,17 @@ class SearchPage extends StatelessWidget {
                         context.read<RestaurantStore>().searchResults;
                     switch (futureList.status) {
                       case FutureStatus.fulfilled:
-                        print("Fulfilled ${futureList.result}");
                         List<RestaurantModel> results = futureList.result;
                         List<Widget> foodList = results
-                            .map((e) => RestaurantTile(restaurant_model: e))
+                            .map((e) => RestaurantTile(restaurantModel: e))
                             .toList();
                         return ListView(
                           children: foodList,
                         );
                       case FutureStatus.rejected:
-                        print("Rejected");
-                        return Center(child: Text("An error has occurred"));
+                        return const Center(
+                            child: Text("An error has occurred"));
                       default:
-                        print('default');
                         return Center(
                           child: ListShimmer(
                             height: 168,

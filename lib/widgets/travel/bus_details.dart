@@ -1,14 +1,16 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/travel/has_left.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/functions/travel/has_left.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+
 import 'timing_tile.dart';
 
 class BusDetails extends StatefulWidget {
-  late int index;
+  late final int index;
+  // ignore: prefer_const_constructors_in_immutables
   BusDetails({Key? key, required this.index}) : super(key: key);
 
   @override
@@ -41,20 +43,18 @@ class _BusDetailsState extends State<BusDetails> {
                       isCampus = false;
                     });
                   },
-                  child: Container(
-                    child: ListTile(
-                      title: Text(
-                        'Campus -> City',
-                        style: MyFonts.w500.setColor(kWhite),
-                      ),
-                      subtitle: Text(
-                        'Starting from Biotech park',
-                        style: MyFonts.w500.setColor(Colors.grey),
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.white,
-                      ),
+                  child: ListTile(
+                    title: Text(
+                      'Campus -> City',
+                      style: MyFonts.w500.setColor(kWhite),
+                    ),
+                    subtitle: Text(
+                      'Starting from Biotech park',
+                      style: MyFonts.w500.setColor(Colors.grey),
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -62,7 +62,7 @@ class _BusDetailsState extends State<BusDetails> {
                     ? Column(
                         children: busTime[widget.index].map((e) {
                         return Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                           child: TimingTile(
                             time: e,
                             isLeft: hasLeft(e.toString()),
@@ -78,20 +78,18 @@ class _BusDetailsState extends State<BusDetails> {
                       isCity = false;
                     });
                   },
-                  child: Container(
-                    child: ListTile(
-                      title: Text(
-                        'City -> Campus',
-                        style: MyFonts.w500.setColor(kWhite),
-                      ),
-                      subtitle: Text(
-                        'Starting from City',
-                        style: MyFonts.w500.setColor(Colors.grey),
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.white,
-                      ),
+                  child: ListTile(
+                    title: Text(
+                      'City -> Campus',
+                      style: MyFonts.w500.setColor(kWhite),
+                    ),
+                    subtitle: Text(
+                      'Starting from City',
+                      style: MyFonts.w500.setColor(Colors.grey),
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -99,7 +97,7 @@ class _BusDetailsState extends State<BusDetails> {
                     ? Column(
                         children: busTime[widget.index + 2].map((e) {
                         return Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                           child: TimingTile(
                             time: e,
                             isLeft: hasLeft(e.toString()),

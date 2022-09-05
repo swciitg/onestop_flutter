@@ -1,32 +1,31 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_meal.dart';
 import 'package:provider/provider.dart';
-import 'package:webfeed/domain/media/media.dart';
 
 class MessMenu extends StatelessWidget {
   MessMenu({
     Key? key,
   }) : super(key: key);
 
-  List<String> days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  List<String> hostels = [
-    "Brahma",
-    "Lohit",
+  final List<String> days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  final List<String> hostels = [
     "Kameng",
-    "Umiam",
     "Barak",
+    "Lohit",
+    "Brahma",
+    "Disang",
     "Manas",
     "Dihing",
-    "Disang"
+    "Umiam",
+    "Siang",
+    "Kapili",
+    "Dhansiri",
+    "Subhansiri"
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +48,13 @@ class MessMenu extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: const [
                         MessMeal(mealName: "Breakfast"),
                         MessMeal(mealName: "Lunch"),
                         MessMeal(mealName: "Dinner")
                       ],
                     )),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Observer(builder: (context) {
@@ -85,7 +84,8 @@ class MessMenu extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Theme(
-                                  data: Theme.of(context).copyWith(cardColor: kGrey2),
+                                  data: Theme.of(context)
+                                      .copyWith(cardColor: kGrey2),
                                   child: PopupMenuButton<String>(
                                     itemBuilder: (context) {
                                       return days
@@ -95,16 +95,18 @@ class MessMenu extends StatelessWidget {
                                                 messStore.setDay(value);
                                               },
                                               value: value,
-                                              child: Text(value, style: MyFonts.w500.setColor(kWhite)),
+                                              child: Text(value,
+                                                  style: MyFonts.w500
+                                                      .setColor(kWhite)),
                                             ),
                                           )
                                           .toList();
                                     },
-                                    offset: Offset(1, 40),
+                                    offset: const Offset(1, 40),
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           vertical: 7.0, horizontal: 12.0),
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                           color: kGrey2,
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(20))),
@@ -130,7 +132,8 @@ class MessMenu extends StatelessWidget {
                                   ),
                                 ),
                                 Theme(
-                                  data: Theme.of(context).copyWith(cardColor: kBlueGrey),
+                                  data: Theme.of(context)
+                                      .copyWith(cardColor: kBlueGrey),
                                   child: PopupMenuButton<String>(
                                     itemBuilder: (context) {
                                       return hostels
@@ -141,19 +144,21 @@ class MessMenu extends StatelessWidget {
                                               },
                                               value: value,
                                               child: Text(
-                                                value, style: MyFonts.w500.setColor(kWhite),
+                                                value,
+                                                style: MyFonts.w500
+                                                    .setColor(kWhite),
                                               ),
                                             ),
                                           )
                                           .toList();
                                     },
-                                    offset: Offset(1, 40),
+                                    offset: const Offset(1, 40),
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           vertical: 6.0, horizontal: 12.0),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: lBlue),
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                               Radius.circular(20))),
                                       child: Row(
                                         mainAxisAlignment:
@@ -176,7 +181,7 @@ class MessMenu extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(),
+                                const SizedBox(),
                               ],
                             ),
                           )

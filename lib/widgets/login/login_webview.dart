@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class LoginWebView extends StatelessWidget {
+class LoginWebView extends StatefulWidget {
   const LoginWebView({
     Key? key,
     required Completer<WebViewController> controller,
@@ -16,31 +16,27 @@ class LoginWebView extends StatelessWidget {
   final Completer<WebViewController> _controller;
 
   @override
+  State<LoginWebView> createState() => _LoginWebViewState();
+}
+
+class _LoginWebViewState extends State<LoginWebView> {
+  @override
   Widget build(BuildContext context) {
     return WebView(
       initialUrl: "https://swc.iitg.ac.in/onestopapi/auth/microsoft",
       javascriptMode: JavascriptMode.unrestricted,
       onWebViewCreated: (controller) {
-        _controller.complete(controller);
+        widget._controller.complete(controller);
       },
-      onWebResourceError: (context) {
-        print("Error web resource");
-      },
+      onWebResourceError: (context) {},
       onPageFinished: (url) async {
         if (url.startsWith(
             "https://swc.iitg.ac.in/onestopapi/auth/microsoft/redirect?code")) {
-          WebViewController controller = await _controller.future;
-          var checkString = await controller.runJavascriptReturningResult(
-              "document.querySelector('h1').innerText");
-          print(checkString);
-          await controller
-              .runJavascriptReturningResult(
-                  "document.querySelector('#userInfo').innerText")
-              .then((value) => print(value))
-              .catchError((err) => print(err));
+          WebViewController controller = await widget._controller.future;
+
           var userInfoString = await controller.runJavascriptReturningResult(
               "document.querySelector('#userInfo').innerText");
-          print(userInfoString);
+
           var userInfo = {};
 
           List<String> values = userInfoString.replaceAll('"', '').split("/");
@@ -50,6 +46,7 @@ class LoginWebView extends StatelessWidget {
             userInfo["surname"] = values[2];
             userInfo["id"] = values[3];
             SharedPreferences user = await SharedPreferences.getInstance();
+            if (!mounted) return;
             context.read<LoginStore>().saveToPreferences(user, userInfo);
             context.read<LoginStore>().saveToUserData(user);
             Navigator.of(context)
@@ -60,4 +57,3 @@ class LoginWebView extends StatelessWidget {
     );
   }
 }
-

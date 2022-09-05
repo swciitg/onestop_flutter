@@ -11,16 +11,16 @@ class RegisteredCourses {
     if (json['courses'] != null) {
       courses = <CourseModel>[];
       json['courses'].forEach((v) {
-        courses!.add(new CourseModel.fromJson(v));
+        courses!.add(CourseModel.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['roll_number'] = this.rollNumber;
-    if (this.courses != null) {
-      data['courses'] = this.courses!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['roll_number'] = rollNumber;
+    if (courses != null) {
+      data['courses'] = courses!.map((v) => v.toJson()).toList();
     }
     return data;
   }

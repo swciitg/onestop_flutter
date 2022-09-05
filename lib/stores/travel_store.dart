@@ -1,9 +1,12 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/models/travel/ferry_data_model.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/travel/bus_details.dart';
 import 'package:onestop_dev/widgets/travel/stops_list.dart';
+
 part 'travel_store.g.dart';
 
 class TravelStore = _TravelStore with _$TravelStore;
@@ -25,7 +28,8 @@ abstract class _TravelStore with Store {
   String selectedFerryGhat = "Rajaduwar";
 
   @observable
-  ObservableFuture<List<FerryTimeData>> ferryTimings = ObservableFuture(DataProvider.getFerryTimings());
+  ObservableFuture<List<FerryTimeData>> ferryTimings =
+      ObservableFuture(DataProvider.getFerryTimings());
 
   @action
   void setFerryDayType(String s) {
@@ -70,34 +74,31 @@ abstract class _TravelStore with Store {
   @computed
   Widget get busPage {
     if (!isBusSelected) {
-      return BusStopList();
+      return const BusStopList();
     }
     return BusDetails(index: busDayTypeIndex);
   }
 
   @action
   void selectBusButton() {
-    this.selectBusesorStops = 1;
+    selectBusesorStops = 1;
   }
 
   @action
   void selectStopButton() {
-    this.selectBusesorStops = 0;
+    selectBusesorStops = 0;
   }
 
   @computed
-  bool get isBusSelected => this.selectBusesorStops == 1;
+  bool get isBusSelected => selectBusesorStops == 1;
 
   @action
   void setBusDayString(String s) {
-    this.busDayType = s;
+    busDayType = s;
   }
 
   @action
-  void setFerryGhat (String s) {
-    this.selectedFerryGhat = s;
+  void setFerryGhat(String s) {
+    selectedFerryGhat = s;
   }
-
-
-
 }

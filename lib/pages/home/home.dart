@@ -8,7 +8,6 @@ import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/pages/home/home_tab.dart';
 import 'package:onestop_dev/pages/timetable/timetable.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
-import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:provider/provider.dart';
@@ -24,10 +23,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int index = 0;
   final tabs = [
-    HomeTab(),
-    FoodTab(),
-    TravelPage(),
-    TimeTableTab(),
+    const HomeTab(),
+    const FoodTab(),
+    const TravelPage(),
+    const TimeTableTab(),
   ];
 
   @override
@@ -40,21 +39,21 @@ class _HomePageState extends State<HomePage> {
             indicatorColor: lGrey,
             labelTextStyle:
                 MaterialStateProperty.all(MyFonts.w500.setColor(kTabText)),
-            iconTheme:
-                MaterialStateProperty.all(IconThemeData(color: kTabText))),
+            iconTheme: MaterialStateProperty.all(
+                const IconThemeData(color: kTabText))),
         child: NavigationBar(
           backgroundColor: kTabBar,
           selectedIndex: index,
           onDestinationSelected: (index) => setState(() {
             this.index = index;
-            context.read<MapBoxStore>().mapController=null;
+            context.read<MapBoxStore>().mapController = null;
           }),
           destinations: bottomNavIcons(),
         ),
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: tabs[index],
         ),
       ),

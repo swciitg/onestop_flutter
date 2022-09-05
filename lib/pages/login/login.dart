@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/size_config.dart';
-import 'package:onestop_dev/widgets/login/login_webview.dart';
 import 'package:onestop_dev/pages/login/welcome.dart';
+import 'package:onestop_dev/widgets/login/login_webview.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginPage extends StatefulWidget {
@@ -12,12 +12,13 @@ class LoginPage extends StatefulWidget {
 
   const LoginPage({Key? key}) : super(key: key);
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   bool loading = false;
-  Completer<WebViewController> _controller = Completer<WebViewController>();
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
 
   @override
   void initState() {

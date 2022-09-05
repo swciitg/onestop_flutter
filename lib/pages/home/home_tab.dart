@@ -7,7 +7,7 @@ import 'package:onestop_dev/widgets/home/date_course.dart';
 import 'package:onestop_dev/widgets/home/home_links.dart';
 import 'package:onestop_dev/widgets/home/quick_links.dart';
 import 'package:onestop_dev/widgets/home/service_links.dart';
-import 'package:onestop_dev/widgets/mapbox/mapBox.dart';
+import 'package:onestop_dev/widgets/mapbox/map_box.dart';
 import 'package:provider/provider.dart';
 
 class HomeTab extends StatefulWidget {
@@ -22,9 +22,9 @@ class _HomeTabState extends State<HomeTab> {
   String sel = '';
   Future<RegisteredCourses>? timetable;
 
+  @override
   void initState() {
     super.initState();
-    print("Init state");
     context.read<TimetableStore>().setTimetable(
         context.read<LoginStore>().userData["rollno"] ?? "190101109");
   }
@@ -35,32 +35,32 @@ class _HomeTabState extends State<HomeTab> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Builder(builder: (context) {
             context.read<MapBoxStore>().checkTravelPage(false);
-            return MapBox();
+            return const MapBox();
           }),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          DateCourse(), // <-Put all UI and Observer within DateCourse()
-          SizedBox(
+          const DateCourse(), // <-Put all UI and Observer within DateCourse()
+          const SizedBox(
             height: 10,
           ),
           HomeLinks(
             links: serviceLinks,
             title: 'Services',
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           HomeLinks(
             links: quickLinks,
             title: 'Quick Links',
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
         ],

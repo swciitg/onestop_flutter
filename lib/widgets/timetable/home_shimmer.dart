@@ -8,15 +8,15 @@ class HomeTimetableShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
+        period: const Duration(seconds: 1),
+        baseColor: kHomeTile,
+        highlightColor: lGrey,
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               color: kHomeTile,
               borderRadius: BorderRadius.all(Radius.circular(25))),
           height: 110,
           width: double.infinity,
-        ),
-        period: Duration(seconds: 1),
-        baseColor: kHomeTile,
-        highlightColor: lGrey);
+        ));
   }
 }

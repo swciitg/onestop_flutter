@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
-class Call_MapButton extends StatelessWidget {
-  const Call_MapButton(
+class CallMapButton extends StatelessWidget {
+  const CallMapButton(
       {Key? key,
-      required this.Call_Map,
+      required this.callMap,
       required this.icon,
       required this.callback,
       this.fontSize = 11})
       : super(key: key);
 
-  final String Call_Map;
+  final String callMap;
   final IconData icon;
   final VoidCallback callback;
   final double fontSize;
@@ -35,11 +34,11 @@ class Call_MapButton extends StatelessWidget {
                   size: fontSize,
                   color: kWhite,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 Text(
-                  Call_Map,
+                  callMap,
                   style: MyFonts.w500.size(fontSize).setColor(kWhite),
                 ),
               ],
@@ -48,4 +47,3 @@ class Call_MapButton extends StatelessWidget {
     );
   }
 }
-

@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/functions/food/get_day.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
@@ -13,7 +15,7 @@ abstract class _MessStore with Store {
   }
 
   @observable
-  String selectedDay = get_day();
+  String selectedDay = getFormattedDay();
 
   @observable
   String selectedMeal = "Breakfast";
@@ -30,17 +32,17 @@ abstract class _MessStore with Store {
 
   @action
   void setDay(String s) {
-    this.selectedDay = s;
+    selectedDay = s;
   }
 
   @action
   void setMeal(String s) {
-    this.selectedMeal = s;
+    selectedMeal = s;
   }
 
   @action
   void setHostel(String s) {
-    this.selectedHostel = s;
+    selectedHostel = s;
   }
 
   @action
@@ -62,7 +64,7 @@ abstract class _MessStore with Store {
             orElse: () => MessMenuModel(
                 hostel: "",
                 meal: "",
-                menu: "An error occurred",
+                menu: "Will update soon",
                 day: "",
                 timing: "Oh no!"));
         setSelectedMessModel(requiredModel);

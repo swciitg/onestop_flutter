@@ -1,4 +1,5 @@
 import 'dart:collection';
+
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -8,12 +9,11 @@ import 'package:onestop_dev/models/contacts/contact_details.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
+import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
+
 import 'contact_detail.dart';
-import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
-
-
 
 class ContactPage extends StatefulWidget {
   static String id = "/contacto";
@@ -43,7 +43,7 @@ class _ContactPageState extends State<ContactPage> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(IconData(0xe16a, fontFamily: 'MaterialIcons')))
+                icon: const Icon(IconData(0xe16a, fontFamily: 'MaterialIcons')))
           ],
         ),
         body: Provider<ContactStore>(
@@ -52,8 +52,8 @@ class _ContactPageState extends State<ContactPage> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 14, 8, 14),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(8, 14, 8, 14),
                   child: ContactSearchBar(),
                 ),
                 // Padding(
@@ -122,7 +122,7 @@ class _ContactPageState extends State<ContactPage> {
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 6),
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         IconData(0xe5f9, fontFamily: 'MaterialIcons'),
                         color: kGrey8,
                         size: 15,
@@ -157,9 +157,7 @@ class _ContactPageState extends State<ContactPage> {
                                   children: context
                                       .read<ContactStore>()
                                       .starContactScroll);
-                            }
-                            )
-                        );
+                            }));
                       }
                       return Container();
                     }),
@@ -177,18 +175,19 @@ class _ContactPageState extends State<ContactPage> {
                   child: FutureBuilder<SplayTreeMap<String, ContactModel>>(
                     future: DataProvider.getContacts(),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData)
-                      {
-                        SplayTreeMap<String, ContactModel> people = snapshot.data!;
+                      if (snapshot.hasData) {
+                        SplayTreeMap<String, ContactModel> people =
+                            snapshot.data!;
                         List<String> alphabets = [];
-                        ContactModel pep;
                         people.forEach((key, value) {
-                          if(!alphabets.contains(key[0].toUpperCase()))
-                            {
-                              alphabets.add(key[0].toUpperCase());
-                            }
+                          if (!alphabets.contains(key[0].toUpperCase())) {
+                            alphabets.add(key[0].toUpperCase());
+                          }
                         });
-                        alphabets.forEach((e) => people[e + "ADONOTUSE"] = ContactModel(name: "Random", contacts: [], group: ""));
+                        for (var e in alphabets) {
+                          people["${e}ADONOTUSE"] = ContactModel(
+                              name: "Random", contacts: [], group: "");
+                        }
                         return AlphabetScrollView(
                           list: people.keys.map((e) => AlphaModel(e)).toList(),
                           alignment: LetterAlignment.right,
@@ -209,18 +208,18 @@ class _ContactPageState extends State<ContactPage> {
                                   Expanded(
                                     flex: 22,
                                     child: Container(
+                                      height: 20,
+                                      decoration: const BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                              width: 1, color: kAppBarGrey),
+                                        ),
+                                      ),
                                       child: Text(
                                         id[0],
                                         style: MyFonts.w500
                                             .setColor(kWhite3)
                                             .size(11),
-                                      ),
-                                      height: 20,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(
-                                              width: 1, color: kAppBarGrey),
-                                        ),
                                       ),
                                     ),
                                   ),
