@@ -3,20 +3,13 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
 
-Widget selectList(dynamic snapshot, List<Widget> buyList, List<Widget> sellList,
+Widget selectList(dynamic store, List<Widget> buyList, List<Widget> sellList,
     List<Widget> myList) {
   List<Widget> finalList;
-  if (snapshot.hasData == Null) {
-    return Center(
-      child: Text(
-        "No Items here as of now :)",
-        style: MyFonts.w500.size(16).setColor(kWhite),
-      ),
-    );
-  }
-  if (!snapshot.hasData || snapshot.data! == "Sell") {
+
+  if (store.bnsIndex == "Sell") {
     finalList = sellList;
-  } else if (!snapshot.hasData || snapshot.data! == "Buy") {
+  } else if (store.bnsIndex == "Buy") {
     finalList = buyList;
   } else {
     finalList = myList;
