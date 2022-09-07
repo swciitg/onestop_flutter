@@ -75,5 +75,7 @@
 	<string>This app requires Photo Library access for Lost/Found or Buy/Sell images</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires Camera access for Lost/Found or Buy/Sell images</string>
+	<key>DART_DEFINES</key>
+    <string>$(DART_DEFINES)</string>
 </dict>
 </plist>
