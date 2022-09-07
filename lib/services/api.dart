@@ -6,20 +6,21 @@ import 'package:onestop_dev/models/timetable/registered_courses.dart';
 
 class APIService {
   static String restaurantURL =
-      "https://swc.iitg.ac.in/onestopapi/getAllOutlets";
+      "https://swc.iitg.ac.in/onestopapi/v2/getAllOutlets";
   static String lastUpdatedURL =
-      "https://swc.iitg.ac.in/onestopapi/lastDataUpdate";
-  static String contactURL = "https://swc.iitg.ac.in/onestopapi/getContacts";
+      "https://swc.iitg.ac.in/onestopapi/v2/lastDataUpdate";
+  static String contactURL = "https://swc.iitg.ac.in/onestopapi/v2/getContacts";
   static String timetableURL =
       "https://onestopiitgtimetable.herokuapp.com/get-my-courses";
-  static String ferryURL = 'https://swc.iitg.ac.in/onestopapi/ferryTimings';
-  static String busURL = 'https://swc.iitg.ac.in/onestopapi/busTimings';
-  static String messURL = "https://swc.iitg.ac.in/onestopapi/hostelsMessMenu";
-  static String buyURL = 'https://swc.iitg.ac.in/onestopapi/buy';
-  static String sellURL = 'https://swc.iitg.ac.in/onestopapi/sell';
-  static String myAdsURL = 'https://swc.iitg.ac.in/onestopapi/myads';
-  static String lostURL = 'https://swc.iitg.ac.in/onestopapi/lost';
-  static String foundURL = 'https://swc.iitg.ac.in/onestopapi/found';
+  static String ferryURL = 'https://swc.iitg.ac.in/onestopapi/v2/ferryTimings';
+  static String busURL = 'https://swc.iitg.ac.in/onestopapi/v2/busTimings';
+  static String messURL = "https://swc.iitg.ac.in/onestopapi/v2/hostelsMessMenu";
+  static String buyURL = 'https://swc.iitg.ac.in/onestopapi/v2/buy';
+  static String sellURL = 'https://swc.iitg.ac.in/onestopapi/v2/sell';
+  static String myAdsURL = 'https://swc.iitg.ac.in/onestopapi/v2/myads';
+  static String lostURL = 'https://swc.iitg.ac.in/onestopapi/v2/lost';
+  static String foundURL = 'https://swc.iitg.ac.in/onestopapi/v2/found';
+  static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');
 
   static Future<List<Map<String, dynamic>>> getRestaurantData() async {
     http.Response response = await http.get(Uri.parse(restaurantURL));
@@ -39,18 +40,23 @@ class APIService {
   static Future<dynamic> claimFoundItem(
       {required String name, required String email, required String id}) async {
     var res = await http.post(
-        Uri.parse("https://swc.iitg.ac.in/onestopapi/found/claim"),
-        headers: {'Content-Type': 'application/json'},
+        Uri.parse("https://swc.iitg.ac.in/onestopapi/v2/found/claim"),
+        headers: {
+          'Content-Type': 'application/json',
+          'security-key': apiSecurityKey
+        },
         body:
             jsonEncode({"id": id, "claimerEmail": email, "claimerName": name}));
     return jsonDecode(res.body);
   }
 
   static Future<void> deleteMyAd(String id, String email) async {
-    await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/buy/remove"),
-        headers: {'Content-Type': 'application/json'},
+    await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/v2/buy/remove"),
+        headers: {
+      'Content-Type': 'application/json',
+          'security-key': apiSecurityKey},
         body: jsonEncode({'id': id, 'email': email}));
-    await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/sell/remove"),
+    await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/v2/sell/remove"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'id': id, 'email': email}));
   }
@@ -69,7 +75,10 @@ class APIService {
 
   static Future<List> getMyItems(String mail) async {
     var res = await http.post(Uri.parse(myAdsURL),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+      'Content-Type': 'application/json',
+      'security-key': apiSecurityKey
+        },
         body: jsonEncode({'email': mail}));
 
     var myItemsDetails = jsonDecode(res.body);
@@ -94,7 +103,7 @@ class APIService {
   static Future<Map<String, dynamic>> postSellData(
       Map<String, String> data) async {
     var res =
-        await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/sell"),
+        await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/v2/sell"),
             body: jsonEncode({
               'title': data['title'],
               'description': data['description'],
@@ -104,14 +113,15 @@ class APIService {
               'email': data['email'],
               'username': data['name']
             }),
-            headers: {'Content-Type': 'application/json'});
+            headers: {'Content-Type': 'application/json',
+              'security-key': apiSecurityKey});
     return jsonDecode(res.body);
   }
 
   static Future<Map<String, dynamic>> postBuyData(
       Map<String, String> data) async {
     var res =
-        await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/buy"),
+        await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/v2/buy"),
             body: jsonEncode({
               'title': data['title'],
               'description': data['description'],
@@ -121,14 +131,15 @@ class APIService {
               'email': data['email'],
               'username': data['name']
             }),
-            headers: {'Content-Type': 'application/json'});
+            headers: {'Content-Type': 'application/json',
+              'security-key': apiSecurityKey});
     return jsonDecode(res.body);
   }
 
   static Future<Map<String, dynamic>> postLostData(
       Map<String, String> data) async {
     var res =
-        await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/lost"),
+        await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/v2/lost"),
             body: jsonEncode({
               'title': data['title'],
               'description': data['description'],
@@ -138,14 +149,15 @@ class APIService {
               'email': data['email'],
               'username': data['name']
             }),
-            headers: {'Content-Type': 'application/json'});
+            headers: {'Content-Type': 'application/json',
+              'security-key': apiSecurityKey});
     return jsonDecode(res.body);
   }
 
   static Future<Map<String, dynamic>> postFoundData(
       Map<String, String> data) async {
     var res =
-        await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/found"),
+        await http.post(Uri.parse("https://swc.iitg.ac.in/onestopapi/v2/found"),
             body: jsonEncode({
               'title': data['title'],
               'description': data['description'],
@@ -155,7 +167,8 @@ class APIService {
               'email': data['email'],
               'username': data['name']
             }),
-            headers: {'Content-Type': 'application/json'});
+            headers: {'Content-Type': 'application/json',
+              'security-key': apiSecurityKey});
     return jsonDecode(res.body);
   }
 
@@ -231,6 +244,7 @@ class APIService {
       Uri.parse(timetableURL),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
+        'security-key': apiSecurityKey
       },
       body: jsonEncode({
         "roll_number": roll,
