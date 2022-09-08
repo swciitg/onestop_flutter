@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 
@@ -20,6 +21,7 @@ class APIService {
   static String deleteSellURL = "https://swc.iitg.ac.in/onestopapi/v2/sell/remove";
   static String lostURL = 'https://swc.iitg.ac.in/onestopapi/v2/lost';
   static String lostPath = '/onestopapi/v2/lostPage';
+  static String foundPath = '/onestopapi/v2/foundPage';
   static String foundURL = 'https://swc.iitg.ac.in/onestopapi/v2/found';
   static String claimItemURL = "https://swc.iitg.ac.in/onestopapi/v2/found/claim";
   static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');
@@ -106,7 +108,18 @@ class APIService {
     var json = jsonDecode(response.body);
     List<LostModel> lostPage = (json['details'] as List<dynamic>).map((e) => LostModel.fromJson(e)).toList();
     print("Lost Page = $pageNumber and resp = $lostPage");
-    await Future.delayed(Duration(seconds: 2),()=>null);
+    return lostPage;
+  }
+
+  static Future<List<FoundModel>> getFoundPage(int pageNumber) async {
+    final queryParameters = {
+      'page': pageNumber.toString(),
+    };
+    final uri = Uri.https('swc.iitg.ac.in', foundPath, queryParameters);
+    var response = await http.get(uri);
+    var json = jsonDecode(response.body);
+    List<FoundModel> lostPage = (json['details'] as List<dynamic>).map((e) => FoundModel.fromJson(e)).toList();
+    print("Found Page = $pageNumber and resp = $lostPage");
     return lostPage;
   }
 
