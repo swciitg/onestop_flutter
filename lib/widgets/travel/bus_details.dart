@@ -66,7 +66,7 @@ class _BusDetailsState extends State<BusDetails> {
                         return Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(left: 8.0, top: 5, bottom: 5),
+                              padding: const EdgeInsets.symmetric(vertical: 5),
                               child: Text(
                                 "To ${entry.key}",
                                 style: MyFonts.w500.setColor(kWhite),
@@ -76,7 +76,7 @@ class _BusDetailsState extends State<BusDetails> {
                                 children:
                                     busTime[entry.key]![widget.index].map((e) {
                               return Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                padding: const EdgeInsets.symmetric(vertical: 5),
                                 child: TimingTile(
                                   time: e,
                                   isLeft: hasLeft(e.toString()),
@@ -117,10 +117,9 @@ class _BusDetailsState extends State<BusDetails> {
                           return Container();
                         }
                         return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(left: 8.0, top: 5, bottom: 5),
+                              padding: const EdgeInsets.symmetric(vertical: 5),
                               child: Text(
                                 "From ${entry.key}",
                                 style: MyFonts.w500.setColor(kWhite),
@@ -130,7 +129,7 @@ class _BusDetailsState extends State<BusDetails> {
                                 children: busTime[entry.key]![widget.index + 2]
                                     .map((e) {
                               return Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                padding: const EdgeInsets.symmetric(vertical: 5),
                                 child: TimingTile(
                                   time: e,
                                   isLeft: hasLeft(e.toString()),
