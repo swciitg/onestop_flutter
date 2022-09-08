@@ -28,10 +28,9 @@ class DataProvider {
     for(String key in cachedData.keys)
       {
         timings[key] = (cachedData[key] as List<dynamic>)
-            .map((e) => (e as List<dynamic>).map((e) => e as String).toList())
+            .map((e) => (e as List<dynamic>).map((e) => (e as String).trim()).toList())
             .toList();
       }
-    print(timings);
     return timings;
   }
 

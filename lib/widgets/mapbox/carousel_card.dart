@@ -21,7 +21,20 @@ class CarouselCard extends StatelessWidget {
     Future<String> getNextTime() async {
       String today = getFormattedDay();
       if (context.read<MapBoxStore>().indexBusesorFerry == 0) {
-        var busTimes = (await DataProvider.getBusTimings())['Panbazar']!;
+        var allBusTimes = await DataProvider.getBusTimings();
+        List<List<String>> busTimes = [[],[]];
+        allBusTimes.forEach((key, list) {
+          for(String time in list[0])
+          {
+            busTimes[0].add(time);
+          }
+          for(String time in list[1])
+          {
+            busTimes[1].add(time);
+          }
+        });
+        busTimes[0].sort((a, b) => parseTime(a).compareTo(parseTime(b)));
+        busTimes[1].sort((a, b) => parseTime(a).compareTo(parseTime(b)));
         if (today == 'Fri') {
           return 'Next Bus at: ${nextTime(busTimes[1], firstTime: busTimes[0][0])}';
         } else if (today == 'Sun') {

@@ -27,7 +27,20 @@ class BusStopList extends StatelessWidget {
             future: DataProvider.getBusTimings(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var busTime = (snapshot.data as Map<String ,List<List<String>>>)['Panbazar']!;
+                var allBusTimes = (snapshot.data as Map<String ,List<List<String>>>);
+                List<List<String>> busTime = [[],[]];
+                allBusTimes.forEach((key, list) {
+                  for(String time in list[0])
+                  {
+                    busTime[0].add(time);
+                  }
+                  for(String time in list[1])
+                  {
+                    busTime[1].add(time);
+                  }
+                });
+                busTime[0].sort((a, b) => parseTime(a).compareTo(parseTime(b)));
+                busTime[1].sort((a, b) => parseTime(a).compareTo(parseTime(b)));
                 return Padding(
                   padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                   child: GestureDetector(
