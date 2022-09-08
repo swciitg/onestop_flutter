@@ -51,8 +51,8 @@ class _BusDetailsState extends State<BusDetails> {
                       'Starting from Biotech park',
                       style: MyFonts.w500.setColor(Colors.grey),
                     ),
-                    trailing: const Icon(
-                      Icons.arrow_drop_down,
+                    trailing: Icon(
+                      isCity? Icons.arrow_drop_up : Icons.arrow_drop_down,
                       color: Colors.white,
                     ),
                   ),
@@ -65,9 +65,12 @@ class _BusDetailsState extends State<BusDetails> {
                         }
                         return Column(
                           children: [
-                            Text(
-                              entry.key,
-                              style: MyFonts.w500.setColor(kWhite),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0, top: 5, bottom: 5),
+                              child: Text(
+                                "To ${entry.key}",
+                                style: MyFonts.w500.setColor(kWhite),
+                              ),
                             ),
                             Column(
                                 children:
@@ -101,8 +104,8 @@ class _BusDetailsState extends State<BusDetails> {
                       'Starting from City',
                       style: MyFonts.w500.setColor(Colors.grey),
                     ),
-                    trailing: const Icon(
-                      Icons.arrow_drop_down,
+                    trailing: Icon(
+                      isCampus? Icons.arrow_drop_up :Icons.arrow_drop_down ,
                       color: Colors.white,
                     ),
                   ),
@@ -114,10 +117,14 @@ class _BusDetailsState extends State<BusDetails> {
                           return Container();
                         }
                         return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              entry.key,
-                              style: MyFonts.w500.setColor(kWhite),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0, top: 5, bottom: 5),
+                              child: Text(
+                                "From ${entry.key}",
+                                style: MyFonts.w500.setColor(kWhite),
+                              ),
                             ),
                             Column(
                                 children: busTime[entry.key]![widget.index + 2]
