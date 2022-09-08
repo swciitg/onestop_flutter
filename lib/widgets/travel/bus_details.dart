@@ -33,7 +33,7 @@ class _BusDetailsState extends State<BusDetails> {
         future: DataProvider.getBusTimings(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            busTime = snapshot.data as List<List<String>>;
+            busTime = (snapshot.data as Map<String, List<List<String>>>)['Panbazar']!;
             return Column(
               children: [
                 GestureDetector(

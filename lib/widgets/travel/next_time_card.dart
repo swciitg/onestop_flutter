@@ -25,7 +25,7 @@ class _NextTimeCardState extends State<NextTimeCard> {
     Future<String> getNextTime() async {
       String today = getFormattedDay();
       if (mapStore.indexBusesorFerry == 0) {
-        var busTimes = await DataProvider.getBusTimings();
+        var busTimes = (await DataProvider.getBusTimings())['Panbazar']!;
         if (today == 'Fri') {
           return nextTime(busTimes[1], firstTime: busTimes[0][0]);
         } else if (today == 'Sun') {
