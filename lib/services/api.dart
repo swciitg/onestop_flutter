@@ -228,26 +228,32 @@ class APIService {
     }
   }
 
-  static Future<List<List<String>>> getBusData() async {
+
+  static Future<Map<String, List<List<String>>>> getBusData() async {
     http.Response response = await http.get(Uri.parse(busURL));
     var status = response.statusCode;
     var json = jsonDecode(response.body);
     if (status == 200) {
-      List<List<String>> time = [];
-      time.add((json["CollegeToCity_Holiday"] as List<dynamic>)
-          .map((e) => e as String)
-          .toList());
-      time.add((json["CollegeToCity_WorkingDay"] as List<dynamic>)
-          .map((e) => e as String)
-          .toList());
+      Map<String, List<List<String>>> answer = {};
+      for(String stop in json.keys)
+        {
+          List<List<String>> time = [];
+          time.add((json[stop]["CollegeToCity_Holiday"] as List<dynamic>)
+              .map((e) => e as String)
+              .toList());
+          time.add((json[stop]["CollegeToCity_WorkingDay"] as List<dynamic>)
+              .map((e) => e as String)
+              .toList());
 
-      time.add((json["CityToCollege_Holiday"] as List<dynamic>)
-          .map((e) => e as String)
-          .toList());
-      time.add((json["CityToCollege_WorkingDay"] as List<dynamic>)
-          .map((e) => e as String)
-          .toList());
-      return time;
+          time.add((json[stop]["CityToCollege_Holiday"] as List<dynamic>)
+              .map((e) => e as String)
+              .toList());
+          time.add((json[stop]["CityToCollege_WorkingDay"] as List<dynamic>)
+              .map((e) => e as String)
+              .toList());
+          answer[stop] = time;
+        }
+      return answer;
     } else {
       throw Exception("Bus Data could not be fetched");
     }
