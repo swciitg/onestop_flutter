@@ -17,18 +17,21 @@ class DataProvider {
     return cachedData[0] as Map<String, dynamic>;
   }
 
-  static Future<List<List<String>>> getBusTimings() async {
-    var cachedData = await LocalStorage.instance.getRecord("BusTimings");
+  static Future<Map<String,List<List<String>>>> getBusTimings() async {
+    var cachedData = await LocalStorage.instance.getBusRecord("BusTimings");
     if (cachedData == null) {
-      List<List<String>> busTime = await APIService.getBusData();
+      Map<String,List<List<String>>> busTime = await APIService.getBusData();
       await LocalStorage.instance.storeBusData(busTime, "BusTimings");
-
       return busTime;
     }
-
-    return cachedData
-        .map((e) => (e as List<dynamic>).map((e) => e as String).toList())
-        .toList();
+    Map<String,List<List<String>>> timings = {};
+    for(String key in cachedData.keys)
+      {
+        timings[key] = (cachedData[key] as List<dynamic>)
+            .map((e) => (e as List<dynamic>).map((e) => (e as String).trim()).toList())
+            .toList();
+      }
+    return timings;
   }
 
   static Future<List<RestaurantModel>> getRestaurants() async {
