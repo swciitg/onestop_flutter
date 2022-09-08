@@ -28,7 +28,6 @@ class _LostFoundHomeState extends State<LostFoundHome> {
   final PagingController<int, FoundModel> _foundController =
       PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
 
-  final int pageSize = 5;
 
   @override
   void initState() {
@@ -46,7 +45,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
     try {
       var result = await apiCall(pageKey);
       bool isLastPage = false;
-      if (result.length < pageSize) {
+      if (result.length < CommonStore().pageSize) {
         isLastPage = true;
       }
       if (mounted) {

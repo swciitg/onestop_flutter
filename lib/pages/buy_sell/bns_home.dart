@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:onestop_dev/functions/buysell/get_items.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
+import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/buy_sell/ads_tile.dart';
@@ -11,6 +14,7 @@ import 'package:onestop_dev/widgets/buy_sell/buy_tile.dart';
 import 'package:onestop_dev/widgets/buy_sell/item_type_bar.dart';
 import 'package:onestop_dev/widgets/buy_sell/select_list.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
+import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
 class BuySellHome extends StatefulWidget {
@@ -22,6 +26,44 @@ class BuySellHome extends StatefulWidget {
 }
 
 class _BuySellHomeState extends State<BuySellHome> {
+  final PagingController<int, BuyModel> _sellController =
+      PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
+  final PagingController<int, BuyModel> _buyController =
+      PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
+
+  @override
+  void initState() {
+    super.initState();
+    _sellController.addPageRequestListener((pageKey) async {
+      print("Sell Listener");
+      await listener(_sellController, APIService.getSellPage, pageKey);
+    });
+    _buyController.addPageRequestListener((pageKey) async {
+      print("Buy Listener");
+      await listener(_buyController, APIService.getBuyPage, pageKey);
+    });
+  }
+
+  Future<void> listener(
+      PagingController controller, Function apiCall, int pageKey) async {
+    try {
+      var result = await apiCall(pageKey);
+      bool isLastPage = false;
+      if (result.length < CommonStore().pageSize) {
+        isLastPage = true;
+      }
+      if (mounted) {
+        if (isLastPage) {
+          controller.appendLastPage(result);
+        } else {
+          controller.appendPage(result, pageKey + 1);
+        }
+      }
+    } catch (e) {
+      print("Page error");
+      controller.error = e;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,117 +91,104 @@ class _BuySellHomeState extends State<BuySellHome> {
               )
             ],
           ),
-          body: FutureBuilder<List>(
-              future:
-                  getBuySellItems(context.read<LoginStore>().userData['email']),
-              builder: (context, snapshot2) {
-                if (snapshot2.hasData) {
-                  List<Widget> buyItems = [];
-                  List<Widget> sellItems = [];
-                  List<Widget> myAds = [];
-                  try {
-                    if (!(snapshot2.data![0].isEmpty)) {
-                      snapshot2.data![0].forEach((e) => {
-                            buyItems.add(
-                              BuyTile(
-                                model: BuyModel.fromJson(e),
-                              ),
-                            )
-                          });
-                    }
-                    if (!(snapshot2.data![1].isEmpty)) {
-                      snapshot2.data![1].forEach((e) => {
-                            sellItems.add(
-                              BuyTile(model: BuyModel.fromJson(e)),
-                            ),
-                          });
-                    }
-                    if (!(snapshot2.data![2].isEmpty)) {
-                      snapshot2.data![2].forEach((e) => {
-                            myAds.add(
-                              MyAdsTile(
-                                model: BuyModel.fromJson(e),
-                              ),
-                            )
-                          });
-                    }
-                  } catch (e) {
-                    return const Text('Some Error Occured');
-                  }
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                commonStore.setBnsIndex("Sell");
-                              },
-                              child: ItemTypeBar(
-                                text: "For Sale",
-                                margin: const EdgeInsets.only(
-                                    left: 16, bottom: 10),
-                                textStyle: MyFonts.w500.size(14).setColor(
-                                    (commonStore.bnsIndex == "Sell"
-                                        ? kBlack
-                                        : kWhite)),
-                                backgroundColor:
-                                (commonStore.bnsIndex == "Sell"
-                                    ? lBlue2
-                                    : kBlueGrey),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                commonStore.setBnsIndex("Buy");
-                              },
-                              child: ItemTypeBar(
-                                text: "Requested Item",
-                                margin: const EdgeInsets.only(
-                                    left: 8, bottom: 10),
-                                textStyle: MyFonts.w500.size(14).setColor(
-                                    (commonStore.bnsIndex == "Buy"
-                                        ? kBlack
-                                        : kWhite)),
-                                backgroundColor:
-                                commonStore.bnsIndex == "Buy"
-                                    ? lBlue2
-                                    : kBlueGrey,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                commonStore.setBnsIndex("My Ads");
-                              },
-                              child: ItemTypeBar(
-                                text: "My Ads",
-                                margin: const EdgeInsets.only(
-                                    left: 8, bottom: 10),
-                                textStyle: MyFonts.w500.size(14).setColor(
-                                    commonStore.bnsIndex == "My Ads"
-                                        ? kBlack
-                                        : kWhite),
-                                backgroundColor:
-                                commonStore.bnsIndex == "My Ads"
-                                    ? lBlue2
-                                    : kBlueGrey,
-                              ),
-                            ),
-                          ],
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Row(
+                  children: [
+                    ItemType2(
+                      commonStore: commonStore,
+                      title: "Sell",
+                      label: "For Sale",
+                    ),
+                    ItemType2(
+                      commonStore: commonStore,
+                      title: "Buy",
+                      label: "Requested Item",
+                    ),
+                    ItemType2(commonStore: commonStore, title: "My Ads"),
+                  ],
+                ),
+              ),
+              if (commonStore.bnsIndex == "Sell")
+                Expanded(
+                  child: PagedListView<int, BuyModel>(
+                      pagingController: _sellController,
+                      builderDelegate: PagedChildBuilderDelegate(
+                        itemBuilder: (context, sellItem, index) =>
+                            BuyTile(model: sellItem),
+                        firstPageErrorIndicatorBuilder: (context) =>
+                            const PaginationText(text: "An error occurred"),
+                        noItemsFoundIndicatorBuilder: (context) =>
+                            const PaginationText(text: "No items found"),
+                        newPageErrorIndicatorBuilder: (context) =>
+                            const PaginationText(text: "An error occurred"),
+                        newPageProgressIndicatorBuilder: (context) =>
+                            const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Center(child: CircularProgressIndicator()),
                         ),
-                      ),
-                      Expanded(
-                        child: selectList(
-                            commonStore, buyItems, sellItems, myAds),
-                      )
-                    ],
-                  );
-                }
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }),
+                        firstPageProgressIndicatorBuilder: (context) =>
+                            ListShimmer(
+                          count: 5,
+                          height: 120,
+                        ),
+                        noMoreItemsIndicatorBuilder: (context) =>
+                            const PaginationText(
+                                text: "You've reached the end"),
+                      )),
+                )
+              else if (commonStore.bnsIndex == "Buy")
+                Expanded(
+                  child: PagedListView<int, BuyModel>(
+                      pagingController: _buyController,
+                      builderDelegate: PagedChildBuilderDelegate(
+                        itemBuilder: (context, buyItem, index) =>
+                            BuyTile(model: buyItem),
+                        firstPageErrorIndicatorBuilder: (context) =>
+                            const PaginationText(text: "An error occurred"),
+                        noItemsFoundIndicatorBuilder: (context) =>
+                            const PaginationText(text: "No items found"),
+                        newPageErrorIndicatorBuilder: (context) =>
+                            const PaginationText(text: "An error occurred"),
+                        newPageProgressIndicatorBuilder: (context) =>
+                            const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                        firstPageProgressIndicatorBuilder: (context) =>
+                            ListShimmer(
+                          count: 5,
+                          height: 120,
+                        ),
+                        noMoreItemsIndicatorBuilder: (context) =>
+                            const PaginationText(
+                                text: "You've reached the end"),
+                      )),
+                )
+              else
+                Expanded(
+                    child: FutureBuilder(
+                        future: APIService.getMyItems(context.read<LoginStore>().userData['email']??""),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            List<BuyModel> models = snapshot.data! as List<BuyModel>;
+                            List<MyAdsTile> tiles = models.map((e) => MyAdsTile(model: e)).toList();
+                            if (tiles.isEmpty) {
+                              return PaginationText(text: "You haven't posted any ads");
+                            }
+                            return ListView.builder(itemBuilder: (context,index) => tiles[index], itemCount: tiles.length,);
+                          }
+                          return ListShimmer(
+                            count: 5,
+                            height: 120,
+                          );
+                        }),
+                )
+            ],
+          ),
+
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
           floatingActionButton: AddItemButton(
@@ -167,6 +196,40 @@ class _BuySellHomeState extends State<BuySellHome> {
           ),
         );
       },
+    );
+  }
+
+  @override
+  void dispose() {
+    _sellController.dispose();
+    _buyController.dispose();
+    super.dispose();
+  }
+}
+
+class ItemType2 extends StatelessWidget {
+  const ItemType2(
+      {Key? key, required this.commonStore, required this.title, this.label})
+      : super(key: key);
+
+  final CommonStore commonStore;
+  final String title;
+  final String? label;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        commonStore.setBnsIndex(title);
+      },
+      child: ItemTypeBar(
+        text: label ?? title,
+        margin: const EdgeInsets.only(left: 8, bottom: 10),
+        textStyle: MyFonts.w500
+            .size(14)
+            .setColor(commonStore.bnsIndex == title ? kBlack : kWhite),
+        backgroundColor: commonStore.bnsIndex == title ? lBlue2 : kBlueGrey,
+      ),
     );
   }
 }

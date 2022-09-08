@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
+import 'package:onestop_dev/widgets/buy_sell/ads_tile.dart';
 
 class APIService {
   static String restaurantURL = "https://swc.iitg.ac.in/onestopapi/v2/getAllOutlets";
@@ -16,6 +18,8 @@ class APIService {
   static String messURL = "https://swc.iitg.ac.in/onestopapi/v2/hostelsMessMenu";
   static String buyURL = 'https://swc.iitg.ac.in/onestopapi/v2/buy';
   static String sellURL = 'https://swc.iitg.ac.in/onestopapi/v2/sell';
+  static String sellPath = '/onestopapi/v2/sellPage';
+  static String buyPath = '/onestopapi/v2/buyPage';
   static String myAdsURL = 'https://swc.iitg.ac.in/onestopapi/v2/myads';
   static String deleteBuyURL = "https://swc.iitg.ac.in/onestopapi/v2/buy/remove";
   static String deleteSellURL = "https://swc.iitg.ac.in/onestopapi/v2/sell/remove";
@@ -78,7 +82,7 @@ class APIService {
     return foundItemsDetails["details"];
   }
 
-  static Future<List> getMyItems(String mail) async {
+  static Future<List<BuyModel>> getMyItems(String mail) async {
     var res = await http.post(Uri.parse(myAdsURL),
         headers: {
       'Content-Type': 'application/json',
@@ -87,9 +91,11 @@ class APIService {
         body: jsonEncode({'email': mail}));
 
     var myItemsDetails = jsonDecode(res.body);
+    var sellList = (myItemsDetails["details"]["sellList"] as List).map((e) => BuyModel.fromJson(e)).toList();
+    var buyList = (myItemsDetails["details"]["buyList"] as List).map((e) => BuyModel.fromJson(e)).toList();
     return [
-      ...myItemsDetails["details"]["sellList"],
-      ...myItemsDetails["details"]["buyList"]
+      ...sellList,
+      ...buyList
     ];
   }
 
@@ -121,6 +127,30 @@ class APIService {
     List<FoundModel> lostPage = (json['details'] as List<dynamic>).map((e) => FoundModel.fromJson(e)).toList();
     print("Found Page = $pageNumber and resp = $lostPage");
     return lostPage;
+  }
+
+  static Future<List<BuyModel>> getSellPage(int pageNumber) async {
+    final queryParameters = {
+      'page': pageNumber.toString(),
+    };
+    final uri = Uri.https('swc.iitg.ac.in', sellPath, queryParameters);
+    var response = await http.get(uri);
+    var json = jsonDecode(response.body);
+    List<BuyModel> sellPage = (json['details'] as List<dynamic>).map((e) => BuyModel.fromJson(e)).toList();
+    print("Sell Page = $pageNumber and resp = $sellPage");
+    return sellPage;
+  }
+
+  static Future<List<BuyModel>> getBuyPage(int pageNumber) async {
+    final queryParameters = {
+      'page': pageNumber.toString(),
+    };
+    final uri = Uri.https('swc.iitg.ac.in', buyPath, queryParameters);
+    var response = await http.get(uri);
+    var json = jsonDecode(response.body);
+    List<BuyModel> buyPage = (json['details'] as List<dynamic>).map((e) => BuyModel.fromJson(e)).toList();
+    print("Buy Page = $pageNumber and resp = $buyPage");
+    return buyPage;
   }
 
   static Future<List> getFoundItems() async {
@@ -227,7 +257,6 @@ class APIService {
       throw Exception("contact Data could not be fetched");
     }
   }
-
 
   static Future<Map<String, List<List<String>>>> getBusData() async {
     http.Response response = await http.get(Uri.parse(busURL));

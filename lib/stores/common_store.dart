@@ -21,4 +21,6 @@ abstract class _CommonStore with Store {
   void setBnsIndex(String newIndex) {
     bnsIndex = newIndex;
   }
+
+  int get pageSize => 5;
 }
