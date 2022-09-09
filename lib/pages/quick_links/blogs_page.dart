@@ -130,7 +130,6 @@ class _BlogState extends State<Blogs> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     getDetails();

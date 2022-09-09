@@ -18,7 +18,6 @@ class _ContactDialogState extends State<ContactDialog> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
