@@ -108,13 +108,13 @@ class BusStopList extends StatelessWidget {
                             //     :
                             //
                             trailing: Text(
-                              (getFormattedDay() == 'Friday')
+                              (getFormattedDay() == 'Fri')
                                   ? nextTime(busTime[1],
                                       firstTime: busTime[0][0])
-                                  : (getFormattedDay() == 'Sunday')
+                                  : (getFormattedDay() == 'Sun')
                                       ? nextTime(busTime[0],
                                           firstTime: busTime[1][0])
-                                      : (getFormattedDay() == 'Saturday')
+                                      : (getFormattedDay() == 'Sat')
                                           ? nextTime(busTime[0])
                                           : nextTime(busTime[1]),
                               style: MyFonts.w500.setColor(lBlue2),
