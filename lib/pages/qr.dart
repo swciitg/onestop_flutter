@@ -46,7 +46,6 @@ class _QRPageState extends State<QRPage> {
                 const SizedBox(
                   height: 26,
                 ),
-                // TODO: QR Embedded image uses Stack. Try using inbuilt embedded image property. Code below
                 Center(
                   child: LayoutBuilder(
                     builder: (context, constraints) {
@@ -74,6 +73,7 @@ class _QRPageState extends State<QRPage> {
                             'assets/images/iitg_logo.png',
                             height: 0.25 * parentWidth,
                             width: 0.25 * parentWidth,
+                            cacheWidth: (0.25 * parentWidth ).round(),
                           )
                         ],
                       );

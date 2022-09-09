@@ -23,7 +23,7 @@ class _LoginWebViewState extends State<LoginWebView> {
   @override
   Widget build(BuildContext context) {
     return WebView(
-      initialUrl: "https://swc.iitg.ac.in/onestopapi/auth/microsoft",
+      initialUrl: "https://swc.iitg.ac.in/onestopapi/v2/auth/microsoft",
       javascriptMode: JavascriptMode.unrestricted,
       onWebViewCreated: (controller) {
         widget._controller.complete(controller);
@@ -31,14 +31,12 @@ class _LoginWebViewState extends State<LoginWebView> {
       onWebResourceError: (context) {},
       onPageFinished: (url) async {
         if (url.startsWith(
-            "https://swc.iitg.ac.in/onestopapi/auth/microsoft/redirect?code")) {
+            "https://swc.iitg.ac.in/onestopapi/v2/auth/microsoft/redirect?code")) {
           WebViewController controller = await widget._controller.future;
 
           var userInfoString = await controller.runJavascriptReturningResult(
               "document.querySelector('#userInfo').innerText");
-
           var userInfo = {};
-
           List<String> values = userInfoString.replaceAll('"', '').split("/");
           if (!values[0].toLowerCase().contains("error")) {
             userInfo["displayName"] = values[0];

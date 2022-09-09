@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
+import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/travel/ferry_data_model.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
@@ -17,18 +18,21 @@ class DataProvider {
     return cachedData[0] as Map<String, dynamic>;
   }
 
-  static Future<List<List<String>>> getBusTimings() async {
-    var cachedData = await LocalStorage.instance.getRecord("BusTimings");
+  static Future<Map<String,List<List<String>>>> getBusTimings() async {
+    var cachedData = await LocalStorage.instance.getBusRecord("BusTimings");
     if (cachedData == null) {
-      List<List<String>> busTime = await APIService.getBusData();
+      Map<String,List<List<String>>> busTime = await APIService.getBusData();
       await LocalStorage.instance.storeBusData(busTime, "BusTimings");
-
       return busTime;
     }
-
-    return cachedData
-        .map((e) => (e as List<dynamic>).map((e) => e as String).toList())
-        .toList();
+    Map<String,List<List<String>>> timings = {};
+    for(String key in cachedData.keys)
+      {
+        timings[key] = (cachedData[key] as List<dynamic>)
+            .map((e) => (e as List<dynamic>).map((e) => (e as String).trim()).toList())
+            .toList();
+      }
+    return timings;
   }
 
   static Future<List<RestaurantModel>> getRestaurants() async {
@@ -50,6 +54,22 @@ class DataProvider {
         .map((e) => RestaurantModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
+
+  static Future<RegisteredCourses> getTimeTable({required String roll}) async {
+    var cachedData = (await LocalStorage.instance.getRecord("Timetable"))?[0];
+    if (cachedData == null) {
+      RegisteredCourses timetableData = await APIService.getTimeTable(roll: roll);
+      await LocalStorage.instance.storeData([timetableData.toJson()], "Timetable");
+      return timetableData;
+    }
+    // TODO: Change this later, for now cache till the end of Monsoon sem
+    DateTime semEnd = DateTime.parse("2022-12-23");
+    if (DateTime.now().isBefore(semEnd)) {
+      return RegisteredCourses.fromJson(cachedData as Map<String,dynamic>);
+    }
+    return (await APIService.getTimeTable(roll: roll));
+  }
+
 
   static Future<SplayTreeMap<String, ContactModel>> getContacts() async {
     var cachedData = await LocalStorage.instance.getRecord("Contact");

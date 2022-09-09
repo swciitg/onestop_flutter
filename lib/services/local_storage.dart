@@ -32,10 +32,17 @@ class LocalStorage {
   }
 
   Future<void> storeBusData(
-      List<List<String>> busTime, String recordName) async {
-    var store = StoreRef<String, List<Object?>>.main();
+      Map<String,dynamic> busTime, String recordName) async {
+    var store = StoreRef<String, Map<String, Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
     await store.record(recordName).put(localDB, busTime);
+  }
+
+  Future<Map<String, Object?>?> getBusRecord(String recordName) async {
+    var store = StoreRef<String, Map<String, Object?>>.main();
+    Database localDB = await LocalStorage.instance.database;
+    Map<String, Object?>? value = await store.record(recordName).get(localDB);
+    return value;
   }
 
   Future<void> storeData(
