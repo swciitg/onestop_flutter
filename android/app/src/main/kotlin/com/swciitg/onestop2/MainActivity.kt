@@ -1,4 +1,4 @@
-package com.example.onestop_dev
+package com.swciitg.onestop2
 
 import io.flutter.embedding.android.FlutterActivity
 
