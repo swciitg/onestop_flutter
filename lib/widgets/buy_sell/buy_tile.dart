@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'details_dialog.dart';
 
 class BuyTile extends StatelessWidget {
@@ -11,7 +10,7 @@ class BuyTile extends StatelessWidget {
     required this.model,
   }) : super(key: key);
 
-  final BuyModel model;
+  final  model;
 
   @override
   Widget build(BuildContext context) {

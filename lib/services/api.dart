@@ -6,7 +6,8 @@ import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
-import 'package:onestop_dev/widgets/buy_sell/ads_tile.dart';
+
+import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 
 class APIService {
   static String restaurantURL = "https://swc.iitg.ac.in/onestopapi/v2/getAllOutlets";
@@ -141,14 +142,14 @@ class APIService {
     return sellPage;
   }
 
-  static Future<List<BuyModel>> getBuyPage(int pageNumber) async {
+  static Future<List<SellModel>> getBuyPage(int pageNumber) async {
     final queryParameters = {
       'page': pageNumber.toString(),
     };
     final uri = Uri.https('swc.iitg.ac.in', buyPath, queryParameters);
     var response = await http.get(uri);
     var json = jsonDecode(response.body);
-    List<BuyModel> buyPage = (json['details'] as List<dynamic>).map((e) => BuyModel.fromJson(e)).toList();
+    List<SellModel> buyPage = (json['details'] as List<dynamic>).map((e) => SellModel.fromJson(e)).toList();
     print("Buy Page = $pageNumber and resp = $buyPage");
     return buyPage;
   }
