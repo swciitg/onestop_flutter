@@ -57,8 +57,7 @@ class _BuySellHomeState extends State<BuySellHome> {
         }
       }
     } catch (e) {
-      print("Page error");
-      controller.error = e;
+      controller.error = "An error occurred";
     }
   }
 
@@ -173,7 +172,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                             List<BuyModel> models = snapshot.data! as List<BuyModel>;
                             List<MyAdsTile> tiles = models.map((e) => MyAdsTile(model: e)).toList();
                             if (tiles.isEmpty) {
-                              return PaginationText(text: "You haven't posted any ads");
+                              return const PaginationText(text: "You haven't posted any ads");
                             }
                             return ListView.builder(itemBuilder: (context,index) => tiles[index], itemCount: tiles.length,);
                           }

@@ -114,7 +114,6 @@ class APIService {
     var response = await http.get(uri);
     var json = jsonDecode(response.body);
     List<LostModel> lostPage = (json['details'] as List<dynamic>).map((e) => LostModel.fromJson(e)).toList();
-    print("Lost Page = $pageNumber and resp = $lostPage");
     return lostPage;
   }
 
@@ -126,7 +125,6 @@ class APIService {
     var response = await http.get(uri);
     var json = jsonDecode(response.body);
     List<FoundModel> lostPage = (json['details'] as List<dynamic>).map((e) => FoundModel.fromJson(e)).toList();
-    print("Found Page = $pageNumber and resp = $lostPage");
     return lostPage;
   }
 
@@ -138,7 +136,6 @@ class APIService {
     var response = await http.get(uri);
     var json = jsonDecode(response.body);
     List<BuyModel> sellPage = (json['details'] as List<dynamic>).map((e) => BuyModel.fromJson(e)).toList();
-    print("Sell Page = $pageNumber and resp = $sellPage");
     return sellPage;
   }
 
@@ -150,7 +147,6 @@ class APIService {
     var response = await http.get(uri);
     var json = jsonDecode(response.body);
     List<SellModel> buyPage = (json['details'] as List<dynamic>).map((e) => SellModel.fromJson(e)).toList();
-    print("Buy Page = $pageNumber and resp = $buyPage");
     return buyPage;
   }
 

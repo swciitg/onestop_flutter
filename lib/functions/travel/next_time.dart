@@ -2,7 +2,6 @@ import 'package:onestop_dev/functions/travel/has_left.dart';
 
 String nextTime(List<String> timings, {String firstTime = ''}) {
   String answer = "Nothing";
-  print(timings);
   for (String time in timings) {
     if (!hasLeft(time)) {
       answer = time;

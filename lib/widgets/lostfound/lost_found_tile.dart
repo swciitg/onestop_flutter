@@ -8,7 +8,8 @@ import 'package:timeago/timeago.dart' as timeago;
 class LostFoundTile extends StatefulWidget {
   final dynamic currentModel;
   final BuildContext? parentContext;
-  const LostFoundTile({Key? key, required this.currentModel, this.parentContext})
+  const LostFoundTile(
+      {Key? key, required this.currentModel, this.parentContext})
       : super(key: key);
 
   @override
@@ -27,7 +28,7 @@ class _LostFoundTileState extends State<LostFoundTile> {
     return GestureDetector(
       onTap: () {
         if (widget.parentContext != null) {
-          detailsDialogBox(context, widget.currentModel,widget.parentContext!);
+          detailsDialogBox(context, widget.currentModel, widget.parentContext!);
         } else {
           detailsDialogBox(context, widget.currentModel);
         }
@@ -94,6 +95,7 @@ class _LostFoundTileState extends State<LostFoundTile> {
                   cacheWidth: (screenWidth * 0.35).round(),
                   fit: BoxFit.cover,
                   frameBuilder: restaurantTileFrameBuilder,
+                  errorBuilder: (_, __, ___) => Container(),
                 ),
               ),
             )

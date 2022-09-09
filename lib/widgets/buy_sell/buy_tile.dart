@@ -10,7 +10,7 @@ class BuyTile extends StatelessWidget {
     required this.model,
   }) : super(key: key);
 
-  final  model;
+  final dynamic model;
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +86,7 @@ class BuyTile extends StatelessWidget {
                     fit: BoxFit.cover,
                     cacheWidth: 100,
                     frameBuilder: restaurantTileFrameBuilder,
+                    errorBuilder: (_, __, ___) => Container(),
                   ),
                 ),
               ),

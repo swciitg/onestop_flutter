@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -178,7 +177,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
 }
 
 class PaginationText extends StatelessWidget {
-  final text;
+  final String text;
   const PaginationText({Key? key, required this.text}) : super(key: key);
 
   @override

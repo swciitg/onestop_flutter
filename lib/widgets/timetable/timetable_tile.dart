@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/timetable/time_range.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -44,9 +45,13 @@ class TimetableTile extends StatelessWidget {
                         width: 50,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.blue,
+                          color: kGreen,
                         ),
-                        child: Image.asset('assets/images/class.png'),
+                        child: const Icon(
+                          FluentIcons.book_24_filled,
+                          color: kAppBarGrey,
+                          size: 25,
+                        ),
                       ),
                     ],
                   ),

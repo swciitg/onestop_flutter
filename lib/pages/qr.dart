@@ -74,6 +74,7 @@ class _QRPageState extends State<QRPage> {
                             'assets/images/iitg_logo.png',
                             height: 0.25 * parentWidth,
                             width: 0.25 * parentWidth,
+                            cacheWidth: (0.25 * parentWidth ).round(),
                           )
                         ],
                       );
