@@ -4,6 +4,7 @@ import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/widgets/lostfound/claim_call_button.dart';
 
@@ -16,7 +17,7 @@ void detailsDialogBox(context, dynamic model, [parentContext]) {
       builder: (BuildContext context) {
         Widget priceOrLocation;
         Widget submitClaimDetails = Container();
-        if (model is BuyModel) {
+        if (model is BuyModel || model is SellModel) {
           priceOrLocation = Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
             child: Text(
