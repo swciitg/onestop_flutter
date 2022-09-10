@@ -1,8 +1,10 @@
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/contact/contact_data.dart';
+import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/pages/contact/contact_detail.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:provider/provider.dart';
 
@@ -18,54 +20,64 @@ class ContactPageButton extends StatefulWidget {
 class _ContactPageButtonState extends State<ContactPageButton> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 106,
-      child: GestureDetector(
-        onTap: () {
-          var contact = gymkhana;
-          if(widget.label == "Emergency")
-            {
-              contact = emergency;
-            }
-          else if(widget.label == 'Transport')
-            {
-              contact = travel;
-            }
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) {
-                return Provider<ContactStore>.value(
-                  value: widget.store,
-                  child: ContactDetailsPage(
-                    contact: contact,
-                      title: 'Campus'),
-                );
-              }));
-        },
-        child: Container(
-          height: 100,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: lGrey,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                (widget.label == 'Emergency')
-                    ? Icons.warning
-                    : (widget.label == 'Transport')
+    return FutureBuilder<SplayTreeMap<String, ContactModel>>(
+      future: DataProvider.getContacts(),
+      builder: (BuildContext context, snapshot) {
+        if(!snapshot.hasData)
+         {
+           return Container();
+         }
+        SplayTreeMap<String, ContactModel> people = snapshot.data!;
+        return Expanded(
+          flex: 106,
+          child: GestureDetector(
+            onTap: () {
+              var contact = people['Gymkhana'];
+              if(widget.label == "Emergency")
+              {
+                contact = people['Emergency'];
+              }
+              else if(widget.label == 'Transport')
+              {
+                contact = people['Transport'];
+              }
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) {
+                    return Provider<ContactStore>.value(
+                      value: widget.store,
+                      child: ContactDetailsPage(
+                          contact: contact,
+                          title: 'Campus'),
+                    );
+                  }));
+            },
+            child: Container(
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: lGrey,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    (widget.label == 'Emergency')
+                        ? Icons.warning
+                        : (widget.label == 'Transport')
                         ? Icons.directions_bus
                         : Icons.group,
-                color: kGrey8,
+                    color: kGrey8,
+                  ),
+                  Text(
+                    widget.label,
+                    style: MyFonts.w600.size(10).setColor(kWhite),
+                  ),
+                ],
               ),
-              Text(
-                widget.label,
-                style: MyFonts.w600.size(10).setColor(kWhite),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
