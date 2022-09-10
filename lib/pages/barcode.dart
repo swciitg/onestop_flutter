@@ -53,7 +53,8 @@ class _QRPageState extends State<QRPage> {
                         barcode: Barcode.code128(),
                         data: "${context.read<LoginStore>().userData['rollno']}",
                         height: 150,
-                        color: Colors.white,
+                        color: kBlack,
+                        backgroundColor: kWhite,
                         drawText: false,
                       ),
                     )
