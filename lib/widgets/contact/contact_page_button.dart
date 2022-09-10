@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/pages/contact/contact_data.dart';
+import 'package:onestop_dev/pages/contact/contact_detail.dart';
+import 'package:onestop_dev/stores/contact_store.dart';
+import 'package:provider/provider.dart';
 
 class ContactPageButton extends StatefulWidget {
   final String label;
-  final BuildContext context;
-  const ContactPageButton({Key? key, required this.label, required this.context}) : super(key: key);
+  final ContactStore store;
+  const ContactPageButton({Key? key, required this.label, required this.store}) : super(key: key);
 
   @override
   State<ContactPageButton> createState() => _ContactPageButtonState();
@@ -18,6 +22,24 @@ class _ContactPageButtonState extends State<ContactPageButton> {
       flex: 106,
       child: GestureDetector(
         onTap: () {
+          var contact = gymkhana;
+          if(widget.label == "Emergency")
+            {
+              contact = emergency;
+            }
+          else if(widget.label == 'Transport')
+            {
+              contact = travel;
+            }
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) {
+                return Provider<ContactStore>.value(
+                  value: widget.store,
+                  child: ContactDetailsPage(
+                    contact: contact,
+                      title: 'Campus'),
+                );
+              }));
         },
         child: Container(
           height: 100,

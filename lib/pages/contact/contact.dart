@@ -62,11 +62,11 @@ class _ContactPageState extends State<ContactPage> {
                   child: Row(
                     children: [
                       Expanded(flex: 16, child: Container(),),
-                      ContactPageButton(label: 'Emergency', context: context),
+                      ContactPageButton(label: 'Emergency', store: context.read<ContactStore>(),),
                       Expanded(flex: 5, child: Container(),),
-                      ContactPageButton(label: "Transport", context: context),
+                      ContactPageButton(label: "Transport", store: context.read<ContactStore>(),),
                       Expanded(flex: 5, child: Container(),),
-                      ContactPageButton(label: 'Gymkhana', context: context),
+                      ContactPageButton(label: 'Gymkhana', store: context.read<ContactStore>(),),
                       Expanded(flex: 16, child: Container(),),
                     ],
                   ),
