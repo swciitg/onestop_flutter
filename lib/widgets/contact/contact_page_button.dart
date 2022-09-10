@@ -7,6 +7,7 @@ import 'package:onestop_dev/pages/contact/contact_detail.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ContactPageButton extends StatefulWidget {
   final String label;
@@ -25,7 +26,20 @@ class _ContactPageButtonState extends State<ContactPageButton> {
       builder: (BuildContext context, snapshot) {
         if(!snapshot.hasData)
          {
-           return Container();
+           return Expanded(
+             flex: 106,
+             child: Shimmer.fromColors(
+               highlightColor: lGrey,
+               baseColor: kHomeTile,
+               child: Container(
+                 decoration: BoxDecoration(
+                   borderRadius: BorderRadius.circular(20),
+                   color: lGrey,
+                 ),
+                 height: 100,
+               ),
+             ),
+           );
          }
         SplayTreeMap<String, ContactModel> people = snapshot.data!;
         return Expanded(
