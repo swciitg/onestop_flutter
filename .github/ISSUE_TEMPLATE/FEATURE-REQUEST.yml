@@ -1,0 +1,34 @@
+name: "Feature Request"
+description: Create a new ticket for a new feature request
+title: "[REQUEST] - <title>"
+labels: [
+  "enhancement"
+]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: "Summary"
+      description: Provide a an explanation of the feature
+      placeholder: Describe your feature idea in sufficient detail. You may also attach images.
+    validations:
+      required: true
+  - type: textarea
+    id: implementation_pr
+    attributes:
+      label: "Implementation PR"
+      description: If you have already implemented this feature, raise a PR and enter the PR ID 
+      placeholder: "#Pull Request ID"
+    validations:
+      required: false
+  - type: dropdown
+    id: assign
+    attributes:
+      label: "Issue Assignment"
+      description: Would you like this issue to be assigned to you? This would mean that you will have to create a PR to implement the feature.  
+      multiple: false
+      options:
+        - Yes
+        - No
+    validations:
+      required: true
