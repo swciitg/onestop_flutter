@@ -28,7 +28,7 @@ body:
       description: Would you like this issue to be assigned to you? This would mean that you will have to create a PR to implement the feature.  
       multiple: false
       options:
-        - Yes
-        - No
+        - 'Yes'
+        - 'No'
     validations:
       required: true
