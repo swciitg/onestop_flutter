@@ -63,6 +63,9 @@ dependencies:
   path_provider: ^2.0.11
   path: ^1.8.0
   infinite_scroll_pagination: ^3.2.0
+  firebase_messaging: ^13.0.4
+  flutter_local_notifications: ^11.0.1
+  firebase_core: ^1.24.0
 
 dev_dependencies:
   flutter_test:
