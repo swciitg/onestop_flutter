@@ -89,7 +89,7 @@ class LoginStore {
     user.clear();
     userData.clear();
     // TODO: Clear timetable data and maybe all cached data
-    await LocalStorage.instance.deleteAllRecord();
+    await LocalStorage.instance.deleteRecordsLogOut();
     navigationPopCallBack();
   }
 }

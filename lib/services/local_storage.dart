@@ -66,7 +66,10 @@ class LocalStorage {
     await store.record('Contact').delete(localDB);
     await store.record('MessMenu').delete(localDB);
     await store.record('FerryTimings').delete(localDB);
-    await store.record('LastUpdated').delete(localDB);
+  }
+  Future<void> deleteRecordsLogOut() async {
+    var store = StoreRef<String, List<Object?>>.main();
+    Database localDB = await LocalStorage.instance.database;
     await store.record('Timetable').delete(localDB);
   }
 

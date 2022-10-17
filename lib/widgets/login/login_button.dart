@@ -44,7 +44,7 @@ class LoginButton extends StatelessWidget {
           ),
         ),
         const Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: EdgeInsets.symmetric(vertical: 8.0),
           child: TextDivider(text: 'OR'),
         ),
         RichText(
