@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/pages/Notifications/notifications.dart';
 import 'package:onestop_dev/pages/barcode.dart';
 
 AppBar appBar(BuildContext context, {bool displayIcon = true}) {
@@ -70,14 +71,16 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
         const SizedBox(
           width: 35,
           height: 35,
-        )
-        // CircleAvatar(
-        //     backgroundColor: kAppBarGrey,
-        //     child: IconButton(
-        //       onPressed: () {},
-        //       icon: Icon(Icons.notifications),
-        //       color: lBlue2,
-        //     )),
+        ),
+        CircleAvatar(
+            backgroundColor: kAppBarGrey,
+            child: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Notif.id);
+              },
+              icon: Icon(Icons.notifications),
+              color: lBlue2,
+            )),
       ],
     ),
     elevation: 0.0,

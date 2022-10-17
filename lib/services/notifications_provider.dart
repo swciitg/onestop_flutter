@@ -7,30 +7,31 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('A bg message just showed up :  ${message.messageId}');
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'high_importance_channel', // id
       'High Importance Notifications', // title
       description:
-      'This channel is used for important notifications.', // description
+          'This channel is used for important notifications.', // description
       importance: Importance.high,
       playSound: true);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
   AndroidNotificationDetails androidNotificationDetails =
-  AndroidNotificationDetails(channel.id, channel.name,
-      channelDescription: channel.description,
-      importance: Importance.high,
-      playSound: true,
-      icon: '@mipmap/ic_launcher');
-  DarwinNotificationDetails iosNotificationDetails= DarwinNotificationDetails(presentAlert: true,presentBadge: true,presentSound: true);
-  NotificationDetails notificationDetails =
-  NotificationDetails(android: androidNotificationDetails,iOS: iosNotificationDetails);
+      AndroidNotificationDetails(channel.id, channel.name,
+          channelDescription: channel.description,
+          importance: Importance.high,
+          playSound: true,
+          icon: '@mipmap/ic_launcher');
+  DarwinNotificationDetails iosNotificationDetails = DarwinNotificationDetails(
+      presentAlert: true, presentBadge: true, presentSound: true);
+  NotificationDetails notificationDetails = NotificationDetails(
+      android: androidNotificationDetails, iOS: iosNotificationDetails);
   RemoteNotification? notification = message.notification;
-  await flutterLocalNotificationsPlugin.show(notification.hashCode,
-      "sid", notification!.body,notificationDetails);
+  await flutterLocalNotificationsPlugin.show(
+      notification.hashCode, "sid", notification!.body, notificationDetails);
   savenotif(notification);
 }
 
@@ -91,9 +92,10 @@ Future<bool> checkForNotifications() async {
           importance: Importance.high,
           playSound: true,
           icon: '@mipmap/ic_launcher');
-  DarwinNotificationDetails iosNotificationDetails= DarwinNotificationDetails(presentAlert: true,presentBadge: true,presentSound: true);
-  NotificationDetails notificationDetails =
-      NotificationDetails(android: androidNotificationDetails,iOS: iosNotificationDetails);
+  DarwinNotificationDetails iosNotificationDetails = DarwinNotificationDetails(
+      presentAlert: true, presentBadge: true, presentSound: true);
+  NotificationDetails notificationDetails = NotificationDetails(
+      android: androidNotificationDetails, iOS: iosNotificationDetails);
 
   // FOR IOS
   // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -106,10 +108,10 @@ Future<bool> checkForNotifications() async {
     print("NOTIFICation : $notification");
     // AndroidNotification android = message.notification!.android!;
     if (notification != null) {
-      await flutterLocalNotificationsPlugin.show(notification.hashCode,
-          "sid", notification.body, notificationDetails);
+      await flutterLocalNotificationsPlugin.show(
+          notification.hashCode, "sid", notification.body, notificationDetails);
     }
-    // savenotif(notification);
+    savenotif(notification!);
   });
   return true;
 }
@@ -117,7 +119,9 @@ Future<bool> checkForNotifications() async {
 void savenotif(RemoteNotification notification) async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   String notif = notification.hashCode.toString() +
+      '-' +
       notification.title! +
+      '-' +
       notification.body!;
   List<String>? notifications =
       preferences.getStringList('notifications') == null
