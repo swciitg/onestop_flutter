@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "320514948737",
+    "project_id": "onestop-5ce62",
+    "storage_bucket": "onestop-5ce62.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320514948737:android:066c4a2cabdaedf1df5780",
+        "android_client_info": {
+          "package_name": "com.swciitg.onestop2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320514948737-nkd52j89olp45n773ookls9guji7fsj3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYT3YqfDbfrY539YK9rzu-C4I4atXWsZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "320514948737-nkd52j89olp45n773ookls9guji7fsj3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
