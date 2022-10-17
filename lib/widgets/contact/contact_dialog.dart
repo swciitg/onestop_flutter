@@ -44,7 +44,7 @@ class _ContactDialogState extends State<ContactDialog> {
         ],
       ),
       content: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ContactButton(type: ContactType.call, data: widget.details.contact),
           ContactButton(type: ContactType.email, data: widget.details.email),

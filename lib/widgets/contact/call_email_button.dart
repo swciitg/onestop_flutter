@@ -14,6 +14,7 @@ class ContactButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(data == '') return const SizedBox(width: 0,height: 0,);
     return TextButton(
       child: ClipRRect(
         borderRadius: const BorderRadius.all(
