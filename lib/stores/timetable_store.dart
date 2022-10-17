@@ -7,7 +7,7 @@ import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/timetable/timetable_day.dart';
 import 'package:onestop_dev/services/data_provider.dart';
-import 'package:onestop_dev/widgets/timetable/lunch_divider.dart';
+import 'package:onestop_dev/widgets/ui/text_divider.dart';
 import 'package:onestop_dev/widgets/timetable/timetable_tile.dart';
 
 part 'timetable_store.g.dart';
@@ -91,7 +91,7 @@ abstract class _TimetableStore with Store {
           .morning
           .map((e) => TimetableTile(course: e))
           .toList(),
-      const LunchDivider(),
+      const TextDivider(text: 'Lunch Break',),
       ...allTimetableCourses[timetableIndex]
           .afternoon
           .map((e) => TimetableTile(course: e))

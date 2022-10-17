@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/widgets/ui/text_divider.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({
@@ -34,11 +36,29 @@ class LoginButton extends StatelessWidget {
               fit: BoxFit.fitWidth,
               child: Text(
                 'LOGIN WITH OUTLOOK',
-                style: MyFonts.w500.factor(3.66).setColor(kBlack),
+                style: MyFonts.w500.factor(3.2).setColor(kBlack),
               ),
             ),
           ),
         ),
+        const Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: TextDivider(text: 'OR'),
+        ),
+        RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+                text: 'Continue as ',
+                style: MyFonts.w500.factor(2).setColor(kGrey8),
+                children: [
+                  TextSpan(
+                      text: 'Guest',
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => print("Guest"),
+                      style: MyFonts.w500.factor(2).setColor(kGrey8).copyWith(
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.bold))
+                ])),
         Expanded(
           flex: 1,
           child: Container(),
