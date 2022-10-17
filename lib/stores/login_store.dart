@@ -1,5 +1,6 @@
 // import 'package:aad_oauth/aad_oauth.dart';
 // import 'package:aad_oauth/model/config.dart';
+import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
@@ -87,7 +88,8 @@ class LoginStore {
     SharedPreferences user = await SharedPreferences.getInstance();
     user.clear();
     userData.clear();
-    navigationPopCallBack();
     // TODO: Clear timetable data and maybe all cached data
+    await LocalStorage.instance.deleteAllRecord();
+    navigationPopCallBack();
   }
 }

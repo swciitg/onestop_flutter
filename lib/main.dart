@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/check_last_updated.dart';
@@ -37,9 +39,6 @@ class MyApp extends StatelessWidget {
         ),
         Provider<RestaurantStore>(
           create: (_) => RestaurantStore(),
-        ),
-        Provider<TimetableStore>(
-          create: (_) => TimetableStore(),
         ),
         Provider<MapBoxStore>(
           create: (_) => MapBoxStore(),

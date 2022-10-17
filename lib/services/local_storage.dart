@@ -66,6 +66,8 @@ class LocalStorage {
     await store.record('Contact').delete(localDB);
     await store.record('MessMenu').delete(localDB);
     await store.record('FerryTimings').delete(localDB);
+    await store.record('LastUpdated').delete(localDB);
+    await store.record('Timetable').delete(localDB);
   }
 
   Future<List<Object?>?> getRecord(String recordName) async {
