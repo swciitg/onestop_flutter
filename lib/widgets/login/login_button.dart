@@ -2,7 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/ui/text_divider.dart';
+import 'package:provider/provider.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({
@@ -54,7 +56,12 @@ class LoginButton extends StatelessWidget {
                   TextSpan(
                       text: 'Guest',
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () => print("Guest"),
+                        ..onTap = () async {
+                        await context.read<LoginStore>().signInAsGuest();
+                        // TODO: Next version of Flutter will have context.mounted. Use that instead to escape the lint
+                        Navigator.of(context)
+                            .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                        },
                       style: MyFonts.w500.factor(2).setColor(kGrey8).copyWith(
                           decoration: TextDecoration.underline,
                           fontWeight: FontWeight.bold))
