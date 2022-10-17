@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -61,7 +62,7 @@ class _LostFoundTileState extends State<LostFoundTile> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
-                        "Lost at: ${widget.currentModel.location}",
+                        "${(widget.currentModel.runtimeType == FoundModel)?"Found":"Lost"} at: ${widget.currentModel.location}",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: MyFonts.w300.size(14).setColor(kWhite),

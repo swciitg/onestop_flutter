@@ -33,7 +33,7 @@ void detailsDialogBox(context, dynamic model, [parentContext]) {
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
                 child: Text(
-                  "${(model is FoundModel)?"Found":"Lost"}at: ${model.location}",
+                  "${(model is FoundModel)?"Found":"Lost"} at: ${model.location}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: MyFonts.w500.size(14).setColor(kGrey6),
