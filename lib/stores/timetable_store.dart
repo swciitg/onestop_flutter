@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/timetable/timetable_day.dart';
@@ -58,7 +60,8 @@ abstract class _TimetableStore with Store {
   @action
   Future<void> setTimetable(String rollNumber) async {
     if (loadOperation.value == null) {
-      loadOperation = DataProvider.getTimeTable(roll: rollNumber).asObservable();
+      loadOperation =
+          DataProvider.getTimeTable(roll: rollNumber).asObservable();
     }
   }
 
@@ -91,12 +94,24 @@ abstract class _TimetableStore with Store {
           .morning
           .map((e) => TimetableTile(course: e))
           .toList(),
-      const TextDivider(text: 'Lunch Break',),
+      const TextDivider(
+        text: 'Lunch Break',
+      ),
       ...allTimetableCourses[timetableIndex]
           .afternoon
           .map((e) => TimetableTile(course: e))
           .toList()
     ];
+    if (l.length == 1) {
+      l = [
+        Center(
+          child: Text(
+            'No data found',
+            style: MyFonts.w500.size(14).setColor(kGrey8),
+          ),
+        )
+      ];
+    }
     return l;
   }
 

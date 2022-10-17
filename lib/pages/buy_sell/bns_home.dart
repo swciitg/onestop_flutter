@@ -171,6 +171,9 @@ class _BuySellHomeState extends State<BuySellHome> {
                           if (snapshot.hasData) {
                             List<BuyModel> models = snapshot.data! as List<BuyModel>;
                             List<MyAdsTile> tiles = models.map((e) => MyAdsTile(model: e)).toList();
+                            if (context.read<LoginStore>().isGuestUser) {
+                              return const PaginationText(text: "Log in with your IITG account to post ads");
+                            }
                             if (tiles.isEmpty) {
                               return const PaginationText(text: "You haven't posted any ads");
                             }
