@@ -7,6 +7,8 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
 import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
+import 'package:onestop_dev/stores/login_store.dart';
+import 'package:provider/provider.dart';
 
 class AddItemButton extends StatefulWidget {
   const AddItemButton({
@@ -23,6 +25,9 @@ class AddItemButton extends StatefulWidget {
 class _AddItemButtonState extends State<AddItemButton> {
   @override
   Widget build(BuildContext context) {
+    if (context.read<LoginStore>().isGuestUser) {
+      return Container();
+    }
     if (widget.type == "My Ads") {
       return Container();
     }
