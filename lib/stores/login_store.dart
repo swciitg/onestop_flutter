@@ -88,7 +88,6 @@ class LoginStore {
     SharedPreferences user = await SharedPreferences.getInstance();
     user.clear();
     userData.clear();
-    // TODO: Clear timetable data and maybe all cached data
     await LocalStorage.instance.deleteRecordsLogOut();
     navigationPopCallBack();
   }

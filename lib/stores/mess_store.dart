@@ -4,6 +4,7 @@ import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/functions/food/get_day.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/services/data_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'mess_store.g.dart';
 
@@ -18,13 +19,29 @@ abstract class _MessStore with Store {
   String selectedDay = getFormattedDay();
 
   @observable
-  String selectedMeal = "Breakfast";
+  String selectedMeal = getMeal();
+
+  // TODO: Return correct meal based on time of the day. Breakfast till 10 AM, Lunch till 2:30PM and then dinner
+  static String getMeal() {
+    return "Breakfast";
+  }
 
   @observable
-  String selectedHostel = "Kameng";
+  ObservableFuture<String> selectedHostel = ObservableFuture(getSavedHostel());
+
+  @computed
+  bool get hostelLoaded => selectedHostel.status == FutureStatus.fulfilled;
 
   @observable
   MessMenuModel? selectedMessModel;
+
+  static Future<String> getSavedHostel() async {
+    var prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('hostel')) {
+      return prefs.getString('hostel') ?? "Brahma";
+    }
+    return "Brahma";
+  }
 
   @observable
   ObservableFuture<List<MessMenuModel>> allMessData =
@@ -42,7 +59,7 @@ abstract class _MessStore with Store {
 
   @action
   void setHostel(String s) {
-    selectedHostel = s;
+    selectedHostel = ObservableFuture.value(s);
   }
 
   @action
@@ -52,14 +69,15 @@ abstract class _MessStore with Store {
 
   void setupReactions() {
     autorun((_) {
-      if (allMessData.status == FutureStatus.fulfilled) {
+      if (allMessData.status == FutureStatus.fulfilled &&
+          selectedHostel.status == FutureStatus.fulfilled) {
         var requiredModel = allMessData.value!.firstWhere(
             (element) => (element.day
                     .toLowerCase()
                     .contains(selectedDay.toLowerCase()) &&
                 element.hostel
                     .toLowerCase()
-                    .contains(selectedHostel.toLowerCase()) &&
+                    .contains(selectedHostel.value!.toLowerCase()) &&
                 element.meal.toLowerCase() == selectedMeal.toLowerCase()),
             orElse: () => MessMenuModel(
                 hostel: "",

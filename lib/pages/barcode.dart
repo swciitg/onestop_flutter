@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -9,6 +10,7 @@ import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:provider/provider.dart';
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QRPage extends StatefulWidget {
   static String id = "/qr";
@@ -30,8 +32,8 @@ class _QRPageState extends State<QRPage> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
                   height: 16,
@@ -47,6 +49,7 @@ class _QRPageState extends State<QRPage> {
                   textAlign: TextAlign.center,
                   style: MyFonts.w500.setColor(kWhite).size(20),
                 ),
+                const HostelSelector(),
                 const SizedBox(
                   height: 26,
                 ),
@@ -105,6 +108,94 @@ class _QRPageState extends State<QRPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class HostelSelector extends StatefulWidget {
+  const HostelSelector({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<HostelSelector> createState() => _HostelSelectorState();
+}
+
+class _HostelSelectorState extends State<HostelSelector> {
+  final List<String> hostels = [
+    "Kameng",
+    "Barak",
+    "Lohit",
+    "Brahma",
+    "Disang",
+    "Manas",
+    "Dihing",
+    "Umiam",
+    "Siang",
+    "Kapili",
+    "Dhansiri",
+    "Subhansiri"
+  ];
+
+  Future<String> getSavedHostel() async {
+    var prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('hostel')) {
+      return prefs.getString('hostel')??"Brahma";
+    }
+    return "No hostel selected";
+  }
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String>(
+      future: getSavedHostel(),
+      builder: (context,snapshot) {
+        if (!snapshot.hasData){
+          return Container(
+            height: 25,
+          );
+        }
+        return Theme(
+          data: Theme.of(context)
+              .copyWith(cardColor: kBlueGrey),
+          child: PopupMenuButton<String>(
+            offset: const Offset(0,30),
+            itemBuilder: (context) {
+              return hostels
+                  .map(
+                    (value) => PopupMenuItem(
+                  onTap: () async {
+                    var prefs = await SharedPreferences.getInstance();
+                    prefs.setString('hostel', value);
+                    setState((){});
+                  },
+                  value: value,
+                  child: Text(
+                    value,
+                    style: MyFonts.w500
+                        .setColor(kWhite),
+                  ),
+                ),
+              )
+                  .toList();
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  snapshot.data!,
+                  textAlign: TextAlign.center,
+                  style: MyFonts.w500.setColor(kWhite).size(15),
+                ),
+                const SizedBox(width: 10,),
+                const Icon(
+                  FluentIcons.chevron_down_12_regular,
+                  color: lBlue,
+                )
+              ],
+            ),
+          ),
+        );
+      }
     );
   }
 }
