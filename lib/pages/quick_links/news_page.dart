@@ -5,15 +5,15 @@ import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/news/news_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 
-class Blogs extends StatefulWidget {
+class NewsPage extends StatefulWidget {
   static String id = "/blogs";
-  const Blogs({Key? key}) : super(key: key);
+  const NewsPage({Key? key}) : super(key: key);
 
   @override
-  State<Blogs> createState() => _BlogState();
+  State<NewsPage> createState() => _BlogState();
 }
 
-class _BlogState extends State<Blogs> {
+class _BlogState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

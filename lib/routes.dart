@@ -1,6 +1,6 @@
 import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
 import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
-import 'package:onestop_dev/pages/quick_links/blogs_page.dart';
+import 'package:onestop_dev/pages/quick_links/news_page.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/quick_links/complaints.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
@@ -9,16 +9,16 @@ import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/login/login.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
-import 'package:onestop_dev/pages/barcode.dart';
+import 'package:onestop_dev/pages/profile.dart';
 import 'package:onestop_dev/pages/splash.dart';
 
 final routes = {
   SplashPage.id: (context) => const SplashPage(),
-  QRPage.id: (context) => const QRPage(),
+  ProfilePage.id: (context) => const ProfilePage(),
   LoginPage.id: (context) => const LoginPage(),
   HomePage.id: (context) => const HomePage(),
   RouterPage.id: (context) => const RouterPage(),
-  Blogs.id: (context) => const Blogs(),
+  NewsPage.id: (context) => const NewsPage(),
   SearchPage.id: (context) => const SearchPage(),
   LostFoundHome.id: (context) => const LostFoundHome(),
   ContactPage.id: (context) => const ContactPage(),

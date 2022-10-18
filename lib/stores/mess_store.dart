@@ -23,7 +23,16 @@ abstract class _MessStore with Store {
 
   // TODO: Return correct meal based on time of the day. Breakfast till 10 AM, Lunch till 2:30PM and then dinner
   static String getMeal() {
-    return "Breakfast";
+    DateTime now = DateTime.now();
+    if(now.hour < 10)
+      {
+        return "Breakfast";
+      }
+    else if(now.hour <= 14 && now.minute <= 30)
+      {
+        return "Lunch";
+      }
+    return "Dinner";
   }
 
   @observable
@@ -38,9 +47,9 @@ abstract class _MessStore with Store {
   static Future<String> getSavedHostel() async {
     var prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('hostel')) {
-      return prefs.getString('hostel') ?? "Brahma";
+      return prefs.getString('hostel') ?? "Kameng";
     }
-    return "Brahma";
+    return "Kameng";
   }
 
   @observable
