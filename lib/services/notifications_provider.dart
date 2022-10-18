@@ -30,9 +30,13 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails, iOS: iosNotificationDetails);
   RemoteNotification? notification = message.notification;
-  await flutterLocalNotificationsPlugin.show(
-      notification.hashCode, "sid", notification!.body, notificationDetails);
-  savenotif(notification);
+  String type = message.data['type'];
+  print("NOTIFICation : $notification");
+  if (notification != null && checkIfUserWantsNotification(type)) {
+    await flutterLocalNotificationsPlugin.show(
+        notification.hashCode, notification.title, notification.body, notificationDetails);
+  }
+  savenotif(notification!,type);
 }
 
 void onDidReceiveNotificationResponse(
@@ -43,7 +47,24 @@ void onDidReceiveNotificationResponse(
   }
   // await Navigator.pushNamed(context, HomePage.id);
 }
-
+Map<String,bool> value={
+  "Food" : false,
+  "Lost and Food":false,
+  "TimeTable":false,
+  "Assignment":false,
+  "Ferry":false,
+  "Buses":false
+};
+bool checkIfUserWantsNotification(String type){
+  if(type=="Food") return value["Food"]!;
+  if(type=="Lost and Found") return value["Lost and Found"]!;
+  if(type=="TimeTable") return value["TimeTable"]!;
+  if(type=="Assignment") return value["Assignment"]!;
+  if(type=="Ferry") return value["Ferry"]!;
+  if(type=="Buses") return value["Buses"]!;
+  if(type=="all") return true;
+  return false;
+}
 Future<bool> checkForNotifications() async {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -105,24 +126,25 @@ Future<bool> checkForNotifications() async {
   // );
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
+    String type = message.data['type'];
     print("NOTIFICation : $notification");
     // AndroidNotification android = message.notification!.android!;
-    if (notification != null) {
+    if (notification != null && checkIfUserWantsNotification(type)) {
       await flutterLocalNotificationsPlugin.show(
-          notification.hashCode, "sid", notification.body, notificationDetails);
+          notification.hashCode, notification.title, notification.body, notificationDetails);
     }
-    savenotif(notification!);
+    savenotif(notification!,type);
   });
   return true;
 }
 
-void savenotif(RemoteNotification notification) async {
+void savenotif(RemoteNotification notification, String type) async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   String notif = notification.hashCode.toString() +
-      '-' +
+      ' ' +
       notification.title! +
-      '-' +
-      notification.body!;
+      ' ' +
+      notification.body!+' '+type;
   List<String>? notifications =
       preferences.getStringList('notifications') == null
           ? []

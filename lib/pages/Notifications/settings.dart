@@ -13,7 +13,7 @@ class NotifSettings extends StatefulWidget {
 
 List<String> Titles = [
   "Food",
-  "Lost and Food",
+  "Lost and Found",
   "TimeTable",
   "Assignment",
   "Ferry",
@@ -21,7 +21,14 @@ List<String> Titles = [
 ];
 
 class _NotifSettingsState extends State<NotifSettings> {
-  List<bool> value = List.filled(Titles.length, false);
+  Map<String,bool> value={
+    "Food" : false,
+    "Lost and Food":false,
+    "TimeTable":false,
+    "Assignment":false,
+    "Ferry":false,
+    "Buses":false
+  };
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,10 +74,10 @@ class _NotifSettingsState extends State<NotifSettings> {
                   width: 40.0,
                   height: 25.0,
                   toggleSize: 18.0,
-                  value: value[index],
+                  value: value[Titles[index]]!,
                   onToggle: (val) {
                     setState(() {
-                      value[index] = val;
+                      value[Titles[index]] = val;
                     });
                   },
                 ),
