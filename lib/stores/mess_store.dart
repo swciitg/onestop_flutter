@@ -21,7 +21,7 @@ abstract class _MessStore with Store {
   String selectedMeal = "Breakfast";
 
   @observable
-  String selectedHostel = "Brahma";
+  String selectedHostel = "Kameng";
 
   @observable
   MessMenuModel? selectedMessModel;

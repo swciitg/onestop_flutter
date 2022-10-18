@@ -10,39 +10,46 @@ import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 
 class APIService {
-  static const String _restaurantURL =
-      "https://swc.iitg.ac.in/onestopapi/v2/getAllOutlets";
-  static const String _lastUpdatedURL =
-      "https://swc.iitg.ac.in/onestopapi/v2/lastDataUpdate";
-  static const String _contactURL =
-      "https://swc.iitg.ac.in/onestopapi/v2/getContacts";
-  static const String _timetableURL =
-      "https://swc.iitg.ac.in/smartTimetable/get-my-courses";
-  static const String _ferryURL =
-      'https://swc.iitg.ac.in/onestopapi/v2/ferryTimings';
-  static const String _busURL =
-      'https://swc.iitg.ac.in/onestopapi/v2/busTimings';
-  static const String _messURL =
-      "https://swc.iitg.ac.in/onestopapi/v2/hostelsMessMenu";
+  static const String _restaurantURL = "https://swc.iitg.ac.in/onestopapi/v2/getAllOutlets";
+  static const String _lastUpdatedURL = "https://swc.iitg.ac.in/onestopapi/v2/lastDataUpdate";
+  static const String _contactURL = "https://swc.iitg.ac.in/onestopapi/v2/getContacts";
+  static const String _timetableURL = "https://swc.iitg.ac.in/smartTimetable/get-my-courses";
+  static const String _ferryURL = 'https://swc.iitg.ac.in/onestopapi/v2/ferryTimings';
+  static const String _busURL = 'https://swc.iitg.ac.in/onestopapi/v2/busTimings';
+  static const String _messURL = "https://swc.iitg.ac.in/onestopapi/v2/hostelsMessMenu";
   static const String _buyURL = 'https://swc.iitg.ac.in/onestopapi/v2/buy';
   static const String _sellURL = 'https://swc.iitg.ac.in/onestopapi/v2/sell';
   static const String _sellPath = '/onestopapi/v2/sellPage';
   static const String _buyPath = '/onestopapi/v2/buyPage';
   static const String _myAdsURL = 'https://swc.iitg.ac.in/onestopapi/v2/myads';
-  static const String _deleteBuyURL =
-      "https://swc.iitg.ac.in/onestopapi/v2/buy/remove";
-  static const String _deleteSellURL =
-      "https://swc.iitg.ac.in/onestopapi/v2/sell/remove";
+  static const String _deleteBuyURL = "https://swc.iitg.ac.in/onestopapi/v2/buy/remove";
+  static const String _deleteSellURL = "https://swc.iitg.ac.in/onestopapi/v2/sell/remove";
   static const String _lostURL = 'https://swc.iitg.ac.in/onestopapi/v2/lost';
   static const String _lostPath = '/onestopapi/v2/lostPage';
   static const String _foundPath = '/onestopapi/v2/foundPage';
   static const String _foundURL = 'https://swc.iitg.ac.in/onestopapi/v2/found';
-  static const String _claimItemURL =
-      "https://swc.iitg.ac.in/onestopapi/v2/found/claim";
+  static const String _claimItemURL = "https://swc.iitg.ac.in/onestopapi/v2/found/claim";
+  static const String _newsURL = "https://jsonplaceholder.typicode.com/posts";
+
   static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');
 
   static Future<List<Map<String, dynamic>>> getRestaurantData() async {
     http.Response response = await http.get(Uri.parse(_restaurantURL));
+    var status = response.statusCode;
+    var body = jsonDecode(response.body);
+    if (status == 200) {
+      List<Map<String, dynamic>> data = [];
+      for (var json in body) {
+        data.add(json);
+      }
+      return data;
+    } else {
+      throw Exception("Data could not be fetched");
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> getNewsData() async {
+    http.Response response = await http.get(Uri.parse(_newsURL));
     var status = response.statusCode;
     var body = jsonDecode(response.body);
     if (status == 200) {
