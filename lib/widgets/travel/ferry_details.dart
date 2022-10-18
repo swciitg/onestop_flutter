@@ -34,7 +34,7 @@ class FerryDetails extends StatelessWidget {
             height: 50,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: ferryGhats.reversed
+              children: ferryGhats
                   .map((e) => TextButton(
                         onPressed: () {
                           context.read<TravelStore>().setFerryGhat(e['name']);
