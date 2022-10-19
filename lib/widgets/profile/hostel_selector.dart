@@ -32,54 +32,56 @@ class _HostelSelectorState extends State<HostelSelector> {
   Future<String> getSavedHostel() async {
     var prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('hostel')) {
-      return prefs.getString('hostel')??"Kameng";
+      return prefs.getString('hostel') ?? "Kameng";
     }
     return "No hostel selected";
   }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
         future: getSavedHostel(),
-        builder: (context,snapshot) {
-          if (!snapshot.hasData){
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
             return Container(
               height: 25,
             );
           }
           return Theme(
-            data: Theme.of(context)
-                .copyWith(cardColor: kBlueGrey),
+            data: Theme.of(context).copyWith(cardColor: kBlueGrey),
             child: PopupMenuButton<String>(
               position: PopupMenuPosition.under,
-              offset: const Offset(0.0,0),
+              offset: const Offset(0, 10),
+              constraints: const BoxConstraints(maxHeight: 320),
               itemBuilder: (context) {
                 return hostels
                     .map(
                       (value) => PopupMenuItem(
-                    onTap: () async {
-                      var prefs = await SharedPreferences.getInstance();
-                      prefs.setString('hostel', value);
-                      setState((){});
-                    },
-                    value: value,
-                    child: Text(
-                      value,
-                      style: MyFonts.w500
-                          .setColor(kWhite),
-                    ),
-                  ),
-                )
+                        onTap: () async {
+                          var prefs = await SharedPreferences.getInstance();
+                          prefs.setString('hostel', value);
+                          setState(() {});
+                        },
+                        value: value,
+                        child: Text(
+                          value,
+                          style: MyFonts.w500.setColor(kWhite),
+                        ),
+                      ),
+                    )
                     .toList();
               },
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     snapshot.data!,
                     textAlign: TextAlign.center,
                     style: MyFonts.w500.setColor(kWhite).size(15),
                   ),
-                  const SizedBox(width: 10,),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   const Icon(
                     FluentIcons.chevron_down_12_regular,
                     color: lBlue,
@@ -88,7 +90,6 @@ class _HostelSelectorState extends State<HostelSelector> {
               ),
             ),
           );
-        }
-    );
+        });
   }
 }
