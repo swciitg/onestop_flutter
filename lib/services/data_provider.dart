@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
+import 'package:onestop_dev/models/news/news_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/travel/ferry_data_model.dart';
 import 'package:onestop_dev/services/api.dart';
@@ -53,6 +54,12 @@ class DataProvider {
     return cachedData
         .map((e) => RestaurantModel.fromJson(e as Map<String, dynamic>))
         .toList();
+  }
+
+  static Future<List<NewsModel>> getNews() async {
+      List<Map<String, dynamic>> NewsData = await APIService.getNewsData();
+      List<NewsModel> news = NewsData.map((e) => NewsModel.fromJson(e)).toList();
+      return news;
   }
 
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {

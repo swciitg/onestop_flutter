@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/models/news/news_model.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/news/news_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 
@@ -34,9 +35,9 @@ class _BlogState extends State<NewsPage> {
           ],
         ),
         body: FutureBuilder(
-          future: APIService.getNewsData(),
+          future: DataProvider.getNews(),
           builder: (BuildContext context,
-              AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+              AsyncSnapshot<List<NewsModel>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return ListShimmer(
                 height: 200,
@@ -48,10 +49,7 @@ class _BlogState extends State<NewsPage> {
             }
             return ListView.builder(
                 itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) => NewsTile(
-                    title: snapshot.data![index]['title'],
-                    body: snapshot.data![index]['body'],
-                    author: snapshot.data![index]['userId'].toString()));
+                itemBuilder: (context, index) => NewsTile(news: snapshot.data![index],));
           },
         ));
   }

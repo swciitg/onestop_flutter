@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/news/news_model.dart';
 
 class NewsTile extends StatefulWidget {
-  final String title;
-  final String body;
-  final String author;
+  final NewsModel news;
 
   const NewsTile(
-      {Key? key, required this.title, required this.body, required this.author})
+      {Key? key, required this.news})
       : super(key: key);
 
   @override
@@ -27,7 +26,7 @@ class _NewsTileState extends State<NewsTile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.title.trim(),
+                widget.news.title.trim(),
                 style: MyFonts.w700
                     .setColor(kWhite)
                     .size(14)
@@ -40,7 +39,7 @@ class _NewsTileState extends State<NewsTile> {
                 height: 4.0,
               ),
               Text(
-                widget.body,
+                widget.news.body,
                 style: MyFonts.w500
                     .setColor(kFontGrey)
                     .size(11)
@@ -55,7 +54,7 @@ class _NewsTileState extends State<NewsTile> {
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 10),
                 child: Text(
-                  widget.author,
+                  widget.news.userId.toString(),
                   style: MyFonts.w700.size(11).setColor(lBlue4),
                 ),
               ),
