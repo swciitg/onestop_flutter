@@ -29,55 +29,67 @@ class _HostelSelectorState extends State<HostelSelector> {
     "Subhansiri"
   ];
 
-  Future<dynamic> getSavedHostel() async {
+  Future<String> getSavedHostel() async {
     var prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('hostel')) {
-      return prefs.getString('hostel');
+      return prefs.getString('hostel') ?? "Kameng";
     }
-    return null;
+    return "No hostel selected";
   }
 
-  String? dropdownValue;
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<dynamic>(
+    return FutureBuilder<String>(
         future: getSavedHostel(),
         builder: (context, snapshot) {
-          // if (!snapshot.hasData) {
-          //   return Container(
-          //     height: 25,
-          //   );
-          // }
+          if (!snapshot.hasData) {
+            return Container(
+              height: 25,
+            );
+          }
           return Theme(
-              data: Theme.of(context).copyWith(canvasColor: kBlueGrey),
-              child: DropdownButton<String>(
-                value: snapshot.data,
-                hint: Text('Select Hostel ', style: MyFonts.w500.setColor(kWhite).size(15),),
-                underline: Container(),
-                icon: const Icon(
-                  FluentIcons.chevron_down_12_regular,
-                  color: lBlue,
-                ),
-                iconSize: 13,
-                menuMaxHeight: 250,
-                onChanged: (String? value) async {
-                  // This is called when the user selects an item.
-                  var prefs = await SharedPreferences.getInstance();
-                  prefs.setString('hostel', value!);
-                  setState(() {
-                    dropdownValue = value;
-                  });
-                },
-                items: hostels.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: MyFonts.w500.setColor(kWhite).size(15),
-                    ),
-                  );
-                }).toList(),
-              ));
+            data: Theme.of(context).copyWith(cardColor: kBlueGrey),
+            child: PopupMenuButton<String>(
+              position: PopupMenuPosition.under,
+              offset: const Offset(0, 10),
+              constraints: const BoxConstraints(maxHeight: 320),
+              itemBuilder: (context) {
+                return hostels
+                    .map(
+                      (value) => PopupMenuItem(
+                        onTap: () async {
+                          var prefs = await SharedPreferences.getInstance();
+                          prefs.setString('hostel', value);
+                          setState(() {});
+                        },
+                        value: value,
+                        child: Text(
+                          value,
+                          style: MyFonts.w500.setColor(kWhite),
+                        ),
+                      ),
+                    )
+                    .toList();
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    snapshot.data!,
+                    textAlign: TextAlign.center,
+                    style: MyFonts.w500.setColor(kWhite).size(15),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Icon(
+                    FluentIcons.chevron_down_12_regular,
+                    color: lBlue,
+                  )
+                ],
+              ),
+            ),
+          );
         });
   }
 }
