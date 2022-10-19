@@ -29,29 +29,30 @@ class _HostelSelectorState extends State<HostelSelector> {
     "Subhansiri"
   ];
 
-  Future<String> getSavedHostel() async {
+  Future<dynamic> getSavedHostel() async {
     var prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('hostel')) {
-      return prefs.getString('hostel') ?? "Kameng";
+      return prefs.getString('hostel');
     }
-    return "Kameng";
+    return null;
   }
 
-  String dropdownValue = 'Kameng';
+  String? dropdownValue;
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
+    return FutureBuilder<dynamic>(
         future: getSavedHostel(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Container(
-              height: 25,
-            );
-          }
+          // if (!snapshot.hasData) {
+          //   return Container(
+          //     height: 25,
+          //   );
+          // }
           return Theme(
               data: Theme.of(context).copyWith(canvasColor: kBlueGrey),
               child: DropdownButton<String>(
                 value: snapshot.data,
+                hint: Text('Select Hostel ', style: MyFonts.w500.setColor(kWhite).size(15),),
                 underline: Container(),
                 icon: const Icon(
                   FluentIcons.chevron_down_12_regular,
