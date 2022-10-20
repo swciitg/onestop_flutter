@@ -40,12 +40,19 @@ class _BlogState extends State<NewsPage> {
               AsyncSnapshot<List<NewsModel>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return ListShimmer(
-                height: 200,
-                count: 5,
+                height: 100,
+                count: 10,
               );
             }
             if (snapshot.data == null) {
-              return Container();
+              return Center(
+                child: Text(
+                  'No data found',
+                    style: MyFonts.w500
+                        .setColor(kWhite)
+                        .size(14)
+                ),
+              );
             }
             return ListView.builder(
                 itemCount: snapshot.data!.length,

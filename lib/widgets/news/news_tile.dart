@@ -54,7 +54,7 @@ class _NewsTileState extends State<NewsTile> {
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 10),
                 child: Text(
-                  widget.news.userId.toString(),
+                  widget.news.author,
                   style: MyFonts.w700.size(11).setColor(lBlue4),
                 ),
               ),

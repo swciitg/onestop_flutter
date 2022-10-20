@@ -57,8 +57,8 @@ class DataProvider {
   }
 
   static Future<List<NewsModel>> getNews() async {
-      List<Map<String, dynamic>> NewsData = await APIService.getNewsData();
-      List<NewsModel> news = NewsData.map((e) => NewsModel.fromJson(e)).toList();
+      List<Map<String, dynamic>> newsData = await APIService.getNewsData();
+      List<NewsModel> news = newsData.map((e) => NewsModel.fromJson(e)).toList();
       return news;
   }
 

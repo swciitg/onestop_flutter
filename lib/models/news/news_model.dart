@@ -6,14 +6,14 @@ part 'news_model.g.dart';
 class NewsModel {
   final String title;
   final String body;
-  final userId;
+  final String author;
 
 
   NewsModel(
       {Key? key,
         required this.title,
         required this.body,
-        required this.userId,
+        required this.author,
      });
   factory NewsModel.fromJson(Map<String, dynamic> json) =>
       _$NewsModelFromJson(json);

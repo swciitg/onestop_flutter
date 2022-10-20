@@ -29,7 +29,7 @@ class APIService {
   static const String _foundPath = '/onestopapi/v2/foundPage';
   static const String _foundURL = 'https://swc.iitg.ac.in/onestopapi/v2/found';
   static const String _claimItemURL = "https://swc.iitg.ac.in/onestopapi/v2/found/claim";
-  static const String _newsURL = "https://jsonplaceholder.typicode.com/posts";
+  static const String _newsURL = "https://swc.iitg.ac.in/onestopapi/v2/news";
 
   static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');
 

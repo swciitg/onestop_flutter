@@ -21,21 +21,15 @@ abstract class _MessStore with Store {
   @observable
   String selectedMeal = getMeal();
 
-  // TODO: Return correct meal based on time of the day. Breakfast till 10 AM, Lunch till 2:30PM and then dinner
   static String getMeal() {
     DateTime now = DateTime.now();
-    if(now.hour < 10)
-      {
-        return "Breakfast";
-      }
-    else if(now.hour < 14)
-      {
-        return "Lunch";
-      }
-    else if(now.hour == 14 && now.minute <= 30)
-      {
-        return "Lunch";
-      }
+    if (now.hour < 10) {
+      return "Breakfast";
+    } else if (now.hour < 14) {
+      return "Lunch";
+    } else if (now.hour == 14 && now.minute <= 30) {
+      return "Lunch";
+    }
     return "Dinner";
   }
 

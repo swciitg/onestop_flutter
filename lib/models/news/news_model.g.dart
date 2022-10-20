@@ -9,11 +9,11 @@ part of 'news_model.dart';
 NewsModel _$NewsModelFromJson(Map<String, dynamic> json) => NewsModel(
       title: json['title'] as String,
       body: json['body'] as String,
-      userId: json['userId'],
+      author: json['author'] as String,
     );
 
 Map<String, dynamic> _$NewsModelToJson(NewsModel instance) => <String, dynamic>{
       'title': instance.title,
       'body': instance.body,
-      'userId': instance.userId,
+      'author': instance.author,
     };
