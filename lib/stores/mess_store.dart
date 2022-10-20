@@ -28,7 +28,11 @@ abstract class _MessStore with Store {
       {
         return "Breakfast";
       }
-    else if(now.hour <= 14 && now.minute <= 30)
+    else if(now.hour < 14)
+      {
+        return "Lunch";
+      }
+    else if(now.hour == 14 && now.minute <= 30)
       {
         return "Lunch";
       }
