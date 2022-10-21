@@ -24,4 +24,5 @@ extension TextStyleHelpers on TextStyle {
       copyWith(fontSize: factor * SizeConfig.verticalBlockSize!);
   TextStyle size(double size) => copyWith(fontSize: size);
   TextStyle letterSpace(double space) => copyWith(letterSpacing: space);
+  TextStyle setHeight(double space) => copyWith(height: space);
 }

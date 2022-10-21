@@ -30,13 +30,13 @@ const List<Map<String, dynamic>> busStopsData = [
 
 const List<Map<String, dynamic>> ferryGhats = [
   {
-    'name': 'Rajaduwar',
-    'lat': 26.20807393898896,
-    'long': 91.74779977274693,
+    'name': 'Mazgaon',
+    'lat': 26.186309320468883,
+    'long': 91.72163075557613,
     'status': 'left',
     'time': '1:45 PM',
-    'distance': 1.2,
-    'ind': 0,
+    'distance': 1.4,
+    'ind': 2,
   },
   {
     'name': 'Madhyamkhanda',
@@ -48,12 +48,12 @@ const List<Map<String, dynamic>> ferryGhats = [
     'ind': 1,
   },
   {
-    'name': 'Mazgaon',
-    'lat': 26.186309320468883,
-    'long': 91.72163075557613,
+    'name': 'Rajaduwar',
+    'lat': 26.20807393898896,
+    'long': 91.74779977274693,
     'status': 'left',
     'time': '1:45 PM',
-    'distance': 1.4,
-    'ind': 2,
-  }
+    'distance': 1.2,
+    'ind': 0,
+  },
 ];

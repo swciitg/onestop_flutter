@@ -9,6 +9,14 @@ part of 'mess_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$MessStore on _MessStore, Store {
+  Computed<bool>? _$hostelLoadedComputed;
+
+  @override
+  bool get hostelLoaded =>
+      (_$hostelLoadedComputed ??= Computed<bool>(() => super.hostelLoaded,
+              name: '_MessStore.hostelLoaded'))
+          .value;
+
   late final _$selectedDayAtom =
       Atom(name: '_MessStore.selectedDay', context: context);
 
@@ -45,13 +53,13 @@ mixin _$MessStore on _MessStore, Store {
       Atom(name: '_MessStore.selectedHostel', context: context);
 
   @override
-  String get selectedHostel {
+  ObservableFuture<String> get selectedHostel {
     _$selectedHostelAtom.reportRead();
     return super.selectedHostel;
   }
 
   @override
-  set selectedHostel(String value) {
+  set selectedHostel(ObservableFuture<String> value) {
     _$selectedHostelAtom.reportWrite(value, super.selectedHostel, () {
       super.selectedHostel = value;
     });
@@ -143,7 +151,8 @@ selectedDay: ${selectedDay},
 selectedMeal: ${selectedMeal},
 selectedHostel: ${selectedHostel},
 selectedMessModel: ${selectedMessModel},
-allMessData: ${allMessData}
+allMessData: ${allMessData},
+hostelLoaded: ${hostelLoaded}
     ''';
   }
 }

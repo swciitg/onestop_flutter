@@ -2,7 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/barcode.dart';
+import 'package:onestop_dev/pages/profile.dart';
 
 AppBar appBar(BuildContext context, {bool displayIcon = true}) {
   return AppBar(
@@ -22,7 +22,7 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
                     color: lBlue2,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, QRPage.id);
+                    Navigator.pushNamed(context, ProfilePage.id);
                   },
                 ),
               )

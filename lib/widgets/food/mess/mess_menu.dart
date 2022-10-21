@@ -58,6 +58,12 @@ class MessMenu extends StatelessWidget {
                   width: 16,
                 ),
                 Observer(builder: (context) {
+                  if (!messStore.hostelLoaded) {
+                    return Expanded(
+                      flex: 2,
+                      child: Container(),
+                    );
+                  }
                   return Expanded(
                       flex: 2,
                       child: Column(
@@ -135,6 +141,8 @@ class MessMenu extends StatelessWidget {
                                   data: Theme.of(context)
                                       .copyWith(cardColor: kBlueGrey),
                                   child: PopupMenuButton<String>(
+                                    constraints:
+                                        const BoxConstraints(maxHeight: 320),
                                     itemBuilder: (context) {
                                       return hostels
                                           .map(
@@ -165,7 +173,7 @@ class MessMenu extends StatelessWidget {
                                             MainAxisAlignment.spaceAround,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Text(messStore.selectedHostel,
+                                          Text(messStore.selectedHostel.value!,
                                               style: MyFonts.w500
                                                   .setColor(lBlue)
                                                   .size(screenWidth <= 380

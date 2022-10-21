@@ -4,7 +4,7 @@ import 'home_tab_tile.dart';
 
 List<HomeTabTile> quickLinks = [
   const HomeTabTile(
-    label: "Blogs",
+    label: "News and Updates",
     icon: FluentIcons.document_one_page_24_regular,
     routeId: "/blogs",
   ),

@@ -1,11 +1,13 @@
 // import 'package:aad_oauth/aad_oauth.dart';
 // import 'package:aad_oauth/model/config.dart';
+import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 class LoginStore {
   Map<String, String> userData = <String, String>{};
   final cookieManager = WebviewCookieManager();
+  final String guestEmail = 'guest_user';
   // static final Config config = Config(
   //     tenant: '850aa78d-94e1-4bc6-9cf3-8c11b530701c',
   //     clientId: '81f3e9f0-b0fd-48e0-9d36-e6058e5c6d4f',
@@ -50,6 +52,23 @@ class LoginStore {
     return false;
   }
 
+  bool get isGuestUser {
+    if (userData['email'] == guestEmail) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> signInAsGuest() async {
+    var sharedPrefs = await SharedPreferences.getInstance();
+    saveToPreferences(sharedPrefs, {
+      'displayName': 'Guest User',
+      'mail': guestEmail,
+      'surname': ' ',
+      'id': ''
+    });
+  }
+
   void saveToPreferences(SharedPreferences instance, dynamic data) {
     instance.setString("name", data["displayName"]);
     instance.setString("email", data["mail"]);
@@ -69,6 +88,7 @@ class LoginStore {
     SharedPreferences user = await SharedPreferences.getInstance();
     user.clear();
     userData.clear();
+    await LocalStorage.instance.deleteRecordsLogOut();
     navigationPopCallBack();
   }
 }
