@@ -58,16 +58,37 @@ class _ContactPageState extends State<ContactPage> {
                   child: ContactSearchBar(),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0,0,10),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                   child: Row(
                     children: [
-                      Expanded(flex: 16, child: Container(),),
-                      ContactPageButton(label: 'Emergency', store: context.read<ContactStore>(),),
-                      Expanded(flex: 5, child: Container(),),
-                      ContactPageButton(label: "Transport", store: context.read<ContactStore>(),),
-                      Expanded(flex: 5, child: Container(),),
-                      ContactPageButton(label: 'Gymkhana', store: context.read<ContactStore>(),),
-                      Expanded(flex: 16, child: Container(),),
+                      Expanded(
+                        flex: 16,
+                        child: Container(),
+                      ),
+                      ContactPageButton(
+                        label: 'Emergency',
+                        store: context.read<ContactStore>(),
+                      ),
+                      Expanded(
+                        flex: 5,
+                        child: Container(),
+                      ),
+                      ContactPageButton(
+                        label: "Transport",
+                        store: context.read<ContactStore>(),
+                      ),
+                      Expanded(
+                        flex: 5,
+                        child: Container(),
+                      ),
+                      ContactPageButton(
+                        label: 'Gymkhana',
+                        store: context.read<ContactStore>(),
+                      ),
+                      Expanded(
+                        flex: 16,
+                        child: Container(),
+                      ),
                     ],
                   ),
                 ),

@@ -165,29 +165,37 @@ class _BuySellHomeState extends State<BuySellHome> {
                 )
               else
                 Expanded(
-                    child: FutureBuilder(
-                        future: APIService.getMyItems(context.read<LoginStore>().userData['email']??""),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            List<BuyModel> models = snapshot.data! as List<BuyModel>;
-                            List<MyAdsTile> tiles = models.map((e) => MyAdsTile(model: e)).toList();
-                            if (context.read<LoginStore>().isGuestUser) {
-                              return const PaginationText(text: "Log in with your IITG account to post ads");
-                            }
-                            if (tiles.isEmpty) {
-                              return const PaginationText(text: "You haven't posted any ads");
-                            }
-                            return ListView.builder(itemBuilder: (context,index) => tiles[index], itemCount: tiles.length,);
+                  child: FutureBuilder(
+                      future: APIService.getMyItems(
+                          context.read<LoginStore>().userData['email'] ?? ""),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<BuyModel> models =
+                              snapshot.data! as List<BuyModel>;
+                          List<MyAdsTile> tiles =
+                              models.map((e) => MyAdsTile(model: e)).toList();
+                          if (context.read<LoginStore>().isGuestUser) {
+                            return const PaginationText(
+                                text:
+                                    "Log in with your IITG account to post ads");
                           }
-                          return ListShimmer(
-                            count: 5,
-                            height: 120,
+                          if (tiles.isEmpty) {
+                            return const PaginationText(
+                                text: "You haven't posted any ads");
+                          }
+                          return ListView.builder(
+                            itemBuilder: (context, index) => tiles[index],
+                            itemCount: tiles.length,
                           );
-                        }),
+                        }
+                        return ListShimmer(
+                          count: 5,
+                          height: 120,
+                        );
+                      }),
                 )
             ],
           ),
-
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
           floatingActionButton: AddItemButton(

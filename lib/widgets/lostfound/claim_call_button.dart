@@ -46,8 +46,10 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                                 return;
                               }
                               buttonPressed = true;
-                              var name = context.read<LoginStore>().userData['name'];
-                              var email = context.read<LoginStore>().userData['email'];
+                              var name =
+                                  context.read<LoginStore>().userData['name'];
+                              var email =
+                                  context.read<LoginStore>().userData['email'];
                               var body = await APIService.claimFoundItem(
                                   name: name!,
                                   email: email!,
@@ -66,7 +68,9 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                                     ModalRoute.withName(LostFoundHome.id));
                               } else {
                                 widget.model.claimed = true;
-                                widget.model.claimerEmail = context.read<LoginStore>().userData["email"]!;
+                                widget.model.claimerEmail = context
+                                    .read<LoginStore>()
+                                    .userData["email"]!;
                                 Navigator.popUntil(context,
                                     ModalRoute.withName(LostFoundHome.id));
                                 ScaffoldMessenger.of(widget.parentContext)

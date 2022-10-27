@@ -36,4 +36,3 @@ class ArrowButton extends StatelessWidget {
     return const SizedBox();
   }
 }
-

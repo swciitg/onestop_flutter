@@ -14,40 +14,40 @@ class ProgressBar extends StatelessWidget {
       bars.add(
         Expanded(
             child: Container(
-              height: 4,
-              color: lBlue2,
-              margin: const EdgeInsets.only(right: 2),
-            )),
+          height: 4,
+          color: lBlue2,
+          margin: const EdgeInsets.only(right: 2),
+        )),
       );
     }
     for (int i = 1; i < blue; i++) {
       bars.add(
         Expanded(
             child: Container(
-              height: 4,
-              color: lBlue2,
-              margin: const EdgeInsets.symmetric(horizontal: 2),
-            )),
+          height: 4,
+          color: lBlue2,
+          margin: const EdgeInsets.symmetric(horizontal: 2),
+        )),
       );
     }
     for (int i = 0; i < grey - 1; i++) {
       bars.add(
         Expanded(
             child: Container(
-              height: 4,
-              color: kGrey,
-              margin: const EdgeInsets.symmetric(horizontal: 2),
-            )),
+          height: 4,
+          color: kGrey,
+          margin: const EdgeInsets.symmetric(horizontal: 2),
+        )),
       );
     }
     if (grey != 0) {
       bars.add(
         Expanded(
             child: Container(
-              height: 4,
-              color: kGrey,
-              margin: const EdgeInsets.only(left: 2),
-            )),
+          height: 4,
+          color: kGrey,
+          margin: const EdgeInsets.only(left: 2),
+        )),
       );
     }
     return Row(

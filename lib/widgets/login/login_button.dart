@@ -57,10 +57,10 @@ class LoginButton extends StatelessWidget {
                       text: 'Guest',
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
-                        await context.read<LoginStore>().signInAsGuest();
-                        // TODO: Next version of Flutter will have context.mounted. Use that instead to escape the lint
-                        Navigator.of(context)
-                            .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                          await context.read<LoginStore>().signInAsGuest();
+                          // TODO: Next version of Flutter will have context.mounted. Use that instead to escape the lint
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/', (Route<dynamic> route) => false);
                         },
                       style: MyFonts.w500.factor(2).setColor(kGrey8).copyWith(
                           decoration: TextDecoration.underline,

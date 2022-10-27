@@ -4,18 +4,15 @@ class TimetableDay {
   List<CourseModel> morning = [];
   List<CourseModel> afternoon = [];
 
-  void addMorning(CourseModel c)
-  {
-    if(c.timing == '08:00 - 08:55 AM')
-      {
-        morning.insert(0, c);
-      }
-    else
-      {
-        morning.add(c);
-      }
+  void addMorning(CourseModel c) {
+    // Tutorials first
+    if (c.timing == '08:00 - 08:55 AM') {
+      morning.insert(0, c);
+    } else {
+      morning.add(c);
+    }
   }
-  //void addFirstMorning(CourseModel c) => morning.insert(0,c);
+
   void addAfternoon(CourseModel c) => afternoon.add(c);
 
   @override
