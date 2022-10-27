@@ -27,5 +27,5 @@ jobs:
         with:
           artifacts: "build/app/outputs/flutter-apk/app-debug.apk"
           tag: v${{ env.BUILD_VERSION }}
-          token: ${{ env.TOKEN }}
+          token: ${{ secrets.TOKEN }}
 
