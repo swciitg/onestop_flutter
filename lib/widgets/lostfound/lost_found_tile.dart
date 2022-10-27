@@ -62,7 +62,7 @@ class _LostFoundTileState extends State<LostFoundTile> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
-                        "${(widget.currentModel.runtimeType == FoundModel)?"Found":"Lost"} at: ${widget.currentModel.location}",
+                        "${(widget.currentModel.runtimeType == FoundModel) ? "Found" : "Lost"} at: ${widget.currentModel.location}",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: MyFonts.w300.size(14).setColor(kWhite),

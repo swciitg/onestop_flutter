@@ -6,9 +6,7 @@ import 'package:onestop_dev/models/news/news_model.dart';
 class NewsTile extends StatefulWidget {
   final NewsModel news;
 
-  const NewsTile(
-      {Key? key, required this.news})
-      : super(key: key);
+  const NewsTile({Key? key, required this.news}) : super(key: key);
 
   @override
   State<NewsTile> createState() => _NewsTileState();

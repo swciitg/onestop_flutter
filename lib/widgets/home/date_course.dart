@@ -26,9 +26,9 @@ class _DateCourseState extends State<DateCourse> {
     super.initState();
     // Lifecycle Handler to ensure that timetable gets updated when
     // app is brought to foreground from background
-    lifeCycleHandler = LifecycleEventHandler(resumeCallBack: () => setState((){}));
+    lifeCycleHandler =
+        LifecycleEventHandler(resumeCallBack: () => setState(() {}));
     WidgetsBinding.instance.addObserver(lifeCycleHandler);
-
   }
 
   @override
@@ -83,8 +83,6 @@ class _DateCourseState extends State<DateCourse> {
     WidgetsBinding.instance.removeObserver(lifeCycleHandler);
   }
 }
-
-
 
 class LifecycleEventHandler extends WidgetsBindingObserver {
   final Function resumeCallBack;

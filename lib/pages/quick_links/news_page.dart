@@ -36,8 +36,8 @@ class _BlogState extends State<NewsPage> {
         ),
         body: FutureBuilder(
           future: DataProvider.getNews(),
-          builder: (BuildContext context,
-              AsyncSnapshot<List<NewsModel>> snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<List<NewsModel>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return ListShimmer(
                 height: 100,
@@ -46,17 +46,15 @@ class _BlogState extends State<NewsPage> {
             }
             if (snapshot.data == null) {
               return Center(
-                child: Text(
-                  'No data found',
-                    style: MyFonts.w500
-                        .setColor(kWhite)
-                        .size(14)
-                ),
+                child: Text('No data found',
+                    style: MyFonts.w500.setColor(kWhite).size(14)),
               );
             }
             return ListView.builder(
                 itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) => NewsTile(news: snapshot.data![index],));
+                itemBuilder: (context, index) => NewsTile(
+                      news: snapshot.data![index],
+                    ));
           },
         ));
   }

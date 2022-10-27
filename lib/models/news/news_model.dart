@@ -8,13 +8,12 @@ class NewsModel {
   final String body;
   final String author;
 
-
-  NewsModel(
-      {Key? key,
-        required this.title,
-        required this.body,
-        required this.author,
-     });
+  NewsModel({
+    Key? key,
+    required this.title,
+    required this.body,
+    required this.author,
+  });
   factory NewsModel.fromJson(Map<String, dynamic> json) =>
       _$NewsModelFromJson(json);
 

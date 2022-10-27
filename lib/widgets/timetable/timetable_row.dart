@@ -20,18 +20,18 @@ class TimetableRow extends StatelessWidget {
         child: Column(
           children: classes
               .map((e) => Row(
-            children: [
-              const Expanded(
-                flex: 10,
-                child: SizedBox(),
-              ),
-              Expanded(flex: 36, child: e),
-              const SizedBox(
-                width: 8,
-              ),
-              const Expanded(flex: 7, child: SizedBox()),
-            ],
-          ))
+                    children: [
+                      const Expanded(
+                        flex: 10,
+                        child: SizedBox(),
+                      ),
+                      Expanded(flex: 36, child: e),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      const Expanded(flex: 7, child: SizedBox()),
+                    ],
+                  ))
               .toList(),
         ),
       );

@@ -328,6 +328,127 @@ abstract class _TimetableStore with Store {
               break;
           }
         }
+        if (slot == 'c') {
+          switch (i) {
+            case 0:
+              copyCourse.timing = '08:00 - 08:55 AM';
+              timetableCourses[i].addMorning(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'e') {
+          switch (i) {
+            case 1:
+              copyCourse.timing = '08:00 - 08:55 AM';
+              timetableCourses[i].addMorning(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'b') {
+          switch (i) {
+            case 2:
+              copyCourse.timing = '08:00 - 08:55 AM';
+              timetableCourses[i].addMorning(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'd') {
+          switch (i) {
+            case 3:
+              copyCourse.timing = '08:00 - 08:55 AM';
+              timetableCourses[i].addMorning(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'a') {
+          switch (i) {
+            case 4:
+              copyCourse.timing = '08:00 - 08:55 AM';
+              timetableCourses[i].addMorning(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'ML1') {
+          switch (i) {
+            case 0:
+              copyCourse.timing = '09:00 - 11:55 AM';
+              timetableCourses[i].addMorning(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'ML2') {
+          switch (i) {
+            case 1:
+              copyCourse.timing = '09:00 - 11:55 AM';
+              timetableCourses[i].addMorning(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'ML3') {
+          switch (i) {
+            case 2:
+              copyCourse.timing = '09:00 - 11:55 AM';
+              timetableCourses[i].addMorning(copyCourse);
+              break;
+          }
+        }
+
+        if (slot == 'ML4') {
+          switch (i) {
+            case 3:
+              copyCourse.timing = '09:00 - 11:55 AM';
+              timetableCourses[i].addMorning(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'ML5') {
+          switch (i) {
+            case 4:
+              copyCourse.timing = '09:00 - 11:55 AM';
+              timetableCourses[i].addMorning(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'AL1') {
+          switch (i) {
+            case 0:
+              copyCourse.timing = '02:00 - 04:55 PM';
+              timetableCourses[i].addAfternoon(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'AL2') {
+          switch (i) {
+            case 1:
+              copyCourse.timing = '02:00 - 04:55 PM';
+              timetableCourses[i].addAfternoon(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'AL3') {
+          switch (i) {
+            case 2:
+              copyCourse.timing = '02:00 - 04:55 PM';
+              timetableCourses[i].addAfternoon(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'AL4') {
+          switch (i) {
+            case 3:
+              copyCourse.timing = '02:00 - 04:55 PM';
+              timetableCourses[i].addAfternoon(copyCourse);
+              break;
+          }
+        }
+        if (slot == 'AL5') {
+          switch (i) {
+            case 4:
+              copyCourse.timing = '02:00 - 04:55 PM';
+              timetableCourses[i].addAfternoon(copyCourse);
+              break;
+          }
+        }
       }
     }
     allTimetableCourses = timetableCourses;

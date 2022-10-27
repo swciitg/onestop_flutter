@@ -14,9 +14,9 @@ void openMap(double latitude, double longitude, BuildContext context,
   } catch (e) {
     rootScaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
         content: Text(
-          "Could not open map.",
-          style: MyFonts.w500,
-        )));
+      "Could not open map.",
+      style: MyFonts.w500,
+    )));
     //ScaffoldMessenger.of(context).showSnackBar();
   }
 }

@@ -23,10 +23,9 @@ class LostFoundHome extends StatefulWidget {
 
 class _LostFoundHomeState extends State<LostFoundHome> {
   final PagingController<int, LostModel> _lostController =
-      PagingController(firstPageKey: 1,invisibleItemsThreshold: 1);
+      PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
   final PagingController<int, FoundModel> _foundController =
       PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
-
 
   @override
   void initState() {
@@ -139,23 +138,23 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                       itemBuilder: (context, lostItem, index) =>
                           LostFoundTile(currentModel: lostItem),
                       firstPageErrorIndicatorBuilder: (context) =>
-                      const PaginationText(text: "An error occurred"),
+                          const PaginationText(text: "An error occurred"),
                       noItemsFoundIndicatorBuilder: (context) =>
-                      const PaginationText(text: "No items found"),
+                          const PaginationText(text: "No items found"),
                       newPageErrorIndicatorBuilder: (context) =>
-                      const PaginationText(text: "An error occurred"),
+                          const PaginationText(text: "An error occurred"),
                       newPageProgressIndicatorBuilder: (context) =>
-                      const Padding(
+                          const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(child: CircularProgressIndicator()),
                       ),
                       firstPageProgressIndicatorBuilder: (context) =>
                           ListShimmer(
-                            count: 5,
-                            height: 120,
-                          ),
+                        count: 5,
+                        height: 120,
+                      ),
                       noMoreItemsIndicatorBuilder: (context) =>
-                      const PaginationText(text: "You've reached the end"),
+                          const PaginationText(text: "You've reached the end"),
                     )),
               )
           ],

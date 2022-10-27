@@ -32,7 +32,7 @@ class LocalStorage {
   }
 
   Future<void> storeBusData(
-      Map<String,dynamic> busTime, String recordName) async {
+      Map<String, dynamic> busTime, String recordName) async {
     var store = StoreRef<String, Map<String, Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
     await store.record(recordName).put(localDB, busTime);
@@ -67,6 +67,7 @@ class LocalStorage {
     await store.record('MessMenu').delete(localDB);
     await store.record('FerryTimings').delete(localDB);
   }
+
   Future<void> deleteRecordsLogOut() async {
     var store = StoreRef<String, List<Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
