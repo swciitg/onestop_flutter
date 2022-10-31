@@ -1,0 +1,175 @@
+import 'package:flutter/material.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/services/api.dart';
+
+class FeedBack extends StatefulWidget {
+  const FeedBack({Key? key}) : super(key: key);
+
+  @override
+  State<FeedBack> createState() => _FeedBackState();
+}
+
+class _FeedBackState extends State<FeedBack> {
+  final formKey = GlobalKey<FormState>();
+  TextEditingController title = TextEditingController();
+  TextEditingController body = TextEditingController();
+  String selected = 'Issue Report';
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: kBackground,
+      child: Form(
+        key: formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+              child: Text(
+                'Type',
+                style: MyFonts.w500.setColor(kWhite).size(15),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selected = "Issue Report";
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(150),
+                          color: (selected == "Issue Report") ? lBlue2 : kGrey9,
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Issue Report',
+                          style: (selected == "Issue Report")
+                              ? MyFonts.w500
+                              .size(13)
+                              .setColor(kBlueGrey)
+                              : MyFonts.w500
+                              .size(13)
+                              .setColor(const Color.fromRGBO(91, 146, 227, 1)),
+                        ),
+                      )
+                    ,
+                  ),
+                ),
+                Container(width: 20,),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selected = "Feature Request";
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(150),
+                        color: (selected == "Feature Request") ? lBlue2 : kGrey9,
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Feature Request',
+                        style: (selected == "Feature Request")
+                            ? MyFonts.w500
+                            .size(13)
+                            .setColor(kBlueGrey)
+                            : MyFonts.w500
+                            .size(13)
+                            .setColor(const Color.fromRGBO(91, 146, 227, 1)),
+                      ),
+                    )
+                    ,
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Text(
+                'Title',
+                style: MyFonts.w500.setColor(kWhite).size(15),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: TextFormField(
+                style: MyFonts.w500.size(15).setColor(kWhite),
+                controller: title,
+                maxLength: 20,
+                maxLines: 1,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    fillColor: kAppBarGrey,
+                    filled: true,
+                    hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
+                    counterStyle: MyFonts.w500.size(12).setColor(kWhite),
+                    counterText:
+                        (title.text == "") ? "" : "${title.text.length}/20"),
+                validator: (value) {
+                  if (value == "" || value == null) {
+                    return "Field cannot be empty";
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Text(
+                'Body',
+                style: MyFonts.w500.setColor(kWhite),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: TextFormField(
+                style: MyFonts.w500.size(15).setColor(kWhite),
+                controller: body,
+                maxLength: 150,
+                maxLines: 4,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    fillColor: kAppBarGrey,
+                    filled: true,
+                    hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
+                    counterStyle: MyFonts.w500.size(12).setColor(kWhite),
+                    counterText:
+                        (title.text == "") ? "" : "${title.text.length}/150"),
+                validator: (value) {
+                  if (value == "" || value == null) {
+                    return "Field cannot be empty";
+                  }
+                  return null;
+                },
+              ),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  bool isValid = formKey.currentState!.validate();
+                  if (!isValid) {
+                    return;
+                  }
+                  Map<String,String> data = {'title': title.text, 'body':body.text,'type':selected};
+                  APIService.postFeedbackData(data);
+                },
+                child: const Text('Submit'))
+          ],
+        ),
+      ),
+    );
+  }
+}

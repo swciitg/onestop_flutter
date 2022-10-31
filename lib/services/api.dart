@@ -42,7 +42,22 @@ class APIService {
   static const String _newsURL = "https://swc.iitg.ac.in/onestopapi/v2/news";
 
   static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');
+  static const _feedback = '';
 
+  static Future<Map<String, dynamic>> postFeedbackData(
+      Map<String, String> data) async {
+    var res = await http.post(Uri.parse(_feedback),
+        body: jsonEncode({
+          'title': data['title'],
+          'body': data['body'],
+          'type': data['type'],
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'security-key': apiSecurityKey
+        });
+    return jsonDecode(res.body);
+  }
   static Future<List<Map<String, dynamic>>> getRestaurantData() async {
     http.Response response = await http.get(Uri.parse(_restaurantURL));
     var status = response.statusCode;

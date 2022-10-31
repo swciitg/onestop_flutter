@@ -7,6 +7,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/widgets/profile/feedback.dart';
 import 'package:onestop_dev/widgets/profile/hostel_selector.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               //mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
                   height: 16,
@@ -104,6 +106,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: MyFonts.w500.setColor(kBlue),
                       )),
                 ),
+                TextButton(onPressed: (){
+                  showModalBottomSheet(context: context, builder: (BuildContext context){
+                    return FeedBack();
+                  });
+                }, child: Text('Want to report a bug or request a new feature?'))
+
               ],
             ),
           ),
