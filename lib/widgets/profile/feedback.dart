@@ -20,6 +20,15 @@ class _FeedBackState extends State<FeedBack> {
   TextEditingController body = TextEditingController();
   String selected = 'Issue Report';
   bool enableSubmitButton = true;
+  Widget counterBuilder(context,
+      {required currentLength, required isFocused, required maxLength}) {
+    if (currentLength == 0) {
+      return Container();
+    }
+    return Text("$currentLength/$maxLength",
+        style: MyFonts.w500.size(12).setColor(kWhite));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -119,22 +128,16 @@ class _FeedBackState extends State<FeedBack> {
                       child: TextFormField(
                         style: MyFonts.w500.size(15).setColor(kWhite),
                         controller: title,
-                        maxLength: 20,
+                        maxLength: 25,
                         maxLines: 1,
-                        onChanged: (value) {
-                          setState(() {});
-                        },
+                        buildCounter: counterBuilder,
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                            fillColor: kAppBarGrey,
-                            filled: true,
-                            hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
-                            counterStyle:
-                                MyFonts.w500.size(12).setColor(kWhite),
-                            counterText: (title.text == "")
-                                ? ""
-                                : "${title.text.length}/20"),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          fillColor: kAppBarGrey,
+                          filled: true,
+                          hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
+                        ),
                         validator: (value) {
                           if (value == "" || value == null) {
                             return "Field cannot be empty";
@@ -157,20 +160,17 @@ class _FeedBackState extends State<FeedBack> {
                         controller: body,
                         maxLength: 150,
                         maxLines: 4,
+                        buildCounter: counterBuilder,
                         onChanged: (value) {
                           setState(() {});
                         },
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                            fillColor: kAppBarGrey,
-                            filled: true,
-                            hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
-                            counterStyle:
-                                MyFonts.w500.size(12).setColor(kWhite),
-                            counterText: (body.text == "")
-                                ? ""
-                                : "${body.text.length}/150"),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          fillColor: kAppBarGrey,
+                          filled: true,
+                          hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
+                        ),
                         validator: (value) {
                           if (value == "" || value == null) {
                             return "Field cannot be empty";
