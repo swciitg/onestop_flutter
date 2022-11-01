@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
+import 'package:provider/provider.dart';
 
 class FeedBack extends StatefulWidget {
   const FeedBack({Key? key}) : super(key: key);
@@ -176,7 +178,7 @@ class _FeedBackState extends State<FeedBack> {
                       child: const NextButton(
                         title: 'Submit',
                       ),
-                      onTap: () {
+                      onTap: () async {
                         bool isValid = formKey.currentState!.validate();
                         if (!isValid) {
                           return;
@@ -184,9 +186,10 @@ class _FeedBackState extends State<FeedBack> {
                         Map<String, String> data = {
                           'title': title.text,
                           'body': body.text,
-                          'type': selected
+                          'type': selected,
+                          'user': context.read<LoginStore>().userData['email']??"Unknown"
                         };
-                        APIService.postFeedbackData(data);
+                        await APIService.postFeedbackData(data);
                       },
                     ),
                   ],
