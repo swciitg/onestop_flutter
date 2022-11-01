@@ -20,10 +20,10 @@ class _FeedBackState extends State<FeedBack> {
   TextEditingController body = TextEditingController();
   String selected = 'Issue Report';
   bool enableSubmitButton = true;
-  Widget counterBuilder(context,
+  Widget? counterBuilder(context,
       {required currentLength, required isFocused, required maxLength}) {
     if (currentLength == 0) {
-      return Container();
+      return null;
     }
     return Text("$currentLength/$maxLength",
         style: MyFonts.w500.size(12).setColor(kWhite));
@@ -132,6 +132,7 @@ class _FeedBackState extends State<FeedBack> {
                         maxLines: 1,
                         buildCounter: counterBuilder,
                         decoration: InputDecoration(
+                          errorStyle: MyFonts.w400.size(12).setColor(kRed),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8)),
                           fillColor: kAppBarGrey,
@@ -161,10 +162,8 @@ class _FeedBackState extends State<FeedBack> {
                         maxLength: 150,
                         maxLines: 4,
                         buildCounter: counterBuilder,
-                        onChanged: (value) {
-                          setState(() {});
-                        },
                         decoration: InputDecoration(
+                          errorStyle: MyFonts.w400.size(12).setColor(kRed),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8)),
                           fillColor: kAppBarGrey,
