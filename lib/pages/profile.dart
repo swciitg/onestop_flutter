@@ -105,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: MyFonts.w500.setColor(kBlue),
                     )),
               ),
-              Expanded(child: Container(),),
+              Expanded(flex:10,child: Container(),),
               TextButton(
                   onPressed: () {
                     showModalBottomSheet(
@@ -125,9 +125,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     'Want to report a bug or request a new feature?',
                     style: MyFonts.w500.size(13),
                   )),
-              SizedBox(
-                height: 15,
-              ),
+              Expanded(child: Container())
+              // SizedBox(
+              //   height: 15,
+              // ),
             ],
           ),
         ),
