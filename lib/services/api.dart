@@ -44,7 +44,7 @@ class APIService {
       String.fromEnvironment('GITHUB_ISSUE_TOKEN');
   static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');
   static const _feedback =
-      'https://api.github.com/repos/vrrao01/onestop_actions/issues';
+      'https://api.github.com/repos/vrrao01/onestop_dev/issues';
 
   static Future<bool> postFeedbackData(Map<String, String> data) async {
     String tag = data['type'] == 'Issue Report' ? 'bug' : 'enhancement';
@@ -60,6 +60,7 @@ class APIService {
           'Accept': 'application/vnd.github+json',
           'Authorization': 'Bearer $githubIssueToken'
         });
+    print('github response = ${jsonDecode(res.body)}');
     if (res.statusCode == 201) {
       return true;
     }
