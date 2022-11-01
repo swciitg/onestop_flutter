@@ -47,7 +47,7 @@ class APIService {
   static Future<bool> postFeedbackData(
       Map<String, String> data) async {
     String tag = data['type'] == 'Issue Report' ? 'bug' : 'enhancement';
-    String newBody = "${data['body']}\nPosted By : ${data['user']}";
+    String newBody = "### Description :\n${data['body']}\n### Posted By :\n${data['user']}";
     var res = await http.post(Uri.parse(_feedback),
         body: jsonEncode({
           'title': data['title'],
@@ -58,7 +58,6 @@ class APIService {
           'Accept': 'application/vnd.github+json',
           'Authorization': 'Bearer $githubIssueToken'
         });
-    print('github token = $githubIssueToken');
     if (res.statusCode == 201) {
       return true;
     }

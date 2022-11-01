@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
@@ -18,6 +19,7 @@ class _FeedBackState extends State<FeedBack> {
   TextEditingController title = TextEditingController();
   TextEditingController body = TextEditingController();
   String selected = 'Issue Report';
+  bool enableSubmitButton = true;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -119,9 +121,8 @@ class _FeedBackState extends State<FeedBack> {
                         controller: title,
                         maxLength: 20,
                         maxLines: 1,
-                        onChanged: (value){
-                          setState(() {
-                          });
+                        onChanged: (value) {
+                          setState(() {});
                         },
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -156,9 +157,8 @@ class _FeedBackState extends State<FeedBack> {
                         controller: body,
                         maxLength: 150,
                         maxLines: 4,
-                        onChanged: (value){
-                          setState(() {
-                          });
+                        onChanged: (value) {
+                          setState(() {});
                         },
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -183,22 +183,46 @@ class _FeedBackState extends State<FeedBack> {
                       height: 10,
                     ),
                     GestureDetector(
+                      onTap: !enableSubmitButton
+                          ? null
+                          : () async {
+                              bool isValid = formKey.currentState!.validate();
+                              if (!isValid) {
+                                return;
+                              }
+                              Map<String, String> data = {
+                                'title': title.text,
+                                'body': body.text,
+                                'type': selected,
+                                'user': context
+                                        .read<LoginStore>()
+                                        .userData['email'] ??
+                                    "Unknown"
+                              };
+                              setState(() => enableSubmitButton = false);
+                              bool success =
+                                  await APIService.postFeedbackData(data);
+                              String snackBar =
+                                  "There was an error while sending your feedback.\nPlease try again later or reach out to any member using the Contacts section.";
+                              if (success) {
+                                snackBar =
+                                    "Your feedback was successfully shared to SWC.\nKeep an eye for updates as developers will start working on this shortly.";
+                              }
+                              if (mounted) {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              }
+                              rootScaffoldMessengerKey.currentState
+                                  ?.showSnackBar(SnackBar(
+                                      duration: const Duration(seconds: 8),
+                                      content: Text(
+                                        snackBar,
+                                        style: MyFonts.w500,
+                                      )));
+                            },
                       child: const NextButton(
                         title: 'Submit',
                       ),
-                      onTap: () async {
-                        bool isValid = formKey.currentState!.validate();
-                        if (!isValid) {
-                          return;
-                        }
-                        Map<String, String> data = {
-                          'title': title.text,
-                          'body': body.text,
-                          'type': selected,
-                          'user': context.read<LoginStore>().userData['email']??"Unknown"
-                        };
-                        await APIService.postFeedbackData(data);
-                      },
                     ),
                   ],
                 ),

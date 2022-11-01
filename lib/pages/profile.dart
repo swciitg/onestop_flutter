@@ -106,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     )),
               ),
               Expanded(
-                flex: 10,
+                flex: 20,
                 child: Container(),
               ),
               if (!context.read<LoginStore>().isGuestUser)
