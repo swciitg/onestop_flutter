@@ -24,7 +24,7 @@ class _FeedBackState extends State<FeedBack> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: AnimatedPadding(
-          duration: Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 200),
           padding: MediaQuery.of(context).viewInsets,
           child: Container(
             color: kBackground,
@@ -119,6 +119,10 @@ class _FeedBackState extends State<FeedBack> {
                         controller: title,
                         maxLength: 20,
                         maxLines: 1,
+                        onChanged: (value){
+                          setState(() {
+                          });
+                        },
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8)),
@@ -152,6 +156,10 @@ class _FeedBackState extends State<FeedBack> {
                         controller: body,
                         maxLength: 150,
                         maxLines: 4,
+                        onChanged: (value){
+                          setState(() {
+                          });
+                        },
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8)),
@@ -160,9 +168,9 @@ class _FeedBackState extends State<FeedBack> {
                             hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
                             counterStyle:
                                 MyFonts.w500.size(12).setColor(kWhite),
-                            counterText: (title.text == "")
+                            counterText: (body.text == "")
                                 ? ""
-                                : "${title.text.length}/150"),
+                                : "${body.text.length}/150"),
                         validator: (value) {
                           if (value == "" || value == null) {
                             return "Field cannot be empty";
