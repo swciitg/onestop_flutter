@@ -43,8 +43,8 @@ class _IpPageState extends State<IpPage> {
 
     if (hostel == null) {
       subnet = "255.255.255.255";
-      ipAdress = " macfe";
-      gateway = "evadiki telsu";
+      ipAdress = "No Data";
+      gateway = "No Data";
     } else {
       gateway = hostel["Default Gateway"];
       subnet = hostel["Subnet mask"];
