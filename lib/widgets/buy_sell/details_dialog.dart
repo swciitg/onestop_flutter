@@ -21,7 +21,7 @@ void detailsDialogBox(context, dynamic model, [parentContext]) {
           priceOrLocation = Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
             child: Text(
-              "Price: ${model.price}",
+              "Price:\u{20B9}${model.price}/-",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: MyFonts.w500.size(14).setColor(kGrey6),
