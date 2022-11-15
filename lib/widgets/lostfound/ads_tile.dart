@@ -4,25 +4,23 @@ import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
+import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
 
-
-
-class MyPostsTile extends StatefulWidget {
+class MyAdsTile extends StatefulWidget {
   final model;
-
-  const MyPostsTile({Key? key, this.model}) : super(key: key);
+  const MyAdsTile({Key? key, this.model}) : super(key: key);
 
   @override
-  State<MyPostsTile> createState() => _MyPostsTileState();
+  State<MyAdsTile> createState() => _MyAdsTileState();
 }
 
-class _MyPostsTileState extends State<MyPostsTile> {
+class _MyAdsTileState extends State<MyAdsTile> {
   bool isOverlay = false;
-
   @override
   Widget build(BuildContext context) {
+    bool isLnf = (widget.model is FoundModel) || (widget.model is LostModel);
     return Stack(
       children: [
         GestureDetector(
@@ -31,7 +29,7 @@ class _MyPostsTileState extends State<MyPostsTile> {
           },
           child: Padding(
             padding:
-            const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+                const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
             child: Container(
               height: 115,
               decoration: BoxDecoration(
@@ -76,7 +74,7 @@ class _MyPostsTileState extends State<MyPostsTile> {
                                     widget.model.title,
                                     overflow: TextOverflow.ellipsis,
                                     style:
-                                    MyFonts.w600.size(16).setColor(kWhite),
+                                        MyFonts.w600.size(16).setColor(kWhite),
                                   ),
                                 ),
                               ],
@@ -88,19 +86,27 @@ class _MyPostsTileState extends State<MyPostsTile> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    ((widget.model is FoundModel) ? "Found at: ":"Lost at: ")+widget.model.location,
+                                    isLnf
+                                        ? (((widget.model is FoundModel)
+                                                ? "Found at: "
+                                                : "Lost at: ") +
+                                            widget.model.location)
+                                        : widget.model.description,
                                     overflow: TextOverflow.ellipsis,
                                     style:
-                                    MyFonts.w500.size(12).setColor(kGrey6),
+                                        MyFonts.w500.size(12).setColor(kGrey6),
                                   ),
                                 ),
-                                // Expanded(
-                                //   child: Text(
-                                //     '\u{20B9}${widget.model.price}/-',
-                                //     style:
-                                //     MyFonts.w600.size(14).setColor(lBlue4),
-                                //   ),
-                                // ),
+                                isLnf
+                                    ? Container()
+                                    : Expanded(
+                                        child: Text(
+                                          '\u{20B9}${widget.model.price}/-',
+                                          style: MyFonts.w600
+                                              .size(14)
+                                              .setColor(lBlue4),
+                                        ),
+                                      ),
                               ],
                             ),
                           ),
@@ -135,7 +141,7 @@ class _MyPostsTileState extends State<MyPostsTile> {
             },
             child: Padding(
               padding:
-              const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+                  const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
               child: Container(
                 height: 115,
                 decoration: BoxDecoration(
@@ -161,15 +167,21 @@ class _MyPostsTileState extends State<MyPostsTile> {
                   style: MyFonts.w400.size(14).setColor(kBlack),
                 ),
                 onPressed: () async {
-                  await APIService.deleteLnfMyAd(
-                      widget.model.id, widget.model.email);
+                  if (isLnf) {
+                    await APIService.deleteLnfMyAd(
+                        widget.model.id, widget.model.email);
+                  } else {
+                    await APIService.deleteBnsMyAd(
+                        widget.model.id, widget.model.email);
+                  }
+
                   if (!mounted) return;
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(
-                        "Deleted your post successfully",
-                        style: MyFonts.w500,
-                      )));
+                    "Deleted your post successfully",
+                    style: MyFonts.w500,
+                  )));
                 },
               ),
             ),

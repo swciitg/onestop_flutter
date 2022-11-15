@@ -173,8 +173,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                       if (snapshot.hasData) {
                         List<dynamic> models =
                         snapshot.data! as List<dynamic>;
-                        List<MyPostsTile> tiles =
-                        models.map((e) => MyPostsTile(model: e)).toList();
+                        List<MyAdsTile> tiles =
+                        models.map((e) => MyAdsTile(model: e)).toList();
                         if (context.read<LoginStore>().isGuestUser) {
                           return const PaginationText(
                               text:
