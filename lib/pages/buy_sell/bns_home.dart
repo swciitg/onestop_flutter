@@ -166,7 +166,7 @@ class _BuySellHomeState extends State<BuySellHome> {
               else
                 Expanded(
                   child: FutureBuilder(
-                      future: APIService.getMyItems(
+                      future: APIService.getBnsMyItems(
                           context.read<LoginStore>().userData['email'] ?? ""),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {

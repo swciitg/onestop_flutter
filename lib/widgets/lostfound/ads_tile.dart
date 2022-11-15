@@ -3,23 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/buy_sell/buy_model.dart';
+import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/services/api.dart';
-import 'details_dialog.dart';
+import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
 
-class MyAdsTile extends StatefulWidget {
-  final BuyModel model;
 
-  const MyAdsTile({
-    Key? key,
-    required this.model,
-  }) : super(key: key);
+
+class MyPostsTile extends StatefulWidget {
+  final model;
+
+  const MyPostsTile({Key? key, this.model}) : super(key: key);
 
   @override
-  State<MyAdsTile> createState() => _MyAdsTile();
+  State<MyPostsTile> createState() => _MyPostsTileState();
 }
 
-class _MyAdsTile extends State<MyAdsTile> {
+class _MyPostsTileState extends State<MyPostsTile> {
   bool isOverlay = false;
 
   @override
@@ -32,7 +31,7 @@ class _MyAdsTile extends State<MyAdsTile> {
           },
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+            const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
             child: Container(
               height: 115,
               decoration: BoxDecoration(
@@ -77,7 +76,7 @@ class _MyAdsTile extends State<MyAdsTile> {
                                     widget.model.title,
                                     overflow: TextOverflow.ellipsis,
                                     style:
-                                        MyFonts.w600.size(16).setColor(kWhite),
+                                    MyFonts.w600.size(16).setColor(kWhite),
                                   ),
                                 ),
                               ],
@@ -89,19 +88,19 @@ class _MyAdsTile extends State<MyAdsTile> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    widget.model.description,
+                                    ((widget.model is FoundModel) ? "Found at: ":"Lost at: ")+widget.model.location,
                                     overflow: TextOverflow.ellipsis,
                                     style:
-                                        MyFonts.w500.size(12).setColor(kGrey6),
+                                    MyFonts.w500.size(12).setColor(kGrey6),
                                   ),
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    '\u{20B9}${widget.model.price}/-',
-                                    style:
-                                        MyFonts.w600.size(14).setColor(lBlue4),
-                                  ),
-                                ),
+                                // Expanded(
+                                //   child: Text(
+                                //     '\u{20B9}${widget.model.price}/-',
+                                //     style:
+                                //     MyFonts.w600.size(14).setColor(lBlue4),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -136,7 +135,7 @@ class _MyAdsTile extends State<MyAdsTile> {
             },
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+              const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
               child: Container(
                 height: 115,
                 decoration: BoxDecoration(
@@ -162,15 +161,15 @@ class _MyAdsTile extends State<MyAdsTile> {
                   style: MyFonts.w400.size(14).setColor(kBlack),
                 ),
                 onPressed: () async {
-                  await APIService.deleteBnsMyAd(
+                  await APIService.deleteLnfMyAd(
                       widget.model.id, widget.model.email);
                   if (!mounted) return;
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(
-                    "Deleted your ad successfully",
-                    style: MyFonts.w500,
-                  )));
+                        "Deleted your post successfully",
+                        style: MyFonts.w500,
+                      )));
                 },
               ),
             ),

@@ -14,6 +14,8 @@ class LostModel {
   final String phonenumber;
   final String email;
   final DateTime date;
+  @JsonKey(name: '_id')
+  final String id;
 
   const LostModel(
       {Key? key,
@@ -24,6 +26,7 @@ class LostModel {
       required this.email,
       required this.compressedImageURL,
       required this.date,
+      required this.id,
       required this.phonenumber});
 
   factory LostModel.fromJson(Map<String, dynamic> json) =>
