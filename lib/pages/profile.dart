@@ -105,26 +105,30 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: MyFonts.w500.setColor(kBlue),
                     )),
               ),
-              Expanded(flex:10,child: Container(),),
-              TextButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                        context: context,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(20),
+              Expanded(
+                flex: 20,
+                child: Container(),
+              ),
+              if (!context.read<LoginStore>().isGuestUser)
+                TextButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(20),
+                            ),
                           ),
-                        ),
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        isScrollControlled: true,
-                        builder: (BuildContext context) {
-                          return const FeedBack();
-                        });
-                  },
-                  child: Text(
-                    'Want to report a bug or request a new feature?',
-                    style: MyFonts.w500.size(13),
-                  )),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          isScrollControlled: true,
+                          builder: (BuildContext context) {
+                            return const FeedBack();
+                          });
+                    },
+                    child: Text(
+                      'Want to report a bug or request a new feature?',
+                      style: MyFonts.w500.size(13),
+                    )),
               Expanded(child: Container())
               // SizedBox(
               //   height: 15,

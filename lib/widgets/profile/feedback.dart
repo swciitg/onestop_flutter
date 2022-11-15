@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
+import 'package:provider/provider.dart';
 
 class FeedBack extends StatefulWidget {
   const FeedBack({Key? key}) : super(key: key);
@@ -16,6 +19,16 @@ class _FeedBackState extends State<FeedBack> {
   TextEditingController title = TextEditingController();
   TextEditingController body = TextEditingController();
   String selected = 'Issue Report';
+  bool enableSubmitButton = true;
+  Widget? counterBuilder(context,
+      {required currentLength, required isFocused, required maxLength}) {
+    if (currentLength == 0) {
+      return null;
+    }
+    return Text("$currentLength/$maxLength",
+        style: MyFonts.w500.size(12).setColor(kWhite));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -115,23 +128,17 @@ class _FeedBackState extends State<FeedBack> {
                       child: TextFormField(
                         style: MyFonts.w500.size(15).setColor(kWhite),
                         controller: title,
-                        maxLength: 20,
+                        maxLength: 25,
                         maxLines: 1,
-                        onChanged: (value){
-                          setState(() {
-                          });
-                        },
+                        buildCounter: counterBuilder,
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                            fillColor: kAppBarGrey,
-                            filled: true,
-                            hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
-                            counterStyle:
-                                MyFonts.w500.size(12).setColor(kWhite),
-                            counterText: (title.text == "")
-                                ? ""
-                                : "${title.text.length}/20"),
+                          errorStyle: MyFonts.w400.size(12).setColor(kRed),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          fillColor: kAppBarGrey,
+                          filled: true,
+                          hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
+                        ),
                         validator: (value) {
                           if (value == "" || value == null) {
                             return "Field cannot be empty";
@@ -154,21 +161,15 @@ class _FeedBackState extends State<FeedBack> {
                         controller: body,
                         maxLength: 150,
                         maxLines: 4,
-                        onChanged: (value){
-                          setState(() {
-                          });
-                        },
+                        buildCounter: counterBuilder,
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                            fillColor: kAppBarGrey,
-                            filled: true,
-                            hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
-                            counterStyle:
-                                MyFonts.w500.size(12).setColor(kWhite),
-                            counterText: (body.text == "")
-                                ? ""
-                                : "${body.text.length}/150"),
+                          errorStyle: MyFonts.w400.size(12).setColor(kRed),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          fillColor: kAppBarGrey,
+                          filled: true,
+                          hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
+                        ),
                         validator: (value) {
                           if (value == "" || value == null) {
                             return "Field cannot be empty";
@@ -181,21 +182,46 @@ class _FeedBackState extends State<FeedBack> {
                       height: 10,
                     ),
                     GestureDetector(
+                      onTap: !enableSubmitButton
+                          ? null
+                          : () async {
+                              bool isValid = formKey.currentState!.validate();
+                              if (!isValid) {
+                                return;
+                              }
+                              Map<String, String> data = {
+                                'title': title.text,
+                                'body': body.text,
+                                'type': selected,
+                                'user': context
+                                        .read<LoginStore>()
+                                        .userData['email'] ??
+                                    "Unknown"
+                              };
+                              setState(() => enableSubmitButton = false);
+                              bool success =
+                                  await APIService.postFeedbackData(data);
+                              String snackBar =
+                                  "There was an error while sending your feedback.\nPlease try again later or reach out to any member using the Contacts section.";
+                              if (success) {
+                                snackBar =
+                                    "Your feedback was successfully shared to SWC.\nKeep an eye for updates as developers will start working on this shortly.";
+                              }
+                              if (mounted) {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              }
+                              rootScaffoldMessengerKey.currentState
+                                  ?.showSnackBar(SnackBar(
+                                      duration: const Duration(seconds: 8),
+                                      content: Text(
+                                        snackBar,
+                                        style: MyFonts.w500,
+                                      )));
+                            },
                       child: const NextButton(
                         title: 'Submit',
                       ),
-                      onTap: () {
-                        bool isValid = formKey.currentState!.validate();
-                        if (!isValid) {
-                          return;
-                        }
-                        Map<String, String> data = {
-                          'title': title.text,
-                          'body': body.text,
-                          'type': selected
-                        };
-                        APIService.postFeedbackData(data);
-                      },
                     ),
                   ],
                 ),

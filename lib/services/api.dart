@@ -47,23 +47,31 @@ class APIService {
   static const String _claimItemURL =
       "https://swc.iitg.ac.in/onestopapi/v2/found/claim";
   static const String _newsURL = "https://swc.iitg.ac.in/onestopapi/v2/news";
-
+  static const String githubIssueToken =
+      String.fromEnvironment('GITHUB_ISSUE_TOKEN');
   static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');
-  static const _feedback = '';
+  static const _feedback =
+      'https://api.github.com/repos/vrrao01/onestop_dev/issues';
 
-  static Future<Map<String, dynamic>> postFeedbackData(
-      Map<String, String> data) async {
+  static Future<bool> postFeedbackData(Map<String, String> data) async {
+    String tag = data['type'] == 'Issue Report' ? 'bug' : 'enhancement';
+    String newBody =
+        "### Description :\n${data['body']}\n### Posted By :\n${data['user']}";
     var res = await http.post(Uri.parse(_feedback),
         body: jsonEncode({
           'title': data['title'],
-          'body': data['body'],
-          'type': data['type'],
+          'body': newBody,
+          'labels': [tag]
         }),
         headers: {
-          'Content-Type': 'application/json',
-          'security-key': apiSecurityKey
+          'Accept': 'application/vnd.github+json',
+          'Authorization': 'Bearer $githubIssueToken'
         });
-    return jsonDecode(res.body);
+    print('github response = ${jsonDecode(res.body)}');
+    if (res.statusCode == 201) {
+      return true;
+    }
+    return false;
   }
 
   static Future<List<Map<String, dynamic>>> getRestaurantData() async {
