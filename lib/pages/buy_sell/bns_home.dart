@@ -9,10 +9,10 @@ import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:onestop_dev/widgets/buy_sell/ads_tile.dart';
 import 'package:onestop_dev/widgets/buy_sell/buy_tile.dart';
 import 'package:onestop_dev/widgets/buy_sell/item_type_bar.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
+import 'package:onestop_dev/widgets/lostfound/ads_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
@@ -166,7 +166,7 @@ class _BuySellHomeState extends State<BuySellHome> {
               else
                 Expanded(
                   child: FutureBuilder(
-                      future: APIService.getMyItems(
+                      future: APIService.getBnsMyItems(
                           context.read<LoginStore>().userData['email'] ?? ""),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {

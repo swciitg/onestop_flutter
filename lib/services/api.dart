@@ -28,11 +28,18 @@ class APIService {
   static const String _sellURL = 'https://swc.iitg.ac.in/onestopapi/v2/sell';
   static const String _sellPath = '/onestopapi/v2/sellPage';
   static const String _buyPath = '/onestopapi/v2/buyPage';
-  static const String _myAdsURL = 'https://swc.iitg.ac.in/onestopapi/v2/myads';
+  static const String _bnsMyAdsURL =
+      'https://swc.iitg.ac.in/onestopapi/v2/bns/myads';
+  static const String _lnfMyAdsURL =
+      'https://swc.iitg.ac.in/onestopapi/v2/lnf/myads';
   static const String _deleteBuyURL =
       "https://swc.iitg.ac.in/onestopapi/v2/buy/remove";
   static const String _deleteSellURL =
       "https://swc.iitg.ac.in/onestopapi/v2/sell/remove";
+  static const String _deleteLostURL =
+      "https://swc.iitg.ac.in/onestopapi/v2/lost/remove";
+  static const String _deleteFoundURL =
+      "https://swc.iitg.ac.in/onestopapi/v2/found/remove";
   static const String _lostURL = 'https://swc.iitg.ac.in/onestopapi/v2/lost';
   static const String _lostPath = '/onestopapi/v2/lostPage';
   static const String _foundPath = '/onestopapi/v2/foundPage';
@@ -109,7 +116,7 @@ class APIService {
     return jsonDecode(res.body);
   }
 
-  static Future<void> deleteMyAd(String id, String email) async {
+  static Future<void> deleteBnsMyAd(String id, String email) async {
     await http.post(Uri.parse(_deleteBuyURL),
         headers: {
           'Content-Type': 'application/json',
@@ -117,6 +124,21 @@ class APIService {
         },
         body: jsonEncode({'id': id, 'email': email}));
     await http.post(Uri.parse(_deleteSellURL),
+        headers: {
+          'Content-Type': 'application/json',
+          'security-key': apiSecurityKey
+        },
+        body: jsonEncode({'id': id, 'email': email}));
+  }
+
+  static Future<void> deleteLnfMyAd(String id, String email) async {
+    await http.post(Uri.parse(_deleteLostURL),
+        headers: {
+          'Content-Type': 'application/json',
+          'security-key': apiSecurityKey
+        },
+        body: jsonEncode({'id': id, 'email': email}));
+    await http.post(Uri.parse(_deleteFoundURL),
         headers: {
           'Content-Type': 'application/json',
           'security-key': apiSecurityKey
@@ -136,8 +158,8 @@ class APIService {
     return foundItemsDetails["details"];
   }
 
-  static Future<List<BuyModel>> getMyItems(String mail) async {
-    var res = await http.post(Uri.parse(_myAdsURL),
+  static Future<List<BuyModel>> getBnsMyItems(String mail) async {
+    var res = await http.post(Uri.parse(_bnsMyAdsURL),
         headers: {
           'Content-Type': 'application/json',
           'security-key': apiSecurityKey
@@ -153,6 +175,25 @@ class APIService {
         .toList();
     await Future.delayed(const Duration(milliseconds: 300), () => null);
     return [...sellList, ...buyList];
+  }
+
+  static Future<List<dynamic>> getLnfMyItems(String mail) async {
+    var res = await http.post(Uri.parse(_lnfMyAdsURL),
+        headers: {
+          'Content-Type': 'application/json',
+          'security-key': apiSecurityKey
+        },
+        body: jsonEncode({'email': mail}));
+
+    var myItemsDetails = jsonDecode(res.body);
+    var foundList = (myItemsDetails["details"]["foundList"] as List)
+        .map((e) => FoundModel.fromJson(e))
+        .toList();
+    var lostList = (myItemsDetails["details"]["lostList"] as List)
+        .map((e) => LostModel.fromJson(e))
+        .toList();
+    await Future.delayed(const Duration(milliseconds: 300), () => null);
+    return [...foundList, ...lostList];
   }
 
   static Future<List> getLostItems() async {

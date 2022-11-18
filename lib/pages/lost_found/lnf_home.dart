@@ -7,6 +7,8 @@ import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/common_store.dart';
+import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/widgets/lostfound/ads_tile.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_button.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_tile.dart';
@@ -100,6 +102,11 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                     label: "Found Items",
                     category: "Found",
                   ),
+                  LostFoundButton(
+                    store: commonStore,
+                    label: "My Ads",
+                    category: "My Ads",
+                  ),
                 ],
               ),
             ),
@@ -130,7 +137,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                           const PaginationText(text: "You've reached the end"),
                     )),
               )
-            else
+            else if (commonStore.lnfIndex == "Found")
               Expanded(
                 child: PagedListView<int, FoundModel>(
                     pagingController: _foundController,
@@ -156,6 +163,37 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                       noMoreItemsIndicatorBuilder: (context) =>
                           const PaginationText(text: "You've reached the end"),
                     )),
+              )
+            else
+              Expanded(
+                child: FutureBuilder(
+                    future: APIService.getLnfMyItems(
+                        context.read<LoginStore>().userData['email'] ?? ""),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<dynamic> models =
+                        snapshot.data! as List<dynamic>;
+                        List<MyAdsTile> tiles =
+                        models.map((e) => MyAdsTile(model: e)).toList();
+                        if (context.read<LoginStore>().isGuestUser) {
+                          return const PaginationText(
+                              text:
+                              "Log in with your IITG account to post ads");
+                        }
+                        if (tiles.isEmpty) {
+                          return const PaginationText(
+                              text: "You haven't posted any ads");
+                        }
+                        return ListView.builder(
+                          itemBuilder: (context, index) => tiles[index],
+                          itemCount: tiles.length,
+                        );
+                      }
+                      return ListShimmer(
+                        count: 5,
+                        height: 120,
+                      );
+                    }),
               )
           ],
         ),
