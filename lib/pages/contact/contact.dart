@@ -149,7 +149,7 @@ class _ContactPageState extends State<ContactPage> {
                           }
                         });
                         for (var e in alphabets) {
-                          people["${e}ADONOTUSE"] = ContactModel(
+                          people["${e} ADONOTUSE"] = ContactModel(
                               name: "Random", contacts: [], group: "");
                         }
                         return AlphabetScrollView(
@@ -162,7 +162,7 @@ class _ContactPageState extends State<ContactPage> {
                               MyFonts.w500.size(11).setColor(kGrey7),
                           itemBuilder: (context, k, id) {
                             var contactStore = context.read<ContactStore>();
-                            if (id.contains("ADONOTUSE")) {
+                            if (id.contains(" ADONOTUSE")) {
                               return Row(
                                 children: [
                                   Expanded(
