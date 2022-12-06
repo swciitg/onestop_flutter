@@ -52,7 +52,9 @@ class _BusDetailsState extends State<BusDetails> {
                       style: MyFonts.w500.setColor(Colors.grey),
                     ),
                     trailing: Icon(
-                      isCity ? FluentIcons.chevron_up_24_regular : FluentIcons.chevron_down_24_regular,
+                      isCity
+                          ? FluentIcons.chevron_up_24_regular
+                          : FluentIcons.chevron_down_24_regular,
                       color: Colors.white,
                     ),
                   ),
@@ -106,7 +108,9 @@ class _BusDetailsState extends State<BusDetails> {
                       style: MyFonts.w500.setColor(Colors.grey),
                     ),
                     trailing: Icon(
-                      isCampus ? FluentIcons.chevron_up_24_regular : FluentIcons.chevron_down_24_regular,
+                      isCampus
+                          ? FluentIcons.chevron_up_24_regular
+                          : FluentIcons.chevron_down_24_regular,
                       color: Colors.white,
                     ),
                   ),

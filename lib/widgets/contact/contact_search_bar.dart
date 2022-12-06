@@ -72,7 +72,6 @@ class ContactSearchBar extends StatelessWidget {
 }
 
 class PeopleSearch extends SearchDelegate<String> {
-
   late final SplayTreeMap<String, ContactModel> peopleSearch;
   late final HashMap<String, dynamic> peopleMap;
   late final Fuzzy<String> peopleFuse;
@@ -100,7 +99,6 @@ class PeopleSearch extends SearchDelegate<String> {
       ),
     );
   }
-
 
   @override
   String get searchFieldLabel => 'Search keyword (name, position etc)';
@@ -192,7 +190,7 @@ class PeopleSearch extends SearchDelegate<String> {
               }
             },
             leading: const Icon(
-            FluentIcons.people_20_regular,
+              FluentIcons.people_20_regular,
               color: kWhite,
             ),
             // title: Text(suggestion),
