@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
@@ -67,7 +68,7 @@ class _StarButtonState extends State<StarButton> {
                 setState(() {});
               },
               icon: const Icon(
-                Icons.star,
+                FluentIcons.star_12_filled,
                 color: Colors.amber,
               ),
             );
@@ -95,7 +96,7 @@ class _StarButtonState extends State<StarButton> {
                 setState(() {});
               },
               icon: const Icon(
-                Icons.star_outline,
+                FluentIcons.star_12_regular,
                 color: kGrey,
               ),
             );

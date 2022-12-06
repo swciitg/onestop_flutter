@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -75,15 +76,17 @@ class _LostFoundHomeState extends State<LostFoundHome> {
           automaticallyImplyLeading: false,
           leadingWidth: 18,
           actions: [
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Image.asset(
-                "assets/images/dismiss_icon.png",
-                height: 18,
-              ),
-            )
+            // GestureDetector(
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //   },
+            //   child: ,
+            // )
+            IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(
+                  FluentIcons.dismiss_24_filled,
+                ))
           ],
         ),
         body: Column(

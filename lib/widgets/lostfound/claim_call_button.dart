@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
@@ -129,7 +130,7 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Icon(
-                          Icons.pan_tool,
+                          FluentIcons.hand_left_24_filled,
                           size: 11,
                           color: lBlue2,
                         ),
@@ -150,7 +151,7 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Icon(
-                      Icons.phone,
+                      FluentIcons.call_24_filled,
                       size: 11,
                       color: lBlue2,
                     ),

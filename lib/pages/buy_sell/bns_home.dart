@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -82,7 +83,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                   Navigator.of(context).pop();
                 },
                 icon: const Icon(
-                  IconData(0xe16a, fontFamily: 'MaterialIcons'),
+                  FluentIcons.dismiss_24_filled,
                 ),
               )
             ],

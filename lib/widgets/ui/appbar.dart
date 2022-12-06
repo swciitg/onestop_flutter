@@ -29,7 +29,10 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
             : CircleAvatar(
                 backgroundColor: kAppBarGrey,
                 child: IconButton(
-                  icon: const Icon(Icons.arrow_back_rounded, color: lBlue2),
+                  icon: const Icon(
+                    FluentIcons.arrow_left_24_regular,
+                    color: lBlue2,
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },

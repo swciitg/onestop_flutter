@@ -66,8 +66,11 @@ class FoodTile extends StatelessWidget {
                                   color: getIconColor(dish.veg),
                                   size: 14,
                                 ),
-                                Icon(Icons.circle,
-                                    color: getIconColor(dish.veg), size: 5),
+                                Icon(
+                                  Icons.circle,
+                                  color: getIconColor(dish.veg),
+                                  size: 5,
+                                ),
                               ],
                             ),
                           ),

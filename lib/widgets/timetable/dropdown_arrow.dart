@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -25,8 +26,8 @@ class ArrowButton extends StatelessWidget {
                 ),
                 child: Icon(
                   (!context.read<TimetableStore>().showDropDown)
-                      ? Icons.keyboard_arrow_down_sharp
-                      : Icons.keyboard_arrow_up_sharp,
+                      ? FluentIcons.chevron_down_24_filled
+                      : FluentIcons.chevron_up_24_filled,
                   color: Colors.green.shade800,
                 ),
               ),

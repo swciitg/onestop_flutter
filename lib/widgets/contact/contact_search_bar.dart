@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:fuzzy/fuzzy.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -49,7 +50,7 @@ class ContactSearchBar extends StatelessWidget {
                     ),
                     filled: true,
                     prefixIcon: const Icon(
-                      Icons.search,
+                      FluentIcons.search_12_regular,
                       color: kWhite,
                       size: 12,
                     ),
@@ -71,7 +72,6 @@ class ContactSearchBar extends StatelessWidget {
 }
 
 class PeopleSearch extends SearchDelegate<String> {
-
   late final SplayTreeMap<String, ContactModel> peopleSearch;
   late final HashMap<String, dynamic> peopleMap;
   late final Fuzzy<String> peopleFuse;
@@ -100,7 +100,6 @@ class PeopleSearch extends SearchDelegate<String> {
     );
   }
 
-
   @override
   String get searchFieldLabel => 'Search keyword (name, position etc)';
 
@@ -122,7 +121,7 @@ class PeopleSearch extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) => [
         IconButton(
           icon: const Icon(
-            Icons.clear,
+            FluentIcons.dismiss_24_filled,
             color: kWhite,
           ),
           onPressed: () {
@@ -139,7 +138,7 @@ class PeopleSearch extends SearchDelegate<String> {
   @override
   Widget buildLeading(BuildContext context) => IconButton(
         icon: const Icon(
-          Icons.arrow_back,
+          FluentIcons.arrow_left_24_regular,
           color: kWhite,
         ),
         onPressed: () => close(context, ''),
@@ -191,7 +190,7 @@ class PeopleSearch extends SearchDelegate<String> {
               }
             },
             leading: const Icon(
-              Icons.people,
+              FluentIcons.people_20_regular,
               color: kWhite,
             ),
             // title: Text(suggestion),
