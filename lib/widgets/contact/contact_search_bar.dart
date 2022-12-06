@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:fuzzy/fuzzy.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
@@ -71,7 +72,6 @@ class ContactSearchBar extends StatelessWidget {
 
 class PeopleSearch extends SearchDelegate<String> {
   PeopleSearch({required this.peopleSearch, required this.contactStore}) {
-    print("build again map");
     peopleMap = HashMap<String, dynamic>();
     for (String key in peopleSearch.keys.toList()) {
       peopleMap[key] = peopleSearch[key];
@@ -81,11 +81,21 @@ class PeopleSearch extends SearchDelegate<String> {
       }
     }
     people = peopleMap.keys.toList();
+    fuse = Fuzzy(
+      people,
+      options: FuzzyOptions(
+        findAllMatches: false,
+        tokenize: false,
+        threshold: 0.4,
+      ),
+    );
+
   }
 
   late final SplayTreeMap<String, ContactModel> peopleSearch;
   late final List<String> people;
   late final HashMap<String, dynamic> peopleMap;
+  late final Fuzzy<String> fuse;
   List<String> suggestionsList = [];
   late ContactStore contactStore;
 
@@ -135,11 +145,8 @@ class PeopleSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestions = people.where((peps) {
-      final peopleLower = peps.toLowerCase();
-      final queryLower = query.toLowerCase();
-      return peopleLower.contains(queryLower);
-    }).toList();
+    final result = fuse.search(query);
+    final suggestions = result.map((e) => e.item).toList();
     suggestionsList = suggestions;
     return buildSuggestionsSuccess(suggestions);
   }
@@ -156,15 +163,13 @@ class PeopleSearch extends SearchDelegate<String> {
           return ListTile(
             onTap: () {
               query = suggestion;
-
-              close(context, suggestion);
               var resultModel = peopleMap[suggestion];
               if (resultModel is ContactModel) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (BuildContext context) =>
-                    Provider<ContactStore>.value(
+                        Provider<ContactStore>.value(
                       value: contactStore,
                       child: ContactDetailsPage(
                         title: 'Campus',
@@ -177,9 +182,9 @@ class PeopleSearch extends SearchDelegate<String> {
                 showDialog(
                     context: context,
                     builder: (_) => Provider<ContactStore>.value(
-                      value: contactStore,
-                      child: ContactDialog(details: peopleMap[query]),
-                    ),
+                          value: contactStore,
+                          child: ContactDialog(details: peopleMap[query]),
+                        ),
                     barrierDismissible: true);
               }
             },
