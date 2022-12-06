@@ -171,14 +171,13 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                         context.read<LoginStore>().userData['email'] ?? ""),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        List<dynamic> models =
-                        snapshot.data! as List<dynamic>;
+                        List<dynamic> models = snapshot.data! as List<dynamic>;
                         List<MyAdsTile> tiles =
-                        models.map((e) => MyAdsTile(model: e)).toList();
+                            models.map((e) => MyAdsTile(model: e)).toList();
                         if (context.read<LoginStore>().isGuestUser) {
                           return const PaginationText(
                               text:
-                              "Log in with your IITG account to post ads");
+                                  "Log in with your IITG account to post ads");
                         }
                         if (tiles.isEmpty) {
                           return const PaginationText(
