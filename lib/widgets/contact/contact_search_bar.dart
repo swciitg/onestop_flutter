@@ -3,10 +3,12 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/contacts/contact_details.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/pages/contact/contact_detail.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
+import 'package:onestop_dev/widgets/contact/contact_dialog.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +32,7 @@ class ContactSearchBar extends StatelessWidget {
                     context: context,
                     delegate: PeopleSearch(
                         contactStore: contactStore,
-                        poepleSearch: snapshot.data!));
+                        peopleSearch: snapshot.data!));
               },
               child: TextField(
                 enabled: false,
@@ -68,12 +70,22 @@ class ContactSearchBar extends StatelessWidget {
 }
 
 class PeopleSearch extends SearchDelegate<String> {
-  PeopleSearch({required this.poepleSearch, required this.contactStore}) {
-    people = poepleSearch.keys.toList();
+  PeopleSearch({required this.peopleSearch, required this.contactStore}) {
+    print("build again map");
+    peopleMap = HashMap<String, dynamic>();
+    for (String key in peopleSearch.keys.toList()) {
+      peopleMap[key] = peopleSearch[key];
+      List<ContactDetailsModel> contactsList = peopleSearch[key]!.contacts;
+      for (var c in contactsList) {
+        peopleMap[c.name] = c;
+      }
+    }
+    people = peopleMap.keys.toList();
   }
 
-  late final SplayTreeMap<String, ContactModel> poepleSearch;
+  late final SplayTreeMap<String, ContactModel> peopleSearch;
   late final List<String> people;
+  late final HashMap<String, dynamic> peopleMap;
   List<String> suggestionsList = [];
   late ContactStore contactStore;
 
@@ -140,33 +152,36 @@ class PeopleSearch extends SearchDelegate<String> {
         itemCount: suggestions.length,
         itemBuilder: (context, index) {
           final suggestion = suggestions[index];
-          //final queryText = suggestion.substring(0, query.length);
-          //final remainingText = suggestion.substring(query.length);
 
           return ListTile(
             onTap: () {
               query = suggestion;
 
-              // 1. Show Results
-              //showResults(context);
-
-              // 2. Close Search & Return Result
               close(context, suggestion);
-
-              // 3. Navigate to Result Page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      Provider<ContactStore>.value(
-                    value: contactStore,
-                    child: ContactDetailsPage(
-                      title: 'Campus',
-                      contact: poepleSearch[query],
+              var resultModel = peopleMap[suggestion];
+              if (resultModel is ContactModel) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                    Provider<ContactStore>.value(
+                      value: contactStore,
+                      child: ContactDetailsPage(
+                        title: 'Campus',
+                        contact: peopleMap[query],
+                      ),
                     ),
                   ),
-                ),
-              );
+                );
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (_) => Provider<ContactStore>.value(
+                      value: contactStore,
+                      child: ContactDialog(details: peopleMap[query]),
+                    ),
+                    barrierDismissible: true);
+              }
             },
             leading: const Icon(
               Icons.people,
