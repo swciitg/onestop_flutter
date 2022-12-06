@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -41,10 +42,13 @@ class _ContactPageState extends State<ContactPage> {
               Text('Contacts', style: MyFonts.w500.size(20).setColor(kWhite)),
           actions: [
             IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(IconData(0xe16a, fontFamily: 'MaterialIcons')))
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(
+                FluentIcons.dismiss_24_filled,
+              ),
+            )
           ],
         ),
         body: Provider<ContactStore>(
@@ -97,7 +101,7 @@ class _ContactPageState extends State<ContactPage> {
                   child: Row(
                     children: [
                       const Icon(
-                        IconData(0xe5f9, fontFamily: 'MaterialIcons'),
+                        FluentIcons.star_12_filled,
                         color: kGrey8,
                         size: 15,
                       ),

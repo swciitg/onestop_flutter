@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -70,10 +71,10 @@ class _ContactPageButtonState extends State<ContactPageButton> {
                 children: [
                   Icon(
                     (widget.label == 'Emergency')
-                        ? Icons.warning
+                        ? FluentIcons.warning_24_filled
                         : (widget.label == 'Transport')
-                            ? Icons.directions_bus
-                            : Icons.group,
+                            ? FluentIcons.vehicle_car_24_filled
+                            : FluentIcons.people_community_24_filled,
                     color: kGrey8,
                   ),
                   Text(

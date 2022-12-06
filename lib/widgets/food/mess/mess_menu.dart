@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -128,7 +129,7 @@ class MessMenu extends StatelessWidget {
                                                       ? 10
                                                       : 13)),
                                           Icon(
-                                            Icons.keyboard_arrow_down_outlined,
+                                            FluentIcons.chevron_down_24_regular,
                                             color: lBlue,
                                             size: screenWidth <= 380 ? 15 : 20,
                                           ),
@@ -180,7 +181,7 @@ class MessMenu extends StatelessWidget {
                                                       ? 10
                                                       : 13)),
                                           Icon(
-                                            Icons.keyboard_arrow_down_outlined,
+                                            FluentIcons.chevron_down_24_regular,
                                             color: lBlue,
                                             size: screenWidth <= 380 ? 15 : 20,
                                           ),

@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -28,10 +29,13 @@ class _BlogState extends State<NewsPage> {
           ),
           actions: [
             IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(Icons.close)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(
+                FluentIcons.dismiss_24_filled,
+              ),
+            ),
           ],
         ),
         body: FutureBuilder(

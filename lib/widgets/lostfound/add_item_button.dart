@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -125,7 +126,7 @@ class _AddItemButtonState extends State<AddItemButton> {
             const Padding(
               padding: EdgeInsets.only(top: 17, bottom: 20, left: 20),
               child: Icon(
-                Icons.add,
+                FluentIcons.add_24_regular,
                 size: 30,
               ),
             ),

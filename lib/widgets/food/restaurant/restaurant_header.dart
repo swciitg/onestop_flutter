@@ -74,7 +74,7 @@ class RestaurantHeader extends StatelessWidget {
                         ),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Icon(Icons.circle, color: kWhite, size: 5),
+                          child: Icon(FluentIcons.circle_12_filled, color: kWhite, size: 5),
                         ),
                         const Icon(
                           FluentIcons.clock_24_regular,

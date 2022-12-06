@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -30,10 +31,13 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
               Text('Contacts', style: MyFonts.w500.size(20).setColor(kWhite)),
           actions: [
             IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(IconData(0xe16a, fontFamily: 'MaterialIcons')))
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(
+                FluentIcons.dismiss_24_filled,
+              ),
+            )
           ],
         ),
         body: Column(

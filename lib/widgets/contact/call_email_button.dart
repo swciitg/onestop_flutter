@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
@@ -35,11 +36,11 @@ class ContactButton extends StatelessWidget {
             children: [
               (type == ContactType.email)
                   ? const Icon(
-                      Icons.email,
+                      FluentIcons.mail_24_filled,
                       color: kWhite,
                     )
                   : const Icon(
-                      Icons.call,
+                      FluentIcons.call_24_filled,
                       color: kWhite,
                     ),
               Container(

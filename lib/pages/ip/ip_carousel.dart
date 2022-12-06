@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/ip/ip_calculator.dart';
 import 'package:onestop_dev/functions/ip/ip_decoration.dart';
@@ -84,10 +85,13 @@ class _RouterPageState extends State<RouterPage> {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(IconData(0xe16a, fontFamily: 'MaterialIcons')))
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              FluentIcons.dismiss_24_filled,
+            ),
+          )
         ],
       ),
       body: GestureDetector(
@@ -298,7 +302,7 @@ class _RouterPageState extends State<RouterPage> {
                               }
                             },
                             icon: Icon(
-                              Icons.chevron_left,
+                              FluentIcons.chevron_left_24_regular,
                               color: page != 1 ? kWhite2 : kGrey7,
                             ),
                           ),
@@ -322,7 +326,7 @@ class _RouterPageState extends State<RouterPage> {
                               }
                             },
                             icon: Icon(
-                              Icons.chevron_right,
+                              FluentIcons.chevron_right_24_regular,
                               color: page != 8 ? kWhite2 : kGrey7,
                             ),
                           ),
