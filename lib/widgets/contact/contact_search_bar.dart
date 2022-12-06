@@ -71,17 +71,26 @@ class ContactSearchBar extends StatelessWidget {
 }
 
 class PeopleSearch extends SearchDelegate<String> {
+
+  late final SplayTreeMap<String, ContactModel> peopleSearch;
+  late final HashMap<String, dynamic> peopleMap;
+  late final Fuzzy<String> peopleFuse;
+  List<String> suggestionsList = [];
+  late ContactStore contactStore;
+
   PeopleSearch({required this.peopleSearch, required this.contactStore}) {
     peopleMap = HashMap<String, dynamic>();
     for (String key in peopleSearch.keys.toList()) {
       peopleMap[key] = peopleSearch[key];
       List<ContactDetailsModel> contactsList = peopleSearch[key]!.contacts;
       for (var c in contactsList) {
-        peopleMap[c.name] = c;
+        if (!peopleMap.containsKey(c.name)) {
+          peopleMap[c.name] = c;
+        }
       }
     }
-    people = peopleMap.keys.toList();
-    fuse = Fuzzy(
+    List<String> people = peopleMap.keys.toList();
+    peopleFuse = Fuzzy(
       people,
       options: FuzzyOptions(
         findAllMatches: false,
@@ -89,15 +98,8 @@ class PeopleSearch extends SearchDelegate<String> {
         threshold: 0.4,
       ),
     );
-
   }
 
-  late final SplayTreeMap<String, ContactModel> peopleSearch;
-  late final List<String> people;
-  late final HashMap<String, dynamic> peopleMap;
-  late final Fuzzy<String> fuse;
-  List<String> suggestionsList = [];
-  late ContactStore contactStore;
 
   @override
   String get searchFieldLabel => 'Search keyword (name, position etc)';
@@ -145,7 +147,7 @@ class PeopleSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final result = fuse.search(query);
+    final result = peopleFuse.search(query);
     final suggestions = result.map((e) => e.item).toList();
     suggestionsList = suggestions;
     return buildSuggestionsSuccess(suggestions);
