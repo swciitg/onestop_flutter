@@ -69,9 +69,9 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
             backgroundColor: kAppBarGrey,
             child: IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, Notif.id);
+                Navigator.pushNamed(context, NotificationPage.id);
               },
-              icon: Icon(Icons.notifications),
+              icon: const Icon(FluentIcons.alert_24_filled),
               color: lBlue2,
             )),
       ],

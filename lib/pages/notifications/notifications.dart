@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -8,25 +11,25 @@ class NotifsModel {
   String? hashcode;
   String? title;
   String? body;
-  String? type;
+  bool read;
 
   NotifsModel(
     this.hashcode,
     this.title,
     this.body,
-    this.type,
+    this.read,
   );
 }
 
-class Notif extends StatefulWidget {
+class NotificationPage extends StatefulWidget {
   static String id = "notifications";
-  const Notif({Key? key}) : super(key: key);
+  const NotificationPage({Key? key}) : super(key: key);
 
   @override
-  State<Notif> createState() => _NotifState();
+  State<NotificationPage> createState() => _NotificationPageState();
 }
 
-class _NotifState extends State<Notif> {
+class _NotificationPageState extends State<NotificationPage> {
   Widget _getLoadingIndicator() {
     return Expanded(
       child: Shimmer.fromColors(
@@ -62,31 +65,37 @@ class _NotifState extends State<Notif> {
           )),
     );
   }
+
   List<NotifsModel> n = [];
   Future<List<NotifsModel>> getDetails() async {
+    List<String> newNotifList = [];
     n.clear();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
     List<String> result = prefs.getStringList('notifications')!;
     for (String r in result) {
-      var parts = r.split(" ");
-      NotifsModel not = new NotifsModel("", "", "","");
-      if (parts.length >= 1) not.hashcode = parts[0];
-      if (parts.length >= 2) not.title = parts[1];
-      if (parts.length >= 3) not.body = parts[2];
-      if (parts.length >= 4) not.type = parts[3];
-      n.add(not);
+      Map<String, dynamic> notifData = jsonDecode(r);
+      print("Notif Data = $notifData");
+      n.add(NotifsModel(
+          null, notifData['header'], notifData['body'], notifData['read']));
+      // Set Read Recipient to True and then save to prefs
+      notifData['read'] = true;
+      newNotifList.add(jsonEncode(notifData));
     }
+
+    prefs.setStringList('notifications', newNotifList);
     return n;
   }
-  IconData getIcon(String? type){
-    if(type==null) return Icons.circle;
-    else if(type=="Food" || type=="Lost and Found" || type=="TimeTable") return Icons.square;
-    else return Icons.eject;
+
+  IconData getIcon(bool readNotif) {
+    if (!readNotif) {
+      return FluentIcons.circle_24_filled;
+    }
+    return Icons.brightness_1_outlined;
   }
 
   @override
   void initState() {
-    getDetails();
     super.initState();
   }
 
@@ -95,12 +104,29 @@ class _NotifState extends State<Notif> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAppBarGrey,
+        actions: [
+          ElevatedButton.icon(
+            onPressed: () async {
+              final SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+              await prefs.reload();
+              prefs.remove('notifications');
+              setState(() {});
+            },
+            icon: const Icon(FluentIcons.delete_12_regular),
+            label: Text(
+              'Clear All',
+              style: MyFonts.w300,
+            ),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent, elevation: 0),
+          )
+        ],
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: const Icon(Icons.arrow_back)),
-        leadingWidth: 30,
+            icon: const Icon(FluentIcons.arrow_left_24_regular)),
         title: Text(
           'Notifications',
           style: MyFonts.w500,
@@ -115,29 +141,39 @@ class _NotifState extends State<Notif> {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Icon(
-                          getIcon(snapshot.data![index].type),
-                          color: kBlue,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(
+                              getIcon(snapshot.data![index].read),
+                              color: kBlue,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              snapshot.data![index].title ?? " ",
+                              style: MyFonts.w400.setColor(kWhite),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          snapshot.data![index].title!,
-                          style: const TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: kWhite,
-                            letterSpacing: 0.1,
-                            height: 1.5,
+                        Row(children: [
+                          Icon(
+                            getIcon(snapshot.data![index].read),
+                            color: Colors.transparent,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Description',
+                            style: MyFonts.w300.setColor(kWhite),
+                          )
+                        ])
                       ],
                     ),
                   );

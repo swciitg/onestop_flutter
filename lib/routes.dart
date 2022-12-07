@@ -27,5 +27,5 @@ final routes = {
   AcademicSSO.id: (context) => const AcademicSSO(),
   AcademicCalendar.id: (context) => const AcademicCalendar(),
   Complaints.id: (context) => const Complaints(),
-  Notif.id: (context) => const Notif(),
+  NotificationPage.id: (context) => const NotificationPage(),
 };

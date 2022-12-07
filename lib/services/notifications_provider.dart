@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_core/firebase_core.dart';
 import "package:firebase_messaging/firebase_messaging.dart";
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
@@ -30,13 +32,14 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails, iOS: iosNotificationDetails);
   RemoteNotification? notification = message.notification;
-  String type = message.data['type'];
+  // String type = message.data['type'];
+  String type = "Food";
   print("NOTIFICation : $notification");
   if (notification != null && checkIfUserWantsNotification(type)) {
     await flutterLocalNotificationsPlugin.show(notification.hashCode,
         notification.title, notification.body, notificationDetails);
   }
-  savenotif(notification!, type);
+  saveNotification(message.data, message.sentTime);
 }
 
 @pragma('vm:entry-point')
@@ -123,12 +126,6 @@ Future<bool> checkForNotifications() async {
   NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails, iOS: iosNotificationDetails);
 
-  // FOR IOS
-  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-  //   alert: true,
-  //   badge: true,
-  //   sound: true,
-  // );
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
     // try{
@@ -138,32 +135,35 @@ Future<bool> checkForNotifications() async {
     // }
     String type = "Food";
     print("NOTIFICation : $notification");
+    print("Message is ${message.category}");
     // AndroidNotification android = message.notification!.android!;
     if (notification != null && checkIfUserWantsNotification(type)) {
       await flutterLocalNotificationsPlugin.show(notification.hashCode,
           notification.title, notification.body, notificationDetails);
     }
-    savenotif(notification!, type);
+    saveNotification(message.data, message.sentTime);
   });
   return true;
 }
 
-void savenotif(RemoteNotification notification, String type) async {
+void saveNotification(
+    Map<String, dynamic> notificationData, DateTime? sentTime) async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
-  String notif = notification.hashCode.toString() +
-      ' ' +
-      notification.title! +
-      ' ' +
-      notification.body! +
-      ' ' +
-      type;
-  List<String>? notifications =
-      preferences.getStringList('notifications') == null
-          ? []
-          : preferences.getStringList('notifications');
+  notificationData['time'] = sentTime?.toString() ?? DateTime.now().toString();
+  notificationData['read'] = false;
+  String notifJson = jsonEncode(notificationData);
+  print("data = $notificationData");
+  // String notif = notification.hashCode.toString() +
+  //     ' ' +
+  //     notification.title! +
+  //     ' ' +
+  //     notification.body! +
+  //     ' ' +
+  //     type;
+  List<String> notifications = preferences.getStringList('notifications') ?? [];
   if (notifications!.length > 14) {
     notifications.removeAt(0);
   }
-  notifications.add(notif);
+  notifications.add(notifJson);
   preferences.setStringList('notifications', notifications);
 }
