@@ -84,7 +84,7 @@ class _NotificationPageState extends State<NotificationPage> {
     }
 
     prefs.setStringList('notifications', newNotifList);
-    return n;
+    return n.reversed.toList();
   }
 
   IconData getIcon(bool readNotif) {

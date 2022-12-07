@@ -126,11 +126,10 @@ Future<bool> checkForNotifications() async {
     // } catch(e){
     //   print(e);
     // }
-    String type = "Food";
     print("NOTIFICation : $notification");
     print("Message is ${message.category}");
     // AndroidNotification android = message.notification!.android!;
-    if (notification != null && checkNotificationCategory(type)) {
+    if (notification != null && checkNotificationCategory(message.data['category'])) {
       await flutterLocalNotificationsPlugin.show(notification.hashCode,
           notification.title, notification.body, notificationDetails);
     }
