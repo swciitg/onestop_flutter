@@ -35,7 +35,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // String type = message.data['type'];
   String type = "Food";
   print("NOTIFICation : $notification");
-  if (notification != null && checkIfUserWantsNotification(type)) {
+  if (notification != null && checkNotificationCategory(type)) {
     await flutterLocalNotificationsPlugin.show(notification.hashCode,
         notification.title, notification.body, notificationDetails);
   }
@@ -52,22 +52,15 @@ void onDidReceiveNotificationResponse(
   // await Navigator.pushNamed(context, HomePage.id);
 }
 
-Map<String, bool> value = {
-  "Food": true,
-  "Lost and Food": false,
-  "TimeTable": false,
-  "Assignment": false,
-  "Ferry": false,
-  "Buses": false
-};
-bool checkIfUserWantsNotification(String type) {
-  if (type == "Food") return value["Food"]!;
-  if (type == "Lost and Found") return value["Lost and Found"]!;
-  if (type == "TimeTable") return value["TimeTable"]!;
-  if (type == "Assignment") return value["Assignment"]!;
-  if (type == "Ferry") return value["Ferry"]!;
-  if (type == "Buses") return value["Buses"]!;
-  if (type == "all") return true;
+
+bool checkNotificationCategory(String type) {
+  switch (type) {
+    case "Lost":
+    case "Found":
+    case "Buy":
+    case "Sell":
+      return true;
+  }
   return false;
 }
 
@@ -137,7 +130,7 @@ Future<bool> checkForNotifications() async {
     print("NOTIFICation : $notification");
     print("Message is ${message.category}");
     // AndroidNotification android = message.notification!.android!;
-    if (notification != null && checkIfUserWantsNotification(type)) {
+    if (notification != null && checkNotificationCategory(type)) {
       await flutterLocalNotificationsPlugin.show(notification.hashCode,
           notification.title, notification.body, notificationDetails);
     }
@@ -153,15 +146,8 @@ void saveNotification(
   notificationData['read'] = false;
   String notifJson = jsonEncode(notificationData);
   print("data = $notificationData");
-  // String notif = notification.hashCode.toString() +
-  //     ' ' +
-  //     notification.title! +
-  //     ' ' +
-  //     notification.body! +
-  //     ' ' +
-  //     type;
   List<String> notifications = preferences.getStringList('notifications') ?? [];
-  if (notifications!.length > 14) {
+  if (notifications.length > 15) {
     notifications.removeAt(0);
   }
   notifications.add(notifJson);

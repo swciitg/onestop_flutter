@@ -71,7 +71,7 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
               onPressed: () {
                 Navigator.pushNamed(context, NotificationPage.id);
               },
-              icon: const Icon(FluentIcons.alert_24_filled),
+              icon: const Icon(FluentIcons.alert_24_filled,color: lBlue2,),
               color: lBlue2,
             )),
       ],
