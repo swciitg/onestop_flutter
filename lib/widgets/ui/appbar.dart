@@ -65,16 +65,6 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
           ]),
           // textAlign: TextAlign.start,
         ),
-        // Expanded(
-        //   child: Image.asset(
-        //     'assets/images/AppLogo.png',
-        //     // scale: 4,
-        //   ),
-        // ),
-        const SizedBox(
-          width: 35,
-          height: 35,
-        ),
         CircleAvatar(
             backgroundColor: kAppBarGrey,
             child: IconButton(

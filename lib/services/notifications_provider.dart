@@ -50,7 +50,7 @@ void onDidReceiveNotificationResponse(
 }
 
 Map<String, bool> value = {
-  "Food": false,
+  "Food": true,
   "Lost and Food": false,
   "TimeTable": false,
   "Assignment": false,
@@ -131,7 +131,12 @@ Future<bool> checkForNotifications() async {
   // );
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
-    String type = message.data['type'];
+    // try{
+    //   String type = message.data['type'];
+    // } catch(e){
+    //   print(e);
+    // }
+    String type = "Food";
     print("NOTIFICation : $notification");
     // AndroidNotification android = message.notification!.android!;
     if (notification != null && checkIfUserWantsNotification(type)) {
