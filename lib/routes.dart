@@ -1,5 +1,4 @@
-import 'package:onestop_dev/pages/Notifications/notifications.dart';
-import 'package:onestop_dev/pages/Notifications/settings.dart';
+import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
 import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
 import 'package:onestop_dev/pages/quick_links/news_page.dart';
@@ -29,5 +28,4 @@ final routes = {
   AcademicCalendar.id: (context) => const AcademicCalendar(),
   Complaints.id: (context) => const Complaints(),
   Notif.id: (context) => const Notif(),
-  NotifSettings.id:(context) => const NotifSettings(),
 };

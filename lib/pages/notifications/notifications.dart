@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/Notifications/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -106,13 +105,6 @@ class _NotifState extends State<Notif> {
           'Notifications',
           style: MyFonts.w500,
         ),
-        actions: [
-          // IconButton(
-          //     onPressed: () {
-          //       Navigator.pushNamed(context, NotifSettings.id);
-          //     },
-          //     icon: const Icon(Icons.settings)),
-        ],
       ),
       body: FutureBuilder<List<NotifsModel>>(
           future: getDetails(),

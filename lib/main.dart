@@ -22,6 +22,8 @@ void main() async {
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
   await checkLastUpdated();
   await checkForNotifications();
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  print("FCM TOken is $fcmToken");
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }

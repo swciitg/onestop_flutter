@@ -2,7 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/Notifications/notifications.dart';
+import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/pages/profile.dart';
 
 AppBar appBar(BuildContext context, {bool displayIcon = true}) {
