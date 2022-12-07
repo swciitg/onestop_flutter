@@ -107,11 +107,11 @@ class _NotifState extends State<Notif> {
           style: MyFonts.w500,
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, NotifSettings.id);
-              },
-              icon: const Icon(Icons.settings)),
+          // IconButton(
+          //     onPressed: () {
+          //       Navigator.pushNamed(context, NotifSettings.id);
+          //     },
+          //     icon: const Icon(Icons.settings)),
         ],
       ),
       body: FutureBuilder<List<NotifsModel>>(
