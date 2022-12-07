@@ -27,17 +27,26 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
           importance: Importance.high,
           playSound: true,
           icon: '@mipmap/ic_launcher');
-  DarwinNotificationDetails iosNotificationDetails = DarwinNotificationDetails(
-      presentAlert: true, presentBadge: true, presentSound: true);
+  DarwinNotificationDetails iosNotificationDetails =
+      const DarwinNotificationDetails(
+    presentAlert: true,
+    presentBadge: true,
+    presentSound: true,
+  );
   NotificationDetails notificationDetails = NotificationDetails(
-      android: androidNotificationDetails, iOS: iosNotificationDetails);
+    android: androidNotificationDetails,
+    iOS: iosNotificationDetails,
+  );
   RemoteNotification? notification = message.notification;
   // String type = message.data['type'];
-  String type = "Food";
   print("NOTIFICation : $notification");
-  if (notification != null && checkNotificationCategory(type)) {
-    await flutterLocalNotificationsPlugin.show(notification.hashCode,
-        notification.title, notification.body, notificationDetails);
+  if (checkNotificationCategory(message.data['category'])) {
+    await flutterLocalNotificationsPlugin.show(
+      message.hashCode,
+      message.data['header'],
+      message.data['body'],
+      notificationDetails,
+    );
   }
   saveNotification(message.data, message.sentTime);
 }
@@ -51,7 +60,6 @@ void onDidReceiveNotificationResponse(
   }
   // await Navigator.pushNamed(context, HomePage.id);
 }
-
 
 bool checkNotificationCategory(String type) {
   switch (type) {
@@ -92,13 +100,13 @@ Future<bool> checkForNotifications() async {
       ?.createNotificationChannel(channel);
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
-  final DarwinInitializationSettings initializationSettingsDarwin =
+  const DarwinInitializationSettings initializationSettingsDarwin =
       DarwinInitializationSettings(
     requestSoundPermission: true,
     requestBadgePermission: true,
     requestAlertPermission: true,
   );
-  final InitializationSettings initializationSettings = InitializationSettings(
+  const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
     iOS: initializationSettingsDarwin,
   );
@@ -114,10 +122,16 @@ Future<bool> checkForNotifications() async {
           importance: Importance.high,
           playSound: true,
           icon: '@mipmap/ic_launcher');
-  DarwinNotificationDetails iosNotificationDetails = DarwinNotificationDetails(
-      presentAlert: true, presentBadge: true, presentSound: true);
+  DarwinNotificationDetails iosNotificationDetails =
+      const DarwinNotificationDetails(
+    presentAlert: true,
+    presentBadge: true,
+    presentSound: true,
+  );
   NotificationDetails notificationDetails = NotificationDetails(
-      android: androidNotificationDetails, iOS: iosNotificationDetails);
+    android: androidNotificationDetails,
+    iOS: iosNotificationDetails,
+  );
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
@@ -128,10 +142,14 @@ Future<bool> checkForNotifications() async {
     // }
     print("NOTIFICation : $notification");
     print("Message is ${message.category}");
-    // AndroidNotification android = message.notification!.android!;
-    if (notification != null && checkNotificationCategory(message.data['category'])) {
-      await flutterLocalNotificationsPlugin.show(notification.hashCode,
-          notification.title, notification.body, notificationDetails);
+    if (notification != null &&
+        checkNotificationCategory(message.data['category'])) {
+      await flutterLocalNotificationsPlugin.show(
+        message.hashCode,
+        message.data['header'],
+        message.data['body'],
+        notificationDetails,
+      );
     }
     saveNotification(message.data, message.sentTime);
   });

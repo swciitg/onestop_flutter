@@ -153,7 +153,7 @@ class _ContactPageState extends State<ContactPage> {
                           }
                         });
                         for (var e in alphabets) {
-                          people["${e} ADONOTUSE"] = ContactModel(
+                          people["$e ADONOTUSE"] = ContactModel(
                               name: "Random", contacts: [], group: "");
                         }
                         return AlphabetScrollView(

@@ -28,7 +28,7 @@ class LoginButton extends StatelessWidget {
           flex: 2,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                primary: kYellow,
+                backgroundColor: kYellow,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18))),
             onPressed: () {

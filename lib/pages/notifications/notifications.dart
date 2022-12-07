@@ -150,7 +150,7 @@ class _NotificationPageState extends State<NotificationPage> {
                               getIcon(snapshot.data![index].read),
                               color: kBlue,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Text(
@@ -166,7 +166,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             getIcon(snapshot.data![index].read),
                             color: Colors.transparent,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Text(
