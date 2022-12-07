@@ -74,7 +74,8 @@ class RestaurantHeader extends StatelessWidget {
                         ),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Icon(Icons.circle, color: kWhite, size: 5),
+                          child: Icon(FluentIcons.circle_12_filled,
+                              color: kWhite, size: 5),
                         ),
                         const Icon(
                           FluentIcons.clock_24_regular,
@@ -124,7 +125,8 @@ class RestaurantHeader extends StatelessWidget {
                           callMap: 'Map',
                           icon: FluentIcons.location_24_regular,
                           callback: () {
-                            openMap(restaurant.latitude, restaurant.longitude,context,restaurant.name);
+                            openMap(restaurant.latitude, restaurant.longitude,
+                                context, restaurant.name);
                           },
                         ),
                       ),

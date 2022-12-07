@@ -66,8 +66,11 @@ class FoodTile extends StatelessWidget {
                                   color: getIconColor(dish.veg),
                                   size: 14,
                                 ),
-                                Icon(Icons.circle,
-                                    color: getIconColor(dish.veg), size: 5),
+                                Icon(
+                                  Icons.circle,
+                                  color: getIconColor(dish.veg),
+                                  size: 5,
+                                ),
                               ],
                             ),
                           ),
@@ -100,21 +103,20 @@ class FoodTile extends StatelessWidget {
                       topRight: Radius.circular(21),
                       bottomRight: Radius.circular(21)),
                   child: AspectRatio(
-                    aspectRatio: 1,
-                    child: CachedNetworkImage(
-                      maxHeightDiskCache: 200,
-                      imageUrl: dish.image,
-                      imageBuilder: (context, imageProvider) => Image(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                      ),
-                      placeholder: cachedImagePlaceholder,
-                      errorWidget: (context, url, error) => Image.asset(
-                        "assets/images/res_foodimg.jpg",
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  ),
+                      aspectRatio: 1,
+                      child: CachedNetworkImage(
+                        maxHeightDiskCache: 200,
+                        imageUrl: dish.image,
+                        imageBuilder: (context, imageProvider) => Image(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                        placeholder: cachedImagePlaceholder,
+                        errorWidget: (context, url, error) => Image.asset(
+                          "assets/images/res_foodimg.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                      )),
                 ),
               ),
             ],

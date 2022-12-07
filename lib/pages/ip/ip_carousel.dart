@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/ip/ip_calculator.dart';
 import 'package:onestop_dev/functions/ip/ip_decoration.dart';
@@ -12,7 +13,7 @@ List<String> textdata = [
   "Click on 'Manage wireless networks'",
   'Right click on \'Local area connection\' and then click on properties',
   'Uncheck \'Internet Protocol Version 6 (TCP/IPv6)\' and double click \'Internet Protocol Version 4 (TCP/IPv4)\'',
-  'Select \'Use the following IP address\' and \'Use the following DNS server addresses\' Modify the DNS address as given below\nprimary DNS: 172.171.1.1\nsecondary DNS: 172.17.1.2',
+  'Select \'Use the following IP address\' and \'Use the following DNS server addresses\' Modify the DNS address as given below\nprimary DNS: 172.17.1.1\nsecondary DNS: 172.17.1.2',
   'Enter the following details to get your IP address',
   '',
   "Make sure the connection is no-proxy/direct connection. Open any website in your browser. It will show a captive portal asking your IITG login credentials.Login to the portal and start accessing internet using the same.If you have a problem while redirecting to login page, then use this link given below in your pc browser https://agnigarh.iitg.ac.in:1442/login?",
@@ -84,10 +85,13 @@ class _RouterPageState extends State<RouterPage> {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(IconData(0xe16a, fontFamily: 'MaterialIcons')))
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              FluentIcons.dismiss_24_filled,
+            ),
+          )
         ],
       ),
       body: GestureDetector(
@@ -298,7 +302,7 @@ class _RouterPageState extends State<RouterPage> {
                               }
                             },
                             icon: Icon(
-                              Icons.chevron_left,
+                              FluentIcons.chevron_left_24_regular,
                               color: page != 1 ? kWhite2 : kGrey7,
                             ),
                           ),
@@ -322,7 +326,7 @@ class _RouterPageState extends State<RouterPage> {
                               }
                             },
                             icon: Icon(
-                              Icons.chevron_right,
+                              FluentIcons.chevron_right_24_regular,
                               color: page != 8 ? kWhite2 : kGrey7,
                             ),
                           ),

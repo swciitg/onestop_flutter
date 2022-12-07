@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -9,10 +10,10 @@ import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:onestop_dev/widgets/buy_sell/ads_tile.dart';
 import 'package:onestop_dev/widgets/buy_sell/buy_tile.dart';
 import 'package:onestop_dev/widgets/buy_sell/item_type_bar.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
+import 'package:onestop_dev/widgets/lostfound/ads_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
@@ -82,7 +83,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                   Navigator.of(context).pop();
                 },
                 icon: const Icon(
-                  IconData(0xe16a, fontFamily: 'MaterialIcons'),
+                  FluentIcons.dismiss_24_filled,
                 ),
               )
             ],
@@ -165,26 +166,37 @@ class _BuySellHomeState extends State<BuySellHome> {
                 )
               else
                 Expanded(
-                    child: FutureBuilder(
-                        future: APIService.getMyItems(context.read<LoginStore>().userData['email']??""),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            List<BuyModel> models = snapshot.data! as List<BuyModel>;
-                            List<MyAdsTile> tiles = models.map((e) => MyAdsTile(model: e)).toList();
-                            if (tiles.isEmpty) {
-                              return const PaginationText(text: "You haven't posted any ads");
-                            }
-                            return ListView.builder(itemBuilder: (context,index) => tiles[index], itemCount: tiles.length,);
+                  child: FutureBuilder(
+                      future: APIService.getBnsMyItems(
+                          context.read<LoginStore>().userData['email'] ?? ""),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<BuyModel> models =
+                              snapshot.data! as List<BuyModel>;
+                          List<MyAdsTile> tiles =
+                              models.map((e) => MyAdsTile(model: e)).toList();
+                          if (context.read<LoginStore>().isGuestUser) {
+                            return const PaginationText(
+                                text:
+                                    "Log in with your IITG account to post ads");
                           }
-                          return ListShimmer(
-                            count: 5,
-                            height: 120,
+                          if (tiles.isEmpty) {
+                            return const PaginationText(
+                                text: "You haven't posted any ads");
+                          }
+                          return ListView.builder(
+                            itemBuilder: (context, index) => tiles[index],
+                            itemCount: tiles.length,
                           );
-                        }),
+                        }
+                        return ListShimmer(
+                          count: 5,
+                          height: 120,
+                        );
+                      }),
                 )
             ],
           ),
-
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
           floatingActionButton: AddItemButton(

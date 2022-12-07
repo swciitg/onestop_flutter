@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -58,6 +59,12 @@ class MessMenu extends StatelessWidget {
                   width: 16,
                 ),
                 Observer(builder: (context) {
+                  if (!messStore.hostelLoaded) {
+                    return Expanded(
+                      flex: 2,
+                      child: Container(),
+                    );
+                  }
                   return Expanded(
                       flex: 2,
                       child: Column(
@@ -122,7 +129,7 @@ class MessMenu extends StatelessWidget {
                                                       ? 10
                                                       : 13)),
                                           Icon(
-                                            Icons.keyboard_arrow_down_outlined,
+                                            FluentIcons.chevron_down_24_regular,
                                             color: lBlue,
                                             size: screenWidth <= 380 ? 15 : 20,
                                           ),
@@ -135,6 +142,8 @@ class MessMenu extends StatelessWidget {
                                   data: Theme.of(context)
                                       .copyWith(cardColor: kBlueGrey),
                                   child: PopupMenuButton<String>(
+                                    constraints:
+                                        const BoxConstraints(maxHeight: 320),
                                     itemBuilder: (context) {
                                       return hostels
                                           .map(
@@ -165,14 +174,14 @@ class MessMenu extends StatelessWidget {
                                             MainAxisAlignment.spaceAround,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Text(messStore.selectedHostel,
+                                          Text(messStore.selectedHostel.value!,
                                               style: MyFonts.w500
                                                   .setColor(lBlue)
                                                   .size(screenWidth <= 380
                                                       ? 10
                                                       : 13)),
                                           Icon(
-                                            Icons.keyboard_arrow_down_outlined,
+                                            FluentIcons.chevron_down_24_regular,
                                             color: lBlue,
                                             size: screenWidth <= 380 ? 15 : 20,
                                           ),

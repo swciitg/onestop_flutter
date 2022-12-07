@@ -25,7 +25,7 @@ abstract class _TravelStore with Store {
   String ferryDayType = "Mon - Sat";
 
   @observable
-  String selectedFerryGhat = "Rajaduwar";
+  String selectedFerryGhat = "Mazgaon";
 
   @observable
   ObservableFuture<List<FerryTimeData>> ferryTimings =

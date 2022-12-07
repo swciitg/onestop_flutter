@@ -20,11 +20,11 @@ jobs:
       - run: flutter --version
       - run: flutter pub get
       - run: flutter pub upgrade
-      - run: flutter build apk --no-tree-shake-icons
+      - run: flutter build apk --no-tree-shake-icons --debug
       - name: Create Release
         uses: ncipollo/release-action@v1.10.0
         with:
-          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
-          tag: v0.1.${{ github.run_number }}
+          artifacts: "build/app/outputs/flutter-apk/app-debug.apk"
+          tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
 

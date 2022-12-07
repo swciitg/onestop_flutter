@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -7,6 +8,8 @@ import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/common_store.dart';
+import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/widgets/lostfound/ads_tile.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_button.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_tile.dart';
@@ -23,10 +26,9 @@ class LostFoundHome extends StatefulWidget {
 
 class _LostFoundHomeState extends State<LostFoundHome> {
   final PagingController<int, LostModel> _lostController =
-      PagingController(firstPageKey: 1,invisibleItemsThreshold: 1);
+      PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
   final PagingController<int, FoundModel> _foundController =
       PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
-
 
   @override
   void initState() {
@@ -74,15 +76,17 @@ class _LostFoundHomeState extends State<LostFoundHome> {
           automaticallyImplyLeading: false,
           leadingWidth: 18,
           actions: [
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Image.asset(
-                "assets/images/dismiss_icon.png",
-                height: 18,
-              ),
-            )
+            // GestureDetector(
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //   },
+            //   child: ,
+            // )
+            IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(
+                  FluentIcons.dismiss_24_filled,
+                ))
           ],
         ),
         body: Column(
@@ -100,6 +104,11 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                     store: commonStore,
                     label: "Found Items",
                     category: "Found",
+                  ),
+                  LostFoundButton(
+                    store: commonStore,
+                    label: "My Ads",
+                    category: "My Ads",
                   ),
                 ],
               ),
@@ -131,7 +140,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                           const PaginationText(text: "You've reached the end"),
                     )),
               )
-            else
+            else if (commonStore.lnfIndex == "Found")
               Expanded(
                 child: PagedListView<int, FoundModel>(
                     pagingController: _foundController,
@@ -139,24 +148,54 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                       itemBuilder: (context, lostItem, index) =>
                           LostFoundTile(currentModel: lostItem),
                       firstPageErrorIndicatorBuilder: (context) =>
-                      const PaginationText(text: "An error occurred"),
+                          const PaginationText(text: "An error occurred"),
                       noItemsFoundIndicatorBuilder: (context) =>
-                      const PaginationText(text: "No items found"),
+                          const PaginationText(text: "No items found"),
                       newPageErrorIndicatorBuilder: (context) =>
-                      const PaginationText(text: "An error occurred"),
+                          const PaginationText(text: "An error occurred"),
                       newPageProgressIndicatorBuilder: (context) =>
-                      const Padding(
+                          const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(child: CircularProgressIndicator()),
                       ),
                       firstPageProgressIndicatorBuilder: (context) =>
                           ListShimmer(
-                            count: 5,
-                            height: 120,
-                          ),
+                        count: 5,
+                        height: 120,
+                      ),
                       noMoreItemsIndicatorBuilder: (context) =>
-                      const PaginationText(text: "You've reached the end"),
+                          const PaginationText(text: "You've reached the end"),
                     )),
+              )
+            else
+              Expanded(
+                child: FutureBuilder(
+                    future: APIService.getLnfMyItems(
+                        context.read<LoginStore>().userData['email'] ?? ""),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<dynamic> models = snapshot.data! as List<dynamic>;
+                        List<MyAdsTile> tiles =
+                            models.map((e) => MyAdsTile(model: e)).toList();
+                        if (context.read<LoginStore>().isGuestUser) {
+                          return const PaginationText(
+                              text:
+                                  "Log in with your IITG account to post ads");
+                        }
+                        if (tiles.isEmpty) {
+                          return const PaginationText(
+                              text: "You haven't posted any ads");
+                        }
+                        return ListView.builder(
+                          itemBuilder: (context, index) => tiles[index],
+                          itemCount: tiles.length,
+                        );
+                      }
+                      return ListShimmer(
+                        count: 5,
+                        height: 120,
+                      );
+                    }),
               )
           ],
         ),

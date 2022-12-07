@@ -28,21 +28,69 @@ class APIService {
   static const String _sellURL = 'https://swc.iitg.ac.in/onestopapi/v2/sell';
   static const String _sellPath = '/onestopapi/v2/sellPage';
   static const String _buyPath = '/onestopapi/v2/buyPage';
-  static const String _myAdsURL = 'https://swc.iitg.ac.in/onestopapi/v2/myads';
+  static const String _bnsMyAdsURL =
+      'https://swc.iitg.ac.in/onestopapi/v2/bns/myads';
+  static const String _lnfMyAdsURL =
+      'https://swc.iitg.ac.in/onestopapi/v2/lnf/myads';
   static const String _deleteBuyURL =
       "https://swc.iitg.ac.in/onestopapi/v2/buy/remove";
   static const String _deleteSellURL =
       "https://swc.iitg.ac.in/onestopapi/v2/sell/remove";
+  static const String _deleteLostURL =
+      "https://swc.iitg.ac.in/onestopapi/v2/lost/remove";
+  static const String _deleteFoundURL =
+      "https://swc.iitg.ac.in/onestopapi/v2/found/remove";
   static const String _lostURL = 'https://swc.iitg.ac.in/onestopapi/v2/lost';
   static const String _lostPath = '/onestopapi/v2/lostPage';
   static const String _foundPath = '/onestopapi/v2/foundPage';
   static const String _foundURL = 'https://swc.iitg.ac.in/onestopapi/v2/found';
   static const String _claimItemURL =
       "https://swc.iitg.ac.in/onestopapi/v2/found/claim";
+  static const String _newsURL = "https://swc.iitg.ac.in/onestopapi/v2/news";
+  static const String githubIssueToken =
+      String.fromEnvironment('GITHUB_ISSUE_TOKEN');
   static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');
+  static const _feedback =
+      'https://api.github.com/repos/vrrao01/onestop_dev/issues';
+
+  static Future<bool> postFeedbackData(Map<String, String> data) async {
+    String tag = data['type'] == 'Issue Report' ? 'bug' : 'enhancement';
+    String newBody =
+        "### Description :\n${data['body']}\n### Posted By :\n${data['user']}";
+    var res = await http.post(Uri.parse(_feedback),
+        body: jsonEncode({
+          'title': data['title'],
+          'body': newBody,
+          'labels': [tag]
+        }),
+        headers: {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': 'Bearer $githubIssueToken'
+        });
+    print('github response = ${jsonDecode(res.body)}');
+    if (res.statusCode == 201) {
+      return true;
+    }
+    return false;
+  }
 
   static Future<List<Map<String, dynamic>>> getRestaurantData() async {
     http.Response response = await http.get(Uri.parse(_restaurantURL));
+    var status = response.statusCode;
+    var body = jsonDecode(response.body);
+    if (status == 200) {
+      List<Map<String, dynamic>> data = [];
+      for (var json in body) {
+        data.add(json);
+      }
+      return data;
+    } else {
+      throw Exception("Data could not be fetched");
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> getNewsData() async {
+    http.Response response = await http.get(Uri.parse(_newsURL));
     var status = response.statusCode;
     var body = jsonDecode(response.body);
     if (status == 200) {
@@ -68,7 +116,7 @@ class APIService {
     return jsonDecode(res.body);
   }
 
-  static Future<void> deleteMyAd(String id, String email) async {
+  static Future<void> deleteBnsMyAd(String id, String email) async {
     await http.post(Uri.parse(_deleteBuyURL),
         headers: {
           'Content-Type': 'application/json',
@@ -76,6 +124,21 @@ class APIService {
         },
         body: jsonEncode({'id': id, 'email': email}));
     await http.post(Uri.parse(_deleteSellURL),
+        headers: {
+          'Content-Type': 'application/json',
+          'security-key': apiSecurityKey
+        },
+        body: jsonEncode({'id': id, 'email': email}));
+  }
+
+  static Future<void> deleteLnfMyAd(String id, String email) async {
+    await http.post(Uri.parse(_deleteLostURL),
+        headers: {
+          'Content-Type': 'application/json',
+          'security-key': apiSecurityKey
+        },
+        body: jsonEncode({'id': id, 'email': email}));
+    await http.post(Uri.parse(_deleteFoundURL),
         headers: {
           'Content-Type': 'application/json',
           'security-key': apiSecurityKey
@@ -95,8 +158,8 @@ class APIService {
     return foundItemsDetails["details"];
   }
 
-  static Future<List<BuyModel>> getMyItems(String mail) async {
-    var res = await http.post(Uri.parse(_myAdsURL),
+  static Future<List<BuyModel>> getBnsMyItems(String mail) async {
+    var res = await http.post(Uri.parse(_bnsMyAdsURL),
         headers: {
           'Content-Type': 'application/json',
           'security-key': apiSecurityKey
@@ -112,6 +175,25 @@ class APIService {
         .toList();
     await Future.delayed(const Duration(milliseconds: 300), () => null);
     return [...sellList, ...buyList];
+  }
+
+  static Future<List<dynamic>> getLnfMyItems(String mail) async {
+    var res = await http.post(Uri.parse(_lnfMyAdsURL),
+        headers: {
+          'Content-Type': 'application/json',
+          'security-key': apiSecurityKey
+        },
+        body: jsonEncode({'email': mail}));
+
+    var myItemsDetails = jsonDecode(res.body);
+    var foundList = (myItemsDetails["details"]["foundList"] as List)
+        .map((e) => FoundModel.fromJson(e))
+        .toList();
+    var lostList = (myItemsDetails["details"]["lostList"] as List)
+        .map((e) => LostModel.fromJson(e))
+        .toList();
+    await Future.delayed(const Duration(milliseconds: 300), () => null);
+    return [...foundList, ...lostList];
   }
 
   static Future<List> getLostItems() async {

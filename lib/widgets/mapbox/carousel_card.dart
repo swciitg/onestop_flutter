@@ -22,14 +22,12 @@ class CarouselCard extends StatelessWidget {
       String today = getFormattedDay();
       if (context.read<MapBoxStore>().indexBusesorFerry == 0) {
         var allBusTimes = await DataProvider.getBusTimings();
-        List<List<String>> busTimes = [[],[]];
+        List<List<String>> busTimes = [[], []];
         allBusTimes.forEach((key, list) {
-          for(String time in list[0])
-          {
+          for (String time in list[0]) {
             busTimes[0].add(time);
           }
-          for(String time in list[1])
-          {
+          for (String time in list[1]) {
             busTimes[1].add(time);
           }
         });

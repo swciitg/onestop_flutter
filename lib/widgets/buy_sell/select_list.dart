@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
-
 Widget selectList(dynamic store, List<Widget> buyList, List<Widget> sellList,
     List<Widget> myList) {
   List<Widget> finalList;

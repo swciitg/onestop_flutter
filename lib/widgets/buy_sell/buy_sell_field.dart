@@ -57,10 +57,9 @@ class _InputFieldState extends State<InputField> {
             if (value == null || value == "") {
               return "This field cannot be null";
             }
-            if(!value.trim().isNumericOnly)
-              {
-                return "Please enter a number";
-              }
+            if (!value.trim().isNumericOnly) {
+              return "Please enter a number";
+            }
             if (value.trim().length != 10) {
               return "The contact should have 10 digits";
             }
@@ -69,13 +68,11 @@ class _InputFieldState extends State<InputField> {
             if (value == null || value == "") {
               return "This field cannot be null";
             }
-            if(widget.type.toString().contains("Price"))
-              {
-                if(!value.trim().isNumericOnly)
-                {
-                  return "Please enter a number";
-                }
+            if (widget.type.toString().contains("Price")) {
+              if (!value.trim().isNumericOnly) {
+                return "Please enter a number";
               }
+            }
             return null;
           }
         },

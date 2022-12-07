@@ -52,7 +52,9 @@ class _BusDetailsState extends State<BusDetails> {
                       style: MyFonts.w500.setColor(Colors.grey),
                     ),
                     trailing: Icon(
-                      isCity? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                      isCity
+                          ? FluentIcons.chevron_up_24_regular
+                          : FluentIcons.chevron_down_24_regular,
                       color: Colors.white,
                     ),
                   ),
@@ -76,7 +78,8 @@ class _BusDetailsState extends State<BusDetails> {
                                 children:
                                     busTime[entry.key]![widget.index].map((e) {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 5),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
                                 child: TimingTile(
                                   time: e,
                                   isLeft: hasLeft(e.toString()),
@@ -105,7 +108,9 @@ class _BusDetailsState extends State<BusDetails> {
                       style: MyFonts.w500.setColor(Colors.grey),
                     ),
                     trailing: Icon(
-                      isCampus? Icons.arrow_drop_up :Icons.arrow_drop_down ,
+                      isCampus
+                          ? FluentIcons.chevron_up_24_regular
+                          : FluentIcons.chevron_down_24_regular,
                       color: Colors.white,
                     ),
                   ),
@@ -129,7 +134,8 @@ class _BusDetailsState extends State<BusDetails> {
                                 children: busTime[entry.key]![widget.index + 2]
                                     .map((e) {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 5),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
                                 child: TimingTile(
                                   time: e,
                                   isLeft: hasLeft(e.toString()),

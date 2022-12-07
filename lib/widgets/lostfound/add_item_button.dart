@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
 import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
+import 'package:onestop_dev/stores/login_store.dart';
+import 'package:provider/provider.dart';
 
 class AddItemButton extends StatefulWidget {
   const AddItemButton({
@@ -23,6 +26,9 @@ class AddItemButton extends StatefulWidget {
 class _AddItemButtonState extends State<AddItemButton> {
   @override
   Widget build(BuildContext context) {
+    if (context.read<LoginStore>().isGuestUser) {
+      return Container();
+    }
     if (widget.type == "My Ads") {
       return Container();
     }
@@ -120,7 +126,7 @@ class _AddItemButtonState extends State<AddItemButton> {
             const Padding(
               padding: EdgeInsets.only(top: 17, bottom: 20, left: 20),
               child: Icon(
-                Icons.add,
+                FluentIcons.add_24_regular,
                 size: 30,
               ),
             ),

@@ -198,7 +198,7 @@ abstract class _MapBoxStore with Store {
       carouselLength,
       (index) => CarouselCard(
         name: dataMap[index]['name'],
-        index: dataMap[index]['ind'],
+        index: index,
       ),
     );
     return l;

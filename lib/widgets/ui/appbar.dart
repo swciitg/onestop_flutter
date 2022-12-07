@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/Notifications/notifications.dart';
-import 'package:onestop_dev/pages/barcode.dart';
+import 'package:onestop_dev/pages/profile.dart';
 
 AppBar appBar(BuildContext context, {bool displayIcon = true}) {
   return AppBar(
@@ -23,14 +23,17 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
                     color: lBlue2,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, QRPage.id);
+                    Navigator.pushNamed(context, ProfilePage.id);
                   },
                 ),
               )
             : CircleAvatar(
                 backgroundColor: kAppBarGrey,
                 child: IconButton(
-                  icon: const Icon(Icons.arrow_back_rounded, color: lBlue2),
+                  icon: const Icon(
+                    FluentIcons.arrow_left_24_regular,
+                    color: lBlue2,
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },

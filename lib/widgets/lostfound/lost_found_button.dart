@@ -19,18 +19,20 @@ class LostFoundButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context){return GestureDetector(
+    return Observer(builder: (context) {
+      return GestureDetector(
         onTap: () {
-            store.setLnfIndex(category);
+          store.setLnfIndex(category);
         },
         child: ItemTypeBar(
           text: label,
           margin: const EdgeInsets.only(left: 16, bottom: 10),
-          textStyle: MyFonts.w500.size(14).setColor((store.lnfIndex == category ? kBlack : kWhite)),
+          textStyle: MyFonts.w500
+              .size(14)
+              .setColor((store.lnfIndex == category ? kBlack : kWhite)),
           backgroundColor: (store.lnfIndex == category ? lBlue2 : kBlueGrey),
         ),
-      );}
-    );
+      );
+    });
   }
 }

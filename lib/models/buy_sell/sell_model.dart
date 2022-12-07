@@ -20,16 +20,16 @@ class SellModel {
 
   const SellModel(
       {Key? key,
-        required this.title,
-        required this.description,
-        required this.imageURL,
-        required this.compressedImageURL,
-        required this.date,
-        required this.phonenumber,
-        required this.price,
-        required this.email,
-        required this.id,
-        required this.username});
+      required this.title,
+      required this.description,
+      required this.imageURL,
+      required this.compressedImageURL,
+      required this.date,
+      required this.phonenumber,
+      required this.price,
+      required this.email,
+      required this.id,
+      required this.username});
 
   factory SellModel.fromJson(Map<String, dynamic> json) =>
       _$SellModelFromJson(json);

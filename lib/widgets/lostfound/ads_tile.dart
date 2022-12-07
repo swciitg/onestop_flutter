@@ -3,27 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/buy_sell/buy_model.dart';
+import 'package:onestop_dev/models/lostfound/found_model.dart';
+import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/services/api.dart';
-import 'details_dialog.dart';
+import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
 
 class MyAdsTile extends StatefulWidget {
-  final BuyModel model;
-
-  const MyAdsTile({
-    Key? key,
-    required this.model,
-  }) : super(key: key);
+  final model;
+  const MyAdsTile({Key? key, this.model}) : super(key: key);
 
   @override
-  State<MyAdsTile> createState() => _MyAdsTile();
+  State<MyAdsTile> createState() => _MyAdsTileState();
 }
 
-class _MyAdsTile extends State<MyAdsTile> {
+class _MyAdsTileState extends State<MyAdsTile> {
   bool isOverlay = false;
-
   @override
   Widget build(BuildContext context) {
+    bool isLnf = (widget.model is FoundModel) || (widget.model is LostModel);
     return Stack(
       children: [
         GestureDetector(
@@ -89,19 +86,27 @@ class _MyAdsTile extends State<MyAdsTile> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    widget.model.description,
+                                    isLnf
+                                        ? (((widget.model is FoundModel)
+                                                ? "Found at: "
+                                                : "Lost at: ") +
+                                            widget.model.location)
+                                        : widget.model.description,
                                     overflow: TextOverflow.ellipsis,
                                     style:
                                         MyFonts.w500.size(12).setColor(kGrey6),
                                   ),
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    '\u{20B9}${widget.model.price}/-',
-                                    style:
-                                        MyFonts.w600.size(14).setColor(lBlue4),
-                                  ),
-                                ),
+                                isLnf
+                                    ? Container()
+                                    : Expanded(
+                                        child: Text(
+                                          '\u{20B9}${widget.model.price}/-',
+                                          style: MyFonts.w600
+                                              .size(14)
+                                              .setColor(lBlue4),
+                                        ),
+                                      ),
                               ],
                             ),
                           ),
@@ -162,13 +167,19 @@ class _MyAdsTile extends State<MyAdsTile> {
                   style: MyFonts.w400.size(14).setColor(kBlack),
                 ),
                 onPressed: () async {
-                  await APIService.deleteMyAd(
-                      widget.model.id, widget.model.email);
+                  if (isLnf) {
+                    await APIService.deleteLnfMyAd(
+                        widget.model.id, widget.model.email);
+                  } else {
+                    await APIService.deleteBnsMyAd(
+                        widget.model.id, widget.model.email);
+                  }
+
                   if (!mounted) return;
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(
-                    "Deleted your ad successfully",
+                    "Deleted your post successfully",
                     style: MyFonts.w500,
                   )));
                 },

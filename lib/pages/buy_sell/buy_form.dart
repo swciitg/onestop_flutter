@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -48,7 +49,9 @@ class _BuySellFormState extends State<BuySellForm> {
               Navigator.of(context).pop();
             }
           },
-          icon: const Icon(Icons.chevron_left_sharp),
+          icon: const Icon(
+            FluentIcons.chevron_left_24_regular,
+          ),
         ),
         backgroundColor: kBlueGrey,
         title: Text(
@@ -125,18 +128,16 @@ class _BuySellFormState extends State<BuySellForm> {
           if (!isValid) {
             return;
           }
-          if(widget.category == "Buy")
-            {
-              if((int.parse(_price2.text)-int.parse(_price.text)) < 0)
-                {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                        "Min price should be smaller than max price",
-                        style: MyFonts.w500,
-                      )));
-                  return;
-                }
+          if (widget.category == "Buy") {
+            if ((int.parse(_price2.text) - int.parse(_price.text)) < 0) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                "Min price should be smaller than max price",
+                style: MyFonts.w500,
+              )));
+              return;
             }
+          }
           setState(() {
             isLoading = true;
           });
@@ -171,7 +172,7 @@ class _BuySellFormState extends State<BuySellForm> {
             if (widget.category == "Found") {
               res = await APIService.postFoundData(data);
             }
-          // ignore: empty_catches
+            // ignore: empty_catches
           } catch (e) {
             // Error snackbar shown below
           }

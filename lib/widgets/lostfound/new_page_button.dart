@@ -13,7 +13,7 @@ class NextButton extends StatelessWidget {
       margin: const EdgeInsets.only(left: 12, right: 12, bottom: 20),
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration:
-      BoxDecoration(color: lBlue2, borderRadius: BorderRadius.circular(16)),
+          BoxDecoration(color: lBlue2, borderRadius: BorderRadius.circular(16)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

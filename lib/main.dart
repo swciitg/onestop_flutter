@@ -1,3 +1,4 @@
+// ignore_for_file: unused_import
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
-import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -43,9 +43,6 @@ class MyApp extends StatelessWidget {
         ),
         Provider<RestaurantStore>(
           create: (_) => RestaurantStore(),
-        ),
-        Provider<TimetableStore>(
-          create: (_) => TimetableStore(),
         ),
         Provider<MapBoxStore>(
           create: (_) => MapBoxStore(),

@@ -21,7 +21,7 @@ void detailsDialogBox(context, dynamic model, [parentContext]) {
           priceOrLocation = Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
             child: Text(
-              "Price: ${model.price}",
+              "Price:\u{20B9}${model.price}/-",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: MyFonts.w500.size(14).setColor(kGrey6),
@@ -33,7 +33,7 @@ void detailsDialogBox(context, dynamic model, [parentContext]) {
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
                 child: Text(
-                  "${(model is FoundModel)?"Found":"Lost"}at: ${model.location}",
+                  "${(model is FoundModel) ? "Found" : "Lost"} at: ${model.location}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: MyFonts.w500.size(14).setColor(kGrey6),
@@ -42,37 +42,36 @@ void detailsDialogBox(context, dynamic model, [parentContext]) {
             ],
           );
         }
-        if(model is FoundModel)
-          {
-            submitClaimDetails = Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Visibility(
-                  visible: model.claimed == true ? true : false,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: screenWidth - 62),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Text(
-                          "Claimer: ${model.claimerEmail}",
-                          style: MyFonts.w500.size(14).setColor(kGrey6),
-                        ),
+        if (model is FoundModel) {
+          submitClaimDetails = Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Visibility(
+                visible: model.claimed == true ? true : false,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: screenWidth - 62),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Text(
+                        "Claimer: ${model.claimerEmail}",
+                        style: MyFonts.w500.size(14).setColor(kGrey6),
                       ),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    "Submitted at: ${model.submittedat}",
-                    style: MyFonts.w500.size(14).setColor(kGrey6),
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  "Submitted at: ${model.submittedat}",
+                  style: MyFonts.w500.size(14).setColor(kGrey6),
                 ),
-              ],
-            );
-          }
+              ),
+            ],
+          );
+        }
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(21),
@@ -121,7 +120,10 @@ void detailsDialogBox(context, dynamic model, [parentContext]) {
                             style: MyFonts.w600.size(16).setColor(kWhite),
                           ),
                         ),
-                        ClaimCallButton(model: model, parentContext: parentContext,),
+                        ClaimCallButton(
+                          model: model,
+                          parentContext: parentContext,
+                        ),
                       ],
                     ),
                   ),

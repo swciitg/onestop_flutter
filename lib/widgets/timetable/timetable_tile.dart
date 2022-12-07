@@ -13,6 +13,10 @@ class TimetableTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tileIcon = FluentIcons.book_24_filled;
+    if (course.course!.toLowerCase().contains("lab")) {
+      tileIcon = FluentIcons.beaker_24_filled;
+    }
     String sel = findTimeRange();
     Color bg = (sel == course.timing)
         ? kTimetableGreen
@@ -47,8 +51,8 @@ class TimetableTile extends StatelessWidget {
                           shape: BoxShape.circle,
                           color: kGreen,
                         ),
-                        child: const Icon(
-                          FluentIcons.book_24_filled,
+                        child: Icon(
+                          tileIcon,
                           color: kAppBarGrey,
                           size: 25,
                         ),

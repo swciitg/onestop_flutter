@@ -27,15 +27,14 @@ class BusStopList extends StatelessWidget {
             future: DataProvider.getBusTimings(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var allBusTimes = (snapshot.data as Map<String ,List<List<String>>>);
-                List<List<String>> busTime = [[],[]];
+                var allBusTimes =
+                    (snapshot.data as Map<String, List<List<String>>>);
+                List<List<String>> busTime = [[], []];
                 allBusTimes.forEach((key, list) {
-                  for(String time in list[0])
-                  {
+                  for (String time in list[0]) {
                     busTime[0].add(time);
                   }
-                  for(String time in list[1])
-                  {
+                  for (String time in list[1]) {
                     busTime[1].add(time);
                   }
                 });

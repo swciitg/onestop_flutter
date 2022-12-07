@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
@@ -46,8 +47,10 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                                 return;
                               }
                               buttonPressed = true;
-                              var name = context.read<LoginStore>().userData['name'];
-                              var email = context.read<LoginStore>().userData['email'];
+                              var name =
+                                  context.read<LoginStore>().userData['name'];
+                              var email =
+                                  context.read<LoginStore>().userData['email'];
                               var body = await APIService.claimFoundItem(
                                   name: name!,
                                   email: email!,
@@ -66,7 +69,9 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                                     ModalRoute.withName(LostFoundHome.id));
                               } else {
                                 widget.model.claimed = true;
-                                widget.model.claimerEmail = context.read<LoginStore>().userData["email"]!;
+                                widget.model.claimerEmail = context
+                                    .read<LoginStore>()
+                                    .userData["email"]!;
                                 Navigator.popUntil(context,
                                     ModalRoute.withName(LostFoundHome.id));
                                 ScaffoldMessenger.of(widget.parentContext)
@@ -125,7 +130,7 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Icon(
-                          Icons.pan_tool,
+                          FluentIcons.hand_left_24_filled,
                           size: 11,
                           color: lBlue2,
                         ),
@@ -146,7 +151,7 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Icon(
-                      Icons.phone,
+                      FluentIcons.call_24_filled,
                       size: 11,
                       color: lBlue2,
                     ),

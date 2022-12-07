@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -109,7 +110,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                       ? selectedLocation
                       : "Library",
                   icon: const Icon(
-                    Icons.keyboard_arrow_down_outlined,
+                    FluentIcons.chevron_down_24_regular,
                     color: kWhite,
                   ),
                   style: MyFonts.w500.size(16).setColor(kWhite),
@@ -146,7 +147,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                       ? selectedLocation
                       : "Hostel",
                   icon: const Icon(
-                    Icons.keyboard_arrow_down_outlined,
+                    FluentIcons.chevron_down_24_regular,
                     color: kWhite,
                   ),
                   style: MyFonts.w500.size(16).setColor(kWhite),
@@ -180,7 +181,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                 child: DropdownButtonFormField<String>(
                   value: selectedDropdown == "SAC" ? selectedLocation : "SAC",
                   icon: const Icon(
-                    Icons.keyboard_arrow_down_outlined,
+                    FluentIcons.chevron_down_24_regular,
                     color: kWhite,
                   ),
                   style: MyFonts.w500.size(16).setColor(kWhite),
@@ -214,7 +215,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                 child: DropdownButtonFormField<String>(
                   value: selectedDropdown == "Core" ? selectedLocation : "Core",
                   icon: const Icon(
-                    Icons.keyboard_arrow_down_outlined,
+                    FluentIcons.chevron_down_24_regular,
                     color: kWhite,
                   ),
                   style: MyFonts.w500.size(16).setColor(kWhite),
