@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:io' show Platform;
 import 'package:firebase_core/firebase_core.dart';
 import "package:firebase_messaging/firebase_messaging.dart";
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
@@ -26,7 +26,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
           channelDescription: channel.description,
           importance: Importance.high,
           playSound: true,
-          icon: '@mipmap/ic_launcher');
+          icon: 'notification_icon');
   DarwinNotificationDetails iosNotificationDetails =
       const DarwinNotificationDetails(
     presentAlert: true,
@@ -38,8 +38,8 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     iOS: iosNotificationDetails,
   );
   RemoteNotification? notification = message.notification;
-  // String type = message.data['type'];
-  print("NOTIFICation : $notification");
+
+  print("Notification : $notification");
   if (checkNotificationCategory(message.data['category'])) {
     await flutterLocalNotificationsPlugin.show(
       message.hashCode,
@@ -73,19 +73,15 @@ bool checkNotificationCategory(String type) {
 }
 
 Future<bool> checkForNotifications() async {
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  String? token = sharedPreferences.getString("fcm-token");
-  if (token == null) {
-    token = await messaging.getToken();
-    sharedPreferences.setString("fcm-token", token!);
-  }
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()!
-      .requestPermission();
+
+  if (Platform.isAndroid) {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestPermission();
+  }
 
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'high_importance_channel', // id
@@ -94,10 +90,12 @@ Future<bool> checkForNotifications() async {
           'This channel is used for important notifications.', // description
       importance: Importance.high,
       playSound: true);
+
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
+
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   const DarwinInitializationSettings initializationSettingsDarwin =
@@ -116,34 +114,26 @@ Future<bool> checkForNotifications() async {
     // onDidReceiveBackgroundNotificationResponse:
     //     onDidReceiveNotificationResponse,
   );
-  AndroidNotificationDetails androidNotificationDetails =
-      AndroidNotificationDetails(channel.id, channel.name,
-          channelDescription: channel.description,
-          importance: Importance.high,
-          playSound: true,
-          icon: '@mipmap/ic_launcher');
-  DarwinNotificationDetails iosNotificationDetails =
-      const DarwinNotificationDetails(
-    presentAlert: true,
-    presentBadge: true,
-    presentSound: true,
-  );
-  NotificationDetails notificationDetails = NotificationDetails(
-    android: androidNotificationDetails,
-    iOS: iosNotificationDetails,
-  );
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    RemoteNotification? notification = message.notification;
-    // try{
-    //   String type = message.data['type'];
-    // } catch(e){
-    //   print(e);
-    // }
-    print("NOTIFICation : $notification");
-    print("Message is ${message.category}");
-    if (notification != null &&
-        checkNotificationCategory(message.data['category'])) {
+    AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(channel.id, channel.name,
+            channelDescription: channel.description,
+            importance: Importance.high,
+            playSound: true,
+            icon: 'notification_icon');
+    DarwinNotificationDetails iosNotificationDetails =
+        const DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+    NotificationDetails notificationDetails = NotificationDetails(
+      android: androidNotificationDetails,
+      iOS: iosNotificationDetails,
+    );
+    print("Message is ${message.data}");
+    if (checkNotificationCategory(message.data['category'])) {
       await flutterLocalNotificationsPlugin.show(
         message.hashCode,
         message.data['header'],
@@ -153,6 +143,12 @@ Future<bool> checkForNotifications() async {
     }
     saveNotification(message.data, message.sentTime);
   });
+
+  // Resave list of notifications in case it's initialized to null
+  final SharedPreferences preferences = await SharedPreferences.getInstance();
+  await preferences.reload();
+  List<String> notifications = preferences.getStringList('notifications') ?? [];
+  preferences.setStringList('notifications', notifications);
   return true;
 }
 

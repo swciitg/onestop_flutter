@@ -4,8 +4,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shimmer/shimmer.dart';
 
 class NotifsModel {
   String? hashcode;
@@ -30,44 +30,8 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  Widget _getLoadingIndicator() {
-    return Expanded(
-      child: Shimmer.fromColors(
-          period: const Duration(seconds: 1),
-          baseColor: kHomeTile,
-          highlightColor: lGrey,
-          child: SizedBox(
-            height: 200,
-            child: ListView.builder(
-              itemCount: 8,
-              itemBuilder: (_, __) => Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 80,
-                      decoration: BoxDecoration(
-                          color: kBlack,
-                          borderRadius: BorderRadius.circular(5)),
-                    ),
-                    // Divider(
-                    //   thickness: 1.5,
-                    //   color: kTabBar,
-                    // ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )),
-    );
-  }
-
-  List<NotifsModel> n = [];
   Future<List<NotifsModel>> getDetails() async {
+    List<NotifsModel> n = [];
     List<String> newNotifList = [];
     n.clear();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -136,6 +100,14 @@ class _NotificationPageState extends State<NotificationPage> {
           future: getDetails(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data!.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No notifications found',
+                    style: MyFonts.w300.setColor(kWhite),
+                  ),
+                );
+              }
               return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
@@ -180,16 +152,16 @@ class _NotificationPageState extends State<NotificationPage> {
                 },
               );
             }
-            return Container(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-              color: Colors.black.withOpacity(0.8),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _getLoadingIndicator(),
-                ],
-              ),
+            return Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                    child: ListShimmer(
+                  count: 5,
+                )),
+              ],
             );
           }),
     );
