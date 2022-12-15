@@ -9,6 +9,7 @@ import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
 
 class MyAdsTile extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final model;
   const MyAdsTile({Key? key, this.model}) : super(key: key);
 

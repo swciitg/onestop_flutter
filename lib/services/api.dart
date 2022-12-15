@@ -67,7 +67,6 @@ class APIService {
           'Accept': 'application/vnd.github+json',
           'Authorization': 'Bearer $githubIssueToken'
         });
-    print('github response = ${jsonDecode(res.body)}');
     if (res.statusCode == 201) {
       return true;
     }
