@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'home_tab_tile.dart';
+import 'package:onestop_dev/pages/quick_links/cab_share.dart';
+import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
 List<HomeTabTile> serviceLinks = [
   const HomeTabTile(
@@ -22,4 +23,5 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.money_20_regular,
     routeId: "/buySellHome",
   ),
+  HomeTabTile(label: "Cab Sharing", icon: FluentIcons.vehicle_bus_24_regular, routeId: CabShare.id)
 ];

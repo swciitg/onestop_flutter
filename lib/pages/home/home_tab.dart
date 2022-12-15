@@ -45,11 +45,11 @@ class _HomeTabState extends State<HomeTab> {
           const SizedBox(
             height: 10,
           ),
-          const DateCourse(), // <-Put all UI and Observer within DateCourse()
+          const DateCourse(),
           const SizedBox(
             height: 10,
           ),
-          ServiceLinks(links: serviceLinks),
+          HomeLinks(title:'Services', links: serviceLinks),
           const SizedBox(
             height: 10,
           ),
@@ -60,6 +60,7 @@ class _HomeTabState extends State<HomeTab> {
           const SizedBox(
             height: 10,
           ),
+
         ],
       ),
     );
