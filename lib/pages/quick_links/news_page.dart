@@ -8,7 +8,7 @@ import 'package:onestop_dev/widgets/news/news_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 
 class NewsPage extends StatefulWidget {
-  static String id = "/blogs";
+  static const String id = "/blogs";
   const NewsPage({Key? key}) : super(key: key);
 
   @override

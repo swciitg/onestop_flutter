@@ -8,7 +8,7 @@ import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class AcademicSSO extends StatefulWidget {
-  static String id = "/academicSSO";
+  static const String id = "/academicSSO";
   const AcademicSSO({Key? key}) : super(key: key);
 
   final String url = "https://academic.iitg.ac.in/sso/";

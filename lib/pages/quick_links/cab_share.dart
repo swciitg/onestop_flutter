@@ -5,7 +5,7 @@ import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
 
 class CabShare extends StatelessWidget {
-  static String id = "/cab_ola";
+  static const String id = "/cab_ola";
   const CabShare({Key? key}) : super(key: key);
 
   @override

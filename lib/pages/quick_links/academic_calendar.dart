@@ -8,7 +8,7 @@ import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class AcademicCalendar extends StatefulWidget {
-  static String id = "/academicCalendar";
+  static const String id = "/academicCalendar";
   const AcademicCalendar({Key? key}) : super(key: key);
 
   final String url = "https://iitg.ac.in/acad/academic_calender.php";
