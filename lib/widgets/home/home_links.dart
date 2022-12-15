@@ -14,7 +14,22 @@ class HomeLinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widgetHeight = (links.length > 4) ? 230 : 140;
+    assert(links.length <= 8);
+    final double widgetHeight = (links.length > 4) ? 230 : 140;
+    // Add dummy expanded for the row
+    List<Widget> completeList = List.generate(
+        (links.length > 4) ? 8 : 4, (index) => Expanded(child: Container()));
+    for (int i = 0; i < links.length; i++) {
+      completeList[i] = links[i];
+    }
+    // Add SizedBox between every widget in a row
+    List<Widget> rowChildren = List.generate(
+      2 * completeList.length + 1,
+      (index) => const SizedBox(width: 5),
+    );
+    for (int i = 0; i < completeList.length; i++) {
+      rowChildren[2 * i + 1] = completeList[i];
+    }
     return Container(
       height: widgetHeight,
       decoration: BoxDecoration(
@@ -43,27 +58,7 @@ class HomeLinks extends StatelessWidget {
               child: Row(
                 // crossAxisAlignment: CrossAxisAlignment.stretch,
                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  links[0],
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  links[1],
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  links[2],
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  links[3],
-                  const SizedBox(
-                    width: 5,
-                  ),
-                ],
+                children: rowChildren.sublist(0, 9),
               ),
             ),
             const SizedBox(
@@ -73,29 +68,7 @@ class HomeLinks extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Row(
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
-                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    links[4],
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(child: Container()),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(child: Container()),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(child: Container()),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                  ],
+                  children: rowChildren.sublist(9),
                 ),
               ),
               const SizedBox(
