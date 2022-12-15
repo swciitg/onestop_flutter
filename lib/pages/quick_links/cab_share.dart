@@ -1,4 +1,3 @@
-
 import 'package:cab_sharing/cab_sharing.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -10,10 +9,10 @@ class CabShare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CabSharingScreen(userData:{
-    'name': context.read<LoginStore>().userData["name"]!,
-    'email': context.read<LoginStore>().userData["email"]!,
-    'security-key': const String.fromEnvironment('SECURITY-KEY')
-  });
+    return CabSharingScreen(userData: {
+      'name': context.read<LoginStore>().userData["name"]!,
+      'email': context.read<LoginStore>().userData["email"]!,
+      'security-key': const String.fromEnvironment('SECURITY-KEY')
+    });
   }
 }

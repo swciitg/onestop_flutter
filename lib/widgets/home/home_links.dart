@@ -65,7 +65,7 @@ class HomeLinks extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Row(
-                  children: rowChildren.sublist(9),
+                  children: rowChildren.sublist(8),
                 ),
               ),
               const SizedBox(
