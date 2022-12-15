@@ -49,7 +49,7 @@ class _HomeTabState extends State<HomeTab> {
           const SizedBox(
             height: 10,
           ),
-          HomeLinks(title:'Services', links: serviceLinks),
+          HomeLinks(title: 'Services', links: serviceLinks),
           const SizedBox(
             height: 10,
           ),
@@ -60,7 +60,6 @@ class _HomeTabState extends State<HomeTab> {
           const SizedBox(
             height: 10,
           ),
-
         ],
       ),
     );

@@ -1,10 +1,7 @@
-import 'package:cab_sharing/cab_sharing.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
-import 'package:provider/provider.dart';
 
 class HomeLinks extends StatelessWidget {
   final List<HomeTabTile> links;
