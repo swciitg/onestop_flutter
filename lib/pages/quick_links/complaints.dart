@@ -9,7 +9,7 @@ import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Complaints extends StatefulWidget {
-  static String id = "/complaints";
+  static const String id = "/complaints";
   const Complaints({Key? key}) : super(key: key);
 
   final String url = "https://intranet.iitg.ac.in/ipm/complaint/";

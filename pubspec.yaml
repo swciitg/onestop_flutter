@@ -33,6 +33,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   webview_flutter: ^3.0.4
+  cab_sharing:
+    git:
+      url: https://github.com/swciitg/cab_sharing_onestop.git
+      path: packages/cab_sharing
   intl: ^0.17.0
   webview_cookie_manager: ^2.0.6
   provider: ^6.0.2

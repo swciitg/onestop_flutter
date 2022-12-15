@@ -1,6 +1,7 @@
 import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
 import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
+import 'package:onestop_dev/pages/quick_links/cab_share.dart';
 import 'package:onestop_dev/pages/quick_links/news_page.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/quick_links/complaints.dart';
@@ -27,5 +28,6 @@ final routes = {
   AcademicSSO.id: (context) => const AcademicSSO(),
   AcademicCalendar.id: (context) => const AcademicCalendar(),
   Complaints.id: (context) => const Complaints(),
+  CabShare.id: (context) => const CabShare(),
   NotificationPage.id: (context) => const NotificationPage(),
 };

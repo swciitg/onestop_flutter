@@ -22,7 +22,7 @@ List<String> textdata = [
 bool fg = true;
 
 class RouterPage extends StatefulWidget {
-  static String id = "/ip";
+  static const String id = "/ip";
   const RouterPage({Key? key}) : super(key: key);
   @override
   State<RouterPage> createState() => _RouterPageState();
