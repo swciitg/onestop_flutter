@@ -1,13 +1,14 @@
 import 'package:flutter/foundation.dart';
+import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 
 Map<String, List<String>> recordNames = {
-  "food": ["Restaurant"],
-  "travel": ["BusTimings", "FerryTimings"],
-  "menu": ["MessMenu"],
-  "contact": ["Contact"]
+  "food": [DatabaseRecords.restaurant],
+  "travel": [DatabaseRecords.busTimings, DatabaseRecords.ferryTimings],
+  "menu": [DatabaseRecords.messMenu],
+  "contact": [DatabaseRecords.contacts]
 };
 
 Future<bool> checkLastUpdated() async {
@@ -18,7 +19,7 @@ Future<bool> checkLastUpdated() async {
 
     if (lastUpdated == null) {
       await LocalStorage.instance.deleteAllRecord();
-      await LocalStorage.instance.storeData([last], 'LastUpdated');
+      await LocalStorage.instance.storeData([last], DatabaseRecords.lastUpdated);
       return true;
     }
     for (var key in lastUpdated.keys) {
@@ -28,7 +29,7 @@ Future<bool> checkLastUpdated() async {
         });
       }
     }
-    await LocalStorage.instance.storeData([last], 'LastUpdated');
+    await LocalStorage.instance.storeData([last], DatabaseRecords.lastUpdated);
   } catch (e) {
     if (kDebugMode) {
       print(e);
