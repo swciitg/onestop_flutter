@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
@@ -61,17 +62,17 @@ class LocalStorage {
   Future<void> deleteAllRecord() async {
     var store = StoreRef<String, List<Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
-    await store.record('BusTimings').delete(localDB);
-    await store.record('Restaurant').delete(localDB);
-    await store.record('Contact').delete(localDB);
-    await store.record('MessMenu').delete(localDB);
-    await store.record('FerryTimings').delete(localDB);
+    await store.record(DatabaseRecords.busTimings).delete(localDB);
+    await store.record(DatabaseRecords.restaurant).delete(localDB);
+    await store.record(DatabaseRecords.contacts).delete(localDB);
+    await store.record(DatabaseRecords.messMenu).delete(localDB);
+    await store.record(DatabaseRecords.ferryTimings).delete(localDB);
   }
 
   Future<void> deleteRecordsLogOut() async {
     var store = StoreRef<String, List<Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
-    await store.record('Timetable').delete(localDB);
+    await store.record(DatabaseRecords.timetable).delete(localDB);
   }
 
   Future<List<Object?>?> getRecord(String recordName) async {

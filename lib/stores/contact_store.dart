@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
@@ -18,7 +19,7 @@ abstract class _ContactStore with Store {
       ObservableList<ContactDetailsModel>.of([]);
 
   Future<List<ContactDetailsModel>> getAllStarredContacts() async {
-    var starred = await LocalStorage.instance.getRecord("StarredContacts");
+    var starred = await LocalStorage.instance.getRecord(DatabaseRecords.starredContacts);
     if (starred == null) {
       return [];
     }
