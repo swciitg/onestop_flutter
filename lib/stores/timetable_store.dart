@@ -168,7 +168,6 @@ abstract class _TimetableStore with Store {
     List<TimetableDay> timetableCourses =
         List.generate(5, (index) => TimetableDay());
     var courseList = loadOperation.value!;
-    courseList.courses!.sort((a, b) => a.slot!.compareTo(b.slot!));
     for (int i = 0; i <= 4; i++) {
       for (var v in courseList.courses!) {
         String slot = v.slot!;
@@ -450,6 +449,8 @@ abstract class _TimetableStore with Store {
           }
         }
       }
+      timetableCourses[i].morning.sort();
+      timetableCourses[i].afternoon.sort();
     }
     allTimetableCourses = timetableCourses;
   }

@@ -1,4 +1,6 @@
-class CourseModel {
+import 'package:intl/intl.dart';
+
+class CourseModel implements Comparable<CourseModel> {
   String? code;
   String? course;
   String? ltpc;
@@ -31,6 +33,12 @@ class CourseModel {
     return "$timing : $course";
   }
 
+  String get startTime {
+    List<String> l = timing.split(' ');
+    List<String> startList = [l.first,l.last];
+    return startList.join(' ');
+  }
+
   CourseModel.clone(CourseModel c)
       : this(
             code: c.code,
@@ -38,4 +46,12 @@ class CourseModel {
             ltpc: c.ltpc,
             slot: c.slot,
             instructor: c.instructor);
+
+  @override
+  int compareTo(CourseModel other) {
+    DateFormat df = DateFormat.jm();
+    DateTime curr = df.parse(startTime);
+    DateTime oth = df.parse(other.startTime);
+    return curr.compareTo(oth);
+  }
 }
