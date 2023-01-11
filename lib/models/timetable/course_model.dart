@@ -9,7 +9,13 @@ class CourseModel implements Comparable<CourseModel> {
   String? venue;
   String timing = "";
 
-  CourseModel({this.code, this.course, this.ltpc, this.slot, this.instructor, this.venue});
+  CourseModel(
+      {this.code,
+      this.course,
+      this.ltpc,
+      this.slot,
+      this.instructor,
+      this.venue});
 
   CourseModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
@@ -37,7 +43,7 @@ class CourseModel implements Comparable<CourseModel> {
 
   String get startTime {
     List<String> l = timing.split(' ');
-    List<String> startList = [l.first,l.last];
+    List<String> startList = [l.first, l.last];
     return startList.join(' ');
   }
 
@@ -47,7 +53,8 @@ class CourseModel implements Comparable<CourseModel> {
             course: c.course,
             ltpc: c.ltpc,
             slot: c.slot,
-            instructor: c.instructor);
+            instructor: c.instructor,
+            venue: c.venue);
 
   @override
   int compareTo(CourseModel other) {
