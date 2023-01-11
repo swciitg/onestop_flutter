@@ -89,7 +89,7 @@ abstract class _MessStore with Store {
             orElse: () => MessMenuModel(
                 hostel: "",
                 meal: "",
-                menu: "Will update soon",
+                menu: "Not updated by HMC.",
                 day: "",
                 timing: "Oh no!"));
         setSelectedMessModel(requiredModel);
