@@ -38,6 +38,7 @@ class OneStopUpgrader extends StatelessWidget {
           durationUntilAlertAgain: const Duration(hours: 1),
           debugDisplayAlways: true,
           showIgnore: false,
+          debugLogging: true,
           messages: OneStopUpgraderMessages(),
         ),
         child: child

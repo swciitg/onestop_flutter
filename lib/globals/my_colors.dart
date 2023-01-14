@@ -40,3 +40,4 @@ const Color kTimetableGreen = Color.fromRGBO(101, 174, 130, 0.16);
 const Color kTileBackground = Color.fromRGBO(34, 36, 41, 1);
 const Color kGrey14 = Color.fromRGBO(41, 45, 53, 1);
 const Color kGreen = Color.fromRGBO(124, 198, 154, 1);
+const Color kBadgeColor = Color.fromRGBO(255, 201, 7, 1);

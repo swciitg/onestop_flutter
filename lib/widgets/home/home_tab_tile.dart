@@ -5,7 +5,11 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 
 class HomeTabTile extends StatelessWidget {
   const HomeTabTile(
-      {Key? key, required this.label, required this.icon, this.routeId, this.newBadge = false})
+      {Key? key,
+      required this.label,
+      required this.icon,
+      this.routeId,
+      this.newBadge = false})
       : super(key: key);
 
   final String label;
@@ -15,7 +19,7 @@ class HomeTabTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget finalWidget =  FittedBox(
+    Widget finalWidget = FittedBox(
       child: GestureDetector(
         onTap: () => Navigator.pushNamed(context, routeId ?? "/"),
         child: Container(
@@ -53,9 +57,12 @@ class HomeTabTile extends StatelessWidget {
       finalWidget = Badge(
         shape: BadgeShape.square,
         borderRadius: BorderRadius.circular(8),
-        badgeContent: Text('New', style: MyFonts.w600.setColor(Color.fromRGBO(62, 71, 88, 1)).size(10),),
-        badgeColor: Color.fromRGBO(255, 201, 7, 1),
-        child:finalWidget,
+        badgeContent: Text(
+          'New',
+          style: MyFonts.w600.setColor(kGrey9).size(10),
+        ),
+        badgeColor: kBadgeColor,
+        child: finalWidget,
       );
     }
     return Expanded(
