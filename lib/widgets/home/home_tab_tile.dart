@@ -55,6 +55,7 @@ class HomeTabTile extends StatelessWidget {
     );
     if (newBadge) {
       finalWidget = Badge(
+        position: BadgePosition.topEnd(top:3),
         shape: BadgeShape.square,
         borderRadius: BorderRadius.circular(8),
         badgeContent: Text(
