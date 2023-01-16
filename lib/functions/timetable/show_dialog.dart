@@ -34,7 +34,7 @@ Future<void> showMyDialog(BuildContext context) async {
                       width: 20,
                     ),
                     Text(
-                      'Assignmments',
+                      'Assignments',
                       style: MyFonts.w500.size(20).setColor(
                             const Color.fromRGBO(212, 227, 255, 100),
                           ),
