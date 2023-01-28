@@ -153,115 +153,25 @@ class _UpspState extends State<Upsp> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: kGrey2),
-                            color: kBackground,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Theme(
-                                  data:
-                                      ThemeData(unselectedWidgetColor: lBlue3),
-                                  child: Checkbox(
-                                    checkColor: kBlack,
-                                    activeColor: lBlue3,
-                                    overlayColor:
-                                        MaterialStateProperty.all(lBlue3),
-                                    value: checkBox_1,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        checkBox_1 = value!;
-                                      });
-                                    },
-                                  )),
-                              Text(
-                                "Maintainence",
-                                style: MyFonts.w600.size(14).setColor(kWhite),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: kGrey2),
-                            color: kBackground,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Theme(
-                                  data:
-                                      ThemeData(unselectedWidgetColor: lBlue3),
-                                  child: Checkbox(
-                                    checkColor: kBlack,
-                                    activeColor: lBlue3,
-                                    overlayColor:
-                                        MaterialStateProperty.all(lBlue3),
-                                    value: checkBox_2,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        checkBox_2 = value!;
-                                      });
-                                    },
-                                  )),
-                              Text(
-                                "Services",
-                                style: MyFonts.w600.size(14).setColor(kWhite),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: kGrey2),
-                            color: kBackground,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Theme(
-                                  data:
-                                      ThemeData(unselectedWidgetColor: lBlue3),
-                                  child: Checkbox(
-                                    checkColor: kBlack,
-                                    activeColor: lBlue3,
-                                    overlayColor:
-                                        MaterialStateProperty.all(lBlue3),
-                                    value: checkBox_3,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        checkBox_3 = value!;
-                                      });
-                                    },
-                                  )),
-                              Text(
-                                "Other",
-                                style: MyFonts.w600.size(14).setColor(kWhite),
-                              ),
-                            ],
-                          ),
-                        )),
+                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                    child: CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      value: false,
+                      checkColor: kGrey6,
+                      activeColor: lBlue2,
+                      // selected: true,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24.0), // Optionally
+                        side: const BorderSide(color: kGrey2),
+                      ),
+                      onChanged: (v) {
+                        print("yess");
+                      },
+                      title: Text(
+                        'Maintenance',
+                        style: MyFonts.w600.size(14).setColor(kWhite),
+                      ),
+                    ),
                   ),
                   Padding(
                     padding:
@@ -272,116 +182,64 @@ class _UpspState extends State<Upsp> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: kGrey2),
-                            color: kBackground,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Theme(
-                                  data:
-                                      ThemeData(unselectedWidgetColor: lBlue3),
-                                  child: Checkbox(
-                                    checkColor: kBlack,
-                                    activeColor: lBlue3,
-                                    overlayColor:
-                                        MaterialStateProperty.all(lBlue3),
-                                    value: checkBox_4,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        checkBox_4 = value!;
-                                      });
-                                    },
-                                  )),
-                              Text(
-                                "Maintainence",
-                                style: MyFonts.w600.size(14).setColor(kWhite),
-                              ),
-                            ],
-                          ),
-                        )),
+                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                    child: CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      value: false,
+                      checkColor: kGrey6,
+                      activeColor: lBlue2,
+                      // selected: true,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24.0), // Optionally
+                        side: const BorderSide(color: kGrey2),
+                      ),
+                      onChanged: (v) {
+                        print("yess");
+                      },
+                      title: Text(
+                        'Maintenance',
+                        style: MyFonts.w600.size(14).setColor(kWhite),
+                      ),
+                    ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: kGrey2),
-                            color: kBackground,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Theme(
-                                  data:
-                                      ThemeData(unselectedWidgetColor: lBlue3),
-                                  child: Checkbox(
-                                    checkColor: kBlack,
-                                    activeColor: lBlue3,
-                                    overlayColor:
-                                        MaterialStateProperty.all(lBlue3),
-                                    value: checkBox_5,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        checkBox_5 = value!;
-                                      });
-                                    },
-                                  )),
-                              Text(
-                                "Services",
-                                style: MyFonts.w600.size(14).setColor(kWhite),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: kGrey2),
-                            color: kBackground,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Theme(
-                                  data:
-                                      ThemeData(unselectedWidgetColor: lBlue3),
-                                  child: Checkbox(
-                                    checkColor: kBlack,
-                                    activeColor: lBlue3,
-                                    overlayColor:
-                                        MaterialStateProperty.all(lBlue3),
-                                    value: checkBox_6,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        checkBox_6 = value!;
-                                      });
-                                    },
-                                  )),
-                              Text(
-                                "Other",
-                                style: MyFonts.w600.size(14).setColor(kWhite),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(3.0),
+                  //   child: Container(
+                  //       margin: const EdgeInsets.symmetric(horizontal: 12),
+                  //       decoration: BoxDecoration(
+                  //           border: Border.all(color: kGrey2),
+                  //           color: kBackground,
+                  //           borderRadius: BorderRadius.circular(30)),
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.symmetric(
+                  //             horizontal: 20, vertical: 10),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.start,
+                  //           children: [
+                  //             Theme(
+                  //                 data:
+                  //                     ThemeData(unselectedWidgetColor: lBlue3),
+                  //                 child: Checkbox(
+                  //                   checkColor: kBlack,
+                  //                   activeColor: lBlue3,
+                  //                   overlayColor:
+                  //                       MaterialStateProperty.all(lBlue3),
+                  //                   value: checkBox_4,
+                  //                   onChanged: (value) {
+                  //                     setState(() {
+                  //                       checkBox_4 = value!;
+                  //                     });
+                  //                   },
+                  //                 )),
+                  //             Text(
+                  //               "Maintainence",
+                  //               style: MyFonts.w600.size(14).setColor(kWhite),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       )),
+                  // ),
+
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
