@@ -5,6 +5,7 @@ import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/quick_links/cab_share.dart';
 import 'package:onestop_dev/pages/quick_links/gc_scoreboard.dart';
+import 'package:onestop_dev/pages/upsp/upsp.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
 List<HomeTabTile> serviceLinks = [
@@ -36,6 +37,12 @@ List<HomeTabTile> serviceLinks = [
     label: "GC Score Board",
     icon: FluentIcons.trophy_20_regular,
     routeId: Scoreboard.id,
+    newBadge: true,
+  ),
+  const HomeTabTile(
+    label: "UPSP",
+    icon: FluentIcons.chat_warning_16_regular,
+    routeId: Upsp.id,
     newBadge: true,
   ),
 ];
