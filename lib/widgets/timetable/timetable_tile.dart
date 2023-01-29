@@ -4,6 +4,8 @@ import 'package:onestop_dev/functions/timetable/time_range.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
+import 'package:onestop_dev/stores/timetable_store.dart';
+import 'package:provider/provider.dart';
 
 class TimetableTile extends StatelessWidget {
   final CourseModel course;
@@ -17,10 +19,15 @@ class TimetableTile extends StatelessWidget {
     if (course.course!.toLowerCase().contains("lab")) {
       tileIcon = FluentIcons.beaker_24_filled;
     }
-    String sel = findTimeRange();
-    Color bg = (sel == course.timing)
-        ? kTimetableGreen
-        : const Color.fromRGBO(120, 120, 120, 0.16);
+    String currentTimeString = findTimeRange();
+    TimetableStore ttStore = context.read<TimetableStore>();
+    DateTime selectedDateTime = ttStore.dates[ttStore.selectedDate];
+    bool showHighlight = currentTimeString == course.timing &&
+        selectedDateTime.weekday == DateTime.now().weekday;
+    if (inHomePage) {
+      showHighlight = currentTimeString == course.timing;
+    }
+    Color bg = showHighlight ? kTimetableGreen : kTimetableDisabled;
     if (inHomePage) bg = kTimetableGreen;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -30,7 +37,7 @@ class TimetableTile extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
             color: bg,
-            border: (sel == course.timing)
+            border: showHighlight
                 ? Border.all(color: Colors.blueAccent)
                 : Border.all(color: Colors.transparent),
           ),
@@ -87,18 +94,24 @@ class TimetableTile extends StatelessWidget {
                         height: 3.0,
                       ),
                       if (course.venue != null)
-                      Row(
-                        children: [
-                          const Icon(FluentIcons.location_12_filled,color: lBlue, size: 13,),
-                          const SizedBox(width: 4,),
-                          Expanded(
-                            child: Text(
-                              course.venue!,
-                              style: MyFonts.w400.size(13).setColor(lBlue),
+                        Row(
+                          children: [
+                            const Icon(
+                              FluentIcons.location_12_filled,
+                              color: lBlue,
+                              size: 13,
                             ),
-                          )
-                        ],
-                      )
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Expanded(
+                              child: Text(
+                                course.venue!,
+                                style: MyFonts.w400.size(13).setColor(lBlue),
+                              ),
+                            )
+                          ],
+                        )
                     ],
                   ),
                 ),
