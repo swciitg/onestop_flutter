@@ -51,11 +51,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires Camera access for Lost/Found or Buy/Sell images</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>This app needs access to location to show you the nearest bus stops, ferry ghats, restaurants etc.</string>
 	<key>NSLocationUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>This app needs access to location to show you the nearest bus stops, ferry ghats, restaurants etc.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>This app needs access to location to show you the nearest bus stops, ferry ghats, restaurants etc.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires Photo Library access for Lost/Found or Buy/Sell images</string>
 	<key>UILaunchStoryboardName</key>
