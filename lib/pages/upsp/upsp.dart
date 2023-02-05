@@ -2,7 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/services/service.dart';
+import 'package:onestop_dev/services/api_caller.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
@@ -21,7 +21,7 @@ List<String> board = [
 ];
 
 List<String> subcommitte = [
-  'Maintenance',
+  'Maintainence',
   'Services',
   'Finance',
   'Academic',
@@ -41,12 +41,24 @@ class Upsp extends StatefulWidget {
 class _UpspState extends State<Upsp> {
   List<bool> boardCheck = List.filled(board.length, false);
   List<bool> committeeCheck = List.filled(subcommitte.length, false);
-
-  static const IconData upload = IconData(0xe695, fontFamily: 'MaterialIcons');
   List<String> files = [];
+  TextEditingController problem = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    var userStore = context.read<LoginStore>();
+    if(userStore.isGuestUser)
+      {
+        return Scaffold(
+          appBar: AppBar(),
+          body: const Text('Please sign in to use this feature'),
+        );
+      }
+    var userData = userStore.userData;
+    String email = userData['email']!;
+    String name = userData['name']!;
+    String roll = userData['rollno']!;
+
     return Theme(
       data: Theme.of(context).copyWith(
           checkboxTheme: CheckboxThemeData(
@@ -76,7 +88,10 @@ class _UpspState extends State<Upsp> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Text("Filling this form as ${context.read<LoginStore>().userData['email']!}", style: MyFonts.w500.size(11).setColor(kGrey10),),
+                    Text(
+                      "Filling this form as $email",
+                      style: MyFonts.w500.size(11).setColor(kGrey10),
+                    ),
                     const SizedBox(
                       height: 15,
                     ),
@@ -123,9 +138,27 @@ class _UpspState extends State<Upsp> {
                     //             )),
                     //       );
                     //     }),
+                    // for (int index = 0; index < files.length; index++)
+                    //   Padding(
+                    //     padding: const EdgeInsets.all(3.0),
+                    //     child: Container(
+                    //         margin: const EdgeInsets.symmetric(horizontal: 12),
+                    //         decoration: BoxDecoration(
+                    //             border: Border.all(color: kGrey2),
+                    //             color: kBlueGrey,
+                    //             borderRadius: BorderRadius.circular(30)),
+                    //         child: Padding(
+                    //           padding: const EdgeInsets.symmetric(
+                    //               horizontal: 20, vertical: 10),
+                    //           child: Text(
+                    //             files[index],
+                    //             style: MyFonts.w400.size(16).setColor(kWhite),
+                    //           ),
+                    //         )),
+                    //   ),
                     GestureDetector(
-                      onTap: () {
-                        String? fileName = Service.uploadFile() as String?;
+                      onTap: () async {
+                        String? fileName = await Service.uploadFile();
                         if (fileName != null) files.add(fileName);
                       },
                       child: Padding(
@@ -178,6 +211,7 @@ class _UpspState extends State<Upsp> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 10),
                               child: TextField(
+                                controller: problem,
                                 style: MyFonts.w500.size(16).setColor(kWhite),
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
@@ -190,115 +224,113 @@ class _UpspState extends State<Upsp> {
                       padding:
                           const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                       child: Text(
-                        "Respective Subcommittee dealing with the grievance raised",
-                        style: MyFonts.w600.size(16).setColor(kWhite),
-                      ),
-                    ),
-                    for(int i = 0; i < subcommitte.length; i++) Padding(
-                      padding:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                      child: CheckboxListTile(
-                        controlAffinity: ListTileControlAffinity.leading,
-                        value: committeeCheck[i],
-                        checkColor: kGrey6,
-                        activeColor: lBlue2,
-                        // selected: true,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.circular(24.0), // Optionally
-                          side: const BorderSide(color: kGrey2),
-                        ),
-                        onChanged: (v) {
-                          setState(() {
-                            committeeCheck[i] = !committeeCheck[i];
-                          });
-
-                        },
-                        title: Text(
-                          subcommitte[i],
-                          style: MyFonts.w600.size(14).setColor(kWhite),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, top: 15, bottom: 10),
-                      child: Text(
                         "Respective Board dealing with the grievance raised",
                         style: MyFonts.w600.size(16).setColor(kWhite),
                       ),
                     ),
-                    for(int i = 0; i < board.length; i++) Padding(
-                      padding:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                      child: CheckboxListTile(
-                        controlAffinity: ListTileControlAffinity.leading,
-                        value: boardCheck[i],
-                        checkColor: kGrey6,
-                        activeColor: lBlue2,
-                        // selected: true,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.circular(24.0), // Optionally
-                          side: const BorderSide(color: kGrey2),
-                        ),
-                        onChanged: (v) {
-                          setState(() {
-                            boardCheck[i] = !boardCheck[i];
-                          });
-
-                        },
-                        title: Text(
-                          board[i],
-                          style: MyFonts.w600.size(14).setColor(kWhite),
+                    for (int i = 0; i < board.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 16),
+                        child: CheckboxListTile(
+                          controlAffinity: ListTileControlAffinity.leading,
+                          value: boardCheck[i],
+                          checkColor: kGrey6,
+                          activeColor: lBlue2,
+                          // selected: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(24.0), // Optionally
+                            side: const BorderSide(color: kGrey2),
+                          ),
+                          onChanged: (v) {
+                            setState(() {
+                              boardCheck[i] = !boardCheck[i];
+                            });
+                          },
+                          title: Text(
+                            board[i],
+                            style: MyFonts.w600.size(14).setColor(kWhite),
+                          ),
                         ),
                       ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, top: 15, bottom: 10),
+                      child: Text(
+                        "Respective Subcommittee dealing with the grievance raised",
+                        style: MyFonts.w600.size(16).setColor(kWhite),
+                      ),
                     ),
-
-                    // Padding(
-                    //   padding: const EdgeInsets.all(3.0),
-                    //   child: Container(
-                    //       margin: const EdgeInsets.symmetric(horizontal: 12),
-                    //       decoration: BoxDecoration(
-                    //           border: Border.all(color: kGrey2),
-                    //           color: kBackground,
-                    //           borderRadius: BorderRadius.circular(30)),
-                    //       child: Padding(
-                    //         padding: const EdgeInsets.symmetric(
-                    //             horizontal: 20, vertical: 10),
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.start,
-                    //           children: [
-                    //             Theme(
-                    //                 data:
-                    //                     ThemeData(unselectedWidgetColor: lBlue3),
-                    //                 child: Checkbox(
-                    //                   checkColor: kBlack,
-                    //                   activeColor: lBlue3,
-                    //                   overlayColor:
-                    //                       MaterialStateProperty.all(lBlue3),
-                    //                   value: checkBox_4,
-                    //                   onChanged: (value) {
-                    //                     setState(() {
-                    //                       checkBox_4 = value!;
-                    //                     });
-                    //                   },
-                    //                 )),
-                    //             Text(
-                    //               "Maintainence",
-                    //               style: MyFonts.w600.size(14).setColor(kWhite),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       )),
-                    // ),
+                    for (int i = 0; i < subcommitte.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 16),
+                        child: CheckboxListTile(
+                          controlAffinity: ListTileControlAffinity.leading,
+                          value: committeeCheck[i],
+                          checkColor: kGrey6,
+                          activeColor: lBlue2,
+                          // selected: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(24.0), // Optionally
+                            side: const BorderSide(color: kGrey2),
+                          ),
+                          onChanged: (v) {
+                            setState(() {
+                              committeeCheck[i] = !committeeCheck[i];
+                            });
+                          },
+                          title: Text(
+                            subcommitte[i],
+                            style: MyFonts.w600.size(14).setColor(kWhite),
+                          ),
+                        ),
+                      ),
                     const SizedBox(
                       height: 20,
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const DetailsUpsp()));
+                        if(problem.text == '')
+                          {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                  "Problem description cannot be empty",
+                                  style: MyFonts.w500,
+                                )));
+                          }
+                        else{
+                          Map<String, dynamic> data = {
+                            'problem': problem.text,
+                            'files': files,
+                            'name': name,
+                            'roll_number': roll,
+                            'email': email,
+                            'boards': [],
+                            'subcommittees': []
+                          };
+                          for (int index = 0;
+                          index < boardCheck.length;
+                          index++) {
+                            if (boardCheck[index]) {
+                              data['boards'].add(board[index]);
+                            }
+                          }
+                          for (int index = 0;
+                          index < committeeCheck.length;
+                          index++) {
+                            if (committeeCheck[index]) {
+                              data['subcommittees'].add(subcommitte[index]);
+                            }
+                          }
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => DetailsUpsp(
+                                data: data,
+                              )));
+                        }
+
                       },
                       child: const NextButton(
                         title: "Next",

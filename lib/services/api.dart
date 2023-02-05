@@ -52,6 +52,7 @@ class APIService {
   static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');
   static const _feedback =
       'https://api.github.com/repos/vrrao01/onestop_dev/issues';
+  static const String _upspPost = 'https://swc.iitg.ac.in/onestopapi/v2/upsp/submit-request';
 
   static Future<bool> postFeedbackData(Map<String, String> data) async {
     String tag = data['type'] == 'Issue Report' ? 'bug' : 'enhancement';
@@ -462,5 +463,16 @@ class APIService {
     } else {
       throw Exception(response.body);
     }
+  }
+
+  static Future<Map<String, dynamic>> postUPSP(
+      Map<String, dynamic> data) async {
+    var res = await http.post(Uri.parse(_upspPost),
+        body: jsonEncode(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'security-key': apiSecurityKey
+        });
+    return jsonDecode(res.body);
   }
 }

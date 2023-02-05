@@ -2,32 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
 
 
 class DetailsUpsp extends StatefulWidget {
-  const DetailsUpsp({Key? key}) : super(key: key);
+  final Map<String, dynamic> data;
+  const DetailsUpsp({Key? key, required this.data}) : super(key: key);
 
   @override
   State<DetailsUpsp> createState() => _DetailsUpspState();
 }
 
 class _DetailsUpspState extends State<DetailsUpsp> {
-  String? selectedLocation;
-  String? selectedDropdown;
+  String selectedDropdown = 'Kameng';
+  TextEditingController contact = TextEditingController();
   List<String> hostels = [
-    "Hostel",
-    "Brahmaputra",
-    "Dihing",
-    "Manas",
-    "Lohit",
-    "Dhansiri",
-    "Subansiri",
-    "Disang",
     "Kameng",
+    "Barak",
+    "Lohit",
+    "Brahma",
+    "Disang",
+    "Manas",
+    "Dihing",
     "Umiam",
-    "Barak"
+    "Siang",
+    "Kapili",
+    "Dhansiri",
+    "Subhansiri"
   ];
   @override
   Widget build(BuildContext context) {
@@ -76,37 +80,11 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                             padding:
                             const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             child: TextField(
+                              controller: contact,
                               style: MyFonts.w500.size(16).setColor(kWhite),
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Your Answer',
-                                hintStyle: TextStyle(color: kGrey8),
-                              ),
-                            )
-                        )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
-                    child: Text(
-                      "Roll Number",
-                      style: MyFonts.w600.size(16).setColor(kWhite),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: kGrey2),
-                            color: kBackground, borderRadius: BorderRadius.circular(24)),
-                        child: Padding(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                            child: TextField(
-                              style: MyFonts.w500.size(16).setColor(kWhite),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: '190101009',
                                 hintStyle: TextStyle(color: kGrey8),
                               ),
                             )
@@ -126,9 +104,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                       padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                       child: DropdownButtonFormField<String>(
-                        value: selectedDropdown == "Disang"
-                            ? selectedLocation
-                            : "Hostel",
+                        value: selectedDropdown,
                         icon: const Icon(
                           FluentIcons.chevron_down_24_regular,
                           color: kWhite,
@@ -136,8 +112,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                         style: MyFonts.w600.size(14).setColor(kWhite),
                         onChanged: (data) {
                           setState(() {
-                            selectedLocation = data!;
-                            selectedDropdown = "Hostel";
+                            selectedDropdown = data!;
                           });
                         },
                         items: hostels.map<DropdownMenuItem<String>>((String value) {
@@ -156,7 +131,42 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      Map<String, dynamic> data = widget.data;
+                      data['phone'] = contact.text;
+                      data['hostel'] = selectedDropdown;
+                      print(data);
+                      try
+                      {
+                        var response = await APIService.postUPSP(data);
+                        if (!mounted) return;
+                        if(response['success'])
+                          {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                  "Problem posted successfully",
+                                  style: MyFonts.w500,
+                                )));
+                            Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
+                          }
+                        else
+                          {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                  "Some error occured, please try again",
+                                  style: MyFonts.w500,
+                                )));
+                          }
+                      }
+                      catch(err){
+                        print(err);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                              "Please check you internet connection and try again",
+                              style: MyFonts.w500,
+                            )));
+                      }
+
                     },
                     child: const NextButton(
                       title: "Submit",
