@@ -6,6 +6,8 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
+import 'package:onestop_dev/widgets/upsp/file_tile.dart';
+import 'package:onestop_dev/widgets/upsp/upload_button.dart';
 import 'package:provider/provider.dart';
 import 'details_upsp.dart';
 
@@ -44,6 +46,22 @@ class _UpspState extends State<Upsp> {
   List<String> files = [];
   TextEditingController problem = TextEditingController();
   int formIndex = 1;
+
+  List<String> get selectedBoards {
+    List<String> l = [];
+    for (int i = 0; i < boards.length; i++) {
+      if (boardCheck[i]) l.add(boards[i]);
+    }
+    return l;
+  }
+
+  List<String> get selectedSubCommittees {
+    List<String> l = [];
+    for (int i = 0; i < subcommittees.length; i++) {
+      if (committeeCheck[i]) l.add(subcommittees[i]);
+    }
+    return l;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,86 +135,15 @@ class _UpspState extends State<Upsp> {
                             ),
                           ),
                           for (int index = 0; index < files.length; index++)
-                            Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: kGrey2),
-                                      color: kBlueGrey,
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 4,
-                                          child: Text(
-                                            files[index],
-                                            overflow: TextOverflow.ellipsis,
-                                            style: MyFonts.w400
-                                                .size(16)
-                                                .setColor(kWhite),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: IconButton(
-                                              onPressed: () {
-                                                files.removeAt(index);
-                                                setState(() {});
-                                              },
-                                              icon: const Icon(
-                                                Icons.clear,
-                                                color: kWhite,
-                                                size: 15,
-                                              )),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                            ),
-                          GestureDetector(
-                            onTap: () async {
-                              String? fileName = await uploadFile();
-                              if (fileName != null) files.add(fileName);
-                              setState(() {});
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: kGrey2),
-                                      color: kBackground,
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            "Upload",
-                                            style: MyFonts.w600
-                                                .size(14)
-                                                .setColor(kWhite),
-                                          ),
-                                        ),
-                                        const Icon(
-                                          FluentIcons.arrow_upload_16_regular,
-                                          color: kWhite,
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                            ),
-                          ),
+                            FileTile(
+                                filename: files[index],
+                                onDelete: () => setState(() {
+                                      files.removeAt(index);
+                                    })),
+                          UploadButton(callBack: (fName) {
+                            if (fName != null) files.add(fName);
+                            setState(() {});
+                          }),
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 15, top: 15, bottom: 10),
@@ -219,6 +166,7 @@ class _UpspState extends State<Upsp> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 10),
                                     child: TextField(
+                                      maxLines: 4,
                                       controller: problem,
                                       style: MyFonts.w500
                                           .size(16)
@@ -319,24 +267,9 @@ class _UpspState extends State<Upsp> {
                                   'name': name,
                                   'roll_number': roll,
                                   'email': email,
-                                  'boards': [],
-                                  'subcommittees': []
+                                  'boards': selectedBoards,
+                                  'subcommittees': selectedSubCommittees
                                 };
-                                for (int index = 0;
-                                    index < boardCheck.length;
-                                    index++) {
-                                  if (boardCheck[index]) {
-                                    data['boards'].add(boards[index]);
-                                  }
-                                }
-                                for (int index = 0;
-                                    index < committeeCheck.length;
-                                    index++) {
-                                  if (committeeCheck[index]) {
-                                    data['subcommittees']
-                                        .add(subcommittees[index]);
-                                  }
-                                }
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => DetailsUpsp(
                                           data: data,

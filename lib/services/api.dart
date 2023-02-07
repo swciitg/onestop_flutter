@@ -480,7 +480,7 @@ class APIService {
     return jsonDecode(res.body);
   }
 
-  static Future<int?> uploadFileToServer(File file) async {
+  static Future<String?> uploadFileToServer(File file) async {
     var fileName = file.path.split('/').last;
     print('this is the file name');
     print(fileName);
@@ -501,8 +501,9 @@ class APIService {
       });
       print('this is the response');
       print(response);
-      print(response.statusCode);
-      return response.statusCode;
+      if (response.statusCode == 200) {
+        return response.data['filename'];
+      }
     } on DioError catch (e) {
       if (e.response != null) {
         print('response is not null');
@@ -510,7 +511,7 @@ class APIService {
       } else {
         print(e.message);
       }
-      return 400;
+      return null;
     }
   }
 }
