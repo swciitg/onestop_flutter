@@ -123,12 +123,7 @@ class _UpspState extends State<Upsp> {
                                     })),
                           files.length < 5
                               ? UploadButton(callBack: (fName) {
-                                  if (fName != null) {
-                                    files.add(fName);
-                                  } else {
-                                    showSnackBar(
-                                        "There was an error uploading your file");
-                                  }
+                                  if (fName != null) files.add(fName);
                                   setState(() {});
                                 })
                               : Container(),
@@ -225,5 +220,13 @@ class _UpspState extends State<Upsp> {
               ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    problem.dispose();
+    subcommitteeController.dispose();
+    boardsController.dispose();
+    super.dispose();
   }
 }

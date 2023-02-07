@@ -33,9 +33,11 @@ class _DetailsUpspState extends State<DetailsUpsp> {
     "Siang",
     "Kapili",
     "Dhansiri",
-    "Subhansiri"
+    "Subhansiri",
+    "Married Scholar's Hostel"
   ];
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var userStore = context.read<LoginStore>();
@@ -256,5 +258,11 @@ class _DetailsUpspState extends State<DetailsUpsp> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    contact.dispose();
+    super.dispose();
   }
 }
