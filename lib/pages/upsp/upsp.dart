@@ -50,8 +50,24 @@ class _UpspState extends State<Upsp> {
     if(userStore.isGuestUser)
       {
         return Scaffold(
-          appBar: AppBar(),
-          body: const Text('Please sign in to use this feature'),
+          appBar: AppBar(
+            backgroundColor: kBlueGrey,
+            title: Text(
+              "UPSP",
+              style: MyFonts.w500.size(20).setColor(kWhite),
+            ),
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            leadingWidth: 18,
+            actions: [
+              IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(
+                    FluentIcons.dismiss_24_filled,
+                  ))
+            ],
+          ),
+          body: Center(child: Text('Please sign in to use this feature', style: MyFonts.w400.size(14).setColor(kWhite),)),
         );
       }
     var userData = userStore.userData;
