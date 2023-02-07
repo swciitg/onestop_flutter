@@ -1,15 +1,15 @@
-import 'package:badges/badges.dart' as badge;
-import 'package:flutter/material.dart';
+import 'package:badges/badges.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
 class HomeTabTile extends StatelessWidget {
   const HomeTabTile(
       {Key? key,
-      required this.label,
-      required this.icon,
-      this.routeId,
-      this.newBadge = false})
+        required this.label,
+        required this.icon,
+        this.routeId,
+        this.newBadge = false})
       : super(key: key);
 
   final String label;
@@ -54,9 +54,9 @@ class HomeTabTile extends StatelessWidget {
       ),
     );
     if (newBadge) {
-      finalWidget = badge.Badge(
-        position: badge.BadgePosition.topEnd(top:3),
-        shape: badge.BadgeShape.square,
+      finalWidget = Badge(
+        position: BadgePosition.topEnd(top:3),
+        shape: BadgeShape.square,
         borderRadius: BorderRadius.circular(8),
         badgeContent: Text(
           'New',

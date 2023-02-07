@@ -156,7 +156,8 @@ class _UpspState extends State<Upsp> {
                                   ),
                                   Expanded(
                                     flex: 1,
-                                    child: IconButton(onPressed: (){
+                                    child: IconButton(onPressed: () {
+                                      files.removeAt(index);
                                       setState(() {
                                       });
                                     }, icon: const Icon(Icons.clear, color: kWhite, size: 15,)),
