@@ -40,7 +40,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
       appBar: AppBar(
         backgroundColor: kBlueGrey,
         title: Text(
-          "  2. Your Details",
+          "2. Your Details",
           style: MyFonts.w600.size(16).setColor(kWhite),
         ),
       ),
