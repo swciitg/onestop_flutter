@@ -9,7 +9,7 @@ import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
 import 'package:provider/provider.dart';
 import 'details_upsp.dart';
 
-List<String> board = [
+const List<String> boards = [
   'Sports Board',
   'Hostel Affairs Board (HAB)',
   'Technical Board',
@@ -20,7 +20,7 @@ List<String> board = [
   'Others',
 ];
 
-List<String> subcommitte = [
+const List<String> subcommittees = [
   'Maintainence',
   'Services',
   'Finance',
@@ -31,7 +31,7 @@ List<String> subcommitte = [
 ];
 
 class Upsp extends StatefulWidget {
-  static const String id = "/UPSP";
+  static const String id = "/upsp";
   const Upsp({Key? key}) : super(key: key);
 
   @override
@@ -39,37 +39,40 @@ class Upsp extends StatefulWidget {
 }
 
 class _UpspState extends State<Upsp> {
-  List<bool> boardCheck = List.filled(board.length, false);
-  List<bool> committeeCheck = List.filled(subcommitte.length, false);
+  List<bool> boardCheck = List.filled(boards.length, false);
+  List<bool> committeeCheck = List.filled(subcommittees.length, false);
   List<String> files = [];
   TextEditingController problem = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     var userStore = context.read<LoginStore>();
-    if(userStore.isGuestUser)
-      {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: kBlueGrey,
-            title: Text(
-              "UPSP",
-              style: MyFonts.w500.size(20).setColor(kWhite),
-            ),
-            elevation: 0,
-            automaticallyImplyLeading: false,
-            leadingWidth: 18,
-            actions: [
-              IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(
-                    FluentIcons.dismiss_24_filled,
-                  ))
-            ],
+    if (userStore.isGuestUser) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: kBlueGrey,
+          title: Text(
+            "UPSP",
+            style: MyFonts.w500.size(20).setColor(kWhite),
           ),
-          body: Center(child: Text('Please sign in to use this feature', style: MyFonts.w400.size(14).setColor(kWhite),)),
-        );
-      }
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          leadingWidth: 18,
+          actions: [
+            IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(
+                  FluentIcons.dismiss_24_filled,
+                ))
+          ],
+        ),
+        body: Center(
+            child: Text(
+          'Please sign in to use this feature',
+          style: MyFonts.w400.size(14).setColor(kWhite),
+        )),
+      );
+    }
     var userData = userStore.userData;
     String email = userData['email']!;
     String name = userData['name']!;
@@ -142,8 +145,8 @@ class _UpspState extends State<Upsp> {
                                 color: kBlueGrey,
                                 borderRadius: BorderRadius.circular(30)),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -151,16 +154,23 @@ class _UpspState extends State<Upsp> {
                                     child: Text(
                                       files[index],
                                       overflow: TextOverflow.ellipsis,
-                                      style: MyFonts.w400.size(16).setColor(kWhite),
+                                      style: MyFonts.w400
+                                          .size(16)
+                                          .setColor(kWhite),
                                     ),
                                   ),
                                   Expanded(
                                     flex: 1,
-                                    child: IconButton(onPressed: () {
-                                      files.removeAt(index);
-                                      setState(() {
-                                      });
-                                    }, icon: const Icon(Icons.clear, color: kWhite, size: 15,)),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          files.removeAt(index);
+                                          setState(() {});
+                                        },
+                                        icon: const Icon(
+                                          Icons.clear,
+                                          color: kWhite,
+                                          size: 15,
+                                        )),
                                   ),
                                 ],
                               ),
@@ -170,8 +180,7 @@ class _UpspState extends State<Upsp> {
                       onTap: () async {
                         String? fileName = await uploadFile();
                         if (fileName != null) files.add(fileName);
-                        setState(() {
-                        });
+                        setState(() {});
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(3.0),
@@ -240,7 +249,7 @@ class _UpspState extends State<Upsp> {
                         style: MyFonts.w600.size(16).setColor(kWhite),
                       ),
                     ),
-                    for (int i = 0; i < board.length; i++)
+                    for (int i = 0; i < boards.length; i++)
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 4, horizontal: 16),
@@ -261,7 +270,7 @@ class _UpspState extends State<Upsp> {
                             });
                           },
                           title: Text(
-                            board[i],
+                            boards[i],
                             style: MyFonts.w600.size(14).setColor(kWhite),
                           ),
                         ),
@@ -274,7 +283,7 @@ class _UpspState extends State<Upsp> {
                         style: MyFonts.w600.size(16).setColor(kWhite),
                       ),
                     ),
-                    for (int i = 0; i < subcommitte.length; i++)
+                    for (int i = 0; i < subcommittees.length; i++)
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 4, horizontal: 16),
@@ -295,7 +304,7 @@ class _UpspState extends State<Upsp> {
                             });
                           },
                           title: Text(
-                            subcommitte[i],
+                            subcommittees[i],
                             style: MyFonts.w600.size(14).setColor(kWhite),
                           ),
                         ),
@@ -305,15 +314,13 @@ class _UpspState extends State<Upsp> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        if(problem.text == '')
-                          {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                  "Problem description cannot be empty",
-                                  style: MyFonts.w500,
-                                )));
-                          }
-                        else{
+                        if (problem.text == '') {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                            "Problem description cannot be empty",
+                            style: MyFonts.w500,
+                          )));
+                        } else {
                           Map<String, dynamic> data = {
                             'problem': problem.text,
                             'files': files,
@@ -324,25 +331,24 @@ class _UpspState extends State<Upsp> {
                             'subcommittees': []
                           };
                           for (int index = 0;
-                          index < boardCheck.length;
-                          index++) {
+                              index < boardCheck.length;
+                              index++) {
                             if (boardCheck[index]) {
-                              data['boards'].add(board[index]);
+                              data['boards'].add(boards[index]);
                             }
                           }
                           for (int index = 0;
-                          index < committeeCheck.length;
-                          index++) {
+                              index < committeeCheck.length;
+                              index++) {
                             if (committeeCheck[index]) {
-                              data['subcommittees'].add(subcommitte[index]);
+                              data['subcommittees'].add(subcommittees[index]);
                             }
                           }
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => DetailsUpsp(
-                                data: data,
-                              )));
+                                    data: data,
+                                  )));
                         }
-
                       },
                       child: const NextButton(
                         title: "Next",
