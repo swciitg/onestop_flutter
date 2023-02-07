@@ -223,6 +223,7 @@ class _UpspState extends State<Upsp> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 10),
                               child: TextField(
+                                maxLines: 4,
                                 controller: problem,
                                 style: MyFonts.w500.size(16).setColor(kWhite),
                                 decoration: const InputDecoration(
