@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:onestop_dev/functions/timetable/time_range.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/timetable/date_slider.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
@@ -14,12 +13,9 @@ class TimeTableTab extends StatefulWidget {
 }
 
 class _TimeTableTabState extends State<TimeTableTab> {
-  int select = 0;
-  String sel = "";
   List<Map<int, List<List<String>>>> data1 = [];
   @override
   Widget build(BuildContext context) {
-    sel = findTimeRange();
     return SingleChildScrollView(
       child: Column(
         children: [
