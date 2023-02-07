@@ -1,8 +1,8 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/utility/pick_file.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/services/api_caller.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
@@ -132,50 +132,45 @@ class _UpspState extends State<Upsp> {
                         style: MyFonts.w600.size(16).setColor(kWhite),
                       ),
                     ),
-                    // ListView.builder(
-                    //   physics: NeverScrollableScrollPhysics(),
-                    //     itemCount: files.length,
-                    //     itemBuilder: (BuildContext context, int index) {
-                    //       return Padding(
-                    //         padding: const EdgeInsets.all(3.0),
-                    //         child: Container(
-                    //             margin: const EdgeInsets.symmetric(horizontal: 12),
-                    //             decoration: BoxDecoration(
-                    //                 border: Border.all(color: kGrey2),
-                    //                 color: kBlueGrey,
-                    //                 borderRadius: BorderRadius.circular(30)),
-                    //             child: Padding(
-                    //               padding: const EdgeInsets.symmetric(
-                    //                   horizontal: 20, vertical: 10),
-                    //               child:  Text(
-                    //                 files[index],
-                    //                 style: MyFonts.w400.size(16).setColor(kWhite),
-                    //               ),
-                    //             )),
-                    //       );
-                    //     }),
-                    // for (int index = 0; index < files.length; index++)
-                    //   Padding(
-                    //     padding: const EdgeInsets.all(3.0),
-                    //     child: Container(
-                    //         margin: const EdgeInsets.symmetric(horizontal: 12),
-                    //         decoration: BoxDecoration(
-                    //             border: Border.all(color: kGrey2),
-                    //             color: kBlueGrey,
-                    //             borderRadius: BorderRadius.circular(30)),
-                    //         child: Padding(
-                    //           padding: const EdgeInsets.symmetric(
-                    //               horizontal: 20, vertical: 10),
-                    //           child: Text(
-                    //             files[index],
-                    //             style: MyFonts.w400.size(16).setColor(kWhite),
-                    //           ),
-                    //         )),
-                    //   ),
+                    for (int index = 0; index < files.length; index++)
+                      Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 12),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: kGrey2),
+                                color: kBlueGrey,
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 4,
+                                    child: Text(
+                                      files[index],
+                                      overflow: TextOverflow.ellipsis,
+                                      style: MyFonts.w400.size(16).setColor(kWhite),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: IconButton(onPressed: (){
+                                      setState(() {
+                                      });
+                                    }, icon: const Icon(Icons.clear, color: kWhite, size: 15,)),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
                     GestureDetector(
                       onTap: () async {
-                        String? fileName = await Service.uploadFile();
+                        String? fileName = await uploadFile();
                         if (fileName != null) files.add(fileName);
+                        setState(() {
+                        });
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(3.0),

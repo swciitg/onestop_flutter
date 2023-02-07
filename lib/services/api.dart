@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
@@ -52,7 +53,10 @@ class APIService {
   static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');
   static const _feedback =
       'https://api.github.com/repos/vrrao01/onestop_dev/issues';
-  static const String _upspPost = 'https://swc.iitg.ac.in/onestopapi/v2/upsp/submit-request';
+  static const String _upspPost =
+      'https://swc.iitg.ac.in/onestopapi/v2/upsp/submit-request';
+  static const String _uploadFileUPSP = "https://swc.iitg.ac.in/onestopapi/v2/upsp/file-upload";
+
 
   static Future<bool> postFeedbackData(Map<String, String> data) async {
     String tag = data['type'] == 'Issue Report' ? 'bug' : 'enhancement';
@@ -474,5 +478,39 @@ class APIService {
           'security-key': apiSecurityKey
         });
     return jsonDecode(res.body);
+  }
+
+  static Future<int?> uploadFileToServer(File file) async {
+    var fileName = file.path.split('/').last;
+    print('this is the file name');
+    print(fileName);
+    var formData = FormData.fromMap({
+      'file':
+          await MultipartFile.fromFile(file.path, filename: fileName),
+    });
+    try {
+      var response = await Dio().post(_uploadFileUPSP,
+          options: Options(
+            contentType: 'multipart/form-data',
+            headers: {
+              'security-key': apiSecurityKey
+            }
+          ),
+          data: formData, onSendProgress: (int send, int total) {
+        print((send / total) * 100);
+      });
+      print('this is the response');
+      print(response);
+      print(response.statusCode);
+      return response.statusCode;
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print('response is not null');
+        print(e.response);
+      } else {
+        print(e.message);
+      }
+      return 400;
+    }
   }
 }

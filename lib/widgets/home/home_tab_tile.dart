@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badge;
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -54,9 +54,9 @@ class HomeTabTile extends StatelessWidget {
       ),
     );
     if (newBadge) {
-      finalWidget = Badge(
-        position: BadgePosition.topEnd(top:3),
-        shape: BadgeShape.square,
+      finalWidget = badge.Badge(
+        position: badge.BadgePosition.topEnd(top:3),
+        shape: badge.BadgeShape.square,
         borderRadius: BorderRadius.circular(8),
         badgeContent: Text(
           'New',
