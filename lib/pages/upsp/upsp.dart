@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/pick_file.dart';
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -68,8 +69,6 @@ class _UpspState extends State<Upsp> {
     var userStore = context.read<LoginStore>();
     var userData = userStore.userData;
     String email = userData['email']!;
-    String name = userData['name']!;
-    String roll = userData['rollno']!;
 
     return Theme(
       data: Theme.of(context).copyWith(
@@ -93,199 +92,193 @@ class _UpspState extends State<Upsp> {
                 style: MyFonts.w400.size(14).setColor(kWhite),
               ))
             : Column(
-                children: [
-                  const ProgressBar(blue: 1, grey: 1),
-                  Container(
-                    color: kBlueGrey,
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                          top: 10, left: 16, right: 16, bottom: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Filling this form as $email",
-                            style: MyFonts.w500.size(11).setColor(kGrey10),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            "Fill this One stop form to  address your Academic, Technical, Cultural or Welfare problems directly to the respective boards.",
-                            style: MyFonts.w400.size(14).setColor(kWhite),
-                          ),
-                        ],
-                      ),
+              children: [
+                const ProgressBar(blue: 1, grey: 1),
+                Container(
+                  color: kBlueGrey,
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                        top: 10, left: 16, right: 16, bottom: 15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Filling this form as $email",
+                          style: MyFonts.w500.size(11).setColor(kGrey10),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "Fill this One stop form to  address your Academic, Technical, Cultural or Welfare problems directly to the respective boards.",
+                          style: MyFonts.w400.size(14).setColor(kWhite),
+                        ),
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 15, top: 15, bottom: 10),
-                            child: Text(
-                              "Upload any related screenshot/video/pdf attachment proof",
-                              style: MyFonts.w600.size(16).setColor(kWhite),
-                            ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, top: 15, bottom: 10),
+                          child: Text(
+                            "Upload any related screenshot/video/pdf attachment proof",
+                            style: MyFonts.w600.size(16).setColor(kWhite),
                           ),
-                          for (int index = 0; index < files.length; index++)
-                            FileTile(
-                                filename: files[index],
-                                onDelete: () => setState(() {
-                                      files.removeAt(index);
-                                    })),
-                          UploadButton(callBack: (fName) {
-                            if (fName != null) files.add(fName);
-                            setState(() {});
-                          }),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 15, top: 15, bottom: 10),
-                            child: Text(
-                              "Brief Description of your Problem",
-                              style: MyFonts.w600.size(16).setColor(kWhite),
-                            ),
+                        ),
+                        for (int index = 0; index < files.length; index++)
+                          FileTile(
+                              filename: files[index],
+                              onDelete: () => setState(() {
+                                    files.removeAt(index);
+                                  })),
+                        UploadButton(callBack: (fName) {
+                          if (fName != null) files.add(fName);
+                          setState(() {});
+                        }),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, top: 15, bottom: 10),
+                          child: Text(
+                            "Brief Description of your Problem",
+                            style: MyFonts.w600.size(16).setColor(kWhite),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Container(
-                                height: 120,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 12),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: kGrey2),
-                                    color: kBackground,
-                                    borderRadius: BorderRadius.circular(24)),
-                                child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    child: TextField(
-                                      maxLines: 4,
-                                      controller: problem,
-                                      style: MyFonts.w500
-                                          .size(16)
-                                          .setColor(kWhite),
-                                      decoration: const InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: 'Your answer',
-                                        hintStyle: TextStyle(color: kGrey8),
-                                      ),
-                                    ))),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Container(
+                              height: 120,
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 12),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: kGrey2),
+                                  color: kBackground,
+                                  borderRadius: BorderRadius.circular(24)),
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  child: TextFormField(
+                                    maxLines: 4,
+                                    controller: problem,
+                                    style: MyFonts.w500
+                                        .size(16)
+                                        .setColor(kWhite),
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Your answer',
+                                      hintStyle: TextStyle(color: kGrey8),
+                                    ),
+                                  ))),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, top: 15, bottom: 10),
+                          child: Text(
+                            "Respective Board dealing with the grievance raised",
+                            style: MyFonts.w600.size(16).setColor(kWhite),
                           ),
+                        ),
+                        for (int i = 0; i < boards.length; i++)
                           Padding(
-                            padding: const EdgeInsets.only(
-                                left: 15, top: 15, bottom: 10),
-                            child: Text(
-                              "Respective Board dealing with the grievance raised",
-                              style: MyFonts.w600.size(16).setColor(kWhite),
-                            ),
-                          ),
-                          for (int i = 0; i < boards.length; i++)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4, horizontal: 16),
-                              child: CheckboxListTile(
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                                value: boardCheck[i],
-                                checkColor: kGrey6,
-                                activeColor: lBlue2,
-                                // selected: true,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(24.0), // Optionally
-                                  side: const BorderSide(color: kGrey2),
-                                ),
-                                onChanged: (v) {
-                                  setState(() {
-                                    boardCheck[i] = !boardCheck[i];
-                                  });
-                                },
-                                title: Text(
-                                  boards[i],
-                                  style: MyFonts.w600.size(14).setColor(kWhite),
-                                ),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 16),
+                            child: CheckboxListTile(
+                              controlAffinity:
+                                  ListTileControlAffinity.leading,
+                              value: boardCheck[i],
+                              checkColor: kGrey6,
+                              activeColor: lBlue2,
+                              // selected: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    24.0), // Optionally
+                                side: const BorderSide(color: kGrey2),
+                              ),
+                              onChanged: (v) {
+                                setState(() {
+                                  boardCheck[i] = !boardCheck[i];
+                                });
+                              },
+                              title: Text(
+                                boards[i],
+                                style:
+                                    MyFonts.w600.size(14).setColor(kWhite),
                               ),
                             ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 15, top: 15, bottom: 10),
-                            child: Text(
-                              "Respective Subcommittee dealing with the grievance raised",
-                              style: MyFonts.w600.size(16).setColor(kWhite),
-                            ),
                           ),
-                          for (int i = 0; i < subcommittees.length; i++)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4, horizontal: 16),
-                              child: CheckboxListTile(
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                                value: committeeCheck[i],
-                                checkColor: kGrey6,
-                                activeColor: lBlue2,
-                                // selected: true,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(24.0), // Optionally
-                                  side: const BorderSide(color: kGrey2),
-                                ),
-                                onChanged: (v) {
-                                  setState(() {
-                                    committeeCheck[i] = !committeeCheck[i];
-                                  });
-                                },
-                                title: Text(
-                                  subcommittees[i],
-                                  style: MyFonts.w600.size(14).setColor(kWhite),
-                                ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, top: 15, bottom: 10),
+                          child: Text(
+                            "Respective Subcommittee dealing with the grievance raised",
+                            style: MyFonts.w600.size(16).setColor(kWhite),
+                          ),
+                        ),
+                        for (int i = 0; i < subcommittees.length; i++)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 16),
+                            child: CheckboxListTile(
+                              controlAffinity:
+                                  ListTileControlAffinity.leading,
+                              value: committeeCheck[i],
+                              checkColor: kGrey6,
+                              activeColor: lBlue2,
+                              // selected: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    24.0), // Optionally
+                                side: const BorderSide(color: kGrey2),
+                              ),
+                              onChanged: (v) {
+                                setState(() {
+                                  committeeCheck[i] = !committeeCheck[i];
+                                });
+                              },
+                              title: Text(
+                                subcommittees[i],
+                                style:
+                                    MyFonts.w600.size(14).setColor(kWhite),
                               ),
                             ),
-                          const SizedBox(
-                            height: 20,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              if (problem.text == '') {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                        content: Text(
-                                  "Problem description cannot be empty",
-                                  style: MyFonts.w500,
-                                )));
-                              } else {
-                                Map<String, dynamic> data = {
-                                  'problem': problem.text,
-                                  'files': files,
-                                  'name': name,
-                                  'roll_number': roll,
-                                  'email': email,
-                                  'boards': selectedBoards,
-                                  'subcommittees': selectedSubCommittees
-                                };
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => DetailsUpsp(
-                                          data: data,
-                                        )));
-                              }
-                            },
-                            child: const NextButton(
-                              title: "Next",
-                            ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            if (problem.value.text.isEmpty) {
+                              showSnackBar("Problem description cannot be empty");
+                            } else {
+                              Map<String, dynamic> data = {
+                                'problem': problem.text,
+                                'files': files,
+                                'boards': selectedBoards,
+                                'subcommittees': selectedSubCommittees
+                              };
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => DetailsUpsp(
+                                        data: data,
+                                      )));
+                            }
+                          },
+                          child: const NextButton(
+                            title: "Next",
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
       ),
     );
   }
