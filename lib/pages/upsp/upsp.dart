@@ -7,6 +7,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
+import 'package:onestop_dev/widgets/upsp/checkbox_list.dart';
 import 'package:onestop_dev/widgets/upsp/file_tile.dart';
 import 'package:onestop_dev/widgets/upsp/upload_button.dart';
 import 'package:provider/provider.dart';
@@ -42,27 +43,10 @@ class Upsp extends StatefulWidget {
 }
 
 class _UpspState extends State<Upsp> {
-  List<bool> boardCheck = List.filled(boards.length, false);
-  List<bool> committeeCheck = List.filled(subcommittees.length, false);
   List<String> files = [];
   TextEditingController problem = TextEditingController();
-  int formIndex = 1;
-
-  List<String> get selectedBoards {
-    List<String> l = [];
-    for (int i = 0; i < boards.length; i++) {
-      if (boardCheck[i]) l.add(boards[i]);
-    }
-    return l;
-  }
-
-  List<String> get selectedSubCommittees {
-    List<String> l = [];
-    for (int i = 0; i < subcommittees.length; i++) {
-      if (committeeCheck[i]) l.add(subcommittees[i]);
-    }
-    return l;
-  }
+  CheckBoxListController subcommitteeController = CheckBoxListController();
+  CheckBoxListController boardsController = CheckBoxListController();
 
   @override
   Widget build(BuildContext context) {
@@ -92,193 +76,148 @@ class _UpspState extends State<Upsp> {
                 style: MyFonts.w400.size(14).setColor(kWhite),
               ))
             : Column(
-              children: [
-                const ProgressBar(blue: 1, grey: 1),
-                Container(
-                  color: kBlueGrey,
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                        top: 10, left: 16, right: 16, bottom: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Filling this form as $email",
-                          style: MyFonts.w500.size(11).setColor(kGrey10),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "Fill this One stop form to  address your Academic, Technical, Cultural or Welfare problems directly to the respective boards.",
-                          style: MyFonts.w400.size(14).setColor(kWhite),
-                        ),
-                      ],
+                children: [
+                  const ProgressBar(blue: 1, grey: 1),
+                  Container(
+                    color: kBlueGrey,
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                          top: 10, left: 16, right: 16, bottom: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Filling this form as $email",
+                            style: MyFonts.w500.size(11).setColor(kGrey10),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            "Fill this One stop form to  address your Academic, Technical, Cultural or Welfare problems directly to the respective boards.",
+                            style: MyFonts.w400.size(14).setColor(kWhite),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Upload any related screenshot/video/pdf attachment proof",
-                            style: MyFonts.w600.size(16).setColor(kWhite),
-                          ),
-                        ),
-                        for (int index = 0; index < files.length; index++)
-                          FileTile(
-                              filename: files[index],
-                              onDelete: () => setState(() {
-                                    files.removeAt(index);
-                                  })),
-                        UploadButton(callBack: (fName) {
-                          if (fName != null) files.add(fName);
-                          setState(() {});
-                        }),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Brief Description of your Problem",
-                            style: MyFonts.w600.size(16).setColor(kWhite),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Container(
-                              height: 120,
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 12),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: kGrey2),
-                                  color: kBackground,
-                                  borderRadius: BorderRadius.circular(24)),
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  child: TextFormField(
-                                    maxLines: 4,
-                                    controller: problem,
-                                    style: MyFonts.w500
-                                        .size(16)
-                                        .setColor(kWhite),
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Your answer',
-                                      hintStyle: TextStyle(color: kGrey8),
-                                    ),
-                                  ))),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Respective Board dealing with the grievance raised",
-                            style: MyFonts.w600.size(16).setColor(kWhite),
-                          ),
-                        ),
-                        for (int i = 0; i < boards.length; i++)
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 16),
-                            child: CheckboxListTile(
-                              controlAffinity:
-                                  ListTileControlAffinity.leading,
-                              value: boardCheck[i],
-                              checkColor: kGrey6,
-                              activeColor: lBlue2,
-                              // selected: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    24.0), // Optionally
-                                side: const BorderSide(color: kGrey2),
-                              ),
-                              onChanged: (v) {
-                                setState(() {
-                                  boardCheck[i] = !boardCheck[i];
-                                });
-                              },
-                              title: Text(
-                                boards[i],
-                                style:
-                                    MyFonts.w600.size(14).setColor(kWhite),
-                              ),
+                            padding: const EdgeInsets.only(
+                                left: 15, top: 15, bottom: 10),
+                            child: Text(
+                              "Upload any related screenshot/video/pdf attachment proof",
+                              style: MyFonts.w600.size(16).setColor(kWhite),
                             ),
                           ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Respective Subcommittee dealing with the grievance raised",
-                            style: MyFonts.w600.size(16).setColor(kWhite),
-                          ),
-                        ),
-                        for (int i = 0; i < subcommittees.length; i++)
+                          for (int index = 0; index < files.length; index++)
+                            FileTile(
+                                filename: files[index],
+                                onDelete: () => setState(() {
+                                      files.removeAt(index);
+                                    })),
+                          UploadButton(callBack: (fName) {
+                            if (fName != null) files.add(fName);
+                            setState(() {});
+                          }),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 16),
-                            child: CheckboxListTile(
-                              controlAffinity:
-                                  ListTileControlAffinity.leading,
-                              value: committeeCheck[i],
-                              checkColor: kGrey6,
-                              activeColor: lBlue2,
-                              // selected: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    24.0), // Optionally
-                                side: const BorderSide(color: kGrey2),
-                              ),
-                              onChanged: (v) {
-                                setState(() {
-                                  committeeCheck[i] = !committeeCheck[i];
-                                });
-                              },
-                              title: Text(
-                                subcommittees[i],
-                                style:
-                                    MyFonts.w600.size(14).setColor(kWhite),
-                              ),
+                            padding: const EdgeInsets.only(
+                                left: 15, top: 15, bottom: 10),
+                            child: Text(
+                              "Brief Description of your Problem",
+                              style: MyFonts.w600.size(16).setColor(kWhite),
                             ),
                           ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            if (problem.value.text.isEmpty) {
-                              showSnackBar("Problem description cannot be empty");
-                            } else {
-                              Map<String, dynamic> data = {
-                                'problem': problem.text,
-                                'files': files,
-                                'boards': selectedBoards,
-                                'subcommittees': selectedSubCommittees
-                              };
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => DetailsUpsp(
-                                        data: data,
-                                      )));
-                            }
-                          },
-                          child: const NextButton(
-                            title: "Next",
+                          Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Container(
+                                height: 120,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: kGrey2),
+                                    color: kBackground,
+                                    borderRadius: BorderRadius.circular(24)),
+                                child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    child: TextFormField(
+                                      maxLines: 4,
+                                      controller: problem,
+                                      style: MyFonts.w500
+                                          .size(16)
+                                          .setColor(kWhite),
+                                      decoration: const InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Your answer',
+                                        hintStyle: TextStyle(color: kGrey8),
+                                      ),
+                                    ))),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, top: 15, bottom: 10),
+                            child: Text(
+                              "Respective Board dealing with the grievance raised",
+                              style: MyFonts.w600.size(16).setColor(kWhite),
+                            ),
+                          ),
+                          CheckBoxList(
+                            values: boards,
+                            controller: boardsController,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, top: 15, bottom: 10),
+                            child: Text(
+                              "Respective Subcommittee dealing with the grievance raised",
+                              style: MyFonts.w600.size(16).setColor(kWhite),
+                            ),
+                          ),
+                          CheckBoxList(
+                            values: subcommittees,
+                            controller: subcommitteeController,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              if (problem.value.text.isEmpty) {
+                                showSnackBar(
+                                    "Problem description cannot be empty");
+                              } else {
+                                Map<String, dynamic> data = {
+                                  'problem': problem.text,
+                                  'files': files,
+                                  'boards': boardsController.selectedItems,
+                                  'subcommittees':
+                                      subcommitteeController.selectedItems
+                                };
+
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => DetailsUpsp(
+                                          data: data,
+                                        )));
+                              }
+                            },
+                            child: const NextButton(
+                              title: "Next",
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
       ),
     );
   }
