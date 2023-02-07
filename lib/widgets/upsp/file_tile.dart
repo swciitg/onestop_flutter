@@ -4,7 +4,8 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
 class FileTile extends StatelessWidget {
-  const FileTile({Key? key, required this.filename, required this.onDelete}) : super(key: key);
+  const FileTile({Key? key, required this.filename, required this.onDelete})
+      : super(key: key);
   final Function onDelete;
   final String filename;
 
@@ -13,30 +14,25 @@ class FileTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(3.0),
       child: Container(
-          margin: const EdgeInsets.symmetric(
-              horizontal: 12),
+          margin: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
               border: Border.all(color: kGrey2),
               color: kBlueGrey,
               borderRadius: BorderRadius.circular(30)),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Text(
                     filename,
-                    style: MyFonts.w600
-                        .size(14)
-                        .setColor(kWhite),
+                    style: MyFonts.w600.size(14).setColor(kWhite),
                   ),
                 ),
                 GestureDetector(
                   onTap: () => onDelete(),
-                  child: Icon(
+                  child: const Icon(
                     FluentIcons.dismiss_24_regular,
                     color: kWhite,
                   ),

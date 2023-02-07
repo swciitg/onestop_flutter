@@ -64,7 +64,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                   children: [
                     Padding(
                       padding:
-                      const EdgeInsets.only(left: 15, top: 15, bottom: 10),
+                          const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                       child: Text(
                         "Your Roll Number",
                         style: MyFonts.w600.size(16).setColor(kWhite),
@@ -87,6 +87,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                   if (val == null || val.isEmpty) {
                                     return "Please fill your roll number";
                                   }
+                                  return null;
                                 },
                                 keyboardType: TextInputType.number,
                                 style: MyFonts.w500.size(16).setColor(kWhite),
@@ -95,9 +96,9 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                   counterText: "",
                                   border: InputBorder.none,
                                   hintText: 'Your Answer',
-                                  hintStyle: TextStyle(color: kGrey8),
+                                  hintStyle: const TextStyle(color: kGrey8),
                                 ),
-                                onChanged: (r) => roll = r ,
+                                onChanged: (r) => roll = r,
                               ))),
                     ),
                     Padding(
@@ -127,6 +128,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                   if (val.length < 10) {
                                     return "Enter a valid contact number";
                                   }
+                                  return null;
                                 },
                                 keyboardType: TextInputType.number,
                                 controller: contact,
@@ -137,7 +139,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                   counterText: "",
                                   border: InputBorder.none,
                                   hintText: 'Your Answer',
-                                  hintStyle: TextStyle(color: kGrey8),
+                                  hintStyle: const TextStyle(color: kGrey8),
                                 ),
                               ))),
                     ),
@@ -156,29 +158,32 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                             horizontal: 12, vertical: 5),
                         child: DropdownButtonFormField<String>(
                           validator: (val) {
-                            if (val == null)
+                            if (val == null) {
                               return "Hostel can not be empty";
+                            }
+                            return null;
                           },
                           hint: Padding(
-                            padding: const EdgeInsets.only(left:15),
-                            child: Text("Select your hostel", style: MyFonts.w500.setColor(kGrey8).size(16)),
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Text("Select your hostel",
+                                style: MyFonts.w500.setColor(kGrey8).size(16)),
                           ),
                           decoration: InputDecoration(
                             errorStyle: MyFonts.w400,
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: kGrey8),
+                              borderSide: const BorderSide(color: kGrey8),
                               borderRadius: BorderRadius.circular(24),
                             ),
                             errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: kGrey8),
+                              borderSide: const BorderSide(color: kGrey8),
                               borderRadius: BorderRadius.circular(24),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: kGrey8),
+                              borderSide: const BorderSide(color: kGrey8),
                               borderRadius: BorderRadius.circular(24),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: kGrey8),
+                              borderSide: const BorderSide(color: kGrey8),
                               borderRadius: BorderRadius.circular(24),
                             ),
                           ),
@@ -208,11 +213,13 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 24,),
+                    const SizedBox(
+                      height: 24,
+                    ),
                     GestureDetector(
                       onTap: () async {
                         if (!_formKey.currentState!.validate()) {
-                          return ;
+                          return;
                         }
                         Map<String, dynamic> data = widget.data;
                         data['phone'] = contact.text;
@@ -229,7 +236,8 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                             Navigator.popUntil(
                                 context, ModalRoute.withName(HomePage.id));
                           } else {
-                            showSnackBar("Some error occurred. Try again later");
+                            showSnackBar(
+                                "Some error occurred. Try again later");
                           }
                         } catch (err) {
                           showSnackBar(

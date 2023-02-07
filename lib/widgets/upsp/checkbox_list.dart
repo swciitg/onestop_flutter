@@ -24,7 +24,7 @@ class _CheckBoxListState extends State<CheckBoxList> {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: widget.values.length,
       itemBuilder: (context, i) {
         return Padding(

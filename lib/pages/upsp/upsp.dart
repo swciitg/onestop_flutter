@@ -1,6 +1,4 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/functions/utility/pick_file.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -123,10 +121,17 @@ class _UpspState extends State<Upsp> {
                                 onDelete: () => setState(() {
                                       files.removeAt(index);
                                     })),
-                          UploadButton(callBack: (fName) {
-                            if (fName != null) files.add(fName);
-                            setState(() {});
-                          }),
+                          files.length < 5
+                              ? UploadButton(callBack: (fName) {
+                                  if (fName != null) {
+                                    files.add(fName);
+                                  } else {
+                                    showSnackBar(
+                                        "There was an error uploading your file");
+                                  }
+                                  setState(() {});
+                                })
+                              : Container(),
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 15, top: 15, bottom: 10),
