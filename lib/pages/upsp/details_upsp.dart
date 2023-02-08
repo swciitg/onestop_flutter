@@ -20,6 +20,7 @@ class DetailsUpsp extends StatefulWidget {
 
 class _DetailsUpspState extends State<DetailsUpsp> {
   String selectedDropdown = 'Kameng';
+  bool submitted = false;
   TextEditingController contact = TextEditingController();
   List<String> hostels = [
     "Kameng",
@@ -223,28 +224,40 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                         if (!_formKey.currentState!.validate()) {
                           return;
                         }
-                        Map<String, dynamic> data = widget.data;
-                        data['phone'] = contact.text;
-                        data['hostel'] = selectedDropdown;
-                        data['name'] = name;
-                        data['roll_number'] = roll;
-                        data['email'] = email;
-                        try {
-                          var response = await APIService.postUPSP(data);
-                          if (!mounted) return;
-                          if (response['success']) {
-                            showSnackBar(
-                                "Your problem has been successfully sent to respective authorities.");
-                            Navigator.popUntil(
-                                context, ModalRoute.withName(HomePage.id));
-                          } else {
-                            showSnackBar(
-                                "Some error occurred. Try again later");
+                        if(!submitted)
+                          {
+                            setState(() {
+                              submitted = true;
+                            });
+                            Map<String, dynamic> data = widget.data;
+                            data['phone'] = contact.text;
+                            data['hostel'] = selectedDropdown;
+                            data['name'] = name;
+                            data['roll_number'] = roll;
+                            data['email'] = email;
+                            try {
+                              var response = await APIService.postUPSP(data);
+                              if (!mounted) return;
+                              if (response['success']) {
+                                showSnackBar(
+                                    "Your problem has been successfully sent to respective authorities.");
+                                Navigator.popUntil(
+                                    context, ModalRoute.withName(HomePage.id));
+                              } else {
+                                showSnackBar(
+                                    "Some error occurred. Try again later");
+                                setState(() {
+                                  submitted = false;
+                                });
+                              }
+                            } catch (err) {
+                              showSnackBar(
+                                  "Please check you internet connection and try again");
+                              setState(() {
+                                submitted = false;
+                              });
+                            }
                           }
-                        } catch (err) {
-                          showSnackBar(
-                              "Please check you internet connection and try again");
-                        }
                       },
                       child: const NextButton(
                         title: "Submit",
