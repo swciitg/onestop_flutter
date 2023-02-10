@@ -5,21 +5,16 @@ import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/upsp/dialog.dart';
 
-enum UPSPDocument { image, pdf }
-
 Future<String?> uploadFile(
     BuildContext context, Function uploadCallback) async {
   var fileType = await showDialog(
       context: context,
       builder: (context) => const UPSPDialog(),
       barrierDismissible: false);
-  FilePickerResult? result;
-  if (fileType == UPSPDocument.image) {
-    result = await FilePicker.platform.pickFiles(type: FileType.image);
-  } else if (fileType == UPSPDocument.pdf) {
-    result = await FilePicker.platform
-        .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
-  }
+  List<String>? extensions = fileType == FileType.custom ? ['pdf'] : null;
+  FilePickerResult? result = await FilePicker.platform
+      .pickFiles(type: fileType, allowedExtensions: extensions);
+
   if (result != null) {
     File file = File(result.files.single.path!);
     uploadCallback();
@@ -31,5 +26,3 @@ Future<String?> uploadFile(
   }
   return null;
 }
-
-

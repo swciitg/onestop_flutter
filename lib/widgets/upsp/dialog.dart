@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/pick_file.dart';
@@ -30,7 +31,7 @@ class UPSPDialog extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(UPSPDocument.image);
+                Navigator.of(context).pop(FileType.media);
               },
               child: Row(
                 children: const [
@@ -38,13 +39,13 @@ class UPSPDialog extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  Text('Image')
+                  Text('Image/Video')
                 ],
               ),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(UPSPDocument.pdf);
+                Navigator.of(context).pop(FileType.custom);
               },
               child: Row(
                 children: const [
