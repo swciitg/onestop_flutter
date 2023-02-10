@@ -19,9 +19,11 @@ class _UploadButtonState extends State<UploadButton> {
       onTap: uploading
           ? null
           : () async {
-              String? fileName = await uploadFile(() => setState(() {
-                    uploading = true;
-                  }));
+              String? fileName = await uploadFile(
+                  context,
+                  () => setState(() {
+                        uploading = true;
+                      }));
               widget.callBack(fileName);
               setState(() {
                 uploading = false;
