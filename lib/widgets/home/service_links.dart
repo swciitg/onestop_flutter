@@ -37,7 +37,6 @@ List<HomeTabTile> serviceLinks = [
     label: "GC Score Board",
     icon: FluentIcons.trophy_20_regular,
     routeId: Scoreboard.id,
-    newBadge: true,
   ),
   const HomeTabTile(
     label: "UPSP",
