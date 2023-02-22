@@ -6,10 +6,10 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 class HomeTabTile extends StatelessWidget {
   const HomeTabTile(
       {Key? key,
-      required this.label,
-      required this.icon,
-      this.routeId,
-      this.newBadge = false})
+        required this.label,
+        required this.icon,
+        this.routeId,
+        this.newBadge = false})
       : super(key: key);
 
   final String label;

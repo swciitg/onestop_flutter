@@ -13,6 +13,7 @@ import 'package:onestop_dev/pages/login/login.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/profile.dart';
 import 'package:onestop_dev/pages/splash.dart';
+import 'package:onestop_dev/pages/upsp/upsp.dart';
 
 final routes = {
   SplashPage.id: (context) => const SplashPage(),
@@ -30,4 +31,5 @@ final routes = {
   Complaints.id: (context) => const Complaints(),
   CabShare.id: (context) => const CabShare(),
   Scoreboard.id: (context) => const Scoreboard(),
+  Upsp.id: (context) => const Upsp(),
 };
