@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
@@ -49,8 +50,8 @@ class _TrackingDailogState extends State<TrackingDailog> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Track now', style: MyFonts.w500.size(14).setColor(kWhite)),
-              Icon(Icons.open_in_new_sharp, color: kWhite, size: 15,)
+              Text('Track now  ', style: MyFonts.w500.size(14).setColor(kWhite)),
+              Icon(FluentIcons.open_16_filled, color: kWhite, size: 15,)
             ],
           ),
           onTap: () {
