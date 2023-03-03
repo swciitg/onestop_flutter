@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
+import 'package:onestop_dev/widgets/travel/tracking_dailog.dart';
 import 'package:onestop_dev/widgets/travel/travel_drop_down.dart';
 import 'package:provider/provider.dart';
 
@@ -67,13 +68,19 @@ class StopsBusDetails extends StatelessWidget {
               Expanded(
                 child: Container(),
               ),
+
               context.read<TravelStore>().isBusSelected
                   ? TravelDropDown(
                       value: context.read<TravelStore>().busDayType,
                       onChange: context.read<TravelStore>().setBusDayString,
                       items: const ['Weekdays', 'Weekends'],
                     )
-                  : Container()
+                  : GestureDetector(
+                onTap: (){
+                  showDialog(context: context, builder: (_) => TrackingDailog());
+                },
+                child: Text("Track Bus", style: MyFonts.w500.setColor(kWhite),),
+              )
             ],
           ),
           context.read<TravelStore>().busPage
