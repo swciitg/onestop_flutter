@@ -10,7 +10,7 @@ Future<String?> uploadFile(
   var fileType = await showDialog(
       context: context,
       builder: (context) => const UPSPDialog(),
-      barrierDismissible: false);
+      barrierDismissible: true);
   List<String>? extensions = fileType == FileType.custom ? ['pdf'] : null;
   FilePickerResult? result = await FilePicker.platform
       .pickFiles(type: fileType, allowedExtensions: extensions);
