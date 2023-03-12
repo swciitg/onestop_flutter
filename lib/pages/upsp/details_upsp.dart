@@ -59,7 +59,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
         key: _formKey,
         child: GestureDetector(
           onTap: (){
-            FocusScope.of(context).requestFocus(new FocusNode());
+            FocusScope.of(context).requestFocus(FocusNode());
           },
           child: Column(
             children: [

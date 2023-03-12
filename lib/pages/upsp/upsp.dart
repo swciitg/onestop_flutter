@@ -75,7 +75,7 @@ class _UpspState extends State<Upsp> {
               ))
             : GestureDetector(
           onTap: (){
-            FocusScope.of(context).requestFocus(new FocusNode());
+            FocusScope.of(context).requestFocus(FocusNode());
           },
               child: Column(
                   children: [
