@@ -1,9 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:shimmer/shimmer.dart';
-
 import '../../widgets/ui/list_shimmer.dart';
 
 class VoterCard extends StatefulWidget {
@@ -79,23 +78,13 @@ class _VoterCardState extends State<VoterCard> {
     return answer;
   }
 
-  getImage(String? url)
-  {
-    if(url == null)
-      {
-        return NetworkImage('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F773915517223143233%2F&psig=AOvVaw1ZA5wkRHvOqXG64EJoui80&ust=1678984367834000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCNDz-Keu3v0CFQAAAAAdAAAAABAE');
-      }
-    return NetworkImage(url);
-  }
-
   @override
   Widget build(BuildContext context) {
     dio.options.headers['cookie'] =
         widget.authCookie; // setting cookies for auth
     dio.post("https://swc.iitg.ac.in/elections_api/sgc/voting/get_eprofile/",data: {"email" : widget.email}).then((value){
-      print(value);
+      //print(value);
     });
-    print("fhsdjkhgfsd");
     return FutureBuilder<Response>(
       future: dio.post("https://swc.iitg.ac.in/elections_api/sgc/voting/get_eprofile/",data: {"email" : widget.email}),
       builder: (context, snapshot) {
@@ -107,9 +96,10 @@ class _VoterCardState extends State<VoterCard> {
         }
         print(snapshot.data!);
         var data = snapshot.data!.data;
+        print(data);
         return Column(mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Expanded(
@@ -123,22 +113,22 @@ class _VoterCardState extends State<VoterCard> {
                       ],
                     ),
                     Text("Voter ID", style: MyFonts.w500.setColor(kWhite).size(25),),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                     Container(
                         height: 200,
                         width: 200,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.rectangle,
-                          image: DecorationImage(
-                            image: getImage(data["img_url"]),
-                            fit: BoxFit.fill,
-                          ),
                         ),
-                        child: null
+                        child: CachedNetworkImage(
+                          imageUrl:  data["img_url"],
+                          placeholder: (context, url) => ListShimmer(count: 1, height: 200,),
+                          errorWidget: (context, url, error) =>  const Image(image: NetworkImage('https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg')) ,
+                        ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     //Image.network('src'),
@@ -152,15 +142,15 @@ class _VoterCardState extends State<VoterCard> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Degree: " + getDegree(data['degree']), style: MyFonts.w500.setColor(kWhite).size(18),textAlign: TextAlign.center,),
+                      child: Text("Degree: ${getDegree(data['degree'])}", style: MyFonts.w500.setColor(kWhite).size(18),textAlign: TextAlign.center,),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Hostel: " + data['hostel'][0].toString().toUpperCase() + data['hostel'].toString().substring(1), style: MyFonts.w500.setColor(kWhite).size(18),textAlign: TextAlign.center,),
+                      child: Text("Hostel: ${data['hostel'][0].toString().toUpperCase()}${data['hostel'].toString().substring(1)}", style: MyFonts.w500.setColor(kWhite).size(18),textAlign: TextAlign.center,),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Branch: " + getBranch(data['branch']), style: MyFonts.w500.setColor(kWhite).size(18),textAlign: TextAlign.center,),
+                      child: Text("Branch: ${getBranch(data['branch'])}", style: MyFonts.w500.setColor(kWhite).size(18),textAlign: TextAlign.center,),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -171,11 +161,11 @@ class _VoterCardState extends State<VoterCard> {
               ),
             ),
             Text('Made by',style: MyFonts.w600.setColor(kWhite).size(10),),
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
             SizedBox(
                 height: 25, child: Image.asset('assets/images/logoo.png', cacheWidth: 451, cacheHeight: 75,)
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             )
 
