@@ -3,6 +3,7 @@ import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/services/local_storage.dart';
+import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 Map<String, List<String>> recordNames = {
   "food": [DatabaseRecords.restaurant],

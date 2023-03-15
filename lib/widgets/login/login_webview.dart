@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginWebView extends StatefulWidget {
@@ -34,8 +35,10 @@ class _LoginWebViewState extends State<LoginWebView> {
             "https://swc.iitg.ac.in/onestopapi/v2/auth/microsoft/redirect?code")) {
           WebViewController controller = await widget._controller.future;
 
-          var userInfoString = await controller.runJavascriptReturningResult(
-              "document.querySelector('#userInfo').innerText");
+          var userInfoString = await controller.runJavascriptReturningResult("document.querySelector('#userInfo').innerText");
+          print('elections');
+          String response = await controller.runJavascriptReturningResult('document.body.innerText');
+          print(response);
           var userInfo = {};
           List<String> values = userInfoString.replaceAll('"', '').split("/");
           if (!values[0].toLowerCase().contains("error")) {
@@ -47,6 +50,7 @@ class _LoginWebViewState extends State<LoginWebView> {
             if (!mounted) return;
             context.read<LoginStore>().saveToPreferences(user, userInfo);
             context.read<LoginStore>().saveToUserData(user);
+            await WebviewCookieManager().clearCookies();
             Navigator.of(context)
                 .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
           }

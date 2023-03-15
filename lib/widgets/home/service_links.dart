@@ -8,6 +8,8 @@ import 'package:onestop_dev/pages/quick_links/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
+import '../../pages/elections/election_login.dart';
+
 List<HomeTabTile> serviceLinks = [
   const HomeTabTile(
     label: "LAN",
@@ -41,7 +43,7 @@ List<HomeTabTile> serviceLinks = [
   const HomeTabTile(
     label: "UPSP",
     icon: FluentIcons.chat_warning_16_regular,
-    routeId: Upsp.id,
-    newBadge: true,
+    routeId: Upsp.id
   ),
+  const HomeTabTile(label: "Election Register", icon: FluentIcons.person_arrow_right_16_regular,routeId: ElectionLoginWebView.id,newBadge: true,)
 ];
