@@ -81,7 +81,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     "Mdes": "Mdes",
     "Dual Degree": "Dual",
     "MA": "MA",
-    "MSR": "MSR"
+    "MSR": "MSR",
+    "MBA": "MBA"
   };
 
   @override

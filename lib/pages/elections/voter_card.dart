@@ -50,7 +50,7 @@ class _VoterCardState extends State<VoterCard> {
     "Dual Degree": "Dual",
     "MA": "MA",
     "MSR": "MSR",
-    "Others": "Others"
+    "MBA": "MBA"
   };
 
   String getBranch(String input)
