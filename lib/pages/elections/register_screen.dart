@@ -3,6 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/pages/elections/voter_card.dart';
+import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
@@ -94,7 +95,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             future: dio.get("https://swc.iitg.ac.in/elections_api/sgc/profile"),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return CircularProgressIndicator();
+                return ListShimmer(
+                  count: 1,
+                  height: 750,
+                );
               }
               Response profResp = snapshot.data!;
               if (profResp.data["euser"]["registration_complete"] == false) {

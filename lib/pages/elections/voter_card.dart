@@ -49,7 +49,8 @@ class _VoterCardState extends State<VoterCard> {
     "Mdes": "Mdes",
     "Dual Degree": "Dual",
     "MA": "MA",
-    "MSR": "MSR"
+    "MSR": "MSR",
+    "Others": "Others"
   };
 
   String getBranch(String input)
@@ -91,7 +92,7 @@ class _VoterCardState extends State<VoterCard> {
         if(!snapshot.hasData){
           return Center(child: ListShimmer(
             count: 1,
-            height: 550,
+            height: 750,
           ));
         }
         //print(snapshot.data!);
