@@ -32,7 +32,6 @@ class _ElectionLoginWebViewState extends State<ElectionLoginWebView> {
         onPageFinished: (url) async {
           if(url.startsWith('https://swc.iitg.ac.in/election_portal')){
             List cookies = await WebviewCookieManager().getCookies('https://swc.iitg.ac.in/elections_api/auth/login_success');
-            print(cookies);
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => RegisterScreen(authCookie: cookies.join("; "))));
           }
         },
