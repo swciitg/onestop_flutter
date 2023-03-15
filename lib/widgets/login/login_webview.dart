@@ -37,8 +37,6 @@ class _LoginWebViewState extends State<LoginWebView> {
 
           var userInfoString = await controller.runJavascriptReturningResult("document.querySelector('#userInfo').innerText");
           print('elections');
-          String response = await controller.runJavascriptReturningResult('document.body.innerText');
-          print(response);
           var userInfo = {};
           List<String> values = userInfoString.replaceAll('"', '').split("/");
           if (!values[0].toLowerCase().contains("error")) {

@@ -94,9 +94,9 @@ class _VoterCardState extends State<VoterCard> {
             height: 550,
           ));
         }
-        print(snapshot.data!);
+        //print(snapshot.data!);
         var data = snapshot.data!.data;
-        print(data);
+        //print(data);
         return Column(mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(
@@ -125,7 +125,7 @@ class _VoterCardState extends State<VoterCard> {
                         child: CachedNetworkImage(
                           imageUrl:  data["img_url"],
                           placeholder: (context, url) => ListShimmer(count: 1, height: 200,),
-                          errorWidget: (context, url, error) =>  const Image(image: NetworkImage('https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg')) ,
+                          errorWidget: (context, url, error) =>  const Image(image: NetworkImage('https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg')),
                         ),
                     ),
                     const SizedBox(
@@ -134,11 +134,11 @@ class _VoterCardState extends State<VoterCard> {
                     //Image.network('src'),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Name: " + data["name"], style: MyFonts.w500.setColor(kWhite).size(18),textAlign: TextAlign.center,),
+                      child: Text("Name: ${data["name"]}", style: MyFonts.w500.setColor(kWhite).size(18),textAlign: TextAlign.center,),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Roll no: " + data["roll_no"], style: MyFonts.w500.setColor(kWhite).size(18),textAlign: TextAlign.center,),
+                      child: Text("Roll no: ${data["roll_no"]}", style: MyFonts.w500.setColor(kWhite).size(18),textAlign: TextAlign.center,),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -154,7 +154,7 @@ class _VoterCardState extends State<VoterCard> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Gender: " + data["gender"], style: MyFonts.w500.setColor(kWhite).size(18),textAlign: TextAlign.center,),
+                      child: Text("Gender: ${data["gender"]}", style: MyFonts.w500.setColor(kWhite).size(18),textAlign: TextAlign.center,),
                     ),
                   ],
                 ),
