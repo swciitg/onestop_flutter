@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/pages/elections/voter_card.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
-
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 import '../../widgets/lostfound/new_page_button.dart';
@@ -82,7 +81,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     "Dual Degree": "Dual",
     "MA": "MA",
     "MSR": "MSR",
-    "MBA": "MBA"
+    "MBA": "MBA",
+    "Others": "Others"
   };
 
   @override
@@ -95,12 +95,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         body: FutureBuilder<Response>(
             future: dio.get("https://swc.iitg.ac.in/elections_api/sgc/profile"),
             builder: (context, snapshot) {
-              if (!snapshot.hasData) {
+              if (!snapshot.hasData || snapshot.hasError) {
                 return ListShimmer(
                   count: 1,
                   height: 750,
                 );
               }
+
               Response profResp = snapshot.data!;
               if (profResp.data["euser"]["registration_complete"] == false) {
                 // show form and generate voter card
