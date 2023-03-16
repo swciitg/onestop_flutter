@@ -1,4 +1,6 @@
 import 'package:onestop_dev/pages/notifications/notifications.dart';
+import 'package:onestop_dev/pages/elections/election_login.dart';
+import 'package:onestop_dev/pages/elections/register_screen.dart';
 import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
 import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
 import 'package:onestop_dev/pages/quick_links/cab_share.dart';
@@ -14,6 +16,7 @@ import 'package:onestop_dev/pages/login/login.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/profile.dart';
 import 'package:onestop_dev/pages/splash.dart';
+import 'package:onestop_dev/pages/upsp/upsp.dart';
 
 final routes = {
   SplashPage.id: (context) => const SplashPage(),
@@ -32,4 +35,6 @@ final routes = {
   CabShare.id: (context) => const CabShare(),
   NotificationPage.id: (context) => const NotificationPage(),
   Scoreboard.id: (context) => const Scoreboard(),
+  Upsp.id: (context) => const Upsp(),
+  ElectionLoginWebView.id: (context) => ElectionLoginWebView()
 };

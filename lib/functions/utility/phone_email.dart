@@ -1,3 +1,4 @@
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 launchPhoneURL(String phoneNumber) async {
@@ -17,3 +18,17 @@ launchEmailURL(String email) async {
     throw 'Could not launch $url';
   }
 }
+
+Future<void> launchURL(String url) async {
+  final Uri uri = Uri(scheme: "https", host: url);
+  print(uri);
+  if(!await launchUrl(
+    uri,
+    mode: LaunchMode.externalApplication,
+  )) {
+    throw "Can not launch url";
+  }
+}
+
+
+

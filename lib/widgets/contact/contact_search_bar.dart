@@ -109,7 +109,7 @@ class PeopleSearch extends SearchDelegate<String> {
       scaffoldBackgroundColor: const Color.fromRGBO(27, 27, 29, 1),
       hintColor: kGrey2,
       textTheme: TextTheme(
-        headline6: MyFonts.w600.setColor(kWhite).size(13),
+        titleLarge: MyFonts.w600.setColor(kWhite).size(13),
       ),
       appBarTheme: const AppBarTheme(
         color: kBlueGrey,

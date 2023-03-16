@@ -1,4 +1,5 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:onestop_dev/pages/elections/election_login.dart';
 import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
 import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
 import 'package:onestop_dev/pages/quick_links/complaints.dart';
@@ -26,5 +27,5 @@ List<HomeTabTile> quickLinks = [
     label: "Academic Calendar",
     icon: FluentIcons.calendar_ltr_24_regular,
     routeId: AcademicCalendar.id,
-  ),
+  )
 ];
