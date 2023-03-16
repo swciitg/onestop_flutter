@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:onestop_dev/firebase_options.dart';
 import 'package:onestop_dev/functions/utility/check_last_updated.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/routes.dart';
@@ -15,7 +16,9 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
@@ -24,7 +27,6 @@ void main() async {
   await checkForNotifications();
   final fcmToken = await FirebaseMessaging.instance.getToken();
   print("FCM Token is $fcmToken");
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
 
