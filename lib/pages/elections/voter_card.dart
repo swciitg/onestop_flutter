@@ -50,7 +50,8 @@ class _VoterCardState extends State<VoterCard> {
     "Dual Degree": "Dual",
     "MA": "MA",
     "MSR": "MSR",
-    "MBA": "MBA"
+    "MBA": "MBA",
+    "Others":"Others"
   };
 
   String getBranch(String input)
@@ -89,7 +90,7 @@ class _VoterCardState extends State<VoterCard> {
     return FutureBuilder<Response>(
       future: dio.post("https://swc.iitg.ac.in/elections_api/sgc/voting/get_eprofile/",data: {"email" : widget.email}),
       builder: (context, snapshot) {
-        if(!snapshot.hasData){
+        if(!snapshot.hasData || snapshot.hasError){
           return Center(child: ListShimmer(
             count: 1,
             height: 750,
