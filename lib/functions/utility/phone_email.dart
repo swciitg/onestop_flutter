@@ -21,7 +21,6 @@ launchEmailURL(String email) async {
 
 Future<void> launchURL(String url) async {
   final Uri uri = Uri(scheme: "https", host: url);
-  print(uri);
   if(!await launchUrl(
     uri,
     mode: LaunchMode.externalApplication,

@@ -1,5 +1,3 @@
-import 'package:onestop_dev/pages/elections/election_login.dart';
-import 'package:onestop_dev/pages/elections/register_screen.dart';
 import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
 import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
 import 'package:onestop_dev/pages/quick_links/cab_share.dart';
@@ -34,5 +32,4 @@ final routes = {
   CabShare.id: (context) => const CabShare(),
   Scoreboard.id: (context) => const Scoreboard(),
   Upsp.id: (context) => const Upsp(),
-  ElectionLoginWebView.id: (context) => ElectionLoginWebView()
 };
