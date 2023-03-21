@@ -2,6 +2,7 @@ import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
 import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
 import 'package:onestop_dev/pages/quick_links/cab_share.dart';
 import 'package:onestop_dev/pages/quick_links/gc_scoreboard.dart';
+import 'package:onestop_dev/pages/quick_links/guest_house.dart';
 import 'package:onestop_dev/pages/quick_links/news_page.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/quick_links/complaints.dart';
@@ -32,4 +33,5 @@ final routes = {
   CabShare.id: (context) => const CabShare(),
   Scoreboard.id: (context) => const Scoreboard(),
   Upsp.id: (context) => const Upsp(),
+  GuestHouse.id: (context) => const GuestHouse(),
 };
