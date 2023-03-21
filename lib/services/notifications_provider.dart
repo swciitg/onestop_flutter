@@ -63,10 +63,11 @@ void onDidReceiveNotificationResponse(
 
 bool checkNotificationCategory(String type) {
   switch (type) {
-    case "Lost":
-    case "Found":
-    case "Buy":
-    case "Sell":
+    case "lost":
+    case "found":
+    case "buy":
+    case "sell":
+    case "travel":
       return true;
   }
   return false;
