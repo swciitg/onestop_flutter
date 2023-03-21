@@ -1,12 +1,8 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/contacts/contact_details.dart';
-import 'package:onestop_dev/widgets/contact/call_email_button.dart';
-import 'package:onestop_dev/widgets/contact/star_button.dart';
 
 class TrackingDailog extends StatefulWidget {
   const TrackingDailog({Key? key}) : super(key: key);
@@ -34,7 +30,7 @@ class _TrackingDailogState extends State<TrackingDailog> {
       content:Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: const [
           Text('To track the bus, go to the following link and enter the credentials given below'),
           SizedBox(
             height: 10,
@@ -51,7 +47,7 @@ class _TrackingDailogState extends State<TrackingDailog> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('Track now  ', style: MyFonts.w500.size(14).setColor(kWhite)),
-              Icon(FluentIcons.open_16_filled, color: kWhite, size: 15,)
+              const Icon(FluentIcons.open_16_filled, color: kWhite, size: 15,)
             ],
           ),
           onTap: () {
@@ -59,7 +55,7 @@ class _TrackingDailogState extends State<TrackingDailog> {
               launchURL('track4.millitrack.com');
             }
             catch(e){
-              print(e);
+              //print(e);
 
             }
 

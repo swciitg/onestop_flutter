@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +35,6 @@ class _LoginWebViewState extends State<LoginWebView> {
           WebViewController controller = await widget._controller.future;
 
           var userInfoString = await controller.runJavascriptReturningResult("document.querySelector('#userInfo').innerText");
-          print('elections');
           var userInfo = {};
           List<String> values = userInfoString.replaceAll('"', '').split("/");
           if (!values[0].toLowerCase().contains("error")) {
