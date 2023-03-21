@@ -8,8 +8,8 @@ import 'home_tab_tile.dart';
 
 List<HomeTabTile> quickLinks = [
   const HomeTabTile(
-    label: "Book Guest House",
-    icon: FluentIcons.receipt_16_filled,
+    label: "Guest House",
+    icon: FluentIcons.building_retail_20_regular,
     routeId: GuestHouse.id,
   ),
   const HomeTabTile(
