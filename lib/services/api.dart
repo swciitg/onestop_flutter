@@ -509,7 +509,7 @@ class APIService {
   static Future<void> createUser(String token) async {
     final prefs = await SharedPreferences.getInstance();
     final res = await http.post(
-      Uri.parse('https://d248-14-139-196-16.in.ngrok.io/onestopapi/v2/onestop-user'),
+      Uri.parse('https://swc.iitg.ac.in/onestopapi/v2/onestop-user'),
       body: jsonEncode(
         {
           "name": prefs.getString('name'),
