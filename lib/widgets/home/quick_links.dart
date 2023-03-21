@@ -8,11 +8,11 @@ import 'package:onestop_dev/pages/quick_links/news_page.dart';
 import 'home_tab_tile.dart';
 
 List<HomeTabTile> quickLinks = [
-  const HomeTabTile(
-    label: "News and Updates",
-    icon: FluentIcons.document_one_page_24_regular,
-    routeId: NewsPage.id,
-  ),
+  // const HomeTabTile(
+  //   label: "News and Updates",
+  //   icon: FluentIcons.document_one_page_24_regular,
+  //   routeId: NewsPage.id,
+  // ),
   const HomeTabTile(
     label: "Academic SSO",
     icon: FluentIcons.clipboard_text_32_regular,
