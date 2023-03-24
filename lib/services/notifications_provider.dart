@@ -62,7 +62,7 @@ void onDidReceiveNotificationResponse(
 }
 
 bool checkNotificationCategory(String type) {
-  switch (type) {
+  switch (type.toLowerCase()) {
     case "lost":
     case "found":
     case "buy":
@@ -117,6 +117,7 @@ Future<bool> checkForNotifications() async {
   );
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    print("Here me");
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(channel.id, channel.name,
             channelDescription: channel.description,

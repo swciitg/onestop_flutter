@@ -8,13 +8,11 @@ import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotifsModel {
-  String? hashcode;
   String? title;
   String? body;
   bool read;
 
   NotifsModel(
-    this.hashcode,
     this.title,
     this.body,
     this.read,
@@ -41,7 +39,7 @@ class _NotificationPageState extends State<NotificationPage> {
       Map<String, dynamic> notifData = jsonDecode(r);
       print("Notif Data = $notifData");
       n.add(NotifsModel(
-          null, notifData['header'], notifData['body'], notifData['read']));
+          notifData['header'], notifData['body'], notifData['read']));
       // Set Read Recipient to True and then save to prefs
       notifData['read'] = true;
       newNotifList.add(jsonEncode(notifData));
