@@ -5,17 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:onestop_dev/widgets/ui/notification_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotifsModel {
   String? title;
   String? body;
+  String category;
   bool read;
+  DateTime time;
+  String messageId;
 
   NotifsModel(
     this.title,
     this.body,
     this.read,
+    this.category,
+      this.time,
+      this.messageId
   );
 }
 
@@ -38,8 +45,8 @@ class _NotificationPageState extends State<NotificationPage> {
     for (String r in result) {
       Map<String, dynamic> notifData = jsonDecode(r);
       print("Notif Data = $notifData");
-      n.add(NotifsModel(
-          notifData['header'], notifData['body'], notifData['read']));
+      n.add(NotifsModel(notifData['header'], notifData['body'],
+          notifData['read'], notifData['category'], DateTime.parse(notifData['time']), notifData['messageId']));
       // Set Read Recipient to True and then save to prefs
       notifData['read'] = true;
       newNotifList.add(jsonEncode(notifData));
@@ -106,51 +113,23 @@ class _NotificationPageState extends State<NotificationPage> {
                   ),
                 );
               }
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              getIcon(snapshot.data![index].read),
-                              color: kBlue,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              snapshot.data![index].title ?? " ",
-                              style: MyFonts.w400.setColor(kWhite),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                        Row(children: [
-                          Icon(
-                            getIcon(snapshot.data![index].read),
-                            color: Colors.transparent,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            'Description',
-                            style: MyFonts.w300.setColor(kWhite),
-                          )
-                        ])
-                      ],
-                    ),
-                  );
-                },
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: NotificationTile(
+                        notifModel: snapshot.data![index],
+                      ),
+                    );
+                  },
+                ),
               );
             }
-            return Column(
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Column(
               children: [
                 const SizedBox(
                   height: 10,
@@ -160,6 +139,13 @@ class _NotificationPageState extends State<NotificationPage> {
                   count: 5,
                 )),
               ],
+            );
+            }
+            return Center(
+              child: Text(
+                'No notifications found',
+                style: MyFonts.w300.setColor(kWhite),
+              ),
             );
           }),
     );
