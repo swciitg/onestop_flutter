@@ -42,3 +42,4 @@ const Color kGrey14 = Color.fromRGBO(41, 45, 53, 1);
 const Color kGreen = Color.fromRGBO(124, 198, 154, 1);
 const Color kBadgeColor = Color.fromRGBO(255, 201, 7, 1);
 const Color kTimetableDisabled = Color.fromRGBO(120, 120, 120, 0.16);
+const Color kGreenDisabled = Color.fromRGBO(124, 198, 154, 0.5);

@@ -9,6 +9,7 @@ import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class APIService {
   static const String _restaurantURL =
@@ -503,5 +504,24 @@ class APIService {
     } on DioError {
       return null;
     }
+  }
+
+  static Future<void> createUser(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    final res = await http.post(
+      Uri.parse('https://swc.iitg.ac.in/onestopapi/v2/onestop-user'),
+      body: jsonEncode(
+        {
+          "name": prefs.getString('name'),
+          "email": prefs.getString('email'),
+          "deviceToken": token
+        },
+      ),
+       headers: {
+        'Content-Type': 'application/json',
+        'security-key': apiSecurityKey
+      },
+    );
+
   }
 }

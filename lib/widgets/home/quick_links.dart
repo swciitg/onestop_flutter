@@ -1,17 +1,16 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:onestop_dev/pages/elections/election_login.dart';
 import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
 import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
 import 'package:onestop_dev/pages/quick_links/complaints.dart';
-import 'package:onestop_dev/pages/quick_links/news_page.dart';
+import 'package:onestop_dev/pages/quick_links/guest_house.dart';
 
 import 'home_tab_tile.dart';
 
 List<HomeTabTile> quickLinks = [
   const HomeTabTile(
-    label: "News and Updates",
-    icon: FluentIcons.document_one_page_24_regular,
-    routeId: NewsPage.id,
+    label: "Guest House",
+    icon: FluentIcons.building_retail_20_regular,
+    routeId: GuestHouse.id,
   ),
   const HomeTabTile(
     label: "Academic SSO",

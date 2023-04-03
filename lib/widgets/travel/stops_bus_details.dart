@@ -77,7 +77,7 @@ class StopsBusDetails extends StatelessWidget {
                     )
                   : GestureDetector(
                 onTap: (){
-                  showDialog(context: context, builder: (_) => TrackingDailog());
+                  showDialog(context: context, builder: (_) => const TrackingDailog());
                 },
                 child: Text("Track Bus", style: MyFonts.w500.setColor(kWhite),),
               )

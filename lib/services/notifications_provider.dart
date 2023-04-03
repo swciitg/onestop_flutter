@@ -48,7 +48,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       notificationDetails,
     );
   }
-  saveNotification(message.data, message.sentTime);
+  saveNotification(message);
 }
 
 @pragma('vm:entry-point')
@@ -62,11 +62,12 @@ void onDidReceiveNotificationResponse(
 }
 
 bool checkNotificationCategory(String type) {
-  switch (type) {
-    case "Lost":
-    case "Found":
-    case "Buy":
-    case "Sell":
+  switch (type.toLowerCase()) {
+    case "lost":
+    case "found":
+    case "buy":
+    case "sell":
+    case "travel":
       return true;
   }
   return false;
@@ -116,6 +117,7 @@ Future<bool> checkForNotifications() async {
   );
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    print("Here me");
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(channel.id, channel.name,
             channelDescription: channel.description,
@@ -141,7 +143,7 @@ Future<bool> checkForNotifications() async {
         notificationDetails,
       );
     }
-    saveNotification(message.data, message.sentTime);
+    saveNotification(message);
   });
 
   // Resave list of notifications in case it's initialized to null
@@ -152,11 +154,13 @@ Future<bool> checkForNotifications() async {
   return true;
 }
 
-void saveNotification(
-    Map<String, dynamic> notificationData, DateTime? sentTime) async {
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
+void saveNotification(RemoteMessage message) async {
+  Map<String,dynamic> notificationData = message.data;
+  DateTime sentTime = message.sentTime ?? DateTime.now();
+final SharedPreferences preferences = await SharedPreferences.getInstance();
   notificationData['time'] = sentTime?.toString() ?? DateTime.now().toString();
   notificationData['read'] = false;
+  notificationData['messageId'] = message.messageId;
   String notifJson = jsonEncode(notificationData);
   print("data = $notificationData");
   List<String> notifications = preferences.getStringList('notifications') ?? [];
