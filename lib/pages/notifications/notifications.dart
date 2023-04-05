@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/notifications/get_notifications.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
@@ -35,26 +36,6 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  Future<List<NotifsModel>> getDetails() async {
-    List<NotifsModel> n = [];
-    List<String> newNotifList = [];
-    n.clear();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.reload();
-    List<String> result = prefs.getStringList('notifications')!;
-    for (String r in result) {
-      Map<String, dynamic> notifData = jsonDecode(r);
-      print("Notif Data = $notifData");
-      n.add(NotifsModel(notifData['header'], notifData['body'],
-          notifData['read'], notifData['category'], DateTime.parse(notifData['time']), notifData['messageId']));
-      // Set Read Recipient to True and then save to prefs
-      notifData['read'] = true;
-      newNotifList.add(jsonEncode(notifData));
-    }
-
-    prefs.setStringList('notifications', newNotifList);
-    return n.reversed.toList();
-  }
 
   IconData getIcon(bool readNotif) {
     if (!readNotif) {
@@ -102,7 +83,7 @@ class _NotificationPageState extends State<NotificationPage> {
         ),
       ),
       body: FutureBuilder<List<NotifsModel>>(
-          future: getDetails(),
+          future: getSavedNotifications(true),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
