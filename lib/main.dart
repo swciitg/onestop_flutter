@@ -11,6 +11,7 @@ import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:provider/provider.dart';
+import './services/api.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,3 +60,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

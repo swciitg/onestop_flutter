@@ -431,38 +431,43 @@ class APIService {
     }
   }
 
-  static Future<BusTiming> getBusTiming() async {
+  static Future<List<BusTiming>> getBusTiming() async {
     try {
       final res = await http.get(
         Uri.parse(Endpoints.busStops),
         headers: Endpoints.getHeader(),
       );
 
-      final busTiming = json.decode(res.body);
-      return BusTiming.fromJson(busTiming);
+      List<dynamic> busTiming = json.decode(res.body);
+
+      List<BusTiming> busTimings = [];
+
+      for (var element in busTiming) {
+        busTimings.add(BusTiming.fromJson(element));
+      }
+      return busTimings;
     } catch (e) {
       rethrow;
     }
   }
 
-  static Future<FerryTiming> getFerryTiming() async {
+  static Future<List<FerryTiming>> getFerryTiming() async {
     try {
       final res = await http.get(
         Uri.parse(Endpoints.ferryURL),
         headers: Endpoints.getHeader(),
       );
 
-      final ferryTiming = json.decode(res.body);
-      return FerryTiming.fromJson(ferryTiming);
+      List<dynamic> ferryTiming = json.decode(res.body);
+
+      List<FerryTiming> ferryTimings = [];
+
+      for (var element in ferryTiming) {
+        ferryTimings.add(FerryTiming.fromJson(element));
+      }
+      return ferryTimings;
     } catch (e) {
       rethrow;
     }
   }
-
-
-
-
-
-
-      
 }
