@@ -12,6 +12,7 @@ import 'package:onestop_dev/models/timetable/ferry_timing_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class APIService {
   static Future<bool> postFeedbackData(Map<String, String> data) async {
@@ -433,12 +434,24 @@ class APIService {
 
   static Future<List<BusTiming>> getBusTiming() async {
     try {
-      final res = await http.get(
-        Uri.parse(Endpoints.busStops),
-        headers: Endpoints.getHeader(),
-      );
+      final prefs = await SharedPreferences.getInstance();
 
-      List<dynamic> busTiming = json.decode(res.body);
+      late String jsonData;
+
+      if (prefs.getString('busTimings') != null) {
+        jsonData = prefs.getString('busTimings') ?? '';
+      } else {
+        final res = await http.get(
+          Uri.parse(Endpoints.busStops),
+          headers: Endpoints.getHeader(),
+        );
+
+        prefs.setString('busTimings', res.body);
+
+        jsonData = prefs.getString('busTimings') ?? '';
+      }
+
+      List<dynamic> busTiming = json.decode(jsonData);
 
       List<BusTiming> busTimings = [];
 
@@ -453,12 +466,23 @@ class APIService {
 
   static Future<List<FerryTiming>> getFerryTiming() async {
     try {
-      final res = await http.get(
-        Uri.parse(Endpoints.ferryURL),
-        headers: Endpoints.getHeader(),
-      );
+      final prefs = await SharedPreferences.getInstance();
 
-      List<dynamic> ferryTiming = json.decode(res.body);
+      late String jsonData;
+
+      if (prefs.getString('ferryTimings') != null) {
+        jsonData = prefs.getString('ferryTimings') ?? '';
+      } else {
+        final res = await http.get(
+          Uri.parse(Endpoints.ferryURL),
+          headers: Endpoints.getHeader(),
+        );
+        prefs.setString('ferryTimings', res.body);
+
+        jsonData = prefs.getString('ferryTimings') ?? '';
+      }
+
+      List<dynamic> ferryTiming = json.decode(jsonData);
 
       List<FerryTiming> ferryTimings = [];
 
