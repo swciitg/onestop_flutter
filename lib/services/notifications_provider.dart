@@ -74,6 +74,7 @@ bool checkNotificationCategory(String type) {
 }
 
 Future<bool> checkForNotifications() async {
+  await FirebaseMessaging.instance.subscribeToTopic('all');
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -155,9 +156,9 @@ Future<bool> checkForNotifications() async {
 }
 
 void saveNotification(RemoteMessage message) async {
-  Map<String,dynamic> notificationData = message.data;
+  Map<String, dynamic> notificationData = message.data;
   DateTime sentTime = message.sentTime ?? DateTime.now();
-final SharedPreferences preferences = await SharedPreferences.getInstance();
+  final SharedPreferences preferences = await SharedPreferences.getInstance();
   notificationData['time'] = sentTime?.toString() ?? DateTime.now().toString();
   notificationData['read'] = false;
   notificationData['messageId'] = message.messageId;
