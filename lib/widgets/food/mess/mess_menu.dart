@@ -82,7 +82,7 @@ class MessMenu extends StatelessWidget {
                               flex: 4,
                               child: SingleChildScrollView(
                                   child: Text(
-                                      messStore.mealData.mealDesription,
+                                      messStore.mealData.mealDescription,
                                       style: MyFonts.w400
                                           .size(14)
                                           .setColor(kWhite)))),
