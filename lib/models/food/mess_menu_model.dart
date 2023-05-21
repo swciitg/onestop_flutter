@@ -51,12 +51,12 @@ class Day {
 @JsonSerializable()
 class MealType {
   final String id;
-  final String mealDesription;
+  final String mealDescription;
   final String timing;
 
   MealType({
     required this.id,
-    required this.mealDesription,
+    required this.mealDescription,
     required this.timing,
   });
   factory MealType.fromJson(Map<String, dynamic> json) => _$MealTypeFromJson(json);
