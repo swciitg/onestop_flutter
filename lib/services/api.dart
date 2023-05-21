@@ -487,15 +487,15 @@ class APIService {
       if(meal=='no data'){
         return MealType(
             id: '',
-            mealDesription: 'Not updated by HMC',
+            mealDescription: 'Not updated by HMC',
             timing: 'Oh no!'
         );
       }
       return MealType(
           id: meal[day.trim().toLowerCase()][mealType.trim()
               .toLowerCase()]['_id'],
-          mealDesription: meal[day.trim().toLowerCase()][mealType.trim()
-              .toLowerCase()]['mealDesription'],
+          mealDescription: meal[day.trim().toLowerCase()][mealType.trim()
+              .toLowerCase()]['mealDescription'],
           timing: meal[day.trim().toLowerCase()][mealType.trim()
               .toLowerCase()]['timing']
       );
