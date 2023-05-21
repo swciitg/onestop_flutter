@@ -48,13 +48,13 @@ Map<String, dynamic> _$DayToJson(Day instance) => <String, dynamic>{
 
 MealType _$MealTypeFromJson(Map<String, dynamic> json) => MealType(
       id: json['_id'] as String,
-      mealDesription: json['mealDesription'] as String,
+      mealDescription: json['mealDescription'] as String,
       timing: json['timing'] as String,
 );
 
 Map<String, dynamic> _$MealTypeToJson(MealType instance) => <String, dynamic>{
       '_id': instance.id,
-      'mealDesription': instance.mealDesription,
+      'mealDescription': instance.mealDescription,
       'timing': instance.timing,
 };
 
