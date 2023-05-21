@@ -30,7 +30,7 @@ abstract class _MessStore with Store {
   @observable
   ObservableFuture<String> selectedHostel = ObservableFuture(getSavedHostel()) ;
   @observable
-  MealType mealData= MealType(id: 'id', mealDesription: 'mealDesription', timing: 'timing');
+  MealType mealData= MealType(id: 'id', mealDescription: 'mealDescription', timing: 'timing');
   @computed
   bool get hostelLoaded => selectedHostel.status == FutureStatus.fulfilled;
   @action
