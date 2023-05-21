@@ -34,13 +34,13 @@ class TimingTile extends StatelessWidget {
         ),
         trailing: isLeft
             ? Text(
-                'Left',
-                style: MyFonts.w500.setColor(kGrey11),
-              )
+          'Left',
+          style: MyFonts.w500.setColor(kGrey11),
+        )
             : const SizedBox(
-                height: 0,
-                width: 0,
-              ),
+          height: 0,
+          width: 0,
+        ),
       ),
     );
   }

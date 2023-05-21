@@ -71,10 +71,10 @@ class StopsBusDetails extends StatelessWidget {
 
               context.read<TravelStore>().isBusSelected
                   ? TravelDropDown(
-                      value: context.read<TravelStore>().busDayType,
-                      onChange: context.read<TravelStore>().setBusDayString,
-                      items: const ['Weekdays', 'Weekends'],
-                    )
+                value: context.read<TravelStore>().busDayType,
+                onChange: context.read<TravelStore>().setBusDayString,
+                items: const ['Weekdays', 'Weekends'],
+              )
                   : GestureDetector(
                 onTap: (){
                   showDialog(context: context, builder: (_) => const TrackingDailog());

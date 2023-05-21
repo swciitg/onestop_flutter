@@ -7,12 +7,12 @@ import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
-import 'package:onestop_dev/models/timetable/bus_timing_model.dart';
-import 'package:onestop_dev/models/timetable/ferry_timing_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
-
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/food/mess_menu_model.dart';
+import '../models/travel/travel_timing_model.dart';
 
 class APIService {
   static Future<bool> postFeedbackData(Map<String, String> data) async {
@@ -432,7 +432,79 @@ class APIService {
     }
   }
 
-  static Future<List<BusTiming>> getBusTiming() async {
+  static Future<List<TravelTiming>> getFerryTiming() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      late String jsonData;
+
+      if (prefs.getString('ferryTimings') != null) {
+        jsonData = prefs.getString('ferryTimings') ?? '';
+      } else {
+
+        final res = await http.get(
+          Uri.parse('https://swc.iitg.ac.in/test/onestopapi/v2/ferryTimings'),
+          headers: Endpoints.getHeader(),
+        );
+
+        prefs.setString('ferryTimings', res.body);
+        jsonData = prefs.getString('ferryTimings') ?? '';
+        jsonData=res.body;
+      }
+      List<dynamic> ferryTiming = json.decode(jsonData)['data'];
+      List<TravelTiming> ferryTimings = [];
+
+      for (var element in ferryTiming) {
+        ferryTimings.add(TravelTiming.fromJson(element));
+      }
+      return ferryTimings;
+
+    } catch (e) {
+      rethrow;
+    }
+  }
+  static Future<MealType> getMealData(String hostel, String day, String mealType,) async {
+    try{
+      final prefs = await SharedPreferences.getInstance();
+      late String jsonData;
+      if (prefs.getString('messMenu') != null) {
+        jsonData = prefs.getString('messMenu') ?? '';
+      } else {
+        final res = await http.get(
+          Uri.parse('https://swc.iitg.ac.in/test/onestopapi/v2/hostelsMessMenu'),
+          headers: Endpoints.getHeader(),
+        );
+        prefs.setString('messMenu', res.body);
+
+        jsonData = prefs.getString('messMenu') ?? res.body;
+      }
+      List<dynamic> answer = json.decode(jsonData)['details'];
+      var meal = answer.firstWhere(
+              (m) => m['hostel'].toString().trim().toLowerCase() ==
+              hostel.toString().toLowerCase(),
+          orElse: () => 'no data'
+      );
+      if(meal=='no data'){
+        return MealType(
+            id: '',
+            mealDesription: 'Not updated by HMC',
+            timing: 'Oh no!'
+        );
+      }
+      return MealType(
+          id: meal[day.trim().toLowerCase()][mealType.trim()
+              .toLowerCase()]['_id'],
+          mealDesription: meal[day.trim().toLowerCase()][mealType.trim()
+              .toLowerCase()]['mealDesription'],
+          timing: meal[day.trim().toLowerCase()][mealType.trim()
+              .toLowerCase()]['timing']
+      );
+    }catch(e){
+      rethrow;
+    }
+
+  }
+  static Future<List<TravelTiming>> getBusTiming() async {
     try {
       final prefs = await SharedPreferences.getInstance();
 
@@ -442,55 +514,21 @@ class APIService {
         jsonData = prefs.getString('busTimings') ?? '';
       } else {
         final res = await http.get(
-          Uri.parse(Endpoints.busStops),
+          Uri.parse('https://swc.iitg.ac.in/test/onestopapi/v2/busstops'),
           headers: Endpoints.getHeader(),
         );
-
         prefs.setString('busTimings', res.body);
-
+        jsonData=res.body;
         jsonData = prefs.getString('busTimings') ?? '';
       }
-
-      List<dynamic> busTiming = json.decode(jsonData);
-
-      List<BusTiming> busTimings = [];
-
+      List<dynamic> busTiming = json.decode(jsonData)['data'];
+      List<TravelTiming> busTimings = [];
       for (var element in busTiming) {
-        busTimings.add(BusTiming.fromJson(element));
+        busTimings.add(TravelTiming.fromJson(element));
       }
       return busTimings;
     } catch (e) {
-      rethrow;
-    }
-  }
 
-  static Future<List<FerryTiming>> getFerryTiming() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-
-      late String jsonData;
-
-      if (prefs.getString('ferryTimings') != null) {
-        jsonData = prefs.getString('ferryTimings') ?? '';
-      } else {
-        final res = await http.get(
-          Uri.parse(Endpoints.ferryURL),
-          headers: Endpoints.getHeader(),
-        );
-        prefs.setString('ferryTimings', res.body);
-
-        jsonData = prefs.getString('ferryTimings') ?? '';
-      }
-
-      List<dynamic> ferryTiming = json.decode(jsonData);
-
-      List<FerryTiming> ferryTimings = [];
-
-      for (var element in ferryTiming) {
-        ferryTimings.add(FerryTiming.fromJson(element));
-      }
-      return ferryTimings;
-    } catch (e) {
       rethrow;
     }
   }
