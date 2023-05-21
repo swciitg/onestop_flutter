@@ -443,7 +443,7 @@ class APIService {
       } else {
 
         final res = await http.get(
-          Uri.parse('https://swc.iitg.ac.in/test/onestopapi/v2/ferryTimings'),
+          Uri.parse(Endpoints.ferryURL),
           headers: Endpoints.getHeader(),
         );
 
@@ -471,7 +471,7 @@ class APIService {
         jsonData = prefs.getString('messMenu') ?? '';
       } else {
         final res = await http.get(
-          Uri.parse('https://swc.iitg.ac.in/test/onestopapi/v2/hostelsMessMenu'),
+          Uri.parse(Endpoints.messURL),
           headers: Endpoints.getHeader(),
         );
         prefs.setString('messMenu', res.body);
@@ -514,7 +514,7 @@ class APIService {
         jsonData = prefs.getString('busTimings') ?? '';
       } else {
         final res = await http.get(
-          Uri.parse('https://swc.iitg.ac.in/test/onestopapi/v2/busstops'),
+          Uri.parse(Endpoints.busURL),
           headers: Endpoints.getHeader(),
         );
         prefs.setString('busTimings', res.body);
