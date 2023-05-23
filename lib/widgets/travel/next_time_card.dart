@@ -7,9 +7,12 @@ import 'package:onestop_dev/functions/travel/duration_left.dart';
 import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:provider/provider.dart';
+
+import '../../models/travel/travel_timing_model.dart';
 
 class NextTimeCard extends StatefulWidget {
   const NextTimeCard({Key? key}) : super(key: key);
@@ -25,39 +28,61 @@ class _NextTimeCardState extends State<NextTimeCard> {
     Future<String> getNextTime() async {
       String today = getFormattedDay();
       if (mapStore.indexBusesorFerry == 0) {
-        var allBusTimes = await DataProvider.getBusTimings();
+        var allBusTimes = await APIService.getBusTiming();
+        List<DateTime> weekdaysTimes= [];
+        List<DateTime> weekendTimes=[];
+        for(var xyz in allBusTimes){
+          int n=xyz.weekdays.fromCampus.length;
+          for(int i=0;i<n;i++){
+            weekdaysTimes.add(xyz.weekdays.fromCampus[i]);
+          }
+        }
+        weekdaysTimes.sort((a, b) => a.compareTo(b));
+        for(var xyz in allBusTimes){
+          int n=xyz.weekend.fromCampus.length;
+          for(int i=0;i<n;i++){
+            weekendTimes.add(xyz.weekend.fromCampus[i]);
+          }
+        }
+        weekendTimes.sort((a, b) => a.compareTo(b));
         List<List<String>> busTimes = [[], []];
-        allBusTimes.forEach((key, list) {
-          for (String time in list[0]) {
-            busTimes[0].add(time);
-          }
-          for (String time in list[1]) {
-            busTimes[1].add(time);
-          }
-        });
-        busTimes[0].sort((a, b) => parseTime(a).compareTo(parseTime(b)));
-        busTimes[1].sort((a, b) => parseTime(a).compareTo(parseTime(b)));
         if (today == 'Fri') {
-          return nextTime(busTimes[1], firstTime: busTimes[0][0]);
+          return nextTime(weekdaysTimes, firstTime: weekendTimes[0].toString());
         } else if (today == 'Sun') {
-          return nextTime(busTimes[0], firstTime: busTimes[1][0]);
+          return nextTime(weekendTimes, firstTime:weekdaysTimes[0].toString());
         } else if (today == 'Sat') {
-          return nextTime(busTimes[0]);
+          return nextTime(weekendTimes);
         }
-        return nextTime(busTimes[1]);
+        return nextTime(weekdaysTimes);
       } else {
-        var ferryTimes = await DataProvider.getFerryTimings();
-        var requiredModel = ferryTimes.firstWhere((element) =>
-            element.name ==
-            mapStore.allLocationData[mapStore.selectedCarouselIndex]['name']);
-        if (today == 'Sat') {
-          return nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati,
-              firstTime: requiredModel.Sunday_NorthGuwahatiToGuwahati[0]);
-        } else if (today == 'Sun') {
-          return nextTime(requiredModel.Sunday_NorthGuwahatiToGuwahati,
-              firstTime: requiredModel.MonToFri_NorthGuwahatiToGuwahati[0]);
+        List<TravelTiming> ferryTimings = await APIService.getFerryTiming();
+        List<DateTime> weekdaysTimes= [];
+        List<DateTime> weekendTimes=[];
+        TravelTiming requiredModel =
+        ferryTimings.firstWhere((element) => element.stop == mapStore.allLocationData[mapStore.selectedCarouselIndex]['name']);
+
+        int n=requiredModel.weekdays.fromCampus.length;
+        for(int i=0;i<n;i++){
+          weekdaysTimes.add(requiredModel.weekdays.fromCampus[i]);
         }
-        return nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati);
+        weekdaysTimes.sort((a, b) => a.compareTo(b));
+        int p=requiredModel.weekend.fromCampus.length;
+        for(int i=0;i<p;i++){
+          weekendTimes.add(requiredModel.weekend.fromCampus[i]);
+        }
+        weekendTimes.sort((a, b) => a.compareTo(b));
+        // var ferryTimes = await DataProvider.getFerryTimings();
+        // var requiredModel = ferryTimes.firstWhere((element) =>
+        //     element.name ==
+        //     mapStore.allLocationData[mapStore.selectedCarouselIndex]['name']);
+        if (today == 'Sat') {
+          return nextTime(weekdaysTimes,
+              firstTime: weekendTimes[0].toString());
+        } else if (today == 'Sun') {
+          return nextTime(weekendTimes,
+              firstTime: weekdaysTimes[0].toString());
+        }
+        return nextTime(weekdaysTimes);
       }
     }
 
@@ -78,13 +103,13 @@ class _NextTimeCardState extends State<NextTimeCard> {
               radius: 20,
               child: (context.read<MapBoxStore>().indexBusesorFerry == 1)
                   ? const Icon(
-                      FluentIcons.vehicle_ship_24_filled,
-                      color: kBlueGrey,
-                    )
+                FluentIcons.vehicle_ship_24_filled,
+                color: kBlueGrey,
+              )
                   : const Icon(
-                      FluentIcons.vehicle_bus_24_filled,
-                      color: kBlueGrey,
-                    ),
+                FluentIcons.vehicle_bus_24_filled,
+                color: kBlueGrey,
+              ),
             ),
             title: Text(
               mapStore.allLocationData[mapStore.selectedCarouselIndex]['name'],
@@ -101,13 +126,13 @@ class _NextTimeCardState extends State<NextTimeCard> {
                         width: 80,
                         child: (mapStore.indexBusesorFerry == 0)
                             ? Text(
-                                'Next Bus in ${durationLeft(snapshot.data.toString())}',
-                                style: MyFonts.w500.setColor(lBlue2).size(14),
-                              )
+                          'Next Bus in ${durationLeft(snapshot.data.toString())}',
+                          style: MyFonts.w500.setColor(lBlue2).size(14),
+                        )
                             : Text(
-                                'Next Ferry in ${durationLeft(snapshot.data.toString())}',
-                                style: MyFonts.w500.setColor(lBlue2).size(14),
-                              ));
+                          'Next Ferry in ${durationLeft(snapshot.data.toString())}',
+                          style: MyFonts.w500.setColor(lBlue2).size(14),
+                        ));
                   }
                   return const CircularProgressIndicator();
                 }),
