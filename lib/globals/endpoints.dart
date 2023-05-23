@@ -27,7 +27,7 @@ class Endpoints {
   static const String newsURL = "$baseUrl/news";
   static const String githubIssueToken = String.fromEnvironment('GITHUB_ISSUE_TOKEN');
   static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');
-  static const feedback = 'https://api.github.com/repos/vrrao01/onestop_dev/issues';
+  static const feedback = 'https://api.github.com/repos/swciitg/onestop_flutter/issues';
   static const String upspPost = '$baseUrl/upsp/submit-request';
   static const String uploadFileUPSP = "$baseUrl/upsp/file-upload";
 
