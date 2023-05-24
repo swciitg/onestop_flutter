@@ -19,6 +19,7 @@ const List<String> boards = [
   'Welfare Board',
   'Student Alumni Interaction Linkage (SAIL) ',
   'Students Web Committee (SWC)',
+  'Students Academic Board (SAB)',
   'Others',
 ];
 
