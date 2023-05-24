@@ -500,6 +500,8 @@ class APIService {
               .toLowerCase()]['timing']
       );
     }catch(e){
+      print(Endpoints.messURL);
+      print(e);
       rethrow;
     }
 
@@ -514,7 +516,7 @@ class APIService {
         jsonData = prefs.getString('busTimings') ?? '';
       } else {
         final res = await http.get(
-          Uri.parse(Endpoints.busURL),
+          Uri.parse(Endpoints.busStops),
           headers: Endpoints.getHeader(),
         );
         prefs.setString('busTimings', res.body);
@@ -528,7 +530,8 @@ class APIService {
       }
       return busTimings;
     } catch (e) {
-
+      print("____________________________________________");
+      print(e);
       rethrow;
     }
   }
