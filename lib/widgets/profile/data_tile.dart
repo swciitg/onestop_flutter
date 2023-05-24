@@ -12,7 +12,7 @@ class DataTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (semiTitle != null && semiTitle!.length>0) {
+    if (semiTitle != null && semiTitle!.isNotEmpty) {
      
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
