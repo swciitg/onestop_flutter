@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
+
+import '../../globals/my_colors.dart';
+import '../../globals/my_fonts.dart';
+
 
 class CustomDatePicker extends StatefulWidget {
   final Widget? child;

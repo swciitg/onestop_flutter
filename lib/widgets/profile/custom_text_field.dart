@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
+
+import '../../globals/my_colors.dart';
+import '../../globals/my_fonts.dart';
+
 
 class CustomTextField extends StatefulWidget {
   final String hintText;
@@ -12,6 +14,7 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final void Function()? onTap;
   final FocusNode? focusNode;
+  final bool? isEnabled;
 
   const CustomTextField(
       {super.key,
@@ -23,6 +26,7 @@ class CustomTextField extends StatefulWidget {
       this.inputType,
       this.controller,
       this.onTap,
+       this.isEnabled,
       this.focusNode});
 
   @override
@@ -33,6 +37,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.isEnabled ?? true,
       readOnly: widget.onTap != null,
       style: MyFonts.w500.size(14).copyWith(color: Colors.white),
       validator: widget.validator,
@@ -71,6 +76,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ),
         ),
         enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: kfocusColor, width: 1),
+          borderRadius: BorderRadius.all(
+            Radius.circular(4),
+          ),
+        ),
+        disabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: kfocusColor, width: 1),
           borderRadius: BorderRadius.all(
             Radius.circular(4),

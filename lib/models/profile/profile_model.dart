@@ -12,19 +12,21 @@ class ProfileModel {
   final String hostel;
   final String? linkedin;
   final DateTime? date;
-  ProfileModel({
-    required this.username,
-    required this.rollNumber,
-    required this.outlook,
-    required this.gmail,
-    required this.contact,
-    required this.emergencyContact,
-    required this.hostel,
-    this.linkedin,
-    this.date,
-  });
+  final String? image;
+  ProfileModel(
+      {required this.username,
+      required this.rollNumber,
+      required this.outlook,
+      required this.gmail,
+      required this.contact,
+      required this.emergencyContact,
+      required this.hostel,
+      this.linkedin,
+      this.date,
+      this.image});
 
-  factory ProfileModel.fromJson(Map<String,dynamic> map) => _$ProfileModelFromJson(map);
+  factory ProfileModel.fromJson(Map<String, dynamic> map) =>
+      _$ProfileModelFromJson(map);
 
   Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
 }

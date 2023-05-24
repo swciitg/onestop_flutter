@@ -17,6 +17,7 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
       linkedin: json['linkedin'] as String?,
       date:
           json['date'] == null ? null : DateTime.parse(json['date'] as String),
+      image: json['image'] as String?,
     );
 
 Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
@@ -30,4 +31,5 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
       'hostel': instance.hostel,
       'linkedin': instance.linkedin,
       'date': instance.date?.toIso8601String(),
+      'image': instance.image,
     };

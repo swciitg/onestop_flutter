@@ -1,17 +1,21 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/models/profile/profile_model.dart';
-import 'package:onestop_dev/pages/profile/profile_page.dart';
-import 'package:onestop_dev/widgets/profile/custom_dropdown.dart';
-import 'package:onestop_dev/widgets/profile/custom_text_field.dart';
-import 'package:onestop_dev/functions/utility/validator.dart';
 import 'package:provider/provider.dart';
+
 import '../../functions/utility/show_snackbar.dart';
+import '../../functions/utility/validator.dart';
+import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
+import '../../models/profile/profile_model.dart';
 import '../../stores/login_store.dart';
 import '../../widgets/profile/custom_date_picker.dart';
+import '../../widgets/profile/custom_dropdown.dart';
+import '../../widgets/profile/custom_text_field.dart';
+import 'profile_page.dart';
 
 class EditProfile extends StatefulWidget {
   final ProfileModel? profileModel;
@@ -32,6 +36,7 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _linkedinController = TextEditingController();
   String? hostel;
   DateTime? selectedDate;
+  String? imageString;
   final List<String> hostels = [
     "Kameng",
     "Barak",
@@ -63,10 +68,13 @@ class _EditProfileState extends State<EditProfile> {
       _linkedinController.text = p.linkedin!;
       hostel = p.hostel;
       selectedDate = p.date;
-    }else{
-      _usernameController.text = "${context.read<LoginStore>().userData['name']}";
+      imageString = p.image;
+    } else {
+      _usernameController.text =
+          "${context.read<LoginStore>().userData['name']}";
       _rollController.text = "${context.read<LoginStore>().userData['rollno']}";
-      _outlookController.text = "${context.read<LoginStore>().userData['email']}";
+      _outlookController.text =
+          "${context.read<LoginStore>().userData['email']}";
     }
   }
 
@@ -81,18 +89,23 @@ class _EditProfileState extends State<EditProfile> {
             selectedDate!.year, selectedDate!.month, selectedDate!.day);
         var data = {
           'username': _usernameController.text,
-      'rollNumber': _rollController.text,
-      'outlook': _outlookController.text,
-      'gmail': _gmailController.text,
-      'contact': _contactController.text,
-      'emergencyContact': _emergencyController.text,
-      'hostel': hostel,
-      'linkedin': _linkedinController.text,
-      'date': date.toIso8601String(),
+          'rollNumber': _rollController.text,
+          'outlook': _outlookController.text,
+          'gmail': _gmailController.text,
+          'contact': _contactController.text,
+          'emergencyContact': _emergencyController.text,
+          'hostel': hostel,
+          'linkedin': _linkedinController.text,
+          'date': date.toIso8601String(),
+          'image': imageString,
         };
 
-        Navigator.of(context)
-            .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Profile(profileModel: ProfileModel.fromJson(data),)),((route) => false));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => Profile(
+                      profileModel: ProfileModel.fromJson(data),
+                    )),
+            ((route) => false));
       }
     }
 
@@ -137,26 +150,99 @@ class _EditProfileState extends State<EditProfile> {
               ),
               Center(
                   child: Stack(alignment: Alignment.bottomRight, children: [
-                Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(75)),
-                      color: kWhite2),
-                  child: Image.asset(
-                    'assets/images/class.png',
-                    fit: BoxFit.fill,
-                  ),
-                ),
+               
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(75.0),
+                    
+                    child: Image(
+                      image: imageString==null?const ResizeImage(AssetImage('assets/images/profile_placeholder.png'),width: 150,height: 150): ResizeImage(
+                          MemoryImage(base64Decode(imageString!))
+                          ,width: 150,
+                      height: 150,),
+                      fit: BoxFit.fill,
+                    )
+                    ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(75)),
-                        color: kWhite2),
-                    child: Icon(Icons.edit_outlined),
+                  child: GestureDetector(
+                    onTap: () async {
+                      XFile? xFile;
+                      await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+                              backgroundColor: kBlueGrey,
+                                title:  Text(
+                                    "Do you want to change your profile photo?",style: MyFonts.w500.size(16).setColor(kWhite2),),
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: <Widget>[
+                                       GestureDetector(
+                                        child:  Text("Take Photo",style: MyFonts.w500.size(14).setColor(kWhite),),
+                                        onTap: () async {
+                                          xFile = await ImagePicker().pickImage(
+                                              source: ImageSource.camera);
+                                          if (!mounted) return;
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.all(8.0)),
+                                          GestureDetector(
+                                        child:  Text("Choose Photo",style: MyFonts.w500.size(14).setColor(kWhite),),
+                                        onTap: () async {
+                                          xFile = await ImagePicker().pickImage(
+                                              source: ImageSource.gallery);
+                                          if (!mounted) return;
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.all(8.0)),
+                                     
+                                      GestureDetector(
+                                        child: Text("Remove Photo",style: MyFonts.w500.size(14).setColor(kRed),),
+                                        onTap: () async {
+                                          setState(() {
+                                            imageString=null;
+                                          });
+                                          return
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ));
+                          });
+
+                      if (!mounted) return;
+                      if (xFile != null) {
+                        var bytes = File(xFile!.path).readAsBytesSync();
+                        var imageSize = (bytes.lengthInBytes /
+                            (1048576)); // dividing by 1024*1024
+                        if (imageSize > 2.5) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                            "Maximum image size can be 2.5 MB",
+                            style: MyFonts.w500,
+                          )));
+                          return;
+                        }
+                        setState(() {
+                          imageString = base64Encode(bytes);
+                        });
+                        return;
+                      }
+                    },
+                    child: Container(
+                      height: 30,
+                      width: 30,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(75)),
+                          color: kWhite),
+                      child: const Icon(Icons.edit_outlined),
+                    ),
                   ),
                 ),
               ])),
@@ -177,6 +263,7 @@ class _EditProfileState extends State<EditProfile> {
                         // validator: validatefield,
                         isNecessary: false,
                         controller: _usernameController,
+                        isEnabled: false,
                       ),
                       const SizedBox(
                         height: 12,
@@ -191,6 +278,7 @@ class _EditProfileState extends State<EditProfile> {
                         height: 12,
                       ),
                       CustomTextField(
+                        isEnabled: false,
                         hintText: 'Outlook ID',
                         // validator: validatefield,
                         isNecessary: false,
@@ -227,7 +315,7 @@ class _EditProfileState extends State<EditProfile> {
                         height: 12,
                       ),
                       CustomDropDown(
-                        value: hostel,
+                          value: hostel,
                           items: hostels,
                           hintText: 'Hostel',
                           onChanged: (h) => hostel = h,
@@ -236,7 +324,7 @@ class _EditProfileState extends State<EditProfile> {
                         height: 12,
                       ),
                       CustomTextField(
-                        hintText: 'Date',
+                        hintText: 'Date of Birth',
                         validator: validatefield,
                         controller: _dateController,
                         onTap: () async {
