@@ -1,6 +1,5 @@
 class Endpoints {
-  static const baseUrl = String.fromEnvironment('SECURITY-KEY');
-
+  static const baseUrl = String.fromEnvironment('SERVER-URL');
   static const String restaurantURL = "$baseUrl/getAllOutlets";
   static const String lastUpdatedURL = "$baseUrl/lastDataUpdate";
   static const String contactURL = "$baseUrl/getContacts";
