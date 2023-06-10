@@ -51,7 +51,7 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                                   context.read<LoginStore>().userData['name'];
                               var email =
                                   context.read<LoginStore>().userData['email'];
-                              var body = await APIService.claimFoundItem(
+                              var body = await APIService().claimFoundItem(
                                   name: name!,
                                   email: email!,
                                   id: widget.model.id);

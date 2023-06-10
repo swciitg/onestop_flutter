@@ -34,10 +34,10 @@ class _LostFoundHomeState extends State<LostFoundHome> {
   void initState() {
     super.initState();
     _lostController.addPageRequestListener((pageKey) async {
-      await listener(_lostController, APIService.getLostPage, pageKey);
+      await listener(_lostController, APIService().getLostPage, pageKey);
     });
     _foundController.addPageRequestListener((pageKey) async {
-      await listener(_foundController, APIService.getFoundPage, pageKey);
+      await listener(_foundController, APIService().getFoundPage, pageKey);
     });
   }
 
@@ -64,6 +64,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
   @override
   Widget build(BuildContext context) {
     var commonStore = context.read<CommonStore>();
+
+
     return Observer(builder: (context) {
       return Scaffold(
         appBar: AppBar(
@@ -169,8 +171,11 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               )
             else
               Expanded(
-                child: FutureBuilder(
-                    future: APIService.getLnfMyItems(
+                child: context.read<LoginStore>().isGuestUser ? const PaginationText(
+                    text:
+                    "Not Available in guest mode")
+                    : FutureBuilder(
+                    future: APIService().getLnfMyItems(
                         context.read<LoginStore>().userData['email'] ?? ""),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -200,7 +205,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: AddItemButton(
+        floatingActionButton: context.read<LoginStore>().isGuestUser ? Container() : AddItemButton(
           type: commonStore.lnfIndex,
         ),
       );

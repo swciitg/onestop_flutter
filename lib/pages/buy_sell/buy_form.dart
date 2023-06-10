@@ -161,16 +161,16 @@ class _BuySellFormState extends State<BuySellForm> {
 
           try {
             if (widget.category == "Sell") {
-              res = await APIService.postSellData(data);
+              res = await APIService().postSellData(data);
             }
             if (widget.category == "Buy") {
-              res = await APIService.postBuyData(data);
+              res = await APIService().postBuyData(data);
             }
             if (widget.category == "Lost") {
-              res = await APIService.postLostData(data);
+              res = await APIService().postLostData(data);
             }
             if (widget.category == "Found") {
-              res = await APIService.postFoundData(data);
+              res = await APIService().postFoundData(data);
             }
             // ignore: empty_catches
           } catch (e) {

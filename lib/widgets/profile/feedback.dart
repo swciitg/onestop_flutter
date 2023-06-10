@@ -200,7 +200,7 @@ class _FeedBackState extends State<FeedBack> {
                               };
                               setState(() => enableSubmitButton = false);
                               bool success =
-                                  await APIService.postFeedbackData(data);
+                                  await APIService().postFeedbackData(data);
                               String snackBar =
                                   "There was an error while sending your feedback.\nPlease try again later or reach out to any member using the Contacts section.";
                               if (success) {

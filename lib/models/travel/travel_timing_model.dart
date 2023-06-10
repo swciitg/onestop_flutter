@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'day_type_model.dart';
+import './day_type_model.dart';
 
 part 'travel_timing_model.g.dart';
 

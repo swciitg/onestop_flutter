@@ -58,7 +58,7 @@ abstract class _TimetableStore with Store {
   bool showDropDown = false;
 
   @action
-  Future<void> setTimetable(String rollNumber) async {
+  Future<void> setTimetable(String rollNumber,BuildContext context) async {
     if (loadOperation.value == null) {
       loadOperation =
           DataProvider.getTimeTable(roll: rollNumber).asObservable();

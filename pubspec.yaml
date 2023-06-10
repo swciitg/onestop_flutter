@@ -63,7 +63,7 @@ dependencies:
   timeago: ^3.2.2
   get: 4.6.1
   map_launcher: ^2.3.0+1
-  json_annotation: ^4.7.0
+  json_annotation: ^4.8.1
   sembast: ^3.2.0
   shimmer: ^2.0.0
   google_maps_flutter: ^2.1.10

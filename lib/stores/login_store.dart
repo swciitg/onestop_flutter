@@ -1,13 +1,16 @@
 // import 'package:aad_oauth/aad_oauth.dart';
 // import 'package:aad_oauth/model/config.dart';
+import 'package:onestop_dev/globals/database_strings.dart';
+import 'package:onestop_dev/globals/endpoints.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
-
+import 'package:dio/dio.dart';
 class LoginStore {
   Map<String, String> userData = <String, String>{};
   final cookieManager = WebviewCookieManager();
-  final String guestEmail = 'guest_user';
+  bool isGuest = false;
   // static final Config config = Config(
   //     tenant: '850aa78d-94e1-4bc6-9cf3-8c11b530701c',
   //     clientId: '81f3e9f0-b0fd-48e0-9d36-e6058e5c6d4f',
@@ -45,42 +48,48 @@ class LoginStore {
 
   Future<bool> isAlreadyAuthenticated() async {
     SharedPreferences user = await SharedPreferences.getInstance();
-    if (user.containsKey("name")) {
-      saveToUserData(user);
+    if (user.containsKey(BackendHelper.refreshtoken)) {
+      saveToUserInfo(user);
       return true;
     }
     return false;
   }
 
   bool get isGuestUser {
-    if (userData['email'] == guestEmail) {
-      return true;
-    }
-    return false;
+    return isGuest;
   }
 
   Future<void> signInAsGuest() async {
+    APIService().getBuyPage(1);
+    print("GUEST SIGN IN");
+    isGuest=true;
     var sharedPrefs = await SharedPreferences.getInstance();
-    saveToPreferences(sharedPrefs, {
-      'displayName': 'Guest User',
-      'mail': guestEmail,
-      'surname': ' ',
-      'id': ''
-    });
+    print(Endpoints.guestLogin);
+    print(Endpoints.getHeader());
+    final response = await APIService().guestUserLogin();
+    print(response.data);
+    saveToPreferences(sharedPrefs, response.data);
+    saveToUserInfo(sharedPrefs);
+    sharedPrefs.setBool("isGuest", true); // guest sign in
   }
 
   void saveToPreferences(SharedPreferences instance, dynamic data) {
-    instance.setString("name", data["displayName"]);
-    instance.setString("email", data["mail"]);
-    instance.setString("rollno", data["surname"]);
-    instance.setString("id", data["id"]);
+    print(data);
+    instance.setString(BackendHelper.accesstoken, data[BackendHelper.accesstoken]);
+    instance.setString(BackendHelper.refreshtoken, data[BackendHelper.refreshtoken]);
+    instance.setString("name", data["name"]);
+    instance.setString("email", data["email"]);
+    instance.setBool("isGuest", false); // general case
   }
 
-  void saveToUserData(SharedPreferences instance) {
+  void saveToUserInfo(SharedPreferences instance) {
+    print("here");
+    print(instance.getString("name"));
+    print(instance.getString("email"));
     userData["name"] = instance.getString("name") ?? " ";
     userData["email"] = instance.getString("email") ?? " ";
-    userData["rollno"] = instance.getString("rollno") ?? " ";
-    userData["id"] = instance.getString("id") ?? " ";
+    isGuest = instance.getBool("isGuest")!;
+    print(userData);
   }
 
   void logOut(Function navigationPopCallBack) async {
@@ -88,7 +97,9 @@ class LoginStore {
     SharedPreferences user = await SharedPreferences.getInstance();
     user.clear();
     userData.clear();
+    isGuest=false;
     await LocalStorage.instance.deleteRecordsLogOut();
     navigationPopCallBack();
   }
+
 }

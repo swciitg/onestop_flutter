@@ -5,7 +5,6 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/services/api.dart';
-import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 import '../../functions/travel/next_time.dart';
@@ -34,7 +33,7 @@ class _BusDetailsState extends State<BusDetails> {
   Widget build(BuildContext context) {
     var daytype = context.read<TravelStore>().busDayType;
     return FutureBuilder<List<TravelTiming>>(
-        future: APIService.getBusTiming(),
+        future: APIService().getBusTiming(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             busTime = snapshot.data;

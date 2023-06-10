@@ -59,6 +59,7 @@ class LoginButton extends StatelessWidget {
                         ..onTap = () async {
                           await context.read<LoginStore>().signInAsGuest();
                           // TODO: Next version of Flutter will have context.mounted. Use that instead to escape the lint
+                          print("completed sign in");
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/', (Route<dynamic> route) => false);
                         },

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +25,7 @@ class _LoginWebViewState extends State<LoginWebView> {
   @override
   Widget build(BuildContext context) {
     return WebView(
-      initialUrl: "https://swc.iitg.ac.in/onestopapi/v2/auth/microsoft",
+      initialUrl: "${Endpoints.baseUrl}/auth/microsoft",
       javascriptMode: JavascriptMode.unrestricted,
       onWebViewCreated: (controller) {
         widget._controller.complete(controller);
@@ -31,21 +33,16 @@ class _LoginWebViewState extends State<LoginWebView> {
       onWebResourceError: (context) {},
       onPageFinished: (url) async {
         if (url.startsWith(
-            "https://swc.iitg.ac.in/onestopapi/v2/auth/microsoft/redirect?code")) {
+            "${Endpoints.baseUrl}/auth/microsoft/redirect?code")) {
           WebViewController controller = await widget._controller.future;
 
-          var userInfoString = await controller.runJavascriptReturningResult("document.querySelector('#userInfo').innerText");
-          var userInfo = {};
-          List<String> values = userInfoString.replaceAll('"', '').split("/");
-          if (!values[0].toLowerCase().contains("error")) {
-            userInfo["displayName"] = values[0];
-            userInfo["mail"] = values[1];
-            userInfo["surname"] = values[2];
-            userInfo["id"] = values[3];
+          var userTokensString = await controller.runJavascriptReturningResult("document.querySelector('#userTokens').innerText");
+          print(userTokensString);
+          if (userTokensString!="ERROR OCCURED") {
             SharedPreferences user = await SharedPreferences.getInstance();
             if (!mounted) return;
-            context.read<LoginStore>().saveToPreferences(user, userInfo);
-            context.read<LoginStore>().saveToUserData(user);
+            context.read<LoginStore>().saveToPreferences(user, jsonDecode(userTokensString));
+            context.read<LoginStore>().saveToUserInfo(user);
             await WebviewCookieManager().clearCookies();
             Navigator.of(context)
                 .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);

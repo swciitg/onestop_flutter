@@ -9,6 +9,7 @@ class CabShare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(context.read<LoginStore>().userData);
     return CabSharingScreen(userData: {
       'name': context.read<LoginStore>().userData["name"]!,
       'email': context.read<LoginStore>().userData["email"]!,

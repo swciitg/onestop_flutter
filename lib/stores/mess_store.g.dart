@@ -14,11 +14,11 @@ mixin _$MessStore on _MessStore, Store {
   @override
   bool get hostelLoaded =>
       (_$hostelLoadedComputed ??= Computed<bool>(() => super.hostelLoaded,
-          name: '_MessStore.hostelLoaded'))
+              name: '_MessStore.hostelLoaded'))
           .value;
 
   late final _$selectedDayAtom =
-  Atom(name: '_MessStore.selectedDay', context: context);
+      Atom(name: '_MessStore.selectedDay', context: context);
 
   @override
   String get selectedDay {
@@ -34,7 +34,7 @@ mixin _$MessStore on _MessStore, Store {
   }
 
   late final _$selectedMealAtom =
-  Atom(name: '_MessStore.selectedMeal', context: context);
+      Atom(name: '_MessStore.selectedMeal', context: context);
 
   @override
   String get selectedMeal {
@@ -50,7 +50,7 @@ mixin _$MessStore on _MessStore, Store {
   }
 
   late final _$selectedHostelAtom =
-  Atom(name: '_MessStore.selectedHostel', context: context);
+      Atom(name: '_MessStore.selectedHostel', context: context);
 
   @override
   ObservableFuture<String> get selectedHostel {
@@ -66,7 +66,7 @@ mixin _$MessStore on _MessStore, Store {
   }
 
   late final _$mealDataAtom =
-  Atom(name: '_MessStore.mealData', context: context);
+      Atom(name: '_MessStore.mealData', context: context);
 
   @override
   MealType get mealData {
@@ -82,12 +82,12 @@ mixin _$MessStore on _MessStore, Store {
   }
 
   late final _$_MessStoreActionController =
-  ActionController(name: '_MessStore', context: context);
+      ActionController(name: '_MessStore', context: context);
 
   @override
   void setDay(String s) {
     final _$actionInfo =
-    _$_MessStoreActionController.startAction(name: '_MessStore.setDay');
+        _$_MessStoreActionController.startAction(name: '_MessStore.setDay');
     try {
       return super.setDay(s);
     } finally {
@@ -98,7 +98,7 @@ mixin _$MessStore on _MessStore, Store {
   @override
   void setMeal(String s) {
     final _$actionInfo =
-    _$_MessStoreActionController.startAction(name: '_MessStore.setMeal');
+        _$_MessStoreActionController.startAction(name: '_MessStore.setMeal');
     try {
       return super.setMeal(s);
     } finally {
@@ -109,7 +109,7 @@ mixin _$MessStore on _MessStore, Store {
   @override
   void setHostel(String s) {
     final _$actionInfo =
-    _$_MessStoreActionController.startAction(name: '_MessStore.setHostel');
+        _$_MessStoreActionController.startAction(name: '_MessStore.setHostel');
     try {
       return super.setHostel(s);
     } finally {

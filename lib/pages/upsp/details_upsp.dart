@@ -240,23 +240,20 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                               data['roll_number'] = roll;
                               data['email'] = email;
                               try {
-                                var response = await APIService.postUPSP(data);
+                                var response = await APIService().postUPSP(data);
                                 if (!mounted) return;
                                 if (response['success']) {
-                                  showSnackBar(
-                                      "Your problem has been successfully sent to respective authorities.");
+                                  showSnackBar("Your problem has been successfully sent to respective authorities.");
                                   Navigator.popUntil(
                                       context, ModalRoute.withName(HomePage.id));
                                 } else {
-                                  showSnackBar(
-                                      "Some error occurred. Try again later");
+                                  showSnackBar("Some error occurred. Try again later");
                                   setState(() {
                                     submitted = false;
                                   });
                                 }
                               } catch (err) {
-                                showSnackBar(
-                                    "Please check you internet connection and try again");
+                                showSnackBar("Please check you internet connection and try again");
                                 setState(() {
                                   submitted = false;
                                 });

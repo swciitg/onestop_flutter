@@ -14,31 +14,31 @@ mixin _$TravelStore on _TravelStore, Store {
   @override
   String get ferryDataIndex =>
       (_$ferryDataIndexComputed ??= Computed<String>(() => super.ferryDataIndex,
-          name: '_TravelStore.ferryDataIndex'))
+              name: '_TravelStore.ferryDataIndex'))
           .value;
   Computed<int>? _$busDayTypeIndexComputed;
 
   @override
   int get busDayTypeIndex =>
       (_$busDayTypeIndexComputed ??= Computed<int>(() => super.busDayTypeIndex,
-          name: '_TravelStore.busDayTypeIndex'))
+              name: '_TravelStore.busDayTypeIndex'))
           .value;
   Computed<Widget>? _$busPageComputed;
 
   @override
   Widget get busPage => (_$busPageComputed ??=
-      Computed<Widget>(() => super.busPage, name: '_TravelStore.busPage'))
+          Computed<Widget>(() => super.busPage, name: '_TravelStore.busPage'))
       .value;
   Computed<bool>? _$isBusSelectedComputed;
 
   @override
   bool get isBusSelected =>
       (_$isBusSelectedComputed ??= Computed<bool>(() => super.isBusSelected,
-          name: '_TravelStore.isBusSelected'))
+              name: '_TravelStore.isBusSelected'))
           .value;
 
   late final _$selectBusesorStopsAtom =
-  Atom(name: '_TravelStore.selectBusesorStops', context: context);
+      Atom(name: '_TravelStore.selectBusesorStops', context: context);
 
   @override
   int get selectBusesorStops {
@@ -54,7 +54,7 @@ mixin _$TravelStore on _TravelStore, Store {
   }
 
   late final _$busDayTypeAtom =
-  Atom(name: '_TravelStore.busDayType', context: context);
+      Atom(name: '_TravelStore.busDayType', context: context);
 
   @override
   String get busDayType {
@@ -70,7 +70,7 @@ mixin _$TravelStore on _TravelStore, Store {
   }
 
   late final _$ferryDirectionAtom =
-  Atom(name: '_TravelStore.ferryDirection', context: context);
+      Atom(name: '_TravelStore.ferryDirection', context: context);
 
   @override
   String get ferryDirection {
@@ -86,7 +86,7 @@ mixin _$TravelStore on _TravelStore, Store {
   }
 
   late final _$ferryDayTypeAtom =
-  Atom(name: '_TravelStore.ferryDayType', context: context);
+      Atom(name: '_TravelStore.ferryDayType', context: context);
 
   @override
   String get ferryDayType {
@@ -102,7 +102,7 @@ mixin _$TravelStore on _TravelStore, Store {
   }
 
   late final _$selectedFerryGhatAtom =
-  Atom(name: '_TravelStore.selectedFerryGhat', context: context);
+      Atom(name: '_TravelStore.selectedFerryGhat', context: context);
 
   @override
   String get selectedFerryGhat {
@@ -118,7 +118,7 @@ mixin _$TravelStore on _TravelStore, Store {
   }
 
   late final _$ferryTimingsAtom =
-  Atom(name: '_TravelStore.ferryTimings', context: context);
+      Atom(name: '_TravelStore.ferryTimings', context: context);
 
   @override
   ObservableFuture<List<TravelTiming>> get ferryTimings {
@@ -134,7 +134,7 @@ mixin _$TravelStore on _TravelStore, Store {
   }
 
   late final _$_TravelStoreActionController =
-  ActionController(name: '_TravelStore', context: context);
+      ActionController(name: '_TravelStore', context: context);
 
   @override
   void setFerryDayType(String s) {

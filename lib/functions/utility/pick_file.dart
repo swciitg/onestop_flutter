@@ -18,7 +18,7 @@ Future<String?> uploadFile(
   if (result != null) {
     File file = File(result.files.single.path!);
     uploadCallback();
-    String? responseFilename = await APIService.uploadFileToServer(file);
+    String? responseFilename = await APIService().uploadFileToServer(file);
     if (responseFilename == null) {
       showSnackBar("There was an error uploading your file");
     }

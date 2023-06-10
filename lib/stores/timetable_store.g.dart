@@ -90,8 +90,9 @@ mixin _$TimetableStore on _TimetableStore, Store {
       AsyncAction('_TimetableStore.setTimetable', context: context);
 
   @override
-  Future<void> setTimetable(String rollNumber) {
-    return _$setTimetableAsyncAction.run(() => super.setTimetable(rollNumber));
+  Future<void> setTimetable(String rollNumber, BuildContext context) {
+    return _$setTimetableAsyncAction
+        .run(() => super.setTimetable(rollNumber, context));
   }
 
   late final _$_TimetableStoreActionController =

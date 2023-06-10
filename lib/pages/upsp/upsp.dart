@@ -196,8 +196,7 @@ class _UpspState extends State<Upsp> {
                             GestureDetector(
                               onTap: () {
                                 if (problem.value.text.isEmpty) {
-                                  showSnackBar(
-                                      "Problem description cannot be empty");
+                                  showSnackBar("Problem description cannot be empty");
                                 } else {
                                   Map<String, dynamic> data = {
                                     'problem': problem.text,

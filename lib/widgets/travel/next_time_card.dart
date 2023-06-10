@@ -8,7 +8,6 @@ import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/services/api.dart';
-import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +27,7 @@ class _NextTimeCardState extends State<NextTimeCard> {
     Future<String> getNextTime() async {
       String today = getFormattedDay();
       if (mapStore.indexBusesorFerry == 0) {
-        var allBusTimes = await APIService.getBusTiming();
+        var allBusTimes = await APIService().getBusTiming();
         List<DateTime> weekdaysTimes= [];
         List<DateTime> weekendTimes=[];
         for(var xyz in allBusTimes){
@@ -45,7 +44,7 @@ class _NextTimeCardState extends State<NextTimeCard> {
           }
         }
         weekendTimes.sort((a, b) => a.compareTo(b));
-        List<List<String>> busTimes = [[], []];
+        //List<List<String>> busTimes = [[], []];
         if (today == 'Fri') {
           return nextTime(weekdaysTimes, firstTime: weekendTimes[0].toString());
         } else if (today == 'Sun') {
@@ -55,7 +54,7 @@ class _NextTimeCardState extends State<NextTimeCard> {
         }
         return nextTime(weekdaysTimes);
       } else {
-        List<TravelTiming> ferryTimings = await APIService.getFerryTiming();
+        List<TravelTiming> ferryTimings = await APIService().getFerryTiming();
         List<DateTime> weekdaysTimes= [];
         List<DateTime> weekendTimes=[];
         TravelTiming requiredModel =

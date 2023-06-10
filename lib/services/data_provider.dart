@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
-import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/models/news/news_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
@@ -22,7 +22,7 @@ class DataProvider {
   static Future<Map<String, List<List<String>>>> getBusTimings() async {
     var cachedData = await LocalStorage.instance.getBusRecord(DatabaseRecords.busTimings);
     if (cachedData == null) {
-      Map<String, List<List<String>>> busTime = await APIService.getBusData();
+      Map<String, List<List<String>>> busTime = await APIService().getBusData();
       await LocalStorage.instance.storeBusData(busTime, DatabaseRecords.busTimings);
       return busTime;
     }
@@ -41,7 +41,7 @@ class DataProvider {
 
     if (cachedData == null) {
       List<Map<String, dynamic>> restaurantData =
-          await APIService.getRestaurantData();
+          await APIService().getRestaurantData();
 
       List<RestaurantModel> restaurants =
           restaurantData.map((e) => RestaurantModel.fromJson(e)).toList();
@@ -57,7 +57,7 @@ class DataProvider {
   }
 
   static Future<List<NewsModel>> getNews() async {
-    List<Map<String, dynamic>> newsData = await APIService.getNewsData();
+    List<Map<String, dynamic>> newsData = await APIService().getNewsData();
     List<NewsModel> news = newsData.map((e) => NewsModel.fromJson(e)).toList();
     return news;
   }
@@ -66,7 +66,7 @@ class DataProvider {
     var cachedData = (await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
     if (cachedData == null) {
       RegisteredCourses timetableData =
-          await APIService.getTimeTable(roll: roll);
+          await APIService().getTimeTable(roll: roll);
       await LocalStorage.instance
           .storeData([timetableData.toJson()], DatabaseRecords.timetable);
       return timetableData;
@@ -76,7 +76,7 @@ class DataProvider {
     if (DateTime.now().isBefore(semEnd)) {
       return RegisteredCourses.fromJson(cachedData as Map<String, dynamic>);
     }
-    return (await APIService.getTimeTable(roll: roll));
+    return (await APIService().getTimeTable(roll: roll));
   }
 
   static Future<SplayTreeMap<String, ContactModel>> getContacts() async {
@@ -85,7 +85,7 @@ class DataProvider {
 
     if (cachedData == null) {
       List<Map<String, dynamic>> contactData =
-          await APIService.getContactData();
+          await APIService().getContactData();
       for (var element in contactData) {
         people[element['name']] = ContactModel.fromJson(element);
       }

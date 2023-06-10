@@ -12,13 +12,13 @@ TravelTiming _$TravelTimingFromJson(Map<String, dynamic> json) => TravelTiming(
       stop: json['stop'] as String? ?? '',
       weekend:  DayType.fromJson(json['weekend'] as Map<String, dynamic>),
       weekdays:DayType.fromJson(json['weekdays'] as Map<String, dynamic>),
-    );
+);
 
 Map<String, dynamic> _$TravelTimingToJson(TravelTiming instance) =>
     <String, dynamic>{
-      '_id': instance.id,
-      'type': instance.type,
-      'stop': instance.stop,
-      'weekend': instance.weekend,
-      'weekdays': instance.weekdays,
+          '_id': instance.id,
+          'type': instance.type,
+          'stop': instance.stop,
+          'weekend': instance.weekend,
+          'weekdays': instance.weekdays,
     };

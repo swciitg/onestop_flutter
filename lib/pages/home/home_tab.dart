@@ -26,7 +26,7 @@ class _HomeTabState extends State<HomeTab> {
   void initState() {
     super.initState();
     context.read<TimetableStore>().setTimetable(
-        context.read<LoginStore>().userData["rollno"] ?? "190101109");
+        context.read<LoginStore>().userData["rollno"] ?? "190101109",context);
   }
 
   @override
@@ -45,10 +45,10 @@ class _HomeTabState extends State<HomeTab> {
           const SizedBox(
             height: 10,
           ),
-          const DateCourse(),
-          const SizedBox(
-            height: 10,
-          ),
+          context.read<LoginStore>().isGuest ? Container() : const Column(mainAxisSize: MainAxisSize.min,children: [const DateCourse(),
+            SizedBox(
+              height: 10,
+            )],),
           HomeLinks(title: 'Services', links: serviceLinks),
           const SizedBox(
             height: 10,

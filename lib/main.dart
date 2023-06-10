@@ -21,7 +21,7 @@ void main() async {
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
-  await checkLastUpdated();
+  // await checkLastUpdated();
   runApp(const MyApp());
 }
 
@@ -35,30 +35,37 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     debugInvertOversizedImages = true;
 
-    return MultiProvider(
-      providers: [
-        Provider<LoginStore>(
-          create: (_) => LoginStore(),
-        ),
-        Provider<RestaurantStore>(
-          create: (_) => RestaurantStore(),
-        ),
-        Provider<MapBoxStore>(
-          create: (_) => MapBoxStore(),
-        ),
-        Provider<CommonStore>(
-          create: (_) => CommonStore(),
-        )
-      ],
-      child: MaterialApp(
-        scaffoldMessengerKey: rootScaffoldMessengerKey,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            scaffoldBackgroundColor: kBackground,
-            splashColor: Colors.transparent),
-        title: 'OneStop 2.0',
-        routes: routes,
-      ),
-    );
+    return FutureBuilder(
+      future: checkLastUpdated(),
+        builder: (buildContext,snapshot){
+      if(snapshot.hasData){
+        return MultiProvider(
+          providers: [
+            Provider<LoginStore>(
+              create: (_) => LoginStore(),
+            ),
+            Provider<RestaurantStore>(
+              create: (_) => RestaurantStore(),
+            ),
+            Provider<MapBoxStore>(
+              create: (_) => MapBoxStore(),
+            ),
+            Provider<CommonStore>(
+              create: (_) => CommonStore(),
+            )
+          ],
+          child: MaterialApp(
+            scaffoldMessengerKey: rootScaffoldMessengerKey,
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+                scaffoldBackgroundColor: kBackground,
+                splashColor: Colors.transparent),
+            title: 'OneStop 2.0',
+            routes: routes,
+          ),
+        );
+      }
+      return Container();
+    });
   }
 }

@@ -194,8 +194,8 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
       AsyncAction('_MapBoxStore.getPolylines', context: context);
 
   @override
-  Future<void> getPolylines(int i) {
-    return _$getPolylinesAsyncAction.run(() => super.getPolylines(i));
+  Future<void> getPolylines(int i, BuildContext context) {
+    return _$getPolylinesAsyncAction.run(() => super.getPolylines(i, context));
   }
 
   late final _$_MapBoxStoreActionController =

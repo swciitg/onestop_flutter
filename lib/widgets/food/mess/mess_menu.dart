@@ -44,7 +44,7 @@ class MessMenu extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Row(children: [
-                const Expanded(
+                Expanded(
                     flex: 1,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,

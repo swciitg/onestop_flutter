@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
@@ -15,7 +16,7 @@ Future<bool> checkLastUpdated() async {
   Map<String, dynamic>? lastUpdated = await DataProvider.getLastUpdated();
 
   try {
-    Map<String, dynamic> last = await APIService.getLastUpdated();
+    Map<String, dynamic> last = await APIService().getLastUpdated();
 
     if (lastUpdated == null) {
       await LocalStorage.instance.deleteAllRecord();
