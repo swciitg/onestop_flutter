@@ -1,3 +1,4 @@
+import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
 import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
 import 'package:onestop_dev/pages/quick_links/cab_share.dart';
@@ -31,6 +32,7 @@ final routes = {
   AcademicCalendar.id: (context) => const AcademicCalendar(),
   Complaints.id: (context) => const Complaints(),
   CabShare.id: (context) => const CabShare(),
+  NotificationPage.id: (context) => const NotificationPage(),
   Scoreboard.id: (context) => const Scoreboard(),
   Upsp.id: (context) => const Upsp(),
   GuestHouse.id: (context) => const GuestHouse(),

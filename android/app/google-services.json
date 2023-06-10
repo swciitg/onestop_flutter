@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "755380116666",
+    "project_id": "onestopiitg-2",
+    "storage_bucket": "onestopiitg-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:755380116666:android:93baf948818388bfe2f683",
+        "android_client_info": {
+          "package_name": "com.swciitg.onestop2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "755380116666-8eqlpn3rnrp3j4v1unhonm6qldqhek2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsoG-Xp8P2FGth4pE38cUyT2ljSjrAfLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "755380116666-8eqlpn3rnrp3j4v1unhonm6qldqhek2c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "755380116666-7glnointr5aktgrk2rvsonjlfjvuoqpq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.testNotification"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

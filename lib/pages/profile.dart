@@ -99,7 +99,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               '/', (Route<dynamic> route) => false));
                     },
                     style: ElevatedButton.styleFrom(
-                        elevation: 0, backgroundColor: kAppBarGrey),
+                      elevation: 0,
+                      backgroundColor: kAppBarGrey,
+                    ),
                     child: Text(
                       'Log Out',
                       style: MyFonts.w500.setColor(kBlue),
