@@ -132,9 +132,22 @@ class APIService {
     return response.data;
   }
 
-  Future<void> updateUserProfile(Map data) async {
+  Future<void> updateUserProfile(Map data,String? deviceToken) async {
     print(data);
-    var response = await dio.patch(Endpoints.userProfile,data: data);
+    Map<String,dynamic> queryParameters={};
+    if(deviceToken!=null) queryParameters["deviceToken"]=deviceToken;
+    var response = await dio.patch(Endpoints.userProfile,data: data,queryParameters: queryParameters);
+    print(response);
+  }
+
+  Future<void> postUserDeviceToken(String deviceToken) async {
+    var response = await dio.post(Endpoints.userDeviceTokens,data: {"deviceToken" : deviceToken});
+    print(response);
+  }
+
+  Future<void> updateUserDeviceToken(Map data) async {
+    print(data);
+    var response = await dio.patch(Endpoints.userDeviceTokens,data: data);
     print(response);
   }
 

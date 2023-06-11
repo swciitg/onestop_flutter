@@ -27,10 +27,9 @@ void main() async {
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
   await checkLastUpdated();
   await checkForNotifications();
-  final fcmToken = await FirebaseMessaging.instance.getToken();
+  final fcmToken = await FirebaseMessaging.instance.getToken(); // ask for notification permission
   print("FCM Token is $fcmToken");
-  
-  await APIService.createUser(fcmToken ?? '');
+  // await APIService.createUser(fcmToken ?? '');
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
