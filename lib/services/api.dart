@@ -522,6 +522,25 @@ class APIService {
     }
   }
 
+  static Future<void> createUser(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    final res = await http.post(
+      Uri.parse('https://swc.iitg.ac.in/onestopapi/v2/onestop-user'),
+      body: jsonEncode(
+        {
+          "name": prefs.getString('name'),
+          "email": prefs.getString('email'),
+          "deviceToken": token
+        },
+      ),
+       headers: {
+        'Content-Type': 'application/json',
+        'security-key': Endpoints.apiSecurityKey
+      },
+    );
+
+  }
+
   Future<List<TravelTiming>> getFerryTiming() async {
     try {
       final prefs = await SharedPreferences.getInstance();

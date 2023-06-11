@@ -58,6 +58,13 @@
 	<string>This app needs access to location to show you the nearest bus stops, ferry ghats, restaurants etc.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires Photo Library access for Lost/Found or Buy/Sell images</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -77,7 +84,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
 </dict>
 </plist>
