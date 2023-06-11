@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: kBackground,
             splashColor: Colors.transparent),
         title: 'OneStop 2.0',
-        routes: routes,
+        routes: routes
       ),
     );
   }

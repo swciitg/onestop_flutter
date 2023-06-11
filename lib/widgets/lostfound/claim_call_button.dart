@@ -69,7 +69,7 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                                     ModalRoute.withName(LostFoundHome.id));
                               } else {
                                 widget.model.claimed = true;
-                                widget.model.claimerEmail = LoginStore.userData["email"]!;
+                                widget.model.claimerEmail = LoginStore.userData["outlookEmail"]!;
                                 Navigator.popUntil(context,
                                     ModalRoute.withName(LostFoundHome.id));
                                 ScaffoldMessenger.of(widget.parentContext)
@@ -140,7 +140,7 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                     )
                   : Text(
                       widget.model.claimerEmail ==
-                          LoginStore.userData["email"]
+                          LoginStore.userData["outlookEmail"]
                           ? " You claimed"
                           : " Already Claimed",
                       style: MyFonts.w500.size(11).setColor(lBlue2),

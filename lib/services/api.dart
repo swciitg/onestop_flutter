@@ -151,6 +151,12 @@ class APIService {
     print(response);
   }
 
+  Future<void> logoutUser(String deviceToken) async {
+    print(deviceToken);
+    var response = await dio.delete(Endpoints.userLogout,data: {"deviceToken" : deviceToken});
+    print(response);
+  }
+
   Future<List<Map<String, dynamic>>> getRestaurantData() async {
     var response = await dio.get(Endpoints.restaurantURL);
     var status = response.statusCode;

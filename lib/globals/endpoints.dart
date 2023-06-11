@@ -36,6 +36,7 @@ class Endpoints {
   static const String guestLogin = "/user/guest/login";
   static const String userProfile = "/user";
   static const String userDeviceTokens = "/user/device-tokens";
+  static const String userLogout = "/user/logout";
   static getHeader() {
     return {'Content-Type': 'application/json', 'security-key': Endpoints.apiSecurityKey};
   }

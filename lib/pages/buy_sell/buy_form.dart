@@ -156,7 +156,7 @@ class _BuySellFormState extends State<BuySellForm> {
           data['contact'] = _contactNumber.text.trim();
           data['image'] = widget.imageString;
           data['name'] = LoginStore.userData["name"]!;
-          data['email'] = LoginStore.userData["email"]!;
+          data['email'] = LoginStore.userData["outlookEmail"]!;
           data['total_price'] = "${_price.text}-${_price2.text}";
 
           try {

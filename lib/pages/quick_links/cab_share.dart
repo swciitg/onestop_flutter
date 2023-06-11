@@ -12,7 +12,7 @@ class CabShare extends StatelessWidget {
     print(LoginStore.userData);
     return CabSharingScreen(userData: {
       'name': LoginStore.userData["name"]!,
-      'email': LoginStore.userData["email"]!,
+      'email': LoginStore.userData["outlookEmail"]!,
       'security-key': const String.fromEnvironment('SECURITY-KEY')
     });
   }
