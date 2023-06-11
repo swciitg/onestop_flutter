@@ -193,9 +193,7 @@ class _FeedBackState extends State<FeedBack> {
                                 'title': title.text,
                                 'body': body.text,
                                 'type': selected,
-                                'user': context
-                                        .read<LoginStore>()
-                                        .userData['email'] ??
+                                'user': LoginStore.userData['email'] ??
                                     "Unknown"
                               };
                               setState(() => enableSubmitButton = false);

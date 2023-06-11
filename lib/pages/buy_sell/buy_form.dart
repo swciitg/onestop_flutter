@@ -155,8 +155,8 @@ class _BuySellFormState extends State<BuySellForm> {
           data['location'] = _price.text.trim();
           data['contact'] = _contactNumber.text.trim();
           data['image'] = widget.imageString;
-          data['name'] = context.read<LoginStore>().userData["name"]!;
-          data['email'] = context.read<LoginStore>().userData["email"]!;
+          data['name'] = LoginStore.userData["name"]!;
+          data['email'] = LoginStore.userData["email"]!;
           data['total_price'] = "${_price.text}-${_price2.text}";
 
           try {

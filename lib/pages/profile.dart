@@ -42,12 +42,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: MediaQuery.of(context).size.width,
               ),
               Text(
-                "${context.read<LoginStore>().userData['name']}",
+                "${LoginStore.userData['name']}",
                 textAlign: TextAlign.center,
                 style: MyFonts.w800.setColor(kWhite).size(20),
               ),
               Text(
-                '${context.read<LoginStore>().userData['rollno']}',
+                '${LoginStore.userData['rollNo']}',
                 textAlign: TextAlign.center,
                 style: MyFonts.w500.setColor(kWhite).size(20),
               ),
@@ -69,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
               //           padding: const EdgeInsets.symmetric(horizontal: 16),
               //           child: BarcodeWidget(
               //             barcode: Barcode.code128(),
-              //             data: "${context.read<LoginStore>().userData['rollno']}",
+              //             data: "${context.read<LoginStore>().userData['rollNo']}",
               //             height: 150,
               //             color: kBlack,
               //             backgroundColor: kWhite,

@@ -13,8 +13,8 @@ import '../../widgets/profile/feedback.dart';
 import 'edit_profile.dart';
 
 class Profile extends StatefulWidget {
-  final ProfileModel? profileModel;
-  const Profile({super.key, this.profileModel});
+  final ProfileModel profileModel;
+  const Profile({super.key, required this.profileModel});
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -23,6 +23,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    print(widget.profileModel!.toJson());
     return Scaffold(
       backgroundColor: kBackground,
       appBar: AppBar(
@@ -79,29 +80,29 @@ class _ProfileState extends State<Profile> {
               const SizedBox(
                 height: 12,
               ),
-              Center(
-                  child: Stack(alignment: Alignment.bottomRight, children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(75.0),
-                    child: Image(
-                      image: widget.profileModel?.image == null
-                          ? const ResizeImage(
-                              AssetImage(
-                                  'assets/images/profile_placeholder.png'),
-                              width: 150,
-                              height: 150)
-                          : ResizeImage(
-                              MemoryImage(
-                                  base64Decode(widget.profileModel!.image!)),
-                              width: 150,
-                              height: 150,
-                            ),
-                      fit: BoxFit.fill,
-                    )),
-              ])),
-              const SizedBox(
-                height: 24,
-              ),
+              // Center(
+              //     child: Stack(alignment: Alignment.bottomRight, children: [
+              //   ClipRRect(
+              //       borderRadius: BorderRadius.circular(75.0),
+              //       child: Image(
+              //         image: widget.profileModel?.image == null
+              //             ? const ResizeImage(
+              //                 AssetImage(
+              //                     'assets/images/profile_placeholder.png'),
+              //                 width: 150,
+              //                 height: 150)
+              //             : ResizeImage(
+              //                 MemoryImage(
+              //                     base64Decode(widget.profileModel!.image!)),
+              //                 width: 150,
+              //                 height: 150,
+              //               ),
+              //         fit: BoxFit.fill,
+              //       )),
+              // ])),
+              // const SizedBox(
+              //   height: 24,
+              // ),
               Text('Basic Information',
                   style: MyFonts.w600.size(16).setColor(kWhite)),
               const SizedBox(
@@ -109,42 +110,42 @@ class _ProfileState extends State<Profile> {
               ),
               DataTile(
                 title: 'Username',
-                semiTitle: widget.profileModel?.username,
+                semiTitle: widget.profileModel.name,
               ),
               DataTile(
                 title: 'Roll Number',
-                semiTitle: widget.profileModel?.rollNumber,
+                semiTitle: widget.profileModel.rollNo,
               ),
               DataTile(
                 title: 'Outlook ID',
-                semiTitle: widget.profileModel?.outlook,
+                semiTitle: widget.profileModel.outlookEmail,
               ),
               DataTile(
                 title: 'Gmail',
-                semiTitle: widget.profileModel?.gmail,
+                semiTitle: widget.profileModel.altEmail,
               ),
               DataTile(
                 title: 'Contact Number',
-                semiTitle: widget.profileModel?.contact,
+                semiTitle: widget.profileModel.phoneNumber.toString(),
               ),
               DataTile(
                 title: 'Emergency Contact Number',
-                semiTitle: widget.profileModel?.emergencyContact,
+                semiTitle: widget.profileModel.emergencyPhoneNumber.toString(),
               ),
               DataTile(
                 title: 'Hostel',
-                semiTitle: widget.profileModel?.hostel,
+                semiTitle: widget.profileModel.hostel,
               ),
-              widget.profileModel == null
+              widget.profileModel.dob==null
                   ? Container()
                   : DataTile(
                       title: 'Date of Birth',
                       semiTitle: DateFormat('dd-MMM-yyyy')
-                          .format(widget.profileModel!.date!),
+                          .format(DateTime.parse(widget.profileModel.dob!)),
                     ),
               DataTile(
                 title: 'LinkedIn Profile',
-                semiTitle: widget.profileModel?.linkedin,
+                semiTitle: widget.profileModel.linkedin,
               ),
               const SizedBox(
                 height: 24,
@@ -153,7 +154,7 @@ class _ProfileState extends State<Profile> {
           ),
         )),
       ),
-      floatingActionButton: GestureDetector(
+      floatingActionButton: LoginStore.isGuest ? Container() : GestureDetector(
         onTap: (() {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => EditProfile(

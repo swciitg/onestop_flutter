@@ -1,16 +1,20 @@
 // import 'package:aad_oauth/aad_oauth.dart';
 // import 'package:aad_oauth/model/config.dart';
+import 'dart:convert';
+
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
+import 'package:onestop_dev/models/profile/profile_model.dart';
+import 'package:onestop_dev/pages/profile/profile_page.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:dio/dio.dart';
 class LoginStore {
-  Map<String, String> userData = <String, String>{};
+  static Map<String, dynamic> userData = {};
   final cookieManager = WebviewCookieManager();
-  bool isGuest = false;
+  static bool isGuest = false;
   // static final Config config = Config(
   //     tenant: '850aa78d-94e1-4bc6-9cf3-8c11b530701c',
   //     clientId: '81f3e9f0-b0fd-48e0-9d36-e6058e5c6d4f',
@@ -73,21 +77,22 @@ class LoginStore {
     sharedPrefs.setBool("isGuest", true); // guest sign in
   }
 
-  void saveToPreferences(SharedPreferences instance, dynamic data) {
+  Future<void> saveToPreferences(SharedPreferences instance, dynamic data) async {
     print(data);
+    print(data.runtimeType);
+    print(data[BackendHelper.accesstoken]);
     instance.setString(BackendHelper.accesstoken, data[BackendHelper.accesstoken]);
     instance.setString(BackendHelper.refreshtoken, data[BackendHelper.refreshtoken]);
-    instance.setString("name", data["name"]);
-    instance.setString("email", data["email"]);
     instance.setBool("isGuest", false); // general case
+    Map userInfo = await APIService().getUserProfile();
+    print(userInfo);
+    print(jsonEncode(userInfo));
+    instance.setString("userInfo", jsonEncode(userInfo));
   }
 
   void saveToUserInfo(SharedPreferences instance) {
     print("here");
-    print(instance.getString("name"));
-    print(instance.getString("email"));
-    userData["name"] = instance.getString("name") ?? " ";
-    userData["email"] = instance.getString("email") ?? " ";
+    userData = jsonDecode(instance.getString("userInfo")!);
     isGuest = instance.getBool("isGuest")!;
     print(userData);
   }

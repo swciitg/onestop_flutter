@@ -38,6 +38,7 @@ class APIService {
     }, onError: (error, handler) async {
       var response = error.response;
       if (response != null && response.statusCode == 401) {
+        print(response.requestOptions.path);
         bool couldRegenerate = await regenerateAccessToken();
         // ignore: use_build_context_synchronously
         if (couldRegenerate) {
@@ -124,6 +125,17 @@ class APIService {
   Future<Response> guestUserLogin() async {
     var response = await dio.post(Endpoints.guestLogin);
     return response;
+  }
+
+  Future<Map> getUserProfile() async {
+    var response = await dio.get(Endpoints.userProfile);
+    return response.data;
+  }
+
+  Future<void> updateUserProfile(Map data) async {
+    print(data);
+    var response = await dio.patch(Endpoints.userProfile,data: data);
+    print(response);
   }
 
   Future<List<Map<String, dynamic>>> getRestaurantData() async {
@@ -365,6 +377,7 @@ class APIService {
         await dio.get(Endpoints.lastUpdatedURL);
     var status = response.statusCode;
     var body = response.data;
+    print(body);
     if (status == 200) {
       Map<String, dynamic> data = body;
       return data;
@@ -512,18 +525,21 @@ class APIService {
   Future<List<TravelTiming>> getFerryTiming() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-
+      print("FERRY TIMINGS");
       late String jsonData;
 
       if (prefs.getString('ferryTimings') != null) {
         jsonData = prefs.getString('ferryTimings') ?? '';
+        print(jsonData);
       } else {
 
         final res = await dio.get(Endpoints.ferryURL);
 
         prefs.setString('ferryTimings', res.data);
         jsonData = prefs.getString('ferryTimings') ?? '';
-        jsonData=res.data;
+        print(res.data);
+        jsonData=res.data.toString();
+        print(jsonData);
       }
       List<dynamic> ferryTiming = json.decode(jsonData)['data'];
       List<TravelTiming> ferryTimings = [];
@@ -546,7 +562,7 @@ class APIService {
         jsonData = prefs.getString('messMenu') ?? '';
       } else {
         final res = await dio.get(Endpoints.messURL);
-        prefs.setString('messMenu', res.data);
+        prefs.setString('messMenu', res.data.toString());
 
         jsonData = prefs.getString('messMenu') ?? res.data;
       }

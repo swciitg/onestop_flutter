@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../functions/utility/show_snackbar.dart';
 import '../../functions/utility/validator.dart';
@@ -18,25 +20,33 @@ import '../../widgets/profile/custom_text_field.dart';
 import 'profile_page.dart';
 
 class EditProfile extends StatefulWidget {
-  final ProfileModel? profileModel;
-  const EditProfile({Key? key, this.profileModel}) : super(key: key);
+  final ProfileModel profileModel;
+  const EditProfile({Key? key,required this.profileModel}) : super(key: key);
 
   @override
   State<EditProfile> createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _outlookController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _outlookEmailController = TextEditingController();
   final TextEditingController _rollController = TextEditingController();
-  final TextEditingController _gmailController = TextEditingController();
-  final TextEditingController _contactController = TextEditingController();
+  final TextEditingController _altEmailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emergencyController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _roomNoController = TextEditingController();
+  final TextEditingController _homeAddressController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
   final TextEditingController _linkedinController = TextEditingController();
   String? hostel;
-  DateTime? selectedDate;
-  String? imageString;
+  String? gender;
+  DateTime? selectedDob;
+  // String? imageString;
+  final List<String> genders = [
+    "Male",
+    "Female",
+    "Others"
+  ];
   final List<String> hostels = [
     "Kameng",
     "Barak",
@@ -56,26 +66,21 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     super.initState();
-    if (widget.profileModel != null) {
-      ProfileModel p = widget.profileModel!;
-      _usernameController.text = p.username;
-      _rollController.text = p.rollNumber;
-      _outlookController.text = p.outlook;
-      _gmailController.text = p.gmail;
-      _contactController.text = p.contact;
-      _emergencyController.text = p.emergencyContact;
-      _dateController.text = DateFormat('dd-MMM-yyyy').format(p.date!);
-      _linkedinController.text = p.linkedin!;
-      hostel = p.hostel;
-      selectedDate = p.date;
-      imageString = p.image;
-    } else {
-      _usernameController.text =
-          "${context.read<LoginStore>().userData['name']}";
-      _rollController.text = "${context.read<LoginStore>().userData['rollno']}";
-      _outlookController.text =
-          "${context.read<LoginStore>().userData['email']}";
-    }
+    ProfileModel p = widget.profileModel!;
+    _nameController.text = p.name;
+    _rollController.text = p.rollNo;
+    _outlookEmailController.text = p.outlookEmail;
+    _altEmailController.text = p.altEmail ?? "";
+    _phoneController.text = p.phoneNumber.toString() ?? "";
+    _emergencyController.text = p.emergencyPhoneNumber.toString() ?? "";
+    _roomNoController.text = p.roomNo ?? "";
+    _homeAddressController.text = p.homeAddress ?? "";
+    _dobController.text = DateFormat('dd-MMM-yyyy').format(DateTime.parse(p.dob ?? DateTime.now().toIso8601String()));
+    _linkedinController.text = p.linkedin ?? "";
+    hostel = p.hostel;
+    gender = p.gender;
+    selectedDob = p.dob!=null ? DateTime.parse(p.dob!) : DateTime.now();
+    // imageString = p.image;
   }
 
   @override
@@ -86,26 +91,38 @@ class _EditProfileState extends State<EditProfile> {
         return;
       } else {
         DateTime date = DateTime(
-            selectedDate!.year, selectedDate!.month, selectedDate!.day);
+            selectedDob!.year, selectedDob!.month, selectedDob!.day);
         var data = {
-          'username': _usernameController.text,
-          'rollNumber': _rollController.text,
-          'outlook': _outlookController.text,
-          'gmail': _gmailController.text,
-          'contact': _contactController.text,
-          'emergencyContact': _emergencyController.text,
+          'name': _nameController.text,
+          'rollNo': _rollController.text,
+          'outlookEmail_email': _outlookEmailController.text,
+          'altEmail': _altEmailController.text,
+          'dob': date.toIso8601String(),
+          'gender': gender,
+          'phoneNumber': _phoneController.text,
+          'emergencyPhoneNumber': _emergencyController.text,
           'hostel': hostel,
-          'linkedin': _linkedinController.text,
-          'date': date.toIso8601String(),
-          'image': imageString,
+          'roomNo': _roomNoController.text,
+          'homeAddress': _homeAddressController.text,
+          'linkedin': _linkedinController.text
         };
 
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) => Profile(
-                      profileModel: ProfileModel.fromJson(data),
-                    )),
-            ((route) => false));
+        print(data);
+
+        await APIService().updateUserProfile(data);
+
+        Map userInfo = await APIService().getUserProfile();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("userInfo", jsonEncode(userInfo));
+        context.read<LoginStore>().saveToUserInfo(prefs);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+        // Navigator.of(context).pushAndRemoveUntil(
+        //     MaterialPageRoute(
+        //         builder: (context) => Profile(
+        //               profileModel: ProfileModel.fromJson(data),
+        //             )),
+        //     ((route) => false));
       }
     }
 
@@ -148,107 +165,108 @@ class _EditProfileState extends State<EditProfile> {
               const SizedBox(
                 height: 24,
               ),
-              Center(
-                  child: Stack(alignment: Alignment.bottomRight, children: [
-               
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(75.0),
-                    
-                    child: Image(
-                      image: imageString==null?const ResizeImage(AssetImage('assets/images/profile_placeholder.png'),width: 150,height: 150): ResizeImage(
-                          MemoryImage(base64Decode(imageString!))
-                          ,width: 150,
-                      height: 150,),
-                      fit: BoxFit.fill,
-                    )
-                    ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () async {
-                      XFile? xFile;
-                      await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-                              backgroundColor: kBlueGrey,
-                                title:  Text(
-                                    "Do you want to change your profile photo?",style: MyFonts.w500.size(16).setColor(kWhite2),),
-                                content: SingleChildScrollView(
-                                  child: ListBody(
-                                    children: <Widget>[
-                                       GestureDetector(
-                                        child:  Text("Take Photo",style: MyFonts.w500.size(14).setColor(kWhite),),
-                                        onTap: () async {
-                                          xFile = await ImagePicker().pickImage(
-                                              source: ImageSource.camera);
-                                          if (!mounted) return;
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      const Padding(
-                                          padding: EdgeInsets.all(8.0)),
-                                          GestureDetector(
-                                        child:  Text("Choose Photo",style: MyFonts.w500.size(14).setColor(kWhite),),
-                                        onTap: () async {
-                                          xFile = await ImagePicker().pickImage(
-                                              source: ImageSource.gallery);
-                                          if (!mounted) return;
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      const Padding(
-                                          padding: EdgeInsets.all(8.0)),
-                                     
-                                      GestureDetector(
-                                        child: Text("Remove Photo",style: MyFonts.w500.size(14).setColor(kRed),),
-                                        onTap: () async {
-                                          setState(() {
-                                            imageString=null;
-                                          });
-                                          return
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ));
-                          });
-
-                      if (!mounted) return;
-                      if (xFile != null) {
-                        var bytes = File(xFile!.path).readAsBytesSync();
-                        var imageSize = (bytes.lengthInBytes /
-                            (1048576)); // dividing by 1024*1024
-                        if (imageSize > 2.5) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                            "Maximum image size can be 2.5 MB",
-                            style: MyFonts.w500,
-                          )));
-                          return;
-                        }
-                        setState(() {
-                          imageString = base64Encode(bytes);
-                        });
-                        return;
-                      }
-                    },
-                    child: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(75)),
-                          color: kWhite),
-                      child: const Icon(Icons.edit_outlined),
-                    ),
-                  ),
-                ),
-              ])),
-              const SizedBox(
-                height: 24,
-              ),
+              // For now image will not be stored
+              // Center(
+              //     child: Stack(alignment: Alignment.bottomRight, children: [
+              //
+              //   ClipRRect(
+              //       borderRadius: BorderRadius.circular(75.0),
+              //
+              //       child: Image(
+              //         image: imageString==null?const ResizeImage(AssetImage('assets/images/profile_placeholder.png'),width: 150,height: 150): ResizeImage(
+              //             MemoryImage(base64Decode(imageString!))
+              //             ,width: 150,
+              //         height: 150,),
+              //         fit: BoxFit.fill,
+              //       )
+              //       ),
+              //   Padding(
+              //     padding: const EdgeInsets.all(8.0),
+              //     child: GestureDetector(
+              //       onTap: () async {
+              //         XFile? xFile;
+              //         await showDialog(
+              //             context: context,
+              //             builder: (BuildContext context) {
+              //               return AlertDialog(
+              //                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+              //                 backgroundColor: kBlueGrey,
+              //                   title:  Text(
+              //                       "Do you want to change your profile photo?",style: MyFonts.w500.size(16).setColor(kWhite2),),
+              //                   content: SingleChildScrollView(
+              //                     child: ListBody(
+              //                       children: <Widget>[
+              //                          GestureDetector(
+              //                           child:  Text("Take Photo",style: MyFonts.w500.size(14).setColor(kWhite),),
+              //                           onTap: () async {
+              //                             xFile = await ImagePicker().pickImage(
+              //                                 source: ImageSource.camera);
+              //                             if (!mounted) return;
+              //                             Navigator.of(context).pop();
+              //                           },
+              //                         ),
+              //                         const Padding(
+              //                             padding: EdgeInsets.all(8.0)),
+              //                             GestureDetector(
+              //                           child:  Text("Choose Photo",style: MyFonts.w500.size(14).setColor(kWhite),),
+              //                           onTap: () async {
+              //                             xFile = await ImagePicker().pickImage(
+              //                                 source: ImageSource.gallery);
+              //                             if (!mounted) return;
+              //                             Navigator.of(context).pop();
+              //                           },
+              //                         ),
+              //                         const Padding(
+              //                             padding: EdgeInsets.all(8.0)),
+              //
+              //                         GestureDetector(
+              //                           child: Text("Remove Photo",style: MyFonts.w500.size(14).setColor(kRed),),
+              //                           onTap: () async {
+              //                             setState(() {
+              //                               imageString=null;
+              //                             });
+              //                             return
+              //                             Navigator.of(context).pop();
+              //                           },
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ));
+              //             });
+              //
+              //         if (!mounted) return;
+              //         if (xFile != null) {
+              //           var bytes = File(xFile!.path).readAsBytesSync();
+              //           var imageSize = (bytes.lengthInBytes /
+              //               (1048576)); // dividing by 1024*1024
+              //           if (imageSize > 2.5) {
+              //             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              //                 content: Text(
+              //               "Maximum image size can be 2.5 MB",
+              //               style: MyFonts.w500,
+              //             )));
+              //             return;
+              //           }
+              //           setState(() {
+              //             imageString = base64Encode(bytes);
+              //           });
+              //           return;
+              //         }
+              //       },
+              //       child: Container(
+              //         height: 30,
+              //         width: 30,
+              //         decoration: const BoxDecoration(
+              //             borderRadius: BorderRadius.all(Radius.circular(75)),
+              //             color: kWhite),
+              //         child: const Icon(Icons.edit_outlined),
+              //       ),
+              //     ),
+              //   ),
+              // ])),
+              // const SizedBox(
+              //   height: 24,
+              // ),
               Text('Basic Information',
                   style: MyFonts.w600.size(16).setColor(kWhite)),
               const SizedBox(
@@ -259,10 +277,10 @@ class _EditProfileState extends State<EditProfile> {
                   child: Column(
                     children: [
                       CustomTextField(
-                        hintText: 'Username',
+                        hintText: 'name',
                         // validator: validatefield,
                         isNecessary: false,
-                        controller: _usernameController,
+                        controller: _nameController,
                         isEnabled: false,
                       ),
                       const SizedBox(
@@ -279,38 +297,65 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       CustomTextField(
                         isEnabled: false,
-                        hintText: 'Outlook ID',
+                        hintText: 'outlookEmail ID',
                         // validator: validatefield,
                         isNecessary: false,
-                        controller: _outlookController,
+                        controller: _outlookEmailController,
                       ),
                       const SizedBox(
                         height: 12,
                       ),
                       CustomTextField(
-                        hintText: 'Gmail',
+                        hintText: 'Alt Email',
                         validator: validatefield,
                         isNecessary: true,
-                        controller: _gmailController,
+                        controller: _altEmailController,
                       ),
                       const SizedBox(
                         height: 12,
                       ),
                       CustomTextField(
-                        hintText: 'Contact Number',
-                        validator: validatefield,
+                        hintText: 'Phone Number',
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Field cannot be empty';
+                          }
+                          else if(value.length!=10){
+                            return 'Enter valid 10 digit phone number';
+                          }
+                          return null;
+                        },
                         isNecessary: true,
-                        controller: _contactController,
+                        controller: _phoneController,
+                        inputType: TextInputType.phone,
                       ),
                       const SizedBox(
                         height: 12,
                       ),
                       CustomTextField(
                         hintText: 'Emergency Contact Number',
-                        validator: validatefield,
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Field cannot be empty';
+                          }
+                          else if(value.length!=10){
+                            return 'Enter valid 10 digit phone number';
+                          }
+                          return null;
+                        },
                         isNecessary: true,
                         controller: _emergencyController,
+                        inputType: TextInputType.phone,
                       ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      CustomDropDown(
+                          value: gender,
+                          items: genders,
+                          hintText: 'Your Gender',
+                          onChanged: (g) => gender = g,
+                          validator: validatefield),
                       const SizedBox(
                         height: 12,
                       ),
@@ -326,12 +371,12 @@ class _EditProfileState extends State<EditProfile> {
                       CustomTextField(
                         hintText: 'Date of Birth',
                         validator: validatefield,
-                        controller: _dateController,
+                        controller: _dobController,
                         onTap: () async {
                           FocusScope.of(context).requestFocus(FocusNode());
                           DateTime? pickedDate = await showDatePicker(
                               context: context,
-                              initialDate: selectedDate ?? DateTime.now(),
+                              initialDate: selectedDob ?? DateTime.now(),
                               firstDate: DateTime(2000),
                               //DateTime.now() - not to allow to choose before today.
                               lastDate: DateTime(2101),
@@ -340,16 +385,34 @@ class _EditProfileState extends State<EditProfile> {
                                   ));
                           if (pickedDate != null) {
                             if (!mounted) return;
-                            selectedDate = pickedDate;
+                            selectedDob = pickedDate;
                             String formattedDate =
                                 DateFormat('dd-MMM-yyyy').format(pickedDate);
                             setState(() {
-                              _dateController.text =
+                              _dobController.text =
                                   formattedDate; //set output date to TextField value.
                             });
                           }
                         },
                         isNecessary: true,
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      CustomTextField(
+                        hintText: 'Hostel room no',
+                        validator: validatefield,
+                        isNecessary: true,
+                        controller: _roomNoController
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      CustomTextField(
+                        hintText: 'Home Address',
+                        validator: validatefield,
+                        isNecessary: true,
+                        controller: _homeAddressController
                       ),
                       const SizedBox(
                         height: 12,

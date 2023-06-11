@@ -3,26 +3,32 @@ part 'profile_model.g.dart';
 
 @JsonSerializable()
 class ProfileModel {
-  final String username;
-  final String rollNumber;
-  final String outlook;
-  final String gmail;
-  final String contact;
-  final String emergencyContact;
-  final String hostel;
+  final String name;
+  final String rollNo;
+  final String outlookEmail;
+  final String? altEmail;
+  final int? phoneNumber;
+  final int? emergencyPhoneNumber;
+  final String? gender;
+  final String? roomNo;
+  final String? homeAddress;
+  final String? dob;
+  final String? hostel;
   final String? linkedin;
-  final DateTime? date;
   final String? image;
   ProfileModel(
-      {required this.username,
-      required this.rollNumber,
-      required this.outlook,
-      required this.gmail,
-      required this.contact,
-      required this.emergencyContact,
-      required this.hostel,
+      {required this.name,
+      required this.rollNo,
+      required this.outlookEmail,
+      this.altEmail,
+      this.phoneNumber,
+      this.emergencyPhoneNumber,
+        this.gender,
+        this.roomNo,
+        this.homeAddress,
+        this.dob,
+      this.hostel,
       this.linkedin,
-      this.date,
       this.image});
 
   factory ProfileModel.fromJson(Map<String, dynamic> map) =>

@@ -41,11 +41,10 @@ class _DetailsUpspState extends State<DetailsUpsp> {
 
   @override
   Widget build(BuildContext context) {
-    var userStore = context.read<LoginStore>();
-    var userData = userStore.userData;
+    var userData = LoginStore.userData;
     String email = userData['email']!;
     String name = userData['name']!;
-    String roll = userData['rollno']!;
+    String roll = userData['rollNo']!;
     return Scaffold(
       backgroundColor: kBackground,
       appBar: AppBar(

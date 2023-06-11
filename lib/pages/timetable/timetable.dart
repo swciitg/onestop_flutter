@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/timetable/date_slider.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
+import 'package:onestop_dev/widgets/ui/guest_restrict.dart';
 
 class TimeTableTab extends StatefulWidget {
   static const String id = 'time';
@@ -16,7 +19,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
   List<Map<int, List<List<String>>>> data1 = [];
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return LoginStore.isGuest ? const GuestRestrictAccess() : SingleChildScrollView(
       child: Column(
         children: [
           const SizedBox(

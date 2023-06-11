@@ -7,29 +7,34 @@ part of 'profile_model.dart';
 // **************************************************************************
 
 ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
-      username: json['username'] as String,
-      rollNumber: json['rollNumber'] as String,
-      outlook: json['outlook'] as String,
-      gmail: json['gmail'] as String,
-      contact: json['contact'] as String,
-      emergencyContact: json['emergencyContact'] as String,
-      hostel: json['hostel'] as String,
+      name: json['name'] as String,
+      rollNo: json['rollNo'] as String,
+      outlookEmail: json['outlookEmail'] as String,
+      altEmail: json['altEmail'] as String?,
+      phoneNumber: json['phoneNumber'] as int?,
+      emergencyPhoneNumber: json['emergencyPhoneNumber'] as int?,
+      gender: json['gender'] as String?,
+      roomNo: json['roomNo'] as String?,
+      homeAddress: json['homeAddress'] as String?,
+      dob: json['dob'] as String?,
+      hostel: json['hostel'] as String?,
       linkedin: json['linkedin'] as String?,
-      date:
-          json['date'] == null ? null : DateTime.parse(json['date'] as String),
       image: json['image'] as String?,
     );
 
 Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
     <String, dynamic>{
-      'username': instance.username,
-      'rollNumber': instance.rollNumber,
-      'outlook': instance.outlook,
-      'gmail': instance.gmail,
-      'contact': instance.contact,
-      'emergencyContact': instance.emergencyContact,
+      'name': instance.name,
+      'rollNo': instance.rollNo,
+      'outlookEmail': instance.outlookEmail,
+      'altEmail': instance.altEmail,
+      'phoneNumber': instance.phoneNumber,
+      'emergencyPhoneNumber': instance.emergencyPhoneNumber,
+      'gender': instance.gender,
+      'roomNo': instance.roomNo,
+      'homeAddress': instance.homeAddress,
+      'dob': instance.dob,
       'hostel': instance.hostel,
       'linkedin': instance.linkedin,
-      'date': instance.date?.toIso8601String(),
       'image': instance.image,
     };

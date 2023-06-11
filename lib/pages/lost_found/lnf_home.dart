@@ -13,6 +13,7 @@ import 'package:onestop_dev/widgets/lostfound/ads_tile.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_button.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_tile.dart';
+import 'package:onestop_dev/widgets/ui/guest_restrict.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
@@ -171,12 +172,10 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               )
             else
               Expanded(
-                child: context.read<LoginStore>().isGuestUser ? const PaginationText(
-                    text:
-                    "Not Available in guest mode")
+                child: context.read<LoginStore>().isGuestUser ? const GuestRestrictAccess()
                     : FutureBuilder(
                     future: APIService().getLnfMyItems(
-                        context.read<LoginStore>().userData['email'] ?? ""),
+                        LoginStore.userData['email'] ?? ""),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<dynamic> models = snapshot.data! as List<dynamic>;

@@ -2,7 +2,10 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/profile/profile_model.dart';
 import 'package:onestop_dev/pages/profile/edit_profile.dart';
+import 'package:onestop_dev/pages/profile/profile_page.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 
 AppBar appBar(BuildContext context, {bool displayIcon = true}) {
   return AppBar(
@@ -23,7 +26,9 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
                   ),
                   onPressed: () {
                     // Navigator.pushNamed(context, ProfilePage.id);
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfile()));
+                    print(ProfileModel.fromJson(LoginStore.userData));
+                    print(LoginStore.userData);
+                    Navigator.push(context, MaterialPageRoute(builder: (buildContext) => Profile(profileModel: ProfileModel.fromJson(LoginStore.userData),)));
                   },
                 ),
               )

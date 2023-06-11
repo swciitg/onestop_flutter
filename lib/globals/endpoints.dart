@@ -34,6 +34,7 @@ class Endpoints {
   static const String upspPost = '/upsp/submit-request';
   static const String uploadFileUPSP = "/upsp/file-upload";
   static const String guestLogin = "/user/guest/login";
+  static const String userProfile = "/user";
   static getHeader() {
     return {'Content-Type': 'application/json', 'security-key': Endpoints.apiSecurityKey};
   }

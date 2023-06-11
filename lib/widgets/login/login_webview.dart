@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
+import 'package:onestop_dev/models/profile/profile_model.dart';
+import 'package:onestop_dev/pages/profile/edit_profile.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,15 +41,21 @@ class _LoginWebViewState extends State<LoginWebView> {
           WebViewController controller = await widget._controller.future;
 
           var userTokensString = await controller.runJavascriptReturningResult("document.querySelector('#userTokens').innerText");
+          print("TOKENS STRING");
+          userTokensString=userTokensString.replaceAll('"', '');
           print(userTokensString);
           if (userTokensString!="ERROR OCCURED") {
             SharedPreferences user = await SharedPreferences.getInstance();
             if (!mounted) return;
-            context.read<LoginStore>().saveToPreferences(user, jsonDecode(userTokensString));
+            Map userTokens = {BackendHelper.accesstoken: userTokensString.split('/')[0],BackendHelper.refreshtoken: userTokensString.split('/')[1]};
+            print(userTokens);
+            await context.read<LoginStore>().saveToPreferences(user, userTokens);
             context.read<LoginStore>().saveToUserInfo(user);
             await WebviewCookieManager().clearCookies();
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+            print("its here");
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => EditProfile(profileModel: ProfileModel.fromJson(LoginStore.userData),)), (route) => false);
+            // Navigator.of(context)
+            //     .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
           }
         }
       },
