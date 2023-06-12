@@ -22,10 +22,13 @@ class DataProvider {
   static Future<Map<String, List<List<String>>>> getBusTimings() async {
     var cachedData = await LocalStorage.instance.getBusRecord(DatabaseRecords.busTimings);
     if (cachedData == null) {
+      print("NO BUS CACHED DATA");
       Map<String, List<List<String>>> busTime = await APIService().getBusData();
+      print(busTime);
       await LocalStorage.instance.storeBusData(busTime, DatabaseRecords.busTimings);
       return busTime;
     }
+    print("BUS CACHED DATA");
     Map<String, List<List<String>>> timings = {};
     for (String key in cachedData.keys) {
       timings[key] = (cachedData[key] as List<dynamic>)

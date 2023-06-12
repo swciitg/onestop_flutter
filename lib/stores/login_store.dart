@@ -104,7 +104,7 @@ class LoginStore {
     print(userData);
     var fcmToken = await FirebaseMessaging.instance.getToken();
     print("fcm token: ${fcmToken}");
-    if (instance.getString("deviceToken") != null) { // already some token was stored
+    if (instance.getString("deviceToken") != null && instance.getString("deviceToken")!=fcmToken) { // already some token was stored
       print("inside if");
       await APIService().updateUserDeviceToken({
         "oldToken": instance.getString("deviceToken"), // stored token
@@ -113,9 +113,9 @@ class LoginStore {
     }
     else{
       print("inside else");
+      instance.setString("deviceToken", fcmToken!); // set the returned fcToken
       await APIService().postUserDeviceToken(fcmToken!);
     }
-    instance.setString("deviceToken", fcmToken!); // set the returned fcToken
   }
 
   void logOut(Function navigationPopCallBack) async {

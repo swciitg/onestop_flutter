@@ -25,13 +25,19 @@ class _NextTimeCardState extends State<NextTimeCard> {
   Widget build(BuildContext context) {
     var mapStore = context.read<MapBoxStore>();
     Future<String> getNextTime() async {
+      print("INSIDE NEXT TIME CARD");
       String today = getFormattedDay();
+      print(mapStore.indexBusesorFerry);
       if (mapStore.indexBusesorFerry == 0) {
-        var allBusTimes = await APIService().getBusTiming();
+        print("hererereferf");
+        List<TravelTiming> allBusTimes = await APIService().getBusTiming();
+        //print(allBusTimes.toString());
+        print("AFTER ALL BUS TIMES");
         List<DateTime> weekdaysTimes= [];
         List<DateTime> weekendTimes=[];
         for(var xyz in allBusTimes){
           int n=xyz.weekdays.fromCampus.length;
+          print("n is : ${n}");
           for(int i=0;i<n;i++){
             weekdaysTimes.add(xyz.weekdays.fromCampus[i]);
           }
@@ -59,7 +65,7 @@ class _NextTimeCardState extends State<NextTimeCard> {
         List<DateTime> weekendTimes=[];
         TravelTiming requiredModel =
         ferryTimings.firstWhere((element) => element.stop == mapStore.allLocationData[mapStore.selectedCarouselIndex]['name']);
-
+        print(requiredModel.toJson());
         int n=requiredModel.weekdays.fromCampus.length;
         for(int i=0;i<n;i++){
           weekdaysTimes.add(requiredModel.weekdays.fromCampus[i]);

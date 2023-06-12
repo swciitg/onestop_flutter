@@ -6,6 +6,7 @@ part 'travel_timing_model.g.dart';
 
 @JsonSerializable()
 class TravelTiming {
+  @JsonKey(name: '_id')
   final String id;
   @JsonKey(defaultValue: '')
   final String type;

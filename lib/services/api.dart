@@ -6,11 +6,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
+import 'package:onestop_dev/pages/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../functions/utility/show_snackbar.dart';
@@ -38,14 +40,19 @@ class APIService {
     }, onError: (error, handler) async {
       var response = error.response;
       if (response != null && response.statusCode == 401) {
-        print(response.requestOptions.path);
-        bool couldRegenerate = await regenerateAccessToken();
-        // ignore: use_build_context_synchronously
-        if (couldRegenerate) {
-          // retry
-          return handler.resolve(await retryRequest(response));
-        } else {
-          showSnackBar("Your session has expired!! Login again.");
+        if((await AuthUserHelpers.getAccessToken()).isEmpty){
+          showSnackBar("Login to continue!!");
+        }
+        else{
+          print(response.requestOptions.path);
+          bool couldRegenerate = await regenerateAccessToken();
+          // ignore: use_build_context_synchronously
+          if (couldRegenerate) {
+            // retry
+            return handler.resolve(await retryRequest(response));
+          } else {
+            showSnackBar("Your session has expired!! Login again.");
+          }
         }
       }
       else if(response != null && response.statusCode == 403){
@@ -421,9 +428,11 @@ class APIService {
   }
 
   Future<Map<String, List<List<String>>>> getBusData() async {
+    print("INSIDE BUS DATA");
     var response = await dio.get(Endpoints.busURL);
     var status = response.statusCode;
     var json = response.data;
+    print(json);
     if (status == 200) {
       Map<String, List<List<String>>> answer = {};
       for (String stop in json.keys) {
@@ -564,27 +573,26 @@ class APIService {
     try {
       final prefs = await SharedPreferences.getInstance();
       print("FERRY TIMINGS");
-      late String jsonData;
-
+      Map jsonData;
       if (prefs.getString('ferryTimings') != null) {
-        jsonData = prefs.getString('ferryTimings') ?? '';
-        print(jsonData);
+        print("FOUND CACHED TIMINGS");
+        jsonData = jsonDecode(prefs.getString('ferryTimings')!);
+        print(jsonData.toString());
+        print("AFTER HERE");
       } else {
-
-        final res = await dio.get(Endpoints.ferryURL);
-
-        prefs.setString('ferryTimings', res.data);
-        jsonData = prefs.getString('ferryTimings') ?? '';
-        print(res.data);
-        jsonData=res.data.toString();
-        print(jsonData);
+        print("NOT FOUND CACHED TIMINGS");
+        Response res = await dio.get(Endpoints.ferryURL);
+        prefs.setString('ferryTimings', jsonEncode(res.data));
+        jsonData = res.data;
       }
-      List<dynamic> ferryTiming = json.decode(jsonData)['data'];
       List<TravelTiming> ferryTimings = [];
-
-      for (var element in ferryTiming) {
+      List ferryData = jsonData['data'];
+      print(ferryData);
+      for (var element in ferryData) {
         ferryTimings.add(TravelTiming.fromJson(element));
+        print(TravelTiming.fromJson(element).toJson());
       }
+      print(ferryTimings.length);
       return ferryTimings;
 
     } catch (e) {
@@ -635,21 +643,30 @@ class APIService {
     try {
       final prefs = await SharedPreferences.getInstance();
 
-      late String jsonData;
+      Map jsonData;
 
       if (prefs.getString('busTimings') != null) {
-        jsonData = prefs.getString('busTimings') ?? '';
+        print("FOUND BUS CACHED TIMINGS");
+        print(prefs.getString('busTimings')!);
+        jsonData = jsonDecode(prefs.getString('busTimings')!);
       } else {
+        print("NOT BUS FOUND CACHED TIMINGS");
         final res = await dio.get(Endpoints.busStops);
-        prefs.setString('busTimings', res.data);
+        print("BEFORE SET IN PREF");
+        prefs.setString('busTimings', jsonEncode(res.data));
+        print("SET IN PREF");
         jsonData=res.data;
-        jsonData = prefs.getString('busTimings') ?? '';
       }
-      List<dynamic> busTiming = json.decode(jsonData)['data'];
+      print("JSON DATA FOUND");
+      List<dynamic> busData = jsonData['data'];
+      print(busData);
       List<TravelTiming> busTimings = [];
-      for (var element in busTiming) {
+      print("here before length");
+      for (var element in busData) {
         busTimings.add(TravelTiming.fromJson(element));
       }
+      print("here at length");
+      print(busTimings.length);
       return busTimings;
     } catch (e) {
       print("____________________________________________");
