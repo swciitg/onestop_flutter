@@ -7,8 +7,8 @@ class ProfileModel {
   final String rollNo;
   final String outlookEmail;
   final String? altEmail;
-  final int? phoneNumber;
-  final int? emergencyPhoneNumber;
+  final String? phoneNumber;
+  final String? emergencyPhoneNumber;
   final String? gender;
   final String? roomNo;
   final String? homeAddress;

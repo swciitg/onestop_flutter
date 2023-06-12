@@ -71,8 +71,8 @@ class _EditProfileState extends State<EditProfile> {
     _rollController.text = p.rollNo;
     _outlookEmailController.text = p.outlookEmail;
     _altEmailController.text = p.altEmail ?? "";
-    _phoneController.text = p.phoneNumber.toString() ?? "";
-    _emergencyController.text = p.emergencyPhoneNumber.toString() ?? "";
+    _phoneController.text =p.phoneNumber==null?"": p.phoneNumber.toString();
+    _emergencyController.text = p.emergencyPhoneNumber==null?"": p.emergencyPhoneNumber.toString();
     _roomNoController.text = p.roomNo ?? "";
     _homeAddressController.text = p.homeAddress ?? "";
     _dobController.text = DateFormat('dd-MMM-yyyy').format(DateTime.parse(p.dob ?? DateTime.now().toIso8601String()));
@@ -95,7 +95,7 @@ class _EditProfileState extends State<EditProfile> {
         var data = {
           'name': _nameController.text,
           'rollNo': _rollController.text,
-          'outlookEmail_email': _outlookEmailController.text,
+          'outlookEmail': _outlookEmailController.text,
           'altEmail': _altEmailController.text,
           'dob': date.toIso8601String(),
           'gender': gender,
