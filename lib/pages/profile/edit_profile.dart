@@ -85,6 +85,14 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    Widget? counterBuilder(context,
+      {required currentLength, required isFocused, required maxLength}) {
+    if (currentLength == 0) {
+      return null;
+    }
+    return Text("$currentLength/$maxLength",
+        style: MyFonts.w500.size(12).setColor(kWhite));
+  }
     Future<void> onFormSubmit() async {
       if (!_formKey.currentState!.validate()) {
         showSnackBar('Please give all the inputs correctly');
@@ -289,6 +297,9 @@ class _EditProfileState extends State<EditProfile> {
                         // validator: validatefield,
                         isNecessary: false,
                         controller: _rollController,
+                        maxLength: 9,
+                        maxLines: 1,
+                        counter: true,
                       ),
                       const SizedBox(
                         height: 12,
@@ -308,6 +319,9 @@ class _EditProfileState extends State<EditProfile> {
                         validator: validatefield,
                         isNecessary: true,
                         controller: _altEmailController,
+                        maxLength: 50,
+                        maxLines: 1,
+                        counter: true,
                       ),
                       const SizedBox(
                         height: 12,
@@ -326,6 +340,9 @@ class _EditProfileState extends State<EditProfile> {
                         isNecessary: true,
                         controller: _phoneController,
                         inputType: TextInputType.phone,
+                        maxLength: 10,
+                        maxLines: 1,
+                        counter: true,
                       ),
                       const SizedBox(
                         height: 12,
@@ -344,6 +361,9 @@ class _EditProfileState extends State<EditProfile> {
                         isNecessary: true,
                         controller: _emergencyController,
                         inputType: TextInputType.phone,
+                        maxLength: 10,
+                        maxLines: 1,
+                        counter: true,
                       ),
                       const SizedBox(
                         height: 12,
@@ -362,7 +382,9 @@ class _EditProfileState extends State<EditProfile> {
                           items: hostels,
                           hintText: 'Hostel',
                           onChanged: (h) => hostel = h,
-                          validator: validatefield),
+                          validator: validatefield,
+                          ),
+                          
                       const SizedBox(
                         height: 12,
                       ),
@@ -401,7 +423,10 @@ class _EditProfileState extends State<EditProfile> {
                         hintText: 'Hostel room no',
                         validator: validatefield,
                         isNecessary: true,
-                        controller: _roomNoController
+                        controller: _roomNoController,
+                        maxLength: 5,
+                        maxLines: 1,
+                        counter: true,
                       ),
                       const SizedBox(
                         height: 12,
@@ -410,7 +435,10 @@ class _EditProfileState extends State<EditProfile> {
                         hintText: 'Home Address',
                         validator: validatefield,
                         isNecessary: true,
-                        controller: _homeAddressController
+                        controller: _homeAddressController,
+                        maxLength: 400,
+                        // maxLines: 1,
+                        counter: true,
                       ),
                       const SizedBox(
                         height: 12,
@@ -420,6 +448,9 @@ class _EditProfileState extends State<EditProfile> {
                         // validator: validatefield,
                         isNecessary: false,
                         controller: _linkedinController,
+                        maxLength: 50,
+                        maxLines: 1,
+                        counter: true,
                       ),
                       const SizedBox(
                         height: 24,

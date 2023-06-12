@@ -15,6 +15,10 @@ class CustomTextField extends StatefulWidget {
   final void Function()? onTap;
   final FocusNode? focusNode;
   final bool? isEnabled;
+  final int? maxLength;
+  final int? maxLines;
+  final bool? counter;
+  
 
   const CustomTextField(
       {super.key,
@@ -27,7 +31,7 @@ class CustomTextField extends StatefulWidget {
       this.controller,
       this.onTap,
        this.isEnabled,
-      this.focusNode});
+      this.focusNode, this.maxLength, this.maxLines, this.counter, });
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -36,6 +40,14 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
+    Widget? counterBuilder(context,
+      {required currentLength, required isFocused, required maxLength}) {
+    if (currentLength == 0) {
+      return null;
+    }
+    return Text("$currentLength/$maxLength",
+        style: MyFonts.w500.size(12).setColor(kWhite));
+  }
     return TextFormField(
       enabled: widget.isEnabled ?? true,
       readOnly: widget.onTap != null,
@@ -46,8 +58,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
       cursorColor: lBlue2,
       onTap: widget.onTap,
       onChanged: widget.onChanged,
+      buildCounter:widget.counter==true?counterBuilder:null,
       initialValue: widget.value == 'null' ? '' : widget.value,
       keyboardType: widget.inputType,
+      maxLength: widget.maxLength,
+      maxLines: widget.maxLines,
       decoration: InputDecoration(
         errorStyle: MyFonts.w500,
         label: RichText(

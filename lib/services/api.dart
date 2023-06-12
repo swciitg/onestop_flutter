@@ -603,16 +603,16 @@ class APIService {
   Future<MealType> getMealData(String hostel, String day, String mealType,) async {
     try{
       final prefs = await SharedPreferences.getInstance();
-      late String jsonData;
+      Map<String,dynamic> jsonData;
       if (prefs.getString('messMenu') != null) {
-        jsonData = prefs.getString('messMenu') ?? '';
+        jsonData = jsonDecode(prefs.getString('messMenu')!);
       } else {
         final res = await dio.get(Endpoints.messURL);
-        prefs.setString('messMenu', res.data.toString());
+        prefs.setString('messMenu', jsonEncode(res.data));
 
-        jsonData = prefs.getString('messMenu') ?? res.data;
+        jsonData = res.data;
       }
-      List<dynamic> answer = json.decode(jsonData)['details'];
+      List<dynamic> answer = jsonData['details'];
       var meal = answer.firstWhere(
               (m) => m['hostel'].toString().trim().toLowerCase() ==
               hostel.toString().toLowerCase(),
