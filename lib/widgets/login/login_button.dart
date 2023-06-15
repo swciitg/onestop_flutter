@@ -9,10 +9,10 @@ import 'package:provider/provider.dart';
 class LoginButton extends StatelessWidget {
   const LoginButton({
     Key? key,
-    required this.setLoading,
+    // required this.setLoading,
   }) : super(key: key);
 
-  final Function setLoading;
+  // final Function setLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,10 @@ class LoginButton extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18))),
             onPressed: () {
-              setLoading();
+              // setLoading();
+              Navigator.of(context).pushNamed(
+                '/login',
+              );
             },
             child: FittedBox(
               fit: BoxFit.fitWidth,

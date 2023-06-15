@@ -23,7 +23,7 @@ class _SplashPageState extends State<SplashPage> {
             .pushNamedAndRemoveUntil('/home2', (Route<dynamic> route) => false);
       } else {
         Navigator.of(context)
-            .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+            .pushNamedAndRemoveUntil('/login2', (Route<dynamic> route) => false);
       }
     });
   }

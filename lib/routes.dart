@@ -1,3 +1,4 @@
+import 'package:onestop_dev/pages/login/welcome.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
 import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
@@ -16,6 +17,7 @@ import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/profile.dart';
 import 'package:onestop_dev/pages/splash.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
+
 
 final routes = {
   SplashPage.id: (context) => const SplashPage(),
@@ -36,4 +38,5 @@ final routes = {
   Scoreboard.id: (context) => const Scoreboard(),
   Upsp.id: (context) => const Upsp(),
   GuestHouse.id: (context) => const GuestHouse(),
+  WelcomePage.id:(context)=> const WelcomePage(),
 };
