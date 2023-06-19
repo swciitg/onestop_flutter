@@ -16,8 +16,22 @@ import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 import '../../functions/travel/next_time.dart';
 
-class FerryDetails extends StatelessWidget {
+class FerryDetails extends StatefulWidget {
   const FerryDetails({Key? key}) : super(key: key);
+
+  @override
+  State<FerryDetails> createState() => _FerryDetailsState();
+}
+
+class _FerryDetailsState extends State<FerryDetails> {
+  @override
+  void initState() {
+    super.initState();
+    if (DateTime.now().weekday == DateTime.sunday) {
+      context.read<TravelStore>().setFerryDayType("Sunday");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
@@ -30,7 +44,7 @@ class FerryDetails extends StatelessWidget {
             .ferryTimings
             .value!
             .firstWhere((element) =>
-        element.stop == context.read<TravelStore>().selectedFerryGhat);
+                element.stop == context.read<TravelStore>().selectedFerryGhat);
         // var ferryMap = ferryModel.toJson();
         return Column(children: [
           SizedBox(
@@ -39,45 +53,45 @@ class FerryDetails extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: ferryGhats
                   .map((e) => TextButton(
-                onPressed: () {
-                  context.read<TravelStore>().setFerryGhat(e['name']);
-                  var mapboxStore = context.read<MapBoxStore>();
-                  int i = mapboxStore.allLocationData.indexWhere(
-                          (element) => e['name'] == element['name']);
-                  mapboxStore.selectedCarousel(i);
-                  mapboxStore.zoomTwoMarkers(
-                      mapboxStore.selectedCarouselLatLng,
-                      LatLng(mapboxStore.userlat, mapboxStore.userlong),
-                      90.0);
-                },
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(40),
-                  ),
-                  child: Container(
-                    color: (context
-                        .read<TravelStore>()
-                        .selectedFerryGhat ==
-                        e['name'])
-                        ? lBlue2
-                        : kGrey2,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          e['name'],
-                          style: (context
-                              .read<TravelStore>()
-                              .selectedFerryGhat ==
-                              e['name'])
-                              ? MyFonts.w500.setColor(kBlueGrey)
-                              : MyFonts.w500.setColor(kWhite),
+                        onPressed: () {
+                          context.read<TravelStore>().setFerryGhat(e['name']);
+                          var mapboxStore = context.read<MapBoxStore>();
+                          int i = mapboxStore.allLocationData.indexWhere(
+                              (element) => e['name'] == element['name']);
+                          mapboxStore.selectedCarousel(i);
+                          mapboxStore.zoomTwoMarkers(
+                              mapboxStore.selectedCarouselLatLng,
+                              LatLng(mapboxStore.userlat, mapboxStore.userlong),
+                              90.0);
+                        },
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(40),
+                          ),
+                          child: Container(
+                            color: (context
+                                        .read<TravelStore>()
+                                        .selectedFerryGhat ==
+                                    e['name'])
+                                ? lBlue2
+                                : kGrey2,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  e['name'],
+                                  style: (context
+                                              .read<TravelStore>()
+                                              .selectedFerryGhat ==
+                                          e['name'])
+                                      ? MyFonts.w500.setColor(kBlueGrey)
+                                      : MyFonts.w500.setColor(kWhite),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ),
-              ))
+                      ))
                   .toList(),
             ),
           ),
@@ -97,41 +111,48 @@ class FerryDetails extends StatelessWidget {
               ],
             ),
           ),
-          if (daytype=="Sunday") ...[
+          if (daytype == "Sunday") ...[
             ListView.builder(
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
-                itemCount: direction=="Campus to City"? ferryModel.weekend.fromCampus.length:ferryModel.weekend.toCampus.length,
-                itemBuilder:(BuildContext context, int index){
+                itemCount: direction == "Campus to City"
+                    ? ferryModel.weekend.fromCampus.length
+                    : ferryModel.weekend.toCampus.length,
+                itemBuilder: (BuildContext context, int index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: TimingTile(
-                      time:  direction=="Campus to City" ? formatTime(ferryModel.weekend.fromCampus[index]):formatTime(ferryModel.weekend.toCampus[index]),
-                      isLeft: direction=="Campus to City"? hasLeft(ferryModel.weekend.fromCampus[index]):hasLeft(ferryModel.weekend.toCampus[index]),
+                      time: direction == "Campus to City"
+                          ? formatTime(ferryModel.weekend.fromCampus[index])
+                          : formatTime(ferryModel.weekend.toCampus[index]),
+                      isLeft: direction == "Campus to City"
+                          ? hasLeft(ferryModel.weekend.fromCampus[index])
+                          : hasLeft(ferryModel.weekend.toCampus[index]),
                       icon: FluentIcons.vehicle_bus_24_filled,
-
                     ),
                   );
-                }
-
-            ),
+                }),
           ] else ...[
             ListView.builder(
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
-                itemCount: direction=="Campus to City"? ferryModel.weekdays.fromCampus.length:ferryModel.weekdays.toCampus.length,
-                itemBuilder:(BuildContext context, int index){
+                itemCount: direction == "Campus to City"
+                    ? ferryModel.weekdays.fromCampus.length
+                    : ferryModel.weekdays.toCampus.length,
+                itemBuilder: (BuildContext context, int index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: TimingTile(
-                      time:  direction=="Campus to City" ? formatTime(ferryModel.weekdays.fromCampus[index]):formatTime(ferryModel.weekdays.toCampus[index]),
-                      isLeft: direction=="Campus to City"? hasLeft(ferryModel.weekdays.fromCampus[index]):hasLeft(ferryModel.weekdays.toCampus[index]),
+                      time: direction == "Campus to City"
+                          ? formatTime(ferryModel.weekdays.fromCampus[index])
+                          : formatTime(ferryModel.weekdays.toCampus[index]),
+                      isLeft: direction == "Campus to City"
+                          ? hasLeft(ferryModel.weekdays.fromCampus[index])
+                          : hasLeft(ferryModel.weekdays.toCampus[index]),
                       icon: FluentIcons.vehicle_bus_24_filled,
-
                     ),
                   );
-                }
-            ),
+                }),
           ]
         ]);
       }
@@ -142,4 +163,3 @@ class FerryDetails extends StatelessWidget {
     });
   }
 }
-

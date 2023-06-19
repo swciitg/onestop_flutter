@@ -7,8 +7,22 @@ import 'package:onestop_dev/widgets/travel/tracking_dailog.dart';
 import 'package:onestop_dev/widgets/travel/travel_drop_down.dart';
 import 'package:provider/provider.dart';
 
-class StopsBusDetails extends StatelessWidget {
+class StopsBusDetails extends StatefulWidget {
   const StopsBusDetails({Key? key}) : super(key: key);
+
+  @override
+  State<StopsBusDetails> createState() => _StopsBusDetailsState();
+}
+
+class _StopsBusDetailsState extends State<StopsBusDetails> {
+  @override
+  void initState() {
+    super.initState();
+    if (DateTime.now().weekday == DateTime.sunday ||
+        DateTime.now().weekday == DateTime.saturday) {
+      context.read<TravelStore>().setBusDayString("Weekends");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,19 +82,23 @@ class StopsBusDetails extends StatelessWidget {
               Expanded(
                 child: Container(),
               ),
-
               context.read<TravelStore>().isBusSelected
                   ? TravelDropDown(
-                value: context.read<TravelStore>().busDayType,
-                onChange: context.read<TravelStore>().setBusDayString,
-                items: const ['Weekdays', 'Weekends'],
-              )
+                      value: context.read<TravelStore>().busDayType,
+                      onChange: context.read<TravelStore>().setBusDayString,
+                      items: const ['Weekdays', 'Weekends'],
+                    )
                   : GestureDetector(
-                onTap: (){
-                  showDialog(context: context, builder: (_) => const TrackingDailog());
-                },
-                child: Text("Track Bus", style: MyFonts.w500.setColor(kWhite),),
-              )
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (_) => const TrackingDailog());
+                      },
+                      child: Text(
+                        "Track Bus",
+                        style: MyFonts.w500.setColor(kWhite),
+                      ),
+                    )
             ],
           ),
           context.read<TravelStore>().busPage
