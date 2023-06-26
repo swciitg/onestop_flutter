@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -42,7 +43,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
   @override
   Widget build(BuildContext context) {
     var userData = LoginStore.userData;
-    String email = userData['email']!;
+    String email = userData['outlookEmail']!;
     String name = userData['name']!;
     String roll = userData['rollNo']!;
     return Scaffold(
@@ -95,6 +96,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                     }
                                     return null;
                                   },
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                   keyboardType: TextInputType.number,
                                   style: MyFonts.w500.size(16).setColor(kWhite),
                                   decoration: InputDecoration(
@@ -137,6 +139,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                     return null;
                                   },
                                   keyboardType: TextInputType.number,
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                   controller: contact,
                                   maxLength: 10,
                                   style: MyFonts.w500.size(16).setColor(kWhite),

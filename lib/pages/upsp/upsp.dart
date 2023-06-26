@@ -50,7 +50,7 @@ class _UpspState extends State<Upsp> {
   @override
   Widget build(BuildContext context) {
     var userData = LoginStore.userData;
-    String email = userData['email']!;
+    String email = userData['outlookEmail']!;
 
     return Theme(
       data: Theme.of(context).copyWith(
