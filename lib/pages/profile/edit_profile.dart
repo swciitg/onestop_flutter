@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/services/api.dart';
@@ -302,6 +303,7 @@ class _EditProfileState extends State<EditProfile> {
                         CustomTextField(
                           hintText: 'Roll Number',
                           // validator: validatefield,
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly,],
                           isNecessary: false,
                           controller: _rollController,
                           maxLength: 9,
@@ -347,6 +349,7 @@ class _EditProfileState extends State<EditProfile> {
                           isNecessary: true,
                           controller: _phoneController,
                           inputType: TextInputType.phone,
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly,],
                           maxLength: 10,
                           maxLines: 1,
                           counter: true,
@@ -365,6 +368,7 @@ class _EditProfileState extends State<EditProfile> {
                             }
                             return null;
                           },
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly,],
                           isNecessary: true,
                           controller: _emergencyController,
                           inputType: TextInputType.phone,

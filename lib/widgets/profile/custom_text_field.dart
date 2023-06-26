@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 
 
 class CustomTextField extends StatefulWidget {
+  final List<TextInputFormatter>? inputFormatters;
   final String hintText;
   final TextInputType? inputType;
   final String? Function(String?)? validator;
@@ -31,7 +33,7 @@ class CustomTextField extends StatefulWidget {
       this.controller,
       this.onTap,
        this.isEnabled,
-      this.focusNode, this.maxLength, this.maxLines, this.counter, });
+      this.focusNode, this.maxLength, this.maxLines, this.counter, this.inputFormatters, });
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -49,6 +51,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         style: MyFonts.w500.size(12).setColor(kWhite));
   }
     return TextFormField(
+      inputFormatters:widget.inputFormatters,
       enabled: widget.isEnabled ?? true,
       readOnly: widget.onTap != null,
       style: MyFonts.w500.size(14).copyWith(color: Colors.white),
