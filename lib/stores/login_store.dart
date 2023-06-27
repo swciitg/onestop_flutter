@@ -69,7 +69,6 @@ class LoginStore {
   }
 
   Future<void> signInAsGuest() async {
-    APIService().getBuyPage(1);
     print("GUEST SIGN IN");
     isGuest = true;
     var sharedPrefs = await SharedPreferences.getInstance();
@@ -104,7 +103,7 @@ class LoginStore {
     var fcmToken = await FirebaseMessaging.instance.getToken();
     print("fcm token: ${fcmToken}");
     print(isGuest);
-    if(!isGuest){
+    if(instance.getBool("isGuest")==false){
       if (instance.getString("deviceToken") != null && instance.getString("deviceToken")!=fcmToken) { // already some token was stored
         print("inside if");
         await APIService().updateUserDeviceToken({
@@ -117,6 +116,9 @@ class LoginStore {
         instance.setString("deviceToken", fcmToken!); // set the returned fcToken
         await APIService().postUserDeviceToken(fcmToken!);
       }
+    }
+    else{
+      isGuest=true;
     }
   }
 

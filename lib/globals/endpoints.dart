@@ -14,8 +14,8 @@ class Endpoints {
   static const String messURL = "/hostelsMessMenu";
   static const String buyURL = '/buy';
   static const String sellURL = '/sell';
-  static const String sellPath = '/sellPage';
   static const String buyPath = '/buyPage';
+  static const String sellPath = '/sellPage';
   static const String bnsMyAdsURL = '/bns/myads';
   static const String lnfMyAdsURL = '/lnf/myads';
   static const String deleteBuyURL = "/buy/remove";

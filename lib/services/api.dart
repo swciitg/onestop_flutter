@@ -49,6 +49,7 @@ class APIService {
           bool couldRegenerate = await regenerateAccessToken();
           // ignore: use_build_context_synchronously
           if (couldRegenerate) {
+            print("COULD REGENRATE TOKEN");
             // retry
             return handler.resolve(await retryRequest(response));
           } else {
@@ -321,7 +322,7 @@ class APIService {
       'page': pageNumber.toString(),
     };
     //final uri = Uri.https('swc.iitg.ac.in', Endpoints.buyPath, queryParameters);
-    var response = await dio.get(Endpoints.sellPath,queryParameters: queryParameters);
+    var response = await dio.get(Endpoints.buyPath,queryParameters: queryParameters);
     print(response);
     var json = response.data;
     List<SellModel> buyPage = (json['details'] as List<dynamic>)
