@@ -10,10 +10,6 @@ class CabShare extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(LoginStore.userData);
-    return CabSharingScreen(userData: {
-      'name': LoginStore.userData["name"]!,
-      'email': LoginStore.userData["outlookEmail"]!,
-      'security-key': const String.fromEnvironment('SECURITY-KEY')
-    });
+    return CabSharingSplashScreen();
   }
 }

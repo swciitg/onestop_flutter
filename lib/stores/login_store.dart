@@ -104,6 +104,7 @@ class LoginStore {
     print("fcm token: ${fcmToken}");
     print(isGuest);
     if(instance.getBool("isGuest")==false){
+      print(instance.getString("deviceToken"));
       if (instance.getString("deviceToken") != null && instance.getString("deviceToken")!=fcmToken) { // already some token was stored
         print("inside if");
         await APIService().updateUserDeviceToken({
@@ -111,7 +112,7 @@ class LoginStore {
           "newToken": fcmToken
         });
       }
-      else{
+      else if(instance.getString("deviceToken")==null){
         print("inside else");
         instance.setString("deviceToken", fcmToken!); // set the returned fcToken
         await APIService().postUserDeviceToken(fcmToken!);
