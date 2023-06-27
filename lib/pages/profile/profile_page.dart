@@ -126,11 +126,11 @@ class _ProfileState extends State<Profile> {
               ),
               DataTile(
                 title: 'Contact Number',
-                semiTitle: widget.profileModel.phoneNumber.toString(),
+                semiTitle: widget.profileModel.phoneNumber!=null ? widget.profileModel.phoneNumber.toString() : null,
               ),
               DataTile(
                 title: 'Emergency Contact Number',
-                semiTitle: widget.profileModel.emergencyPhoneNumber.toString(),
+                semiTitle: widget.profileModel.emergencyPhoneNumber!=null ? widget.profileModel.emergencyPhoneNumber.toString() : null,
               ),
               DataTile(
                 title: 'Hostel',

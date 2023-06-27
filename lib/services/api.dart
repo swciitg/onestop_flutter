@@ -34,6 +34,7 @@ class APIService {
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
           print("THIS IS TOKEN");
           print(await AuthUserHelpers.getAccessToken());
+          print(options.path);
       options.headers["Authorization"] =
       "Bearer ${await AuthUserHelpers.getAccessToken()}";
       handler.next(options);
@@ -135,7 +136,9 @@ class APIService {
   }
 
   Future<Map> getUserProfile() async {
+    print("Inside GET USER PROFILE");
     var response = await dio.get(Endpoints.userProfile);
+    print(response.data);
     return response.data;
   }
 

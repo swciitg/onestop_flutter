@@ -57,6 +57,7 @@ class LoginStore {
     print("inside authentication check");
     if (user.containsKey(BackendHelper.refreshtoken)) {
       print("here");
+      print(await user.containsKey("userInfo"));
       await saveToUserInfo(user);
       return true;
     }
@@ -76,9 +77,8 @@ class LoginStore {
     print(Endpoints.getHeader());
     final response = await APIService().guestUserLogin();
     print(response.data);
-    saveToPreferences(sharedPrefs, response.data);
-    saveToUserInfo(sharedPrefs);
-    sharedPrefs.setBool("isGuest", true); // guest sign in
+    await saveToPreferences(sharedPrefs, response.data);
+    await saveToUserInfo(sharedPrefs);
   }
 
   Future<void> saveToPreferences(
@@ -86,44 +86,49 @@ class LoginStore {
     print(data);
     print(data.runtimeType);
     print(data[BackendHelper.accesstoken]);
-    instance.setString(
+    await instance.setString(
         BackendHelper.accesstoken, data[BackendHelper.accesstoken]);
-    instance.setString(
+    await instance.setString(
         BackendHelper.refreshtoken, data[BackendHelper.refreshtoken]);
-    instance.setBool("isGuest", false); // general case
+    await instance.setBool("isGuest", isGuest); // handle guest or user
     Map userInfo = await APIService().getUserProfile();
     print(userInfo);
     print(jsonEncode(userInfo));
-    instance.setString("userInfo", jsonEncode(userInfo)); // save user profile
+    await instance.setString("userInfo", jsonEncode(userInfo)); // save user profile
   }
 
   Future<void> saveToUserInfo(SharedPreferences instance) async { // only called after saving jwt tokens in local storage
     print("here");
     userData = jsonDecode(instance.getString("userInfo")!);
-    isGuest = instance.getBool("isGuest")!;
     print(userData);
     var fcmToken = await FirebaseMessaging.instance.getToken();
     print("fcm token: ${fcmToken}");
-    if (instance.getString("deviceToken") != null && instance.getString("deviceToken")!=fcmToken) { // already some token was stored
-      print("inside if");
-      await APIService().updateUserDeviceToken({
-        "oldToken": instance.getString("deviceToken"), // stored token
-        "newToken": fcmToken
-      });
-    }
-    else{
-      print("inside else");
-      instance.setString("deviceToken", fcmToken!); // set the returned fcToken
-      await APIService().postUserDeviceToken(fcmToken!);
+    print(isGuest);
+    if(!isGuest){
+      if (instance.getString("deviceToken") != null && instance.getString("deviceToken")!=fcmToken) { // already some token was stored
+        print("inside if");
+        await APIService().updateUserDeviceToken({
+          "oldToken": instance.getString("deviceToken"), // stored token
+          "newToken": fcmToken
+        });
+      }
+      else{
+        print("inside else");
+        instance.setString("deviceToken", fcmToken!); // set the returned fcToken
+        await APIService().postUserDeviceToken(fcmToken!);
+      }
     }
   }
 
   void logOut(Function navigationPopCallBack) async {
+    print("INSIDE LOGOUT");
     await cookieManager.clearCookies();
     SharedPreferences user = await SharedPreferences.getInstance();
-    print(user.getString("deviceToken")!);
-    if(!isGuest) await APIService().logoutUser(user.getString("deviceToken")!); // remove token on logout if not guest
-    user.clear();
+    if(!isGuest){
+      print(user.getString("deviceToken")!);
+      await APIService().logoutUser(user.getString("deviceToken")!); // remove token on logout if not guest
+    }
+    await user.clear();
     userData.clear();
     isGuest = false;
     await LocalStorage.instance.deleteRecordsLogOut();
