@@ -193,7 +193,7 @@ class _FeedBackState extends State<FeedBack> {
                                 'title': title.text,
                                 'body': body.text,
                                 'type': selected,
-                                'user': LoginStore.userData['email'] ??
+                                'user': LoginStore.userData['outlookEmail'] ??
                                     "Unknown"
                               };
                               setState(() => enableSubmitButton = false);

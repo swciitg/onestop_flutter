@@ -172,7 +172,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                   child: context.read<LoginStore>().isGuestUser ? const GuestRestrictAccess()
                   : FutureBuilder(
                       future: APIService().getBnsMyItems(
-                          LoginStore.userData['email']!),
+                          LoginStore.userData['outlookEmail']!),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           List<BuyModel> models =

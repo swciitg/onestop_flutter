@@ -175,7 +175,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                 child: context.read<LoginStore>().isGuestUser ? const GuestRestrictAccess()
                     : FutureBuilder(
                     future: APIService().getLnfMyItems(
-                        LoginStore.userData['email'] ?? ""),
+                        LoginStore.userData['outlookEmail'] ?? ""),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<dynamic> models = snapshot.data! as List<dynamic>;
