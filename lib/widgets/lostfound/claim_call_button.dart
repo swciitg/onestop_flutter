@@ -50,7 +50,7 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                               var name =
                               LoginStore.userData['name'];
                               var email =
-                              LoginStore.userData['email'];
+                              LoginStore.userData['outlookEmail'];
                               var body = await APIService().claimFoundItem(
                                   name: name!,
                                   email: email!,
