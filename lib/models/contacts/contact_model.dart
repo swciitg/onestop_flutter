@@ -6,15 +6,13 @@ part 'contact_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ContactModel {
   @JsonKey(defaultValue: "Untitled")
-  late String name;
+  late String sectionName;
   @JsonKey(defaultValue: [])
   late List<ContactDetailsModel> contacts;
-  @JsonKey(defaultValue: "")
-  late String group;
 
   //Constructor
   ContactModel(
-      {required this.name, required this.contacts, required this.group});
+      {required this.sectionName, required this.contacts});
 
   factory ContactModel.fromJson(Map<String, dynamic> json) =>
       _$ContactModelFromJson(json);
@@ -22,7 +20,7 @@ class ContactModel {
   Map<String, dynamic> toJson() => _$ContactModelToJson(this);
   //This constructor also does the work of initialising the variables
   // ContactModel.fromJson(Map<String, dynamic> json) {
-  //   name = json['name'];
+  //   sectionName = json['sectionName'];
   //   parent = 'Campus';
   //   contacts = [];
   //   List<dynamic>.from(json['contacts']).forEach((element) {

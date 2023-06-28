@@ -8,7 +8,7 @@ part 'day_type_model.g.dart';
 class DayType {
   final List<DateTime> fromCampus;
   final List<DateTime> toCampus;
-  DayType(
+  const DayType(
       {
         required this.fromCampus,
         required this.toCampus,

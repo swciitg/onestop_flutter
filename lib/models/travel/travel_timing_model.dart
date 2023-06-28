@@ -12,9 +12,7 @@ class TravelTiming {
   final String type;
   @JsonKey(defaultValue: '')
   final String stop;
-  @JsonKey(defaultValue: [])
   final DayType weekend;
-  @JsonKey(defaultValue: [])
   final DayType weekdays;
 
 

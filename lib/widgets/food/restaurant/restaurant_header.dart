@@ -29,7 +29,7 @@ class RestaurantHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                restaurant.name,
+                restaurant.outletName,
                 style: MyFonts.w600.size(22).setColor(kWhite),
               ),
               Text(
@@ -40,7 +40,7 @@ class RestaurantHeader extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 10.0, bottom: 8.0),
                 child: RichText(
                   text: TextSpan(
-                    text: restaurant.address,
+                    text: restaurant.location,
                     style: MyFonts.w500.size(13).setColor(kGrey),
                     children: [
                       TextSpan(
@@ -68,10 +68,6 @@ class RestaurantHeader extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          'Waiting time: ${restaurant.waiting_time}',
-                          style: MyFonts.w300.size(12).setColor(kWhite),
-                        ),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.0),
                           child: Icon(FluentIcons.circle_12_filled,
@@ -86,7 +82,7 @@ class RestaurantHeader extends StatelessWidget {
                           width: 4,
                         ),
                         Text(
-                          'Closing time: ${restaurant.closing_time}',
+                          'Closing time: ${restaurant.closingTime}',
                           style: MyFonts.w300.size(12).setColor(lRed2),
                         ),
                       ],
@@ -112,7 +108,7 @@ class RestaurantHeader extends StatelessWidget {
                           callMap: 'Call',
                           icon: FluentIcons.call_24_regular,
                           callback: () {
-                            launchPhoneURL(restaurant.phone_number);
+                            launchPhoneURL(restaurant.phoneNumber);
                           },
                         ),
                       ),
@@ -126,7 +122,7 @@ class RestaurantHeader extends StatelessWidget {
                           icon: FluentIcons.location_24_regular,
                           callback: () {
                             openMap(restaurant.latitude, restaurant.longitude,
-                                context, restaurant.name);
+                                context, restaurant.outletName);
                           },
                         ),
                       ),

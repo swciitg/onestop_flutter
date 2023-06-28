@@ -10,16 +10,15 @@ class RestaurantStore = _RestaurantStore with _$RestaurantStore;
 
 abstract class _RestaurantStore with Store {
   RestaurantModel _selectedRestaurant = RestaurantModel(
-      name: "NA",
+      outletName: "NA",
       caption: "NA",
-      closing_time: "NA",
-      waiting_time: "NA",
-      phone_number: "NA",
+      closingTime: "NA",
+      phoneNumber: "NA",
       latitude: 0,
       longitude: 0,
-      address: "NA",
+      location: "NA",
       tags: [],
-      image: "");
+      imageURL: "");
 
   @observable
   String _searchString = "";
@@ -59,7 +58,7 @@ abstract class _RestaurantStore with Store {
     for (var element in allRestaurants) {
       List<String> searchFields = element.tags;
       for (var dish in element.menu) {
-        searchFields.add(dish.name);
+        searchFields.add(dish.itemName);
       }
       final fuse = Fuzzy(
         searchFields,

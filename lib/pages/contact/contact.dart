@@ -154,7 +154,7 @@ class _ContactPageState extends State<ContactPage> {
                         });
                         for (var e in alphabets) {
                           people["$e ADONOTUSE"] = ContactModel(
-                              name: "Random", contacts: [], group: "");
+                              sectionName: "Random", contacts: []);
                         }
                         return AlphabetScrollView(
                           list: people.keys.map((e) => AlphaModel(e)).toList(),

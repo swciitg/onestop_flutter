@@ -43,9 +43,10 @@ class DataProvider {
     var cachedData = await LocalStorage.instance.getRecord(DatabaseRecords.restaurant);
 
     if (cachedData == null) {
+      print("INSIDE RESTRAURENTS GET");
       List<Map<String, dynamic>> restaurantData =
           await APIService().getRestaurantData();
-
+      print(restaurantData);
       List<RestaurantModel> restaurants =
           restaurantData.map((e) => RestaurantModel.fromJson(e)).toList();
 
@@ -53,7 +54,6 @@ class DataProvider {
 
       return restaurants;
     }
-
     return cachedData
         .map((e) => RestaurantModel.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -85,21 +85,24 @@ class DataProvider {
   static Future<SplayTreeMap<String, ContactModel>> getContacts() async {
     var cachedData = await LocalStorage.instance.getRecord(DatabaseRecords.contacts);
     SplayTreeMap<String, ContactModel> people = SplayTreeMap();
-
     if (cachedData == null) {
-      List<Map<String, dynamic>> contactData =
-          await APIService().getContactData();
+      List<Map<String, dynamic>> contactData = await APIService().getContactData();
+      print("GET CONTACT DATA");
+      print(contactData);
       for (var element in contactData) {
-        people[element['name']] = ContactModel.fromJson(element);
+        people[element['sectionName']] = ContactModel.fromJson(element);
+        print("HERE NFJ");
       }
       await LocalStorage.instance.storeData(contactData, DatabaseRecords.contacts);
       return people;
     }
-    for (var element in cachedData) {
-      var x = element as Map<String, dynamic>;
-      people[x['name']] = ContactModel.fromJson(x);
+    else {
+      for (var element in cachedData) {
+        var x = element as Map<String, dynamic>;
+        people[x['name']] = ContactModel.fromJson(x);
+      }
+      return people;
     }
-    return people;
   }
 
 
