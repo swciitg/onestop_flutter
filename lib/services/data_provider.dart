@@ -76,7 +76,7 @@ class DataProvider {
       return timetableData;
     }
     // TODO: Change this later, for now cache till the end of Monsoon sem
-    DateTime semEnd = DateTime.parse("2022-12-23");
+    DateTime semEnd = DateTime.parse("2023-12-23");
     if (DateTime.now().isBefore(semEnd)) {
       return RegisteredCourses.fromJson(cachedData as Map<String, dynamic>);
     }
