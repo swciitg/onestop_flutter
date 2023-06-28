@@ -449,8 +449,8 @@ abstract class _TimetableStore with Store {
           }
         }
       }
-      timetableCourses[i].morning.sort();
-      timetableCourses[i].afternoon.sort();
+      timetableCourses[i].morning.sort(((a, b) => a.timing.compareTo(b.timing)));
+      timetableCourses[i].afternoon.sort((a,b)=> a.timing.compareTo(b.timing));
     }
     allTimetableCourses = timetableCourses;
   }
