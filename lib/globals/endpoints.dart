@@ -7,7 +7,7 @@ class Endpoints {
   static const String restaurantURL = "/getAllOutlets";
   static const String lastUpdatedURL = "/lastDataUpdate";
   static const String contactURL = "/getContacts";
-  static const String timetableURL = "/smartTimetable/get-my-courses";
+  static const String timetableURL = "https://swc.iitg.ac.in/smartTimetable/get-my-courses";
   static const String ferryURL = '/ferryTimings';
   static const String busURL = '/busTimings';
   static const String busStops = '/busstops';

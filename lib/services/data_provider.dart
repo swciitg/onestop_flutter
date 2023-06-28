@@ -68,6 +68,7 @@ class DataProvider {
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {
     var cachedData = (await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
     if (cachedData == null) {
+      print(roll);
       RegisteredCourses timetableData =
           await APIService().getTimeTable(roll: roll);
       await LocalStorage.instance

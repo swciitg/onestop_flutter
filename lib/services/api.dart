@@ -28,6 +28,12 @@ class APIService {
       receiveTimeout: const Duration(seconds: 15),
       headers: Endpoints.getHeader()));
 
+final dio2 = Dio(BaseOptions(
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 15),
+      headers: Endpoints.getHeader()));
+
+
   APIService() {
 
     dio.interceptors
@@ -114,8 +120,9 @@ class APIService {
     String tag = data['type'] == 'Issue Report' ? 'bug' : 'enhancement';
     String newBody =
         "### Description :\n${data['body']}\n### Posted By :\n${data['user']}";
+        print(Endpoints.githubIssueToken);
 
-    var res = await dio.post(Endpoints.feedback,
+    var res = await dio2.post(Endpoints.feedback,
         data: {
           'title': data['title'],
           'body': newBody,
@@ -478,11 +485,13 @@ class APIService {
   }
 
   Future<RegisteredCourses> getTimeTable({required String roll}) async {
-    final response = await dio.post(Endpoints.timetableURL,
+    print(roll);
+    final response = await dio2.post(Endpoints.timetableURL,
       data: {
         "roll_number": roll,
       },
     );
+    print(response);
     if (response.statusCode == 200) {
       return RegisteredCourses.fromJson(response.data);
     } else {

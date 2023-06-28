@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:onestop_dev/widgets/ui/guest_restrict.dart';
 
 class TimeTableTab extends StatefulWidget {
-  static const String id = 'time';
+  static const String id = '/time';
   const TimeTableTab({Key? key}) : super(key: key);
   @override
   State<TimeTableTab> createState() => _TimeTableTabState();
