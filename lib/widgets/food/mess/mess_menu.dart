@@ -126,13 +126,13 @@ class MessMenu extends StatelessWidget {
                                           Text(messStore.selectedDay.substring(0,3),
                                               style: MyFonts.w500
                                                   .setColor(lBlue)
-                                                  .size(screenWidth <= 380
+                                                  .size(screenWidth <= 390
                                                   ? 10
                                                   : 13)),
                                           Icon(
                                             FluentIcons.chevron_down_24_regular,
                                             color: lBlue,
-                                            size: screenWidth <= 380 ? 15 : 20,
+                                            size: screenWidth <= 390 ? 15 : 20,
                                           ),
                                         ],
                                       ),
@@ -177,15 +177,16 @@ class MessMenu extends StatelessWidget {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text(messStore.selectedHostel.value!,
+                                          overflow: TextOverflow.fade,
                                               style: MyFonts.w500
                                                   .setColor(lBlue)
-                                                  .size(screenWidth <= 380
+                                                  .size(screenWidth <= 390
                                                   ? 10
                                                   : 13)),
                                           Icon(
                                             FluentIcons.chevron_down_24_regular,
                                             color: lBlue,
-                                            size: screenWidth <= 380 ? 15 : 20,
+                                            size: screenWidth <= 390 ? 15 : 20,
                                           ),
                                         ],
                                       ),

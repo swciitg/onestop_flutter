@@ -7,6 +7,7 @@ import 'package:onestop_dev/functions/utility/open_map.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
@@ -114,10 +115,14 @@ class RestaurantTile extends StatelessWidget {
                               },
                             ),
                             Expanded(child: Container()),
-                            Text(
-                              getRestaurantDistance(context, restaurantModel),
-                              style: MyFonts.w500.size(11).setColor(kWhite),
-                                overflow:TextOverflow.fade
+                            ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: SizeConfig.screenWidth!<=380? 55:70),
+                              child: Text(
+                                getRestaurantDistance(context, restaurantModel),
+                                textAlign: TextAlign.center,
+                                style: MyFonts.w500.size(11).setColor(kWhite),
+                                  overflow:TextOverflow.fade
+                              ),
                             ),
                             Expanded(child: Container()),
                           ],
