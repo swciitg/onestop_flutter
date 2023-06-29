@@ -38,22 +38,6 @@ mixin _$TimetableStore on _TimetableStore, Store {
               name: '_TimetableStore.todayTimeTable'))
       .value;
 
-  late final _$loadOperationAtom =
-      Atom(name: '_TimetableStore.loadOperation', context: context);
-
-  @override
-  ObservableFuture<RegisteredCourses?> get loadOperation {
-    _$loadOperationAtom.reportRead();
-    return super.loadOperation;
-  }
-
-  @override
-  set loadOperation(ObservableFuture<RegisteredCourses?> value) {
-    _$loadOperationAtom.reportWrite(value, super.loadOperation, () {
-      super.loadOperation = value;
-    });
-  }
-
   late final _$selectedDateAtom =
       Atom(name: '_TimetableStore.selectedDate', context: context);
 
@@ -83,6 +67,22 @@ mixin _$TimetableStore on _TimetableStore, Store {
   set showDropDown(bool value) {
     _$showDropDownAtom.reportWrite(value, super.showDropDown, () {
       super.showDropDown = value;
+    });
+  }
+
+  late final _$loadOperationAtom =
+      Atom(name: '_TimetableStore.loadOperation', context: context);
+
+  @override
+  ObservableFuture<RegisteredCourses?> get loadOperation {
+    _$loadOperationAtom.reportRead();
+    return super.loadOperation;
+  }
+
+  @override
+  set loadOperation(ObservableFuture<RegisteredCourses?> value) {
+    _$loadOperationAtom.reportWrite(value, super.loadOperation, () {
+      super.loadOperation = value;
     });
   }
 
@@ -134,9 +134,9 @@ mixin _$TimetableStore on _TimetableStore, Store {
   @override
   String toString() {
     return '''
-loadOperation: ${loadOperation},
 selectedDate: ${selectedDate},
 showDropDown: ${showDropDown},
+loadOperation: ${loadOperation},
 coursesLoaded: ${coursesLoaded},
 coursesLoading: ${coursesLoading},
 coursesError: ${coursesError},
