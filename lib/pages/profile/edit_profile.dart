@@ -303,9 +303,17 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                         CustomTextField(
                           hintText: 'Roll Number',
-                          // validator: validatefield,
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Field cannot be empty';
+                            }
+                            else if(value.length!=9){
+                              return 'Enter valid roll number';
+                            }
+                            return null;
+                          },
                           inputFormatters: [FilteringTextInputFormatter.digitsOnly,],
-                          isNecessary: false,
+                          isNecessary: true,
                           controller: _rollController,
                           maxLength: 9,
                           maxLines: 1,
