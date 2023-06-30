@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/services/local_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +24,7 @@ import 'profile_page.dart';
 
 class EditProfile extends StatefulWidget {
   final ProfileModel profileModel;
-  const EditProfile({Key? key,required this.profileModel}) : super(key: key);
+  const EditProfile({Key? key, required this.profileModel}) : super(key: key);
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -43,11 +45,7 @@ class _EditProfileState extends State<EditProfile> {
   String? gender;
   DateTime? selectedDob;
   // String? imageString;
-  final List<String> genders = [
-    "Male",
-    "Female",
-    "Others"
-  ];
+  final List<String> genders = ["Male", "Female", "Others"];
   final List<String> hostels = [
     "Kameng",
     "Barak",
@@ -72,35 +70,39 @@ class _EditProfileState extends State<EditProfile> {
     _rollController.text = p.rollNo;
     _outlookEmailController.text = p.outlookEmail;
     _altEmailController.text = p.altEmail ?? "";
-    _phoneController.text =p.phoneNumber==null?"": p.phoneNumber.toString();
-    _emergencyController.text = p.emergencyPhoneNumber==null?"": p.emergencyPhoneNumber.toString();
+    _phoneController.text =
+        p.phoneNumber == null ? "" : p.phoneNumber.toString();
+    _emergencyController.text =
+        p.emergencyPhoneNumber == null ? "" : p.emergencyPhoneNumber.toString();
     _roomNoController.text = p.roomNo ?? "";
     _homeAddressController.text = p.homeAddress ?? "";
-    _dobController.text = DateFormat('dd-MMM-yyyy').format(DateTime.parse(p.dob ?? DateTime.now().toIso8601String()));
+    _dobController.text = DateFormat('dd-MMM-yyyy')
+        .format(DateTime.parse(p.dob ?? DateTime.now().toIso8601String()));
     _linkedinController.text = p.linkedin ?? "";
     hostel = p.hostel;
     gender = p.gender;
-    selectedDob = p.dob!=null ? DateTime.parse(p.dob!) : DateTime.now();
+    selectedDob = p.dob != null ? DateTime.parse(p.dob!) : DateTime.now();
     // imageString = p.image;
   }
 
   @override
   Widget build(BuildContext context) {
     Widget? counterBuilder(context,
-      {required currentLength, required isFocused, required maxLength}) {
-    if (currentLength == 0) {
-      return null;
+        {required currentLength, required isFocused, required maxLength}) {
+      if (currentLength == 0) {
+        return null;
+      }
+      return Text("$currentLength/$maxLength",
+          style: MyFonts.w500.size(12).setColor(kWhite));
     }
-    return Text("$currentLength/$maxLength",
-        style: MyFonts.w500.size(12).setColor(kWhite));
-  }
+
     Future<void> onFormSubmit() async {
       if (!_formKey.currentState!.validate()) {
         showSnackBar('Please give all the inputs correctly');
         return;
       } else {
-        DateTime date = DateTime(
-            selectedDob!.year, selectedDob!.month, selectedDob!.day);
+        DateTime date =
+            DateTime(selectedDob!.year, selectedDob!.month, selectedDob!.day);
         var data = {
           'name': _nameController.text,
           'rollNo': _rollController.text,
@@ -116,17 +118,24 @@ class _EditProfileState extends State<EditProfile> {
           'linkedin': _linkedinController.text
         };
         print(data);
-       await APIService().updateUserProfile(data,null);
+        try {
+          await APIService().updateUserProfile(data, null);
+        } catch (e) {
+          showSnackBar(e.toString());
+          return;
+        }
         Map userInfo = await APIService().getUserProfile();
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('hostel', hostel??"");
+        await prefs.setString('hostel', hostel ?? "");
         await prefs.setString("userInfo", jsonEncode(userInfo));
-        await context.read<LoginStore>().saveToUserInfo(prefs); // automatically updates token & other user info
+        await context.read<LoginStore>().saveToUserInfo(
+            prefs); // automatically updates token & other user info
         await prefs.setBool("isProfileComplete", true); // profile is complete
+        await LocalStorage.instance.deleteRecord(DatabaseRecords.timetable);
         print("PROFILE COMPLETED");
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-            
+
         // Navigator.of(context).pushAndRemoveUntil(
         //     MaterialPageRoute(
         //         builder: (context) => Profile(
@@ -305,13 +314,14 @@ class _EditProfileState extends State<EditProfile> {
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
                               return 'Field cannot be empty';
-                            }
-                            else if(value.length!=9){
+                            } else if (value.length != 9) {
                               return 'Enter valid roll number';
                             }
                             return null;
                           },
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly,],
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
                           isNecessary: true,
                           controller: _rollController,
                           maxLength: 9,
@@ -348,8 +358,7 @@ class _EditProfileState extends State<EditProfile> {
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
                               return 'Field cannot be empty';
-                            }
-                            else if(value.length!=10){
+                            } else if (value.length != 10) {
                               return 'Enter valid 10 digit phone number';
                             }
                             return null;
@@ -357,7 +366,9 @@ class _EditProfileState extends State<EditProfile> {
                           isNecessary: true,
                           controller: _phoneController,
                           inputType: TextInputType.phone,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly,],
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
                           maxLength: 10,
                           maxLines: 1,
                           counter: true,
@@ -370,13 +381,14 @@ class _EditProfileState extends State<EditProfile> {
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
                               return 'Field cannot be empty';
-                            }
-                            else if(value.length!=10){
+                            } else if (value.length != 10) {
                               return 'Enter valid 10 digit phone number';
                             }
                             return null;
                           },
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly,],
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
                           isNecessary: true,
                           controller: _emergencyController,
                           inputType: TextInputType.phone,
@@ -397,13 +409,12 @@ class _EditProfileState extends State<EditProfile> {
                           height: 12,
                         ),
                         CustomDropDown(
-                            value: hostel,
-                            items: hostels,
-                            hintText: 'Hostel',
-                            onChanged: (h) => hostel = h,
-                            validator: validatefield,
-                            ),
-                            
+                          value: hostel,
+                          items: hostels,
+                          hintText: 'Hostel',
+                          onChanged: (h) => hostel = h,
+                          validator: validatefield,
+                        ),
                         const SizedBox(
                           height: 12,
                         ),
