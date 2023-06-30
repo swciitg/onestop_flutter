@@ -20,9 +20,9 @@ class DetailsUpsp extends StatefulWidget {
 }
 
 class _DetailsUpspState extends State<DetailsUpsp> {
-  String selectedDropdown = 'Kameng';
   bool submitted = false;
   TextEditingController contact = TextEditingController();
+  TextEditingController rollNo = TextEditingController();
   List<String> hostels = [
     "Kameng",
     "Barak",
@@ -45,7 +45,10 @@ class _DetailsUpspState extends State<DetailsUpsp> {
     var userData = LoginStore.userData;
     String email = userData['outlookEmail']!;
     String name = userData['name']!;
-    String roll = userData['rollNo']!;
+    rollNo.text = userData['rollNo']!.toString();
+    String selectedDropdown = userData['hostel']!;
+    contact.text=userData['phoneNumber']!.toString();
+    
     return Scaffold(
       backgroundColor: kBackground,
       appBar: AppBar(
@@ -89,7 +92,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 10),
                                 child: TextFormField(
-                                  initialValue: roll,
+                                  controller: rollNo,
                                   validator: (val) {
                                     if (val == null || val.isEmpty) {
                                       return "Please fill your roll number";
@@ -106,7 +109,6 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                     hintText: 'Your Answer',
                                     hintStyle: const TextStyle(color: kGrey8),
                                   ),
-                                  onChanged: (r) => roll = r,
                                 ))),
                       ),
                       Padding(
@@ -166,6 +168,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 5),
                           child: DropdownButtonFormField<String>(
+                            value: selectedDropdown,
                             validator: (val) {
                               if (val == null) {
                                 return "Hostel can not be empty";
@@ -239,13 +242,13 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                               data['phone'] = contact.text;
                               data['hostel'] = selectedDropdown;
                               data['name'] = name;
-                              data['roll_number'] = roll;
+                              data['roll_number'] = rollNo.text;
                               data['email'] = email;
                               try {
                                 var response = await APIService().postUPSP(data);
                                 if (!mounted) return;
                                 if (response['success']) {
-                                  showSnackBar("Your problem has been successfully sent to respective authorities.");
+                                  showSnackBar("Your problem has been successfully sent to respective au1thorities.");
                                   Navigator.popUntil(
                                       context, ModalRoute.withName(HomePage.id));
                                 } else {
