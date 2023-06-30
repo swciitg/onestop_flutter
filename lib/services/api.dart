@@ -644,10 +644,10 @@ final dio2 = Dio(BaseOptions(
               .toLowerCase()]['_id'],
           mealDescription: meal[day.trim().toLowerCase()][mealType.trim()
               .toLowerCase()]['mealDescription'],
-          startTiming: meal[day.trim().toLowerCase()][mealType.trim()
-              .toLowerCase()]['startTiming'],
-          endTiming: meal[day.trim().toLowerCase()][mealType.trim()
-            .toLowerCase()]['endTiming'],
+          startTiming: DateTime.parse( meal[day.trim().toLowerCase()][mealType.trim()
+              .toLowerCase()]['startTiming']).add(const Duration(hours: 5,minutes: 30)),
+          endTiming: DateTime.parse( meal[day.trim().toLowerCase()][mealType.trim()
+            .toLowerCase()]['endTiming']).add(const Duration(hours: 5,minutes: 30)),
       );
     }catch(e){
       print(Endpoints.messURL);
