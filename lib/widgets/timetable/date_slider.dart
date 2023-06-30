@@ -36,7 +36,6 @@ class _DateSliderState extends State<DateSlider> {
                     tStyle = MyFonts.w500.size(14).setColor(kGrey7);
                   }
                   return Container(
-                    // height: 125,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: selected ? kTimetableGreen : Colors.transparent,
