@@ -35,7 +35,6 @@ final dio2 = Dio(BaseOptions(
 
 
   APIService() {
-
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
           print("THIS IS TOKEN");
@@ -65,6 +64,9 @@ final dio2 = Dio(BaseOptions(
       }
       else if(response != null && response.statusCode == 403){
         showSnackBar("Access not allowed in guest mode");
+      }
+      else if(response != null && response.statusCode == 400){
+        showSnackBar(response.data["message"]);
       }
       // admin user with expired tokens
       return handler.next(error);
@@ -100,15 +102,13 @@ final dio2 = Dio(BaseOptions(
       Dio regenDio = Dio(BaseOptions(
           baseUrl: Endpoints.baseUrl,
           connectTimeout: const Duration(seconds: 5),
-          receiveTimeout: const Duration(seconds: 5),
-          headers: {
-            'Security-Key': Endpoints.apiSecurityKey
-          }));
+          receiveTimeout: const Duration(seconds: 5)));
       Response<Map<String, dynamic>> resp = await regenDio.post(
           "/user/accesstoken",
-          options: Options(headers: {"authorization": "Bearer $refreshToken"}));
+          options: Options(headers: {'Security-Key': Endpoints.apiSecurityKey,"authorization": "Bearer $refreshToken"}));
       var data = resp.data!;
-      await AuthUserHelpers.setAccessToken(data["token"]);
+      print("REGENRATED ACCESS TOKEN");
+      await AuthUserHelpers.setAccessToken(data[BackendHelper.accesstoken]);
       return true;
     } catch (err) {
       return false;
@@ -169,11 +169,11 @@ final dio2 = Dio(BaseOptions(
     print(response);
   }
 
-  Future<void> logoutUser(String deviceToken) async {
-    print(deviceToken);
-    var response = await dio.delete(Endpoints.userLogout,data: {"deviceToken" : deviceToken});
-    print(response);
-  }
+  // Future<void> logoutUser(String deviceToken) async {
+  //   print(deviceToken);
+  //   var response = await dio.delete(Endpoints.userLogout,data: {"deviceToken" : deviceToken});
+  //   print(response);
+  // }
 
   Future<List<Map<String, dynamic>>> getRestaurantData() async {
     var response = await dio.get(Endpoints.restaurantURL);
@@ -634,8 +634,9 @@ final dio2 = Dio(BaseOptions(
       if(meal=='no data'){
         return MealType(
             id: '',
-            mealDescription: 'Not updated by HMC',
-            timing: 'Oh no!'
+            mealDescription: "Not updated by ${hostel}'s HMC. Kindly Contact ask them to update",
+            startTiming: DateTime.now(),
+            endTiming: DateTime.now()
         );
       }
       return MealType(
@@ -643,8 +644,10 @@ final dio2 = Dio(BaseOptions(
               .toLowerCase()]['_id'],
           mealDescription: meal[day.trim().toLowerCase()][mealType.trim()
               .toLowerCase()]['mealDescription'],
-          timing: meal[day.trim().toLowerCase()][mealType.trim()
-              .toLowerCase()]['timing']
+          startTiming: meal[day.trim().toLowerCase()][mealType.trim()
+              .toLowerCase()]['startTiming'],
+          endTiming: meal[day.trim().toLowerCase()][mealType.trim()
+            .toLowerCase()]['endTiming'],
       );
     }catch(e){
       print(Endpoints.messURL);

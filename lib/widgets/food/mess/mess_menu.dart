@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
@@ -74,7 +75,7 @@ class MessMenu extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: Text(
-                              messStore.mealData.timing,
+                              messStore.mealData.id.isEmpty ? "Not Specified" : "${DateFormat.jm().format(messStore.mealData.startTiming)} - ${DateFormat.jm().format(messStore.mealData.endTiming)}", // id empty means not updated by HMC
                               style: MyFonts.w500.size(12).setColor(kGrey12),
                             ),
                           ),

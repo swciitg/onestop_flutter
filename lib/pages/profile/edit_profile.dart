@@ -115,16 +115,15 @@ class _EditProfileState extends State<EditProfile> {
           'homeAddress': _homeAddressController.text,
           'linkedin': _linkedinController.text
         };
-
         print(data);
-
        await APIService().updateUserProfile(data,null);
-
         Map userInfo = await APIService().getUserProfile();
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('hostel', hostel??"");
-        prefs.setString("userInfo", jsonEncode(userInfo));
-        context.read<LoginStore>().saveToUserInfo(prefs); // automatically updates token & other user info
+        await prefs.setString('hostel', hostel??"");
+        await prefs.setString("userInfo", jsonEncode(userInfo));
+        await context.read<LoginStore>().saveToUserInfo(prefs); // automatically updates token & other user info
+        await prefs.setBool("isProfileComplete", true); // profile is complete
+        print("PROFILE COMPLETED");
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
             

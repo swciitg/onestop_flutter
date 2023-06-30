@@ -6,9 +6,9 @@ import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 
 Map<String, List<String>> recordNames = {
-  "food": [DatabaseRecords.restaurant],
-  "travel": [DatabaseRecords.busTimings, DatabaseRecords.ferryTimings],
-  "menu": [DatabaseRecords.messMenu],
+  "foodOutlet": [DatabaseRecords.restaurant],
+  "timing": [DatabaseRecords.busTimings, DatabaseRecords.ferryTimings],
+  "messMenu": [DatabaseRecords.messMenu],
   "contact": [DatabaseRecords.contacts]
 };
 

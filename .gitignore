@@ -40,6 +40,9 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
+# Keystore file path when building apk on windows
+/android/app/onestop-keystore.jks
+
 # Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile

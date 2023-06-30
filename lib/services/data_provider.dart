@@ -100,7 +100,7 @@ class DataProvider {
     else {
       for (var element in cachedData) {
         var x = element as Map<String, dynamic>;
-        people[x['name']] = ContactModel.fromJson(x);
+        people[x['sectionName']] = ContactModel.fromJson(x);
       }
       return people;
     }

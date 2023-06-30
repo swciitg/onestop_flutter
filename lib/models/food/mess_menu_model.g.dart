@@ -49,11 +49,13 @@ Map<String, dynamic> _$DayToJson(Day instance) => <String, dynamic>{
 MealType _$MealTypeFromJson(Map<String, dynamic> json) => MealType(
       id: json['id'] as String,
       mealDescription: json['mealDescription'] as String,
-      timing: json['timing'] as String,
+      startTiming: DateTime.parse(json['startTiming'] as String),
+      endTiming: DateTime.parse(json['endTiming'] as String),
     );
 
 Map<String, dynamic> _$MealTypeToJson(MealType instance) => <String, dynamic>{
       'id': instance.id,
       'mealDescription': instance.mealDescription,
-      'timing': instance.timing,
+      'startTiming': instance.startTiming.toIso8601String(),
+      'endTiming': instance.endTiming.toIso8601String(),
     };

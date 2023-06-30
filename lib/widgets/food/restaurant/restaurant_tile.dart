@@ -116,12 +116,11 @@ class RestaurantTile extends StatelessWidget {
                             ),
                             Expanded(child: Container()),
                             ConstrainedBox(
-                              constraints: BoxConstraints(maxWidth: SizeConfig.screenWidth!<=380? 55:70),
+                              constraints: const BoxConstraints(maxWidth: 55),
                               child: Text(
                                 getRestaurantDistance(context, restaurantModel),
                                 textAlign: TextAlign.center,
-                                style: MyFonts.w500.size(11).setColor(kWhite),
-                                  overflow:TextOverflow.fade
+                                style: MyFonts.w500.size(11).setColor(kWhite)
                               ),
                             ),
                             Expanded(child: Container()),

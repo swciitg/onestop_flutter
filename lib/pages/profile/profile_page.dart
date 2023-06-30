@@ -121,7 +121,7 @@ class _ProfileState extends State<Profile> {
                 semiTitle: widget.profileModel.outlookEmail,
               ),
               DataTile(
-                title: 'Gmail',
+                title: 'Alt Email',
                 semiTitle: widget.profileModel.altEmail,
               ),
               DataTile(

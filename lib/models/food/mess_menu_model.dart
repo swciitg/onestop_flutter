@@ -52,12 +52,14 @@ class Day {
 class MealType {
   final String id;
   final String mealDescription;
-  final String timing;
+  final DateTime startTiming;
+  final DateTime endTiming;
 
   MealType({
     required this.id,
     required this.mealDescription,
-    required this.timing,
+    required this.startTiming,
+    required this.endTiming,
   });
   factory MealType.fromJson(Map<String, dynamic> json) => _$MealTypeFromJson(json);
 

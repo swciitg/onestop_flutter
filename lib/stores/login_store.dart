@@ -17,6 +17,7 @@ class LoginStore {
   static Map<String, dynamic> userData = {};
   final cookieManager = WebviewCookieManager();
   static bool isGuest = false;
+  static bool isProfileComplete=false;
   // static final Config config = Config(
   //     tenant: '850aa78d-94e1-4bc6-9cf3-8c11b530701c',
   //     clientId: '81f3e9f0-b0fd-48e0-9d36-e6058e5c6d4f',
@@ -55,8 +56,15 @@ class LoginStore {
   Future<bool> isAlreadyAuthenticated() async {
     SharedPreferences user = await SharedPreferences.getInstance();
     print("inside authentication check");
-    if (user.containsKey(BackendHelper.refreshtoken)) {
+    if (user.containsKey("userInfo")) {
       print("here");
+      if(user.containsKey("isProfileComplete")){
+        print("PROFILE IS COMPLETE");
+        isProfileComplete=true;
+      }
+      else{
+        print("PROFILE IS INCOMPLETE");
+      }
       print(await user.containsKey("userInfo"));
       await saveToUserInfo(user);
       return true;
@@ -78,6 +86,7 @@ class LoginStore {
     print(response.data);
     await saveToPreferences(sharedPrefs, response.data);
     await saveToUserInfo(sharedPrefs);
+    await sharedPrefs.setBool("isProfileComplete", true); // profile is complete for guest
   }
 
   Future<void> saveToPreferences(
@@ -127,13 +136,14 @@ class LoginStore {
     print("INSIDE LOGOUT");
     await cookieManager.clearCookies();
     SharedPreferences user = await SharedPreferences.getInstance();
-    if(!isGuest){
-      print(user.getString("deviceToken")!);
-      await APIService().logoutUser(user.getString("deviceToken")!); // remove token on logout if not guest
-    }
+    // if(!isGuest){
+    //   print(user.getString("deviceToken")!);
+    //   await APIService().logoutUser(user.getString("deviceToken")!); // remove token on logout if not guest
+    // }
     await user.clear();
     userData.clear();
     isGuest = false;
+    isProfileComplete=false;
     await LocalStorage.instance.deleteRecordsLogOut();
     navigationPopCallBack();
   }
