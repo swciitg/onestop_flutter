@@ -681,6 +681,22 @@ final dio2 = Dio(BaseOptions(
       for (var element in busData) {
         busTimings.add(TravelTiming.fromJson(element));
       }
+      // for(int i=0;i<busTimings[0].weekdays.toCampus.length;i++){
+      //   busTimings[0].weekdays.toCampus[i]=busTimings[0].weekdays.toCampus[i].add(const Duration(hours: 5,minutes: 30));
+      //   print(busTimings[0].weekdays.toCampus[i]);
+      // }
+      // for(int i=0;i<busTimings[0].weekdays.fromCampus.length;i++){
+      //   busTimings[0].weekdays.fromCampus[i]=busTimings[0].weekdays.fromCampus[i].add(const Duration(hours: 5,minutes: 30));
+      //   print(busTimings[0].weekdays.fromCampus[i]);
+      // }
+      //  for(int i=0;i<busTimings[0].weekend.toCampus.length;i++){
+      //   busTimings[0].weekend.toCampus[i]=busTimings[0].weekend.toCampus[i].add(const Duration(hours: 5,minutes: 30));
+      //   print(busTimings[0].weekend.toCampus[i]);
+      // }
+      // for(int i=0;i<busTimings[0].weekend.fromCampus.length;i++){
+      //   busTimings[0].weekend.fromCampus[i]=busTimings[0].weekend.fromCampus[i].add(const Duration(hours: 5,minutes: 30));
+      //   print(busTimings[0].weekend.fromCampus[i]);
+      // }
       print("here at length");
       print(busTimings.length);
       return busTimings;
