@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
@@ -169,20 +170,16 @@ class _MyAdsTileState extends State<MyAdsTile> {
                 ),
                 onPressed: () async {
                   if (isLnf) {
-                    await APIService.deleteLnfMyAd(
+                    await APIService().deleteLnfMyAd(
                         widget.model.id, widget.model.email);
                   } else {
-                    await APIService.deleteBnsMyAd(
+                    await APIService().deleteBnsMyAd(
                         widget.model.id, widget.model.email);
                   }
 
                   if (!mounted) return;
                   Navigator.of(context).pop();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                    "Deleted your post successfully",
-                    style: MyFonts.w500,
-                  )));
+                  showSnackBar("Deleted your post successfully");
                 },
               ),
             ),

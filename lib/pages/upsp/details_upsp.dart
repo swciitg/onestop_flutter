@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -19,9 +20,9 @@ class DetailsUpsp extends StatefulWidget {
 }
 
 class _DetailsUpspState extends State<DetailsUpsp> {
-  String selectedDropdown = 'Kameng';
   bool submitted = false;
   TextEditingController contact = TextEditingController();
+  TextEditingController rollNo = TextEditingController();
   List<String> hostels = [
     "Kameng",
     "Barak",
@@ -41,11 +42,13 @@ class _DetailsUpspState extends State<DetailsUpsp> {
 
   @override
   Widget build(BuildContext context) {
-    var userStore = context.read<LoginStore>();
-    var userData = userStore.userData;
-    String email = userData['email']!;
+    var userData = LoginStore.userData;
+    String email = userData['outlookEmail']!;
     String name = userData['name']!;
-    String roll = userData['rollno']!;
+    rollNo.text = userData['rollNo']!.toString();
+    String selectedDropdown = userData['hostel']!;
+    contact.text=userData['phoneNumber']!.toString();
+    
     return Scaffold(
       backgroundColor: kBackground,
       appBar: AppBar(
@@ -89,13 +92,14 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 10),
                                 child: TextFormField(
-                                  initialValue: roll,
+                                  controller: rollNo,
                                   validator: (val) {
                                     if (val == null || val.isEmpty) {
                                       return "Please fill your roll number";
                                     }
                                     return null;
                                   },
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                   keyboardType: TextInputType.number,
                                   style: MyFonts.w500.size(16).setColor(kWhite),
                                   decoration: InputDecoration(
@@ -105,7 +109,6 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                     hintText: 'Your Answer',
                                     hintStyle: const TextStyle(color: kGrey8),
                                   ),
-                                  onChanged: (r) => roll = r,
                                 ))),
                       ),
                       Padding(
@@ -138,6 +141,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                     return null;
                                   },
                                   keyboardType: TextInputType.number,
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                   controller: contact,
                                   maxLength: 10,
                                   style: MyFonts.w500.size(16).setColor(kWhite),
@@ -164,6 +168,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 5),
                           child: DropdownButtonFormField<String>(
+                            value: selectedDropdown,
                             validator: (val) {
                               if (val == null) {
                                 return "Hostel can not be empty";
@@ -237,26 +242,23 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                               data['phone'] = contact.text;
                               data['hostel'] = selectedDropdown;
                               data['name'] = name;
-                              data['roll_number'] = roll;
+                              data['roll_number'] = rollNo.text;
                               data['email'] = email;
                               try {
-                                var response = await APIService.postUPSP(data);
+                                var response = await APIService().postUPSP(data);
                                 if (!mounted) return;
                                 if (response['success']) {
-                                  showSnackBar(
-                                      "Your problem has been successfully sent to respective authorities.");
+                                  showSnackBar("Your problem has been successfully sent to respective au1thorities.");
                                   Navigator.popUntil(
                                       context, ModalRoute.withName(HomePage.id));
                                 } else {
-                                  showSnackBar(
-                                      "Some error occurred. Try again later");
+                                  showSnackBar("Some error occurred. Try again later");
                                   setState(() {
                                     submitted = false;
                                   });
                                 }
                               } catch (err) {
-                                showSnackBar(
-                                    "Please check you internet connection and try again");
+                                showSnackBar("Please check you internet connection and try again");
                                 setState(() {
                                   submitted = false;
                                 });

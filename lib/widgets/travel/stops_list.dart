@@ -7,6 +7,8 @@ import 'package:onestop_dev/functions/travel/distance.dart';
 import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/travel/travel_timing_model.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
@@ -23,23 +25,45 @@ class BusStopList extends StatelessWidget {
         itemCount: context.read<MapBoxStore>().allLocationData.length,
         itemBuilder: (BuildContext context, int index) {
           var mapStore = context.read<MapBoxStore>();
-          return FutureBuilder(
-            future: DataProvider.getBusTimings(),
+          return FutureBuilder<List<TravelTiming>>(
+            // future: APIService().getBusTiming(),
+            future: DataProvider.getBusTiming(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var allBusTimes =
-                    (snapshot.data as Map<String, List<List<String>>>);
-                List<List<String>> busTime = [[], []];
-                allBusTimes.forEach((key, list) {
-                  for (String time in list[0]) {
-                    busTime[0].add(time);
+                List<TravelTiming>? busTime = snapshot.data ;
+                List<DateTime> weekdaysTimes=[];
+                List<DateTime> weekendTimes=[];
+                for(var xyz in busTime!){
+                  int n=xyz.weekdays.fromCampus.length;
+                  for(int i=0;i<n;i++){
+                    weekdaysTimes.add(xyz.weekdays.fromCampus[i]);
                   }
-                  for (String time in list[1]) {
-                    busTime[1].add(time);
+                }
+                weekdaysTimes.sort((a, b) => a.compareTo(b));
+                for(var xyz in busTime){
+                  int n=xyz.weekend.fromCampus.length;
+                  for(int i=0;i<n;i++){
+                    weekendTimes.add(xyz.weekend.fromCampus[i]);
                   }
-                });
-                busTime[0].sort((a, b) => parseTime(a).compareTo(parseTime(b)));
-                busTime[1].sort((a, b) => parseTime(a).compareTo(parseTime(b)));
+                }
+                weekendTimes.sort((a, b) => a.compareTo(b));
+                // List<dynamic> allBusTimes =
+                //     (snapshot.data as List<dynamic>);
+                // List<List<String>> busTime = [[], []];
+                // allBusTimes.forEach((key, list) {
+                //   for (String time in list[0]) {
+                //     busTime[0].add(time);
+                //   }
+                //   for (String time in list[1]) {
+                //     busTime[1].add(time);
+                //   }
+                // });
+                // busTime.sort((a, b) {
+                //   return parseTime(a).compareTo(parseTime(b));
+                // });
+                // busTime[1].sort((a, b) {
+                //   return parseTime(a).compareTo(parseTime(b));
+                // });
                 return Padding(
                   padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                   child: GestureDetector(
@@ -48,9 +72,9 @@ class BusStopList extends StatelessWidget {
                       mapStore.zoomTwoMarkers(
                           LatLng(
                               mapStore.allLocationData[
-                                  mapStore.selectedCarouselIndex]['lat'],
+                              mapStore.selectedCarouselIndex]['lat'],
                               mapStore.allLocationData[
-                                  mapStore.selectedCarouselIndex]['long']),
+                              mapStore.selectedCarouselIndex]['long']),
                           LatLng(mapStore.userlat, mapStore.userlong),
                           100.0);
                     },
@@ -60,7 +84,7 @@ class BusStopList extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: kTileBackground,
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(20)),
+                          const BorderRadius.all(Radius.circular(20)),
                           border: Border.all(
                               color: (mapStore.selectedCarouselIndex == index)
                                   ? lBlue5
@@ -108,14 +132,14 @@ class BusStopList extends StatelessWidget {
                             //
                             trailing: Text(
                               (getFormattedDay() == 'Fri')
-                                  ? nextTime(busTime[1],
-                                      firstTime: busTime[0][0])
+                                  ? nextTime(weekendTimes,
+                                  firstTime: weekendTimes[0].toString())
                                   : (getFormattedDay() == 'Sun')
-                                      ? nextTime(busTime[0],
-                                          firstTime: busTime[1][0])
-                                      : (getFormattedDay() == 'Sat')
-                                          ? nextTime(busTime[0])
-                                          : nextTime(busTime[1]),
+                                  ? nextTime(weekendTimes,
+                                  firstTime: weekdaysTimes[0].toString())
+                                  : (getFormattedDay() == 'Sat')
+                                  ? nextTime(weekendTimes)
+                                  : nextTime(weekdaysTimes),
                               style: MyFonts.w500.setColor(lBlue2),
                             )),
                       );

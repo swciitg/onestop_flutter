@@ -67,7 +67,7 @@ class _BuySellFormState extends State<BuySellForm> {
             children: [
               isLoading
                   ? const LinearProgressIndicator()
-                  : const ProgressBar(blue: 2, grey: 0),
+                  : widget.category == "Found" ? const ProgressBar(blue: 3, grey: 0): const ProgressBar(blue: 2, grey: 0),
               Container(
                 margin: const EdgeInsets.only(
                     top: 40, left: 15, right: 5, bottom: 15),
@@ -155,22 +155,22 @@ class _BuySellFormState extends State<BuySellForm> {
           data['location'] = _price.text.trim();
           data['contact'] = _contactNumber.text.trim();
           data['image'] = widget.imageString;
-          data['name'] = context.read<LoginStore>().userData["name"]!;
-          data['email'] = context.read<LoginStore>().userData["email"]!;
+          data['name'] = LoginStore.userData["name"]!;
+          data['email'] = LoginStore.userData["outlookEmail"]!;
           data['total_price'] = "${_price.text}-${_price2.text}";
 
           try {
             if (widget.category == "Sell") {
-              res = await APIService.postSellData(data);
+              res = await APIService().postSellData(data);
             }
             if (widget.category == "Buy") {
-              res = await APIService.postBuyData(data);
+              res = await APIService().postBuyData(data);
             }
             if (widget.category == "Lost") {
-              res = await APIService.postLostData(data);
+              res = await APIService().postLostData(data);
             }
             if (widget.category == "Found") {
-              res = await APIService.postFoundData(data);
+              res = await APIService().postFoundData(data);
             }
             // ignore: empty_catches
           } catch (e) {

@@ -121,13 +121,13 @@ mixin _$TravelStore on _TravelStore, Store {
       Atom(name: '_TravelStore.ferryTimings', context: context);
 
   @override
-  ObservableFuture<List<FerryTimeData>> get ferryTimings {
+  ObservableFuture<List<TravelTiming>> get ferryTimings {
     _$ferryTimingsAtom.reportRead();
     return super.ferryTimings;
   }
 
   @override
-  set ferryTimings(ObservableFuture<List<FerryTimeData>> value) {
+  set ferryTimings(ObservableFuture<List<TravelTiming>> value) {
     _$ferryTimingsAtom.reportWrite(value, super.ferryTimings, () {
       super.ferryTimings = value;
     });

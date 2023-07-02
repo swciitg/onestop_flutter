@@ -14,6 +14,7 @@ import 'package:onestop_dev/widgets/buy_sell/buy_tile.dart';
 import 'package:onestop_dev/widgets/buy_sell/item_type_bar.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:onestop_dev/widgets/lostfound/ads_tile.dart';
+import 'package:onestop_dev/widgets/ui/guest_restrict.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
@@ -35,10 +36,10 @@ class _BuySellHomeState extends State<BuySellHome> {
   void initState() {
     super.initState();
     _sellController.addPageRequestListener((pageKey) async {
-      await listener(_sellController, APIService.getSellPage, pageKey);
+      await listener(_sellController, APIService().getSellPage, pageKey);
     });
     _buyController.addPageRequestListener((pageKey) async {
-      await listener(_buyController, APIService.getBuyPage, pageKey);
+      await listener(_buyController, APIService().getBuyPage, pageKey);
     });
   }
 
@@ -65,6 +66,8 @@ class _BuySellHomeState extends State<BuySellHome> {
   @override
   Widget build(BuildContext context) {
     var commonStore = context.read<CommonStore>();
+
+
     return Observer(
       builder: (BuildContext context) {
         return Scaffold(
@@ -166,9 +169,10 @@ class _BuySellHomeState extends State<BuySellHome> {
                 )
               else
                 Expanded(
-                  child: FutureBuilder(
-                      future: APIService.getBnsMyItems(
-                          context.read<LoginStore>().userData['email'] ?? ""),
+                  child: context.read<LoginStore>().isGuestUser ? const GuestRestrictAccess()
+                  : FutureBuilder(
+                      future: APIService().getBnsMyItems(
+                          LoginStore.userData['outlookEmail']!),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           List<BuyModel> models =
@@ -199,7 +203,7 @@ class _BuySellHomeState extends State<BuySellHome> {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: AddItemButton(
+          floatingActionButton: context.read<LoginStore>().isGuestUser ? Container() : AddItemButton(
             type: commonStore.bnsIndex,
           ),
         );

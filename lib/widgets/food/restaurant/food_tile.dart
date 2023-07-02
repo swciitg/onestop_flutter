@@ -47,42 +47,42 @@ class FoodTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 4,
-                            child: Text(
-                              dish.name,
-                              style: MyFonts.w600.size(16).setColor(kWhite),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Icon(
-                                  Icons.crop_square_sharp,
-                                  color: getIconColor(dish.veg),
-                                  size: 14,
-                                ),
-                                Icon(
-                                  Icons.circle,
-                                  color: getIconColor(dish.veg),
-                                  size: 5,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                      Text(
+                        dish.itemName,
+                        style: MyFonts.w600.size(16).setColor(kWhite),
                       ),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       flex: 4,
+                      //       child: Text(
+                      //         dish.itemName,
+                      //         style: MyFonts.w600.size(16).setColor(kWhite),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       flex: 1,
+                      //       child: Stack(
+                      //         alignment: Alignment.center,
+                      //         children: [
+                      //           Icon(
+                      //             Icons.crop_square_sharp,
+                      //             color: getIconColor(dish.veg),
+                      //             size: 14,
+                      //           ),
+                      //           Icon(
+                      //             Icons.circle,
+                      //             color: getIconColor(dish.veg),
+                      //             size: 5,
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            getIngredients(dish.ingredients),
-                            style: MyFonts.w400.size(14).setColor(kGrey6),
-                          ),
                           const SizedBox(
                             height: 8,
                           ),
@@ -106,7 +106,7 @@ class FoodTile extends StatelessWidget {
                       aspectRatio: 1,
                       child: CachedNetworkImage(
                         maxHeightDiskCache: 200,
-                        imageUrl: dish.image,
+                        imageUrl: dish.imageURL,
                         imageBuilder: (context, imageProvider) => Image(
                           image: imageProvider,
                           fit: BoxFit.cover,

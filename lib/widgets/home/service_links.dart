@@ -33,11 +33,11 @@ List<HomeTabTile> serviceLinks = [
       label: "Cab Sharing",
       icon: FluentIcons.vehicle_bus_24_regular,
       routeId: CabShare.id),
-  const HomeTabTile(
-    label: "GC Score Board",
-    icon: FluentIcons.trophy_20_regular,
-    routeId: Scoreboard.id,
-  ),
+  // const HomeTabTile(
+  //   label: "GC Score Board",
+  //   icon: FluentIcons.trophy_20_regular,
+  //   routeId: Scoreboard.id,
+  // ),
   const HomeTabTile(
     label: "UPSP",
     icon: FluentIcons.chat_warning_16_regular,

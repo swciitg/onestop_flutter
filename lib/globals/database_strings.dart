@@ -8,3 +8,9 @@ abstract class DatabaseRecords {
   static const ferryTimings = "FerryTimings";
   static const busTimings = "BusTimings";
 }
+
+class BackendHelper {
+  static const refreshtoken = "refreshToken";
+  static const accesstoken = "accessToken";
+  static const authorization = "authorization";
+}

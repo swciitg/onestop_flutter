@@ -8,19 +8,19 @@ part 'restaurant_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class RestaurantModel {
   @JsonKey(defaultValue: "Untitled Restaurant")
-  late String name;
+  late String outletName;
 
   @JsonKey(defaultValue: " ")
   late String caption;
 
   @JsonKey(defaultValue: "10:00 PM")
-  late String closing_time;
+  late String closingTime;
 
-  @JsonKey(defaultValue: "2 hrs")
-  late String waiting_time;
+  @JsonKey(defaultValue: "IIT Guwahati")
+  late String location;
 
   @JsonKey(defaultValue: " ", fromJson: fromJsonPhone, toJson: toJsonPhone)
-  late String phone_number;
+  late String phoneNumber;
 
   @JsonKey(defaultValue: 26.19247153449412)
   late double latitude;
@@ -28,29 +28,25 @@ class RestaurantModel {
   @JsonKey(defaultValue: 91.6993500129393)
   late double longitude;
 
-  @JsonKey(defaultValue: " ")
-  late String address;
-
   @JsonKey(defaultValue: [])
   late List<String> tags;
 
   @JsonKey(defaultValue: [])
   late List<DishModel> menu;
 
-  @JsonKey(name: "imageURL")
-  late String image;
+  @JsonKey(defaultValue: "https://dw7n6pv5zdng0.cloudfront.net/modules/0001/04/thumb_3251_modules_big.jpeg")
+  late String imageURL;
 
   RestaurantModel(
-      {required this.name,
+      {required this.outletName,
       required this.caption,
-      required this.closing_time,
-      required this.waiting_time,
-      required this.phone_number,
+      required this.closingTime,
+      required this.phoneNumber,
       required this.latitude,
       required this.longitude,
-      required this.address,
+      required this.location,
       required this.tags,
-      required this.image});
+      required this.imageURL});
 
   // RestaurantModel.fromJson(Map<String, dynamic> json) {
   //   name = json['name'] ?? "Unnamed";= "https://live.staticflickr.com/3281/5813689894_a558bb341f_b.jpg"

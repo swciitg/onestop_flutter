@@ -9,10 +9,10 @@ import 'package:provider/provider.dart';
 class LoginButton extends StatelessWidget {
   const LoginButton({
     Key? key,
-    required this.setLoading,
+    // required this.setLoading,
   }) : super(key: key);
 
-  final Function setLoading;
+  // final Function setLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,10 @@ class LoginButton extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18))),
             onPressed: () {
-              setLoading();
+              // setLoading();
+              Navigator.of(context).pushNamed(
+                '/login',
+              );
             },
             child: FittedBox(
               fit: BoxFit.fitWidth,
@@ -59,6 +62,7 @@ class LoginButton extends StatelessWidget {
                         ..onTap = () async {
                           await context.read<LoginStore>().signInAsGuest();
                           // TODO: Next version of Flutter will have context.mounted. Use that instead to escape the lint
+                          print("completed sign in");
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/', (Route<dynamic> route) => false);
                         },

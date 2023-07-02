@@ -1,6 +1,4 @@
 // ignore_for_file: library_private_types_in_public_api
-
-import 'package:fuzzy/fuzzy.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/services/data_provider.dart';
@@ -11,16 +9,15 @@ class RestaurantStore = _RestaurantStore with _$RestaurantStore;
 
 abstract class _RestaurantStore with Store {
   RestaurantModel _selectedRestaurant = RestaurantModel(
-      name: "NA",
+      outletName: "NA",
       caption: "NA",
-      closing_time: "NA",
-      waiting_time: "NA",
-      phone_number: "NA",
+      closingTime: "NA",
+      phoneNumber: "NA",
       latitude: 0,
       longitude: 0,
-      address: "NA",
+      location: "NA",
       tags: [],
-      image: "");
+      imageURL: "");
 
   @observable
   String _searchString = "";
@@ -45,7 +42,7 @@ abstract class _RestaurantStore with Store {
   @action
   void setSearchString(String str) {
     _searchString = str;
-    searchResults = ObservableFuture(executeFuzzySearch());
+    searchResults = ObservableFuture(executeSearch());
     _searchPageHeader = "Showing results for $str";
   }
 
@@ -54,26 +51,18 @@ abstract class _RestaurantStore with Store {
     _searchPageHeader = str;
   }
 
-  Future<List<RestaurantModel>> executeFuzzySearch() async {
+  Future<List<RestaurantModel>> executeSearch() async {
     List<RestaurantModel> allRestaurants = await DataProvider.getRestaurants();
     List<RestaurantModel> searchResults = [];
-    for (var element in allRestaurants) {
-      List<String> searchFields = element.tags;
-      for (var dish in element.menu) {
-        searchFields.add(dish.name);
-      }
-      final fuse = Fuzzy(
-        searchFields,
-        options: FuzzyOptions(
-          findAllMatches: false,
-          tokenize: false,
-          threshold: 0.4,
-        ),
-      );
-
-      final result = fuse.search(_searchString);
-      if (result.isNotEmpty) {
-        searchResults.add(element);
+    for (var restaurant in allRestaurants) {
+      if (restaurant.outletName.toLowerCase().contains(_searchString.toLowerCase())) {
+        searchResults.add(restaurant);
+      } else {
+        for (var dish in restaurant.menu) {
+          if (dish.itemName.toLowerCase().contains(_searchString.toLowerCase())) {
+            searchResults.add(restaurant);
+          }
+        }
       }
     }
     return searchResults;

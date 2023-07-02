@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
+import 'package:onestop_dev/models/profile/profile_model.dart';
+import 'package:onestop_dev/pages/profile/edit_profile.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:provider/provider.dart';
 
@@ -18,12 +21,12 @@ class _SplashPageState extends State<SplashPage> {
     Provider.of<LoginStore>(context, listen: false)
         .isAlreadyAuthenticated()
         .then((result) {
-      if (result) {
+      if (result && LoginStore.isProfileComplete){
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/home2', (Route<dynamic> route) => false);
       } else {
         Navigator.of(context)
-            .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+            .pushNamedAndRemoveUntil('/login2', (Route<dynamic> route) => false);
       }
     });
   }

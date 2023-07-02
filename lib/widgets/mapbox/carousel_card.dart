@@ -5,6 +5,8 @@ import 'package:onestop_dev/functions/food/get_day.dart';
 import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/travel/travel_timing_model.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:provider/provider.dart';
@@ -18,39 +20,60 @@ class CarouselCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<String> getNextTime() async {
+    Future<Object> getNextTime() async {
       String today = getFormattedDay();
       if (context.read<MapBoxStore>().indexBusesorFerry == 0) {
-        var allBusTimes = await DataProvider.getBusTimings();
-        List<List<String>> busTimes = [[], []];
-        allBusTimes.forEach((key, list) {
-          for (String time in list[0]) {
-            busTimes[0].add(time);
+        // List<TravelTiming> allBusTimes = await APIService().getBusTiming();
+        List<TravelTiming> allBusTimes = await DataProvider.getBusTiming();
+        List<DateTime> weekdaysTimes= [];
+        List<DateTime> weekendTimes=[];
+        for(var xyz in allBusTimes){
+          int n=xyz.weekdays.fromCampus.length;
+          for(int i=0;i<n;i++){
+            weekdaysTimes.add(xyz.weekdays.fromCampus[i]);
           }
-          for (String time in list[1]) {
-            busTimes[1].add(time);
+        }
+        weekdaysTimes.sort((a, b) => a.compareTo(b));
+        for(var xyz in allBusTimes){
+          int n=xyz.weekend.fromCampus.length;
+          for(int i=0;i<n;i++){
+            weekendTimes.add(xyz.weekend.fromCampus[i]);
           }
-        });
-        busTimes[0].sort((a, b) => parseTime(a).compareTo(parseTime(b)));
-        busTimes[1].sort((a, b) => parseTime(a).compareTo(parseTime(b)));
+        }
+        weekendTimes.sort((a, b) => a.compareTo(b));
+
         if (today == 'Fri') {
-          return 'Next Bus at: ${nextTime(busTimes[1], firstTime: busTimes[0][0])}';
+          return 'Next Bus at: ${nextTime(weekdaysTimes, firstTime: weekendTimes[0].toString())}';
         } else if (today == 'Sun') {
-          return 'Next Bus at: ${nextTime(busTimes[0], firstTime: busTimes[1][0])}';
+          return 'Next Bus at: ${nextTime(weekendTimes, firstTime: weekdaysTimes[0].toString())}';
         } else if (today == 'Sat') {
-          return 'Next Bus at: ${nextTime(busTimes[0])}';
+          return 'Next Bus at: ${nextTime(weekendTimes)}';
         }
-        return 'Next Bus at: ${nextTime(busTimes[1])}';
+        return 'Next Bus at: ${nextTime(weekdaysTimes)}';
       } else {
-        var ferryTimes = await DataProvider.getFerryTimings();
-        var requiredModel =
-            ferryTimes.firstWhere((element) => element.name == name);
-        if (today == 'Sat') {
-          return 'Next Ferry at: ${nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati, firstTime: requiredModel.Sunday_NorthGuwahatiToGuwahati[0])}';
-        } else if (today == 'Sun') {
-          return 'Next Ferry at: ${nextTime(requiredModel.Sunday_NorthGuwahatiToGuwahati, firstTime: requiredModel.MonToFri_NorthGuwahatiToGuwahati[0])}';
+        // List<TravelTiming> ferryTimings = await APIService().getFerryTiming();
+        List<TravelTiming> ferryTimings = await DataProvider.getFerryTiming();
+        List<DateTime> weekdaysTimes= [];
+        List<DateTime> weekendTimes=[];
+        TravelTiming requiredModel =
+        ferryTimings.firstWhere((element) => element.stop == name);
+
+        int n=requiredModel.weekdays.fromCampus.length;
+        for(int i=0;i<n;i++){
+          weekdaysTimes.add(requiredModel.weekdays.fromCampus[i]);
         }
-        return 'Next Ferry at: ${nextTime(requiredModel.MonToFri_NorthGuwahatiToGuwahati)}';
+        weekdaysTimes.sort((a, b) => a.compareTo(b));
+        int p=requiredModel.weekend.fromCampus.length;
+        for(int i=0;i<p;i++){
+          weekendTimes.add(requiredModel.weekend.fromCampus[i]);
+        }
+        weekendTimes.sort((a, b) => a.compareTo(b));
+        if (today == 'Sat') {
+          return 'Next Ferry at: ${nextTime(weekdaysTimes, firstTime: weekendTimes[0].toString())}';
+        } else if (today == 'Sun') {
+          return 'Next Ferry at: ${nextTime(weekendTimes, firstTime: weekdaysTimes[0].toString())}';
+        }
+        return 'Next Ferry at: ${nextTime(weekdaysTimes)}';
       }
     }
 
@@ -63,9 +86,9 @@ class CarouselCard extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(20)),
             border: Border.all(
                 color:
-                    (context.read<MapBoxStore>().selectedCarouselIndex == index)
-                        ? lBlue5
-                        : kTileBackground),
+                (context.read<MapBoxStore>().selectedCarouselIndex == index)
+                    ? lBlue5
+                    : kTileBackground),
           ),
           child: Padding(
             padding: const EdgeInsets.all(10.0),

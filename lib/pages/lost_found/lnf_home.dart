@@ -13,6 +13,7 @@ import 'package:onestop_dev/widgets/lostfound/ads_tile.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_button.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_tile.dart';
+import 'package:onestop_dev/widgets/ui/guest_restrict.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
@@ -34,10 +35,10 @@ class _LostFoundHomeState extends State<LostFoundHome> {
   void initState() {
     super.initState();
     _lostController.addPageRequestListener((pageKey) async {
-      await listener(_lostController, APIService.getLostPage, pageKey);
+      await listener(_lostController, APIService().getLostPage, pageKey);
     });
     _foundController.addPageRequestListener((pageKey) async {
-      await listener(_foundController, APIService.getFoundPage, pageKey);
+      await listener(_foundController, APIService().getFoundPage, pageKey);
     });
   }
 
@@ -64,6 +65,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
   @override
   Widget build(BuildContext context) {
     var commonStore = context.read<CommonStore>();
+
+
     return Observer(builder: (context) {
       return Scaffold(
         appBar: AppBar(
@@ -169,9 +172,10 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               )
             else
               Expanded(
-                child: FutureBuilder(
-                    future: APIService.getLnfMyItems(
-                        context.read<LoginStore>().userData['email'] ?? ""),
+                child: context.read<LoginStore>().isGuestUser ? const GuestRestrictAccess()
+                    : FutureBuilder(
+                    future: APIService().getLnfMyItems(
+                        LoginStore.userData['outlookEmail'] ?? ""),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<dynamic> models = snapshot.data! as List<dynamic>;
@@ -200,7 +204,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: AddItemButton(
+        floatingActionButton: context.read<LoginStore>().isGuestUser ? Container() : AddItemButton(
           type: commonStore.lnfIndex,
         ),
       );

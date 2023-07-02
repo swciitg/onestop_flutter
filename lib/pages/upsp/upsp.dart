@@ -49,9 +49,8 @@ class _UpspState extends State<Upsp> {
 
   @override
   Widget build(BuildContext context) {
-    var userStore = context.read<LoginStore>();
-    var userData = userStore.userData;
-    String email = userData['email']!;
+    var userData = LoginStore.userData;
+    String email = userData['outlookEmail']!;
 
     return Theme(
       data: Theme.of(context).copyWith(
@@ -68,7 +67,7 @@ class _UpspState extends State<Upsp> {
             style: MyFonts.w600.size(16).setColor(kWhite),
           ),
         ),
-        body: userStore.isGuestUser
+        body: LoginStore.isGuest
             ? Center(
                 child: Text(
                 'Please sign in to use this feature',
@@ -196,8 +195,7 @@ class _UpspState extends State<Upsp> {
                             GestureDetector(
                               onTap: () {
                                 if (problem.value.text.isEmpty) {
-                                  showSnackBar(
-                                      "Problem description cannot be empty");
+                                  showSnackBar("Problem description cannot be empty");
                                 } else {
                                   Map<String, dynamic> data = {
                                     'problem': problem.text,

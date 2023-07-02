@@ -38,22 +38,6 @@ mixin _$TimetableStore on _TimetableStore, Store {
               name: '_TimetableStore.todayTimeTable'))
       .value;
 
-  late final _$loadOperationAtom =
-      Atom(name: '_TimetableStore.loadOperation', context: context);
-
-  @override
-  ObservableFuture<RegisteredCourses?> get loadOperation {
-    _$loadOperationAtom.reportRead();
-    return super.loadOperation;
-  }
-
-  @override
-  set loadOperation(ObservableFuture<RegisteredCourses?> value) {
-    _$loadOperationAtom.reportWrite(value, super.loadOperation, () {
-      super.loadOperation = value;
-    });
-  }
-
   late final _$selectedDateAtom =
       Atom(name: '_TimetableStore.selectedDate', context: context);
 
@@ -86,12 +70,29 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
+  late final _$loadOperationAtom =
+      Atom(name: '_TimetableStore.loadOperation', context: context);
+
+  @override
+  ObservableFuture<RegisteredCourses?> get loadOperation {
+    _$loadOperationAtom.reportRead();
+    return super.loadOperation;
+  }
+
+  @override
+  set loadOperation(ObservableFuture<RegisteredCourses?> value) {
+    _$loadOperationAtom.reportWrite(value, super.loadOperation, () {
+      super.loadOperation = value;
+    });
+  }
+
   late final _$setTimetableAsyncAction =
       AsyncAction('_TimetableStore.setTimetable', context: context);
 
   @override
-  Future<void> setTimetable(String rollNumber) {
-    return _$setTimetableAsyncAction.run(() => super.setTimetable(rollNumber));
+  Future<void> setTimetable(String rollNumber, BuildContext context) {
+    return _$setTimetableAsyncAction
+        .run(() => super.setTimetable(rollNumber, context));
   }
 
   late final _$_TimetableStoreActionController =
@@ -133,9 +134,9 @@ mixin _$TimetableStore on _TimetableStore, Store {
   @override
   String toString() {
     return '''
-loadOperation: ${loadOperation},
 selectedDate: ${selectedDate},
 showDropDown: ${showDropDown},
+loadOperation: ${loadOperation},
 coursesLoaded: ${coursesLoaded},
 coursesLoading: ${coursesLoading},
 coursesError: ${coursesError},

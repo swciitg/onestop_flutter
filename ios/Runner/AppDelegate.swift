@@ -1,6 +1,8 @@
 import UIKit
 import Flutter
 import GoogleMaps
+import flutter_local_notifications
+
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -8,6 +10,12 @@ import GoogleMaps
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    if #available(iOS 10.0, *) {
+        UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+    }
+    FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
+        GeneratedPluginRegistrant.register(with: registry)
+    }
     let dartDefinesString = Bundle.main.infoDictionary!["DART_DEFINES"] as! String
     var dartDefinesDictionary = [String:String]()
     for definedValue in dartDefinesString.components(separatedBy: ",") {

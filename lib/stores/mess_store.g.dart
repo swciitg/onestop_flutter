@@ -65,35 +65,19 @@ mixin _$MessStore on _MessStore, Store {
     });
   }
 
-  late final _$selectedMessModelAtom =
-      Atom(name: '_MessStore.selectedMessModel', context: context);
+  late final _$mealDataAtom =
+      Atom(name: '_MessStore.mealData', context: context);
 
   @override
-  MessMenuModel? get selectedMessModel {
-    _$selectedMessModelAtom.reportRead();
-    return super.selectedMessModel;
+  MealType get mealData {
+    _$mealDataAtom.reportRead();
+    return super.mealData;
   }
 
   @override
-  set selectedMessModel(MessMenuModel? value) {
-    _$selectedMessModelAtom.reportWrite(value, super.selectedMessModel, () {
-      super.selectedMessModel = value;
-    });
-  }
-
-  late final _$allMessDataAtom =
-      Atom(name: '_MessStore.allMessData', context: context);
-
-  @override
-  ObservableFuture<List<MessMenuModel>> get allMessData {
-    _$allMessDataAtom.reportRead();
-    return super.allMessData;
-  }
-
-  @override
-  set allMessData(ObservableFuture<List<MessMenuModel>> value) {
-    _$allMessDataAtom.reportWrite(value, super.allMessData, () {
-      super.allMessData = value;
+  set mealData(MealType value) {
+    _$mealDataAtom.reportWrite(value, super.mealData, () {
+      super.mealData = value;
     });
   }
 
@@ -134,11 +118,11 @@ mixin _$MessStore on _MessStore, Store {
   }
 
   @override
-  void setSelectedMessModel(MessMenuModel m) {
+  void setmealData(MealType m) {
     final _$actionInfo = _$_MessStoreActionController.startAction(
-        name: '_MessStore.setSelectedMessModel');
+        name: '_MessStore.setmealData');
     try {
-      return super.setSelectedMessModel(m);
+      return super.setmealData(m);
     } finally {
       _$_MessStoreActionController.endAction(_$actionInfo);
     }
@@ -150,8 +134,7 @@ mixin _$MessStore on _MessStore, Store {
 selectedDay: ${selectedDay},
 selectedMeal: ${selectedMeal},
 selectedHostel: ${selectedHostel},
-selectedMessModel: ${selectedMessModel},
-allMessData: ${allMessData},
+mealData: ${mealData},
 hostelLoaded: ${hostelLoaded}
     ''';
   }

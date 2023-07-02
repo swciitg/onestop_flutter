@@ -51,18 +51,18 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
-                    widget.contact!.name,
+                    widget.contact!.sectionName,
                     style: MyFonts.w600.size(16).setColor(kWhite),
                   ),
                 ),
-                const Expanded(child: SizedBox()),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Text(
-                    widget.contact!.group,
-                    style: MyFonts.w400.size(14).setColor(kGrey2),
-                  ),
-                )
+                // const Expanded(child: SizedBox()),
+                // Padding(
+                //   padding: const EdgeInsets.only(right: 8.0),
+                //   child: Text(
+                //     widget.contact!.group,
+                //     style: MyFonts.w400.size(14).setColor(kGrey2),
+                //   ),
+                // )
               ],
             ),
             Row(

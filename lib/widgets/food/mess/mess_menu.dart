@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
@@ -12,12 +13,12 @@ class MessMenu extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final List<String> days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  final List<String> days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   final List<String> hostels = [
     "Kameng",
     "Barak",
     "Lohit",
-    "Brahma",
+    "Brahmaputra",
     "Disang",
     "Manas",
     "Dihing",
@@ -49,12 +50,13 @@ class MessMenu extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
+                      children: [
                         MessMeal(mealName: "Breakfast"),
                         MessMeal(mealName: "Lunch"),
                         MessMeal(mealName: "Dinner")
                       ],
-                    )),
+                    )
+                ),
                 const SizedBox(
                   width: 16,
                 ),
@@ -73,7 +75,7 @@ class MessMenu extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: Text(
-                              messStore.selectedMessModel?.timing ?? "",
+                              messStore.mealData.id.isEmpty ? "Not Specified" : "${DateFormat.jm().format(messStore.mealData.startTiming)} - ${DateFormat.jm().format(messStore.mealData.endTiming)}", // id empty means not updated by HMC
                               style: MyFonts.w500.size(12).setColor(kGrey12),
                             ),
                           ),
@@ -81,7 +83,7 @@ class MessMenu extends StatelessWidget {
                               flex: 4,
                               child: SingleChildScrollView(
                                   child: Text(
-                                      messStore.selectedMessModel?.menu ?? "",
+                                      messStore.mealData.mealDescription,
                                       style: MyFonts.w400
                                           .size(14)
                                           .setColor(kWhite)))),
@@ -98,15 +100,15 @@ class MessMenu extends StatelessWidget {
                                       return days
                                           .map(
                                             (value) => PopupMenuItem(
-                                              onTap: () {
-                                                messStore.setDay(value);
-                                              },
-                                              value: value,
-                                              child: Text(value,
-                                                  style: MyFonts.w500
-                                                      .setColor(kWhite)),
-                                            ),
-                                          )
+                                          onTap: () {
+                                            messStore.setDay(value);
+                                          },
+                                          value: value,
+                                          child: Text(value.substring(0,3),
+                                              style: MyFonts.w500
+                                                  .setColor(kWhite)),
+                                        ),
+                                      )
                                           .toList();
                                     },
                                     offset: const Offset(1, 40),
@@ -119,19 +121,19 @@ class MessMenu extends StatelessWidget {
                                               Radius.circular(20))),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                        MainAxisAlignment.spaceAround,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Text(messStore.selectedDay,
+                                          Text(messStore.selectedDay.substring(0,3),
                                               style: MyFonts.w500
                                                   .setColor(lBlue)
-                                                  .size(screenWidth <= 380
-                                                      ? 10
-                                                      : 13)),
+                                                  .size(screenWidth <= 390
+                                                  ? 10
+                                                  : 13)),
                                           Icon(
                                             FluentIcons.chevron_down_24_regular,
                                             color: lBlue,
-                                            size: screenWidth <= 380 ? 15 : 20,
+                                            size: screenWidth <= 390 ? 15 : 20,
                                           ),
                                         ],
                                       ),
@@ -143,22 +145,23 @@ class MessMenu extends StatelessWidget {
                                       .copyWith(cardColor: kBlueGrey),
                                   child: PopupMenuButton<String>(
                                     constraints:
-                                        const BoxConstraints(maxHeight: 320),
+                                    const BoxConstraints(maxHeight: 320),
                                     itemBuilder: (context) {
                                       return hostels
                                           .map(
                                             (value) => PopupMenuItem(
-                                              onTap: () {
-                                                messStore.setHostel(value);
-                                              },
-                                              value: value,
-                                              child: Text(
-                                                value,
-                                                style: MyFonts.w500
-                                                    .setColor(kWhite),
-                                              ),
-                                            ),
-                                          )
+                                          onTap: () {
+                                            messStore.setHostel(value);
+
+                                          },
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: MyFonts.w500
+                                                .setColor(kWhite),
+                                          ),
+                                        ),
+                                      )
                                           .toList();
                                     },
                                     offset: const Offset(1, 40),
@@ -171,19 +174,20 @@ class MessMenu extends StatelessWidget {
                                               Radius.circular(20))),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                        MainAxisAlignment.spaceAround,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text(messStore.selectedHostel.value!,
+                                          overflow: TextOverflow.fade,
                                               style: MyFonts.w500
                                                   .setColor(lBlue)
-                                                  .size(screenWidth <= 380
-                                                      ? 10
-                                                      : 13)),
+                                                  .size(screenWidth <= 390
+                                                  ? 10
+                                                  : 13)),
                                           Icon(
                                             FluentIcons.chevron_down_24_regular,
                                             color: lBlue,
-                                            size: screenWidth <= 380 ? 15 : 20,
+                                            size: screenWidth <= 390 ? 15 : 20,
                                           ),
                                         ],
                                       ),

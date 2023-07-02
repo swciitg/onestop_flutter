@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/travel/has_left.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/travel/travel_timing_model.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:provider/provider.dart';
+import '../../functions/travel/next_time.dart';
+import '../../stores/travel_store.dart';
 import 'timing_tile.dart';
 
 class BusDetails extends StatefulWidget {
@@ -19,8 +24,7 @@ class BusDetails extends StatefulWidget {
 class _BusDetailsState extends State<BusDetails> {
   bool isCity = false;
   bool isCampus = false;
-  Map<String, List<List<String>>> busTime = {};
-
+  List<TravelTiming>? busTime = [];
   @override
   void initState() {
     super.initState();
@@ -28,11 +32,13 @@ class _BusDetailsState extends State<BusDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: DataProvider.getBusTimings(),
+    var daytype = context.read<TravelStore>().busDayType;
+    return FutureBuilder<List<TravelTiming>>(
+        // future: APIService().getBusTiming(),
+        future: DataProvider.getBusTiming(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            busTime = snapshot.data as Map<String, List<List<String>>>;
+            busTime = snapshot.data;
             return Column(
               children: [
                 GestureDetector(
@@ -60,36 +66,34 @@ class _BusDetailsState extends State<BusDetails> {
                   ),
                 ),
                 isCity
-                    ? Column(
-                        children: busTime.entries.map((entry) {
-                        if ((busTime[entry.key]![widget.index].isEmpty)) {
-                          return Container();
-                        }
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: Text(
-                                "To ${entry.key}",
-                                style: MyFonts.w500.setColor(kWhite),
-                              ),
+                    ?Column(
+                  children: [
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        "To ${busTime![0].stop}",
+                        style: MyFonts.w500.setColor(kWhite),
+                      ),
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount:daytype == 'Weekdays' ?busTime![0].weekdays.fromCampus.length:busTime![0].weekend.fromCampus.length,
+                        itemBuilder:(BuildContext context, int index){
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: TimingTile(
+                              time:  daytype == 'Weekdays' ? formatTime(busTime![0].weekdays.fromCampus[index]):formatTime(busTime![0].weekend.fromCampus[index]),
+                              isLeft: daytype=='Weekdays'?   hasLeft(busTime![0].weekdays.fromCampus[index]):hasLeft(busTime![0].weekend.fromCampus[index]),
+                              icon: FluentIcons.vehicle_bus_24_filled,
+
                             ),
-                            Column(
-                                children:
-                                    busTime[entry.key]![widget.index].map((e) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
-                                child: TimingTile(
-                                  time: e,
-                                  isLeft: hasLeft(e.toString()),
-                                  icon: FluentIcons.vehicle_bus_24_filled,
-                                ),
-                              );
-                            }).toList()),
-                          ],
-                        );
-                      }).toList())
+                          );
+                        }
+                    ),
+                  ],
+                )
                     : Container(),
                 GestureDetector(
                   onTap: () {
@@ -117,35 +121,33 @@ class _BusDetailsState extends State<BusDetails> {
                 ),
                 isCampus
                     ? Column(
-                        children: busTime.entries.map((entry) {
-                        if ((busTime[entry.key]![widget.index + 2].isEmpty)) {
-                          return Container();
-                        }
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: Text(
-                                "From ${entry.key}",
-                                style: MyFonts.w500.setColor(kWhite),
-                              ),
+                  children: [
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        "From ${busTime![0].stop}",
+                        style: MyFonts.w500.setColor(kWhite),
+                      ),
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount:daytype == 'Weekdays' ?busTime![0].weekdays.toCampus.length : busTime![0].weekend.toCampus.length,
+                        itemBuilder:(BuildContext context, int index){
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: TimingTile(
+                              time:  daytype == 'Weekdays' ? formatTime(busTime![0].weekdays.toCampus[index]):formatTime(busTime![0].weekend.toCampus[index]),
+                              isLeft: daytype=='Weekdays'?hasLeft(busTime![0].weekdays.toCampus[index]):hasLeft(busTime![0].weekend.toCampus[index]),
+                              icon: FluentIcons.vehicle_bus_24_filled,
+
                             ),
-                            Column(
-                                children: busTime[entry.key]![widget.index + 2]
-                                    .map((e) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
-                                child: TimingTile(
-                                  time: e,
-                                  isLeft: hasLeft(e.toString()),
-                                  icon: FluentIcons.vehicle_bus_24_filled,
-                                ),
-                              );
-                            }).toList()),
-                          ],
-                        );
-                      }).toList())
+                          );
+                        }
+                    ),
+                  ],
+                )
                     : Container(),
               ],
             );

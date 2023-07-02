@@ -7,6 +7,7 @@ import 'package:onestop_dev/functions/utility/open_map.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/pages/food/restaurant_page.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
@@ -22,6 +23,7 @@ class RestaurantTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(restaurantModel.imageURL);
     return TextButton(
       onPressed: () {
         context.read<RestaurantStore>().setSelectedRestaurant(restaurantModel);
@@ -50,7 +52,7 @@ class RestaurantTile extends StatelessWidget {
                       aspectRatio: 1,
                       child: CachedNetworkImage(
                         maxHeightDiskCache: 200,
-                        imageUrl: restaurantModel.image,
+                        imageUrl: restaurantModel.imageURL,
                         imageBuilder: (context, imageProvider) => Image(
                           image: imageProvider,
                           fit: BoxFit.cover,
@@ -71,7 +73,7 @@ class RestaurantTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          restaurantModel.name,
+                          restaurantModel.outletName,
                           textAlign: TextAlign.left,
                           style: MyFonts.w600.size(16).setColor(kWhite),
                         ),
@@ -83,14 +85,7 @@ class RestaurantTile extends StatelessWidget {
                           height: 8,
                         ),
                         Text(
-                          'Waiting time: ${restaurantModel.waiting_time}',
-                          style: MyFonts.w500.size(11).setColor(kTabText),
-                        ),
-                        const SizedBox(
-                          height: 1,
-                        ),
-                        Text(
-                          'Closes at ${restaurantModel.closing_time}',
+                          'Closes at ${restaurantModel.closingTime}',
                           style: MyFonts.w500.size(11).setColor(lRed2),
                         ),
                         const SizedBox(
@@ -102,7 +97,7 @@ class RestaurantTile extends StatelessWidget {
                               callMap: 'Call',
                               icon: FluentIcons.call_20_regular,
                               callback: () {
-                                launchPhoneURL(restaurantModel.phone_number);
+                                launchPhoneURL(restaurantModel.phoneNumber);
                               },
                             ),
                             const SizedBox(
@@ -116,13 +111,17 @@ class RestaurantTile extends StatelessWidget {
                                     restaurantModel.latitude,
                                     restaurantModel.longitude,
                                     context,
-                                    restaurantModel.name);
+                                    restaurantModel.outletName);
                               },
                             ),
                             Expanded(child: Container()),
-                            Text(
-                              getRestaurantDistance(context, restaurantModel),
-                              style: MyFonts.w500.size(11).setColor(kWhite),
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 55),
+                              child: Text(
+                                getRestaurantDistance(context, restaurantModel),
+                                textAlign: TextAlign.center,
+                                style: MyFonts.w500.size(11).setColor(kWhite)
+                              ),
                             ),
                             Expanded(child: Container()),
                           ],
