@@ -613,42 +613,10 @@ final dio2 = Dio(BaseOptions(
     }
   }
 
-  Future<MealType> getMealData(String hostel, String day, String mealType,) async {
+  Future<Map<String,dynamic>> getMealData() async {
     try{
-      final prefs = await SharedPreferences.getInstance();
-      Map<String,dynamic> jsonData;
-      if (prefs.getString('messMenu') != null) {
-        jsonData = jsonDecode(prefs.getString('messMenu')!);
-      } else {
         final res = await dio.get(Endpoints.messURL);
-        prefs.setString('messMenu', jsonEncode(res.data));
-
-        jsonData = res.data;
-      }
-      List<dynamic> answer = jsonData['details'];
-      var meal = answer.firstWhere(
-              (m) => m['hostel'].toString().trim().toLowerCase() ==
-              hostel.toString().toLowerCase(),
-          orElse: () => 'no data'
-      );
-      if(meal=='no data'){
-        return MealType(
-            id: '',
-            mealDescription: "Not updated by ${hostel}'s HMC. Kindly Contact ask them to update",
-            startTiming: DateTime.now(),
-            endTiming: DateTime.now()
-        );
-      }
-      return MealType(
-          id: meal[day.trim().toLowerCase()][mealType.trim()
-              .toLowerCase()]['_id'],
-          mealDescription: meal[day.trim().toLowerCase()][mealType.trim()
-              .toLowerCase()]['mealDescription'],
-          startTiming: DateTime.parse( meal[day.trim().toLowerCase()][mealType.trim()
-              .toLowerCase()]['startTiming']).add(const Duration(hours: 5,minutes: 30)),
-          endTiming: DateTime.parse( meal[day.trim().toLowerCase()][mealType.trim()
-            .toLowerCase()]['endTiming']).add(const Duration(hours: 5,minutes: 30)),
-      );
+        return res.data;
     }catch(e){
       print(Endpoints.messURL);
       print(e);

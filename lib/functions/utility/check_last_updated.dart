@@ -27,10 +27,6 @@ Future<bool> checkLastUpdated() async {
     }
     for (var key in lastUpdated.keys) {
       if (lastUpdated[key] != last[key]) {
-        if (key.toLowerCase() == "messmenu") {
-          final prefs = await SharedPreferences.getInstance();
-          prefs.remove('messMenu');
-        }
          if (key.toLowerCase() == "timing") {
           final prefs = await SharedPreferences.getInstance();
           prefs.remove('busTimings');
