@@ -582,32 +582,10 @@ final dio2 = Dio(BaseOptions(
 
   }
 
-  Future<List<TravelTiming>> getFerryTiming() async {
+  Future<Map<String,dynamic>> getFerryTiming() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      print("FERRY TIMINGS");
-      Map jsonData;
-      if (prefs.getString('ferryTimings') != null) {
-        print("FOUND CACHED TIMINGS");
-        jsonData = jsonDecode(prefs.getString('ferryTimings')!);
-        print(jsonData.toString());
-        print("AFTER HERE");
-      } else {
-        print("NOT FOUND CACHED TIMINGS");
         Response res = await dio.get(Endpoints.ferryURL);
-        prefs.setString('ferryTimings', jsonEncode(res.data));
-        jsonData = res.data;
-      }
-      List<TravelTiming> ferryTimings = [];
-      List ferryData = jsonData['data'];
-      print(ferryData);
-      for (var element in ferryData) {
-        ferryTimings.add(TravelTiming.fromJson(element));
-        print(TravelTiming.fromJson(element).toJson());
-      }
-      print(ferryTimings.length);
-      return ferryTimings;
-
+        return res.data;
     } catch (e) {
       rethrow;
     }

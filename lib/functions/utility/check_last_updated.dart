@@ -30,7 +30,6 @@ Future<bool> checkLastUpdated() async {
          if (key.toLowerCase() == "timing") {
           final prefs = await SharedPreferences.getInstance();
           prefs.remove('busTimings');
-          prefs.remove('ferryTimings');
         }
         
         recordNames[key]?.forEach((element) async {

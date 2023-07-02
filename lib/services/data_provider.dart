@@ -11,6 +11,8 @@ import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 
+import '../models/travel/travel_timing_model.dart';
+
 class DataProvider {
   static Future<Map<String, dynamic>?> getLastUpdated() async {
     var cachedData =
@@ -156,5 +158,28 @@ class DataProvider {
       }
       return people;
     }
+  }
+
+  static Future<List<TravelTiming>> getFerryTiming() async {
+    var cachedData = await LocalStorage.instance.getRecord(DatabaseRecords.ferryTimings);
+      print("FERRY TIMINGS");
+    Map<String,dynamic> jsonData;
+      if (cachedData == null) {
+        jsonData = await APIService().getFerryTiming();
+         await LocalStorage.instance.storeData([jsonData], DatabaseRecords.ferryTimings);
+      } else {
+       jsonData = cachedData[0] as Map<String,dynamic>;
+      }
+     
+      List<TravelTiming> ferryTimings = [];
+      List ferryData = jsonData['data'];
+      print(ferryData);
+      for (var element in ferryData) {
+        ferryTimings.add(TravelTiming.fromJson(element));
+        print(TravelTiming.fromJson(element).toJson());
+      }
+      print(ferryTimings.length);
+      return ferryTimings;
+
   }
 }
