@@ -31,7 +31,8 @@ class _NextTimeCardState extends State<NextTimeCard> {
       print(mapStore.indexBusesorFerry);
       if (mapStore.indexBusesorFerry == 0) {
         print("hererereferf");
-        List<TravelTiming> allBusTimes = await APIService().getBusTiming();
+        // List<TravelTiming> allBusTimes = await APIService().getBusTiming();
+        List<TravelTiming> allBusTimes = await DataProvider.getBusTiming();
         //print(allBusTimes.toString());
         print("AFTER ALL BUS TIMES");
         List<DateTime> weekdaysTimes= [];

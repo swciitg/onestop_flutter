@@ -23,7 +23,8 @@ class CarouselCard extends StatelessWidget {
     Future<Object> getNextTime() async {
       String today = getFormattedDay();
       if (context.read<MapBoxStore>().indexBusesorFerry == 0) {
-        List<TravelTiming> allBusTimes = await APIService().getBusTiming();
+        // List<TravelTiming> allBusTimes = await APIService().getBusTiming();
+        List<TravelTiming> allBusTimes = await DataProvider.getBusTiming();
         List<DateTime> weekdaysTimes= [];
         List<DateTime> weekendTimes=[];
         for(var xyz in allBusTimes){

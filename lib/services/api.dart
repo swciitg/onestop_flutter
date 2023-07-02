@@ -601,51 +601,10 @@ final dio2 = Dio(BaseOptions(
       rethrow;
     }
   }
-  Future<List<TravelTiming>> getBusTiming() async {
+  Future<Map<String,dynamic>> getBusTiming() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-
-      Map jsonData;
-
-      if (prefs.getString('busTimings') != null) {
-        print("FOUND BUS CACHED TIMINGS");
-        print(prefs.getString('busTimings')!);
-        jsonData = jsonDecode(prefs.getString('busTimings')!);
-      } else {
-        print("NOT BUS FOUND CACHED TIMINGS");
         final res = await dio.get(Endpoints.busStops);
-        print("BEFORE SET IN PREF");
-        prefs.setString('busTimings', jsonEncode(res.data));
-        print("SET IN PREF");
-        jsonData=res.data;
-      }
-      print("JSON DATA FOUND");
-      List<dynamic> busData = jsonData['data'];
-      print(busData);
-      List<TravelTiming> busTimings = [];
-      print("here before length");
-      for (var element in busData) {
-        busTimings.add(TravelTiming.fromJson(element));
-      }
-      // for(int i=0;i<busTimings[0].weekdays.toCampus.length;i++){
-      //   busTimings[0].weekdays.toCampus[i]=busTimings[0].weekdays.toCampus[i].add(const Duration(hours: 5,minutes: 30));
-      //   print(busTimings[0].weekdays.toCampus[i]);
-      // }
-      // for(int i=0;i<busTimings[0].weekdays.fromCampus.length;i++){
-      //   busTimings[0].weekdays.fromCampus[i]=busTimings[0].weekdays.fromCampus[i].add(const Duration(hours: 5,minutes: 30));
-      //   print(busTimings[0].weekdays.fromCampus[i]);
-      // }
-      //  for(int i=0;i<busTimings[0].weekend.toCampus.length;i++){
-      //   busTimings[0].weekend.toCampus[i]=busTimings[0].weekend.toCampus[i].add(const Duration(hours: 5,minutes: 30));
-      //   print(busTimings[0].weekend.toCampus[i]);
-      // }
-      // for(int i=0;i<busTimings[0].weekend.fromCampus.length;i++){
-      //   busTimings[0].weekend.fromCampus[i]=busTimings[0].weekend.fromCampus[i].add(const Duration(hours: 5,minutes: 30));
-      //   print(busTimings[0].weekend.fromCampus[i]);
-      // }
-      print("here at length");
-      print(busTimings.length);
-      return busTimings;
+        return res.data;
     } catch (e) {
       print("____________________________________________");
       print(e);

@@ -23,26 +23,27 @@ class DataProvider {
     return cachedData[0] as Map<String, dynamic>;
   }
 
-  static Future<Map<String, List<List<String>>>> getBusTimings() async {
-    var cachedData =
-        await LocalStorage.instance.getBusRecord(DatabaseRecords.busTimings);
-    if (cachedData == null) {
-      print("NO BUS CACHED DATA");
-      Map<String, List<List<String>>> busTime = await APIService().getBusData();
-      print(busTime);
-      await LocalStorage.instance
-          .storeBusData(busTime, DatabaseRecords.busTimings);
-      return busTime;
-    }
-    print("BUS CACHED DATA");
-    Map<String, List<List<String>>> timings = {};
-    for (String key in cachedData.keys) {
-      timings[key] = (cachedData[key] as List<dynamic>)
-          .map((e) =>
-              (e as List<dynamic>).map((e) => (e as String).trim()).toList())
-          .toList();
-    }
-    return timings;
+  static Future<List<TravelTiming>> getBusTiming() async {
+    var cachedData = await LocalStorage.instance.getRecord(DatabaseRecords.busTimings);
+      print("BUS TIMINGS");
+    Map<String,dynamic> jsonData;
+      if (cachedData == null) {
+        jsonData = await APIService().getBusTiming();
+         await LocalStorage.instance.storeData([jsonData], DatabaseRecords.busTimings);
+      } else {
+       jsonData = cachedData[0] as Map<String,dynamic>;
+      }
+    List<dynamic> busData = jsonData['data'];
+      print(busData);
+      List<TravelTiming> busTimings = [];
+      print("here before length");
+      for (var element in busData) {
+        busTimings.add(TravelTiming.fromJson(element));
+      }
+      print("here at length");
+      print(busTimings.length);
+      return busTimings;
+
   }
 
   static Future<List<RestaurantModel>> getRestaurants() async {

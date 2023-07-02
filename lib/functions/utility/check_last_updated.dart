@@ -27,11 +27,6 @@ Future<bool> checkLastUpdated() async {
     }
     for (var key in lastUpdated.keys) {
       if (lastUpdated[key] != last[key]) {
-         if (key.toLowerCase() == "timing") {
-          final prefs = await SharedPreferences.getInstance();
-          prefs.remove('busTimings');
-        }
-        
         recordNames[key]?.forEach((element) async {
           await LocalStorage.instance.deleteRecord(element);
         });
