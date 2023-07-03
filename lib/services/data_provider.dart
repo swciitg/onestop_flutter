@@ -24,26 +24,47 @@ class DataProvider {
   }
 
   static Future<List<TravelTiming>> getBusTiming() async {
-    var cachedData = await LocalStorage.instance.getRecord(DatabaseRecords.busTimings);
-      print("BUS TIMINGS");
-    Map<String,dynamic> jsonData;
-      if (cachedData == null) {
-        jsonData = await APIService().getBusTiming();
-         await LocalStorage.instance.storeData([jsonData], DatabaseRecords.busTimings);
-      } else {
-       jsonData = cachedData[0] as Map<String,dynamic>;
-      }
+    var cachedData =
+        await LocalStorage.instance.getRecord(DatabaseRecords.busTimings);
+    print("BUS TIMINGS");
+    Map<String, dynamic> jsonData;
+    if (cachedData == null) {
+      jsonData = await APIService().getBusTiming();
+      await LocalStorage.instance
+          .storeData([jsonData], DatabaseRecords.busTimings);
+    } else {
+      jsonData = cachedData[0] as Map<String, dynamic>;
+    }
     List<dynamic> busData = jsonData['data'];
-      print(busData);
-      List<TravelTiming> busTimings = [];
-      print("here before length");
-      for (var element in busData) {
-        busTimings.add(TravelTiming.fromJson(element));
-      }
-      print("here at length");
-      print(busTimings.length);
-      return busTimings;
-
+    print(busData);
+    List<TravelTiming> busTimings = [];
+    print("here before length");
+    for (var element in busData) {
+      busTimings.add(TravelTiming.fromJson(element));
+    }
+    for (int i = 0; i < busTimings[0].weekdays.toCampus.length; i++) {
+      busTimings[0].weekdays.toCampus[i] =
+          busTimings[0].weekdays.toCampus[i].toLocal();
+      print(busTimings[0].weekdays.toCampus[i]);
+    }
+    for (int i = 0; i < busTimings[0].weekdays.fromCampus.length; i++) {
+      busTimings[0].weekdays.fromCampus[i] =
+          busTimings[0].weekdays.fromCampus[i].toLocal();
+      print(busTimings[0].weekdays.fromCampus[i]);
+    }
+    for (int i = 0; i < busTimings[0].weekend.toCampus.length; i++) {
+      busTimings[0].weekend.toCampus[i] =
+          busTimings[0].weekend.toCampus[i].toLocal();
+      print(busTimings[0].weekend.toCampus[i]);
+    }
+    for (int i = 0; i < busTimings[0].weekend.fromCampus.length; i++) {
+      busTimings[0].weekend.fromCampus[i] =
+          busTimings[0].weekend.fromCampus[i].toLocal();
+      print(busTimings[0].weekend.fromCampus[i]);
+    }
+    print("here at length");
+    print(busTimings.length);
+    return busTimings;
   }
 
   static Future<List<RestaurantModel>> getRestaurants() async {
@@ -124,16 +145,17 @@ class DataProvider {
           endTiming: DateTime.now());
     }
     return MealType(
-      id: meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]['_id'],
-      mealDescription: meal[day.trim().toLowerCase()]
-          [mealType.trim().toLowerCase()]['mealDescription'],
-      startTiming: DateTime.parse(meal[day.trim().toLowerCase()]
-              [mealType.trim().toLowerCase()]['startTiming'])
-          .add(const Duration(hours: 5, minutes: 30)),
-      endTiming: DateTime.parse(meal[day.trim().toLowerCase()]
-              [mealType.trim().toLowerCase()]['endTiming'])
-          .add(const Duration(hours: 5, minutes: 30)),
-    );
+        id: meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]
+            ['_id'],
+        mealDescription: meal[day.trim().toLowerCase()]
+            [mealType.trim().toLowerCase()]['mealDescription'],
+        startTiming: DateTime.parse(
+          meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]
+              ['startTiming'],
+        ).toLocal(),
+        endTiming: DateTime.parse(meal[day.trim().toLowerCase()]
+                [mealType.trim().toLowerCase()]['endTiming'])
+            .toLocal());
   }
 
   static Future<SplayTreeMap<String, ContactModel>> getContacts() async {
@@ -162,25 +184,50 @@ class DataProvider {
   }
 
   static Future<List<TravelTiming>> getFerryTiming() async {
-    var cachedData = await LocalStorage.instance.getRecord(DatabaseRecords.ferryTimings);
-      print("FERRY TIMINGS");
-    Map<String,dynamic> jsonData;
-      if (cachedData == null) {
-        jsonData = await APIService().getFerryTiming();
-         await LocalStorage.instance.storeData([jsonData], DatabaseRecords.ferryTimings);
-      } else {
-       jsonData = cachedData[0] as Map<String,dynamic>;
-      }
-     
-      List<TravelTiming> ferryTimings = [];
-      List ferryData = jsonData['data'];
-      print(ferryData);
-      for (var element in ferryData) {
-        ferryTimings.add(TravelTiming.fromJson(element));
-        print(TravelTiming.fromJson(element).toJson());
-      }
-      print(ferryTimings.length);
-      return ferryTimings;
+    var cachedData =
+        await LocalStorage.instance.getRecord(DatabaseRecords.ferryTimings);
+    print("FERRY TIMINGS");
+    Map<String, dynamic> jsonData;
+    if (cachedData == null) {
+      jsonData = await APIService().getFerryTiming();
+      await LocalStorage.instance
+          .storeData([jsonData], DatabaseRecords.ferryTimings);
+    } else {
+      jsonData = cachedData[0] as Map<String, dynamic>;
+    }
 
+    List<TravelTiming> ferryTimings = [];
+    List ferryData = jsonData['data'];
+    print(ferryData);
+    for (var element in ferryData) {
+      ferryTimings.add(TravelTiming.fromJson(element));
+      // print(TravelTiming.fromJson(element).toJson());
+    }
+    for(var j=0; j<ferryTimings.length;j++){
+       for (int i = 0; i < ferryTimings[j].weekdays.toCampus.length; i++) {
+      ferryTimings[j].weekdays.toCampus[i] =
+          ferryTimings[j].weekdays.toCampus[i].toLocal();
+      print(ferryTimings[j].weekdays.toCampus[i]);
+    }
+    for (int i = 0; i < ferryTimings[j].weekdays.fromCampus.length; i++) {
+      ferryTimings[j].weekdays.fromCampus[i] =
+          ferryTimings[j].weekdays.fromCampus[i].toLocal();
+      print(ferryTimings[j].weekdays.fromCampus[i]);
+    }
+    for (int i = 0; i < ferryTimings[j].weekend.toCampus.length; i++) {
+      ferryTimings[j].weekend.toCampus[i] =
+          ferryTimings[j].weekend.toCampus[i].toLocal();
+      print(ferryTimings[j].weekend.toCampus[i]);
+    }
+    for (int i = 0; i < ferryTimings[j].weekend.fromCampus.length; i++) {
+      ferryTimings[j].weekend.fromCampus[i] =
+          ferryTimings[j].weekend.fromCampus[i].toLocal();
+      print(ferryTimings[j].weekend.fromCampus[i]);
+    }
+
+
+    }
+    print(ferryTimings.length);
+    return ferryTimings;
   }
 }
