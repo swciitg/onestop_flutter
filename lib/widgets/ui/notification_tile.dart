@@ -19,8 +19,10 @@ class NotificationTile extends StatelessWidget {
       case "buy":
       case "sell":
         return FluentIcons.money_24_filled;
-      case "travel":
+      case "cab sharing":
         return FluentIcons.vehicle_car_24_filled;
+      case "announcement":
+        return FluentIcons.alert_urgent_24_filled;
     }
     return FluentIcons.checkbox_1_20_filled;
   }

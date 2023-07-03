@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../functions/utility/show_snackbar.dart';
 import '../../functions/utility/validator.dart';
 import '../../globals/my_colors.dart';
