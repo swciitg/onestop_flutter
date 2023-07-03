@@ -8,6 +8,7 @@ import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +31,8 @@ class _NextTimeCardState extends State<NextTimeCard> {
       print(mapStore.indexBusesorFerry);
       if (mapStore.indexBusesorFerry == 0) {
         print("hererereferf");
-        List<TravelTiming> allBusTimes = await APIService().getBusTiming();
+        // List<TravelTiming> allBusTimes = await APIService().getBusTiming();
+        List<TravelTiming> allBusTimes = await DataProvider.getBusTiming();
         //print(allBusTimes.toString());
         print("AFTER ALL BUS TIMES");
         List<DateTime> weekdaysTimes= [];
@@ -60,7 +62,8 @@ class _NextTimeCardState extends State<NextTimeCard> {
         }
         return nextTime(weekdaysTimes);
       } else {
-        List<TravelTiming> ferryTimings = await APIService().getFerryTiming();
+        // List<TravelTiming> ferryTimings = await APIService().getFerryTiming();
+        List<TravelTiming> ferryTimings = await DataProvider.getFerryTiming();
         List<DateTime> weekdaysTimes= [];
         List<DateTime> weekendTimes=[];
         TravelTiming requiredModel =

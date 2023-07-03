@@ -582,108 +582,29 @@ final dio2 = Dio(BaseOptions(
 
   }
 
-  Future<List<TravelTiming>> getFerryTiming() async {
+  Future<Map<String,dynamic>> getFerryTiming() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      print("FERRY TIMINGS");
-      Map jsonData;
-      if (prefs.getString('ferryTimings') != null) {
-        print("FOUND CACHED TIMINGS");
-        jsonData = jsonDecode(prefs.getString('ferryTimings')!);
-        print(jsonData.toString());
-        print("AFTER HERE");
-      } else {
-        print("NOT FOUND CACHED TIMINGS");
         Response res = await dio.get(Endpoints.ferryURL);
-        prefs.setString('ferryTimings', jsonEncode(res.data));
-        jsonData = res.data;
-      }
-      List<TravelTiming> ferryTimings = [];
-      List ferryData = jsonData['data'];
-      print(ferryData);
-      for (var element in ferryData) {
-        ferryTimings.add(TravelTiming.fromJson(element));
-        print(TravelTiming.fromJson(element).toJson());
-      }
-      print(ferryTimings.length);
-      return ferryTimings;
-
+        return res.data;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<MealType> getMealData(String hostel, String day, String mealType,) async {
+  Future<Map<String,dynamic>> getMealData() async {
     try{
-      final prefs = await SharedPreferences.getInstance();
-      Map<String,dynamic> jsonData;
-      if (prefs.getString('messMenu') != null) {
-        jsonData = jsonDecode(prefs.getString('messMenu')!);
-      } else {
         final res = await dio.get(Endpoints.messURL);
-        prefs.setString('messMenu', jsonEncode(res.data));
-
-        jsonData = res.data;
-      }
-      List<dynamic> answer = jsonData['details'];
-      var meal = answer.firstWhere(
-              (m) => m['hostel'].toString().trim().toLowerCase() ==
-              hostel.toString().toLowerCase(),
-          orElse: () => 'no data'
-      );
-      if(meal=='no data'){
-        return MealType(
-            id: '',
-            mealDescription: "Not updated by ${hostel}'s HMC. Kindly Contact ask them to update",
-            startTiming: DateTime.now(),
-            endTiming: DateTime.now()
-        );
-      }
-      return MealType(
-          id: meal[day.trim().toLowerCase()][mealType.trim()
-              .toLowerCase()]['_id'],
-          mealDescription: meal[day.trim().toLowerCase()][mealType.trim()
-              .toLowerCase()]['mealDescription'],
-          startTiming: meal[day.trim().toLowerCase()][mealType.trim()
-              .toLowerCase()]['startTiming'],
-          endTiming: meal[day.trim().toLowerCase()][mealType.trim()
-            .toLowerCase()]['endTiming'],
-      );
+        return res.data;
     }catch(e){
       print(Endpoints.messURL);
       print(e);
       rethrow;
     }
   }
-  Future<List<TravelTiming>> getBusTiming() async {
+  Future<Map<String,dynamic>> getBusTiming() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-
-      Map jsonData;
-
-      if (prefs.getString('busTimings') != null) {
-        print("FOUND BUS CACHED TIMINGS");
-        print(prefs.getString('busTimings')!);
-        jsonData = jsonDecode(prefs.getString('busTimings')!);
-      } else {
-        print("NOT BUS FOUND CACHED TIMINGS");
         final res = await dio.get(Endpoints.busStops);
-        print("BEFORE SET IN PREF");
-        prefs.setString('busTimings', jsonEncode(res.data));
-        print("SET IN PREF");
-        jsonData=res.data;
-      }
-      print("JSON DATA FOUND");
-      List<dynamic> busData = jsonData['data'];
-      print(busData);
-      List<TravelTiming> busTimings = [];
-      print("here before length");
-      for (var element in busData) {
-        busTimings.add(TravelTiming.fromJson(element));
-      }
-      print("here at length");
-      print(busTimings.length);
-      return busTimings;
+        return res.data;
     } catch (e) {
       print("____________________________________________");
       print(e);

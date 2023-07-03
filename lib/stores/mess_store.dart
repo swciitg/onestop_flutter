@@ -3,6 +3,7 @@ import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/functions/food/get_day.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 part 'mess_store.g.dart';
 class MessStore = _MessStore with _$MessStore;
@@ -53,10 +54,17 @@ abstract class _MessStore with Store {
   void setupReactions() async {
     autorun((_) async{
       if(selectedHostel.status == FutureStatus.fulfilled){
-        MealType requiredModel = await APIService().getMealData(selectedHostel.value! , selectedDay, selectedMeal);
+        print("selected hostel");
+        print(selectedHostel.value);
+        // MealType requiredModel = await APIService().getMealData(selectedHostel.value! , selectedDay, selectedMeal);
+        MealType requiredModel = await DataProvider.getMealData(hostel:selectedHostel.value!, day: selectedDay,mealType: selectedMeal );
+        print(requiredModel.toJson());
         setmealData(requiredModel);
       }else{
-        MealType requiredModel = await APIService().getMealData('kameng' , 'Monday', 'Breakfast');
+        print("else selected hostel");
+        // MealType requiredModel = await APIService().getMealData('kameng' , 'Monday', 'Breakfast');
+        MealType requiredModel = await DataProvider.getMealData(hostel:'kameng', day: 'monday',mealType: 'breakfast' );
+        print(requiredModel.toJson());
         setmealData(requiredModel);
       }
     });

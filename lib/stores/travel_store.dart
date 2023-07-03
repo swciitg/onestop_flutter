@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/travel/bus_details.dart';
 import 'package:onestop_dev/widgets/travel/stops_list.dart';
 
@@ -29,7 +30,10 @@ abstract class _TravelStore with Store {
 
   @observable
   ObservableFuture<List<TravelTiming>> ferryTimings =
-  ObservableFuture(APIService().getFerryTiming());
+  // ObservableFuture(APIService().getFerryTiming());
+  ObservableFuture(DataProvider.getFerryTiming());
+
+
 
   @action
   void setFerryDayType(String s) {

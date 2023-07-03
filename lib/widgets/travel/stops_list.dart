@@ -9,6 +9,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,8 @@ class BusStopList extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           var mapStore = context.read<MapBoxStore>();
           return FutureBuilder<List<TravelTiming>>(
-            future: APIService().getBusTiming(),
+            // future: APIService().getBusTiming(),
+            future: DataProvider.getBusTiming(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 List<TravelTiming>? busTime = snapshot.data ;
