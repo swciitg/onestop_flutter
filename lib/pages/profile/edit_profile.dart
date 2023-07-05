@@ -60,7 +60,7 @@ class _EditProfileState extends State<EditProfile> {
     "Subhansiri"
   ];
   final _formKey = GlobalKey<FormState>();
-
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -96,51 +96,65 @@ class _EditProfileState extends State<EditProfile> {
     }
 
     Future<void> onFormSubmit() async {
-      if (!_formKey.currentState!.validate()) {
-        showSnackBar('Please give all the inputs correctly');
-        return;
-      } else {
-        DateTime date =
-            DateTime(selectedDob!.year, selectedDob!.month, selectedDob!.day);
-        var data = {
-          'name': _nameController.text,
-          'rollNo': _rollController.text,
-          'outlookEmail': _outlookEmailController.text,
-          'altEmail': _altEmailController.text,
-          'dob': date.toIso8601String(),
-          'gender': gender,
-          'phoneNumber': _phoneController.text,
-          'emergencyPhoneNumber': _emergencyController.text,
-          'hostel': hostel,
-          'roomNo': _roomNoController.text,
-          'homeAddress': _homeAddressController.text,
-          'linkedin': _linkedinController.text
-        };
-        print(data);
-        try {
-          await APIService().updateUserProfile(data, null);
-        } catch (e) {
-          showSnackBar(e.toString());
+      if (!isLoading) {
+        setState(() {
+          isLoading=true;
+        });
+        if (!_formKey.currentState!.validate()) {
+          showSnackBar('Please give all the inputs correctly');
+          setState(() {
+            isLoading=false;
+          });
           return;
-        }
-        Map userInfo = await APIService().getUserProfile();
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('hostel', hostel ?? "");
-        await prefs.setString("userInfo", jsonEncode(userInfo));
-        await context.read<LoginStore>().saveToUserInfo(
-            prefs); // automatically updates token & other user info
-        await prefs.setBool("isProfileComplete", true); // profile is complete
-        await LocalStorage.instance.deleteRecord(DatabaseRecords.timetable);
-        print("PROFILE COMPLETED");
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+        } else {
+          DateTime date =
+              DateTime(selectedDob!.year, selectedDob!.month, selectedDob!.day);
+          var data = {
+            'name': _nameController.text,
+            'rollNo': _rollController.text,
+            'outlookEmail': _outlookEmailController.text,
+            'altEmail': _altEmailController.text,
+            'dob': date.toIso8601String(),
+            'gender': gender,
+            'phoneNumber': _phoneController.text,
+            'emergencyPhoneNumber': _emergencyController.text,
+            'hostel': hostel,
+            'roomNo': _roomNoController.text,
+            'homeAddress': _homeAddressController.text,
+            'linkedin': _linkedinController.text
+          };
+          print(data);
+          try {
+            await APIService().updateUserProfile(data, null);
+          } catch (e) {
+            setState(() {
+              isLoading=false;
+            });
+            showSnackBar(e.toString());
+            return;
+          }
+          Map userInfo = await APIService().getUserProfile();
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('hostel', hostel ?? "");
+          await prefs.setString("userInfo", jsonEncode(userInfo));
+          await context.read<LoginStore>().saveToUserInfo(
+              prefs); // automatically updates token & other user info
+          await prefs.setBool("isProfileComplete", true); // profile is complete
+          await LocalStorage.instance.deleteRecord(DatabaseRecords.timetable);
+          print("PROFILE COMPLETED");
+          setState(() {
+            isLoading=false;
+          });
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
 
-        // Navigator.of(context).pushAndRemoveUntil(
-        //     MaterialPageRoute(
-        //         builder: (context) => Profile(
-        //               profileModel: ProfileModel.fromJson(data),
-        //             )),
-        //     ((route) => false));
+          // Navigator.of(context).pushAndRemoveUntil(
+          //     MaterialPageRoute(
+          //         builder: (context) => Profile(
+          //               profileModel: ProfileModel.fromJson(data),
+          //             )),
+          //     ((route) => false));
+        }
       }
     }
 
@@ -162,351 +176,365 @@ class _EditProfileState extends State<EditProfile> {
           ),
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
-              child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RichText(
-                  text: TextSpan(
+          child: Column(
+            children: [
+              if (isLoading) const LinearProgressIndicator(),
+              const SizedBox(
+                height: 4,
+              ),
+              Expanded(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: ListView(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextSpan(
-                          text: 'Fields marked with',
-                          style: MyFonts.w500.setColor(kWhite3).size(12)),
-                      TextSpan(
-                          text: ' * ',
-                          style: MyFonts.w500.setColor(kRed).size(12)),
-                      TextSpan(
-                          text: 'are compulsory',
-                          style: MyFonts.w500.setColor(kWhite3).size(12)),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                                text: 'Fields marked with',
+                                style: MyFonts.w500.setColor(kWhite3).size(12)),
+                            TextSpan(
+                                text: ' * ',
+                                style: MyFonts.w500.setColor(kRed).size(12)),
+                            TextSpan(
+                                text: 'are compulsory',
+                                style: MyFonts.w500.setColor(kWhite3).size(12)),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      // For now image will not be stored
+                      // Center(
+                      //     child: Stack(alignment: Alignment.bottomRight, children: [
+                      //
+                      //   ClipRRect(
+                      //       borderRadius: BorderRadius.circular(75.0),
+                      //
+                      //       child: Image(
+                      //         image: imageString==null?const ResizeImage(AssetImage('assets/images/profile_placeholder.png'),width: 150,height: 150): ResizeImage(
+                      //             MemoryImage(base64Decode(imageString!))
+                      //             ,width: 150,
+                      //         height: 150,),
+                      //         fit: BoxFit.fill,
+                      //       )
+                      //       ),
+                      //   Padding(
+                      //     padding: const EdgeInsets.all(8.0),
+                      //     child: GestureDetector(
+                      //       onTap: () async {
+                      //         XFile? xFile;
+                      //         await showDialog(
+                      //             context: context,
+                      //             builder: (BuildContext context) {
+                      //               return AlertDialog(
+                      //                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+                      //                 backgroundColor: kBlueGrey,
+                      //                   title:  Text(
+                      //                       "Do you want to change your profile photo?",style: MyFonts.w500.size(16).setColor(kWhite2),),
+                      //                   content: SingleChildScrollView(
+                      //                     child: ListBody(
+                      //                       children: <Widget>[
+                      //                          GestureDetector(
+                      //                           child:  Text("Take Photo",style: MyFonts.w500.size(14).setColor(kWhite),),
+                      //                           onTap: () async {
+                      //                             xFile = await ImagePicker().pickImage(
+                      //                                 source: ImageSource.camera);
+                      //                             if (!mounted) return;
+                      //                             Navigator.of(context).pop();
+                      //                           },
+                      //                         ),
+                      //                         const Padding(
+                      //                             padding: EdgeInsets.all(8.0)),
+                      //                             GestureDetector(
+                      //                           child:  Text("Choose Photo",style: MyFonts.w500.size(14).setColor(kWhite),),
+                      //                           onTap: () async {
+                      //                             xFile = await ImagePicker().pickImage(
+                      //                                 source: ImageSource.gallery);
+                      //                             if (!mounted) return;
+                      //                             Navigator.of(context).pop();
+                      //                           },
+                      //                         ),
+                      //                         const Padding(
+                      //                             padding: EdgeInsets.all(8.0)),
+                      //
+                      //                         GestureDetector(
+                      //                           child: Text("Remove Photo",style: MyFonts.w500.size(14).setColor(kRed),),
+                      //                           onTap: () async {
+                      //                             setState(() {
+                      //                               imageString=null;
+                      //                             });
+                      //                             return
+                      //                             Navigator.of(context).pop();
+                      //                           },
+                      //                         ),
+                      //                       ],
+                      //                     ),
+                      //                   ));
+                      //             });
+                      //
+                      //         if (!mounted) return;
+                      //         if (xFile != null) {
+                      //           var bytes = File(xFile!.path).readAsBytesSync();
+                      //           var imageSize = (bytes.lengthInBytes /
+                      //               (1048576)); // dividing by 1024*1024
+                      //           if (imageSize > 2.5) {
+                      //             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      //                 content: Text(
+                      //               "Maximum image size can be 2.5 MB",
+                      //               style: MyFonts.w500,
+                      //             )));
+                      //             return;
+                      //           }
+                      //           setState(() {
+                      //             imageString = base64Encode(bytes);
+                      //           });
+                      //           return;
+                      //         }
+                      //       },
+                      //       child: Container(
+                      //         height: 30,
+                      //         width: 30,
+                      //         decoration: const BoxDecoration(
+                      //             borderRadius: BorderRadius.all(Radius.circular(75)),
+                      //             color: kWhite),
+                      //         child: const Icon(Icons.edit_outlined),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ])),
+                      // const SizedBox(
+                      //   height: 24,
+                      // ),
+                      Text('Basic Information',
+                          style: MyFonts.w600.size(16).setColor(kWhite)),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              CustomTextField(
+                                hintText: 'name',
+                                // validator: validatefield,
+                                isNecessary: false,
+                                controller: _nameController,
+                                isEnabled: false,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              CustomTextField(
+                                hintText: 'Roll Number',
+                                validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Field cannot be empty';
+                                  } else if (value.length != 9) {
+                                    return 'Enter valid roll number';
+                                  }
+                                  return null;
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                isNecessary: true,
+                                controller: _rollController,
+                                maxLength: 9,
+                                maxLines: 1,
+                                counter: true,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              CustomTextField(
+                                isEnabled: false,
+                                hintText: 'outlookEmail ID',
+                                // validator: validatefield,
+                                isNecessary: false,
+                                controller: _outlookEmailController,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              CustomTextField(
+                                hintText: 'Alt Email',
+                                validator: validatefield,
+                                isNecessary: true,
+                                controller: _altEmailController,
+                                maxLength: 50,
+                                maxLines: 1,
+                                counter: true,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              CustomTextField(
+                                hintText: 'Phone Number',
+                                validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Field cannot be empty';
+                                  } else if (value.length != 10) {
+                                    return 'Enter valid 10 digit phone number';
+                                  }
+                                  return null;
+                                },
+                                isNecessary: true,
+                                controller: _phoneController,
+                                inputType: TextInputType.phone,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                maxLength: 10,
+                                maxLines: 1,
+                                counter: true,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              CustomTextField(
+                                hintText: 'Emergency Contact Number',
+                                validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Field cannot be empty';
+                                  } else if (value.length != 10) {
+                                    return 'Enter valid 10 digit phone number';
+                                  }
+                                  return null;
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                isNecessary: true,
+                                controller: _emergencyController,
+                                inputType: TextInputType.phone,
+                                maxLength: 10,
+                                maxLines: 1,
+                                counter: true,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              CustomDropDown(
+                                  value: gender,
+                                  items: genders,
+                                  hintText: 'Your Gender',
+                                  onChanged: (g) => gender = g,
+                                  validator: validatefield),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              CustomDropDown(
+                                value: hostel,
+                                items: hostels,
+                                hintText: 'Hostel',
+                                onChanged: (h) => hostel = h,
+                                validator: validatefield,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              CustomTextField(
+                                hintText: 'Date of Birth',
+                                validator: validatefield,
+                                controller: _dobController,
+                                onTap: () async {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate:
+                                          selectedDob ?? DateTime.now(),
+                                      firstDate: DateTime(1990),
+                                      //DateTime.now() - not to allow to choose before today.
+                                      lastDate: DateTime(2101),
+                                      builder: (context, child) =>
+                                          CustomDatePicker(
+                                            child: child,
+                                          ));
+                                  if (pickedDate != null) {
+                                    if (!mounted) return;
+                                    selectedDob = pickedDate;
+                                    String formattedDate =
+                                        DateFormat('dd-MMM-yyyy')
+                                            .format(pickedDate);
+                                    setState(() {
+                                      _dobController.text =
+                                          formattedDate; //set output date to TextField value.
+                                    });
+                                  }
+                                },
+                                isNecessary: true,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              CustomTextField(
+                                hintText: 'Hostel room no',
+                                validator: validatefield,
+                                isNecessary: true,
+                                controller: _roomNoController,
+                                maxLength: 5,
+                                maxLines: 1,
+                                counter: true,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              CustomTextField(
+                                hintText: 'Home Address',
+                                validator: validatefield,
+                                isNecessary: true,
+                                controller: _homeAddressController,
+                                maxLength: 400,
+                                // maxLines: 1,
+                                counter: true,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              CustomTextField(
+                                hintText: 'LinkedIn Profile',
+                                // validator: validatefield,
+                                isNecessary: false,
+                                controller: _linkedinController,
+                                maxLength: 50,
+                                maxLines: 1,
+                                counter: true,
+                              ),
+                              const SizedBox(
+                                height: 24,
+                              ),
+                            ],
+                          )),
+                      GestureDetector(
+                        onTap: onFormSubmit,
+                        child: Container(
+                          width: double.infinity,
+                          height: 48,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              color: lBlue2),
+                          child: const Text(
+                            'Submit',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 24,
-                ),
-                // For now image will not be stored
-                // Center(
-                //     child: Stack(alignment: Alignment.bottomRight, children: [
-                //
-                //   ClipRRect(
-                //       borderRadius: BorderRadius.circular(75.0),
-                //
-                //       child: Image(
-                //         image: imageString==null?const ResizeImage(AssetImage('assets/images/profile_placeholder.png'),width: 150,height: 150): ResizeImage(
-                //             MemoryImage(base64Decode(imageString!))
-                //             ,width: 150,
-                //         height: 150,),
-                //         fit: BoxFit.fill,
-                //       )
-                //       ),
-                //   Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: GestureDetector(
-                //       onTap: () async {
-                //         XFile? xFile;
-                //         await showDialog(
-                //             context: context,
-                //             builder: (BuildContext context) {
-                //               return AlertDialog(
-                //                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-                //                 backgroundColor: kBlueGrey,
-                //                   title:  Text(
-                //                       "Do you want to change your profile photo?",style: MyFonts.w500.size(16).setColor(kWhite2),),
-                //                   content: SingleChildScrollView(
-                //                     child: ListBody(
-                //                       children: <Widget>[
-                //                          GestureDetector(
-                //                           child:  Text("Take Photo",style: MyFonts.w500.size(14).setColor(kWhite),),
-                //                           onTap: () async {
-                //                             xFile = await ImagePicker().pickImage(
-                //                                 source: ImageSource.camera);
-                //                             if (!mounted) return;
-                //                             Navigator.of(context).pop();
-                //                           },
-                //                         ),
-                //                         const Padding(
-                //                             padding: EdgeInsets.all(8.0)),
-                //                             GestureDetector(
-                //                           child:  Text("Choose Photo",style: MyFonts.w500.size(14).setColor(kWhite),),
-                //                           onTap: () async {
-                //                             xFile = await ImagePicker().pickImage(
-                //                                 source: ImageSource.gallery);
-                //                             if (!mounted) return;
-                //                             Navigator.of(context).pop();
-                //                           },
-                //                         ),
-                //                         const Padding(
-                //                             padding: EdgeInsets.all(8.0)),
-                //
-                //                         GestureDetector(
-                //                           child: Text("Remove Photo",style: MyFonts.w500.size(14).setColor(kRed),),
-                //                           onTap: () async {
-                //                             setState(() {
-                //                               imageString=null;
-                //                             });
-                //                             return
-                //                             Navigator.of(context).pop();
-                //                           },
-                //                         ),
-                //                       ],
-                //                     ),
-                //                   ));
-                //             });
-                //
-                //         if (!mounted) return;
-                //         if (xFile != null) {
-                //           var bytes = File(xFile!.path).readAsBytesSync();
-                //           var imageSize = (bytes.lengthInBytes /
-                //               (1048576)); // dividing by 1024*1024
-                //           if (imageSize > 2.5) {
-                //             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                //                 content: Text(
-                //               "Maximum image size can be 2.5 MB",
-                //               style: MyFonts.w500,
-                //             )));
-                //             return;
-                //           }
-                //           setState(() {
-                //             imageString = base64Encode(bytes);
-                //           });
-                //           return;
-                //         }
-                //       },
-                //       child: Container(
-                //         height: 30,
-                //         width: 30,
-                //         decoration: const BoxDecoration(
-                //             borderRadius: BorderRadius.all(Radius.circular(75)),
-                //             color: kWhite),
-                //         child: const Icon(Icons.edit_outlined),
-                //       ),
-                //     ),
-                //   ),
-                // ])),
-                // const SizedBox(
-                //   height: 24,
-                // ),
-                Text('Basic Information',
-                    style: MyFonts.w600.size(16).setColor(kWhite)),
-                const SizedBox(
-                  height: 18,
-                ),
-                Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        CustomTextField(
-                          hintText: 'name',
-                          // validator: validatefield,
-                          isNecessary: false,
-                          controller: _nameController,
-                          isEnabled: false,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomTextField(
-                          hintText: 'Roll Number',
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Field cannot be empty';
-                            } else if (value.length != 9) {
-                              return 'Enter valid roll number';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          isNecessary: true,
-                          controller: _rollController,
-                          maxLength: 9,
-                          maxLines: 1,
-                          counter: true,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomTextField(
-                          isEnabled: false,
-                          hintText: 'outlookEmail ID',
-                          // validator: validatefield,
-                          isNecessary: false,
-                          controller: _outlookEmailController,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomTextField(
-                          hintText: 'Alt Email',
-                          validator: validatefield,
-                          isNecessary: true,
-                          controller: _altEmailController,
-                          maxLength: 50,
-                          maxLines: 1,
-                          counter: true,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomTextField(
-                          hintText: 'Phone Number',
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Field cannot be empty';
-                            } else if (value.length != 10) {
-                              return 'Enter valid 10 digit phone number';
-                            }
-                            return null;
-                          },
-                          isNecessary: true,
-                          controller: _phoneController,
-                          inputType: TextInputType.phone,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          maxLength: 10,
-                          maxLines: 1,
-                          counter: true,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomTextField(
-                          hintText: 'Emergency Contact Number',
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Field cannot be empty';
-                            } else if (value.length != 10) {
-                              return 'Enter valid 10 digit phone number';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          isNecessary: true,
-                          controller: _emergencyController,
-                          inputType: TextInputType.phone,
-                          maxLength: 10,
-                          maxLines: 1,
-                          counter: true,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomDropDown(
-                            value: gender,
-                            items: genders,
-                            hintText: 'Your Gender',
-                            onChanged: (g) => gender = g,
-                            validator: validatefield),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomDropDown(
-                          value: hostel,
-                          items: hostels,
-                          hintText: 'Hostel',
-                          onChanged: (h) => hostel = h,
-                          validator: validatefield,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomTextField(
-                          hintText: 'Date of Birth',
-                          validator: validatefield,
-                          controller: _dobController,
-                          onTap: () async {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: selectedDob ?? DateTime.now(),
-                                firstDate: DateTime(1990),
-                                //DateTime.now() - not to allow to choose before today.
-                                lastDate: DateTime(2101),
-                                builder: (context, child) => CustomDatePicker(
-                                      child: child,
-                                    ));
-                            if (pickedDate != null) {
-                              if (!mounted) return;
-                              selectedDob = pickedDate;
-                              String formattedDate =
-                                  DateFormat('dd-MMM-yyyy').format(pickedDate);
-                              setState(() {
-                                _dobController.text =
-                                    formattedDate; //set output date to TextField value.
-                              });
-                            }
-                          },
-                          isNecessary: true,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomTextField(
-                          hintText: 'Hostel room no',
-                          validator: validatefield,
-                          isNecessary: true,
-                          controller: _roomNoController,
-                          maxLength: 5,
-                          maxLines: 1,
-                          counter: true,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomTextField(
-                          hintText: 'Home Address',
-                          validator: validatefield,
-                          isNecessary: true,
-                          controller: _homeAddressController,
-                          maxLength: 400,
-                          // maxLines: 1,
-                          counter: true,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomTextField(
-                          hintText: 'LinkedIn Profile',
-                          // validator: validatefield,
-                          isNecessary: false,
-                          controller: _linkedinController,
-                          maxLength: 50,
-                          maxLines: 1,
-                          counter: true,
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                      ],
-                    )),
-                GestureDetector(
-                  onTap: onFormSubmit,
-                  child: Container(
-                    width: double.infinity,
-                    height: 48,
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                        color: lBlue2),
-                    child: const Text(
-                      'Submit',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-              ],
-            ),
-          )),
+              ),
+            ],
+          ),
         ),
       ),
     );
