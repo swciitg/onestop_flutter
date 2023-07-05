@@ -63,11 +63,11 @@ void onDidReceiveNotificationResponse(
 
 bool checkNotificationCategory(String type) {
   switch (type.toLowerCase()) {
+    case "announcement":
     case "lost":
     case "found":
     case "buy":
     case "sell":
-    case "travel":
     case "cab sharing":
       return true;
   }
@@ -142,7 +142,7 @@ Future<bool> checkForNotifications() async {
         message.hashCode,
         message.data['header'],
         message.data['body'],
-        notificationDetails,
+        notificationDetails
       );
     }
     saveNotification(message);
