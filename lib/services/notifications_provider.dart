@@ -138,12 +138,18 @@ Future<bool> checkForNotifications() async {
     );
     print("Message is ${message.data}");
     if (checkNotificationCategory(message.data['category'])) {
-      await flutterLocalNotificationsPlugin.show(
-        message.hashCode,
-        message.data['header'],
-        message.data['body'],
-        notificationDetails
-      );
+      final SharedPreferences preferences = await SharedPreferences.getInstance();
+      var notifInfo = jsonDecode(preferences.getString("notifInfo")!);
+      if(notifInfo[message.data['category']])
+        {
+          await flutterLocalNotificationsPlugin.show(
+              message.hashCode,
+              message.data['header'],
+              message.data['body'],
+              notificationDetails
+          );
+        }
+
     }
     saveNotification(message);
   });
