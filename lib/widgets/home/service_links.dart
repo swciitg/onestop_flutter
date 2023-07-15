@@ -1,9 +1,11 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
+import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/quick_links/cab_share.dart';
+import 'package:onestop_dev/pages/quick_links/complaints.dart';
 import 'package:onestop_dev/pages/quick_links/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
@@ -38,9 +40,15 @@ List<HomeTabTile> serviceLinks = [
   //   icon: FluentIcons.trophy_20_regular,
   //   routeId: Scoreboard.id,
   // ),
+  // const HomeTabTile(
+  //   label: "UPSP",
+  //   icon: FluentIcons.chat_warning_16_regular,
+  //   routeId: Upsp.id
+  // ),
   const HomeTabTile(
-    label: "UPSP",
-    icon: FluentIcons.chat_warning_16_regular,
-    routeId: Upsp.id
+    label: "Complaints",
+    icon: FluentIcons.chat_help_24_regular,
+    routeId: ComplaintsPage.id,
+    newBadge: true,
   ),
 ];

@@ -1,3 +1,4 @@
+import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/login/welcome.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
@@ -17,6 +18,7 @@ import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/profile.dart';
 import 'package:onestop_dev/pages/splash.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
+import 'package:path/path.dart';
 
 
 final routes = {
@@ -39,4 +41,5 @@ final routes = {
   Upsp.id: (context) => const Upsp(),
   GuestHouse.id: (context) => const GuestHouse(),
   WelcomePage.id:(context)=> const WelcomePage(),
+  ComplaintsPage.id:(context)=> const ComplaintsPage()
 };
