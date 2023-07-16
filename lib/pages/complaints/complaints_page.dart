@@ -24,7 +24,7 @@ class ComplaintsPage extends StatelessWidget {
       }
     }
 
-    _showDialog() async {
+     _showIntranetDialog() async {
       await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -42,48 +42,100 @@ class ComplaintsPage extends StatelessWidget {
             ),
             actions: [
               Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              TextButton(
-                child: Text(
-                  "Configure VPN",
-                  style: MyFonts.w400.size(15).setColor(lBlue4),
-                ),
-                onPressed: () {
-                  
-                  try {
-                    launchURL("https://www.iitg.ac.in/cc/vpn_cnfg");
-                  } catch (e) {
-                    //print(e);
-                    showSnackBar(e.toString());
-                  }
-                  Navigator.of(context).pop();
-                },
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                    child: Text(
+                      "Configure VPN",
+                      style: MyFonts.w400.size(15).setColor(lBlue4),
+                    ),
+                    onPressed: () {
+                      try {
+                        launchURL("https://www.iitg.ac.in/cc/vpn_cnfg");
+                      } catch (e) {
+                        //print(e);
+                        showSnackBar(e.toString());
+                      }
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: Text(
+                      "Proceed",
+                      style: MyFonts.w400.size(15).setColor(lBlue4),
+                    ),
+                    onPressed: () {
+                      try {
+                        launchURL('https://intranet.iitg.ac.in/ipm/complaint/');
+                      } catch (e) {
+                        //print(e);
+                        showSnackBar(e.toString());
+                      }
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
-              TextButton(
-                child: Text(
-                  "Proceed",
-                  style: MyFonts.w400.size(15).setColor(lBlue4),
-                ),
-                onPressed: () {
-                  
-                  try {
-                    launchURL('https://intranet.iitg.ac.in/ipm/complaint/');
-                  } catch (e) {
-                    //print(e);
-                    showSnackBar(e.toString());
-                  }
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-              
             ],
           );
         },
       );
     }
+
+    _showDialog() async {
+      await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: kBlueGrey,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+            title: Text(
+              'Important',
+              style: MyFonts.w600.size(24).setColor(kWhite),
+            ),
+            content: Text(
+              'To proceed, your account must be registered in the Complaint System. If you haven\'t registered yet, register yourself first!',
+              style: MyFonts.w500.size(15).setColor(kWhite),
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                    child: Text(
+                      "Register",
+                      style: MyFonts.w400.size(15).setColor(lBlue4),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      _showIntranetDialog();
+                    },
+                  ),
+                  TextButton(
+                    child: Text(
+                      "Proceed",
+                      style: MyFonts.w400.size(15).setColor(lBlue4),
+                    ),
+                    onPressed: () {
+                      try {
+                        launchURL('https://www.iitg.ac.in/ipm/complaint/');
+                      } catch (e) {
+                        //print(e);
+                        showSnackBar(e.toString());
+                      }
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+   
 
     return Scaffold(
       appBar: AppBar(
