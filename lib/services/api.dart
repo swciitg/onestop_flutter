@@ -414,6 +414,7 @@ final dio2 = Dio(BaseOptions(
         await dio.get(Endpoints.lastUpdatedURL);
     var status = response.statusCode;
     var body = response.data;
+    print("HEE HAA HAA");
     print(body);
     if (status == 200) {
       Map<String, dynamic> data = body;

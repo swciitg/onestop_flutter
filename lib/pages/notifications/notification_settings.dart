@@ -33,7 +33,7 @@ class _NotificationSettingsState extends State<NotificationSettings> {
           NotifToggle(text: 'found'),
           NotifToggle(text: 'buy'),
           NotifToggle(text: 'sell'),
-          NotifToggle(text: 'announcements'),
+          NotifToggle(text: 'announcement'),
           // Padding(
           //   padding: const EdgeInsets.symmetric(vertical:  8,horizontal: 16),
           //   child: Row(

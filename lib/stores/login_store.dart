@@ -89,7 +89,30 @@ class LoginStore {
   Future<void> saveToUserInfo(SharedPreferences instance) async { // only called after saving jwt tokens in local storage
     print("here");
     userData = jsonDecode(instance.getString("userInfo")!);
-    notifData = jsonDecode(instance.getString("notifInfo")!);
+    print("HEHEHEHEHE");
+    if(instance.getString("notifInfo") == null)
+      {
+        Map<String,bool> a = {
+          "lost": true,
+          "found": true,
+          "announcement": true,
+          "buy": true,
+          "sell": true,
+          "cab sharing": true
+        };
+        await instance.setString("notifInfo", jsonEncode(a));
+        notifData = a;
+      }
+    else
+      {
+        Map<String,dynamic> temp = jsonDecode(instance.getString("notifInfo")!);
+        for(String key in temp.keys)
+        {
+          notifData[key] = temp[key] as bool;
+        }
+      }
+
+    print(notifData);
     print(userData);
     var fcmToken = await FirebaseMessaging.instance.getToken();
     print("fcm token: ${fcmToken}");
