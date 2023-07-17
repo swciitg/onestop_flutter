@@ -62,9 +62,12 @@ class _NotificationPageState extends State<NotificationPage> {
                 MaterialPageRoute(builder: (context)=>const NotificationSettings())
               );
             },
-            child: const Icon(
-              Icons.settings,
-              color: kWhite2,
+            child: Padding(
+              padding: const EdgeInsets.only(right:16),
+              child: const Icon(
+                Icons.settings,
+                color: kWhite2,
+              ),
             ),
           ) : Container()
         ],
