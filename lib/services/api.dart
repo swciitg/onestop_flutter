@@ -487,17 +487,13 @@ final dio2 = Dio(BaseOptions(
   }
 
   Future<RegisteredCourses> getTimeTable({required String roll}) async {
-    print(roll);
     final response = await dio2.post(Endpoints.timetableURL,
       data: {
         "roll_number": roll,
       },
     );
-    print("TT TT TT");
-    String resp = "";
-    print(response.data);
     if (response.statusCode == 200) {
-      return RegisteredCourses.fromJson(jsonABC);
+      return RegisteredCourses.fromJson(response.data);
     } else {
       throw Exception(response.statusCode);
     }

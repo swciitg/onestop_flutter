@@ -96,10 +96,9 @@ class DataProvider {
   }
 
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {
-    var cachedData = null;
-        //(await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
+    var cachedData = //null;
+        (await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
     if (cachedData == null) {
-      print(roll);
       RegisteredCourses timetableData =
           await APIService().getTimeTable(roll: roll);
       await LocalStorage.instance
@@ -107,7 +106,7 @@ class DataProvider {
       return timetableData;
     }
     // TODO: Change this later, for now cache till the end of Monsoon sem
-    DateTime semEnd = DateTime.parse("2023-12-1");
+    DateTime semEnd = DateTime.parse("2023-01-01T09:00:00.000Z");
     if (DateTime.now().isBefore(semEnd)) {
       return RegisteredCourses.fromJson(cachedData as Map<String, dynamic>);
     }
