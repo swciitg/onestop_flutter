@@ -1,10 +1,12 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/timetable/date_slider.dart';
+import 'package:onestop_dev/widgets/timetable/exam_schedule_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 import 'package:onestop_dev/widgets/ui/guest_restrict.dart';
@@ -136,116 +138,40 @@ class ScheduleList extends StatelessWidget {
   final RegisteredCourses data;
   const ScheduleList({super.key, required this.data});
 
+  List<CourseModel> _sort(List<CourseModel> input, {String type = "midsem"})
+  {
+    if(type == "midsem")
+    {
+      input.sort((a,b) => DateTime.parse(a.midsem!).isAfter(DateTime.parse(b.midsem!)) ? 1 : -1);
+    }
+    else
+    {
+      input.sort((a,b) => DateTime.parse(a.endsem!).isAfter(DateTime.parse(b.endsem!)) ? 1 : -1);
+    }
+    return input;
+  }
+
   @override
   Widget build(BuildContext context) {
     if(data.courses != null)
       {
-        List<CourseModel> courses= data.courses!;
-        print(DateTime.parse(courses[0].midsem!).minute);
+        List<CourseModel> endsem = _sort(data.courses!, type: "endsem");
+        List<CourseModel> midsem = _sort(data.courses!);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Text("Midsem Schedule", style: MyFonts.w500.size(20).setColor(kWhite),),
-            for(var course in courses)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(minHeight: 85),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: kTimetableGreen,
-                      border: Border.all(color: Colors.transparent),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10, right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Colors.transparent,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(DateTime.parse(course.midsem!).month.toString(), style: MyFonts.w400.setColor(kWhite),),
-                                        Text(
-                                          DateTime.parse(course.midsem!).day.toString(),style: MyFonts.w400.setColor(kWhite).size(30),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  course.timing,
-                                  style: MyFonts.w300.size(12).setColor(kWhite),
-                                ),
-                                const SizedBox(
-                                  height: 5.0,
-                                ),
-                                Text(
-                                  course.course!,
-                                  style: MyFonts.w500.size(15).setColor(kWhite),
-                                ),
-                                const SizedBox(
-                                  height: 3.0,
-                                ),
-                                Text(
-                                  course.instructor!,
-                                  style: MyFonts.w400.size(13).setColor(lBlue),
-                                ),
-                                const SizedBox(
-                                  height: 3.0,
-                                ),
-                                if (course.venue != null)
-                                  if(course.venue!.isNotEmpty)
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          FluentIcons.location_12_filled,
-                                          color: lBlue,
-                                          size: 13,
-                                        ),
-                                        const SizedBox(
-                                          width: 4,
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            course.venue!,
-                                            style: MyFonts.w400.size(13).setColor(lBlue),
-                                          ),
-                                        )
-                                      ],
-                                    )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              )
+            for(var course in midsem)
+              ExamTile(course: course),
+            const SizedBox(
+              height: 8,
+            ),
+            Text("Endsem Schedule", style: MyFonts.w500.size(20).setColor(kWhite),),
+            for(var course in endsem)
+              ExamTile(course: course, isEndSem: true,)
           ],
         );
       }
@@ -259,16 +185,5 @@ class ScheduleList extends StatelessWidget {
   }
 }
 
-getFormatedValue(String time, String type)
-{
-  DateTime examTime = DateTime.parse(time);
-  if(type == "date")
-    {
-      return examTime.day.toString();
-    }
-  if(type == "month")
-  {
-    return examTime.day.toString();
-  }
-}
+
 
