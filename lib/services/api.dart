@@ -19,6 +19,7 @@ import '../functions/utility/show_snackbar.dart';
 import '../models/food/mess_menu_model.dart';
 import '../models/travel/travel_timing_model.dart';
 import '../functions/utility/auth_user_helper.dart';
+import '../pages/timetable/test.dart';
 
 class APIService {
 
@@ -492,9 +493,11 @@ final dio2 = Dio(BaseOptions(
         "roll_number": roll,
       },
     );
-    print(response);
+    print("TT TT TT");
+    String resp = "";
+    print(response.data);
     if (response.statusCode == 200) {
-      return RegisteredCourses.fromJson(response.data);
+      return RegisteredCourses.fromJson(jsonABC);
     } else {
       throw Exception(response.statusCode);
     }

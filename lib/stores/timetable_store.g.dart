@@ -70,6 +70,22 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
+  late final _$isTimetableAtom =
+      Atom(name: '_TimetableStore.isTimetable', context: context);
+
+  @override
+  bool get isTimetable {
+    _$isTimetableAtom.reportRead();
+    return super.isTimetable;
+  }
+
+  @override
+  set isTimetable(bool value) {
+    _$isTimetableAtom.reportWrite(value, super.isTimetable, () {
+      super.isTimetable = value;
+    });
+  }
+
   late final _$loadOperationAtom =
       Atom(name: '_TimetableStore.loadOperation', context: context);
 
@@ -132,10 +148,22 @@ mixin _$TimetableStore on _TimetableStore, Store {
   }
 
   @override
+  void setTT() {
+    final _$actionInfo = _$_TimetableStoreActionController.startAction(
+        name: '_TimetableStore.setTT');
+    try {
+      return super.setTT();
+    } finally {
+      _$_TimetableStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 selectedDate: ${selectedDate},
 showDropDown: ${showDropDown},
+isTimetable: ${isTimetable},
 loadOperation: ${loadOperation},
 coursesLoaded: ${coursesLoaded},
 coursesLoading: ${coursesLoading},
