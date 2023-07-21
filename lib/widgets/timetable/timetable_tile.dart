@@ -94,7 +94,8 @@ class TimetableTile extends StatelessWidget {
                         height: 3.0,
                       ),
                       if (course.venue != null)
-                        Row(
+                        if(course.venue!.isNotEmpty)
+                          Row(
                           children: [
                             const Icon(
                               FluentIcons.location_12_filled,

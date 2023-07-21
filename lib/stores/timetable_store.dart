@@ -72,6 +72,16 @@ abstract class _TimetableStore with Store {
     showDropDown = b;
   }
 
+  @observable
+  bool isTimetable = true;
+
+  @action
+  void setTT()
+  {
+    isTimetable = !isTimetable;
+  }
+
+
   List<Widget> get homeTimeTable {
     DateTime current = DateTime.now();
     if (current.weekday == 6 || current.weekday == 7) {

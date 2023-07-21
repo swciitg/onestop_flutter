@@ -19,6 +19,7 @@ import '../functions/utility/show_snackbar.dart';
 import '../models/food/mess_menu_model.dart';
 import '../models/travel/travel_timing_model.dart';
 import '../functions/utility/auth_user_helper.dart';
+import '../pages/timetable/test.dart';
 
 class APIService {
 
@@ -486,13 +487,11 @@ final dio2 = Dio(BaseOptions(
   }
 
   Future<RegisteredCourses> getTimeTable({required String roll}) async {
-    print(roll);
     final response = await dio2.post(Endpoints.timetableURL,
       data: {
         "roll_number": roll,
       },
     );
-    print(response);
     if (response.statusCode == 200) {
       return RegisteredCourses.fromJson(response.data);
     } else {
