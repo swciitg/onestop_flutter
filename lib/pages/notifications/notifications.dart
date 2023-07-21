@@ -5,8 +5,9 @@ import 'package:onestop_dev/functions/notifications/get_notifications.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/notifications/notification_settings.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
-import 'package:onestop_dev/widgets/ui/notification_tile.dart';
+import 'package:onestop_dev/widgets/notifications/notification_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotifsModel {
@@ -55,17 +56,20 @@ class _NotificationPageState extends State<NotificationPage> {
       appBar: AppBar(
         backgroundColor: kAppBarGrey,
         actions: [
-          GestureDetector(
+          !(LoginStore().isGuestUser) ? GestureDetector(
             onTap: (){
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context)=>const NotificationSettings())
               );
             },
-            child: const Icon(
-              Icons.settings,
-              color: kWhite2,
+            child: Padding(
+              padding: const EdgeInsets.only(right:16),
+              child: const Icon(
+                Icons.settings,
+                color: kWhite2,
+              ),
             ),
-          )
+          ) : Container()
         ],
         leading: IconButton(
             onPressed: () {
