@@ -41,6 +41,10 @@ dependencies:
     git:
       url: https://github.com/swciitg/cab_sharing_onestop.git
       path: packages/cab_sharing
+  irbs:
+    git:
+      url: https://github.com/swciitg/irbs.git
+      path: packages/irbs
   intl: ^0.18.0
   webview_cookie_manager: ^2.0.6
   dio_cookie_manager: ^2.0.0
