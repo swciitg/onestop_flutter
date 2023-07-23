@@ -9,6 +9,7 @@ import 'package:onestop_dev/pages/quick_links/complaints.dart';
 import 'package:onestop_dev/pages/quick_links/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
+import 'package:onestop_dev/pages/quick_links/irbs.dart';
 
 List<HomeTabTile> serviceLinks = [
   const HomeTabTile(
@@ -32,9 +33,15 @@ List<HomeTabTile> serviceLinks = [
     routeId: BuySellHome.id,
   ),
   const HomeTabTile(
-      label: "Cab Sharing",
-      icon: FluentIcons.vehicle_bus_24_regular,
-      routeId: CabShare.id),
+    label: "Cab Sharing",
+    icon: FluentIcons.vehicle_bus_24_regular,
+    routeId: CabShare.id
+  ),
+  const HomeTabTile(
+    label: 'IRBS', 
+    icon: FluentIcons.ticket_horizontal_24_regular,
+    routeId: Irbs.id,
+  ),
   // const HomeTabTile(
   //   label: "GC Score Board",
   //   icon: FluentIcons.trophy_20_regular,
