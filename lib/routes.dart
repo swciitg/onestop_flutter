@@ -20,11 +20,10 @@ import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/profile.dart';
 import 'package:onestop_dev/pages/splash.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
-import 'package:path/path.dart';
 
 
 final routes = {
-  Irbs.id: (context) => const IRBS(),
+  IRBSPage.id: (context) => const IRBSPage(),
   SplashPage.id: (context) => const SplashPage(),
   ProfilePage.id: (context) => const ProfilePage(),
   LoginPage.id: (context) => const LoginPage(),

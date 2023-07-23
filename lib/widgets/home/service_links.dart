@@ -13,14 +13,25 @@ import 'package:onestop_dev/pages/quick_links/irbs.dart';
 
 List<HomeTabTile> serviceLinks = [
   const HomeTabTile(
-    label: "LAN",
-    icon: FluentIcons.desktop_24_regular,
-    routeId: RouterPage.id,
-  ),
-  const HomeTabTile(
     label: "Contacts",
     icon: FluentIcons.contact_card_group_24_regular,
     routeId: ContactPage.id,
+  ),
+  const HomeTabTile(
+    label: "Cab Sharing",
+    icon: FluentIcons.vehicle_bus_24_regular,
+    routeId: CabShare.id
+  ),
+  const HomeTabTile(
+    label: 'IRBS',
+    icon: FluentIcons.ticket_horizontal_24_regular,
+    routeId: IRBSPage.id,
+    newBadge: true,
+  ),
+  const HomeTabTile(
+    label: "Complaints",
+    icon: FluentIcons.chat_help_24_regular,
+    routeId: ComplaintsPage.id,
   ),
   const HomeTabTile(
     label: "Lost and Found",
@@ -33,29 +44,8 @@ List<HomeTabTile> serviceLinks = [
     routeId: BuySellHome.id,
   ),
   const HomeTabTile(
-    label: "Cab Sharing",
-    icon: FluentIcons.vehicle_bus_24_regular,
-    routeId: CabShare.id
-  ),
-  const HomeTabTile(
-    label: 'IRBS', 
-    icon: FluentIcons.ticket_horizontal_24_regular,
-    routeId: Irbs.id,
-  ),
-  // const HomeTabTile(
-  //   label: "GC Score Board",
-  //   icon: FluentIcons.trophy_20_regular,
-  //   routeId: Scoreboard.id,
-  // ),
-  // const HomeTabTile(
-  //   label: "UPSP",
-  //   icon: FluentIcons.chat_warning_16_regular,
-  //   routeId: Upsp.id
-  // ),
-  const HomeTabTile(
-    label: "Complaints",
-    icon: FluentIcons.chat_help_24_regular,
-    routeId: ComplaintsPage.id,
-    newBadge: true,
+    label: "LAN",
+    icon: FluentIcons.desktop_24_regular,
+    routeId: RouterPage.id,
   ),
 ];
