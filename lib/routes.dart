@@ -1,3 +1,5 @@
+import 'package:irbs/irbs.dart';
+import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/login/welcome.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
@@ -5,6 +7,7 @@ import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
 import 'package:onestop_dev/pages/quick_links/cab_share.dart';
 import 'package:onestop_dev/pages/quick_links/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/quick_links/guest_house.dart';
+import 'package:onestop_dev/pages/quick_links/irbs.dart';
 import 'package:onestop_dev/pages/quick_links/news_page.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/quick_links/complaints.dart';
@@ -20,6 +23,7 @@ import 'package:onestop_dev/pages/upsp/upsp.dart';
 
 
 final routes = {
+  IRBSPage.id: (context) => const IRBSPage(),
   SplashPage.id: (context) => const SplashPage(),
   ProfilePage.id: (context) => const ProfilePage(),
   LoginPage.id: (context) => const LoginPage(),
@@ -39,4 +43,5 @@ final routes = {
   Upsp.id: (context) => const Upsp(),
   GuestHouse.id: (context) => const GuestHouse(),
   WelcomePage.id:(context)=> const WelcomePage(),
+  ComplaintsPage.id:(context)=> const ComplaintsPage()
 };

@@ -17,11 +17,11 @@ List<HomeTabTile> quickLinks = [
     icon: FluentIcons.clipboard_text_32_regular,
     routeId: AcademicSSO.id,
   ),
-  const HomeTabTile(
-    label: "Complaints",
-    icon: FluentIcons.chat_help_24_regular,
-    routeId: Complaints.id,
-  ),
+  // const HomeTabTile(
+  //   label: "Complaints",
+  //   icon: FluentIcons.chat_help_24_regular,
+  //   routeId: Complaints.id,
+  // ),
   const HomeTabTile(
     label: "Academic Calendar",
     icon: FluentIcons.calendar_ltr_24_regular,

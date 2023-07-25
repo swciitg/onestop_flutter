@@ -7,6 +7,8 @@ class CourseModel implements Comparable<CourseModel> {
   String? slot;
   String? instructor;
   String? venue;
+  String? midsem;
+  String? endsem;
   String timing = "";
 
   CourseModel(
@@ -14,6 +16,8 @@ class CourseModel implements Comparable<CourseModel> {
       this.course,
       this.ltpc,
       this.slot,
+        this.endsem,
+        this.midsem,
       this.instructor,
       this.venue});
 
@@ -24,6 +28,8 @@ class CourseModel implements Comparable<CourseModel> {
     slot = json['slot'];
     instructor = json['instructor'];
     venue = json['venue'];
+    midsem = json['midsem'];
+    endsem = json['endsem'];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +38,9 @@ class CourseModel implements Comparable<CourseModel> {
     data['course'] = course;
     data['ltpc'] = ltpc;
     data['slot'] = slot;
+    data['midsem'] = midsem;
+    data['endsem'] = endsem;
+    data['venue']= venue;
     data['instructor'] = instructor;
     return data;
   }
@@ -53,6 +62,8 @@ class CourseModel implements Comparable<CourseModel> {
             course: c.course,
             ltpc: c.ltpc,
             slot: c.slot,
+            midsem: c.midsem,
+            endsem: c.endsem,
             instructor: c.instructor,
             venue: c.venue);
 

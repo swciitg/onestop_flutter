@@ -14,6 +14,7 @@ Map<String, List<String>> recordNames = {
 };
 
 Future<bool> checkLastUpdated() async {
+
   Map<String, dynamic>? lastUpdated = await DataProvider.getLastUpdated();
 
   try {

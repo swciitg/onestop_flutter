@@ -31,7 +31,7 @@ class _ProfileState extends State<Profile> {
         iconTheme: const IconThemeData(color: kAppBarGrey),
         automaticallyImplyLeading: false,
         centerTitle: true,
-        leadingWidth: 16,
+        // leadingWidth: 16,
         leading: IconButton(onPressed: () {
           Navigator.of(context).pop();
         },icon: Icon(Icons.arrow_back_ios_new_outlined,color: kWhite,),iconSize: 20,),

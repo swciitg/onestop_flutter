@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/notifications/get_notifications.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/pages/notifications/notification_settings.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
-import 'package:onestop_dev/widgets/ui/notification_tile.dart';
+import 'package:onestop_dev/widgets/notifications/notification_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotifsModel {
@@ -17,13 +19,13 @@ class NotifsModel {
   String messageId;
 
   NotifsModel(
-    this.title,
-    this.body,
-    this.read,
-    this.category,
+      this.title,
+      this.body,
+      this.read,
+      this.category,
       this.time,
       this.messageId
-  );
+      );
 }
 
 class NotificationPage extends StatefulWidget {
@@ -54,22 +56,20 @@ class _NotificationPageState extends State<NotificationPage> {
       appBar: AppBar(
         backgroundColor: kAppBarGrey,
         actions: [
-          ElevatedButton.icon(
-            onPressed: () async {
-              final SharedPreferences prefs =
-                  await SharedPreferences.getInstance();
-              await prefs.reload();
-              prefs.remove('notifications');
-              setState(() {});
+          !(LoginStore().isGuestUser) ? GestureDetector(
+            onTap: (){
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context)=>const NotificationSettings())
+              );
             },
-            icon: const Icon(FluentIcons.delete_12_regular),
-            label: Text(
-              'Clear All',
-              style: MyFonts.w300,
+            child: Padding(
+              padding: const EdgeInsets.only(right:16),
+              child: const Icon(
+                Icons.settings,
+                color: kWhite2,
+              ),
             ),
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent, elevation: 0),
-          )
+          ) : Container()
         ],
         leading: IconButton(
             onPressed: () {
@@ -110,16 +110,16 @@ class _NotificationPageState extends State<NotificationPage> {
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Column(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                    child: ListShimmer(
-                  count: 5,
-                )),
-              ],
-            );
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Expanded(
+                      child: ListShimmer(
+                        count: 5,
+                      )),
+                ],
+              );
             }
             return Center(
               child: Text(
@@ -128,6 +128,17 @@ class _NotificationPageState extends State<NotificationPage> {
               ),
             );
           }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async{
+          final SharedPreferences prefs =
+              await SharedPreferences.getInstance();
+          await prefs.reload();
+          prefs.remove('notifications');
+          setState(() {});
+        },
+        backgroundColor: lBlue2,
+        child: Icon(Icons.cancel),
+      ),
     );
   }
 }

@@ -1,55 +1,46 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
-import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
-import 'package:onestop_dev/pages/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../functions/utility/show_snackbar.dart';
-import '../models/food/mess_menu_model.dart';
-import '../models/travel/travel_timing_model.dart';
 import '../functions/utility/auth_user_helper.dart';
 
 class APIService {
-
   final dio = Dio(BaseOptions(
       baseUrl: Endpoints.baseUrl,
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 15),
       headers: Endpoints.getHeader()));
 
-final dio2 = Dio(BaseOptions(
+  final dio2 = Dio(BaseOptions(
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 15),
       headers: Endpoints.getHeader()));
 
-
   APIService() {
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
-          print("THIS IS TOKEN");
-          print(await AuthUserHelpers.getAccessToken());
-          print(options.path);
+      print("THIS IS TOKEN");
+      print(await AuthUserHelpers.getAccessToken());
+      print(options.path);
       options.headers["Authorization"] =
-      "Bearer ${await AuthUserHelpers.getAccessToken()}";
+          "Bearer ${await AuthUserHelpers.getAccessToken()}";
       handler.next(options);
     }, onError: (error, handler) async {
       var response = error.response;
       if (response != null && response.statusCode == 401) {
-        if((await AuthUserHelpers.getAccessToken()).isEmpty){
+        if ((await AuthUserHelpers.getAccessToken()).isEmpty) {
           showSnackBar("Login to continue!!");
-        }
-        else{
+        } else {
           print(response.requestOptions.path);
           bool couldRegenerate = await regenerateAccessToken();
           // ignore: use_build_context_synchronously
@@ -61,11 +52,9 @@ final dio2 = Dio(BaseOptions(
             showSnackBar("Your session has expired!! Login again.");
           }
         }
-      }
-      else if(response != null && response.statusCode == 403){
+      } else if (response != null && response.statusCode == 403) {
         showSnackBar("Access not allowed in guest mode");
-      }
-      else if(response != null && response.statusCode == 400){
+      } else if (response != null && response.statusCode == 400) {
         showSnackBar(response.data["message"]);
       }
       // admin user with expired tokens
@@ -76,15 +65,14 @@ final dio2 = Dio(BaseOptions(
   Future<Response<dynamic>> retryRequest(Response response) async {
     RequestOptions requestOptions = response.requestOptions;
     response.requestOptions.headers[BackendHelper.authorization] =
-    "Bearer ${await AuthUserHelpers.getAccessToken()}";
-    final options = Options(method: requestOptions.method, headers: requestOptions.headers);
+        "Bearer ${await AuthUserHelpers.getAccessToken()}";
+    final options =
+        Options(method: requestOptions.method, headers: requestOptions.headers);
     Dio retryDio = Dio(BaseOptions(
         baseUrl: Endpoints.baseUrl,
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 5),
-        headers: {
-          'Security-Key': Endpoints.apiSecurityKey
-        }));
+        headers: {'Security-Key': Endpoints.apiSecurityKey}));
     if (requestOptions.method == "GET") {
       return retryDio.request(requestOptions.path,
           queryParameters: requestOptions.queryParameters, options: options);
@@ -103,9 +91,12 @@ final dio2 = Dio(BaseOptions(
           baseUrl: Endpoints.baseUrl,
           connectTimeout: const Duration(seconds: 5),
           receiveTimeout: const Duration(seconds: 5)));
-      Response<Map<String, dynamic>> resp = await regenDio.post(
-          "/user/accesstoken",
-          options: Options(headers: {'Security-Key': Endpoints.apiSecurityKey,"authorization": "Bearer $refreshToken"}));
+      Response<Map<String, dynamic>> resp =
+          await regenDio.post("/user/accesstoken",
+              options: Options(headers: {
+                'Security-Key': Endpoints.apiSecurityKey,
+                "authorization": "Bearer $refreshToken"
+              }));
       var data = resp.data!;
       print("REGENRATED ACCESS TOKEN");
       await AuthUserHelpers.setAccessToken(data[BackendHelper.accesstoken]);
@@ -115,12 +106,10 @@ final dio2 = Dio(BaseOptions(
     }
   }
 
-
   Future<bool> postFeedbackData(Map<String, String> data) async {
     String tag = data['type'] == 'Issue Report' ? 'bug' : 'enhancement';
     String newBody =
         "### Description :\n${data['body']}\n### Posted By :\n${data['user']}";
-        print(Endpoints.githubIssueToken);
 
     var res = await dio2.post(Endpoints.feedback,
         data: {
@@ -144,36 +133,29 @@ final dio2 = Dio(BaseOptions(
   }
 
   Future<Map> getUserProfile() async {
-    print("Inside GET USER PROFILE");
     var response = await dio.get(Endpoints.userProfile);
-    print(response.data);
     return response.data;
   }
 
-  Future<void> updateUserProfile(Map data,String? deviceToken) async {
-    print(data);
-    Map<String,dynamic> queryParameters={};
-    if(deviceToken!=null) queryParameters["deviceToken"]=deviceToken;
-    var response = await dio.patch(Endpoints.userProfile,data: data,queryParameters: queryParameters);
+  Future<void> updateUserProfile(Map data, String? deviceToken) async {
+    Map<String, dynamic> queryParameters = {};
+    if (deviceToken != null) queryParameters["deviceToken"] = deviceToken;
+    var response = await dio.patch(Endpoints.userProfile,
+        data: data, queryParameters: queryParameters);
     print(response);
   }
 
   Future<void> postUserDeviceToken(String deviceToken) async {
-    var response = await dio.post(Endpoints.userDeviceTokens,data: {"deviceToken" : deviceToken});
+    var response = await dio
+        .post(Endpoints.userDeviceTokens, data: {"deviceToken": deviceToken});
     print(response);
   }
 
   Future<void> updateUserDeviceToken(Map data) async {
     print(data);
-    var response = await dio.patch(Endpoints.userDeviceTokens,data: data);
+    var response = await dio.patch(Endpoints.userDeviceTokens, data: data);
     print(response);
   }
-
-  // Future<void> logoutUser(String deviceToken) async {
-  //   print(deviceToken);
-  //   var response = await dio.delete(Endpoints.userLogout,data: {"deviceToken" : deviceToken});
-  //   print(response);
-  // }
 
   Future<List<Map<String, dynamic>>> getRestaurantData() async {
     var response = await dio.get(Endpoints.restaurantURL);
@@ -207,29 +189,23 @@ final dio2 = Dio(BaseOptions(
 
   Future<dynamic> claimFoundItem(
       {required String name, required String email, required String id}) async {
-    var res = await dio.post(Endpoints.claimItemURL,data:  {"id": id, "claimerEmail": email, "claimerName": name});
+    var res = await dio.post(Endpoints.claimItemURL,
+        data: {"id": id, "claimerEmail": email, "claimerName": name});
     return res.data;
   }
 
   Future<void> deleteBnsMyAd(String id, String email) async {
-    await dio.post(Endpoints.deleteBuyURL,
-        data: {'id': id, 'email': email});
-    await dio.post(Endpoints.deleteSellURL,
-        data: {'id': id, 'email': email});
+    await dio.post(Endpoints.deleteBuyURL, data: {'id': id, 'email': email});
+    await dio.post(Endpoints.deleteSellURL, data: {'id': id, 'email': email});
   }
 
   Future<void> deleteLnfMyAd(String id, String email) async {
-    await dio.post(Endpoints.deleteLostURL,
-        data: {'id': id, 'email': email});
-    await dio.post(Endpoints.deleteFoundURL,
-        data: {'id': id, 'email': email});
+    await dio.post(Endpoints.deleteLostURL, data: {'id': id, 'email': email});
+    await dio.post(Endpoints.deleteFoundURL, data: {'id': id, 'email': email});
   }
 
   Future<List> getBuyItems() async {
-    //var res = await http.get(Uri.parse(Endpoints.buyURL));
     var response = await dio.get(Endpoints.buyURL);
-    // var lostItemsDetails = jsonDecode(res.body);
-    // return lostItemsDetails["details"];
     print(response.data);
     return response.data.details;
   }
@@ -240,9 +216,7 @@ final dio2 = Dio(BaseOptions(
   }
 
   Future<List<BuyModel>> getBnsMyItems(String mail) async {
-    print("here in function");
-    var res = await dio.post(Endpoints.bnsMyAdsURL,data: {'email': mail});
-    print(res.data);
+    var res = await dio.post(Endpoints.bnsMyAdsURL, data: {'email': mail});
     var myItemsDetails = res.data;
     var sellList = (myItemsDetails["details"]["sellList"] as List)
         .map((e) => BuyModel.fromJson(e))
@@ -255,9 +229,7 @@ final dio2 = Dio(BaseOptions(
   }
 
   Future<List<dynamic>> getLnfMyItems(String mail) async {
-    print("here");
-    var res = await dio.post(Endpoints.lnfMyAdsURL,data: {'email': mail});
-    print(res);
+    var res = await dio.post(Endpoints.lnfMyAdsURL, data: {'email': mail});
     var myItemsDetails = res.data;
     var foundList = (myItemsDetails["details"]["foundList"] as List)
         .map((e) => FoundModel.fromJson(e))
@@ -276,16 +248,12 @@ final dio2 = Dio(BaseOptions(
   }
 
   Future<List<LostModel>> getLostPage(int pageNumber) async {
-    print("hre");
     final queryParameters = {
       'page': pageNumber.toString(),
     };
-    // final uri =
-    //     Uri.https('swc.iitg.ac.in', Endpoints.lostPath, queryParameters);
-    var response = await dio.get(Endpoints.lostPath,queryParameters: queryParameters);
-    print(response);
+    var response =
+        await dio.get(Endpoints.lostPath, queryParameters: queryParameters);
     var json = response.data;
-    print(json);
     List<LostModel> lostPage = (json['details'] as List<dynamic>)
         .map((e) => LostModel.fromJson(e))
         .toList();
@@ -297,9 +265,8 @@ final dio2 = Dio(BaseOptions(
     final queryParameters = {
       'page': pageNumber.toString(),
     };
-    // final uri =
-    //     Uri.https('swc.iitg.ac.in', Endpoints.foundPath, queryParameters);
-    var response = await dio.get(Endpoints.foundPath,queryParameters: queryParameters);
+    var response =
+        await dio.get(Endpoints.foundPath, queryParameters: queryParameters);
     var json = response.data;
     List<FoundModel> lostPage = (json['details'] as List<dynamic>)
         .map((e) => FoundModel.fromJson(e))
@@ -312,9 +279,8 @@ final dio2 = Dio(BaseOptions(
     final queryParameters = {
       'page': pageNumber.toString(),
     };
-    // final uri =
-    //     Uri.https('swc.iitg.ac.in', Endpoints.sellPath, queryParameters);
-    var response = await dio.get(Endpoints.sellPath,queryParameters: queryParameters);
+    var response =
+        await dio.get(Endpoints.sellPath, queryParameters: queryParameters);
     var json = response.data;
     List<BuyModel> sellPage = (json['details'] as List<dynamic>)
         .map((e) => BuyModel.fromJson(e))
@@ -328,8 +294,8 @@ final dio2 = Dio(BaseOptions(
     final queryParameters = {
       'page': pageNumber.toString(),
     };
-    //final uri = Uri.https('swc.iitg.ac.in', Endpoints.buyPath, queryParameters);
-    var response = await dio.get(Endpoints.buyPath,queryParameters: queryParameters);
+    var response =
+        await dio.get(Endpoints.buyPath, queryParameters: queryParameters);
     print(response);
     var json = response.data;
     List<SellModel> buyPage = (json['details'] as List<dynamic>)
@@ -345,76 +311,62 @@ final dio2 = Dio(BaseOptions(
     return foundItemsDetails["details"];
   }
 
-  Future<Map<String, dynamic>> postSellData(
-      Map<String, String> data) async {
-    var res = await dio.post(
-      Endpoints.sellURL,
-      data: {
-        'title': data['title'],
-        'description': data['description'],
-        'price': data['price'],
-        'imageString': data['image'],
-        'phonenumber': data['contact'],
-        'email': data['email'],
-        'username': data['name']
-      }
-    );
+  Future<Map<String, dynamic>> postSellData(Map<String, String> data) async {
+    var res = await dio.post(Endpoints.sellURL, data: {
+      'title': data['title'],
+      'description': data['description'],
+      'price': data['price'],
+      'imageString': data['image'],
+      'phonenumber': data['contact'],
+      'email': data['email'],
+      'username': data['name']
+    });
     return res.data;
   }
 
-  Future<Map<String, dynamic>> postBuyData(
-      Map<String, String> data) async {
-    var res = await dio.post(
-      Endpoints.buyURL,
-      data: {
-        'title': data['title'],
-        'description': data['description'],
-        'price': data['total_price'],
-        'imageString': data['image'],
-        'phonenumber': data['contact'],
-        'email': data['email'],
-        'username': data['name']
-      }
-    );
+  Future<Map<String, dynamic>> postBuyData(Map<String, String> data) async {
+    var res = await dio.post(Endpoints.buyURL, data: {
+      'title': data['title'],
+      'description': data['description'],
+      'price': data['total_price'],
+      'imageString': data['image'],
+      'phonenumber': data['contact'],
+      'email': data['email'],
+      'username': data['name']
+    });
     return res.data;
   }
 
-  Future<Map<String, dynamic>> postLostData(
-      Map<String, String> data) async {
-    var res = await dio.post(Endpoints.lostURL,
-        data: {
-          'title': data['title'],
-          'description': data['description'],
-          'location': data['location'],
-          'imageString': data['image'],
-          'phonenumber': data['contact'],
-          'email': data['email'],
-          'username': data['name']
-        });
+  Future<Map<String, dynamic>> postLostData(Map<String, String> data) async {
+    var res = await dio.post(Endpoints.lostURL, data: {
+      'title': data['title'],
+      'description': data['description'],
+      'location': data['location'],
+      'imageString': data['image'],
+      'phonenumber': data['contact'],
+      'email': data['email'],
+      'username': data['name']
+    });
     return res.data;
   }
 
-  Future<Map<String, dynamic>> postFoundData(
-      Map<String, String> data) async {
-    var res = await dio.post(Endpoints.foundURL,
-        data: {
-          'title': data['title'],
-          'description': data['description'],
-          'location': data['location'],
-          'imageString': data['image'],
-          'submittedat': data['submittedAt'],
-          'email': data['email'],
-          'username': data['name']
-        });
+  Future<Map<String, dynamic>> postFoundData(Map<String, String> data) async {
+    var res = await dio.post(Endpoints.foundURL, data: {
+      'title': data['title'],
+      'description': data['description'],
+      'location': data['location'],
+      'imageString': data['image'],
+      'submittedat': data['submittedAt'],
+      'email': data['email'],
+      'username': data['name']
+    });
     return res.data;
   }
 
   Future<Map<String, dynamic>> getLastUpdated() async {
-    var response =
-        await dio.get(Endpoints.lastUpdatedURL);
+    var response = await dio.get(Endpoints.lastUpdatedURL);
     var status = response.statusCode;
     var body = response.data;
-    print(body);
     if (status == 200) {
       Map<String, dynamic> data = body;
       return data;
@@ -439,11 +391,9 @@ final dio2 = Dio(BaseOptions(
   }
 
   Future<Map<String, List<List<String>>>> getBusData() async {
-    print("INSIDE BUS DATA");
     var response = await dio.get(Endpoints.busURL);
     var status = response.statusCode;
     var json = response.data;
-    print(json);
     if (status == 200) {
       Map<String, List<List<String>>> answer = {};
       for (String stop in json.keys) {
@@ -485,13 +435,12 @@ final dio2 = Dio(BaseOptions(
   }
 
   Future<RegisteredCourses> getTimeTable({required String roll}) async {
-    print(roll);
-    final response = await dio2.post(Endpoints.timetableURL,
+    final response = await dio2.post(
+      Endpoints.timetableURL,
       data: {
         "roll_number": roll,
       },
     );
-    print(response);
     if (response.statusCode == 200) {
       return RegisteredCourses.fromJson(response.data);
     } else {
@@ -517,7 +466,7 @@ final dio2 = Dio(BaseOptions(
   Future<List<LatLng>> getPolyline(
       {required LatLng source, required LatLng dest}) async {
     final response = await dio.get(
-          'https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248b144cc92443247b7b9e0bd5df85012f2&start=8.681495,49.41461&end=8.687872,49.420318',
+      'https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248b144cc92443247b7b9e0bd5df85012f2&start=8.681495,49.41461&end=8.687872,49.420318',
     );
     if (response.statusCode == 200) {
       var body = response.data;
@@ -531,10 +480,8 @@ final dio2 = Dio(BaseOptions(
     }
   }
 
-  Future<Map<String, dynamic>> postUPSP(
-      Map<String, dynamic> data) async {
-    var res = await dio.post(Endpoints.upspPost,
-        data: data);
+  Future<Map<String, dynamic>> postUPSP(Map<String, dynamic> data) async {
+    var res = await dio.post(Endpoints.upspPost, data: data);
     return res.data;
   }
 
@@ -546,9 +493,7 @@ final dio2 = Dio(BaseOptions(
     try {
       var response = await dio.post(
         Endpoints.uploadFileUPSP,
-        options: Options(
-          contentType: 'multipart/form-data'
-        ),
+        options: Options(contentType: 'multipart/form-data'),
         data: formData,
         onSendProgress: (int send, int total) {
           // TODO: Show send/total percent as progress indicator
@@ -574,37 +519,37 @@ final dio2 = Dio(BaseOptions(
           "deviceToken": token
         },
       ),
-       headers: {
+      headers: {
         'Content-Type': 'application/json',
         'security-key': Endpoints.apiSecurityKey
       },
     );
-
   }
 
-  Future<Map<String,dynamic>> getFerryTiming() async {
+  Future<Map<String, dynamic>> getFerryTiming() async {
     try {
-        Response res = await dio.get(Endpoints.ferryURL);
-        return res.data;
+      Response res = await dio.get(Endpoints.ferryURL);
+      return res.data;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<Map<String,dynamic>> getMealData() async {
-    try{
-        final res = await dio.get(Endpoints.messURL);
-        return res.data;
-    }catch(e){
+  Future<Map<String, dynamic>> getMealData() async {
+    try {
+      final res = await dio.get(Endpoints.messURL);
+      return res.data;
+    } catch (e) {
       print(Endpoints.messURL);
       print(e);
       rethrow;
     }
   }
-  Future<Map<String,dynamic>> getBusTiming() async {
+
+  Future<Map<String, dynamic>> getBusTiming() async {
     try {
-        final res = await dio.get(Endpoints.busStops);
-        return res.data;
+      final res = await dio.get(Endpoints.busStops);
+      return res.data;
     } catch (e) {
       print("____________________________________________");
       print(e);

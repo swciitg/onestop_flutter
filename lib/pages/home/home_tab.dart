@@ -49,7 +49,7 @@ class _HomeTabState extends State<HomeTab> {
           ),
           LoginStore.isGuest
               ? Container()
-              : const Column(
+              : Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const DateCourse(),
