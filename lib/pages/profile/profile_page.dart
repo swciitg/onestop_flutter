@@ -148,6 +148,10 @@ class _ProfileState extends State<Profile> {
                           .format(DateTime.parse(widget.profileModel.dob!)),
                     ),
               DataTile(
+                title: 'Home Address',
+                semiTitle: widget.profileModel.homeAddress,
+              ),
+              DataTile(
                 title: 'LinkedIn Profile',
                 semiTitle: widget.profileModel.linkedin,
               ),

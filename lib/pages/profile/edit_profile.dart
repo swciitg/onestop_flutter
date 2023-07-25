@@ -319,7 +319,7 @@ class _EditProfileState extends State<EditProfile> {
                           child: Column(
                             children: [
                               CustomTextField(
-                                hintText: 'name',
+                                hintText: 'Name',
                                 // validator: validatefield,
                                 isNecessary: false,
                                 controller: _nameController,
@@ -352,7 +352,7 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                               CustomTextField(
                                 isEnabled: false,
-                                hintText: 'outlookEmail ID',
+                                hintText: 'Outlook EmailID',
                                 // validator: validatefield,
                                 isNecessary: false,
                                 controller: _outlookEmailController,
