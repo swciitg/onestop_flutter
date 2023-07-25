@@ -24,7 +24,7 @@ List<HomeTabTile> serviceLinks = [
   ),
   const HomeTabTile(
     label: 'IRBS',
-    icon: FluentIcons.ticket_horizontal_24_regular,
+    icon: FluentIcons.calendar_edit_16_regular,
     routeId: IRBSPage.id,
     newBadge: true,
   ),
