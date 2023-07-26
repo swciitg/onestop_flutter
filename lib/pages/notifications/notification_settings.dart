@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/notifications/notif_toggle.dart';
-
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
+
 class NotificationSettings extends StatefulWidget {
   const NotificationSettings({Key? key}) : super(key: key);
 

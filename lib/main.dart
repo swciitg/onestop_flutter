@@ -13,9 +13,6 @@ import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:provider/provider.dart';
-import './services/api.dart';
-import 'firebase_options.dart';
-
 import 'firebase_options.dart';
 
 void main() async {

@@ -2,49 +2,68 @@ var jsonABC = {
   "roll_number": "200101071",
   "courses": [
     {
-      "code": "CS 501",
-      "course": "Parallel Algorithms",
-      "slot": "D",
-      "instructor": "Sajith Gopalan",
-      "venue": "",
+      "code": "A code",
+      "course": "D course",
+      "slot": "D1",
+      "instructor": "A instructor",
+      "venue": "A venue",
       "midsem": "2023-09-21T09:00:00.000Z",
       "endsem": "2023-11-22T09:00:00.000Z"
     },
     {
-      "code": "CS 525",
-      "course": "Formal Methods For System Verification",
+      "code": "A code",
+      "course": "F course",
+      "slot": "F1",
+      "instructor": "A instructor",
+      "venue": "A venue",
+      "midsem": "2023-09-21T09:00:00.000Z",
+      "endsem": "2023-11-22T09:00:00.000Z"
+    },
+    {
+      "code": "G code",
+      "course": "G course",
+      "slot": "G1",
+      "instructor": "A instructor",
+      "venue": "A venue",
+      "midsem": "2023-09-21T09:00:00.000Z",
+      "endsem": "2023-11-22T09:00:00.000Z"
+    },
+    {
+      "code": "E code",
+      "course": "E course",
+      "slot": "E1",
+      "instructor": "A instructor",
+      "venue": "A venue",
+      "midsem": "2023-09-21T09:00:00.000Z",
+      "endsem": "2023-11-22T09:00:00.000Z"
+    },
+    {
+      "code": "A code",
+      "course": "A course",
       "slot": "A1",
-      "instructor": "Chandan Karfa",
-      "venue": "",
-      "midsem": "2023-09-18T14:00:00.000Z",
-      "endsem": "2023-11-19T14:00:00.000Z"
+      "instructor": "A instructor",
+      "venue": "A venue",
+      "midsem": "2023-09-21T09:00:00.000Z",
+      "endsem": "2023-11-22T09:00:00.000Z"
     },
     {
-      "code": "CS 535",
-      "course": "Hardware Security",
-      "slot": "B",
-      "instructor": "John Jose",
-      "venue": "",
-      "midsem": "2023-09-19T09:00:00.000Z",
-      "endsem": "2023-11-20T09:00:00.000Z"
+      "code": "G code",
+      "course": "B course",
+      "slot": "B1",
+      "instructor": "A instructor",
+      "venue": "A venue",
+      "midsem": "2023-09-21T09:00:00.000Z",
+      "endsem": "2023-11-22T09:00:00.000Z"
     },
     {
-      "code": "CS 549",
-      "course": "Computer and Network Security",
-      "slot": "D1",
-      "instructor": "Sukumar Nandi",
-      "venue": "",
-      "midsem": "2023-09-21T14:00:00.000Z",
-      "endsem": "2023-11-22T14:00:00.000Z"
+      "code": "E code",
+      "course": "C course",
+      "slot": "C1",
+      "instructor": "A instructor",
+      "venue": "A venue",
+      "midsem": "2023-09-21T09:00:00.000Z",
+      "endsem": "2023-11-22T09:00:00.000Z"
     },
-    {
-      "code": "CS 590",
-      "course": "Deep Learning",
-      "slot": "G",
-      "instructor": "Arijit Sur",
-      "venue": "",
-      "midsem": "2023-09-24T09:00:00.000Z",
-      "endsem": "2023-11-25T09:00:00.000Z"
-    }
+
   ]
 };

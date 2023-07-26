@@ -1,6 +1,4 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 

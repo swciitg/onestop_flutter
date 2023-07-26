@@ -304,7 +304,7 @@ abstract class _TimetableStore with Store {
         }
         if (slot == 'G') {
           switch (i) {
-            case 5:
+            case 2:
             case 3:
             case 4:
               copyCourse.timing = '12:00 - 12:55 PM';

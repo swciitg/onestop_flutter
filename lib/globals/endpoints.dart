@@ -1,7 +1,3 @@
-import 'package:onestop_dev/globals/database_strings.dart';
-
-import '../functions/utility/auth_user_helper.dart';
-
 class Endpoints {
   static const baseUrl = String.fromEnvironment('SERVER-URL');
   static const String restaurantURL = "/getAllOutlets";

@@ -8,7 +8,6 @@ import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/buy_sell/buy_sell_field.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:onestop_dev/services/api.dart';
 
 class BuySellForm extends StatefulWidget {

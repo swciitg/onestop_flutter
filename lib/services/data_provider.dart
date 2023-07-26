@@ -96,13 +96,13 @@ class DataProvider {
   }
 
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {
-    var cachedData = //null;
-        (await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
+    var cachedData = null;
+        //(await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
     if (cachedData == null) {
       RegisteredCourses timetableData =
           await APIService().getTimeTable(roll: roll);
-      await LocalStorage.instance
-          .storeData([timetableData.toJson()], DatabaseRecords.timetable);
+      // await LocalStorage.instance
+      //     .storeData([timetableData.toJson()], DatabaseRecords.timetable);
       return timetableData;
     }
     // TODO: Change this later, for now cache till the end of Monsoon sem
