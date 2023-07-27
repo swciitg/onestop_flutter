@@ -168,7 +168,11 @@ class _EditProfileState extends State<EditProfile> {
           backgroundColor: kAppBarGrey,
           iconTheme: const IconThemeData(color: kAppBarGrey),
           automaticallyImplyLeading: false,
-          centerTitle: false,
+          centerTitle: true,
+        // leadingWidth: 16,
+        leading: IconButton(onPressed: () {
+          Navigator.of(context).pop();
+        },icon: Icon(Icons.arrow_back_ios_new_outlined,color: kWhite,),iconSize: 20,),
           title: Text(
             "Profile Setup",
             textAlign: TextAlign.left,
