@@ -179,7 +179,7 @@ class ComplaintsPage extends StatelessWidget {
                       ),
                       Text(
                         "For complaints related to electricity, carpentry, plumbing, sanitary and other civil works in hostels and infrastructure complaints in common and dept areas",
-                        style: MyFonts.w500.setColor(kWhite).size(11),
+                        style: MyFonts.w500.setColor(kWhite).size(14),
                       ),
                       const SizedBox(
                         height: 4,
@@ -198,7 +198,7 @@ class ComplaintsPage extends StatelessWidget {
                             height: 16,
                             child: Text(
                               "Click here",
-                              style: MyFonts.w500.setColor(lBlue4).size(11),
+                              style: MyFonts.w500.setColor(lBlue4).size(14),
                             ),
                           )),
                       const SizedBox(
@@ -227,7 +227,7 @@ class ComplaintsPage extends StatelessWidget {
                       ),
                       Text(
                         "For queries related to LAN",
-                        style: MyFonts.w500.setColor(kWhite).size(11),
+                        style: MyFonts.w500.setColor(kWhite).size(14),
                       ),
                       const SizedBox(
                         height: 4,
@@ -245,7 +245,7 @@ class ComplaintsPage extends StatelessWidget {
                             height: 16,
                             child: Text(
                               "Click here",
-                              style: MyFonts.w500.setColor(lBlue4).size(11),
+                              style: MyFonts.w500.setColor(lBlue4).size(14),
                             ),
                           )),
                       const SizedBox(
@@ -274,7 +274,7 @@ class ComplaintsPage extends StatelessWidget {
                       ),
                       Text(
                         "For generic problems you want to let the student gymkhana council know",
-                        style: MyFonts.w500.setColor(kWhite).size(11),
+                        style: MyFonts.w500.setColor(kWhite).size(14),
                       ),
                       const SizedBox(
                         height: 4,
@@ -287,7 +287,7 @@ class ComplaintsPage extends StatelessWidget {
                             height: 16,
                             child: Text(
                               "Click here",
-                              style: MyFonts.w500.setColor(lBlue4).size(11),
+                              style: MyFonts.w500.setColor(lBlue4).size(14),
                             ),
                           )),
                       const SizedBox(
