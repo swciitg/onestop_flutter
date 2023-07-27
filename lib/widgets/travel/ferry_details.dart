@@ -45,6 +45,8 @@ class _FerryDetailsState extends State<FerryDetails> {
             .value!
             .firstWhere((element) =>
                 element.stop == context.read<TravelStore>().selectedFerryGhat);
+        print("Ferry model");
+        print(ferryModel);
         // var ferryMap = ferryModel.toJson();
         return Column(children: [
           SizedBox(

@@ -31,6 +31,10 @@ class BusStopList extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 List<TravelTiming>? busTime = snapshot.data ;
+                if(busTime!.isEmpty)
+                  {
+                    return Container();
+                  }
                 List<DateTime> weekdaysTimes=[];
                 List<DateTime> weekendTimes=[];
                 for(var xyz in busTime!){
@@ -47,23 +51,8 @@ class BusStopList extends StatelessWidget {
                   }
                 }
                 weekendTimes.sort((a, b) => a.compareTo(b));
-                // List<dynamic> allBusTimes =
-                //     (snapshot.data as List<dynamic>);
-                // List<List<String>> busTime = [[], []];
-                // allBusTimes.forEach((key, list) {
-                //   for (String time in list[0]) {
-                //     busTime[0].add(time);
-                //   }
-                //   for (String time in list[1]) {
-                //     busTime[1].add(time);
-                //   }
-                // });
-                // busTime.sort((a, b) {
-                //   return parseTime(a).compareTo(parseTime(b));
-                // });
-                // busTime[1].sort((a, b) {
-                //   return parseTime(a).compareTo(parseTime(b));
-                // });
+
+
                 return Padding(
                   padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                   child: GestureDetector(

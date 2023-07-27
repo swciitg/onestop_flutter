@@ -42,6 +42,10 @@ class DataProvider {
     for (var element in busData) {
       busTimings.add(TravelTiming.fromJson(element));
     }
+    if(busTimings.length == 0)
+      {
+        return busTimings;
+      }
     for (int i = 0; i < busTimings[0].weekdays.toCampus.length; i++) {
       busTimings[0].weekdays.toCampus[i] =
           busTimings[0].weekdays.toCampus[i].toLocal();
@@ -101,6 +105,7 @@ class DataProvider {
     if (cachedData == null) {
       RegisteredCourses timetableData =
           await APIService().getTimeTable(roll: roll);
+      print(timetableData.courses![0].endsem);
       // await LocalStorage.instance
       //     .storeData([timetableData.toJson()], DatabaseRecords.timetable);
       return timetableData;
