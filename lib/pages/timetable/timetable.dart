@@ -34,53 +34,55 @@ class _TimeTableTabState extends State<TimeTableTab> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      TextButton(
-                        onPressed: () {
-                          (context.read<TimetableStore>().setTT());
-                        },
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(40),
-                          ),
-                          child: Container(
-                            height: 32,
-                            width: 140,
-                            color: (context.read<TimetableStore>().isTimetable)
-                                ? lBlue2
-                                : kGrey2,
-                            child: Center(
-                              child: Text("Timetable",
-                                  style: (context
-                                          .read<TimetableStore>()
-                                          .isTimetable)
-                                      ? MyFonts.w500.setColor(kBlueGrey)
-                                      : MyFonts.w500.setColor(kWhite)),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            (context.read<TimetableStore>().setTT());
+                          },
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(40),
+                            ),
+                            child: Container(
+                              height: 32,
+                              color: (context.read<TimetableStore>().isTimetable)
+                                  ? lBlue2
+                                  : kGrey2,
+                              child: Center(
+                                child: Text("Timetable",
+                                    style: (context
+                                            .read<TimetableStore>()
+                                            .isTimetable)
+                                        ? MyFonts.w500.setColor(kBlueGrey)
+                                        : MyFonts.w500.setColor(kWhite)),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          (context.read<TimetableStore>().setTT());
-                        },
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(40),
-                          ),
-                          child: Container(
-                            height: 32,
-                            width: 140,
-                            color: !(context.read<TimetableStore>().isTimetable)
-                                ? lBlue2
-                                : kGrey2,
-                            child: Center(
-                              child: Text(
-                                "Schedule",
-                                style: !(context
-                                        .read<TimetableStore>()
-                                        .isTimetable)
-                                    ? MyFonts.w500.setColor(kBlueGrey)
-                                    : MyFonts.w500.setColor(kWhite),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            (context.read<TimetableStore>().setTT());
+                          },
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(40),
+                            ),
+                            child: Container(
+                              height: 32,
+                              color: !(context.read<TimetableStore>().isTimetable)
+                                  ? lBlue2
+                                  : kGrey2,
+                              child: Center(
+                                child: Text(
+                                  "Schedule",
+                                  style: !(context
+                                          .read<TimetableStore>()
+                                          .isTimetable)
+                                      ? MyFonts.w500.setColor(kBlueGrey)
+                                      : MyFonts.w500.setColor(kWhite),
+                                ),
                               ),
                             ),
                           ),
