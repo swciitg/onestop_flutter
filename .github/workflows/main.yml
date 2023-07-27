@@ -20,7 +20,7 @@ jobs:
       - run: flutter --version
       - run: flutter pub get
       - run: flutter pub upgrade
-      - run: flutter build apk --no-tree-shake-icons --debug --dart-define SERVER-URL="https://swc.iitg.ac.in/test/onestopapi/v2/" --dart-define SECURITY-KEY=${{ secrets.SECURITY_KEY }}
+      - run: flutter build apk --debug --no-tree-shake-icons --debug --dart-define SERVER-URL="https://swc.iitg.ac.in/onestop/api/v3/" --dart-define SECURITY-KEY=${{ secrets.SECURITY_KEY }} --dart-define GMAP_KEY=${{ secrets.GMAP_KEY }} --dart-define GITHUB_ISSUE_TOKEN=${{ secrets.GIT_TOKEN }}
       - name: Create Release
         uses: ncipollo/release-action@v1.10.0
         with:
