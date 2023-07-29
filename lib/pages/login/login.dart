@@ -1,15 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/size_config.dart';
-import 'package:onestop_dev/pages/login/welcome.dart';
 import 'package:onestop_dev/widgets/login/login_webview.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../globals/my_colors.dart';
-import '../../globals/my_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   static String id = "/login";

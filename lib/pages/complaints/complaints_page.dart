@@ -1,6 +1,4 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -181,7 +179,7 @@ class ComplaintsPage extends StatelessWidget {
                       ),
                       Text(
                         "For complaints related to electricity, carpentry, plumbing, sanitary and other civil works in hostels and infrastructure complaints in common and dept areas",
-                        style: MyFonts.w500.setColor(kWhite).size(11),
+                        style: MyFonts.w500.setColor(kWhite).size(14),
                       ),
                       const SizedBox(
                         height: 4,
@@ -200,7 +198,7 @@ class ComplaintsPage extends StatelessWidget {
                             height: 16,
                             child: Text(
                               "Click here",
-                              style: MyFonts.w500.setColor(lBlue4).size(11),
+                              style: MyFonts.w500.setColor(lBlue4).size(14),
                             ),
                           )),
                       const SizedBox(
@@ -229,7 +227,7 @@ class ComplaintsPage extends StatelessWidget {
                       ),
                       Text(
                         "For queries related to LAN",
-                        style: MyFonts.w500.setColor(kWhite).size(11),
+                        style: MyFonts.w500.setColor(kWhite).size(14),
                       ),
                       const SizedBox(
                         height: 4,
@@ -247,7 +245,7 @@ class ComplaintsPage extends StatelessWidget {
                             height: 16,
                             child: Text(
                               "Click here",
-                              style: MyFonts.w500.setColor(lBlue4).size(11),
+                              style: MyFonts.w500.setColor(lBlue4).size(14),
                             ),
                           )),
                       const SizedBox(
@@ -276,7 +274,7 @@ class ComplaintsPage extends StatelessWidget {
                       ),
                       Text(
                         "For generic problems you want to let the student gymkhana council know",
-                        style: MyFonts.w500.setColor(kWhite).size(11),
+                        style: MyFonts.w500.setColor(kWhite).size(14),
                       ),
                       const SizedBox(
                         height: 4,
@@ -289,7 +287,7 @@ class ComplaintsPage extends StatelessWidget {
                             height: 16,
                             child: Text(
                               "Click here",
-                              style: MyFonts.w500.setColor(lBlue4).size(11),
+                              style: MyFonts.w500.setColor(lBlue4).size(14),
                             ),
                           )),
                       const SizedBox(

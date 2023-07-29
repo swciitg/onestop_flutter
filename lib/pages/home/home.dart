@@ -14,6 +14,8 @@ import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/ui/onestop_upgrade.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/home/home_drawer.dart';
+   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 class HomePage extends StatefulWidget {
   static String id = "/home2";
   const HomePage({Key? key}) : super(key: key);
@@ -32,11 +34,14 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   Widget build(BuildContext context) {
+
     SizeConfig().init(context);
     return OneStopUpgrader(
       child: Provider(
         create: (_) => TimetableStore(),
         child: Scaffold(
+          key: scaffoldKey,
+          drawer: const HomeDrawer(),
           appBar: appBar(context),
           bottomNavigationBar: NavigationBarTheme(
             data: NavigationBarThemeData(

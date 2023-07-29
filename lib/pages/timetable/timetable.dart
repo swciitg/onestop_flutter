@@ -34,53 +34,55 @@ class _TimeTableTabState extends State<TimeTableTab> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      TextButton(
-                        onPressed: () {
-                          (context.read<TimetableStore>().setTT());
-                        },
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(40),
-                          ),
-                          child: Container(
-                            height: 32,
-                            width: 140,
-                            color: (context.read<TimetableStore>().isTimetable)
-                                ? lBlue2
-                                : kGrey2,
-                            child: Center(
-                              child: Text("Timetable",
-                                  style: (context
-                                          .read<TimetableStore>()
-                                          .isTimetable)
-                                      ? MyFonts.w500.setColor(kBlueGrey)
-                                      : MyFonts.w500.setColor(kWhite)),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            (context.read<TimetableStore>().setTT());
+                          },
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(40),
+                            ),
+                            child: Container(
+                              height: 32,
+                              color: (context.read<TimetableStore>().isTimetable)
+                                  ? lBlue2
+                                  : kGrey2,
+                              child: Center(
+                                child: Text("Timetable",
+                                    style: (context
+                                            .read<TimetableStore>()
+                                            .isTimetable)
+                                        ? MyFonts.w500.setColor(kBlueGrey)
+                                        : MyFonts.w500.setColor(kWhite)),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          (context.read<TimetableStore>().setTT());
-                        },
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(40),
-                          ),
-                          child: Container(
-                            height: 32,
-                            width: 140,
-                            color: !(context.read<TimetableStore>().isTimetable)
-                                ? lBlue2
-                                : kGrey2,
-                            child: Center(
-                              child: Text(
-                                "Schedule",
-                                style: !(context
-                                        .read<TimetableStore>()
-                                        .isTimetable)
-                                    ? MyFonts.w500.setColor(kBlueGrey)
-                                    : MyFonts.w500.setColor(kWhite),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            (context.read<TimetableStore>().setTT());
+                          },
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(40),
+                            ),
+                            child: Container(
+                              height: 32,
+                              color: !(context.read<TimetableStore>().isTimetable)
+                                  ? lBlue2
+                                  : kGrey2,
+                              child: Center(
+                                child: Text(
+                                  "Schedule",
+                                  style: !(context
+                                          .read<TimetableStore>()
+                                          .isTimetable)
+                                      ? MyFonts.w500.setColor(kBlueGrey)
+                                      : MyFonts.w500.setColor(kWhite),
+                                ),
                               ),
                             ),
                           ),
@@ -122,7 +124,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                           children: [
                             FutureBuilder<RegisteredCourses>(
                                 future: DataProvider.getTimeTable(
-                                    roll: "200101071"),
+                                    roll: LoginStore.userData["rollNo"]),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasError) {
                                     return ListShimmer();
@@ -147,13 +149,19 @@ class ScheduleList extends StatelessWidget {
 
   List<CourseModel> _sort(List<CourseModel> input, {String type = "midsem"}) {
     if (type == "midsem") {
-      input.removeWhere((element) => element.midsem == null);
+      input.removeWhere((element) => element.midsem == null || element.midsem == "");
       input.sort((a, b) =>
           DateTime.parse(a.midsem!).isAfter(DateTime.parse(b.midsem!))
               ? 1
               : -1);
     } else {
-      input.removeWhere((element) => element.endsem == null);
+      input.removeWhere((element) => element.endsem == null || element.endsem == "");
+      print("Here");
+      print(input);
+      for(var x in input)
+        {
+          print(x.endsem);
+        }
       input.sort((a, b) =>
           DateTime.parse(a.endsem!).isAfter(DateTime.parse(b.endsem!))
               ? 1

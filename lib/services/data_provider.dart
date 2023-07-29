@@ -42,6 +42,10 @@ class DataProvider {
     for (var element in busData) {
       busTimings.add(TravelTiming.fromJson(element));
     }
+    if(busTimings.length == 0)
+      {
+        return busTimings;
+      }
     for (int i = 0; i < busTimings[0].weekdays.toCampus.length; i++) {
       busTimings[0].weekdays.toCampus[i] =
           busTimings[0].weekdays.toCampus[i].toLocal();
@@ -96,13 +100,14 @@ class DataProvider {
   }
 
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {
-    var cachedData = //null;
-        (await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
+    var cachedData = null;
+        //(await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
     if (cachedData == null) {
       RegisteredCourses timetableData =
           await APIService().getTimeTable(roll: roll);
-      await LocalStorage.instance
-          .storeData([timetableData.toJson()], DatabaseRecords.timetable);
+      print(timetableData.courses![0].endsem);
+      // await LocalStorage.instance
+      //     .storeData([timetableData.toJson()], DatabaseRecords.timetable);
       return timetableData;
     }
     // TODO: Change this later, for now cache till the end of Monsoon sem

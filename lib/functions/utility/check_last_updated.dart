@@ -1,10 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/services/local_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Map<String, List<String>> recordNames = {
   "foodOutlet": [DatabaseRecords.restaurant],
