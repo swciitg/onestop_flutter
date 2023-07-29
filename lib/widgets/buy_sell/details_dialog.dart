@@ -8,6 +8,9 @@ import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/widgets/lostfound/claim_call_button.dart';
 
+import '../../functions/utility/auth_user_helper.dart';
+import '../../globals/endpoints.dart';
+
 void detailsDialogBox(context, dynamic model, [parentContext]) {
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
@@ -95,15 +98,25 @@ void detailsDialogBox(context, dynamic model, [parentContext]) {
                       constraints: BoxConstraints(
                           maxHeight: screenHeight * 0.3,
                           maxWidth: screenWidth - 30),
-                      child: SingleChildScrollView(
-                        child: Image.network(
-                          model.imageURL,
-                          fit: BoxFit.cover,
-                          frameBuilder: restaurantTileFrameBuilder,
-                          width: screenWidth - 30,
-                          cacheWidth: (screenWidth - 30).round(),
-                          errorBuilder: (_, __, ___) => Container(),
-                        ),
+                      child: FutureBuilder(
+                        future: AuthUserHelpers.getAccessToken(),
+                        builder: (context, snapshot) {
+                          if(snapshot.hasError || !snapshot.hasData)
+                          {
+                            return Container();
+                          }
+                          return SingleChildScrollView(
+                            child: Image.network(
+                              model.imageURL,
+                              fit: BoxFit.cover,
+                              frameBuilder: restaurantTileFrameBuilder,
+                              width: screenWidth - 30,
+                              headers: {'Content-Type': 'application/json', 'security-key': Endpoints.apiSecurityKey, 'Authorization': "Bearer ${snapshot.data}"},
+                              cacheWidth: (screenWidth - 30).round(),
+                              errorBuilder: (_, __, ___) => Container(),
+                            ),
+                          );
+                        }
                       ),
                     ),
                   ),

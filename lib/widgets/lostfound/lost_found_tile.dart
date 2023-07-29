@@ -6,6 +6,9 @@ import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../functions/utility/auth_user_helper.dart';
+import '../../globals/endpoints.dart';
+
 class LostFoundTile extends StatefulWidget {
   final dynamic currentModel;
   final BuildContext? parentContext;
@@ -84,21 +87,31 @@ class _LostFoundTileState extends State<LostFoundTile> {
                 ),
               ),
             ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 105, maxWidth: 135),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(21),
-                    bottomRight: Radius.circular(21)),
-                child: Image.network(
-                  widget.currentModel.compressedImageURL,
-                  width: screenWidth * 0.35,
-                  cacheWidth: (screenWidth * 0.35).round(),
-                  fit: BoxFit.cover,
-                  frameBuilder: restaurantTileFrameBuilder,
-                  errorBuilder: (_, __, ___) => Container(),
-                ),
-              ),
+            FutureBuilder(
+              future: AuthUserHelpers.getAccessToken(),
+              builder: (context, snapshot) {
+                if(snapshot.hasError || !snapshot.hasData)
+                  {
+                    return Container();
+                  }
+                return ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 105, maxWidth: 135),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(21),
+                        bottomRight: Radius.circular(21)),
+                    child: Image.network(
+                      widget.currentModel.compressedImageURL,
+                      width: screenWidth * 0.35,
+                      cacheWidth: (screenWidth * 0.35).round(),
+                      fit: BoxFit.cover,
+                      frameBuilder: restaurantTileFrameBuilder,
+                      errorBuilder: (_, __, ___) => Container(),
+                      headers: {'Content-Type': 'application/json', 'security-key': Endpoints.apiSecurityKey, 'Authorization': "Bearer ${snapshot.data}"},
+                    ),
+                  ),
+                );
+              }
             )
           ],
         ),

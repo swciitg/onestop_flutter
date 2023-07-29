@@ -9,6 +9,9 @@ import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
 
+import '../../functions/utility/auth_user_helper.dart';
+import '../../globals/endpoints.dart';
+
 class MyAdsTile extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
   final model;
@@ -116,18 +119,28 @@ class _MyAdsTileState extends State<MyAdsTile> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 4,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(21),
-                          bottomRight: Radius.circular(21)),
-                      child: Image.network(widget.model.imageURL,
-                          cacheWidth: 100,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(),
-                          frameBuilder: restaurantTileFrameBuilder),
-                    ),
+                  FutureBuilder(
+                    future: AuthUserHelpers.getAccessToken(),
+                    builder: (context, snapshot) {
+                      if(snapshot.hasError || !snapshot.hasData)
+                      {
+                        return Container();
+                      }
+                      return Expanded(
+                        flex: 4,
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(21),
+                              bottomRight: Radius.circular(21)),
+                          child: Image.network(widget.model.imageURL,
+                              cacheWidth: 100,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => Container(),
+                              headers: {'Content-Type': 'application/json', 'security-key': Endpoints.apiSecurityKey, 'Authorization': "Bearer ${snapshot.data}"},
+                              frameBuilder: restaurantTileFrameBuilder),
+                        ),
+                      );
+                    }
                   ),
                 ],
               ),

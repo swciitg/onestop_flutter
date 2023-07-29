@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import '../../functions/utility/auth_user_helper.dart';
+import '../../globals/endpoints.dart';
 import 'details_dialog.dart';
 
 class BuyTile extends StatelessWidget {
@@ -75,20 +77,30 @@ class BuyTile extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                flex: 4,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(21),
-                      bottomRight: Radius.circular(21)),
-                  child: Image.network(
-                    model.imageURL,
-                    fit: BoxFit.cover,
-                    cacheWidth: 100,
-                    frameBuilder: restaurantTileFrameBuilder,
-                    errorBuilder: (_, __, ___) => Container(),
-                  ),
-                ),
+              FutureBuilder(
+                future: AuthUserHelpers.getAccessToken(),
+                builder: (context, snapshot) {
+                  if(snapshot.hasError || !snapshot.hasData)
+                  {
+                    return Container();
+                  }
+                  return Expanded(
+                    flex: 4,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(21),
+                          bottomRight: Radius.circular(21)),
+                      child: Image.network(
+                        model.imageURL,
+                        fit: BoxFit.cover,
+                        cacheWidth: 100,
+                        headers: {'Content-Type': 'application/json', 'security-key': Endpoints.apiSecurityKey, 'Authorization': "Bearer ${snapshot.data}"},
+                        frameBuilder: restaurantTileFrameBuilder,
+                        errorBuilder: (_, __, ___) => Container(),
+                      ),
+                    ),
+                  );
+                }
               ),
             ],
           ),
