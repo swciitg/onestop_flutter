@@ -62,7 +62,6 @@ class _NextTimeCardState extends State<NextTimeCard> {
         }
         return nextTime(weekdaysTimes);
       } else {
-        // List<TravelTiming> ferryTimings = await APIService().getFerryTiming();
         List<TravelTiming> ferryTimings = await DataProvider.getFerryTiming();
         List<DateTime> weekdaysTimes= [];
         List<DateTime> weekendTimes=[];
@@ -79,10 +78,6 @@ class _NextTimeCardState extends State<NextTimeCard> {
           weekendTimes.add(requiredModel.weekend.fromCampus[i]);
         }
         weekendTimes.sort((a, b) => a.compareTo(b));
-        // var ferryTimes = await DataProvider.getFerryTimings();
-        // var requiredModel = ferryTimes.firstWhere((element) =>
-        //     element.name ==
-        //     mapStore.allLocationData[mapStore.selectedCarouselIndex]['name']);
         if (today == 'Sat') {
           return nextTime(weekdaysTimes,
               firstTime: weekendTimes[0].toString());
