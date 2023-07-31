@@ -27,107 +27,12 @@ class _NotificationSettingsState extends State<NotificationSettings> {
       ),
       body:  Column(
         children: [
+          NotifToggle(text: 'announcement'),
           NotifToggle(text: 'cab sharing'),
           NotifToggle(text: 'lost'),
           NotifToggle(text: 'found'),
-          NotifToggle(text: 'announcement'),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical:  8,horizontal: 16),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       Text('Cab Sharing', style: MyFonts.w500.setColor(kWhite),),
-          //       FlutterSwitch(
-          //         toggleSize: 20,
-          //           toggleColor: kWhite,
-          //           inactiveColor: kGrey,
-          //           activeColor: lBlue2,
-          //           height: 32,
-          //           width: 52,
-          //           value: cab,
-          //         onToggle: (val) {
-          //           print("Cab Sharing toggle is changed to $cab");
-          //             setState(() {
-          //               cab = val;
-          //               LoginStore.updateNotifPref("cab sharing");
-          //             });
-          //         },
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical:  8,horizontal: 16),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       Text('Lost', style: MyFonts.w500.setColor(kWhite),),
-          //       FlutterSwitch(
-          //         toggleSize: 20,
-          //         toggleColor: kWhite,
-          //         inactiveColor: kGrey,
-          //         activeColor: lBlue2,
-          //         height: 32,
-          //         width: 52,
-          //         value: lost,
-          //         onToggle: (val) {
-          //           print("Lost toggle is changed to $lost");
-          //           setState(() {
-          //             lost = val;
-          //           });
-          //         },
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical:  8,horizontal: 16),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       Text('Found', style: MyFonts.w500.setColor(kWhite),),
-          //       FlutterSwitch(
-          //         toggleSize: 20,
-          //         toggleColor: kWhite,
-          //         inactiveColor: kGrey,
-          //         activeColor: lBlue2,
-          //         height: 32,
-          //         width: 52,
-          //         value: found,
-          //         onToggle: (val) {
-          //           print("Found toggle is changed to $found");
-          //           setState(() {
-          //             found = val;
-          //           });
-          //         },
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical:  8,horizontal: 16),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       Text('General Announcement', style: MyFonts.w500.setColor(kWhite),),
-          //       FlutterSwitch(
-          //         toggleSize: 20,
-          //         toggleColor: kWhite,
-          //         inactiveColor: kGrey,
-          //         activeColor: lBlue2,
-          //         height: 32,
-          //         width: 52,
-          //         value: announcement,
-          //         onToggle: (val) {
-          //           print("Announcement toggle is changed to $announcement");
-          //           setState(() {
-          //             announcement = val;
-          //           });
-          //         },
-          //       ),
-          //     ],
-          //   ),
-          // )
+          NotifToggle(text: 'buy'),
+          NotifToggle(text: 'sell'),
         ],
       ),
     );

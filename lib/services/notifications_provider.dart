@@ -138,6 +138,7 @@ Future<bool> checkForNotifications() async {
     );
     print("Message is ${message.data}");
     if (checkNotificationCategory(message.data['category'])) {
+      print("apple");
       final SharedPreferences preferences = await SharedPreferences.getInstance();
       var notifInfo = jsonDecode(preferences.getString("notifInfo")!);
       if(notifInfo[message.data['category']])
@@ -150,6 +151,9 @@ Future<bool> checkForNotifications() async {
           );
         }
 
+    }
+    else{
+      print("ball");
     }
     saveNotification(message);
   });
