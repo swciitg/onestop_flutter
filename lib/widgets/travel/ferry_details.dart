@@ -130,7 +130,7 @@ class _FerryDetailsState extends State<FerryDetails> {
                       isLeft: direction == "Campus to City"
                           ? hasLeft(ferryModel.weekend.fromCampus[index])
                           : hasLeft(ferryModel.weekend.toCampus[index]),
-                      icon: FluentIcons.vehicle_bus_24_filled,
+                      icon: FluentIcons.vehicle_ship_16_filled,
                     ),
                   );
                 }),
@@ -151,7 +151,7 @@ class _FerryDetailsState extends State<FerryDetails> {
                       isLeft: direction == "Campus to City"
                           ? hasLeft(ferryModel.weekdays.fromCampus[index])
                           : hasLeft(ferryModel.weekdays.toCampus[index]),
-                      icon: FluentIcons.vehicle_bus_24_filled,
+                      icon: FluentIcons.vehicle_ship_16_filled,
                     ),
                   );
                 }),
