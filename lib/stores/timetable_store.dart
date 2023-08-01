@@ -554,6 +554,14 @@ abstract class _TimetableStore with Store {
       }
       timetableCourses[i].morning.sort(((a, b) => a.timing.compareTo(b.timing)));
       timetableCourses[i].afternoon.sort((a,b)=> a.timing.compareTo(b.timing));
+
+      if(timetableCourses[i].morning.length >= 2)
+        {
+          if(timetableCourses[i].morning[0].timing == timetableCourses[i].morning[1].timing)
+          {
+            timetableCourses[i].morning.removeAt(1);
+          }
+        }
     }
     allTimetableCourses = timetableCourses;
   }
