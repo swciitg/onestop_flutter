@@ -92,21 +92,23 @@ class _TimeTableTabState extends State<TimeTableTab> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Observer(builder: (context) {
-                              return FutureBuilder(
-                                  future: store.initialiseTT(),
-                                  builder: (context, snapshot) {
-                                    if (!snapshot.hasData) {
-                                      return ListShimmer();
+                            FutureBuilder(
+                                future: store.initialiseTT(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return ListShimmer();
+                                  }
+                                  return Observer(
+                                    builder: (context) {
+                                      return ListView.builder(
+                                          shrinkWrap: true,
+                                          physics: const ClampingScrollPhysics(),
+                                          itemCount: store.todayTimeTable.length,
+                                          itemBuilder: (context, index) =>
+                                              store.todayTimeTable[index]);
                                     }
-                                    return ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: const ClampingScrollPhysics(),
-                                        itemCount: store.todayTimeTable.length,
-                                        itemBuilder: (context, index) =>
-                                            store.todayTimeTable[index]);
-                                  });
-                            }),
+                                  );
+                                }),
                           ],
                         )
                       : Column(
