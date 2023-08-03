@@ -5,9 +5,6 @@ import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/quick_links/cab_share.dart';
-import 'package:onestop_dev/pages/quick_links/complaints.dart';
-import 'package:onestop_dev/pages/quick_links/gc_scoreboard.dart';
-import 'package:onestop_dev/pages/upsp/upsp.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 import 'package:onestop_dev/pages/quick_links/irbs.dart';
 

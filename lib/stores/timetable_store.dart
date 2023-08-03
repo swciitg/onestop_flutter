@@ -9,6 +9,7 @@ import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/timetable/timetable_day.dart';
 import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/ui/text_divider.dart';
 import 'package:onestop_dev/widgets/timetable/timetable_tile.dart';
 
@@ -17,18 +18,35 @@ part 'timetable_store.g.dart';
 class TimetableStore = _TimetableStore with _$TimetableStore;
 
 abstract class _TimetableStore with Store {
-  _TimetableStore() {
-    setupReactions();
-    initialiseDates();
+
+  //List of time table of each day of the week
+  List<TimetableDay> allTimetableCourses = List.generate(5, (index) => TimetableDay());
+
+  @observable
+  bool isProcessed = false;
+
+  @observable
+  RegisteredCourses? courses;
+
+  Future<RegisteredCourses> getCourses()
+  async {
+    if(courses == null)
+      {
+        courses = await DataProvider.getTimeTable(roll: LoginStore.userData['rollNo']);
+      }
+    return courses!;
   }
 
-  void setupReactions() {
-    autorun((_) {
-      if (loadOperation.value != null) {
-        processTimetable();
+   initialiseTT() async {
+    if(!isProcessed)
+      {
+        initialiseDates();
+        await processTimetable();
+        isProcessed = true;
       }
-    });
+    return "Success";
   }
+
 
   //List of dates to show in the date slider
   List<DateTime> dates = List.filled(5, DateTime.now());
@@ -123,34 +141,6 @@ abstract class _TimetableStore with Store {
     return l;
   }
 
-  //List of time table of each day of the week
-  List<TimetableDay> allTimetableCourses = List.generate(5, (index) => TimetableDay());
-
-
-
-  @observable
-  ObservableFuture<RegisteredCourses?> loadOperation = ObservableFuture.value(null);
-
-  @action
-  Future<void> setTimetable(String rollNumber,BuildContext context) async {
-    if (loadOperation.value == null) {
-      loadOperation =
-          DataProvider.getTimeTable(roll: rollNumber).asObservable();
-    }
-  }
-
-
-  @computed
-  bool get coursesLoaded => loadOperation.value != null;
-
-  @computed
-  bool get coursesLoading =>
-      loadOperation.value == null ||
-      loadOperation.status == FutureStatus.pending;
-
-  @computed
-  bool get coursesError => loadOperation.status == FutureStatus.rejected;
-
   @computed
   List<Widget> get todayTimeTable {
     int timetableIndex = dates[selectedDate].weekday - 1;
@@ -180,14 +170,13 @@ abstract class _TimetableStore with Store {
     return l;
   }
 
-  void processTimetable() {
+  Future<void> processTimetable() async {
 
     //A list of timetable of each day, with index 0 to 4 signifying mon to fri
     List<TimetableDay> timetableCourses = List.generate(5, (index) => TimetableDay());
 
     //Lets fill the above now
-
-    var courseList = loadOperation.value!;
+    var courseList = await getCourses();
     for (int i = 0; i <= 4; i++) {
       for (var v in courseList.courses!) {
         String slot = v.slot!;

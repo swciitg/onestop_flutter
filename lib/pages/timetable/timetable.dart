@@ -4,7 +4,6 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
-import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/timetable/date_slider.dart';
@@ -24,6 +23,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
   List<Map<int, List<List<String>>>> data1 = [];
   @override
   Widget build(BuildContext context) {
+    var store = context.read<TimetableStore>();
     return LoginStore.isGuest
         ? const GuestRestrictAccess()
         : SingleChildScrollView(
@@ -37,7 +37,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                       Expanded(
                         child: TextButton(
                           onPressed: () {
-                            (context.read<TimetableStore>().setTT());
+                            (store.setTT());
                           },
                           child: ClipRRect(
                             borderRadius: const BorderRadius.all(
@@ -45,14 +45,10 @@ class _TimeTableTabState extends State<TimeTableTab> {
                             ),
                             child: Container(
                               height: 32,
-                              color: (context.read<TimetableStore>().isTimetable)
-                                  ? lBlue2
-                                  : kGrey2,
+                              color: (store.isTimetable) ? lBlue2 : kGrey2,
                               child: Center(
                                 child: Text("Timetable",
-                                    style: (context
-                                            .read<TimetableStore>()
-                                            .isTimetable)
+                                    style: (store.isTimetable)
                                         ? MyFonts.w500.setColor(kBlueGrey)
                                         : MyFonts.w500.setColor(kWhite)),
                               ),
@@ -63,7 +59,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                       Expanded(
                         child: TextButton(
                           onPressed: () {
-                            (context.read<TimetableStore>().setTT());
+                            (store.setTT());
                           },
                           child: ClipRRect(
                             borderRadius: const BorderRadius.all(
@@ -71,15 +67,11 @@ class _TimeTableTabState extends State<TimeTableTab> {
                             ),
                             child: Container(
                               height: 32,
-                              color: !(context.read<TimetableStore>().isTimetable)
-                                  ? lBlue2
-                                  : kGrey2,
+                              color: !(store.isTimetable) ? lBlue2 : kGrey2,
                               child: Center(
                                 child: Text(
                                   "Schedule",
-                                  style: !(context
-                                          .read<TimetableStore>()
-                                          .isTimetable)
+                                  style: !(store.isTimetable)
                                       ? MyFonts.w500.setColor(kBlueGrey)
                                       : MyFonts.w500.setColor(kWhite),
                                 ),
@@ -90,7 +82,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                       ),
                     ],
                   ),
-                  (context.read<TimetableStore>().isTimetable)
+                  (store.isTimetable)
                       ? Column(
                           children: [
                             const SizedBox(
@@ -101,21 +93,19 @@ class _TimeTableTabState extends State<TimeTableTab> {
                               height: 10,
                             ),
                             Observer(builder: (context) {
-                              if (context
-                                  .read<TimetableStore>()
-                                  .coursesLoaded) {
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: const ClampingScrollPhysics(),
-                                    itemCount: context
-                                        .read<TimetableStore>()
-                                        .todayTimeTable
-                                        .length,
-                                    itemBuilder: (context, index) => context
-                                        .read<TimetableStore>()
-                                        .todayTimeTable[index]);
-                              }
-                              return ListShimmer();
+                              return FutureBuilder(
+                                  future: store.initialiseTT(),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return ListShimmer();
+                                    }
+                                    return ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: const ClampingScrollPhysics(),
+                                        itemCount: store.todayTimeTable.length,
+                                        itemBuilder: (context, index) =>
+                                            store.todayTimeTable[index]);
+                                  });
                             }),
                           ],
                         )
@@ -123,8 +113,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             FutureBuilder<RegisteredCourses>(
-                                future: DataProvider.getTimeTable(
-                                    roll: LoginStore.userData["rollNo"]),
+                                future: store.getCourses(),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasError) {
                                     return ListShimmer();
@@ -149,19 +138,20 @@ class ScheduleList extends StatelessWidget {
 
   List<CourseModel> _sort(List<CourseModel> input, {String type = "midsem"}) {
     if (type == "midsem") {
-      input.removeWhere((element) => element.midsem == null || element.midsem == "");
+      input.removeWhere(
+          (element) => element.midsem == null || element.midsem == "");
       input.sort((a, b) =>
           DateTime.parse(a.midsem!).isAfter(DateTime.parse(b.midsem!))
               ? 1
               : -1);
     } else {
-      input.removeWhere((element) => element.endsem == null || element.endsem == "");
+      input.removeWhere(
+          (element) => element.endsem == null || element.endsem == "");
       print("Here");
       print(input);
-      for(var x in input)
-        {
-          print(x.endsem);
-        }
+      for (var x in input) {
+        print(x.endsem);
+      }
       input.sort((a, b) =>
           DateTime.parse(a.endsem!).isAfter(DateTime.parse(b.endsem!))
               ? 1

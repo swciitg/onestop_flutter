@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
@@ -10,7 +8,6 @@ import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../functions/utility/show_snackbar.dart';
 import '../functions/utility/auth_user_helper.dart';
 
@@ -390,35 +387,6 @@ class APIService {
     }
   }
 
-  Future<Map<String, List<List<String>>>> getBusData() async {
-    var response = await dio.get(Endpoints.busURL);
-    var status = response.statusCode;
-    var json = response.data;
-    if (status == 200) {
-      Map<String, List<List<String>>> answer = {};
-      for (String stop in json.keys) {
-        List<List<String>> time = [];
-        time.add((json[stop]["CollegeToCity_Holiday"] as List<dynamic>)
-            .map((e) => e as String)
-            .toList());
-        time.add((json[stop]["CollegeToCity_WorkingDay"] as List<dynamic>)
-            .map((e) => e as String)
-            .toList());
-
-        time.add((json[stop]["CityToCollege_Holiday"] as List<dynamic>)
-            .map((e) => e as String)
-            .toList());
-        time.add((json[stop]["CityToCollege_WorkingDay"] as List<dynamic>)
-            .map((e) => e as String)
-            .toList());
-        answer[stop] = time;
-      }
-      return answer;
-    } else {
-      throw Exception("Bus Data could not be fetched");
-    }
-  }
-
   Future<List<Map<String, dynamic>>> getFerryData() async {
     var response = await dio.get(Endpoints.ferryURL);
     var status = response.statusCode;
@@ -506,24 +474,6 @@ class APIService {
     } on DioException {
       return null;
     }
-  }
-
-  static Future<void> createUser(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    final res = await http.post(
-      Uri.parse('https://swc.iitg.ac.in/onestopapi/v2/onestop-user'),
-      body: jsonEncode(
-        {
-          "name": prefs.getString('name'),
-          "email": prefs.getString('email'),
-          "deviceToken": token
-        },
-      ),
-      headers: {
-        'Content-Type': 'application/json',
-        'security-key': Endpoints.apiSecurityKey
-      },
-    );
   }
 
   Future<Map<String, dynamic>> getFerryTiming() async {

@@ -1,12 +1,12 @@
 abstract class DatabaseRecords {
   static const restaurant = "Restaurant";
-  static const timetable = "Timetable";
+  static const timetable = "timetable";
   static const lastUpdated = "LastUpdated";
   static const starredContacts = "StarredContacts";
   static const contacts = "Contact";
   static const messMenu = "MessMenu";
-  static const ferryTimings = "FerryTimings";
-  static const busTimings = "BusTimings";
+  static const ferryTimings = "ferryTimings";
+  static const busTimings = "busTimings";
 }
 
 class BackendHelper {

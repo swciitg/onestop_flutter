@@ -26,8 +26,7 @@ class _HomeTabState extends State<HomeTab> {
   void initState() {
     super.initState();
     if (!LoginStore.isGuest) {
-      context.read<TimetableStore>().setTimetable(
-          LoginStore.userData["rollNo"]!, context);
+      context.read<TimetableStore>().initialiseTT();
     }
   }
 
@@ -49,13 +48,13 @@ class _HomeTabState extends State<HomeTab> {
           ),
           LoginStore.isGuest
               ? Container()
-              : Column(
+              : const Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const DateCourse(),
+                    DateCourse(),
                     SizedBox(
                       height: 10,
-                    )
+                    ),
                   ],
                 ),
           HomeLinks(title: 'Services', links: serviceLinks),

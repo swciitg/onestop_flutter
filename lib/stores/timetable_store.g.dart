@@ -9,27 +9,6 @@ part of 'timetable_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TimetableStore on _TimetableStore, Store {
-  Computed<bool>? _$coursesLoadedComputed;
-
-  @override
-  bool get coursesLoaded =>
-      (_$coursesLoadedComputed ??= Computed<bool>(() => super.coursesLoaded,
-              name: '_TimetableStore.coursesLoaded'))
-          .value;
-  Computed<bool>? _$coursesLoadingComputed;
-
-  @override
-  bool get coursesLoading =>
-      (_$coursesLoadingComputed ??= Computed<bool>(() => super.coursesLoading,
-              name: '_TimetableStore.coursesLoading'))
-          .value;
-  Computed<bool>? _$coursesErrorComputed;
-
-  @override
-  bool get coursesError =>
-      (_$coursesErrorComputed ??= Computed<bool>(() => super.coursesError,
-              name: '_TimetableStore.coursesError'))
-          .value;
   Computed<List<Widget>>? _$todayTimeTableComputed;
 
   @override
@@ -37,6 +16,38 @@ mixin _$TimetableStore on _TimetableStore, Store {
           Computed<List<Widget>>(() => super.todayTimeTable,
               name: '_TimetableStore.todayTimeTable'))
       .value;
+
+  late final _$isProcessedAtom =
+      Atom(name: '_TimetableStore.isProcessed', context: context);
+
+  @override
+  bool get isProcessed {
+    _$isProcessedAtom.reportRead();
+    return super.isProcessed;
+  }
+
+  @override
+  set isProcessed(bool value) {
+    _$isProcessedAtom.reportWrite(value, super.isProcessed, () {
+      super.isProcessed = value;
+    });
+  }
+
+  late final _$coursesAtom =
+      Atom(name: '_TimetableStore.courses', context: context);
+
+  @override
+  RegisteredCourses? get courses {
+    _$coursesAtom.reportRead();
+    return super.courses;
+  }
+
+  @override
+  set courses(RegisteredCourses? value) {
+    _$coursesAtom.reportWrite(value, super.courses, () {
+      super.courses = value;
+    });
+  }
 
   late final _$selectedDateAtom =
       Atom(name: '_TimetableStore.selectedDate', context: context);
@@ -84,31 +95,6 @@ mixin _$TimetableStore on _TimetableStore, Store {
     _$isTimetableAtom.reportWrite(value, super.isTimetable, () {
       super.isTimetable = value;
     });
-  }
-
-  late final _$loadOperationAtom =
-      Atom(name: '_TimetableStore.loadOperation', context: context);
-
-  @override
-  ObservableFuture<RegisteredCourses?> get loadOperation {
-    _$loadOperationAtom.reportRead();
-    return super.loadOperation;
-  }
-
-  @override
-  set loadOperation(ObservableFuture<RegisteredCourses?> value) {
-    _$loadOperationAtom.reportWrite(value, super.loadOperation, () {
-      super.loadOperation = value;
-    });
-  }
-
-  late final _$setTimetableAsyncAction =
-      AsyncAction('_TimetableStore.setTimetable', context: context);
-
-  @override
-  Future<void> setTimetable(String rollNumber, BuildContext context) {
-    return _$setTimetableAsyncAction
-        .run(() => super.setTimetable(rollNumber, context));
   }
 
   late final _$_TimetableStoreActionController =
@@ -161,13 +147,11 @@ mixin _$TimetableStore on _TimetableStore, Store {
   @override
   String toString() {
     return '''
+isProcessed: ${isProcessed},
+courses: ${courses},
 selectedDate: ${selectedDate},
 showDropDown: ${showDropDown},
 isTimetable: ${isTimetable},
-loadOperation: ${loadOperation},
-coursesLoaded: ${coursesLoaded},
-coursesLoading: ${coursesLoading},
-coursesError: ${coursesError},
 todayTimeTable: ${todayTimeTable}
     ''';
   }
