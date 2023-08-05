@@ -26,7 +26,7 @@ class MessMenu extends StatelessWidget {
     "Siang",
     "Kapili",
     "Dhansiri",
-    "Subhansiri"
+    "Subansiri"
   ];
 
   @override

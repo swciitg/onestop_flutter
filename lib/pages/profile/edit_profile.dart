@@ -57,7 +57,7 @@ class _EditProfileState extends State<EditProfile> {
     "Siang",
     "Kapili",
     "Dhansiri",
-    "Subhansiri"
+    "Subansiri"
   ];
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
