@@ -35,7 +35,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
     "Siang",
     "Kapili",
     "Dhansiri",
-    "Subhansiri",
+    "Subansiri",
     "Married Scholar's Hostel"
   ];
   final _formKey = GlobalKey<FormState>();

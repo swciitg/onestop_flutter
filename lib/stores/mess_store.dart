@@ -73,7 +73,6 @@ abstract class _MessStore with Store {
   static Future<String> getSavedHostel() async{
     var prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('hostel')) {
-      if(prefs.getString('hostel') == "Subansiri" || prefs.getString('hostel') == "Subhansiri")
       if(prefs.getString('hostel')=="Brahma"){
         return 'Brahmaputra';
       }

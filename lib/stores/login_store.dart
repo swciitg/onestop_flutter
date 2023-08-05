@@ -28,6 +28,8 @@ class LoginStore {
     SharedPreferences user = await SharedPreferences.getInstance();
     print("inside authentication check");
     if (user.containsKey("userInfo")) {
+      Map userInfo = await APIService().getUserProfile();
+      await user.setString('userInfo', jsonEncode(userInfo));
       print("here");
       if(user.containsKey("isProfileComplete")){
         print("PROFILE IS COMPLETE");

@@ -135,7 +135,6 @@ class _EditProfileState extends State<EditProfile> {
           }
           Map userInfo = await APIService().getUserProfile();
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('hostel', hostel ?? "");
           await prefs.setString("userInfo", jsonEncode(userInfo));
           await context.read<LoginStore>().saveToUserInfo(
               prefs); // automatically updates token & other user info
