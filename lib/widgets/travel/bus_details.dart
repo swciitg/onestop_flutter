@@ -1,16 +1,14 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/travel/has_left.dart';
+import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
-import 'package:onestop_dev/services/api.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/stores/travel_store.dart';
+import 'package:onestop_dev/widgets/travel/timing_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
-import '../../functions/travel/next_time.dart';
-import '../../stores/travel_store.dart';
-import 'timing_tile.dart';
 
 class BusDetails extends StatefulWidget {
   late final int index;
@@ -32,13 +30,11 @@ class _BusDetailsState extends State<BusDetails> {
 
   @override
   Widget build(BuildContext context) {
-    var daytype = context.read<TravelStore>().busDayType;
+    var store = context.read<TravelStore>();
+    var daytype = store.busDayType;
     return FutureBuilder<List<TravelTiming>>(
-        future: DataProvider.getBusTiming(),
+        future: store.getBusTimings(),
         builder: (context, snapshot) {
-          print("APPLE");
-          print(snapshot.data);
-          print("BALL");
           if (snapshot.hasData) {
             busTime = snapshot.data;
             return Column(

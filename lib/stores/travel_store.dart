@@ -1,12 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
-import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
-import 'package:onestop_dev/widgets/travel/bus_details.dart';
-import 'package:onestop_dev/widgets/travel/stops_list.dart';
 
 part 'travel_store.g.dart';
 
@@ -29,11 +25,28 @@ abstract class _TravelStore with Store {
   String selectedFerryGhat = "Mazgaon";
 
   @observable
-  ObservableFuture<List<TravelTiming>> ferryTimings =
-  // ObservableFuture(APIService().getFerryTiming());
-  ObservableFuture(DataProvider.getFerryTiming());
+  ObservableList<TravelTiming> ferryTimings = ObservableList<TravelTiming>.of([]);
 
+  @observable
+  ObservableList<TravelTiming> busTimings = ObservableList<TravelTiming>.of([]);
 
+  @action
+  Future<List<TravelTiming>> getBusTimings() async {
+    if(busTimings.isEmpty)
+    {
+      busTimings = ObservableList<TravelTiming>.of((await DataProvider.getBusTiming()));
+    }
+    return busTimings;
+  }
+
+  @action
+  Future<List<TravelTiming>> getFerryTimings() async {
+    if(ferryTimings.isEmpty)
+      {
+        ferryTimings = ObservableList<TravelTiming>.of((await DataProvider.getFerryTiming()));
+      }
+    return ferryTimings;
+  }
 
   @action
   void setFerryDayType(String s) {
@@ -43,23 +56,6 @@ abstract class _TravelStore with Store {
   @action
   void setFerryToCity() {
     ferryDirection = "Campus to City";
-  }
-
-  @computed
-  String get ferryDataIndex {
-    if (ferryDirection == 'Campus to City') {
-      if (ferryDayType == 'Sunday') {
-        return "Sunday_NorthGuwahatiToGuwahati";
-      } else {
-        return "MonToFri_NorthGuwahatiToGuwahati";
-      }
-    } else {
-      if (ferryDayType == 'Sunday') {
-        return "Sunday_GuwahatiToNorthGuwahati";
-      } else {
-        return "MonToFri_GuwahatiToNorthGuwahati";
-      }
-    }
   }
 
   @action
@@ -74,14 +70,6 @@ abstract class _TravelStore with Store {
 
   @computed
   int get busDayTypeIndex => (busDayType == 'Weekdays') ? 1 : 0;
-
-  @computed
-  Widget get busPage {
-    if (!isBusSelected) {
-      return const BusStopList();
-    }
-    return BusDetails(index: busDayTypeIndex);
-  }
 
   @action
   void selectBusButton() {

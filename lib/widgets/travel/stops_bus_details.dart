@@ -3,6 +3,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
+import 'package:onestop_dev/widgets/travel/bus_details.dart';
+import 'package:onestop_dev/widgets/travel/stops_list.dart';
 import 'package:onestop_dev/widgets/travel/tracking_dailog.dart';
 import 'package:onestop_dev/widgets/travel/travel_drop_down.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +28,7 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
 
   @override
   Widget build(BuildContext context) {
+    var travelStore = context.read<TravelStore>();
     return Observer(builder: (context) {
       return Column(
         children: [
@@ -33,7 +36,7 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
             children: [
               TextButton(
                 onPressed: () {
-                  context.read<TravelStore>().selectStopButton();
+                  travelStore.selectStopButton();
                 },
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(
@@ -42,12 +45,10 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
                   child: Container(
                     height: 32,
                     width: 83,
-                    color: (!context.read<TravelStore>().isBusSelected)
-                        ? lBlue2
-                        : kGrey2,
+                    color: (!travelStore.isBusSelected) ? lBlue2 : kGrey2,
                     child: Center(
                       child: Text("Stops",
-                          style: (!context.read<TravelStore>().isBusSelected)
+                          style: (!travelStore.isBusSelected)
                               ? MyFonts.w500.setColor(kBlueGrey)
                               : MyFonts.w500.setColor(kWhite)),
                     ),
@@ -56,7 +57,7 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
               ),
               TextButton(
                 onPressed: () {
-                  context.read<TravelStore>().selectBusButton();
+                  travelStore.selectBusButton();
                 },
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(
@@ -65,13 +66,11 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
                   child: Container(
                     height: 32,
                     width: 83,
-                    color: (context.read<TravelStore>().isBusSelected)
-                        ? lBlue2
-                        : kGrey2,
+                    color: (travelStore.isBusSelected) ? lBlue2 : kGrey2,
                     child: Center(
                       child: Text(
                         "Bus",
-                        style: (context.read<TravelStore>().isBusSelected)
+                        style: (travelStore.isBusSelected)
                             ? MyFonts.w500.setColor(kBlueGrey)
                             : MyFonts.w500.setColor(kWhite),
                       ),
@@ -82,10 +81,10 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
               Expanded(
                 child: Container(),
               ),
-              context.read<TravelStore>().isBusSelected
+              travelStore.isBusSelected
                   ? TravelDropDown(
-                      value: context.read<TravelStore>().busDayType,
-                      onChange: context.read<TravelStore>().setBusDayString,
+                      value: travelStore.busDayType,
+                      onChange: travelStore.setBusDayString,
                       items: const ['Weekdays', 'Weekends'],
                     )
                   : GestureDetector(
@@ -101,7 +100,9 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
                     )
             ],
           ),
-          context.read<TravelStore>().busPage
+          !travelStore.isBusSelected
+              ? const BusStopList()
+              : BusDetails(index: travelStore.busDayTypeIndex)
         ],
       );
     });

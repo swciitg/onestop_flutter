@@ -9,13 +9,6 @@ part of 'travel_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TravelStore on _TravelStore, Store {
-  Computed<String>? _$ferryDataIndexComputed;
-
-  @override
-  String get ferryDataIndex =>
-      (_$ferryDataIndexComputed ??= Computed<String>(() => super.ferryDataIndex,
-              name: '_TravelStore.ferryDataIndex'))
-          .value;
   Computed<int>? _$busDayTypeIndexComputed;
 
   @override
@@ -23,12 +16,6 @@ mixin _$TravelStore on _TravelStore, Store {
       (_$busDayTypeIndexComputed ??= Computed<int>(() => super.busDayTypeIndex,
               name: '_TravelStore.busDayTypeIndex'))
           .value;
-  Computed<Widget>? _$busPageComputed;
-
-  @override
-  Widget get busPage => (_$busPageComputed ??=
-          Computed<Widget>(() => super.busPage, name: '_TravelStore.busPage'))
-      .value;
   Computed<bool>? _$isBusSelectedComputed;
 
   @override
@@ -121,16 +108,48 @@ mixin _$TravelStore on _TravelStore, Store {
       Atom(name: '_TravelStore.ferryTimings', context: context);
 
   @override
-  ObservableFuture<List<TravelTiming>> get ferryTimings {
+  ObservableList<TravelTiming> get ferryTimings {
     _$ferryTimingsAtom.reportRead();
     return super.ferryTimings;
   }
 
   @override
-  set ferryTimings(ObservableFuture<List<TravelTiming>> value) {
+  set ferryTimings(ObservableList<TravelTiming> value) {
     _$ferryTimingsAtom.reportWrite(value, super.ferryTimings, () {
       super.ferryTimings = value;
     });
+  }
+
+  late final _$busTimingsAtom =
+      Atom(name: '_TravelStore.busTimings', context: context);
+
+  @override
+  ObservableList<TravelTiming> get busTimings {
+    _$busTimingsAtom.reportRead();
+    return super.busTimings;
+  }
+
+  @override
+  set busTimings(ObservableList<TravelTiming> value) {
+    _$busTimingsAtom.reportWrite(value, super.busTimings, () {
+      super.busTimings = value;
+    });
+  }
+
+  late final _$getBusTimingsAsyncAction =
+      AsyncAction('_TravelStore.getBusTimings', context: context);
+
+  @override
+  Future<List<TravelTiming>> getBusTimings() {
+    return _$getBusTimingsAsyncAction.run(() => super.getBusTimings());
+  }
+
+  late final _$getFerryTimingsAsyncAction =
+      AsyncAction('_TravelStore.getFerryTimings', context: context);
+
+  @override
+  Future<List<TravelTiming>> getFerryTimings() {
+    return _$getFerryTimingsAsyncAction.run(() => super.getFerryTimings());
   }
 
   late final _$_TravelStoreActionController =
@@ -233,9 +252,8 @@ ferryDirection: ${ferryDirection},
 ferryDayType: ${ferryDayType},
 selectedFerryGhat: ${selectedFerryGhat},
 ferryTimings: ${ferryTimings},
-ferryDataIndex: ${ferryDataIndex},
+busTimings: ${busTimings},
 busDayTypeIndex: ${busDayTypeIndex},
-busPage: ${busPage},
 isBusSelected: ${isBusSelected}
     ''';
   }

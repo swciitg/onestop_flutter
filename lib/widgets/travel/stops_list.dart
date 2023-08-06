@@ -8,9 +8,8 @@ import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
-import 'package:onestop_dev/services/api.dart';
-import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
+import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
 
@@ -25,19 +24,20 @@ class BusStopList extends StatelessWidget {
         itemCount: context.read<MapBoxStore>().allLocationData.length,
         itemBuilder: (BuildContext context, int index) {
           var mapStore = context.read<MapBoxStore>();
+          var travelStore = context.read<TravelStore>();
           return FutureBuilder<List<TravelTiming>>(
             // future: APIService().getBusTiming(),
-            future: DataProvider.getBusTiming(),
+            future: travelStore.getBusTimings(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                List<TravelTiming>? busTime = snapshot.data ;
+                List<TravelTiming>? busTime = snapshot.data;
                 if(busTime!.isEmpty)
                   {
                     return Container();
                   }
                 List<DateTime> weekdaysTimes=[];
                 List<DateTime> weekendTimes=[];
-                for(var xyz in busTime!){
+                for(var xyz in busTime){
                   int n=xyz.weekdays.fromCampus.length;
                   for(int i=0;i<n;i++){
                     weekdaysTimes.add(xyz.weekdays.fromCampus[i]);
@@ -51,8 +51,6 @@ class BusStopList extends StatelessWidget {
                   }
                 }
                 weekendTimes.sort((a, b) => a.compareTo(b));
-
-
                 return Padding(
                   padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                   child: GestureDetector(
@@ -100,25 +98,6 @@ class BusStopList extends StatelessWidget {
                                       mapStore.allLocationData[index]['long']),
                                 ).toStringAsFixed(2)} km",
                                 style: MyFonts.w500.setColor(kGrey13)),
-                            // trailing: (map_store.allLocationData[index]['status'] ==
-                            //     'left')
-                            //     ? Column(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Text(
-                            //       'Left',
-                            //       style: MyFonts.w500
-                            //           .setColor(Color.fromRGBO(135, 145, 165, 1)),
-                            //     ),
-                            //     Text(
-                            //       map_store.allLocationData[index]['time'],
-                            //       style: MyFonts.w500
-                            //           .setColor(Color.fromRGBO(195, 198, 207, 1)),
-                            //     ),
-                            //   ],
-                            // )
-                            //     :
-                            //
                             trailing: Text(
                               (getFormattedDay() == 'Fri')
                                   ? nextTime(weekendTimes,
