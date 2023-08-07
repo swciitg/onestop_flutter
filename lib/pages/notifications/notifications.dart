@@ -21,7 +21,7 @@ class NotificationPage extends StatefulWidget {
   State<NotificationPage> createState() => _NotificationPageState();
 }
 
-class _NotificationPageState extends State<NotificationPage> {
+class _NotificationPageState extends State<NotificationPage> with TickerProviderStateMixin{
 
   IconData getIcon(bool readNotif) {
     if (!readNotif) {
@@ -30,9 +30,12 @@ class _NotificationPageState extends State<NotificationPage> {
     return Icons.brightness_1_outlined;
   }
 
+   late TabController tabController;
+
   @override
   void initState() {
     super.initState();
+    tabController  = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -82,23 +85,72 @@ class _NotificationPageState extends State<NotificationPage> {
                 }
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    for(NotifsModel notif in snapshot.data!["userPersonalNotifs"]!)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: NotificationTile(
-                          notifModel: notif,
-                        ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      TabBar(
+                        indicatorColor: Colors.white,
+                        controller: tabController,
+                        onTap: (int index){
+                          if(index == 0)
+                            {
+                              store.isPersonalNotif = true;
+                            }
+                          else
+                            {
+                              store.isPersonalNotif = false;
+
+                            }
+                        },
+                        tabs: [
+                          Tab(
+                              child: Text(
+                                'Personal',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500),
+                              )),
+                          Tab(
+                              child: Text(
+                                'General',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500),
+                              )),
+                        ],
                       ),
-                    for(NotifsModel notif in snapshot.data!["allTopicNotifs"]!)
-                      Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: NotificationTile(
-                          notifModel: notif,
-                        ),
+                      SizedBox(
+                        height: 10,
                       ),
-                  ],
+                      Observer(builder: (context){
+                        return store.isPersonalNotif ? Column(
+                          children: [
+                            for(NotifsModel notif in snapshot.data!["userPersonalNotifs"]!)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                child: NotificationTile(
+                                  notifModel: notif,
+                                ),
+                              ),
+                          ],
+                        ): Column(
+                          children: [
+                            for(NotifsModel notif in snapshot.data!["allTopicNotifs"]!)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                child: NotificationTile(
+                                  notifModel: notif,
+                                ),
+                              ),
+                          ],
+                        );
+                      }),
+
+
+                    ],
+                  ),
                 ),
               );
             }
