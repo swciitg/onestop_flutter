@@ -68,7 +68,7 @@ bool checkNotificationCategory(String type) {
     case "found":
     case "buy":
     case "sell":
-    case "cab sharing":
+    case "cabSharing":
       return true;
   }
   return false;

@@ -35,12 +35,13 @@ class _NotifToggleState extends State<NotifToggle> {
             activeColor: lBlue2,
             height: 32,
             width: 52,
-            value: LoginStore.notifData[widget.text]!,
+            value: LoginStore.userData['notifPref'][widget.text]!,
             onToggle: (val) async {
               if(isLoading) {return;}
               isLoading = true;
               LoginStore.userData['notifPref'][widget.text] = val;
-              await APIService().updateUserNotifPref(LoginStore.userData['notifPref']);
+              print(LoginStore.userData['notifPref']);
+              APIService().updateUserNotifPref(LoginStore.userData['notifPref']); // let it run async
               // await LoginStore.updateNotifPref(widget.text);
               setState((){});
               isLoading = false;

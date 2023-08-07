@@ -20,6 +20,6 @@ class NotificationCategories {
     static const found= "found";
     static const buy= "buy";
     static const sell= "sell";
-    static const cabSharing= "cab sharing";
+    static const cabSharing= "cabSharing";
     static const announcement= "announcement";
 }

@@ -49,7 +49,7 @@ class _EditProfileState extends State<EditProfile> {
     "Kameng",
     "Barak",
     "Lohit",
-    "Brahma",
+    "Brahmaputra",
     "Disang",
     "Manas",
     "Dihing",

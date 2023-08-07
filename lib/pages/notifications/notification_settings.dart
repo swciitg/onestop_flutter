@@ -13,12 +13,13 @@ class NotificationSettings extends StatefulWidget {
 }
 
 class _NotificationSettingsState extends State<NotificationSettings> {
-  bool lost = LoginStore.notifData["lost"]!;
-  bool found = LoginStore.notifData["found"]!;
-  bool cab= LoginStore.notifData["cab sharing"]!;
-  bool announcement = LoginStore.notifData["announcement"]!;
+  // bool lost = LoginStore.userData['notifPref'][NotificationCategories.lost]!;
+  // bool found = LoginStore.userData['notifPref'][NotificationCategories.found]!;
+  // bool cabSharing= LoginStore.userData['notifPref'][NotificationCategories.cabSharing]!;
+  // bool announcement = LoginStore.userData['notifPref'][NotificationCategories.announcement]!;
   @override
   Widget build(BuildContext context) {
+    print(LoginStore.userData['notifPref']);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAppBarGrey,
@@ -26,9 +27,8 @@ class _NotificationSettingsState extends State<NotificationSettings> {
         style: MyFonts.w500,
         ),
       ),
-      body:  Column(
+      body:  ListView(
         children: [
-          NotifToggle(text: NotificationCategories.announcement),
           NotifToggle(text: NotificationCategories.cabSharing),
           NotifToggle(text: NotificationCategories.lost),
           NotifToggle(text: NotificationCategories.found),

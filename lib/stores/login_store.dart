@@ -12,7 +12,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginStore {
   static Map<String, dynamic> userData = {};
-  static Map<String, bool> notifData = {};
+  // static Map<String, bool> notifData = {};
   final cookieManager = WebviewCookieManager();
   static bool isGuest = false;
   static bool isProfileComplete=false;
@@ -77,15 +77,15 @@ class LoginStore {
 
     print(jsonEncode(userInfo));
     await instance.setString("userInfo", jsonEncode(userInfo)); // save user profile
-    Map<String,bool> notif = {
-      "lost": true,
-      "found": true,
-      "announcement": true,
-      "buy": true,
-      "sell": true,
-      "cab sharing": true
-    };
-    await instance.setString("notifInfo", jsonEncode(notif)); // save notif preferences
+    // Map<String,bool> notif = {
+    //   "lost": true,
+    //   "found": true,
+    //   "announcement": true,
+    //   "buy": true,
+    //   "sell": true,
+    //   "cab sharing": true
+    // };
+    // await instance.setString("notifInfo", jsonEncode(notif)); // save notif preferences
   }
 
   Future<void> saveToUserInfo(SharedPreferences instance) async { // only called after saving jwt tokens in local storage
