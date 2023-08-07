@@ -33,7 +33,9 @@ class Endpoints {
   static const String userProfile = "/user";
   static const String userDeviceTokens = "/user/device-tokens";
   static const String userNotifPrefs = "/user/notifs/prefs";
-  //static const String userLogout = "/user/logout";
+  static const String generalNotifications = "/notification";
+  static const String userNotifications = "/user/notifs";
+
   static getHeader() {
     return {'Content-Type': 'application/json', 'security-key': Endpoints.apiSecurityKey};
   }

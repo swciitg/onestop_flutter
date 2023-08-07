@@ -1,17 +1,14 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/functions/notifications/get_notifications.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/profile/profile_model.dart';
 import 'package:onestop_dev/pages/home/home.dart';
-import 'package:onestop_dev/pages/profile/profile_page.dart';
-import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
-import 'package:onestop_dev/pages/profile/edit_profile.dart';
-import 'package:badges/badges.dart' as badges;
 
-AppBar appBar(BuildContext context, {bool displayIcon = true,}) {
+AppBar appBar(
+  BuildContext context, {
+  bool displayIcon = true,
+}) {
   return AppBar(
     backgroundColor: kBackground,
     iconTheme: const IconThemeData(color: kAppBarGrey),
@@ -35,7 +32,7 @@ AppBar appBar(BuildContext context, {bool displayIcon = true,}) {
                   //   // print(LoginStore.userData);
                   //   // Navigator.push(context, MaterialPageRoute(builder: (buildContext) => ProfilePage(profileModel: ProfileModel.fromJson(LoginStore.userData),)));
                   // },
-                  onPressed: (){
+                  onPressed: () {
                     scaffoldKey.currentState!.openDrawer();
                   },
                 ),
@@ -71,43 +68,21 @@ AppBar appBar(BuildContext context, {bool displayIcon = true,}) {
                 ],
               ),
             ),
-            // TextSpan(
-            //   text: '.',
-            //   style: MyFonts.w500.factor(5).setColor(kYellow),
-            // )
           ]),
           // textAlign: TextAlign.start,
         ),
-        FutureBuilder<List<NotifsModel>>(
-            future: getSavedNotifications(false),
-            builder: (context, snapshot) {
-              var badgeColor = Colors.transparent;
-              if (snapshot.hasData) {
-                int unread = snapshot.data!
-                    .where((element) => element.read == false)
-                    .length;
-                if (unread > 0) {
-                  badgeColor = kYellow;
-                }
-              }
-              return CircleAvatar(
-                  backgroundColor: kAppBarGrey,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, NotificationPage.id);
-                    },
-                    icon: badges.Badge(
-                      badgeColor: badgeColor,
-                      elevation: 0,
-                      position: badges.BadgePosition.topStart(),
-                      child: const Icon(
-                        FluentIcons.alert_24_filled,
-                        color: lBlue2,
-                      ),
-                    ),
-                    color: lBlue2,
-                  ));
-            }),
+        CircleAvatar(
+            backgroundColor: kAppBarGrey,
+            child: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, NotificationPage.id);
+              },
+              icon: const Icon(
+                FluentIcons.alert_24_filled,
+                color: lBlue2,
+              ),
+              color: lBlue2,
+            ))
       ],
     ),
     elevation: 0.0,

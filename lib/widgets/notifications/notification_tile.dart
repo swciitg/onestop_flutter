@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/notifications/notifications.dart';
+import 'package:onestop_dev/models/notifications/notification_model.dart';
 
 class NotificationTile extends StatelessWidget {
   const NotificationTile({Key? key, required this.notifModel})
@@ -29,10 +29,10 @@ class NotificationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var iconColor = notifModel.read ? kGreenDisabled : kGreen ;
-    var titleColor = notifModel.read ? kGrey2 : kWhite;
-    var bodyColor = notifModel.read ? kGrey2 : lBlue;
-    var tileBg = notifModel.read ? kTimetableDisabled : kTimetableGreen;
+    var iconColor = kGreen ;
+    var titleColor = kWhite;
+    var bodyColor =  lBlue;
+    var tileBg =  kTimetableGreen;
     return Container(
       decoration: BoxDecoration(
         color: tileBg,
@@ -95,7 +95,7 @@ class NotificationTile extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                DateFormat.MMMMd().format(notifModel.time),
+                DateFormat.MMMMd().format(notifModel.time!),
                 style: MyFonts.w400.setColor(bodyColor),
               ),
               // child: Container(

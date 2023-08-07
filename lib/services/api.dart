@@ -137,27 +137,33 @@ class APIService {
   Future<void> updateUserProfile(Map data, String? deviceToken) async {
     Map<String, dynamic> queryParameters = {};
     if (deviceToken != null) queryParameters["deviceToken"] = deviceToken;
-    var response = await dio.patch(Endpoints.userProfile,
+    await dio.patch(Endpoints.userProfile,
         data: data, queryParameters: queryParameters);
-    print(response);
+  }
+
+  Future<List<Response>> getNotifications() async {
+    final results = await Future.wait([
+      dio.get(Endpoints.generalNotifications),
+      dio.get(Endpoints.userNotifications)
+    ]);
+    return results;
+  }
+
+  Future<void> deletePersonalNotif() async {
+    await dio.delete(Endpoints.userNotifications);
   }
 
   Future<void> postUserDeviceToken(String deviceToken) async {
-    var response = await dio
+    await dio
         .post(Endpoints.userDeviceTokens, data: {"deviceToken": deviceToken});
-    print(response);
   }
 
   Future<void> updateUserDeviceToken(Map data) async {
-    print(data);
-    var response = await dio.patch(Endpoints.userDeviceTokens, data: data);
-    print(response);
+    await dio.patch(Endpoints.userDeviceTokens, data: data);
   }
 
   Future<void> updateUserNotifPref(Map data) async {
-    print(data);
-    var response = await dio.patch(Endpoints.userNotifPrefs, data: data);
-    print(response);
+    await dio.patch(Endpoints.userNotifPrefs, data: data);
   }
 
   Future<List<Map<String, dynamic>>> getRestaurantData() async {
@@ -209,7 +215,6 @@ class APIService {
 
   Future<List> getBuyItems() async {
     var response = await dio.get(Endpoints.buyURL);
-    print(response.data);
     return response.data.details;
   }
 
@@ -293,13 +298,11 @@ class APIService {
   }
 
   Future<List<SellModel>> getBuyPage(int pageNumber) async {
-    print(pageNumber);
     final queryParameters = {
       'page': pageNumber.toString(),
     };
     var response =
         await dio.get(Endpoints.buyPath, queryParameters: queryParameters);
-    print(response);
     var json = response.data;
     List<SellModel> buyPage = (json['details'] as List<dynamic>)
         .map((e) => SellModel.fromJson(e))
@@ -496,8 +499,6 @@ class APIService {
       final res = await dio.get(Endpoints.messURL);
       return res.data;
     } catch (e) {
-      print(Endpoints.messURL);
-      print(e);
       rethrow;
     }
   }
@@ -507,8 +508,6 @@ class APIService {
       final res = await dio.get(Endpoints.busStops);
       return res.data;
     } catch (e) {
-      print("____________________________________________");
-      print(e);
       rethrow;
     }
   }

@@ -1,35 +1,20 @@
-import 'dart:convert';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/functions/notifications/get_notifications.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/pages/notifications/notification_settings.dart';
+import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_dev/widgets/notifications/notification_tile.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-class NotifsModel {
-  String? title;
-  String? body;
-  String category;
-  bool read;
-  DateTime time;
-  String messageId;
-
-  NotifsModel(
-      this.title,
-      this.body,
-      this.read,
-      this.category,
-      this.time,
-      this.messageId
-      );
-}
+import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:provider/provider.dart';
 
 class NotificationPage extends StatefulWidget {
-  static String id = "notifications";
+  static String id = "/notifications";
   const NotificationPage({Key? key}) : super(key: key);
 
   @override
@@ -52,6 +37,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
+    var store = context.read<CommonStore>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAppBarGrey,
@@ -62,9 +48,9 @@ class _NotificationPageState extends State<NotificationPage> {
                 MaterialPageRoute(builder: (context)=>const NotificationSettings())
               );
             },
-            child: Padding(
-              padding: const EdgeInsets.only(right:16),
-              child: const Icon(
+            child: const Padding(
+              padding: EdgeInsets.only(right:16),
+              child: Icon(
                 Icons.settings,
                 color: kWhite2,
               ),
@@ -81,30 +67,38 @@ class _NotificationPageState extends State<NotificationPage> {
           style: MyFonts.w500,
         ),
       ),
-      body: FutureBuilder<List<NotifsModel>>(
-          future: getSavedNotifications(true),
+      body: FutureBuilder<Map<String, List<NotifsModel>>>(
+          future: DataProvider.getNotifications(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data!.isEmpty) {
-                return Center(
-                  child: Text(
-                    'No notifications found',
-                    style: MyFonts.w300.setColor(kWhite),
-                  ),
-                );
-              }
+              if(snapshot.data!["userPersonalNotifs"]!.isEmpty && snapshot.data!["allTopicNotifs"]!.isEmpty)
+                {
+                  return Center(
+                    child: Text(
+                      'No notifications found',
+                      style: MyFonts.w300.setColor(kWhite),
+                    ),
+                  );
+                }
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: NotificationTile(
-                        notifModel: snapshot.data![index],
+                child: Column(
+                  children: [
+                    for(NotifsModel notif in snapshot.data!["userPersonalNotifs"]!)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: NotificationTile(
+                          notifModel: notif,
+                        ),
                       ),
-                    );
-                  },
+                    for(NotifsModel notif in snapshot.data!["allTopicNotifs"]!)
+                      Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: NotificationTile(
+                          notifModel: notif,
+                        ),
+                      ),
+                  ],
                 ),
               );
             }
@@ -128,16 +122,16 @@ class _NotificationPageState extends State<NotificationPage> {
               ),
             );
           }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async{
-          final SharedPreferences prefs =
-              await SharedPreferences.getInstance();
-          await prefs.reload();
-          prefs.remove('notifications');
-          setState(() {});
-        },
-        backgroundColor: lBlue2,
-        child: Icon(Icons.cancel),
+      floatingActionButton: Observer(
+        builder: (context) {
+          return store.isPersonalNotif ? FloatingActionButton(
+            onPressed: () async{
+              await APIService().deletePersonalNotif();
+            },
+            backgroundColor: lBlue2,
+            child: const Icon(Icons.delete),
+          ): Container();
+        }
       ),
     );
   }

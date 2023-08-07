@@ -22,5 +22,13 @@ abstract class _CommonStore with Store {
     bnsIndex = newIndex;
   }
 
+  @observable
+  bool isPersonalNotif = true;
+
+  @action
+  void setNotif(){
+    isPersonalNotif = !isPersonalNotif;
+  }
+
   int get pageSize => 5;
 }

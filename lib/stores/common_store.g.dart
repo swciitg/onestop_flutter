@@ -41,6 +41,22 @@ mixin _$CommonStore on _CommonStore, Store {
     });
   }
 
+  late final _$isPersonalNotifAtom =
+      Atom(name: '_CommonStore.isPersonalNotif', context: context);
+
+  @override
+  bool get isPersonalNotif {
+    _$isPersonalNotifAtom.reportRead();
+    return super.isPersonalNotif;
+  }
+
+  @override
+  set isPersonalNotif(bool value) {
+    _$isPersonalNotifAtom.reportWrite(value, super.isPersonalNotif, () {
+      super.isPersonalNotif = value;
+    });
+  }
+
   late final _$_CommonStoreActionController =
       ActionController(name: '_CommonStore', context: context);
 
@@ -67,10 +83,22 @@ mixin _$CommonStore on _CommonStore, Store {
   }
 
   @override
+  void setNotif() {
+    final _$actionInfo = _$_CommonStoreActionController.startAction(
+        name: '_CommonStore.setNotif');
+    try {
+      return super.setNotif();
+    } finally {
+      _$_CommonStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 lnfIndex: ${lnfIndex},
-bnsIndex: ${bnsIndex}
+bnsIndex: ${bnsIndex},
+isPersonalNotif: ${isPersonalNotif}
     ''';
   }
 }

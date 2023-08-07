@@ -7,6 +7,7 @@ import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/models/news/news_model.dart';
+import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
@@ -185,6 +186,28 @@ class DataProvider {
       }
       return people;
     }
+  }
+
+  static Future<Map<String, List<NotifsModel>>> getNotifications()
+  async {
+    var response = await APIService().getNotifications();
+    Map<String, List<NotifsModel>> output = {
+      "userPersonalNotifs": [],
+      "allTopicNotifs": []
+    };
+
+    for(var notif in response[0].data["allTopicNotifs"]!)
+      {
+        print(notif);
+        output["allTopicNotifs"]!.add(NotifsModel.fromJson(notif));
+      }
+    for(var notif in response[1].data["userPersonalNotifs"]!)
+    {
+      print(notif);
+      output["userPersonalNotifs"]!.add(NotifsModel.fromJson(notif));
+    }
+    print("here");
+    return output;
   }
 
   static Future<List<TravelTiming>> getFerryTiming() async {

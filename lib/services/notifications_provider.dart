@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io' show Platform;
 import 'package:firebase_core/firebase_core.dart';
 import "package:firebase_messaging/firebase_messaging.dart";
@@ -43,12 +42,11 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (checkNotificationCategory(message.data['category'])) {
     await flutterLocalNotificationsPlugin.show(
       message.hashCode,
-      message.data['header'],
+      message.data['title'],
       message.data['body'],
       notificationDetails,
     );
   }
-  saveNotification(message);
 }
 
 @pragma('vm:entry-point')
@@ -139,23 +137,16 @@ Future<bool> checkForNotifications() async {
     print("Message is ${message.data}");
     if (checkNotificationCategory(message.data['category'])) {
       print("apple");
-      final SharedPreferences preferences = await SharedPreferences.getInstance();
-      var notifInfo = jsonDecode(preferences.getString("notifInfo")!);
-      if(notifInfo[message.data['category']])
-        {
           await flutterLocalNotificationsPlugin.show(
               message.hashCode,
-              message.data['header'],
+              message.data['title'],
               message.data['body'],
               notificationDetails
           );
-        }
-
     }
     else{
       print("ball");
     }
-    saveNotification(message);
   });
 
   // Resave list of notifications in case it's initialized to null
@@ -164,21 +155,4 @@ Future<bool> checkForNotifications() async {
   List<String> notifications = preferences.getStringList('notifications') ?? [];
   preferences.setStringList('notifications', notifications);
   return true;
-}
-
-void saveNotification(RemoteMessage message) async {
-  Map<String, dynamic> notificationData = message.data;
-  DateTime sentTime = message.sentTime ?? DateTime.now();
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
-  notificationData['time'] = sentTime?.toString() ?? DateTime.now().toString();
-  notificationData['read'] = false;
-  notificationData['messageId'] = message.messageId;
-  String notifJson = jsonEncode(notificationData);
-  print("data = $notificationData");
-  List<String> notifications = preferences.getStringList('notifications') ?? [];
-  if (notifications.length > 15) {
-    notifications.removeAt(0);
-  }
-  notifications.add(notifJson);
-  preferences.setStringList('notifications', notifications);
 }
