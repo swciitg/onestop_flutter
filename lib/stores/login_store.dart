@@ -12,7 +12,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginStore {
   static Map<String, dynamic> userData = {};
-  static Map<String, bool> notifData = {};
+  // static Map<String, bool> notifData = {};
   final cookieManager = WebviewCookieManager();
   static bool isGuest = false;
   static bool isProfileComplete=false;
