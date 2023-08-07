@@ -14,3 +14,12 @@ class BackendHelper {
   static const accesstoken = "accessToken";
   static const authorization = "authorization";
 }
+
+class NotificationCategories {
+    static const lost= "lost";
+    static const found= "found";
+    static const buy= "buy";
+    static const sell= "sell";
+    static const cabSharing= "cab sharing";
+    static const announcement= "announcement";
+}

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:onestop_dev/functions/utility/capitalize_string.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 
 import '../../globals/my_colors.dart';
@@ -38,7 +39,9 @@ class _NotifToggleState extends State<NotifToggle> {
             onToggle: (val) async {
               if(isLoading) {return;}
               isLoading = true;
-              await LoginStore.updateNotifPref(widget.text);
+              LoginStore.userData['notifPref'][widget.text] = val;
+              await APIService().updateUserNotifPref(LoginStore.userData['notifPref']);
+              // await LoginStore.updateNotifPref(widget.text);
               setState((){});
               isLoading = false;
             },

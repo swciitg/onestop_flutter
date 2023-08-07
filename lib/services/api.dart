@@ -154,6 +154,12 @@ class APIService {
     print(response);
   }
 
+  Future<void> updateUserNotifPref(Map data) async {
+    print(data);
+    var response = await dio.patch(Endpoints.userNotifPrefs, data: data);
+    print(response);
+  }
+
   Future<List<Map<String, dynamic>>> getRestaurantData() async {
     var response = await dio.get(Endpoints.restaurantURL);
     var status = response.statusCode;

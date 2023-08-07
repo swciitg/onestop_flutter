@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/notifications/notif_toggle.dart';
 import '../../globals/my_colors.dart';
@@ -27,12 +28,12 @@ class _NotificationSettingsState extends State<NotificationSettings> {
       ),
       body:  Column(
         children: [
-          NotifToggle(text: 'announcement'),
-          NotifToggle(text: 'cab sharing'),
-          NotifToggle(text: 'lost'),
-          NotifToggle(text: 'found'),
-          NotifToggle(text: 'buy'),
-          NotifToggle(text: 'sell'),
+          NotifToggle(text: NotificationCategories.announcement),
+          NotifToggle(text: NotificationCategories.cabSharing),
+          NotifToggle(text: NotificationCategories.lost),
+          NotifToggle(text: NotificationCategories.found),
+          NotifToggle(text: NotificationCategories.buy),
+          NotifToggle(text: NotificationCategories.sell),
         ],
       ),
     );

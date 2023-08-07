@@ -17,12 +17,12 @@ class LoginStore {
   static bool isGuest = false;
   static bool isProfileComplete=false;
 
-  static Future<void> updateNotifPref(String key)
-  async {
-    notifData[key] = !notifData[key]!;
-    SharedPreferences instance = await SharedPreferences.getInstance();
-    instance.setString('notifInfo', jsonEncode(notifData));
-  }
+  // static Future<void> updateNotifPref(String key)
+  // async {
+  //   notifData[key] = !notifData[key]!;
+  //   SharedPreferences instance = await SharedPreferences.getInstance();
+  //   instance.setString('notifInfo', jsonEncode(notifData));
+  // }
 
   Future<bool> isAlreadyAuthenticated() async {
     SharedPreferences user = await SharedPreferences.getInstance();
@@ -92,29 +92,29 @@ class LoginStore {
     print("here");
     userData = jsonDecode(instance.getString("userInfo")!);
     print("HEHEHEHEHE");
-    if(instance.getString("notifInfo") == null)
-      {
-        Map<String,bool> a = {
-          "lost": true,
-          "found": true,
-          "announcement": true,
-          "buy": true,
-          "sell": true,
-          "cab sharing": true
-        };
-        await instance.setString("notifInfo", jsonEncode(a));
-        notifData = a;
-      }
-    else
-      {
-        Map<String,dynamic> temp = jsonDecode(instance.getString("notifInfo")!);
-        for(String key in temp.keys)
-        {
-          notifData[key] = temp[key] as bool;
-        }
-      }
-
-    print(notifData);
+    // if(instance.getString("notifInfo") == null)
+    //   {
+    //     Map<String,bool> a = {
+    //       "lost": true,
+    //       "found": true,
+    //       "announcement": true,
+    //       "buy": true,
+    //       "sell": true,
+    //       "cab sharing": true
+    //     };
+    //     await instance.setString("notifInfo", jsonEncode(a));
+    //     notifData = a;
+    //   }
+    // else
+    //   {
+    //     Map<String,dynamic> temp = jsonDecode(instance.getString("notifInfo")!);
+    //     for(String key in temp.keys)
+    //     {
+    //       notifData[key] = temp[key] as bool;
+    //     }
+    //   }
+    //
+    // print(notifData);
     print(userData);
     var fcmToken = await FirebaseMessaging.instance.getToken();
     print("fcm token: ${fcmToken}");
