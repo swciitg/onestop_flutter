@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
-import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_dev/widgets/mapbox/map_box.dart';
 import 'package:onestop_dev/widgets/travel/ferry_details.dart';
 import 'package:onestop_dev/widgets/travel/next_time_card.dart';
@@ -33,15 +32,11 @@ class _TravelPageState extends State<TravelPage> {
           const SizedBox(
             height: 10,
           ),
-          Provider<TravelStore>(
-            create: (_) => TravelStore(),
-            builder: (context, _) {
-              return Observer(builder: (context) {
+           Observer(builder: (context) {
                 return (mapStore.indexBusesorFerry == 0)
                     ? const StopsBusDetails()
                     : const FerryDetails();
-              });
-            },
+              },
           )
         ],
       ),

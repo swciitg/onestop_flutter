@@ -7,12 +7,10 @@ import 'package:onestop_dev/functions/travel/duration_left.dart';
 import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/services/api.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
+import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:provider/provider.dart';
-
-import '../../models/travel/travel_timing_model.dart';
 
 class NextTimeCard extends StatefulWidget {
   const NextTimeCard({Key? key}) : super(key: key);
@@ -23,23 +21,19 @@ class NextTimeCard extends StatefulWidget {
 
 class _NextTimeCardState extends State<NextTimeCard> {
   @override
+
   Widget build(BuildContext context) {
+    var travelStore = context.read<TravelStore>();
+
     var mapStore = context.read<MapBoxStore>();
     Future<String> getNextTime() async {
-      print("INSIDE NEXT TIME CARD");
       String today = getFormattedDay();
-      print(mapStore.indexBusesorFerry);
       if (mapStore.indexBusesorFerry == 0) {
-        print("hererereferf");
-        // List<TravelTiming> allBusTimes = await APIService().getBusTiming();
-        List<TravelTiming> allBusTimes = await DataProvider.getBusTiming();
-        //print(allBusTimes.toString());
-        print("AFTER ALL BUS TIMES");
+        List<TravelTiming> allBusTimes = await travelStore.getBusTimings();
         List<DateTime> weekdaysTimes= [];
         List<DateTime> weekendTimes=[];
         for(var xyz in allBusTimes){
           int n=xyz.weekdays.fromCampus.length;
-          print("n is : ${n}");
           for(int i=0;i<n;i++){
             weekdaysTimes.add(xyz.weekdays.fromCampus[i]);
           }
@@ -52,7 +46,6 @@ class _NextTimeCardState extends State<NextTimeCard> {
           }
         }
         weekendTimes.sort((a, b) => a.compareTo(b));
-        //List<List<String>> busTimes = [[], []];
         if (today == 'Fri') {
           return nextTime(weekdaysTimes, firstTime: weekendTimes[0].toString());
         } else if (today == 'Sun') {
@@ -62,12 +55,11 @@ class _NextTimeCardState extends State<NextTimeCard> {
         }
         return nextTime(weekdaysTimes);
       } else {
-        List<TravelTiming> ferryTimings = await DataProvider.getFerryTiming();
+        List<TravelTiming> ferryTimings = await travelStore.getFerryTimings();
         List<DateTime> weekdaysTimes= [];
         List<DateTime> weekendTimes=[];
         TravelTiming requiredModel =
         ferryTimings.firstWhere((element) => element.stop == mapStore.allLocationData[mapStore.selectedCarouselIndex]['name']);
-        print(requiredModel.toJson());
         int n=requiredModel.weekdays.fromCampus.length;
         for(int i=0;i<n;i++){
           weekdaysTimes.add(requiredModel.weekdays.fromCampus[i]);
@@ -104,7 +96,7 @@ class _NextTimeCardState extends State<NextTimeCard> {
             leading: CircleAvatar(
               backgroundColor: lYellow2,
               radius: 20,
-              child: (context.read<MapBoxStore>().indexBusesorFerry == 1)
+              child: (mapStore.indexBusesorFerry == 1)
                   ? const Icon(
                 FluentIcons.vehicle_ship_24_filled,
                 color: kBlueGrey,

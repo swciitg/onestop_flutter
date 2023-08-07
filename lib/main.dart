@@ -12,6 +12,7 @@ import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
+import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
@@ -36,7 +37,6 @@ final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     print("IN MY APP");
@@ -54,6 +54,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<CommonStore>(
           create: (_) => CommonStore(),
+        ),
+        Provider<TravelStore>(
+          create: (_) => TravelStore(),
         )
       ],
       child: MaterialApp(
