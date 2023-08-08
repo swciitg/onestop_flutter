@@ -76,6 +76,10 @@ abstract class _MessStore with Store {
       if(prefs.getString('hostel')=="Brahma"){
         return 'Brahmaputra';
       }
+      else if(prefs.getString('hostel')=="Married Scholars")
+        {
+          return "Kameng";
+        }
       return prefs.getString('hostel') ?? "Kameng";
     }
     return "Kameng";

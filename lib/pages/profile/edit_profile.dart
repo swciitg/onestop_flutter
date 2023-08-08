@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../functions/utility/show_snackbar.dart';
 import '../../functions/utility/validator.dart';
@@ -19,7 +17,6 @@ import '../../stores/login_store.dart';
 import '../../widgets/profile/custom_date_picker.dart';
 import '../../widgets/profile/custom_dropdown.dart';
 import '../../widgets/profile/custom_text_field.dart';
-import 'profile_page.dart';
 
 class EditProfile extends StatefulWidget {
   final ProfileModel profileModel;
@@ -57,14 +54,15 @@ class _EditProfileState extends State<EditProfile> {
     "Siang",
     "Kapili",
     "Dhansiri",
-    "Subansiri"
+    "Subansiri",
+    "Married Scholars"
   ];
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   @override
   void initState() {
     super.initState();
-    ProfileModel p = widget.profileModel!;
+    ProfileModel p = widget.profileModel;
     _nameController.text = p.name;
     _rollController.text = p.rollNo;
     _outlookEmailController.text = p.outlookEmail;
@@ -86,14 +84,6 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    Widget? counterBuilder(context,
-        {required currentLength, required isFocused, required maxLength}) {
-      if (currentLength == 0) {
-        return null;
-      }
-      return Text("$currentLength/$maxLength",
-          style: MyFonts.w500.size(12).setColor(kWhite));
-    }
 
     Future<void> onFormSubmit() async {
       if (!isLoading) {
@@ -136,7 +126,7 @@ class _EditProfileState extends State<EditProfile> {
           Map userInfo = await APIService().getUserProfile();
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString("userInfo", jsonEncode(userInfo));
-          await context.read<LoginStore>().saveToUserInfo(
+          await LoginStore().saveToUserInfo(
               prefs); // automatically updates token & other user info
           await prefs.setBool("isProfileComplete", true); // profile is complete
           await LocalStorage.instance.deleteRecord(DatabaseRecords.timetable);
@@ -147,12 +137,6 @@ class _EditProfileState extends State<EditProfile> {
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
 
-          // Navigator.of(context).pushAndRemoveUntil(
-          //     MaterialPageRoute(
-          //         builder: (context) => Profile(
-          //               profileModel: ProfileModel.fromJson(data),
-          //             )),
-          //     ((route) => false));
         }
       }
     }
@@ -171,7 +155,7 @@ class _EditProfileState extends State<EditProfile> {
         // leadingWidth: 16,
         leading: IconButton(onPressed: () {
           Navigator.of(context).pop();
-        },icon: Icon(Icons.arrow_back_ios_new_outlined,color: kWhite,),iconSize: 20,),
+        },icon: const Icon(Icons.arrow_back_ios_new_outlined,color: kWhite,),iconSize: 20,),
           title: Text(
             "Profile Setup",
             textAlign: TextAlign.left,

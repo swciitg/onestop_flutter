@@ -22,16 +22,19 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
   List<String> libraries = ["Library", "Central library"];
   List<String> hostels = [
     "Hostel",
-    "Brahmaputra",
-    "Dihing",
-    "Manas",
+    "Kameng",
+    "Barak",
     "Lohit",
+    "Brahmaputra",
+    "Disang",
+    "Manas",
+    "Dihing",
+    "Umiam",
+    "Siang",
+    "Kapili",
     "Dhansiri",
     "Subansiri",
-    "Disang",
-    "Kameng",
-    "Umiam",
-    "Barak"
+    "Married Scholars"
   ];
   List<String> sacs = ["SAC", "Old SAC", "New SAC"];
   List<String> cores = ["Core", "Core 1", "Core 2", "Core 3", "Core 4"];

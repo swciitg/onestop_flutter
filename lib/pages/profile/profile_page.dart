@@ -1,16 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:onestop_dev/pages/home/home.dart';
-import 'package:provider/provider.dart';
-
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 import '../../models/profile/profile_model.dart';
 import '../../stores/login_store.dart';
 import '../../widgets/profile/data_tile.dart';
-import '../../widgets/profile/feedback.dart';
 import 'edit_profile.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -41,38 +35,6 @@ class _ProfilePageState extends State<ProfilePage> {
           textAlign: TextAlign.left,
           style: MyFonts.w500.size(23).setColor(kWhite),
         ),
-        // actions: [
-        //   if (!context.read<LoginStore>().isGuestUser)
-        //     IconButton(
-        //         onPressed: (() {
-        //           showModalBottomSheet(
-        //               context: context,
-        //               shape: const RoundedRectangleBorder(
-        //                 borderRadius: BorderRadius.vertical(
-        //                   top: Radius.circular(20),
-        //                 ),
-        //               ),
-        //               clipBehavior: Clip.antiAliasWithSaveLayer,
-        //               isScrollControlled: true,
-        //               builder: (BuildContext context) {
-        //                 return const FeedBack();
-        //               });
-        //         }),
-        //         icon: const Icon(
-        //           Icons.bug_report_outlined,
-        //           color: kWhite,
-        //         )),
-        //   IconButton(
-        //       onPressed: (() {
-        //         context.read<LoginStore>().logOut(() => Navigator.of(context)
-        //             .pushNamedAndRemoveUntil(
-        //                 '/', (Route<dynamic> route) => false));
-        //       }),
-        //       icon: const Icon(
-        //         Icons.logout_outlined,
-        //         color: kWhite,
-        //       ))
-        // ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
