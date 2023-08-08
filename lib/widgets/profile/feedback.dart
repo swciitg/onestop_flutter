@@ -128,7 +128,7 @@ class _FeedBackState extends State<FeedBack> {
                       child: TextFormField(
                         style: MyFonts.w500.size(15).setColor(kWhite),
                         controller: title,
-                        maxLength: 25,
+                        maxLength: 30,
                         maxLines: 1,
                         buildCounter: counterBuilder,
                         decoration: InputDecoration(
@@ -159,7 +159,7 @@ class _FeedBackState extends State<FeedBack> {
                       child: TextFormField(
                         style: MyFonts.w500.size(15).setColor(kWhite),
                         controller: body,
-                        maxLength: 150,
+                        maxLength: 250,
                         maxLines: 4,
                         buildCounter: counterBuilder,
                         decoration: InputDecoration(
@@ -194,7 +194,7 @@ class _FeedBackState extends State<FeedBack> {
                                 'title': title.text,
                                 'body': body.text,
                                 'type': selected,
-                                'user': LoginStore.userData['outlookEmail'] ??
+                                'user': LoginStore.userData['outlookEmail'] + " - " + LoginStore.userData["rollNo"] ??
                                     "Unknown"
                               };
                               setState(() => enableSubmitButton = false);

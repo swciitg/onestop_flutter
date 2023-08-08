@@ -12,23 +12,22 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginStore {
   static Map<String, dynamic> userData = {};
-  // static Map<String, bool> notifData = {};
   final cookieManager = WebviewCookieManager();
   static bool isGuest = false;
   static bool isProfileComplete=false;
 
-  // static Future<void> updateNotifPref(String key)
-  // async {
-  //   notifData[key] = !notifData[key]!;
-  //   SharedPreferences instance = await SharedPreferences.getInstance();
-  //   instance.setString('notifInfo', jsonEncode(notifData));
-  // }
-
-  Future<bool> isAlreadyAuthenticated() async {
+  Future<int> isAlreadyAuthenticated() async {
     SharedPreferences user = await SharedPreferences.getInstance();
     print("inside authentication check");
+    Map userInfo;
     if (user.containsKey("userInfo")) {
-      Map userInfo = await APIService().getUserProfile();
+      try {
+        userInfo = await APIService().getUserProfile();
+      }
+      catch(e)
+    {
+      return 2;
+    }
       await user.setString('userInfo', jsonEncode(userInfo));
       print("here");
       if(user.containsKey("isProfileComplete")){
@@ -40,9 +39,9 @@ class LoginStore {
       }
       print(await user.containsKey("userInfo"));
       await saveToUserInfo(user);
-      return true;
+      return 0;
     }
-    return false;
+    return 1;
   }
 
   bool get isGuestUser {
@@ -77,21 +76,10 @@ class LoginStore {
 
     print(jsonEncode(userInfo));
     await instance.setString("userInfo", jsonEncode(userInfo)); // save user profile
-    // Map<String,bool> notif = {
-    //   "lost": true,
-    //   "found": true,
-    //   "announcement": true,
-    //   "buy": true,
-    //   "sell": true,
-    //   "cab sharing": true
-    // };
-    // await instance.setString("notifInfo", jsonEncode(notif)); // save notif preferences
   }
 
   Future<void> saveToUserInfo(SharedPreferences instance) async { // only called after saving jwt tokens in local storage
-    print("here");
     userData = jsonDecode(instance.getString("userInfo")!);
-    print("HEHEHEHEHE");
     print(userData);
     var fcmToken = await FirebaseMessaging.instance.getToken();
     print("fcm token: ${fcmToken}");

@@ -1,5 +1,5 @@
-import 'package:irbs/irbs.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
+import 'package:onestop_dev/pages/login/blocked.dart';
 import 'package:onestop_dev/pages/login/welcome.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
@@ -17,11 +17,12 @@ import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/login/login.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
-import 'package:onestop_dev/pages/splash.dart';
+import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
 
 
 final routes = {
+  BlockedPage.id: (context) => const BlockedPage(),
   IRBSPage.id: (context) => const IRBSPage(),
   SplashPage.id: (context) => const SplashPage(),
   LoginPage.id: (context) => const LoginPage(),
