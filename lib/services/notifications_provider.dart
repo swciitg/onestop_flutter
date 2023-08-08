@@ -60,7 +60,8 @@ void onDidReceiveNotificationResponse(
 }
 
 bool checkNotificationCategory(String type) {
-  switch (type.toLowerCase()) {
+  print(type);
+  switch (type) {
     case "announcement":
     case "lost":
     case "found":
