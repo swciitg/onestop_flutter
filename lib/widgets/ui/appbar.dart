@@ -4,6 +4,8 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
+import 'package:onestop_dev/stores/common_store.dart';
+import 'package:provider/provider.dart';
 
 AppBar appBar(
   BuildContext context, {
@@ -75,6 +77,7 @@ AppBar appBar(
             backgroundColor: kAppBarGrey,
             child: IconButton(
               onPressed: () {
+                context.read<CommonStore>().isPersonalNotif = true;
                 Navigator.pushNamed(context, NotificationPage.id);
               },
               icon: const Icon(

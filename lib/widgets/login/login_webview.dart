@@ -54,8 +54,6 @@ class _LoginWebViewState extends State<LoginWebView> {
             await WebviewCookieManager().clearCookies();
             print("its here");
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => EditProfile(profileModel: ProfileModel.fromJson(LoginStore.userData),)), (route) => false);
-            // Navigator.of(context)
-            //     .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
           }
         }
       },
