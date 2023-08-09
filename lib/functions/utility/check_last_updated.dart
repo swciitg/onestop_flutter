@@ -33,9 +33,8 @@ Future<bool> checkLastUpdated() async {
     }
     await LocalStorage.instance.storeData([last], DatabaseRecords.lastUpdated);
   } catch (e) {
-    if (kDebugMode) {
-      print(e);
-    }
+    print(e);
+    return true;
   }
 
   return true;

@@ -19,12 +19,11 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.vehicle_bus_24_regular,
     routeId: CabShare.id
   ),
-  // const HomeTabTile(
-  //   label: 'IRBS',
-  //   icon: FluentIcons.calendar_edit_16_regular,
-  //   routeId: IRBSPage.id,
-  //   newBadge: true,
-  // ),
+  const HomeTabTile(
+    label: 'IRBS',
+    icon: FluentIcons.calendar_edit_16_regular,
+    routeId: IRBSPage.id,
+  ),
   const HomeTabTile(
     label: "Complaints",
     icon: FluentIcons.chat_help_24_regular,

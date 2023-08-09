@@ -17,26 +17,16 @@ class _TrackingDailogState extends State<TrackingDailog> {
     return AlertDialog(
       backgroundColor: kBlueGrey,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-      // title: Row(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   crossAxisAlignment: CrossAxisAlignment.center,
-      //   children: [
-      //     Text(
-      //       'Track Bus',
-      //       style: MyFonts.w600.size(24).setColor(kWhite),
-      //     ),
-      //   ],
-      // ),
-      content:Column(
+      content:const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
-        children: const [
+        children: [
           Text('To track the bus, go to the following link and enter the credentials given below'),
           SizedBox(
             height: 10,
           ),
-          Text('ID: iitghy'),
-          Text('Password: iitg_bus'),
+          Text('ID: 9864028093'),
+          Text('Password: 123456'),
 
         ],
       ),

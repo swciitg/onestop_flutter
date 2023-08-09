@@ -26,7 +26,14 @@ class LoginStore {
       try {
         userInfo = await APIService().getUserProfile();
       } catch (e) {
-        print((e as DioException).response!.statusCode!);
+        print(e);
+        print(e.runtimeType);
+
+        if((e as DioException).response == null)
+          {
+            return SplashResponse.authenticated;
+          }
+        print((e).response!.statusCode!);
         if ((e).response!.statusCode == 418) {
           return SplashResponse.blocked;
         }
