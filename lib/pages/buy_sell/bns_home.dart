@@ -169,7 +169,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                 )
               else
                 Expanded(
-                  child: context.read<LoginStore>().isGuestUser ? const GuestRestrictAccess()
+                  child: LoginStore().isGuestUser ? const GuestRestrictAccess()
                   : FutureBuilder(
                       future: APIService().getBnsMyItems(
                           LoginStore.userData['outlookEmail']!),
@@ -179,7 +179,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                               snapshot.data! as List<BuyModel>;
                           List<MyAdsTile> tiles =
                               models.map((e) => MyAdsTile(model: e)).toList();
-                          if (context.read<LoginStore>().isGuestUser) {
+                          if (LoginStore().isGuestUser) {
                             return const PaginationText(
                                 text:
                                     "Log in with your IITG account to post ads");
@@ -203,7 +203,7 @@ class _BuySellHomeState extends State<BuySellHome> {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: context.read<LoginStore>().isGuestUser ? Container() : AddItemButton(
+          floatingActionButton: LoginStore().isGuestUser ? Container() : AddItemButton(
             type: commonStore.bnsIndex,
           ),
         );

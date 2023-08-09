@@ -60,7 +60,7 @@ class LoginButton extends StatelessWidget {
                       text: 'Guest',
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
-                          await context.read<LoginStore>().signInAsGuest();
+                          await LoginStore().signInAsGuest();
                           // TODO: Next version of Flutter will have context.mounted. Use that instead to escape the lint
                           print("completed sign in");
                           Navigator.of(context).pushNamedAndRemoveUntil(

@@ -47,8 +47,8 @@ class _LoginWebViewState extends State<LoginWebView> {
             if (!mounted) return;
             Map userTokens = {BackendHelper.accesstoken: userTokensString.split('/')[0],BackendHelper.refreshtoken: userTokensString.split('/')[1]};
             print(userTokens);
-            await context.read<LoginStore>().saveToPreferences(user, userTokens);
-            await context.read<LoginStore>().saveToUserInfo(user);
+            await LoginStore().saveToPreferences(user, userTokens);
+            await LoginStore().saveToUserInfo(user);
             await WebviewCookieManager().clearCookies();
             print("its here");
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => EditProfile(profileModel: ProfileModel.fromJson(LoginStore.userData),)), (route) => false);

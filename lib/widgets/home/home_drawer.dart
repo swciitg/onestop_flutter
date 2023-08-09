@@ -77,7 +77,7 @@ class HomeDrawer extends StatelessWidget {
 
                   ),
                 ),
-                 if (!context.read<LoginStore>().isGuestUser)
+                 if (!LoginStore().isGuestUser)
                   GestureDetector(
                     onTap:() {
                         showModalBottomSheet(
@@ -114,7 +114,7 @@ class HomeDrawer extends StatelessWidget {
                   ),
                   onPressed: () {
                     {
-                      context.read<LoginStore>().logOut(() =>
+                      LoginStore().logOut(() =>
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/', (Route<dynamic> route) => false));
                     }

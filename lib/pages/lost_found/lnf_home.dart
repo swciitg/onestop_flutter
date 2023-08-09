@@ -172,7 +172,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               )
             else
               Expanded(
-                child: context.read<LoginStore>().isGuestUser ? const GuestRestrictAccess()
+                child: LoginStore().isGuestUser ? const GuestRestrictAccess()
                     : FutureBuilder(
                     future: APIService().getLnfMyItems(
                         LoginStore.userData['outlookEmail'] ?? ""),
@@ -181,7 +181,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                         List<dynamic> models = snapshot.data! as List<dynamic>;
                         List<MyAdsTile> tiles =
                             models.map((e) => MyAdsTile(model: e)).toList();
-                        if (context.read<LoginStore>().isGuestUser) {
+                        if (LoginStore().isGuestUser) {
                           return const PaginationText(
                               text:
                                   "Log in with your IITG account to post ads");
@@ -204,7 +204,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: context.read<LoginStore>().isGuestUser ? Container() : AddItemButton(
+        floatingActionButton: LoginStore().isGuestUser ? Container() : AddItemButton(
           type: commonStore.lnfIndex,
         ),
       );

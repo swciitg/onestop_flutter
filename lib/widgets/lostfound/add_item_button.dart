@@ -26,7 +26,7 @@ class AddItemButton extends StatefulWidget {
 class _AddItemButtonState extends State<AddItemButton> {
   @override
   Widget build(BuildContext context) {
-    if (context.read<LoginStore>().isGuestUser) {
+    if (LoginStore().isGuestUser) {
       return Container();
     }
     if (widget.type == "My Ads") {
