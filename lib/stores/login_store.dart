@@ -2,8 +2,10 @@
 // import 'package:aad_oauth/model/config.dart';
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
+import 'package:onestop_dev/globals/enums.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,34 +16,38 @@ class LoginStore {
   static Map<String, dynamic> userData = {};
   final cookieManager = WebviewCookieManager();
   static bool isGuest = false;
-  static bool isProfileComplete=false;
+  static bool isProfileComplete = false;
 
-  Future<int> isAlreadyAuthenticated() async {
+  Future<SplashResponse> isAlreadyAuthenticated() async {
     SharedPreferences user = await SharedPreferences.getInstance();
     print("inside authentication check");
-    Map userInfo;
+    Map userInfo = {};
     if (user.containsKey("userInfo")) {
       try {
         userInfo = await APIService().getUserProfile();
+      } catch (e) {
+        print((e as DioException).response!.statusCode!);
+        if ((e).response!.statusCode == 418) {
+          return SplashResponse.blocked;
+        }
+        else
+          {
+            return SplashResponse.authenticated;
+          }
       }
-      catch(e)
-    {
-      return 2;
-    }
       await user.setString('userInfo', jsonEncode(userInfo));
       print("here");
-      if(user.containsKey("isProfileComplete")){
+      if (user.containsKey("isProfileComplete")) {
         print("PROFILE IS COMPLETE");
-        isProfileComplete=true;
-      }
-      else{
+        isProfileComplete = true;
+      } else {
         print("PROFILE IS INCOMPLETE");
       }
       print(await user.containsKey("userInfo"));
       await saveToUserInfo(user);
-      return 0;
+      return SplashResponse.authenticated;
     }
-    return 1;
+    return SplashResponse.notAuthenticated;
   }
 
   bool get isGuestUser {
@@ -58,7 +64,8 @@ class LoginStore {
     print(response.data);
     await saveToPreferences(sharedPrefs, response.data);
     await saveToUserInfo(sharedPrefs);
-    await sharedPrefs.setBool("isProfileComplete", true); // profile is complete for guest
+    await sharedPrefs.setBool(
+        "isProfileComplete", true); // profile is complete for guest
   }
 
   Future<void> saveToPreferences(
@@ -75,32 +82,35 @@ class LoginStore {
     print(userInfo);
 
     print(jsonEncode(userInfo));
-    await instance.setString("userInfo", jsonEncode(userInfo)); // save user profile
+    await instance.setString(
+        "userInfo", jsonEncode(userInfo)); // save user profile
   }
 
-  Future<void> saveToUserInfo(SharedPreferences instance) async { // only called after saving jwt tokens in local storage
+  Future<void> saveToUserInfo(SharedPreferences instance) async {
+    // only called after saving jwt tokens in local storage
     userData = jsonDecode(instance.getString("userInfo")!);
     print(userData);
     var fcmToken = await FirebaseMessaging.instance.getToken();
     print("fcm token: ${fcmToken}");
     print(isGuest);
-    if(instance.getBool("isGuest")==false){
+    if (instance.getBool("isGuest") == false) {
       print(instance.getString("deviceToken"));
-      if (instance.getString("deviceToken") != null && instance.getString("deviceToken")!=fcmToken) { // already some token was stored
+      if (instance.getString("deviceToken") != null &&
+          instance.getString("deviceToken") != fcmToken) {
+        // already some token was stored
         print("inside if");
         await APIService().updateUserDeviceToken({
           "oldToken": instance.getString("deviceToken"), // stored token
           "newToken": fcmToken
         });
-      }
-      else if(instance.getString("deviceToken")==null){
+      } else if (instance.getString("deviceToken") == null) {
         print("inside else");
-        instance.setString("deviceToken", fcmToken!); // set the returned fcToken
+        instance.setString(
+            "deviceToken", fcmToken!); // set the returned fcToken
         await APIService().postUserDeviceToken(fcmToken!);
       }
-    }
-    else{
-      isGuest=true;
+    } else {
+      isGuest = true;
     }
   }
 
@@ -115,7 +125,7 @@ class LoginStore {
     await user.clear();
     userData.clear();
     isGuest = false;
-    isProfileComplete=false;
+    isProfileComplete = false;
     await LocalStorage.instance.deleteRecordsLogOut();
     navigationPopCallBack();
   }

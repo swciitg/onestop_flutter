@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/check_last_updated.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/notifications_provider.dart';
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         scaffoldMessengerKey: rootScaffoldMessengerKey,
         debugShowCheckedModeBanner: false,
+        initialRoute: SplashPage.id,
         theme: ThemeData(
             scaffoldBackgroundColor: kBackground,
             splashColor: Colors.transparent),

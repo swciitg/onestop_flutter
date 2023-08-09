@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/globals/enums.dart';
 import 'package:onestop_dev/pages/login/blocked.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
   static String id = "/";
@@ -19,10 +19,10 @@ class _SplashPageState extends State<SplashPage> {
     LoginStore()
         .isAlreadyAuthenticated()
         .then((result) {
-      if (result == 0&& LoginStore.isProfileComplete){
+      if (result == SplashResponse.authenticated && LoginStore.isProfileComplete){
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/home2', (Route<dynamic> route) => false);
-      } else if(result == 2){
+      } else if(result == SplashResponse.blocked){
         Navigator.of(context).pushNamedAndRemoveUntil(BlockedPage.id, (Route<dynamic> route) => false);
       }else{
         Navigator.of(context)

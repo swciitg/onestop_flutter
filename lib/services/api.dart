@@ -33,6 +33,8 @@ class APIService {
           "Bearer ${await AuthUserHelpers.getAccessToken()}";
       handler.next(options);
     }, onError: (error, handler) async {
+          print("A dio Error has occured and been caught");
+          print(error);
       var response = error.response;
       if (response != null && response.statusCode == 401) {
         if ((await AuthUserHelpers.getAccessToken()).isEmpty) {
@@ -56,7 +58,8 @@ class APIService {
       }
       // admin user with expired tokens
       return handler.next(error);
-    }));
+    }
+    ));
   }
 
   Future<Response<dynamic>> retryRequest(Response response) async {
@@ -130,8 +133,14 @@ class APIService {
   }
 
   Future<Map> getUserProfile() async {
-    var response = await dio.get(Endpoints.userProfile);
-    return response.data;
+    try {
+      var response = await dio.get(Endpoints.userProfile);
+      return response.data;
+    }
+    catch(e)
+    {
+      throw DioException(requestOptions: RequestOptions(path: Endpoints.userProfile), response: (e as DioException).response);
+    }
   }
 
   Future<void> updateUserProfile(Map data, String? deviceToken) async {
