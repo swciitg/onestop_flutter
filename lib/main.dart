@@ -13,6 +13,7 @@ import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
+import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -61,6 +62,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<TravelStore>(
           create: (_) => TravelStore(),
+        ),
+        Provider<TimetableStore>(
+          create: (_) => TimetableStore(),
         )
       ],
       child: MaterialApp(

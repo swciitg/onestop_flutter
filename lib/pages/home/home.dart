@@ -9,13 +9,12 @@ import 'package:onestop_dev/pages/home/home_tab.dart';
 import 'package:onestop_dev/pages/timetable/timetable.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
-import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/ui/onestop_upgrade.dart';
 import 'package:provider/provider.dart';
-
 import '../../widgets/home/home_drawer.dart';
-   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 class HomePage extends StatefulWidget {
   static String id = "/home2";
   const HomePage({Key? key}) : super(key: key);
@@ -37,37 +36,34 @@ class _HomePageState extends State<HomePage> {
 
     SizeConfig().init(context);
     return OneStopUpgrader(
-      child: Provider(
-        create: (_) => TimetableStore(),
-        child: Scaffold(
-          key: scaffoldKey,
-          drawer: const HomeDrawer(),
-          appBar: appBar(context),
-          bottomNavigationBar: NavigationBarTheme(
-            data: NavigationBarThemeData(
-                indicatorColor: lGrey,
-                labelTextStyle:
-                    MaterialStateProperty.all(MyFonts.w500.setColor(kTabText)),
-                iconTheme: MaterialStateProperty.all(
-                    const IconThemeData(color: kTabText))),
-            child: NavigationBar(
-              backgroundColor: kTabBar,
-              selectedIndex: index,
-              onDestinationSelected: (index) => setState(() {
-                this.index = index;
-                context.read<MapBoxStore>().mapController = null;
-              }),
-              destinations: bottomNavIcons(),
-            ),
+      child: Scaffold(
+        key: scaffoldKey,
+        drawer: const HomeDrawer(),
+        appBar: appBar(context),
+        bottomNavigationBar: NavigationBarTheme(
+          data: NavigationBarThemeData(
+              indicatorColor: lGrey,
+              labelTextStyle:
+                  MaterialStateProperty.all(MyFonts.w500.setColor(kTabText)),
+              iconTheme: MaterialStateProperty.all(
+                  const IconThemeData(color: kTabText))),
+          child: NavigationBar(
+            backgroundColor: kTabBar,
+            selectedIndex: index,
+            onDestinationSelected: (index) => setState(() {
+              this.index = index;
+              context.read<MapBoxStore>().mapController = null;
+            }),
+            destinations: bottomNavIcons(),
           ),
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: tabs[index],
-            ),
-          ),
-          floatingActionButton: homeActionButton(context, index),
         ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: tabs[index],
+          ),
+        ),
+        floatingActionButton: homeActionButton(context, index),
       ),
     );
   }
