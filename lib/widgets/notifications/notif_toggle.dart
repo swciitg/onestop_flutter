@@ -42,7 +42,6 @@ class _NotifToggleState extends State<NotifToggle> {
               LoginStore.userData['notifPref'][widget.text] = val;
               print(LoginStore.userData['notifPref']);
               APIService().updateUserNotifPref(LoginStore.userData['notifPref']); // let it run async
-              // await LoginStore.updateNotifPref(widget.text);
               setState((){});
               isLoading = false;
             },

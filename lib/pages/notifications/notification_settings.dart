@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
-import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/notifications/notif_toggle.dart';
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
@@ -13,13 +12,8 @@ class NotificationSettings extends StatefulWidget {
 }
 
 class _NotificationSettingsState extends State<NotificationSettings> {
-  // bool lost = LoginStore.userData['notifPref'][NotificationCategories.lost]!;
-  // bool found = LoginStore.userData['notifPref'][NotificationCategories.found]!;
-  // bool cabSharing= LoginStore.userData['notifPref'][NotificationCategories.cabSharing]!;
-  // bool announcement = LoginStore.userData['notifPref'][NotificationCategories.announcement]!;
   @override
   Widget build(BuildContext context) {
-    print(LoginStore.userData['notifPref']);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAppBarGrey,

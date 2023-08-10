@@ -19,16 +19,19 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options:DefaultFirebaseOptions.currentPlatform);
+  await Future.wait([
+    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+    checkLastUpdated(),
+  ]);
+  await Future.wait([
+    checkForNotifications(),
+    FirebaseMessaging.instance.getToken(),
+  ]);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
-  await checkLastUpdated();
-  await checkForNotifications();
-  final fcmToken = await FirebaseMessaging.instance.getToken(); // ask for notification permission
-  print("FCM Token is $fcmToken");
-  // await APIService.createUser(fcmToken ?? '');
+
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
@@ -61,15 +64,14 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        scaffoldMessengerKey: rootScaffoldMessengerKey,
-        debugShowCheckedModeBanner: false,
-        initialRoute: SplashPage.id,
-        theme: ThemeData(
-            scaffoldBackgroundColor: kBackground,
-            splashColor: Colors.transparent),
-        title: 'OneStop 2.0',
-        routes: routes
-      ),
+          scaffoldMessengerKey: rootScaffoldMessengerKey,
+          debugShowCheckedModeBanner: false,
+          initialRoute: SplashPage.id,
+          theme: ThemeData(
+              scaffoldBackgroundColor: kBackground,
+              splashColor: Colors.transparent),
+          title: 'OneStop 2.0',
+          routes: routes),
     );
   }
 }

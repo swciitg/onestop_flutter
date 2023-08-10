@@ -20,37 +20,25 @@ class LoginStore {
 
   Future<SplashResponse> isAlreadyAuthenticated() async {
     SharedPreferences user = await SharedPreferences.getInstance();
-    print("inside authentication check");
     Map userInfo = {};
     if (user.containsKey("userInfo")) {
       try {
         userInfo = await APIService().getUserProfile();
       } catch (e) {
-        print(e);
-        print(e.runtimeType);
-
-        if((e as DioException).response == null)
-          {
-            return SplashResponse.authenticated;
-          }
-        print((e).response!.statusCode!);
+        if ((e as DioException).response == null) {
+          return SplashResponse.authenticated;
+        }
         if ((e).response!.statusCode == 418) {
           return SplashResponse.blocked;
+        } else {
+          return SplashResponse.authenticated;
         }
-        else
-          {
-            return SplashResponse.authenticated;
-          }
       }
       await user.setString('userInfo', jsonEncode(userInfo));
-      print("here");
       if (user.containsKey("isProfileComplete")) {
-        print("PROFILE IS COMPLETE");
         isProfileComplete = true;
       } else {
-        print("PROFILE IS INCOMPLETE");
       }
-      print(await user.containsKey("userInfo"));
       await saveToUserInfo(user);
       return SplashResponse.authenticated;
     }
@@ -62,35 +50,28 @@ class LoginStore {
   }
 
   Future<void> signInAsGuest() async {
-    print("GUEST SIGN IN");
     isGuest = true;
-    var sharedPrefs = await SharedPreferences.getInstance();
-    print(Endpoints.guestLogin);
-    print(Endpoints.getHeader());
+    SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
     final response = await APIService().guestUserLogin();
-    print(response.data);
-    await saveToPreferences(sharedPrefs, response.data);
-    await saveToUserInfo(sharedPrefs);
-    await sharedPrefs.setBool(
-        "isProfileComplete", true); // profile is complete for guest
+
+    await Future.wait([
+      saveToPreferences(sharedPrefs, response.data),
+      saveToUserInfo(sharedPrefs),
+      sharedPrefs.setBool("isProfileComplete", true)
+    ]);
   }
 
   Future<void> saveToPreferences(
       SharedPreferences instance, dynamic data) async {
-    print(data);
-    print(data.runtimeType);
-    print(data[BackendHelper.accesstoken]);
-    await instance.setString(
-        BackendHelper.accesstoken, data[BackendHelper.accesstoken]);
-    await instance.setString(
-        BackendHelper.refreshtoken, data[BackendHelper.refreshtoken]);
-    await instance.setBool("isGuest", isGuest); // handle guest or user
     Map userInfo = await APIService().getUserProfile();
-    print(userInfo);
-
-    print(jsonEncode(userInfo));
-    await instance.setString(
-        "userInfo", jsonEncode(userInfo)); // save user profile
+    await Future.wait([
+      instance.setString(
+          BackendHelper.accesstoken, data[BackendHelper.accesstoken]),
+      instance.setString(
+          BackendHelper.refreshtoken, data[BackendHelper.refreshtoken]),
+      instance.setBool("isGuest", isGuest),
+      instance.setString("userInfo", jsonEncode(userInfo)),
+    ]);
   }
 
   Future<void> saveToUserInfo(SharedPreferences instance) async {
@@ -125,10 +106,6 @@ class LoginStore {
     print("INSIDE LOGOUT");
     await cookieManager.clearCookies();
     SharedPreferences user = await SharedPreferences.getInstance();
-    // if(!isGuest){
-    //   print(user.getString("deviceToken")!);
-    //   await APIService().logoutUser(user.getString("deviceToken")!); // remove token on logout if not guest
-    // }
     await user.clear();
     userData.clear();
     isGuest = false;
