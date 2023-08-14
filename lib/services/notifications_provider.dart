@@ -67,13 +67,13 @@ bool checkNotificationCategory(String type) {
     case "buy":
     case "sell":
     case "cabSharing":
+    case "irbs":
       return true;
   }
   return false;
 }
 
 Future<bool> checkForNotifications() async {
-  await FirebaseMessaging.instance.subscribeToTopic('all');
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 

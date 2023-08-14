@@ -102,7 +102,7 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
 
                             }
                         },
-                        tabs: [
+                        tabs: const [
                           Tab(
                               child: Text(
                                 'Personal',
@@ -121,7 +121,7 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
                               )),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Observer(builder: (context){
