@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:provider/provider.dart';
@@ -19,17 +20,24 @@ class HomeDrawer extends StatelessWidget {
     return SizedBox(
         width: MediaQuery.of(context).size.width * 0.6,
         child: Scaffold(
-          appBar: AppBar(backgroundColor: kBackground,
-          elevation: 0,
-          leadingWidth: 0,
-          leading: Container(),
-          centerTitle: true,
-          title: RichText(text: TextSpan(
-            children: [
-              TextSpan(text: "Onestop",style: MyFonts.w600.size(23).letterSpace(1.0).setColor(lBlue2),),
-              TextSpan(text: ".",style:  MyFonts.w500.size(23).setColor(kYellow),)
-            ]
-          )),),
+          appBar: AppBar(
+            backgroundColor: kBackground,
+            elevation: 0,
+            leadingWidth: 0,
+            leading: Container(),
+            centerTitle: true,
+            title: RichText(
+                text: TextSpan(children: [
+              TextSpan(
+                text: "Onestop",
+                style: MyFonts.w600.size(23).letterSpace(1.0).setColor(lBlue2),
+              ),
+              TextSpan(
+                text: ".",
+                style: MyFonts.w500.size(23).setColor(kYellow),
+              )
+            ])),
+          ),
           body: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,64 +57,81 @@ class HomeDrawer extends StatelessWidget {
                 //         fit: BoxFit.fitWidth,
                 //       )),
                 // ])),
-               
-                Container(height: 1,color: Colors.white38,),
-                 const SizedBox(
+
+                Container(
+                  height: 1,
+                  color: Colors.white38,
+                ),
+                const SizedBox(
                   height: 16,
                 ),
                 GestureDetector(
-                  onTap:() {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (buildContext) => ProfilePage(
-                                    profileModel: ProfileModel.fromJson(
-                                        LoginStore.userData),
-                                  )));
-                      scaffoldKey.currentState!.closeDrawer();
-                    } ,
-
-                  child: Container(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (buildContext) => ProfilePage(
+                                  profileModel: ProfileModel.fromJson(
+                                      LoginStore.userData),
+                                )));
+                    scaffoldKey.currentState!.closeDrawer();
+                  },
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    child: Text(
+                      "View Profile",
+                      style: MyFonts.w400.size(14).setColor(kWhite),
+                    ),
+                  ),
+                ),
+                if (!LoginStore().isGuestUser)
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                          context: context,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(20),
+                            ),
+                          ),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          isScrollControlled: true,
+                          builder: (BuildContext context) {
+                            return const FeedBack();
+                          });
+                    },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 8),
                       child: Text(
-                        "View Profile",
+                        "Bug/Feature Request",
+                        textAlign: TextAlign.center,
                         style: MyFonts.w400.size(14).setColor(kWhite),
                       ),
                     ),
-
                   ),
-                ),
-                 if (!LoginStore().isGuestUser)
-                  GestureDetector(
-                    onTap:() {
-                        showModalBottomSheet(
-                            context: context,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(20),
-                              ),
-                            ),
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            isScrollControlled: true,
-                            builder: (BuildContext context) {
-                              return const FeedBack();
-                            });
-                      } ,
-                    child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
-                        child: Text(
-                          "Bug/Feature Request",
-                          textAlign: TextAlign.center,
-                          style: MyFonts.w400.size(14).setColor(kWhite),
-                        ),
-                      ),
+                GestureDetector(
+                  onTap: () async {
+                    try {
+                      await launchURL("swc.iitg.ac.in");
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    child: Text(
+                      "About Us",
+                      textAlign: TextAlign.center,
+                      style: MyFonts.w400.size(14).setColor(kWhite),
                     ),
                   ),
+                ),
                 Expanded(child: Container()),
-               
-                  SvgPicture.asset("assets/images/logo.svg"),
+
+                SvgPicture.asset("assets/images/logo.svg"),
                 TextButton(
                   child: Text(
                     "Logout",
@@ -114,13 +139,15 @@ class HomeDrawer extends StatelessWidget {
                   ),
                   onPressed: () {
                     {
-                      LoginStore().logOut(() =>
-                          Navigator.of(context).pushNamedAndRemoveUntil(
+                      LoginStore().logOut(() => Navigator.of(context)
+                          .pushNamedAndRemoveUntil(
                               '/', (Route<dynamic> route) => false));
                     }
                   },
                 ),
-                const SizedBox(height: 16,)
+                const SizedBox(
+                  height: 16,
+                )
               ],
             ),
           ),
