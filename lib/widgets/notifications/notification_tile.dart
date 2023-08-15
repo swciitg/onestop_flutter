@@ -23,6 +23,10 @@ class NotificationTile extends StatelessWidget {
         return FluentIcons.vehicle_car_24_filled;
       case "announcement":
         return FluentIcons.alert_urgent_24_filled;
+      case "irbs":
+        return FluentIcons.calendar_edit_16_regular;
+      case "swc":
+        return FluentIcons.alert_12_filled;
     }
     return FluentIcons.checkbox_1_20_filled;
   }
@@ -90,7 +94,7 @@ class NotificationTile extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
             Expanded(
