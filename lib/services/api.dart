@@ -139,6 +139,7 @@ class APIService {
     }
     catch(e)
     {
+      print(e);
       throw DioException(requestOptions: RequestOptions(path: Endpoints.userProfile), response: (e as DioException).response);
     }
   }

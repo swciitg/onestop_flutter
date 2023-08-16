@@ -63,12 +63,14 @@ class LoginStore {
 
   Future<void> saveToPreferences(
       SharedPreferences instance, dynamic data) async {
-    Map userInfo = await APIService().getUserProfile();
     await Future.wait([
       instance.setString(
           BackendHelper.accesstoken, data[BackendHelper.accesstoken]),
       instance.setString(
           BackendHelper.refreshtoken, data[BackendHelper.refreshtoken]),
+    ]);
+    Map userInfo = await APIService().getUserProfile();
+    await Future.wait([
       instance.setBool("isGuest", isGuest),
       instance.setString("userInfo", jsonEncode(userInfo)),
     ]);
