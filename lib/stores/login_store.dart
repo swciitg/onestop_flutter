@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
-import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/globals/enums.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
@@ -81,7 +80,7 @@ class LoginStore {
     userData = jsonDecode(instance.getString("userInfo")!);
     print(userData);
     var fcmToken = await FirebaseMessaging.instance.getToken();
-    print("fcm token: ${fcmToken}");
+    print("fcm token: $fcmToken");
     print(isGuest);
     if (instance.getBool("isGuest") == false) {
       print(instance.getString("deviceToken"));
@@ -97,7 +96,7 @@ class LoginStore {
         print("inside else");
         instance.setString(
             "deviceToken", fcmToken!); // set the returned fcToken
-        await APIService().postUserDeviceToken(fcmToken!);
+        await APIService().postUserDeviceToken(fcmToken);
       }
     } else {
       isGuest = true;
