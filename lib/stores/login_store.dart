@@ -78,25 +78,20 @@ class LoginStore {
   Future<void> saveToUserInfo(SharedPreferences instance) async {
     // only called after saving jwt tokens in local storage
     userData = jsonDecode(instance.getString("userInfo")!);
-    print(userData);
     var fcmToken = await FirebaseMessaging.instance.getToken();
-    print("fcm token: $fcmToken");
-    print(isGuest);
     if (instance.getBool("isGuest") == false) {
-      print(instance.getString("deviceToken"));
-      if (instance.getString("deviceToken") != null &&
-          instance.getString("deviceToken") != fcmToken) {
-        // already some token was stored
-        print("inside if");
-        await APIService().updateUserDeviceToken({
-          "oldToken": instance.getString("deviceToken"), // stored token
-          "newToken": fcmToken
-        });
-      } else if (instance.getString("deviceToken") == null) {
-        print("inside else");
+      String? deviceToken = instance.getString("deviceToken");
+      if (deviceToken == null) {
         instance.setString(
             "deviceToken", fcmToken!); // set the returned fcToken
         await APIService().postUserDeviceToken(fcmToken);
+      }
+      else if (deviceToken != fcmToken) {
+        // already some token was stored
+        await APIService().updateUserDeviceToken({
+          "oldToken": deviceToken, // stored token
+          "newToken": fcmToken
+        });
       }
     } else {
       isGuest = true;
