@@ -1,11 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:get/get.dart';
 import 'package:onestop_dev/functions/utility/capitalize_string.dart';
-import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 
@@ -18,7 +15,6 @@ class NotifToggle extends StatefulWidget {
 }
 
 class _NotifToggleState extends State<NotifToggle> {
-  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     var name = capitalize(widget.text);
@@ -36,13 +32,10 @@ class _NotifToggleState extends State<NotifToggle> {
             height: 32,
             width: 52,
             value: LoginStore.userData['notifPref'][widget.text]!,
-            onToggle: (val) async {
-              if(isLoading) {return;}
-              isLoading = true;
+            onToggle: (val) {
               LoginStore.userData['notifPref'][widget.text] = val;
-              await APIService().updateUserNotifPref(LoginStore.userData['notifPref']);
-              setState((){});
-              isLoading = false;
+              setState(() {
+              });
             },
           ),
         ],
