@@ -20,34 +20,24 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    LoginStore()
+        .isAlreadyAuthenticated()
+        .then((result) {
+      if (result == SplashResponse.authenticated && LoginStore.isProfileComplete){
+        Navigator.of(context).pushNamedAndRemoveUntil(HomePage.id, (Route<dynamic> route) => false);
+      }
+      else if(result == SplashResponse.blocked){
+        Navigator.of(context).pushNamedAndRemoveUntil(BlockedPage.id, (Route<dynamic> route) => false);
+      }
+      else {
+        Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.id, (Route<dynamic> route) => false);
+      }
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
-    return  FutureBuilder<SplashResponse>(
-        future: LoginStore().isAlreadyAuthenticated(),
-          builder: (context, snapshot){
-          if(snapshot.hasData)
-            {
-              SplashResponse result = snapshot.data!;
-              if (result == SplashResponse.authenticated && LoginStore.isProfileComplete){
-                return const HomePage();
-              } else if(result == SplashResponse.blocked){
-                return const BlockedPage();
-              }else{
-                return const LoginPage();
-              }
-            }
-          else if(snapshot.hasError)
-            {
-              return const Scaffold();
-            }
-          else
-            {
-              //Waiting State
-              return Scaffold(
-              );
-            }
-      });
+    return const Scaffold();
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/size_config.dart';
+import 'package:onestop_dev/pages/login/welcome.dart';
 import 'package:onestop_dev/widgets/login/login_webview.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -15,7 +16,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // bool loading = false;
+  bool loading = false;
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
 
@@ -30,15 +31,14 @@ class _LoginPageState extends State<LoginPage> {
     SizeConfig().init(context);
     return Scaffold(
         body:
-        //  loading
-            // ?
+         loading
+            ?
              SafeArea(child: LoginWebView(controller: _controller))
-            // : WelcomePage(setLoading: () {
-            //     setState(() {
-            //       loading = true;
-            //     });
-            //   })
-              
-              );
+            : WelcomePage(setLoading: () {
+                setState(() {
+                  loading = true;
+                });
+              }
+              ));
   }
 }

@@ -7,9 +7,9 @@ import '../../globals/size_config.dart';
 
 class WelcomePage extends StatelessWidget {
   static String id = "/login2";
-  // final Function setLoading;
+  final Function setLoading;
   const WelcomePage({Key? key, 
-  // required this.setLoading
+  required this.setLoading
   }) : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class WelcomePage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                     horizontal: MySpaces.horizontalScreenPadding
                     ),
-                child: const LoginButton(),
+                child:  LoginButton(setLoading: setLoading,),
               ),
             ),
           ],

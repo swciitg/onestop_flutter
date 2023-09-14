@@ -41,6 +41,5 @@ final routes = {
   Scoreboard.id: (context) => const Scoreboard(),
   Upsp.id: (context) => const Upsp(),
   GuestHouse.id: (context) => const GuestHouse(),
-  WelcomePage.id:(context)=> const WelcomePage(),
   ComplaintsPage.id:(context)=> const ComplaintsPage()
 };
