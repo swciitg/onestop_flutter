@@ -30,9 +30,10 @@
 ## How would you like to contribute to this Project?
 #### <ul>
 <li>Create a Developers Page for the app. Design can be accessed here</li>
-<li></li>
-<li>Dart</li>
-<li>Firebase - Cloud messaging</li>
+<li>Create a Page for taking Mess performance reviews from the user. Design for the same can be accessed here</li>
+<li>Create a Page for changing Mess Subscription from one Hostel to another. Design for the same can be accessed here.</li>
+<li>Display Time-Table on the app. Design and other details for the same can accessed here</li>
+<li>Create a Readme for this Repository</li>
 </ul>
 
 ## Setting up project on your machine ⚙️
@@ -42,7 +43,7 @@
 - Fork this repository, Clone the forked repository on your machine and start working on issues
 - If you are new to Flutter checkout these [learning resources](https://swciitg.notion.site/8eb17b6e8f034d7cbd04f98054640cd0?v=50726fa13f6d40c1882448900ee36b03) from workshop conducted by SWC IIT Guwahati
 
-##Running app on your Machine
+## Running app on your Machine
 
 
 ## Contribution Guide 🤠
