@@ -44,7 +44,7 @@
 - If you are new to Flutter checkout these [learning resources](https://swciitg.notion.site/8eb17b6e8f034d7cbd04f98054640cd0?v=50726fa13f6d40c1882448900ee36b03) from workshop conducted by SWC IIT Guwahati
 
 ## Running app on your Machine
-- OneStop require run [Arguments](runArgs) to be included for running the App
+- OneStop require run [Arguments](runargs) to be included for running the App
 - Open Android Studio and your Flutter application.
   Open the "Edit Run/Debug Configurations" dialog.
   In the "Additional Arguments" field, add the desired arguments.
