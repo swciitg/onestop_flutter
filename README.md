@@ -34,12 +34,16 @@
 <li>Dart</li>
 <li>Firebase - Cloud messaging</li>
 </ul>
+
 ## Setting up project on your machine ⚙️
 
 - [Follow this guide](https://swciitg.notion.site/Day-1-f6ea19b1d7ff410e8ec03683772f4cd0) to setup Android Studio & Flutter SDK on your machine
 - [Follow this to setup Firebase project](https://www.youtube.com/watch?v=sz4slPFwEvs) for your project in the app also, enable email-password authentication, initialize cloud firestore database in your firebase project
 - Fork this repository, Clone the forked repository on your machine and start working on issues
 - If you are new to Flutter checkout these [learning resources](https://swciitg.notion.site/8eb17b6e8f034d7cbd04f98054640cd0?v=50726fa13f6d40c1882448900ee36b03) from workshop conducted by SWC IIT Guwahati
+
+##Running app on your Machine
+
 
 ## Contribution Guide 🤠
 Before contributing be sure to check out the [CONTRIBUTION](CONTRIBUTING.md) guidelines.
