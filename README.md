@@ -29,10 +29,14 @@
 
 ## How to contribute to this Project?
 #### <ul>
+<li> Choose any of the Task
 <li>Flutter</li>
 <li>Dart</li>
 <li>Firebase - Cloud messaging</li>
 </ul>
+
+
+
 # 🐛 Bug Reporting
 #### Feel free to [open an issue](https://github.com/swciitg/one-stop-2021/issues) on GitHub if you find any bug.
 
