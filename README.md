@@ -27,16 +27,31 @@
 <li>Firebase - Cloud messaging</li>
 </ul>
 
-## How to contribute to this Project?
+## How would you like to contribute to this Project?
 #### <ul>
-<li> Choose any of the Task
-<li>Flutter</li>
+<li>Create a Developers Page for the app. Design can be accessed here</li>
+<li></li>
 <li>Dart</li>
 <li>Firebase - Cloud messaging</li>
 </ul>
+## Setting up project on your machine ⚙️
 
+- [Follow this guide](https://swciitg.notion.site/Day-1-f6ea19b1d7ff410e8ec03683772f4cd0) to setup Android Studio & Flutter SDK on your machine
+- [Follow this to setup Firebase project](https://www.youtube.com/watch?v=sz4slPFwEvs) for your project in the app also, enable email-password authentication, initialize cloud firestore database in your firebase project
+- Fork this repository, Clone the forked repository on your machine and start working on issues
+- If you are new to Flutter checkout these [learning resources](https://swciitg.notion.site/8eb17b6e8f034d7cbd04f98054640cd0?v=50726fa13f6d40c1882448900ee36b03) from workshop conducted by SWC IIT Guwahati
 
+## Contribution Guide 🤠
+Before contributing be sure to check out the [CONTRIBUTION](CONTRIBUTING.md) guidelines.
 
+## Help & Discussions 🙌
+
+- Go to discussions section of this repository to start new discussion or look at previous discussions.
+- Join SWC IIT Guwahati's [Discord Server](https://discord.gg/2QUrA8HgWx) for accessing great learning resources, connecting with awesome community
+
+## Join us on social media
+
+[Discord](https://discord.gg/djNKYdge2a) | [Facebook](https://www.facebook.com/swciitg/) | [LinkedIn](https://www.linkedin.com/company/student-s-web-committee-iitg/mycompany/)
 # 🐛 Bug Reporting
 #### Feel free to [open an issue](https://github.com/swciitg/one-stop-2021/issues) on GitHub if you find any bug.
 
