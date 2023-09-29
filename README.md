@@ -8,7 +8,6 @@
 #### [Follow for PlayStore](https://play.google.com/store/apps/details?id=com.swciitg.onestop2) || [Follow for AppStore](https://apps.apple.com/in/app/onestop-iitg/id1642792642)
 
 ## 🧩 Main Features
-#### <ul>
 <li>Bus/Ferry schedule</li>
 <li>Lost/Found items reporting</li>
 <li>Buy/Sell items listing service</li>
@@ -18,23 +17,18 @@
 <li>Separate categories under Buy & Sell</li>
 <li>Dynamic scoreboard for Inter-hostel competitions</li>
 <li>Mobile notifications for multiple services</li>
-</ul>
 
 ## 💻 TechStack Used
-#### <ul>
 <li>Flutter</li>
 <li>Dart</li>
 <li>Firebase - Cloud messaging</li>
-</ul>
 
 ## How would you like to contribute to this Project?
-## <ul>
-<li>Create a Developers Page for the app. Design can be accesse</li>
+<li>Create a Developers Page for the app. Design can be accessed here. </li>
 <li>Create a Page for taking Mess performance reviews from the user. Design for the same can be accessed here</li>
 <li>Create a Page for changing Mess Subscription from one Hostel to another. Design for the same can be accessed here.</li>
 <li>Display Time-Table on the app. Design and other details for the same can accessed here</li>
 <li>Create a Readme for this Repository</li>
-</ul>
 
 ## Setting up project on your machine ⚙️
 
