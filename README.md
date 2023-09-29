@@ -27,7 +27,7 @@
 ## How would you like to contribute to this Project?
 
 <li>Create a Developers Page for the app. Design can be accessed here. </li>
-<li>Create a Page for taking Mess performance reviews from the user. Design for the same can be accessed here</li>
+<li>Create a Page for taking Mess performance reviews from the user. Design for the same can be accessed here [here](https://tinyurl.com/mr63ea2y)</li>
 <li>Create a Page for changing Mess Subscription from one Hostel to another. Design for the same can be accessed here.</li>
 <li>Display Time-Table on the app. Design and other details for the same can accessed here</li>
 <li>Create a Readme for this Repository</li>
