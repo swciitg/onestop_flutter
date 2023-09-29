@@ -29,7 +29,7 @@
 
 ## How would you like to contribute to this Project?
 #### <ul>
-<li>Create a Developers Page for the app. Design can be accessed [Discord Server](https://discord.gg/2QUrA8HgWx)  [here](https://www.figma.com/file/qLtuLg5m2qnJRaCQgl3o84/Developer's-Page%2FOneStop?type=design&node-id=0%3A1&mode=design&t=HNlJOrjApiIOaLAz-1) </li>
+<li>Create a Developers Page for the app. Design can be accessed [Discord Server](https://discord.gg/2QUrA8HgWx) [here](https://www.figma.com/file/qLtuLg5m2qnJRaCQgl3o84/Developer's-Page%2FOneStop?type=design&node-id=0%3A1&mode=design&t=HNlJOrjApiIOaLAz-1) </li>
 <li>Create a Page for taking Mess performance reviews from the user. Design for the same can be accessed here</li>
 <li>Create a Page for changing Mess Subscription from one Hostel to another. Design for the same can be accessed here.</li>
 <li>Display Time-Table on the app. Design and other details for the same can accessed here</li>
