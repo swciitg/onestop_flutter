@@ -19,11 +19,13 @@
 <li>Mobile notifications for multiple services</li>
 
 ## 💻 TechStack Used
+
 <li>Flutter</li>
 <li>Dart</li>
 <li>Firebase - Cloud messaging</li>
 
 ## How would you like to contribute to this Project?
+
 <li>Create a Developers Page for the app. Design can be accessed here. </li>
 <li>Create a Page for taking Mess performance reviews from the user. Design for the same can be accessed here</li>
 <li>Create a Page for changing Mess Subscription from one Hostel to another. Design for the same can be accessed here.</li>
