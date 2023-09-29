@@ -27,13 +27,13 @@
 ## How would you like to contribute to this Project?
 
 <li>Create a Developers Page for the app. Design can be accessed here. </li>
-<li>Create a Page for taking Mess performance reviews from the user. Design for the same can be accessed here [here](https://tinyurl.com/mr63ea2y)</li>
+<li>Create a Page for taking Mess performance reviews from the user. Design for the same can be accessed here</li>
 <li>Create a Page for changing Mess Subscription from one Hostel to another. Design for the same can be accessed here.</li>
-<li>Display Time-Table on the app. Design and other details for the same can accessed here</li>
+<li>Display Time-Table on the app. Design and other details for the same can accessed here [Follow this guide](https://swciitg.notion.site/Day-1-f6ea19b1d7ff410e8ec03683772f4cd0) </li>
 <li>Create a Readme for this Repository</li>
 
 ## Setting up project on your machine ⚙️
-
+-[Follow this guide](https://swciitg.notion.site/Day-1-f6ea19b1d7ff410e8ec03683772f4cd0) 
 - [Follow this guide](https://swciitg.notion.site/Day-1-f6ea19b1d7ff410e8ec03683772f4cd0) to setup Android Studio & Flutter SDK on your machine
 - [Follow this to setup Firebase project](https://www.youtube.com/watch?v=sz4slPFwEvs) for your project in the app also, enable email-password authentication, initialize cloud firestore database in your firebase project
 - Fork this repository, Clone the forked repository on your machine and start working on issues
