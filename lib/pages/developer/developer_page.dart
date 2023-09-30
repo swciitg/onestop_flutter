@@ -4,6 +4,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/widgets/developer/developer_card.dart';
 
 class DeveloperPage extends StatefulWidget {
+  static String id = '/developer';
   const DeveloperPage({super.key});
 
   @override

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/widgets/developer/social_link.dart';
 
 class DeveloperCard extends StatelessWidget {
   const DeveloperCard({
@@ -37,26 +38,30 @@ class DeveloperCard extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            Text(
-                developerName,
-                style: MyFonts.w500.size(14).setColor(kWhite)
-            ),
+            Text(developerName, style: MyFonts.w500.size(14).setColor(kWhite)),
             const SizedBox(
               height: 5,
             ),
-            Text(
-                developerPosition,
-                style: MyFonts.w400.size(12).setColor(lBlue)
-            ),
+            Text(developerPosition,
+                style: MyFonts.w400.size(12).setColor(lBlue)),
             const SizedBox(
               height: 15,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.asset('assets/images/linkedin.png'),
-                Image.asset('assets/images/github.png'),
-                Image.asset('assets/images/company.png'),
+                SocialLink(
+                    url: 'https://www.linkedin.com/',
+                    imagePath: 'assets/images/linkedin.png'),
+                SocialLink(
+                  url: 'https://github.com/',
+                  imagePath: 'assets/images/github.png',
+                ),
+                SocialLink(
+                  url:
+                      'https://outlook.live.com/',
+                  imagePath: 'assets/images/outlook.png',
+                ),
               ],
             )
           ],
