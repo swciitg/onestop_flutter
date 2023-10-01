@@ -45,7 +45,7 @@
   Open the "Edit Run/Debug Configurations" dialog.
   In the "Additional Arguments" field, add the desired arguments.
   Save the changes.
-  Run your program from the "Run Menu".Refer to the screenshot for better understanding.
+  Run your program from the "Run Menu".Refer to the [help](runapp.md) for better understanding.
 
 ## Contribution Guide 🤠
 Before contributing be sure to check out the [CONTRIBUTION](CONTRIBUTING.md) guidelines.
