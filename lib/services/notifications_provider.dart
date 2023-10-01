@@ -141,8 +141,12 @@ Future<bool> checkForNotifications() async {
     print("Message is ${message.data}");
     if (checkNotificationCategory(message.data['category'])) {
       print("apple");
-      await flutterLocalNotificationsPlugin.show(message.hashCode,
-          message.data['title'], message.data['body'], notificationDetails);
+      await flutterLocalNotificationsPlugin.show(
+        message.hashCode,
+        message.data['title'],
+        message.data['body'],
+        notificationDetails,
+      );
     } else {
       print("ball");
     }
