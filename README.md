@@ -1,4 +1,4 @@
-![feature graphic](https://user-images.githubusercontent.com/75874394/192554328-370aece6-9697-4878-92b8-eb120d07e1b1.png)
+![image](https://github.com/swciitg/onestop_flutter/assets/112700624/e52666b8-d7b2-4333-9eb7-75e007abe969)![feature graphic](https://user-images.githubusercontent.com/75874394/192554328-370aece6-9697-4878-92b8-eb120d07e1b1.png)
 <br />
 
 # OneStop : IIT Guwahati campus application
@@ -44,7 +44,7 @@
   Open the "Edit Run/Debug Configurations" dialog.
   In the "Additional Arguments" field, add the desired arguments.
   Save the changes.
-  Run your program from the "Run Menu".
+  Run your program from the "Run Menu".Refer to the screenshot for better understanding.
 
 ## Contribution Guide 🤠
 Before contributing be sure to check out the [CONTRIBUTION](CONTRIBUTING.md) guidelines.
