@@ -1,8 +1,6 @@
-
-<br />
 <p align="center"><img src="https://user-images.githubusercontent.com/75874394/192554328-370aece6-9697-4878-92b8-eb120d07e1b1.png"></p>
+<br />
 # OneStop : IIT Guwahati campus application
-
 #### OneStop is developed wih motivation of assisting IIT Guwahati students in daily life utilities like Academic timetable, Food menus, Bus/Ferry timings and more. Students' Web Committee took the lead for this product, involved in its development from ideation, user research to deployment and release.
 
 ## Download Links
