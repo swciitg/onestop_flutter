@@ -4,16 +4,27 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_meal.dart';
 import 'package:provider/provider.dart';
+
+import '../../../models/profile/profile_model.dart';
 
 class MessMenu extends StatelessWidget {
   MessMenu({
     Key? key,
   }) : super(key: key);
 
-  final List<String> days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  final List<String> days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ];
   final List<String> hostels = [
     "Kameng",
     "Barak",
@@ -36,6 +47,8 @@ class MessMenu extends StatelessWidget {
       create: (_) => MessStore(),
       builder: (context, _) {
         var messStore = context.read<MessStore>();
+        var userHostel = ProfileModel.fromJson(LoginStore.userData).hostel;
+        messStore.setHostel(userHostel ?? hostels.first);
         return Container(
             height: 171,
             decoration: BoxDecoration(
@@ -45,7 +58,7 @@ class MessMenu extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Row(children: [
-                Expanded(
+                const Expanded(
                     flex: 1,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -55,8 +68,7 @@ class MessMenu extends StatelessWidget {
                         MessMeal(mealName: "Lunch"),
                         MessMeal(mealName: "Dinner")
                       ],
-                    )
-                ),
+                    )),
                 const SizedBox(
                   width: 16,
                 ),
@@ -75,7 +87,9 @@ class MessMenu extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: Text(
-                              messStore.mealData.id.isEmpty ? "Not Specified" : "${DateFormat.jm().format(messStore.mealData.startTiming)} - ${DateFormat.jm().format(messStore.mealData.endTiming)}", // id empty means not updated by HMC
+                              messStore.mealData.id.isEmpty
+                                  ? "Not Specified"
+                                  : "${DateFormat.jm().format(messStore.mealData.startTiming)} - ${DateFormat.jm().format(messStore.mealData.endTiming)}", // id empty means not updated by HMC
                               style: MyFonts.w500.size(12).setColor(kGrey12),
                             ),
                           ),
@@ -96,19 +110,20 @@ class MessMenu extends StatelessWidget {
                                   data: Theme.of(context)
                                       .copyWith(cardColor: kGrey2),
                                   child: PopupMenuButton<String>(
+                                    initialValue: userHostel,
                                     itemBuilder: (context) {
                                       return days
                                           .map(
                                             (value) => PopupMenuItem(
-                                          onTap: () {
-                                            messStore.setDay(value);
-                                          },
-                                          value: value,
-                                          child: Text(value.substring(0,3),
-                                              style: MyFonts.w500
-                                                  .setColor(kWhite)),
-                                        ),
-                                      )
+                                              onTap: () {
+                                                messStore.setDay(value);
+                                              },
+                                              value: value,
+                                              child: Text(value.substring(0, 3),
+                                                  style: MyFonts.w500
+                                                      .setColor(kWhite)),
+                                            ),
+                                          )
                                           .toList();
                                     },
                                     offset: const Offset(1, 40),
@@ -121,15 +136,17 @@ class MessMenu extends StatelessWidget {
                                               Radius.circular(20))),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                            MainAxisAlignment.spaceAround,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Text(messStore.selectedDay.substring(0,3),
+                                          Text(
+                                              messStore.selectedDay
+                                                  .substring(0, 3),
                                               style: MyFonts.w500
                                                   .setColor(lBlue)
                                                   .size(screenWidth <= 390
-                                                  ? 10
-                                                  : 13)),
+                                                      ? 10
+                                                      : 13)),
                                           Icon(
                                             FluentIcons.chevron_down_24_regular,
                                             color: lBlue,
@@ -145,23 +162,22 @@ class MessMenu extends StatelessWidget {
                                       .copyWith(cardColor: kBlueGrey),
                                   child: PopupMenuButton<String>(
                                     constraints:
-                                    const BoxConstraints(maxHeight: 320),
+                                        const BoxConstraints(maxHeight: 320),
                                     itemBuilder: (context) {
                                       return hostels
                                           .map(
                                             (value) => PopupMenuItem(
-                                          onTap: () {
-                                            messStore.setHostel(value);
-
-                                          },
-                                          value: value,
-                                          child: Text(
-                                            value,
-                                            style: MyFonts.w500
-                                                .setColor(kWhite),
-                                          ),
-                                        ),
-                                      )
+                                              onTap: () {
+                                                messStore.setHostel(value);
+                                              },
+                                              value: value,
+                                              child: Text(
+                                                value,
+                                                style: MyFonts.w500
+                                                    .setColor(kWhite),
+                                              ),
+                                            ),
+                                          )
                                           .toList();
                                     },
                                     offset: const Offset(1, 40),
@@ -174,16 +190,16 @@ class MessMenu extends StatelessWidget {
                                               Radius.circular(20))),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                            MainAxisAlignment.spaceAround,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text(messStore.selectedHostel.value!,
-                                          overflow: TextOverflow.fade,
+                                              overflow: TextOverflow.fade,
                                               style: MyFonts.w500
                                                   .setColor(lBlue)
                                                   .size(screenWidth <= 390
-                                                  ? 10
-                                                  : 13)),
+                                                      ? 10
+                                                      : 13)),
                                           Icon(
                                             FluentIcons.chevron_down_24_regular,
                                             color: lBlue,
