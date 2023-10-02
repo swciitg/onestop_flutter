@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/functions/utility/validator.dart';
 import 'package:onestop_dev/globals/hostels.dart';
@@ -11,53 +10,52 @@ import 'package:onestop_dev/widgets/food/mess/custom_hint_drop_down.dart';
 import 'package:onestop_dev/widgets/food/mess/custom_hint_text_field.dart';
 import 'package:onestop_dev/widgets/ui/simple_button.dart';
 
-class MessOpiFormPage extends StatefulWidget {
-  static const id = '/messOpiFormPage';
-  const MessOpiFormPage({super.key});
+class MessSubscriptionPage extends StatefulWidget {
+  static const id = '/messSubscriptionPage';
+  const MessSubscriptionPage({super.key});
 
   @override
-  State<MessOpiFormPage> createState() => _MessOpiFormPageState();
+  State<MessSubscriptionPage> createState() => _MessSubscriptionPageState();
 }
 
-class _MessOpiFormPageState extends State<MessOpiFormPage> {
-  final TextEditingController _commentsController = TextEditingController();
+class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _rollNumberController = TextEditingController();
   final user = ProfileModel.fromJson(LoginStore.userData);
-  late String selectedHostel;
-  int breakFastPoints = 0;
-  int lunchPoints = 0;
-  int dinnerPoints = 0;
-
   final List<String> hostels = khostels;
-  final List<int> points = [1, 2, 3, 4, 5];
+
+  late String currentHostel;
+  late String desiredHostel;
+
+  void onChangeCurrentHostel(String? hostel) => currentHostel = hostel!;
+  void onChangeDesiredHostel(String? hostel) => desiredHostel = hostel!;
 
   @override
   void initState() {
-    selectedHostel = user.hostel ?? hostels.first;
+    currentHostel = user.hostel ?? hostels.first;
+    desiredHostel = hostels.first;
+    _phoneController.text = user.phoneNumber?.toString() ?? "your answer";
+    _rollNumberController.text = user.rollNo;
     super.initState();
   }
 
-  void onChangeSelectedHostel(String? hostel) => selectedHostel = hostel!;
-  void onChangeBreakfastPoints(String? points) =>
-      breakFastPoints = int.parse(points!);
-  void onChangeLunchPoints(String? points) => lunchPoints = int.parse(points!);
-  void onChangeDinnerPoints(String? points) =>
-      dinnerPoints = int.parse(points!);
-
-  void onPressedNext() {
-    print("Breakfast points: $breakFastPoints");
-    print("Lunch points: $lunchPoints");
-    print("Dinner points: $dinnerPoints");
-    print("Comments: ${_commentsController.text}");
-    if (breakFastPoints == 0 || lunchPoints == 0 || dinnerPoints == 0) {
-      print("user not assigned all fields");
-      showSnackBar("Please fill all the compulsory fields");
+  void onPressedSubmit() {
+    if (_phoneController.text.length < 10) {
+      showSnackBar("Provide proper contact number");
+    } else if (_rollNumberController.text != user.rollNo) {
+      showSnackBar("Incorrect Roll Number");
     }
-    // TODO: implement any further actions
+    print("Contact number: ${_phoneController.text}");
+    print("Roll no: ${_rollNumberController.text}");
+    print("current hostel: ${user.hostel}");
+    print("desired hostel: $desiredHostel");
+    // TODO: implemting submit action once form is submitted
   }
 
   @override
   Widget build(BuildContext context) {
-    final currentMonth = DateFormat('MMMM').format(DateTime.now());
+    currentHostel = user.hostel ?? hostels.first;
+    desiredHostel = hostels.first;
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBackground,
@@ -75,69 +73,47 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildFieldTitle(
-                        title:
-                            "1. Which HOSTEL MESS did you subscribe to in $currentMonth?",
+                        title: "Contact Number", isNeccessary: true),
+                    const SizedBox(height: 12),
+                    CustomHintTextField(
+                      controller: _phoneController,
+                      hintText: "Your answer",
+                      inputType: TextInputType.phone,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildFieldTitle(title: "Roll Number", isNeccessary: true),
+                    const SizedBox(height: 12),
+                    CustomHintTextField(
+                      controller: _rollNumberController,
+                      hintText: "190101009",
+                      inputType: TextInputType.number,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildFieldTitle(
+                        title: "Hostel (Currently residing)",
                         isNeccessary: true),
                     const SizedBox(height: 12),
                     CustomHintDropDown(
                       items: hostels,
                       hintText: user.hostel ?? hostels.first,
-                      onChanged: onChangeSelectedHostel,
+                      onChanged: onChangeCurrentHostel,
                       validator: validatefield,
                       borderRadius: BorderRadius.circular(24),
                     ),
                     const SizedBox(height: 16),
                     _buildFieldTitle(
                         title:
-                            "2. How would you rate the following services by the mess caterer",
-                        isNeccessary: true),
-                    const SizedBox(height: 16),
-                    _pointsInfo(),
-                    const SizedBox(height: 16),
-                    _buildFieldTitle(
-                        title: "Overall Satisfaction - Breakfast",
+                            "In which hostel mess do you want your subscription to be changed:",
                         isNeccessary: true),
                     const SizedBox(height: 12),
                     CustomHintDropDown(
-                      items: points.map((e) => e.toString()).toList(),
-                      hintText: 'Points',
-                      onChanged: onChangeBreakfastPoints,
+                      items: hostels,
+                      hintText: hostels.first,
+                      onChanged: onChangeDesiredHostel,
                       validator: validatefield,
                       borderRadius: BorderRadius.circular(24),
                     ),
                     const SizedBox(height: 16),
-                    _buildFieldTitle(
-                        title: "Overall Satisfaction - Lunch",
-                        isNeccessary: true),
-                    const SizedBox(height: 12),
-                    CustomHintDropDown(
-                      items: points.map((e) => e.toString()).toList(),
-                      hintText: 'Points',
-                      onChanged: onChangeLunchPoints,
-                      validator: validatefield,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFieldTitle(
-                        title: "Overall Satisfaction - Dinner",
-                        isNeccessary: true),
-                    const SizedBox(height: 12),
-                    CustomHintDropDown(
-                      items: points.map((e) => e.toString()).toList(),
-                      hintText: 'Points',
-                      onChanged: onChangeDinnerPoints,
-                      validator: validatefield,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFieldTitle(
-                        title: "Comments (if any)", isNeccessary: false),
-                    const SizedBox(height: 12),
-                    CustomHintTextField(
-                      controller: _commentsController,
-                      hintText: "Answer",
-                      maxLines: 5,
-                    ),
                   ],
                 ),
               ),
@@ -149,27 +125,11 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
           padding: const EdgeInsets.all(16.0).copyWith(top: 0),
           child: SimpleButton(
             height: 60,
-            label: "Next",
-            onTap: onPressedNext,
+            label: "Submit",
+            onTap: onPressedSubmit,
           ),
         ),
       ),
-    );
-  }
-
-  Column _pointsInfo() {
-    final style =
-        MyFonts.w600.size(14).setColor(kWhite).copyWith(height: 20 / 14);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text("Very Poor (1 Points)", style: style),
-        Text("Poor (2 Points)", style: style),
-        Text("Average (3 Points)", style: style),
-        Text("Good (4 Points)", style: style),
-        Text("Very Good (5 Points)", style: style),
-      ],
     );
   }
 
@@ -207,7 +167,7 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
         iconSize: 20,
       ),
       title: Text(
-        "Mess OPI Form",
+        "Mess Subscription Change Form",
         textAlign: TextAlign.left,
         style: MyFonts.w600.size(16).setColor(kWhite),
       ),
@@ -227,7 +187,7 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
           ),
           const SizedBox(height: 16),
           Text(
-            "This form is to be filled out by the mess subscribers of the hostels to provide assessment points to the mess catering service based on overall satisfaction with the food.",
+            "Please submit the form ONLY if you want to change your mess subscription to another hostel. Your subscription of all the meals for the aforementioned month will be changed to the chosen hostel.",
             softWrap: true,
             style: MyFonts.w400
                 .size(14)

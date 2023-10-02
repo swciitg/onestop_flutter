@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 
 class MessLinkTile extends StatelessWidget {
   final String label;
@@ -15,9 +16,14 @@ class MessLinkTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isGuest = LoginStore.isGuest;
     return Center(
       child: GestureDetector(
-        onTap: () => Navigator.pushNamed(context, routeId ?? '/'),
+        onTap: () {
+          if (!isGuest && routeId != null) {
+            Navigator.pushNamed(context, routeId!);
+          }
+        },
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
