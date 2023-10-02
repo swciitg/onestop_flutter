@@ -5,6 +5,7 @@ import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/food/favourite_dishes.dart';
 import 'package:onestop_dev/widgets/food/food_search_bar.dart';
+import 'package:onestop_dev/widgets/food/mess/mess_links.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_menu.dart';
 import 'package:onestop_dev/widgets/food/outlets_filter.dart';
 import 'package:onestop_dev/widgets/food/restaurant/restaurant_tile.dart';
@@ -34,14 +35,12 @@ class FoodTab extends StatelessWidget {
                 children: [
                   MessMenu(),
                   const SizedBox(height: 16),
+                  const MessLinks(),
+                  const SizedBox(height: 16),
                   const FavoriteDishes(),
-                  const SizedBox(
-                    height: 16,
-                  ),
+                  const SizedBox(height: 16),
                   const OutletsFilter(),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   FutureBuilder<List<RestaurantModel>>(
                       future: DataProvider.getRestaurants(),
                       builder: (BuildContext context,
