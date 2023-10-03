@@ -6,6 +6,7 @@ import '../../globals/my_fonts.dart';
 class CustomDropDown extends StatelessWidget {
   final List<String> items;
   final String? hintText;
+  final String? label;
   final Function? onChanged;
   final String? Function(String?)? validator;
   final int? index;
@@ -18,6 +19,7 @@ class CustomDropDown extends StatelessWidget {
     super.key,
     required this.items,
     this.hintText,
+    this.label,
     required this.onChanged,
     this.index,
     this.value,
@@ -36,24 +38,22 @@ class CustomDropDown extends StatelessWidget {
       isExpanded: true,
       decoration: InputDecoration(
         hintText: hintText,
-        label: hintText == null
-            ? RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: hintText,
-                      style: MyFonts.w500.size(14).setColor(kTabText),
-                    ),
-                    isNecessary!
-                        ? TextSpan(
-                            text: ' * ',
-                            style: MyFonts.w500.size(16).setColor(kRed),
-                          )
-                        : const TextSpan(),
-                  ],
-                ),
-              )
-            : null,
+        label: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: label,
+                style: MyFonts.w500.size(14).setColor(kTabText),
+              ),
+              isNecessary!
+                  ? TextSpan(
+                      text: ' * ',
+                      style: MyFonts.w500.size(16).setColor(kRed),
+                    )
+                  : const TextSpan(),
+            ],
+          ),
+        ),
         labelStyle: MyFonts.w500.size(14).setColor(kTabText),
         hintStyle: MyFonts.w500.size(14).setColor(kTabText),
         errorStyle: MyFonts.w500,

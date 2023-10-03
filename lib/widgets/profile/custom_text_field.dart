@@ -7,6 +7,7 @@ import '../../globals/my_fonts.dart';
 class CustomTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? hintText;
+  final String? label;
   final TextInputType? inputType;
   final String? Function(String?)? validator;
   final String? value;
@@ -23,6 +24,7 @@ class CustomTextField extends StatefulWidget {
   const CustomTextField({
     super.key,
     this.hintText,
+    this.label,
     this.validator,
     this.value,
     this.onChanged,
@@ -73,23 +75,21 @@ class _CustomTextFieldState extends State<CustomTextField> {
       decoration: InputDecoration(
         errorStyle: MyFonts.w500,
         hintText: widget.hintText,
-        label: widget.hintText == null
-            ? RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: widget.hintText,
-                      style: MyFonts.w500.size(14).setColor(kTabText),
-                    ),
-                    if (widget.isNecessary)
-                      TextSpan(
-                        text: ' * ',
-                        style: MyFonts.w500.size(16).setColor(kRed),
-                      ),
-                  ],
+        label: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: widget.label,
+                style: MyFonts.w500.size(14).setColor(kTabText),
+              ),
+              if (widget.isNecessary)
+                TextSpan(
+                  text: ' * ',
+                  style: MyFonts.w500.size(16).setColor(kRed),
                 ),
-              )
-            : null,
+            ],
+          ),
+        ),
         labelStyle: MyFonts.w500.size(14).setColor(kTabText),
         hintStyle: MyFonts.w500.size(14).setColor(kTabText),
         contentPadding:
