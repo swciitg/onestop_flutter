@@ -7,8 +7,8 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/profile/profile_model.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:onestop_dev/widgets/food/mess/custom_hint_drop_down.dart';
-import 'package:onestop_dev/widgets/food/mess/custom_hint_text_field.dart';
+import 'package:onestop_dev/widgets/profile/custom_dropdown.dart';
+import 'package:onestop_dev/widgets/profile/custom_text_field.dart';
 import 'package:onestop_dev/widgets/ui/simple_button.dart';
 
 class MessOpiFormPage extends StatefulWidget {
@@ -29,6 +29,11 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
 
   final List<String> hostels = khostels;
   final List<int> points = [1, 2, 3, 4, 5];
+  final dropDownIcon = const Icon(
+    Icons.keyboard_arrow_down_rounded,
+    size: 24,
+    color: kWhite,
+  );
 
   @override
   void initState() {
@@ -79,12 +84,15 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
                             "1. Which HOSTEL MESS did you subscribe to in $currentMonth?",
                         isNeccessary: true),
                     const SizedBox(height: 12),
-                    CustomHintDropDown(
+                    CustomDropDown(
                       items: hostels,
                       hintText: user.hostel ?? hostels.first,
+                      value: user.hostel,
                       onChanged: onChangeSelectedHostel,
                       validator: validatefield,
                       borderRadius: BorderRadius.circular(24),
+                      isNecessary: false,
+                      icon: dropDownIcon,
                     ),
                     const SizedBox(height: 16),
                     _buildFieldTitle(
@@ -98,45 +106,52 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
                         title: "Overall Satisfaction - Breakfast",
                         isNeccessary: true),
                     const SizedBox(height: 12),
-                    CustomHintDropDown(
+                    CustomDropDown(
                       items: points.map((e) => e.toString()).toList(),
                       hintText: 'Points',
                       onChanged: onChangeBreakfastPoints,
                       validator: validatefield,
                       borderRadius: BorderRadius.circular(24),
+                      isNecessary: false,
+                      icon: dropDownIcon,
                     ),
                     const SizedBox(height: 16),
                     _buildFieldTitle(
                         title: "Overall Satisfaction - Lunch",
                         isNeccessary: true),
                     const SizedBox(height: 12),
-                    CustomHintDropDown(
+                    CustomDropDown(
                       items: points.map((e) => e.toString()).toList(),
                       hintText: 'Points',
                       onChanged: onChangeLunchPoints,
                       validator: validatefield,
                       borderRadius: BorderRadius.circular(24),
+                      isNecessary: false,
+                      icon: dropDownIcon,
                     ),
                     const SizedBox(height: 16),
                     _buildFieldTitle(
                         title: "Overall Satisfaction - Dinner",
                         isNeccessary: true),
                     const SizedBox(height: 12),
-                    CustomHintDropDown(
+                    CustomDropDown(
                       items: points.map((e) => e.toString()).toList(),
                       hintText: 'Points',
                       onChanged: onChangeDinnerPoints,
                       validator: validatefield,
                       borderRadius: BorderRadius.circular(24),
+                      isNecessary: false,
+                      icon: dropDownIcon,
                     ),
                     const SizedBox(height: 16),
                     _buildFieldTitle(
                         title: "Comments (if any)", isNeccessary: false),
                     const SizedBox(height: 12),
-                    CustomHintTextField(
+                    CustomTextField(
                       controller: _commentsController,
                       hintText: "Answer",
                       maxLines: 5,
+                      isNecessary: false,
                     ),
                   ],
                 ),

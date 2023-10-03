@@ -6,8 +6,8 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/profile/profile_model.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:onestop_dev/widgets/food/mess/custom_hint_drop_down.dart';
-import 'package:onestop_dev/widgets/food/mess/custom_hint_text_field.dart';
+import 'package:onestop_dev/widgets/profile/custom_dropdown.dart';
+import 'package:onestop_dev/widgets/profile/custom_text_field.dart';
 import 'package:onestop_dev/widgets/ui/simple_button.dart';
 
 class MessSubscriptionPage extends StatefulWidget {
@@ -56,6 +56,13 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
   Widget build(BuildContext context) {
     currentHostel = user.hostel ?? hostels.first;
     desiredHostel = hostels.first;
+
+    final dropDownIcon = const Icon(
+      Icons.keyboard_arrow_down_rounded,
+      size: 24,
+      color: kWhite,
+    );
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBackground,
@@ -75,30 +82,35 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
                     _buildFieldTitle(
                         title: "Contact Number", isNeccessary: true),
                     const SizedBox(height: 12),
-                    CustomHintTextField(
+                    CustomTextField(
                       controller: _phoneController,
                       hintText: "Your answer",
                       inputType: TextInputType.phone,
+                      isNecessary: false,
                     ),
                     const SizedBox(height: 16),
                     _buildFieldTitle(title: "Roll Number", isNeccessary: true),
                     const SizedBox(height: 12),
-                    CustomHintTextField(
+                    CustomTextField(
                       controller: _rollNumberController,
-                      hintText: "190101009",
+                      hintText: user.rollNo,
                       inputType: TextInputType.number,
+                      isNecessary: false,
                     ),
                     const SizedBox(height: 16),
                     _buildFieldTitle(
                         title: "Hostel (Currently residing)",
                         isNeccessary: true),
                     const SizedBox(height: 12),
-                    CustomHintDropDown(
+                    CustomDropDown(
                       items: hostels,
                       hintText: user.hostel ?? hostels.first,
+                      value: user.hostel,
                       onChanged: onChangeCurrentHostel,
                       validator: validatefield,
                       borderRadius: BorderRadius.circular(24),
+                      isNecessary: false,
+                      icon: dropDownIcon,
                     ),
                     const SizedBox(height: 16),
                     _buildFieldTitle(
@@ -106,12 +118,15 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
                             "In which hostel mess do you want your subscription to be changed:",
                         isNeccessary: true),
                     const SizedBox(height: 12),
-                    CustomHintDropDown(
+                    CustomDropDown(
                       items: hostels,
                       hintText: hostels.first,
+                      value: hostels.first,
                       onChanged: onChangeDesiredHostel,
                       validator: validatefield,
                       borderRadius: BorderRadius.circular(24),
+                      isNecessary: false,
+                      icon: dropDownIcon,
                     ),
                     const SizedBox(height: 16),
                   ],

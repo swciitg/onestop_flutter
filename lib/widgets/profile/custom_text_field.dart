@@ -4,10 +4,9 @@ import 'package:flutter/services.dart';
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 
-
 class CustomTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
-  final String hintText;
+  final String? hintText;
   final TextInputType? inputType;
   final String? Function(String?)? validator;
   final String? value;
@@ -20,20 +19,24 @@ class CustomTextField extends StatefulWidget {
   final int? maxLength;
   final int? maxLines;
   final bool? counter;
-  
 
-  const CustomTextField(
-      {super.key,
-      required this.hintText,
-      this.validator,
-      this.value,
-      this.onChanged,
-      required this.isNecessary,
-      this.inputType,
-      this.controller,
-      this.onTap,
-       this.isEnabled,
-      this.focusNode, this.maxLength, this.maxLines, this.counter, this.inputFormatters, });
+  const CustomTextField({
+    super.key,
+    this.hintText,
+    this.validator,
+    this.value,
+    this.onChanged,
+    required this.isNecessary,
+    this.inputType,
+    this.controller,
+    this.onTap,
+    this.isEnabled,
+    this.focusNode,
+    this.maxLength,
+    this.maxLines,
+    this.counter,
+    this.inputFormatters,
+  });
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -43,15 +46,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     Widget? counterBuilder(context,
-      {required currentLength, required isFocused, required maxLength}) {
-    if (currentLength == 0) {
-      return null;
+        {required currentLength, required isFocused, required maxLength}) {
+      if (currentLength == 0) {
+        return null;
+      }
+      return Text("$currentLength/$maxLength",
+          style: MyFonts.w500.size(12).setColor(kWhite));
     }
-    return Text("$currentLength/$maxLength",
-        style: MyFonts.w500.size(12).setColor(kWhite));
-  }
+
     return TextFormField(
-      inputFormatters:widget.inputFormatters,
+      inputFormatters: widget.inputFormatters,
       enabled: widget.isEnabled ?? true,
       readOnly: widget.onTap != null,
       style: MyFonts.w500.size(14).copyWith(color: Colors.white),
@@ -61,28 +65,31 @@ class _CustomTextFieldState extends State<CustomTextField> {
       cursorColor: lBlue2,
       onTap: widget.onTap,
       onChanged: widget.onChanged,
-      buildCounter:widget.counter==true?counterBuilder:null,
+      buildCounter: widget.counter == true ? counterBuilder : null,
       initialValue: widget.value == 'null' ? '' : widget.value,
       keyboardType: widget.inputType,
       maxLength: widget.maxLength,
       maxLines: widget.maxLines,
       decoration: InputDecoration(
         errorStyle: MyFonts.w500,
-        label: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: widget.hintText,
-                style: MyFonts.w500.size(14).setColor(kTabText),
-              ),
-              if (widget.isNecessary)
-                TextSpan(
-                  text: ' * ',
-                  style: MyFonts.w500.size(16).setColor(kRed),
+        hintText: widget.hintText,
+        label: widget.hintText == null
+            ? RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: widget.hintText,
+                      style: MyFonts.w500.size(14).setColor(kTabText),
+                    ),
+                    if (widget.isNecessary)
+                      TextSpan(
+                        text: ' * ',
+                        style: MyFonts.w500.size(16).setColor(kRed),
+                      ),
+                  ],
                 ),
-            ],
-          ),
-        ),
+              )
+            : null,
         labelStyle: MyFonts.w500.size(14).setColor(kTabText),
         hintStyle: MyFonts.w500.size(14).setColor(kTabText),
         contentPadding:
