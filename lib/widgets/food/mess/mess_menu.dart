@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
+import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -25,20 +26,7 @@ class MessMenu extends StatelessWidget {
     "Friday",
     "Saturday"
   ];
-  final List<String> hostels = [
-    "Kameng",
-    "Barak",
-    "Lohit",
-    "Brahmaputra",
-    "Disang",
-    "Manas",
-    "Dihing",
-    "Umiam",
-    "Siang",
-    "Kapili",
-    "Dhansiri",
-    "Subansiri"
-  ];
+  final List<String> hostels = khostels;
 
   @override
   Widget build(BuildContext context) {

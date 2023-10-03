@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
+import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,21 +43,7 @@ class _EditProfileState extends State<EditProfile> {
   DateTime? selectedDob;
   // String? imageString;
   final List<String> genders = ["Male", "Female", "Others"];
-  final List<String> hostels = [
-    "Kameng",
-    "Barak",
-    "Lohit",
-    "Brahmaputra",
-    "Disang",
-    "Manas",
-    "Dihing",
-    "Umiam",
-    "Siang",
-    "Kapili",
-    "Dhansiri",
-    "Subansiri",
-    "Married Scholars"
-  ];
+  final List<String> hostels = khostels;
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   @override
