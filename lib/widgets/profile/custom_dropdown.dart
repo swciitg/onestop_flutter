@@ -38,22 +38,24 @@ class CustomDropDown extends StatelessWidget {
       isExpanded: true,
       decoration: InputDecoration(
         hintText: hintText,
-        label: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: label,
-                style: MyFonts.w500.size(14).setColor(kTabText),
-              ),
-              isNecessary!
-                  ? TextSpan(
-                      text: ' * ',
-                      style: MyFonts.w500.size(16).setColor(kRed),
-                    )
-                  : const TextSpan(),
-            ],
-          ),
-        ),
+        label: hintText == null
+            ? RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: label,
+                      style: MyFonts.w500.size(14).setColor(kTabText),
+                    ),
+                    isNecessary!
+                        ? TextSpan(
+                            text: ' * ',
+                            style: MyFonts.w500.size(16).setColor(kRed),
+                          )
+                        : const TextSpan(),
+                  ],
+                ),
+              )
+            : null,
         labelStyle: MyFonts.w500.size(14).setColor(kTabText),
         hintStyle: MyFonts.w500.size(14).setColor(kTabText),
         errorStyle: MyFonts.w500,

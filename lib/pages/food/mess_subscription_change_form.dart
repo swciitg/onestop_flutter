@@ -23,7 +23,7 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
   final TextEditingController _rollNumberController = TextEditingController();
   final user = ProfileModel.fromJson(LoginStore.userData);
   final List<String> hostels = khostels;
-
+  bool isLoading = false;
   late String currentHostel;
   late String desiredHostel;
 
@@ -39,7 +39,10 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
     super.initState();
   }
 
-  void onPressedSubmit() {
+  void onPressedSubmit() async {
+    setState(() {
+      isLoading = true;
+    });
     if (_phoneController.text.length < 10) {
       showSnackBar("Provide proper contact number");
     } else if (_rollNumberController.text != user.rollNo) {
@@ -50,6 +53,11 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
     print("current hostel: ${user.hostel}");
     print("desired hostel: $desiredHostel");
     // TODO: implemting submit action once form is submitted
+    // to check loading bar
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -72,7 +80,11 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(width: double.infinity, height: 4, color: lBlue2),
+              if (isLoading)
+                const LinearProgressIndicator(
+                  color: lBlue2,
+                  backgroundColor: lBlue,
+                ),
               _buildInfo(user),
               Container(
                 padding: const EdgeInsets.all(16),

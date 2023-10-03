@@ -75,21 +75,23 @@ class _CustomTextFieldState extends State<CustomTextField> {
       decoration: InputDecoration(
         errorStyle: MyFonts.w500,
         hintText: widget.hintText,
-        label: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: widget.label,
-                style: MyFonts.w500.size(14).setColor(kTabText),
-              ),
-              if (widget.isNecessary)
-                TextSpan(
-                  text: ' * ',
-                  style: MyFonts.w500.size(16).setColor(kRed),
+        label: widget.hintText == null
+            ? RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: widget.label,
+                      style: MyFonts.w500.size(14).setColor(kTabText),
+                    ),
+                    if (widget.isNecessary)
+                      TextSpan(
+                        text: ' * ',
+                        style: MyFonts.w500.size(16).setColor(kRed),
+                      ),
+                  ],
                 ),
-            ],
-          ),
-        ),
+              )
+            : null,
         labelStyle: MyFonts.w500.size(14).setColor(kTabText),
         hintStyle: MyFonts.w500.size(14).setColor(kTabText),
         contentPadding:

@@ -26,7 +26,7 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
   int breakFastPoints = 0;
   int lunchPoints = 0;
   int dinnerPoints = 0;
-
+  bool isLoading = false;
   final List<String> hostels = khostels;
   final List<int> points = [1, 2, 3, 4, 5];
   final dropDownIcon = const Icon(
@@ -48,7 +48,10 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
   void onChangeDinnerPoints(String? points) =>
       dinnerPoints = int.parse(points!);
 
-  void onPressedNext() {
+  void onPressedNext() async {
+    setState(() {
+      isLoading = true;
+    });
     print("Breakfast points: $breakFastPoints");
     print("Lunch points: $lunchPoints");
     print("Dinner points: $dinnerPoints");
@@ -58,6 +61,11 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
       showSnackBar("Please fill all the compulsory fields");
     }
     // TODO: implement any further actions
+    // just to check loading bar
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -72,7 +80,11 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(width: double.infinity, height: 4, color: lBlue2),
+              if (isLoading)
+                const LinearProgressIndicator(
+                  color: lBlue2,
+                  backgroundColor: lBlue,
+                ),
               _buildInfo(user),
               Container(
                 padding: const EdgeInsets.all(16),
