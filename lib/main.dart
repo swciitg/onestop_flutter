@@ -18,8 +18,6 @@ import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
-final navigatorKey = GlobalKey<NavigatorState>();
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Future.wait([

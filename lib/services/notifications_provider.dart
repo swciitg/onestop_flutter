@@ -2,8 +2,6 @@ import 'dart:io' show Platform;
 import 'package:firebase_core/firebase_core.dart';
 import "package:firebase_messaging/firebase_messaging.dart";
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
-import 'package:onestop_dev/main.dart';
-import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -58,22 +56,23 @@ void onDidReceiveNotificationResponse(
   if (notificationResponse.payload != null) {
     print('notification payload: $payload');
   }
-  navigatorKey.currentState?.pushNamed(NotificationPage.id);
+  // await Navigator.pushNamed(context, HomePage.id);
 }
 
 bool checkNotificationCategory(String type) {
-  final notificationCategories = [
-    "announcement",
-    "lost",
-    "found",
-    "buy",
-    "sell",
-    "cabSharing",
-    "swc",
-    "irbs",
-  ];
   print(type);
-  return notificationCategories.contains(type);
+  switch (type) {
+    case "announcement":
+    case "lost":
+    case "found":
+    case "buy":
+    case "sell":
+    case "cabSharing":
+    case "swc":
+    case "irbs":
+      return true;
+  }
+  return false;
 }
 
 Future<bool> checkForNotifications() async {
@@ -115,9 +114,9 @@ Future<bool> checkForNotifications() async {
   );
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
-    onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
-    onDidReceiveBackgroundNotificationResponse:
-        onDidReceiveNotificationResponse,
+    // onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+    // onDidReceiveBackgroundNotificationResponse:
+    //     onDidReceiveNotificationResponse,
   );
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -141,13 +140,14 @@ Future<bool> checkForNotifications() async {
     print("Message is ${message.data}");
     if (checkNotificationCategory(message.data['category'])) {
       print("apple");
-      await flutterLocalNotificationsPlugin.show(
-        message.hashCode,
-        message.data['title'],
-        message.data['body'],
-        notificationDetails,
-      );
-    } else {
+          await flutterLocalNotificationsPlugin.show(
+              message.hashCode,
+              message.data['title'],
+              message.data['body'],
+              notificationDetails
+          );
+    }
+    else{
       print("ball");
     }
   });

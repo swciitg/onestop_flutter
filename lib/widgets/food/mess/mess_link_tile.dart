@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -20,7 +21,9 @@ class MessLinkTile extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () {
-          if (!isGuest && routeId != null) {
+          if (isGuest) {
+            showSnackBar("You need to be Logged in");
+          } else if (!isGuest && routeId != null) {
             Navigator.pushNamed(context, routeId!);
           }
         },
