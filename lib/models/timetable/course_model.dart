@@ -11,7 +11,7 @@ class CourseModel implements Comparable<CourseModel> {
   String? endsem;
   String? midSemVenue;
   String? endSemVenue;
-  Map<String, String>? timings;
+  Map<String, dynamic>? timings;
   String timing = "";
 
   CourseModel({

@@ -43,10 +43,9 @@ class DataProvider {
     for (var element in busData) {
       busTimings.add(TravelTiming.fromJson(element));
     }
-    if(busTimings.length == 0)
-      {
-        return busTimings;
-      }
+    if (busTimings.length == 0) {
+      return busTimings;
+    }
     for (int i = 0; i < busTimings[0].weekdays.toCampus.length; i++) {
       busTimings[0].weekdays.toCampus[i] =
           busTimings[0].weekdays.toCampus[i].toLocal();
@@ -102,7 +101,7 @@ class DataProvider {
 
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {
     var cachedData = null;
-        //(await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
+    //(await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
     if (cachedData == null) {
       RegisteredCourses timetableData =
           await APIService().getTimeTable(roll: roll);
@@ -188,21 +187,18 @@ class DataProvider {
     }
   }
 
-  static Future<Map<String, List<NotifsModel>>> getNotifications()
-  async {
+  static Future<Map<String, List<NotifsModel>>> getNotifications() async {
     var response = await APIService().getNotifications();
     Map<String, List<NotifsModel>> output = {
       "userPersonalNotifs": [],
       "allTopicNotifs": []
     };
 
-    for(var notif in response[0].data["allTopicNotifs"]!)
-      {
-        print(notif);
-        output["allTopicNotifs"]!.add(NotifsModel.fromJson(notif));
-      }
-    for(var notif in response[1].data["userPersonalNotifs"]!)
-    {
+    for (var notif in response[0].data["allTopicNotifs"]!) {
+      print(notif);
+      output["allTopicNotifs"]!.add(NotifsModel.fromJson(notif));
+    }
+    for (var notif in response[1].data["userPersonalNotifs"]!) {
       print(notif);
       output["userPersonalNotifs"]!.add(NotifsModel.fromJson(notif));
     }
@@ -230,29 +226,27 @@ class DataProvider {
       ferryTimings.add(TravelTiming.fromJson(element));
       // print(TravelTiming.fromJson(element).toJson());
     }
-    for(var j=0; j<ferryTimings.length;j++){
-       for (int i = 0; i < ferryTimings[j].weekdays.toCampus.length; i++) {
-      ferryTimings[j].weekdays.toCampus[i] =
-          ferryTimings[j].weekdays.toCampus[i].toLocal();
-      print(ferryTimings[j].weekdays.toCampus[i]);
-    }
-    for (int i = 0; i < ferryTimings[j].weekdays.fromCampus.length; i++) {
-      ferryTimings[j].weekdays.fromCampus[i] =
-          ferryTimings[j].weekdays.fromCampus[i].toLocal();
-      print(ferryTimings[j].weekdays.fromCampus[i]);
-    }
-    for (int i = 0; i < ferryTimings[j].weekend.toCampus.length; i++) {
-      ferryTimings[j].weekend.toCampus[i] =
-          ferryTimings[j].weekend.toCampus[i].toLocal();
-      print(ferryTimings[j].weekend.toCampus[i]);
-    }
-    for (int i = 0; i < ferryTimings[j].weekend.fromCampus.length; i++) {
-      ferryTimings[j].weekend.fromCampus[i] =
-          ferryTimings[j].weekend.fromCampus[i].toLocal();
-      print(ferryTimings[j].weekend.fromCampus[i]);
-    }
-
-
+    for (var j = 0; j < ferryTimings.length; j++) {
+      for (int i = 0; i < ferryTimings[j].weekdays.toCampus.length; i++) {
+        ferryTimings[j].weekdays.toCampus[i] =
+            ferryTimings[j].weekdays.toCampus[i].toLocal();
+        print(ferryTimings[j].weekdays.toCampus[i]);
+      }
+      for (int i = 0; i < ferryTimings[j].weekdays.fromCampus.length; i++) {
+        ferryTimings[j].weekdays.fromCampus[i] =
+            ferryTimings[j].weekdays.fromCampus[i].toLocal();
+        print(ferryTimings[j].weekdays.fromCampus[i]);
+      }
+      for (int i = 0; i < ferryTimings[j].weekend.toCampus.length; i++) {
+        ferryTimings[j].weekend.toCampus[i] =
+            ferryTimings[j].weekend.toCampus[i].toLocal();
+        print(ferryTimings[j].weekend.toCampus[i]);
+      }
+      for (int i = 0; i < ferryTimings[j].weekend.fromCampus.length; i++) {
+        ferryTimings[j].weekend.fromCampus[i] =
+            ferryTimings[j].weekend.fromCampus[i].toLocal();
+        print(ferryTimings[j].weekend.fromCampus[i]);
+      }
     }
     print(ferryTimings.length);
     return ferryTimings;
