@@ -1,4 +1,6 @@
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
+import 'package:onestop_dev/pages/food/mess_opi_form.dart';
+import 'package:onestop_dev/pages/food/mess_subscription_change_form.dart';
 import 'package:onestop_dev/pages/login/blocked.dart';
 import 'package:onestop_dev/pages/login/welcome.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
@@ -20,7 +22,6 @@ import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
 
-
 final routes = {
   BlockedPage.id: (context) => const BlockedPage(),
   IRBSPage.id: (context) => const IRBSPage(),
@@ -41,5 +42,7 @@ final routes = {
   Scoreboard.id: (context) => const Scoreboard(),
   Upsp.id: (context) => const Upsp(),
   GuestHouse.id: (context) => const GuestHouse(),
-  ComplaintsPage.id:(context)=> const ComplaintsPage()
+  ComplaintsPage.id: (context) => const ComplaintsPage(),
+  MessOpiFormPage.id: (context) => const MessOpiFormPage(),
+  MessSubscriptionPage.id: (context) => const MessSubscriptionPage(),
 };
