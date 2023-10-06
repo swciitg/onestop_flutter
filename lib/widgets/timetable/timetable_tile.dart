@@ -94,25 +94,25 @@ class TimetableTile extends StatelessWidget {
                         height: 3.0,
                       ),
                       if (course.venue != null)
-                        if(course.venue!.isNotEmpty)
+                        if (course.venue!.isNotEmpty)
                           Row(
-                          children: [
-                            const Icon(
-                              FluentIcons.location_12_filled,
-                              color: lBlue,
-                              size: 13,
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Expanded(
-                              child: Text(
-                                course.venue!,
-                                style: MyFonts.w400.size(13).setColor(lBlue),
+                            children: [
+                              const Icon(
+                                FluentIcons.location_12_filled,
+                                color: lBlue,
+                                size: 13,
                               ),
-                            )
-                          ],
-                        )
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  course.venue!,
+                                  style: MyFonts.w400.size(13).setColor(lBlue),
+                                ),
+                              )
+                            ],
+                          )
                     ],
                   ),
                 ),

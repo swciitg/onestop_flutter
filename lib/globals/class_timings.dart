@@ -4,6 +4,7 @@ const List<String> kmorningClasses = [
   "10:00 - 10:55 AM",
   "11:00 - 11:55 AM",
   "12:00 - 12:55 PM",
+  "09:00 - 11:55 AM",
 ];
 
 const List<String> kafternoonClasses = [
@@ -12,4 +13,7 @@ const List<String> kafternoonClasses = [
   "3:00 - 3:55 PM",
   "4:00 - 4-55 PM",
   "5:00 - 5:55 PM",
+  "1:00 - 3:55 PM",
+  "2:00 - 4:55 PM",
+  "3:00 - 5:55 PM",
 ];

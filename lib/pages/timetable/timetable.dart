@@ -98,16 +98,14 @@ class _TimeTableTabState extends State<TimeTableTab> {
                                   if (!snapshot.hasData) {
                                     return ListShimmer();
                                   }
-                                  return Observer(
-                                    builder: (context) {
-                                      return ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: const ClampingScrollPhysics(),
-                                          itemCount: store.todayTimeTable.length,
-                                          itemBuilder: (context, index) =>
-                                              store.todayTimeTable[index]);
-                                    }
-                                  );
+                                  return Observer(builder: (context) {
+                                    return ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: const ClampingScrollPhysics(),
+                                        itemCount: store.todayTimeTable.length,
+                                        itemBuilder: (context, index) =>
+                                            store.todayTimeTable[index]);
+                                  });
                                 }),
                           ],
                         )
@@ -167,6 +165,12 @@ class ScheduleList extends StatelessWidget {
     if (data.courses != null) {
       List<CourseModel> endsem = _sort(data.courses!, type: "endsem");
       List<CourseModel> midsem = _sort(data.courses!);
+      for (var course in midsem) {
+        course.venue = course.midSemVenue;
+      }
+      for (var course in endsem) {
+        course.venue = course.endSemVenue;
+      }
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

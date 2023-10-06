@@ -10,24 +10,19 @@ class ExamTile extends StatelessWidget {
   final CourseModel course;
   ExamTile({super.key, required this.course, this.isEndSem = false});
 
-  String formatTime(String time, String type)
-  {
+  String formatTime(String time, String type) {
     DateTime examTime = DateTime.parse(time);
-    if(type == "date")
-    {
+    if (type == "date") {
       return examTime.day.toString();
     }
-    if(type == "month")
-    {
+    if (type == "month") {
       return DateFormat.MMM().format(examTime);
     }
-    if(type == "time")
-    {
-      return "${DateFormat.jm().format(examTime)} - ${DateFormat.jm().format(examTime.add(Duration(hours: isEndSem? 3 : 2)))}";
+    if (type == "time") {
+      return "${DateFormat.jm().format(examTime)} - ${DateFormat.jm().format(examTime.add(Duration(hours: isEndSem ? 3 : 2)))}";
     }
     return "";
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +58,13 @@ class ExamTile extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(formatTime(time, "month"), style: MyFonts.w400.setColor(kWhite),),
                               Text(
-                                formatTime(time, "date"),style: MyFonts.w400.setColor(kWhite).size(30),
+                                formatTime(time, "month"),
+                                style: MyFonts.w400.setColor(kWhite),
+                              ),
+                              Text(
+                                formatTime(time, "date"),
+                                style: MyFonts.w400.setColor(kWhite).size(30),
                               )
                             ],
                           ),
@@ -100,26 +99,25 @@ class ExamTile extends StatelessWidget {
                       const SizedBox(
                         height: 3.0,
                       ),
-                      // if (course.venue != null)
-                      //   if(course.venue!.isNotEmpty)
-                      //     Row(
-                      //       children: [
-                      //         const Icon(
-                      //           FluentIcons.location_12_filled,
-                      //           color: lBlue,
-                      //           size: 13,
-                      //         ),
-                      //         const SizedBox(
-                      //           width: 4,
-                      //         ),
-                      //         Expanded(
-                      //           child: Text(
-                      //             course.venue!,
-                      //             style: MyFonts.w400.size(13).setColor(lBlue),
-                      //           ),
-                      //         )
-                      //       ],
-                      //     )
+                      if (course.venue != null && course.venue!.isNotEmpty)
+                        Row(
+                          children: [
+                            const Icon(
+                              FluentIcons.location_12_filled,
+                              color: lBlue,
+                              size: 13,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Expanded(
+                              child: Text(
+                                course.venue!,
+                                style: MyFonts.w400.size(13).setColor(lBlue),
+                              ),
+                            )
+                          ],
+                        ),
                     ],
                   ),
                 ),
