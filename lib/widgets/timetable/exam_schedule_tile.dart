@@ -27,6 +27,7 @@ class ExamTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String time = isEndSem ? course.endsem! : course.midsem!;
+    String? venue = isEndSem ? course.endsemVenue : course.midsemVenue;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -99,7 +100,7 @@ class ExamTile extends StatelessWidget {
                       const SizedBox(
                         height: 3.0,
                       ),
-                      if (course.venue != null && course.venue!.isNotEmpty)
+                      if (venue != null && venue.isNotEmpty)
                         Row(
                           children: [
                             const Icon(
@@ -112,7 +113,7 @@ class ExamTile extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                course.venue!,
+                                venue,
                                 style: MyFonts.w400.size(13).setColor(lBlue),
                               ),
                             )

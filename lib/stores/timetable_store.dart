@@ -183,7 +183,7 @@ abstract class _TimetableStore with Store {
         CourseModel copyCourse = CourseModel.clone(course);
         final timings = copyCourse.timings ?? {};
         if (timings.containsKey(day)) {
-          var time = (timings[day] as String).trim();
+          var time = (timings[day] as String);
           // replace 8 and 9 with 08 and 09, easier to sort
           if (time[0] == '8') {
             time = time.replaceAll('8', '08');
@@ -198,12 +198,16 @@ abstract class _TimetableStore with Store {
           }
         }
       }
-      timetableCourses[i]
-          .morning
-          .sort(((a, b) => a.timing.compareTo(b.timing)));
-      timetableCourses[i]
-          .afternoon
-          .sort((a, b) => a.timing.compareTo(b.timing));
+      timetableCourses[i].morning.sort(
+        (a, b) {
+          return a.compareTo(b);
+        },
+      );
+      timetableCourses[i].afternoon.sort(
+        (a, b) {
+          return a.compareTo(b);
+        },
+      );
       if (timetableCourses[i].morning.length >= 2) {
         if (timetableCourses[i].morning[0].timing ==
             timetableCourses[i].morning[1].timing) {

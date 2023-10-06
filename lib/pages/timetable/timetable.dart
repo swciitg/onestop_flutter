@@ -166,10 +166,10 @@ class ScheduleList extends StatelessWidget {
       List<CourseModel> endsem = _sort(data.courses!, type: "endsem");
       List<CourseModel> midsem = _sort(data.courses!);
       for (var course in midsem) {
-        course.venue = course.midSemVenue;
+        course.venue = course.midsemVenue;
       }
       for (var course in endsem) {
-        course.venue = course.endSemVenue;
+        course.venue = course.endsemVenue;
       }
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,7 +183,11 @@ class ScheduleList extends StatelessWidget {
                   ),
                 )
               : Container(),
-          for (var course in midsem) ExamTile(course: course),
+          for (var course in midsem)
+            ExamTile(
+              course: course,
+              isEndSem: false,
+            ),
           endsem.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
