@@ -31,7 +31,8 @@ abstract class _TimetableStore with Store {
   RegisteredCourses? courses;
 
   Future<RegisteredCourses> getCourses() async {
-    courses ??= await DataProvider.getTimeTable(roll: LoginStore.userData['rollNo']);
+    courses ??=
+        await DataProvider.getTimeTable(roll: LoginStore.userData['rollNo']);
     return courses!;
   }
 
@@ -197,9 +198,6 @@ abstract class _TimetableStore with Store {
           }
         }
       }
-    }
-
-    for (int i = 0; i <= 4; i++) {
       timetableCourses[i]
           .morning
           .sort(((a, b) => a.timing.compareTo(b.timing)));
