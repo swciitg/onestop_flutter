@@ -6,7 +6,7 @@ class TimetableDay {
 
   void addMorning(CourseModel c) {
     // Tutorials first
-    if (c.timing == '08:00 - 08:55 AM') {
+    if (c.timing == '8:00 - 8:55 AM') {
       morning.insert(0, c);
     } else {
       morning.add(c);

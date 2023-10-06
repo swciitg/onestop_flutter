@@ -9,17 +9,24 @@ class CourseModel implements Comparable<CourseModel> {
   String? venue;
   String? midsem;
   String? endsem;
+  String? midSemVenue;
+  String? endSemVenue;
+  Map<String, dynamic>? timings;
   String timing = "";
 
-  CourseModel(
-      {this.code,
-      this.course,
-      this.ltpc,
-      this.slot,
-        this.endsem,
-        this.midsem,
-      this.instructor,
-      this.venue});
+  CourseModel({
+    this.code,
+    this.course,
+    this.ltpc,
+    this.slot,
+    this.endsem,
+    this.midsem,
+    this.instructor,
+    this.venue,
+    this.midSemVenue,
+    this.endSemVenue,
+    this.timings,
+  });
 
   CourseModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
@@ -30,6 +37,9 @@ class CourseModel implements Comparable<CourseModel> {
     venue = json['venue'];
     midsem = json['midsem'];
     endsem = json['endsem'];
+    midSemVenue = json['midSemVenue'];
+    endSemVenue = json['endSemVenue'];
+    timings = json['timings'];
   }
 
   Map<String, dynamic> toJson() {
@@ -40,8 +50,11 @@ class CourseModel implements Comparable<CourseModel> {
     data['slot'] = slot;
     data['midsem'] = midsem;
     data['endsem'] = endsem;
-    data['venue']= venue;
+    data['venue'] = venue;
     data['instructor'] = instructor;
+    data['midSemVenue'] = midSemVenue;
+    data['endSemVenue'] = endSemVenue;
+    data['timings'] = timings;
     return data;
   }
 
@@ -58,14 +71,18 @@ class CourseModel implements Comparable<CourseModel> {
 
   CourseModel.clone(CourseModel c)
       : this(
-            code: c.code,
-            course: c.course,
-            ltpc: c.ltpc,
-            slot: c.slot,
-            midsem: c.midsem,
-            endsem: c.endsem,
-            instructor: c.instructor,
-            venue: c.venue);
+          code: c.code,
+          course: c.course,
+          ltpc: c.ltpc,
+          slot: c.slot,
+          midsem: c.midsem,
+          endsem: c.endsem,
+          instructor: c.instructor,
+          venue: c.venue,
+          midSemVenue: c.midSemVenue,
+          endSemVenue: c.endSemVenue,
+          timings: c.timings,
+        );
 
   @override
   int compareTo(CourseModel other) {
