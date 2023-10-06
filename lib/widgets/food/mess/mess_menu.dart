@@ -38,6 +38,10 @@ class MessMenu extends StatelessWidget {
         var messStore = context.read<MessStore>();
         var userHostel = ProfileModel.fromJson(LoginStore.userData).hostel;
         messStore.setHostel(userHostel ?? hostels.first);
+        if (userHostel == "Married Scholars") {
+          userHostel = "Kameng";
+          messStore.setHostel(userHostel);
+        }
         return Container(
             height: 171,
             decoration: BoxDecoration(
