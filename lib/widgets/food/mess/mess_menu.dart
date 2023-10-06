@@ -26,7 +26,8 @@ class MessMenu extends StatelessWidget {
     "Friday",
     "Saturday"
   ];
-  final List<String> hostels = khostels;
+  final List<String> hostels = khostels.sublist(0, khostels.length - 1);
+  // last item is Married Scholars
 
   @override
   Widget build(BuildContext context) {
