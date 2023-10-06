@@ -1,6 +1,6 @@
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
-class CourseModel implements Comparable<CourseModel> {
+class CourseModel /*implements Comparable<CourseModel> */ {
   String? code;
   String? course;
   String? ltpc;
@@ -12,7 +12,6 @@ class CourseModel implements Comparable<CourseModel> {
   String? midsemVenue;
   String? endsemVenue;
   Map<String, dynamic>? timings;
-  String timing = "";
 
   CourseModel({
     this.code,
@@ -59,16 +58,16 @@ class CourseModel implements Comparable<CourseModel> {
     return data;
   }
 
-  @override
-  String toString() {
-    return "$timing : $course";
-  }
+  // @override
+  // String toString() {
+  //   return "$timing : $course";
+  // }
 
-  String get startTime {
-    List<String> l = timing.split(' ');
-    List<String> startList = [l.first, l.last];
-    return startList.join(' ');
-  }
+  // String get startTime {
+  //   List<String> l = timing.split(' ');
+  //   List<String> startList = [l.first, l.last];
+  //   return startList.join(' ');
+  // }
 
   CourseModel.clone(CourseModel c)
       : this(
@@ -85,11 +84,11 @@ class CourseModel implements Comparable<CourseModel> {
           timings: c.timings,
         );
 
-  @override
-  int compareTo(CourseModel other) {
-    DateFormat df = DateFormat.jm();
-    DateTime curr = df.parse(startTime);
-    DateTime oth = df.parse(other.startTime);
-    return curr.compareTo(oth);
-  }
+  // @override
+  // int compareTo(CourseModel other) {
+  //   DateFormat df = DateFormat.jm();
+  //   DateTime curr = df.parse(startTime);
+  //   DateTime oth = df.parse(other.startTime);
+  //   return curr.compareTo(oth);
+  // }
 }

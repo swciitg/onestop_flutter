@@ -65,6 +65,22 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
+  late final _$selectedDayAtom =
+      Atom(name: '_TimetableStore.selectedDay', context: context);
+
+  @override
+  int get selectedDay {
+    _$selectedDayAtom.reportRead();
+    return super.selectedDay;
+  }
+
+  @override
+  set selectedDay(int value) {
+    _$selectedDayAtom.reportWrite(value, super.selectedDay, () {
+      super.selectedDay = value;
+    });
+  }
+
   late final _$showDropDownAtom =
       Atom(name: '_TimetableStore.showDropDown', context: context);
 
@@ -112,6 +128,17 @@ mixin _$TimetableStore on _TimetableStore, Store {
   }
 
   @override
+  void setDay(int i) {
+    final _$actionInfo = _$_TimetableStoreActionController.startAction(
+        name: '_TimetableStore.setDay');
+    try {
+      return super.setDay(i);
+    } finally {
+      _$_TimetableStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void toggleDropDown() {
     final _$actionInfo = _$_TimetableStoreActionController.startAction(
         name: '_TimetableStore.toggleDropDown');
@@ -150,6 +177,7 @@ mixin _$TimetableStore on _TimetableStore, Store {
 isProcessed: ${isProcessed},
 courses: ${courses},
 selectedDate: ${selectedDate},
+selectedDay: ${selectedDay},
 showDropDown: ${showDropDown},
 isTimetable: ${isTimetable},
 todayTimeTable: ${todayTimeTable}

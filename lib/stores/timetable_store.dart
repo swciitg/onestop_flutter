@@ -73,6 +73,17 @@ abstract class _TimetableStore with Store {
     selectedDate = i;
   }
 
+  //index of selected day
+  @observable
+  int selectedDay = (DateTime.now().weekday == 6 || DateTime.now().weekday == 7)
+      ? 0
+      : DateTime.now().weekday - 1;
+
+  @action
+  void setDay(int i) {
+    selectedDay = i;
+  }
+
   //Dropdown state of tt on home
   @observable
   bool showDropDown = false;
@@ -97,11 +108,14 @@ abstract class _TimetableStore with Store {
 
   List<Widget> get homeTimeTable {
     DateTime current = DateTime.now();
+    String day = DateFormat.EEEE().format(DateTime.now());
     if (current.weekday == 6 || current.weekday == 7) {
       CourseModel noClass = CourseModel();
       noClass.instructor = '';
       noClass.course = 'Happy Weekend !';
-      noClass.timing = '';
+      noClass.timings = {
+        day: "",
+      };
       return List.filled(1, TimetableTile(course: noClass));
     }
     current = dates[0];
@@ -109,7 +123,9 @@ abstract class _TimetableStore with Store {
     List<Widget> l = [
       ...allTimetableCourses[current.weekday - 1]
           .morning
-          .where((e) => dateFormat.parse(e.timing).hour >= DateTime.now().hour)
+          .where((e) =>
+              dateFormat.parse(e.timings![kworkingDays[selectedDay]]).hour >=
+              DateTime.now().hour)
           .toList()
           .map((e) => TimetableTile(
                 course: e,
@@ -118,7 +134,9 @@ abstract class _TimetableStore with Store {
           .toList(),
       ...allTimetableCourses[current.weekday - 1]
           .afternoon
-          .where((e) => dateFormat.parse(e.timing).hour >= DateTime.now().hour)
+          .where((e) =>
+              dateFormat.parse(e.timings![kworkingDays[selectedDay]]).hour >=
+              DateTime.now().hour)
           .toList()
           .map((e) => TimetableTile(
                 course: e,
@@ -130,7 +148,9 @@ abstract class _TimetableStore with Store {
       CourseModel noClass = CourseModel();
       noClass.instructor = '';
       noClass.course = 'No upcoming classes';
-      noClass.timing = '';
+      noClass.timings = {
+        day: "",
+      };
       l.add(TimetableTile(course: noClass));
     }
     return l;
@@ -184,13 +204,6 @@ abstract class _TimetableStore with Store {
         final timings = copyCourse.timings ?? {};
         if (timings.containsKey(day)) {
           var time = (timings[day] as String);
-          // replace 8 and 9 with 08 and 09, easier to sort
-          if (time[0] == '8') {
-            time = time.replaceAll('8', '08');
-          } else if (time[0] == '9') {
-            time = time.replaceAll('9', '09');
-          }
-          copyCourse.timing = time;
           if (morningClasses.contains(time)) {
             timetableCourses[i].addMorning(copyCourse);
           } else if (afternoonClasses.contains(time)) {
@@ -198,22 +211,17 @@ abstract class _TimetableStore with Store {
           }
         }
       }
-      timetableCourses[i].morning.sort(
-        (a, b) {
-          return a.compareTo(b);
-        },
-      );
-      timetableCourses[i].afternoon.sort(
-        (a, b) {
-          return a.compareTo(b);
-        },
-      );
-      if (timetableCourses[i].morning.length >= 2) {
-        if (timetableCourses[i].morning[0].timing ==
-            timetableCourses[i].morning[1].timing) {
-          timetableCourses[i].morning.removeAt(1);
-        }
-      }
+      timetableCourses[i].morning.sort((a, b) {
+        int t1 = int.parse(a.timings![workingDays[i]].toString().split(':')[0]);
+        int t2 = int.parse(b.timings![workingDays[i]].toString().split(':')[0]);
+
+        return t1.compareTo(t2);
+      });
+      timetableCourses[i].afternoon.sort((a, b) {
+        int t1 = int.parse(a.timings![workingDays[i]].toString().split(':')[0]);
+        int t2 = int.parse(b.timings![workingDays[i]].toString().split(':')[0]);
+        return t1.compareTo(t2);
+      });
     }
     allTimetableCourses = timetableCourses;
   }
