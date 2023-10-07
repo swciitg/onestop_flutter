@@ -1,6 +1,6 @@
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
-class CourseModel implements Comparable<CourseModel> {
+class CourseModel /*implements Comparable<CourseModel> */ {
   String? code;
   String? course;
   String? ltpc;
@@ -9,17 +9,23 @@ class CourseModel implements Comparable<CourseModel> {
   String? venue;
   String? midsem;
   String? endsem;
-  String timing = "";
+  String? midsemVenue;
+  String? endsemVenue;
+  Map<String, dynamic>? timings;
 
-  CourseModel(
-      {this.code,
-      this.course,
-      this.ltpc,
-      this.slot,
-        this.endsem,
-        this.midsem,
-      this.instructor,
-      this.venue});
+  CourseModel({
+    this.code,
+    this.course,
+    this.ltpc,
+    this.slot,
+    this.endsem,
+    this.midsem,
+    this.instructor,
+    this.venue,
+    this.midsemVenue,
+    this.endsemVenue,
+    this.timings,
+  });
 
   CourseModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
@@ -30,6 +36,17 @@ class CourseModel implements Comparable<CourseModel> {
     venue = json['venue'];
     midsem = json['midsem'];
     endsem = json['endsem'];
+    midsemVenue = json['midsemVenue'];
+    endsemVenue = json['endsemVenue'];
+    timings = (json['timings'] as Map<String, dynamic>).map(
+      (key, value) {
+        value = formatTime(value.toString().trim());
+        return MapEntry(
+          key,
+          value.toString(),
+        );
+      },
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -40,38 +57,57 @@ class CourseModel implements Comparable<CourseModel> {
     data['slot'] = slot;
     data['midsem'] = midsem;
     data['endsem'] = endsem;
-    data['venue']= venue;
+    data['venue'] = venue;
     data['instructor'] = instructor;
+    data['midSemVenue'] = midsemVenue;
+    data['endSemVenue'] = endsemVenue;
+    data['timings'] = timings;
     return data;
   }
 
-  @override
-  String toString() {
-    return "$timing : $course";
-  }
+  // @override
+  // String toString() {
+  //   return "$timing : $course";
+  // }
 
-  String get startTime {
-    List<String> l = timing.split(' ');
-    List<String> startList = [l.first, l.last];
-    return startList.join(' ');
+  // String get startTime {
+  //   List<String> l = timing.split(' ');
+  //   List<String> startList = [l.first, l.last];
+  //   return startList.join(' ');
+  // }
+
+  String formatTime(String time) {
+    var times = time.split(' - ');
+    List<String> ft = [];
+    for (var t in times) {
+      if (t[1] == ':') {
+        t = '0$t';
+      }
+      ft.add(t);
+    }
+    return ft.join(' - ');
   }
 
   CourseModel.clone(CourseModel c)
       : this(
-            code: c.code,
-            course: c.course,
-            ltpc: c.ltpc,
-            slot: c.slot,
-            midsem: c.midsem,
-            endsem: c.endsem,
-            instructor: c.instructor,
-            venue: c.venue);
+          code: c.code,
+          course: c.course,
+          ltpc: c.ltpc,
+          slot: c.slot,
+          midsem: c.midsem,
+          endsem: c.endsem,
+          instructor: c.instructor,
+          venue: c.venue,
+          midsemVenue: c.midsemVenue,
+          endsemVenue: c.endsemVenue,
+          timings: c.timings,
+        );
 
-  @override
-  int compareTo(CourseModel other) {
-    DateFormat df = DateFormat.jm();
-    DateTime curr = df.parse(startTime);
-    DateTime oth = df.parse(other.startTime);
-    return curr.compareTo(oth);
-  }
+  // @override
+  // int compareTo(CourseModel other) {
+  //   DateFormat df = DateFormat.jm();
+  //   DateTime curr = df.parse(startTime);
+  //   DateTime oth = df.parse(other.startTime);
+  //   return curr.compareTo(oth);
+  // }
 }

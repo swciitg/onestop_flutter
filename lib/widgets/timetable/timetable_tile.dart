@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/timetable/time_range.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/globals/working_days.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:provider/provider.dart';
@@ -21,14 +22,20 @@ class TimetableTile extends StatelessWidget {
     }
     String currentTimeString = findTimeRange();
     TimetableStore ttStore = context.read<TimetableStore>();
+    var dayIndex = ttStore.selectedDay;
     DateTime selectedDateTime = ttStore.dates[ttStore.selectedDate];
-    bool showHighlight = currentTimeString == course.timing &&
+    bool showHighlight = currentTimeString ==
+            course.timings![kworkingDays[dayIndex]].toString() &&
         selectedDateTime.weekday == DateTime.now().weekday;
     if (inHomePage) {
-      showHighlight = currentTimeString == course.timing;
+      showHighlight = currentTimeString ==
+          course.timings![kworkingDays[dayIndex]].toString();
     }
     Color bg = showHighlight ? kTimetableGreen : kTimetableDisabled;
     if (inHomePage) bg = kTimetableGreen;
+    String timing = course.timings![kworkingDays[dayIndex]] != null
+        ? course.timings![kworkingDays[dayIndex]].toString()
+        : "";
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: ConstrainedBox(
@@ -73,7 +80,7 @@ class TimetableTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        course.timing,
+                        timing,
                         style: MyFonts.w300.size(12).setColor(kWhite),
                       ),
                       const SizedBox(
@@ -94,25 +101,25 @@ class TimetableTile extends StatelessWidget {
                         height: 3.0,
                       ),
                       if (course.venue != null)
-                        if(course.venue!.isNotEmpty)
+                        if (course.venue!.isNotEmpty)
                           Row(
-                          children: [
-                            const Icon(
-                              FluentIcons.location_12_filled,
-                              color: lBlue,
-                              size: 13,
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Expanded(
-                              child: Text(
-                                course.venue!,
-                                style: MyFonts.w400.size(13).setColor(lBlue),
+                            children: [
+                              const Icon(
+                                FluentIcons.location_12_filled,
+                                color: lBlue,
+                                size: 13,
                               ),
-                            )
-                          ],
-                        )
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  course.venue!,
+                                  style: MyFonts.w400.size(13).setColor(lBlue),
+                                ),
+                              )
+                            ],
+                          )
                     ],
                   ),
                 ),

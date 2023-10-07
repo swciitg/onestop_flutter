@@ -10,28 +10,24 @@ class ExamTile extends StatelessWidget {
   final CourseModel course;
   ExamTile({super.key, required this.course, this.isEndSem = false});
 
-  String formatTime(String time, String type)
-  {
+  String formatTime(String time, String type) {
     DateTime examTime = DateTime.parse(time);
-    if(type == "date")
-    {
+    if (type == "date") {
       return examTime.day.toString();
     }
-    if(type == "month")
-    {
+    if (type == "month") {
       return DateFormat.MMM().format(examTime);
     }
-    if(type == "time")
-    {
-      return "${DateFormat.jm().format(examTime)} - ${DateFormat.jm().format(examTime.add(Duration(hours: isEndSem? 3 : 2)))}";
+    if (type == "time") {
+      return "${DateFormat.jm().format(examTime)} - ${DateFormat.jm().format(examTime.add(Duration(hours: isEndSem ? 3 : 2)))}";
     }
     return "";
   }
 
-
   @override
   Widget build(BuildContext context) {
     String time = isEndSem ? course.endsem! : course.midsem!;
+    String? venue = isEndSem ? course.endsemVenue : course.midsemVenue;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -50,28 +46,36 @@ class ExamTile extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.transparent,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(formatTime(time, "month"), style: MyFonts.w400.setColor(kWhite),),
-                              Text(
-                                formatTime(time, "date"),style: MyFonts.w400.setColor(kWhite).size(30),
-                              )
-                            ],
+                  child: Container(
+                    constraints: const BoxConstraints(minWidth: 60),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.transparent,
                           ),
-                        ),
-                      )
-                    ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  formatTime(time, "month"),
+                                  style: MyFonts.w400.setColor(kWhite),
+                                ),
+                                Text(
+                                  formatTime(time, "date"),
+                                  style: MyFonts.w400.setColor(kWhite).size(30),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
@@ -93,33 +97,42 @@ class ExamTile extends StatelessWidget {
                       const SizedBox(
                         height: 3.0,
                       ),
-                      Text(
-                        course.code!,
-                        style: MyFonts.w400.size(13).setColor(lBlue),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            constraints: const BoxConstraints(minWidth: 70),
+                            child: Text(
+                              course.code!,
+                              style: MyFonts.w400.size(13).setColor(lBlue),
+                            ),
+                          ),
+                          if (venue != null && venue.isNotEmpty)
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Icon(
+                                    FluentIcons.location_12_filled,
+                                    color: lBlue,
+                                    size: 13,
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      venue,
+                                      style:
+                                          MyFonts.w400.size(13).setColor(lBlue),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 3.0,
-                      ),
-                      // if (course.venue != null)
-                      //   if(course.venue!.isNotEmpty)
-                      //     Row(
-                      //       children: [
-                      //         const Icon(
-                      //           FluentIcons.location_12_filled,
-                      //           color: lBlue,
-                      //           size: 13,
-                      //         ),
-                      //         const SizedBox(
-                      //           width: 4,
-                      //         ),
-                      //         Expanded(
-                      //           child: Text(
-                      //             course.venue!,
-                      //             style: MyFonts.w400.size(13).setColor(lBlue),
-                      //           ),
-                      //         )
-                      //       ],
-                      //     )
                     ],
                   ),
                 ),

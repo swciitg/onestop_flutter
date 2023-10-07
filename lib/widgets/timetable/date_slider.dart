@@ -27,6 +27,8 @@ class _DateSliderState extends State<DateSlider> {
             child: GestureDetector(
               onTap: () {
                 ttStore.setDate(index);
+                ttStore.setDay(ttStore.dates[index].weekday - 1);
+                print("selected day: ${ttStore.dates[index].weekday - 1}");
               },
               child: FittedBox(
                 child: Observer(builder: (context) {
