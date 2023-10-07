@@ -100,11 +100,13 @@ class ExamTile extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                            course.code!,
-                            style: MyFonts.w400.size(13).setColor(lBlue),
+                          Container(
+                            constraints: const BoxConstraints(minWidth: 70),
+                            child: Text(
+                              course.code!,
+                              style: MyFonts.w400.size(13).setColor(lBlue),
+                            ),
                           ),
-                          const SizedBox(width: 5),
                           if (venue != null && venue.isNotEmpty)
                             Expanded(
                               child: Row(
