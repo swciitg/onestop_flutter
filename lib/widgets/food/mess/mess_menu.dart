@@ -26,7 +26,8 @@ class MessMenu extends StatelessWidget {
     "Friday",
     "Saturday"
   ];
-  final List<String> hostels = khostels;
+  final List<String> hostels = khostels.sublist(0, khostels.length - 1);
+  // last item is Married Scholars
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,10 @@ class MessMenu extends StatelessWidget {
         var messStore = context.read<MessStore>();
         var userHostel = ProfileModel.fromJson(LoginStore.userData).hostel;
         messStore.setHostel(userHostel ?? hostels.first);
+        if (userHostel == "Married Scholars") {
+          userHostel = "Kameng";
+          messStore.setHostel(userHostel);
+        }
         return Container(
             height: 171,
             decoration: BoxDecoration(
