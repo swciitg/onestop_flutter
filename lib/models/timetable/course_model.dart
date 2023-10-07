@@ -38,8 +38,15 @@ class CourseModel /*implements Comparable<CourseModel> */ {
     endsem = json['endsem'];
     midsemVenue = json['midsemVenue'];
     endsemVenue = json['endsemVenue'];
-    timings = (json['timings'] as Map<String, dynamic>)
-        .map((key, value) => MapEntry(key, value.toString().trim()));
+    timings = (json['timings'] as Map<String, dynamic>).map(
+      (key, value) {
+        value = formatTime(value.toString().trim());
+        return MapEntry(
+          key,
+          value,
+        );
+      },
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -68,6 +75,15 @@ class CourseModel /*implements Comparable<CourseModel> */ {
   //   List<String> startList = [l.first, l.last];
   //   return startList.join(' ');
   // }
+
+  String formatTime(String time) {
+    String formattedTime = time;
+    // replace 5: with 05:
+    if (time[1] == ':') {
+      formattedTime = time.replaceAll('${time[0]}:', '0${time[0]}:');
+    }
+    return formattedTime;
+  }
 
   CourseModel.clone(CourseModel c)
       : this(
