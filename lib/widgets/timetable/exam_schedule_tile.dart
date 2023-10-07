@@ -46,32 +46,36 @@ class ExamTile extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.transparent,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                formatTime(time, "month"),
-                                style: MyFonts.w400.setColor(kWhite),
-                              ),
-                              Text(
-                                formatTime(time, "date"),
-                                style: MyFonts.w400.setColor(kWhite).size(30),
-                              )
-                            ],
+                  child: Container(
+                    constraints: const BoxConstraints(minWidth: 60),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.transparent,
                           ),
-                        ),
-                      )
-                    ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  formatTime(time, "month"),
+                                  style: MyFonts.w400.setColor(kWhite),
+                                ),
+                                Text(
+                                  formatTime(time, "date"),
+                                  style: MyFonts.w400.setColor(kWhite).size(30),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
@@ -93,32 +97,40 @@ class ExamTile extends StatelessWidget {
                       const SizedBox(
                         height: 3.0,
                       ),
-                      Text(
-                        course.code!,
-                        style: MyFonts.w400.size(13).setColor(lBlue),
-                      ),
-                      const SizedBox(
-                        height: 3.0,
-                      ),
-                      if (venue != null && venue.isNotEmpty)
-                        Row(
-                          children: [
-                            const Icon(
-                              FluentIcons.location_12_filled,
-                              color: lBlue,
-                              size: 13,
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            course.code!,
+                            style: MyFonts.w400.size(13).setColor(lBlue),
+                          ),
+                          const SizedBox(width: 5),
+                          if (venue != null && venue.isNotEmpty)
                             Expanded(
-                              child: Text(
-                                venue,
-                                style: MyFonts.w400.size(13).setColor(lBlue),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Icon(
+                                    FluentIcons.location_12_filled,
+                                    color: lBlue,
+                                    size: 13,
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      venue,
+                                      style:
+                                          MyFonts.w400.size(13).setColor(lBlue),
+                                    ),
+                                  )
+                                ],
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

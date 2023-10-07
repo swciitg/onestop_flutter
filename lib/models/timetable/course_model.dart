@@ -43,7 +43,7 @@ class CourseModel /*implements Comparable<CourseModel> */ {
         value = formatTime(value.toString().trim());
         return MapEntry(
           key,
-          value,
+          value.toString(),
         );
       },
     );
@@ -77,12 +77,15 @@ class CourseModel /*implements Comparable<CourseModel> */ {
   // }
 
   String formatTime(String time) {
-    String formattedTime = time;
-    // replace 5: with 05:
-    if (time[1] == ':') {
-      formattedTime = time.replaceAll('${time[0]}:', '0${time[0]}:');
+    var times = time.split(' - ');
+    List<String> ft = [];
+    for (var t in times) {
+      if (t[1] == ':') {
+        t = '0$t';
+      }
+      ft.add(t);
     }
-    return formattedTime;
+    return ft.join(' - ');
   }
 
   CourseModel.clone(CourseModel c)
