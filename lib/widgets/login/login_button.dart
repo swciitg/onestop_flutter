@@ -12,7 +12,7 @@ class LoginButton extends StatelessWidget {
     required this.setLoading,
   }) : super(key: key);
 
-  final Function setLoading;
+  final Future<void> Function() setLoading; 
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +28,15 @@ class LoginButton extends StatelessWidget {
           flex: 2,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: kYellow,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18))),
-            onPressed: () {
-              setLoading();
-              // Navigator.of(context).pushNamed(
-              //   '/login',
-              // );
+              backgroundColor: kYellow,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+            ),
+            onPressed: () async {
+              await setLoading();
+              // Uncomment the line below if you want to navigate to the login page
+              // Navigator.of(context).pushNamed('/login');
             },
             child: FittedBox(
               fit: BoxFit.fitWidth,
@@ -51,30 +52,36 @@ class LoginButton extends StatelessWidget {
           child: TextDivider(text: 'OR'),
         ),
         RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-                text: 'Continue as ',
-                style: MyFonts.w500.factor(2).setColor(kGrey8),
-                children: [
-                  TextSpan(
-                      text: 'Guest',
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () async {
-                          await LoginStore().signInAsGuest();
-                          // TODO: Next version of Flutter will have context.mounted. Use that instead to escape the lint
-                          print("completed sign in");
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/', (Route<dynamic> route) => false);
-                        },
-                      style: MyFonts.w500.factor(2).setColor(kGrey8).copyWith(
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.bold))
-                ])),
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            text: 'Continue as ',
+            style: MyFonts.w500.factor(2).setColor(kGrey8),
+            children: [
+              TextSpan(
+                text: 'Guest',
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () async {
+                    // Using Provider to get the LoginStore instance
+                    final loginStore = Provider.of<LoginStore>(context, listen: false);
+                    await loginStore.signInAsGuest();
+                    print("completed sign in");
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/', (Route<dynamic> route) => false);
+                  },
+                style: MyFonts.w500.factor(2).setColor(kGrey8).copyWith(
+                    decoration: TextDecoration.underline,
+                    fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
         Expanded(
           flex: 1,
           child: Container(),
-        )
+        ),
       ],
     );
   }
+}
+
 }
