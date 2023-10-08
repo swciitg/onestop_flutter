@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
-import 'package:onestop_dev/pages/developer/developer_page.dart';
 import 'package:onestop_dev/pages/home/home.dart';
-import 'package:onestop_dev/widgets/ui/appbar.dart';
-import 'package:provider/provider.dart';
 
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
@@ -130,25 +127,25 @@ class HomeDrawer extends StatelessWidget {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (buildContext) => const DeveloperPage(),
-                      ),
-                    );
-                    scaffoldKey.currentState!.closeDrawer();
-                  },
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                    child: Text(
-                      "Team",
-                      style: MyFonts.w400.size(14).setColor(kWhite),
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (buildContext) => const DeveloperPage(),
+                //       ),
+                //     );
+                //     scaffoldKey.currentState!.closeDrawer();
+                //   },
+                //   child: Padding(
+                //     padding:
+                //         const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                //     child: Text(
+                //       "Team",
+                //       style: MyFonts.w400.size(14).setColor(kWhite),
+                //     ),
+                //   ),
+                // ),
                 Expanded(child: Container()),
 
                 SvgPicture.asset("assets/images/logo.svg"),
