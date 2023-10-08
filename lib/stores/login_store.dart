@@ -1,7 +1,6 @@
 // import 'package:aad_oauth/aad_oauth.dart';
 // import 'package:aad_oauth/model/config.dart';
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/enums.dart';
@@ -36,8 +35,7 @@ class LoginStore {
       await user.setString('userInfo', jsonEncode(userInfo));
       if (user.containsKey("isProfileComplete")) {
         isProfileComplete = true;
-      } else {
-      }
+      } else {}
       await saveToUserInfo(user);
       return SplashResponse.authenticated;
     }
@@ -85,8 +83,7 @@ class LoginStore {
         instance.setString(
             "deviceToken", fcmToken!); // set the returned fcToken
         await APIService().postUserDeviceToken(fcmToken);
-      }
-      else if (deviceToken != fcmToken) {
+      } else if (deviceToken != fcmToken) {
         // already some token was stored
         await APIService().updateUserDeviceToken({
           "oldToken": deviceToken, // stored token

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
+import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home/home.dart';
@@ -23,21 +24,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
   bool submitted = false;
   TextEditingController contact = TextEditingController();
   TextEditingController rollNo = TextEditingController();
-  List<String> hostels = [
-    "Kameng",
-    "Barak",
-    "Lohit",
-    "Brahmaputra",
-    "Disang",
-    "Manas",
-    "Dihing",
-    "Umiam",
-    "Siang",
-    "Kapili",
-    "Dhansiri",
-    "Subansiri",
-    "Married Scholar's Hostel"
-  ];
+  List<String> hostels = khostels;
   final _formKey = GlobalKey<FormState>();
 
   @override

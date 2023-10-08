@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import '../../widgets/home/home_drawer.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
 class HomePage extends StatefulWidget {
   static String id = "/home2";
   const HomePage({Key? key}) : super(key: key);
@@ -33,7 +34,6 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   Widget build(BuildContext context) {
-
     SizeConfig().init(context);
     return OneStopUpgrader(
       child: Scaffold(

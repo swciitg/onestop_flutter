@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
+import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,21 +43,7 @@ class _EditProfileState extends State<EditProfile> {
   DateTime? selectedDob;
   // String? imageString;
   final List<String> genders = ["Male", "Female", "Others"];
-  final List<String> hostels = [
-    "Kameng",
-    "Barak",
-    "Lohit",
-    "Brahmaputra",
-    "Disang",
-    "Manas",
-    "Dihing",
-    "Umiam",
-    "Siang",
-    "Kapili",
-    "Dhansiri",
-    "Subansiri",
-    "Married Scholars"
-  ];
+  final List<String> hostels = khostels;
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   @override
@@ -84,16 +71,15 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-
     Future<void> onFormSubmit() async {
       if (!isLoading) {
         setState(() {
-          isLoading=true;
+          isLoading = true;
         });
         if (!_formKey.currentState!.validate()) {
           showSnackBar('Please give all the inputs correctly');
           setState(() {
-            isLoading=false;
+            isLoading = false;
           });
           return;
         } else {
@@ -118,7 +104,7 @@ class _EditProfileState extends State<EditProfile> {
             await APIService().updateUserProfile(data, null);
           } catch (e) {
             setState(() {
-              isLoading=false;
+              isLoading = false;
             });
             showSnackBar(e.toString());
             return;
@@ -132,11 +118,10 @@ class _EditProfileState extends State<EditProfile> {
           await LocalStorage.instance.deleteRecord(DatabaseRecords.timetable);
           print("PROFILE COMPLETED");
           setState(() {
-            isLoading=false;
+            isLoading = false;
           });
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-
         }
       }
     }
@@ -152,10 +137,17 @@ class _EditProfileState extends State<EditProfile> {
           iconTheme: const IconThemeData(color: kAppBarGrey),
           automaticallyImplyLeading: false,
           centerTitle: true,
-        // leadingWidth: 16,
-        leading: IconButton(onPressed: () {
-          Navigator.of(context).pop();
-        },icon: const Icon(Icons.arrow_back_ios_new_outlined,color: kWhite,),iconSize: 20,),
+          // leadingWidth: 16,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new_outlined,
+              color: kWhite,
+            ),
+            iconSize: 20,
+          ),
           title: Text(
             "Profile Setup",
             textAlign: TextAlign.left,
@@ -306,7 +298,7 @@ class _EditProfileState extends State<EditProfile> {
                           child: Column(
                             children: [
                               CustomTextField(
-                                hintText: 'Name',
+                                label: 'Name',
                                 // validator: validatefield,
                                 isNecessary: false,
                                 controller: _nameController,
@@ -316,7 +308,7 @@ class _EditProfileState extends State<EditProfile> {
                                 height: 12,
                               ),
                               CustomTextField(
-                                hintText: 'Roll Number',
+                                label: 'Roll Number',
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Field cannot be empty';
@@ -339,7 +331,7 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                               CustomTextField(
                                 isEnabled: false,
-                                hintText: 'Outlook EmailID',
+                                label: 'Outlook EmailID',
                                 // validator: validatefield,
                                 isNecessary: false,
                                 controller: _outlookEmailController,
@@ -348,7 +340,7 @@ class _EditProfileState extends State<EditProfile> {
                                 height: 12,
                               ),
                               CustomTextField(
-                                hintText: 'Alt Email',
+                                label: 'Alt Email',
                                 validator: validatefield,
                                 isNecessary: true,
                                 controller: _altEmailController,
@@ -360,7 +352,7 @@ class _EditProfileState extends State<EditProfile> {
                                 height: 12,
                               ),
                               CustomTextField(
-                                hintText: 'Phone Number',
+                                label: 'Phone Number',
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Field cannot be empty';
@@ -383,7 +375,7 @@ class _EditProfileState extends State<EditProfile> {
                                 height: 12,
                               ),
                               CustomTextField(
-                                hintText: 'Emergency Contact Number',
+                                label: 'Emergency Contact Number',
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Field cannot be empty';
@@ -408,7 +400,7 @@ class _EditProfileState extends State<EditProfile> {
                               CustomDropDown(
                                   value: gender,
                                   items: genders,
-                                  hintText: 'Your Gender',
+                                  label: 'Your Gender',
                                   onChanged: (g) => gender = g,
                                   validator: validatefield),
                               const SizedBox(
@@ -417,7 +409,7 @@ class _EditProfileState extends State<EditProfile> {
                               CustomDropDown(
                                 value: hostel,
                                 items: hostels,
-                                hintText: 'Hostel',
+                                label: 'Hostel',
                                 onChanged: (h) => hostel = h,
                                 validator: validatefield,
                               ),
@@ -425,7 +417,7 @@ class _EditProfileState extends State<EditProfile> {
                                 height: 12,
                               ),
                               CustomTextField(
-                                hintText: 'Date of Birth',
+                                label: 'Date of Birth',
                                 validator: validatefield,
                                 controller: _dobController,
                                 onTap: () async {
@@ -460,7 +452,7 @@ class _EditProfileState extends State<EditProfile> {
                                 height: 12,
                               ),
                               CustomTextField(
-                                hintText: 'Hostel room no',
+                                label: 'Hostel room no',
                                 validator: validatefield,
                                 isNecessary: true,
                                 controller: _roomNoController,
@@ -472,7 +464,7 @@ class _EditProfileState extends State<EditProfile> {
                                 height: 12,
                               ),
                               CustomTextField(
-                                hintText: 'Home Address',
+                                label: 'Home Address',
                                 validator: validatefield,
                                 isNecessary: true,
                                 controller: _homeAddressController,
@@ -484,7 +476,7 @@ class _EditProfileState extends State<EditProfile> {
                                 height: 12,
                               ),
                               CustomTextField(
-                                hintText: 'LinkedIn Profile',
+                                label: 'LinkedIn Profile',
                                 // validator: validatefield,
                                 isNecessary: false,
                                 controller: _linkedinController,

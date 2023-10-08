@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
@@ -20,22 +21,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
   bool checkBox = false;
   String? selectedDropdown;
   List<String> libraries = ["Library", "Central library"];
-  List<String> hostels = [
-    "Hostel",
-    "Kameng",
-    "Barak",
-    "Lohit",
-    "Brahmaputra",
-    "Disang",
-    "Manas",
-    "Dihing",
-    "Umiam",
-    "Siang",
-    "Kapili",
-    "Dhansiri",
-    "Subansiri",
-    "Married Scholars"
-  ];
+  List<String> hostels = khostels;
   List<String> sacs = ["SAC", "Old SAC", "New SAC"];
   List<String> cores = ["Core", "Core 1", "Core 2", "Core 3", "Core 4"];
 
