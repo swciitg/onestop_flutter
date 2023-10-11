@@ -37,7 +37,9 @@ class _TimeTableTabState extends State<TimeTableTab> {
                       Expanded(
                         child: TextButton(
                           onPressed: () {
-                            (store.setTT());
+                            if (!(store.isTimetable)) {
+                              store.setTT();
+                            }
                           },
                           child: ClipRRect(
                             borderRadius: const BorderRadius.all(
@@ -59,7 +61,9 @@ class _TimeTableTabState extends State<TimeTableTab> {
                       Expanded(
                         child: TextButton(
                           onPressed: () {
-                            (store.setTT());
+                            if (store.isTimetable) {
+                              store.setTT();
+                            }
                           },
                           child: ClipRRect(
                             borderRadius: const BorderRadius.all(

@@ -124,7 +124,7 @@ abstract class _TimetableStore with Store {
       ...allTimetableCourses[current.weekday - 1]
           .morning
           .where((e) =>
-              dateFormat.parse(e.timings![kworkingDays[selectedDay]]).hour >=
+              dateFormat.parse(e.timings![day]).hour >=
               DateTime.now().hour)
           .toList()
           .map((e) => TimetableTile(
@@ -135,7 +135,7 @@ abstract class _TimetableStore with Store {
       ...allTimetableCourses[current.weekday - 1]
           .afternoon
           .where((e) =>
-              dateFormat.parse(e.timings![kworkingDays[selectedDay]]).hour >=
+              dateFormat.parse(e.timings![day]).hour >=
               DateTime.now().hour)
           .toList()
           .map((e) => TimetableTile(
