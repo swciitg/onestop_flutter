@@ -48,8 +48,10 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
       });
       if (_phoneController.text.length < 10) {
         showSnackBar("Provide proper contact number");
+        return;
       } else if (_rollNumberController.text != user.rollNo) {
         showSnackBar("Incorrect Roll Number");
+        return;
       }
       final data = {
         "hostelFrom": hostelFrom,

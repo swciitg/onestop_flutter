@@ -56,6 +56,7 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
       });
       if (breakfast == 0 || lunch == 0 || dinner == 0) {
         showSnackBar("Please fill all the compulsory fields");
+        return;
       }
       final data = {
         "comments": _commentsController.text.trim(),
