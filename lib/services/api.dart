@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
@@ -517,6 +519,62 @@ class APIService {
       final res = await dio.get(Endpoints.busStops);
       return res.data;
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> postMessSubChange(
+      Map<String, dynamic> data) async {
+    final bearerToken = await AuthUserHelpers.getAccessToken();
+    print("bearer token: $bearerToken");
+    final json = jsonEncode(data);
+    try {
+      final res = await dio2.post(
+        Endpoints.irbsBaseUrl + Endpoints.messSubChange,
+        data: json,
+        options: Options(
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $bearerToken'
+          },
+        ),
+      );
+      return res.data;
+    } on DioException catch (e) {
+      print("Dio exception: ${e.message}");
+      if (e.response != null) {
+        return e.response!.data;
+      }
+      rethrow;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> postMessOpi(Map<String, dynamic> data) async {
+    final bearerToken = await AuthUserHelpers.getAccessToken();
+    print("bearer token: $bearerToken");
+    try {
+      final json = jsonEncode(data);
+      final res = await dio2.post(
+        Endpoints.irbsBaseUrl + Endpoints.messOpi,
+        data: json,
+        options: Options(
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $bearerToken'
+          },
+        ),
+      );
+      return res.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        return e.response!.data;
+      }
+      rethrow;
+    } catch (e) {
+      print(e);
       rethrow;
     }
   }

@@ -7,9 +7,11 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/profile/profile_model.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:onestop_dev/widgets/profile/custom_dropdown.dart';
 import 'package:onestop_dev/widgets/profile/custom_text_field.dart';
 import 'package:onestop_dev/widgets/ui/simple_button.dart';
+import '../../main.dart';
 
 class MessOpiFormPage extends StatefulWidget {
   static const id = '/messOpiFormPage';
@@ -23,9 +25,9 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
   final TextEditingController _commentsController = TextEditingController();
   final user = ProfileModel.fromJson(LoginStore.userData);
   late String selectedHostel;
-  int breakFastPoints = 0;
-  int lunchPoints = 0;
-  int dinnerPoints = 0;
+  int breakfast = 0;
+  int lunch = 0;
+  int dinner = 0;
   bool isLoading = false;
   final List<String> hostels = khostels;
   final List<int> points = [1, 2, 3, 4, 5];
@@ -43,29 +45,57 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
 
   void onChangeSelectedHostel(String? hostel) => selectedHostel = hostel!;
   void onChangeBreakfastPoints(String? points) =>
-      breakFastPoints = int.parse(points!);
-  void onChangeLunchPoints(String? points) => lunchPoints = int.parse(points!);
-  void onChangeDinnerPoints(String? points) =>
-      dinnerPoints = int.parse(points!);
+      breakfast = int.parse(points!);
+  void onChangeLunchPoints(String? points) => lunch = int.parse(points!);
+  void onChangeDinnerPoints(String? points) => dinner = int.parse(points!);
 
-  void onPressedNext() async {
-    setState(() {
-      isLoading = true;
-    });
-    print("Breakfast points: $breakFastPoints");
-    print("Lunch points: $lunchPoints");
-    print("Dinner points: $dinnerPoints");
-    print("Comments: ${_commentsController.text}");
-    if (breakFastPoints == 0 || lunchPoints == 0 || dinnerPoints == 0) {
-      print("user not assigned all fields");
-      showSnackBar("Please fill all the compulsory fields");
+  void onSubmit() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      if (breakfast == 0 || lunch == 0 || dinner == 0) {
+        showSnackBar("Please fill all the compulsory fields");
+      }
+      final data = {
+        "comments": _commentsController.text.trim(),
+        "hostel": selectedHostel,
+        "satisfaction": {
+          "breakfast": breakfast,
+          "lunch": lunch,
+          "dinner": dinner,
+        },
+        "userName": user.name,
+      };
+      print(data);
+      final res = await MessStore().postMessOpi(data);
+      if (res.containsKey('success')) {
+        showSnackBar(res['message']);
+        await Future.delayed(const Duration(seconds: 1));
+        setState(() {
+          isLoading = false;
+        });
+        navigatorKey.currentState!.pop();
+      } else if (res.containsKey('errors')) {
+        showSnackBar((res['errors'] as List<dynamic>).first['message']);
+        await Future.delayed(const Duration(seconds: 1));
+        setState(() {
+          isLoading = false;
+        });
+        navigatorKey.currentState!.pop();
+      }
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      final error = e.toString();
+      setState(() {
+        isLoading = false;
+      });
+      if (error.contains('connection error')) {
+        showSnackBar("No interest connection!");
+      }
     }
-    // TODO: implement any further actions
-    // just to check loading bar
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      isLoading = false;
-    });
   }
 
   @override
@@ -75,128 +105,121 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
       child: Scaffold(
         backgroundColor: kBackground,
         appBar: _buildAppBar(context),
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (isLoading)
-                const LinearProgressIndicator(
-                  color: lBlue2,
-                  backgroundColor: lBlue,
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (isLoading)
+                  const LinearProgressIndicator(
+                    color: lBlue2,
+                    backgroundColor: lBlue,
+                  ),
+                _buildInfo(user),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildFieldTitle(
+                          title:
+                              "1. Which HOSTEL MESS did you subscribe to in $currentMonth?",
+                          isNeccessary: true),
+                      const SizedBox(height: 12),
+                      CustomDropDown(
+                        items: hostels,
+                        value: user.hostel,
+                        onChanged: onChangeSelectedHostel,
+                        validator: validatefield,
+                        borderRadius: BorderRadius.circular(24),
+                        isNecessary: false,
+                        icon: dropDownIcon,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildFieldTitle(
+                          title:
+                              "2. How would you rate the following services by the mess caterer",
+                          isNeccessary: true),
+                      const SizedBox(height: 16),
+                      _pointsInfo(),
+                      const SizedBox(height: 16),
+                      _buildFieldTitle(
+                          title: "Overall Satisfaction - Breakfast",
+                          isNeccessary: true),
+                      const SizedBox(height: 12),
+                      CustomDropDown(
+                        items: points.map((e) => e.toString()).toList(),
+                        hintText: 'Points',
+                        onChanged: onChangeBreakfastPoints,
+                        validator: validatefield,
+                        borderRadius: BorderRadius.circular(24),
+                        isNecessary: false,
+                        icon: dropDownIcon,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildFieldTitle(
+                          title: "Overall Satisfaction - Lunch",
+                          isNeccessary: true),
+                      const SizedBox(height: 12),
+                      CustomDropDown(
+                        items: points.map((e) => e.toString()).toList(),
+                        hintText: 'Points',
+                        onChanged: onChangeLunchPoints,
+                        validator: validatefield,
+                        borderRadius: BorderRadius.circular(24),
+                        isNecessary: false,
+                        icon: dropDownIcon,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildFieldTitle(
+                          title: "Overall Satisfaction - Dinner",
+                          isNeccessary: true),
+                      const SizedBox(height: 12),
+                      CustomDropDown(
+                        items: points.map((e) => e.toString()).toList(),
+                        hintText: 'Points',
+                        onChanged: onChangeDinnerPoints,
+                        validator: validatefield,
+                        borderRadius: BorderRadius.circular(24),
+                        isNecessary: false,
+                        icon: dropDownIcon,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildFieldTitle(
+                          title: "Comments (if any)", isNeccessary: false),
+                      const SizedBox(height: 12),
+                      CustomTextField(
+                        controller: _commentsController,
+                        hintText: "Answer",
+                        maxLines: 5,
+                        isNecessary: false,
+                      ),
+                      const SizedBox(height: 24),
+                      SimpleButton(
+                        height: 60,
+                        label: "Submit",
+                        onTap: () => onSubmit(),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                  ),
                 ),
-              _buildInfo(user),
-              Container(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildFieldTitle(
-                        title:
-                            "1. Which HOSTEL MESS did you subscribe to in $currentMonth?",
-                        isNeccessary: true),
-                    const SizedBox(height: 12),
-                    CustomDropDown(
-                      items: hostels,
-                      hintText: user.hostel ?? hostels.first,
-                      value: user.hostel,
-                      onChanged: onChangeSelectedHostel,
-                      validator: validatefield,
-                      borderRadius: BorderRadius.circular(24),
-                      isNecessary: false,
-                      icon: dropDownIcon,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFieldTitle(
-                        title:
-                            "2. How would you rate the following services by the mess caterer",
-                        isNeccessary: true),
-                    const SizedBox(height: 16),
-                    _pointsInfo(),
-                    const SizedBox(height: 16),
-                    _buildFieldTitle(
-                        title: "Overall Satisfaction - Breakfast",
-                        isNeccessary: true),
-                    const SizedBox(height: 12),
-                    CustomDropDown(
-                      items: points.map((e) => e.toString()).toList(),
-                      hintText: 'Points',
-                      onChanged: onChangeBreakfastPoints,
-                      validator: validatefield,
-                      borderRadius: BorderRadius.circular(24),
-                      isNecessary: false,
-                      icon: dropDownIcon,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFieldTitle(
-                        title: "Overall Satisfaction - Lunch",
-                        isNeccessary: true),
-                    const SizedBox(height: 12),
-                    CustomDropDown(
-                      items: points.map((e) => e.toString()).toList(),
-                      hintText: 'Points',
-                      onChanged: onChangeLunchPoints,
-                      validator: validatefield,
-                      borderRadius: BorderRadius.circular(24),
-                      isNecessary: false,
-                      icon: dropDownIcon,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFieldTitle(
-                        title: "Overall Satisfaction - Dinner",
-                        isNeccessary: true),
-                    const SizedBox(height: 12),
-                    CustomDropDown(
-                      items: points.map((e) => e.toString()).toList(),
-                      hintText: 'Points',
-                      onChanged: onChangeDinnerPoints,
-                      validator: validatefield,
-                      borderRadius: BorderRadius.circular(24),
-                      isNecessary: false,
-                      icon: dropDownIcon,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFieldTitle(
-                        title: "Comments (if any)", isNeccessary: false),
-                    const SizedBox(height: 12),
-                    CustomTextField(
-                      controller: _commentsController,
-                      hintText: "Answer",
-                      maxLines: 5,
-                      isNecessary: false,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 80),
-            ],
-          ),
-        ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(16.0).copyWith(top: 0),
-          child: SimpleButton(
-            height: 60,
-            label: "Next",
-            onTap: onPressedNext,
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Column _pointsInfo() {
+  Widget _pointsInfo() {
     final style =
         MyFonts.w600.size(14).setColor(kWhite).copyWith(height: 20 / 14);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text("Very Poor (1 Points)", style: style),
-        Text("Poor (2 Points)", style: style),
-        Text("Average (3 Points)", style: style),
-        Text("Good (4 Points)", style: style),
-        Text("Very Good (5 Points)", style: style),
-      ],
+    return Text(
+      "Very Poor (1 Points)\nPoor (2 Points)\nAverage (3 Points)\nGood (4 Points)\nVery Good (5 Points)",
+      style: style,
     );
   }
 
