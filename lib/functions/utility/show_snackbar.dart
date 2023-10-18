@@ -7,6 +7,7 @@ void showSnackBar(String message) {
   rootScaffoldMessengerKey.currentState?.showSnackBar(
     SnackBar(
       content: Text(message, style: MyFonts.w500),
+      duration: const Duration(seconds: 1),
     ),
   );
 }

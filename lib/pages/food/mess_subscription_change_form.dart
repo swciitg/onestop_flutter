@@ -4,8 +4,10 @@ import 'package:onestop_dev/functions/utility/validator.dart';
 import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/profile/profile_model.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:onestop_dev/widgets/profile/custom_dropdown.dart';
 import 'package:onestop_dev/widgets/profile/custom_text_field.dart';
 import 'package:onestop_dev/widgets/ui/simple_button.dart';
@@ -24,48 +26,74 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
   final user = ProfileModel.fromJson(LoginStore.userData);
   final List<String> hostels = khostels;
   bool isLoading = false;
-  late String currentHostel;
-  late String desiredHostel;
+  late String hostelFrom;
+  late String hostelTo;
 
-  void onChangeCurrentHostel(String? hostel) => currentHostel = hostel!;
-  void onChangeDesiredHostel(String? hostel) => desiredHostel = hostel!;
+  void onChangeCurrentHostel(String? hostel) => hostelFrom = hostel!;
+  void onChangeDesiredHostel(String? hostel) => hostelTo = hostel!;
 
   @override
   void initState() {
-    currentHostel = user.hostel ?? hostels.first;
-    desiredHostel = hostels.first;
-    _phoneController.text = user.phoneNumber?.toString() ?? "your answer";
+    hostelFrom = user.hostel ?? hostels.first;
+    hostelTo = hostels.first;
+    _phoneController.text = user.phoneNumber!.toString();
     _rollNumberController.text = user.rollNo;
     super.initState();
   }
 
-  void onPressedSubmit() async {
-    setState(() {
-      isLoading = true;
-    });
-    if (_phoneController.text.length < 10) {
-      showSnackBar("Provide proper contact number");
-    } else if (_rollNumberController.text != user.rollNo) {
-      showSnackBar("Incorrect Roll Number");
+  Future<void> onSubmit() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      if (_phoneController.text.length < 10) {
+        showSnackBar("Provide proper contact number");
+      } else if (_rollNumberController.text != user.rollNo) {
+        showSnackBar("Incorrect Roll Number");
+      }
+      final data = {
+        "hostelFrom": hostelFrom,
+        "hostelTo": hostelTo,
+        "contact": _phoneController.text,
+        "rollNumber": user.rollNo,
+        "userName": user.name,
+      };
+      final res = await MessStore().postMessSubChange(data);
+      if (res.containsKey('success')) {
+        showSnackBar(res['message']);
+        await Future.delayed(const Duration(seconds: 1));
+        setState(() {
+          isLoading = false;
+        });
+        navigatorKey.currentState!.pop();
+      } else if (res.containsKey('errors')) {
+        showSnackBar((res['errors'] as List<dynamic>).first['message']);
+        await Future.delayed(const Duration(seconds: 1));
+        setState(() {
+          isLoading = false;
+        });
+        navigatorKey.currentState!.pop();
+      }
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      final error = e.toString();
+      setState(() {
+        isLoading = false;
+      });
+      if (error.contains('connection error')) {
+        showSnackBar("No interest connection!");
+      }
     }
-    print("Contact number: ${_phoneController.text}");
-    print("Roll no: ${_rollNumberController.text}");
-    print("current hostel: ${user.hostel}");
-    print("desired hostel: $desiredHostel");
-    // TODO: implemting submit action once form is submitted
-    // to check loading bar
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      isLoading = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    currentHostel = user.hostel ?? hostels.first;
-    desiredHostel = hostels.first;
+    hostelFrom = user.hostel ?? hostels.first;
+    hostelTo = hostels.first;
 
-    final dropDownIcon = const Icon(
+    const dropDownIcon = Icon(
       Icons.keyboard_arrow_down_rounded,
       size: 24,
       color: kWhite,
@@ -75,77 +103,85 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
       child: Scaffold(
         backgroundColor: kBackground,
         appBar: _buildAppBar(context),
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (isLoading)
-                const LinearProgressIndicator(
-                  color: lBlue2,
-                  backgroundColor: lBlue,
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (isLoading)
+                  const LinearProgressIndicator(
+                    color: lBlue2,
+                    backgroundColor: lBlue,
+                  ),
+                _buildInfo(user),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildFieldTitle(
+                          title: "Contact Number", isNeccessary: true),
+                      const SizedBox(height: 12),
+                      CustomTextField(
+                        controller: _phoneController,
+                        hintText: "Your answer",
+                        inputType: TextInputType.phone,
+                        isNecessary: false,
+                        counter: true,
+                        maxLength: 10,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildFieldTitle(
+                          title: "Roll Number", isNeccessary: true),
+                      const SizedBox(height: 12),
+                      CustomTextField(
+                        controller: _rollNumberController,
+                        hintText: user.rollNo,
+                        inputType: TextInputType.number,
+                        isNecessary: false,
+                        counter: true,
+                        maxLength: 9,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildFieldTitle(
+                          title: "Hostel (Currently residing)",
+                          isNeccessary: true),
+                      const SizedBox(height: 12),
+                      CustomDropDown(
+                        items: hostels,
+                        // hintText: user.hostel ?? hostels.first,
+                        value: user.hostel,
+                        onChanged: onChangeCurrentHostel,
+                        validator: validatefield,
+                        borderRadius: BorderRadius.circular(24),
+                        isNecessary: false,
+                        icon: dropDownIcon,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildFieldTitle(
+                          title:
+                              "In which hostel mess do you want your subscription to be changed:",
+                          isNeccessary: true),
+                      const SizedBox(height: 12),
+                      CustomDropDown(
+                        items: hostels,
+                        // hintText: hostels.first,
+                        value: hostels.first,
+                        onChanged: onChangeDesiredHostel,
+                        validator: validatefield,
+                        borderRadius: BorderRadius.circular(24),
+                        isNecessary: false,
+                        icon: dropDownIcon,
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
                 ),
-              _buildInfo(user),
-              Container(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildFieldTitle(
-                        title: "Contact Number", isNeccessary: true),
-                    const SizedBox(height: 12),
-                    CustomTextField(
-                      controller: _phoneController,
-                      hintText: "Your answer",
-                      inputType: TextInputType.phone,
-                      isNecessary: false,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFieldTitle(title: "Roll Number", isNeccessary: true),
-                    const SizedBox(height: 12),
-                    CustomTextField(
-                      controller: _rollNumberController,
-                      hintText: user.rollNo,
-                      inputType: TextInputType.number,
-                      isNecessary: false,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFieldTitle(
-                        title: "Hostel (Currently residing)",
-                        isNeccessary: true),
-                    const SizedBox(height: 12),
-                    CustomDropDown(
-                      items: hostels,
-                      hintText: user.hostel ?? hostels.first,
-                      value: user.hostel,
-                      onChanged: onChangeCurrentHostel,
-                      validator: validatefield,
-                      borderRadius: BorderRadius.circular(24),
-                      isNecessary: false,
-                      icon: dropDownIcon,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFieldTitle(
-                        title:
-                            "In which hostel mess do you want your subscription to be changed:",
-                        isNeccessary: true),
-                    const SizedBox(height: 12),
-                    CustomDropDown(
-                      items: hostels,
-                      hintText: hostels.first,
-                      value: hostels.first,
-                      onChanged: onChangeDesiredHostel,
-                      validator: validatefield,
-                      borderRadius: BorderRadius.circular(24),
-                      isNecessary: false,
-                      icon: dropDownIcon,
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 80),
-            ],
+                const SizedBox(height: 80),
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: Padding(
@@ -153,7 +189,7 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
           child: SimpleButton(
             height: 60,
             label: "Submit",
-            onTap: onPressedSubmit,
+            onTap: () => onSubmit(),
           ),
         ),
       ),
