@@ -39,8 +39,8 @@ class Endpoints {
   static const String userNotifPrefs = "/user/notifs/prefs";
   static const String generalNotifications = "/notification";
   static const String userNotifications = "/user/notifs";
-  static const String messSubChange = "/sub";
-  static const String messOpi = "/opi";
+  static const String messSubChange = "/api/sub";
+  static const String messOpi = "/api/opi";
 
   static getHeader() {
     return {

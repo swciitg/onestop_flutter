@@ -541,6 +541,8 @@ class APIService {
       );
       return res.data;
     } on DioException catch (e) {
+      print( Endpoints.irbsBaseUrl + Endpoints.messSubChange);
+      print("exception seen");
       print("Dio exception: ${e.message}");
       if (e.response != null) {
         return e.response!.data;

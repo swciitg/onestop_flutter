@@ -63,14 +63,14 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
       final res = await MessStore().postMessSubChange(data);
       if (res.containsKey('success')) {
         showSnackBar(res['message']);
-        await Future.delayed(const Duration(seconds: 1));
+        await Future.delayed(const Duration(seconds: 2));
         setState(() {
           isLoading = false;
         });
         navigatorKey.currentState!.pop();
       } else if (res.containsKey('errors')) {
         showSnackBar((res['errors'] as List<dynamic>).first['message']);
-        await Future.delayed(const Duration(seconds: 1));
+        await Future.delayed(const Duration(seconds: 2));
         setState(() {
           isLoading = false;
         });
