@@ -5,6 +5,7 @@ import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/quick_links/cab_share.dart';
+import 'package:onestop_dev/pages/quick_links/gc_scoreboard.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 import 'package:onestop_dev/pages/quick_links/irbs.dart';
 
@@ -14,6 +15,11 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.contact_card_group_24_regular,
     routeId: ContactPage.id,
   ),
+  // const HomeTabTile(
+  //   label: "Scoreboard",
+  //   icon: FluentIcons.contact_card_group_24_regular,
+  //   routeId: Scoreboard.id,
+  // ),
   const HomeTabTile(
     label: "Cab Sharing",
     icon: FluentIcons.vehicle_bus_24_regular,
