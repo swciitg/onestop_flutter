@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeTabTile extends StatelessWidget {
   const HomeTabTile(
@@ -9,19 +10,41 @@ class HomeTabTile extends StatelessWidget {
         required this.label,
         required this.icon,
         this.routeId,
+        this.link,
         this.newBadge = false})
       : super(key: key);
 
   final String label;
+  final String? link;
   final IconData icon;
   final String? routeId;
   final bool newBadge;
+
+  Future<void> launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    print(uri);
+    if (!await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw "Can not launch url";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget finalWidget = FittedBox(
       child: GestureDetector(
-        onTap: () => Navigator.pushNamed(context, routeId ?? "/"),
+        onTap: (){
+          if(link != null)
+            {
+              launchURL(link!);
+            }
+          else
+            {
+              Navigator.pushNamed(context, routeId ?? "/");
+            }
+          },
         child: Container(
           //margin: EdgeInsets.all(4),
           height: 150,
