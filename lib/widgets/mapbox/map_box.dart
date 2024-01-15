@@ -33,7 +33,7 @@ class _MapBoxState extends State<MapBox> {
   final busIcon = 'assets/images/busicon.png';
   late MapBoxStore mapboxStore;
 
-  double zoom = 13.0;
+  double zoom = 11.0;
 
   @override
   void initState() {
