@@ -15,11 +15,11 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.contact_card_group_24_regular,
     routeId: ContactPage.id,
   ),
-  // const HomeTabTile(
-  //   label: "Scoreboard",
-  //   icon: FluentIcons.contact_card_group_24_regular,
-  //   routeId: Scoreboard.id,
-  // ),
+  const HomeTabTile(
+    label: "Scoreboard",
+    icon: FluentIcons.contact_card_group_24_regular,
+    routeId: Scoreboard.id,
+  ),
   const HomeTabTile(
     label: "Cab Sharing",
     icon: FluentIcons.vehicle_bus_24_regular,

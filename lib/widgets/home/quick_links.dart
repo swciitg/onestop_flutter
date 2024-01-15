@@ -17,7 +17,7 @@ List<HomeTabTile> quickLinks = [
   const HomeTabTile(
     label: "Academic Calendar",
     icon: FluentIcons.calendar_ltr_24_regular,
-    link: "https://iitg.ac.in/acad/academic_calender.php",
+    link: "https://iitg.ac.in/acad/academic_calendar.php",
   ),
   const HomeTabTile(
     label: "Placement Stats",
