@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/functions/home/action_button.dart';
 import 'package:onestop_dev/functions/home/navigation_icons.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -63,7 +62,6 @@ class _HomePageState extends State<HomePage> {
             child: tabs[index],
           ),
         ),
-        floatingActionButton: homeActionButton(context, index),
       ),
     );
   }
