@@ -16,8 +16,8 @@ List<HomeTabTile> serviceLinks = [
     routeId: ContactPage.id,
   ),
   const HomeTabTile(
-    label: "Scoreboard",
-    icon: FluentIcons.contact_card_group_24_regular,
+    label: "GC Score Board",
+    icon: FluentIcons.trophy_20_regular,
     routeId: Scoreboard.id,
   ),
   const HomeTabTile(

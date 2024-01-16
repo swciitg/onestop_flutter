@@ -18,7 +18,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    print(widget.profileModel!.toJson());
     return Scaffold(
       backgroundColor: kBackground,
       appBar: AppBar(
@@ -29,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
         // leadingWidth: 16,
         leading: IconButton(onPressed: () {
           Navigator.of(context).pop();
-        },icon: Icon(Icons.arrow_back_ios_new_outlined,color: kWhite,),iconSize: 20,),
+        },icon: const Icon(Icons.arrow_back_ios_new_outlined,color: kWhite,),iconSize: 20,),
         title: Text(
           "Profile",
           textAlign: TextAlign.left,

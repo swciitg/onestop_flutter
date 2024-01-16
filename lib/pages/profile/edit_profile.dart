@@ -99,9 +99,9 @@ class _EditProfileState extends State<EditProfile> {
             'homeAddress': _homeAddressController.text,
             'linkedin': _linkedinController.text
           };
-          print(data);
           try {
             await APIService().updateUserProfile(data, null);
+            await LocalStorage.instance.deleteRecord(DatabaseRecords.timetable);
           } catch (e) {
             setState(() {
               isLoading = false;
@@ -116,7 +116,6 @@ class _EditProfileState extends State<EditProfile> {
               prefs); // automatically updates token & other user info
           await prefs.setBool("isProfileComplete", true); // profile is complete
           await LocalStorage.instance.deleteRecord(DatabaseRecords.timetable);
-          print("PROFILE COMPLETED");
           setState(() {
             isLoading = false;
           });

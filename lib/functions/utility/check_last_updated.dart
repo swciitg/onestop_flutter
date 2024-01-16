@@ -8,7 +8,8 @@ Map<String, List<String>> recordNames = {
   "foodOutlet": [DatabaseRecords.restaurant],
   "timing": [DatabaseRecords.busTimings, DatabaseRecords.ferryTimings],
   "messMenu": [DatabaseRecords.messMenu],
-  "contact": [DatabaseRecords.contacts]
+  "contact": [DatabaseRecords.contacts],
+  "timetable": [DatabaseRecords.timetable]
 };
 
 Future<bool> checkLastUpdated() async {
@@ -36,6 +37,5 @@ Future<bool> checkLastUpdated() async {
     print(e);
     return true;
   }
-
   return true;
 }

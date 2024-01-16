@@ -100,26 +100,43 @@ class TimetableTile extends StatelessWidget {
                       const SizedBox(
                         height: 3.0,
                       ),
-                      if (course.venue != null)
-                        if (course.venue!.isNotEmpty)
-                          Row(
-                            children: [
-                              const Icon(
-                                FluentIcons.location_12_filled,
-                                color: lBlue,
-                                size: 13,
+                      if(course.code != null)
+                        Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            constraints: const BoxConstraints(minWidth: 70),
+                            child: Text(
+                              course.code!,
+                              style: MyFonts.w400.size(13).setColor(lBlue),
+                            ),
+                          ),
+                          if (course.venue != null && course.venue!.isNotEmpty)
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Icon(
+                                    FluentIcons.location_12_filled,
+                                    color: lBlue,
+                                    size: 13,
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      course.venue!,
+                                      style:
+                                      MyFonts.w400.size(13).setColor(lBlue),
+                                    ),
+                                  )
+                                ],
                               ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  course.venue!,
-                                  style: MyFonts.w400.size(13).setColor(lBlue),
-                                ),
-                              )
-                            ],
-                          )
+                            ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
