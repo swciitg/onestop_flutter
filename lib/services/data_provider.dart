@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
+
+import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
@@ -7,9 +9,10 @@ import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/models/news/news_model.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
-import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
+
+import '../models/travel/travel_timing_model.dart';
 
 class DataProvider {
   static Future<Map<String, dynamic>?> getLastUpdated() async {
@@ -24,6 +27,7 @@ class DataProvider {
   static Future<List<TravelTiming>> getBusTiming() async {
     var cachedData =
         await LocalStorage.instance.getRecord(DatabaseRecords.busTimings);
+    print("BUS TIMINGS");
     Map<String, dynamic> jsonData;
     if (cachedData == null) {
       jsonData = await APIService().getBusTiming();
@@ -33,29 +37,37 @@ class DataProvider {
       jsonData = cachedData[0] as Map<String, dynamic>;
     }
     List<dynamic> busData = jsonData['data'];
+    print(busData);
     List<TravelTiming> busTimings = [];
+    print("here before length");
     for (var element in busData) {
       busTimings.add(TravelTiming.fromJson(element));
     }
-    if (busTimings.isEmpty) {
+    if (busTimings.length == 0) {
       return busTimings;
     }
     for (int i = 0; i < busTimings[0].weekdays.toCampus.length; i++) {
       busTimings[0].weekdays.toCampus[i] =
           busTimings[0].weekdays.toCampus[i].toLocal();
+      print(busTimings[0].weekdays.toCampus[i]);
     }
     for (int i = 0; i < busTimings[0].weekdays.fromCampus.length; i++) {
       busTimings[0].weekdays.fromCampus[i] =
           busTimings[0].weekdays.fromCampus[i].toLocal();
+      print(busTimings[0].weekdays.fromCampus[i]);
     }
     for (int i = 0; i < busTimings[0].weekend.toCampus.length; i++) {
       busTimings[0].weekend.toCampus[i] =
           busTimings[0].weekend.toCampus[i].toLocal();
+      print(busTimings[0].weekend.toCampus[i]);
     }
     for (int i = 0; i < busTimings[0].weekend.fromCampus.length; i++) {
       busTimings[0].weekend.fromCampus[i] =
           busTimings[0].weekend.fromCampus[i].toLocal();
+      print(busTimings[0].weekend.fromCampus[i]);
     }
+    print("here at length");
+    print(busTimings.length);
     return busTimings;
   }
 
@@ -64,8 +76,10 @@ class DataProvider {
         await LocalStorage.instance.getRecord(DatabaseRecords.restaurant);
 
     if (cachedData == null) {
+      print("INSIDE RESTRAURENTS GET");
       List<Map<String, dynamic>> restaurantData =
           await APIService().getRestaurantData();
+      print(restaurantData);
       List<RestaurantModel> restaurants =
           restaurantData.map((e) => RestaurantModel.fromJson(e)).toList();
 
@@ -86,13 +100,22 @@ class DataProvider {
   }
 
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {
-    var cachedData = (await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
+    var cachedData = null;
+    //(await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
     if (cachedData == null) {
-      RegisteredCourses timetableData = await APIService().getTimeTable(roll: roll);
-      await LocalStorage.instance.storeData([timetableData.toJson()], DatabaseRecords.timetable);
+      RegisteredCourses timetableData =
+          await APIService().getTimeTable(roll: roll);
+      print(timetableData.courses![0].endsem);
+      // await LocalStorage.instance
+      //     .storeData([timetableData.toJson()], DatabaseRecords.timetable);
       return timetableData;
     }
-    return RegisteredCourses.fromJson(cachedData as Map<String, dynamic>);
+    // TODO: Change this later, for now cache till the end of Monsoon sem
+    DateTime semEnd = DateTime.parse("2023-01-01T09:00:00.000Z");
+    if (DateTime.now().isBefore(semEnd)) {
+      return RegisteredCourses.fromJson(cachedData as Map<String, dynamic>);
+    }
+    return (await APIService().getTimeTable(roll: roll));
   }
 
   static Future<MealType> getMealData({
@@ -121,7 +144,7 @@ class DataProvider {
       return MealType(
           id: '',
           mealDescription:
-              "Not updated by $hostel's HMC. Kindly Contact ask them to update",
+              "Not updated by ${hostel}'s HMC. Kindly Contact ask them to update",
           startTiming: DateTime.now(),
           endTiming: DateTime.now());
     }
@@ -146,8 +169,11 @@ class DataProvider {
     if (cachedData == null) {
       List<Map<String, dynamic>> contactData =
           await APIService().getContactData();
+      print("GET CONTACT DATA");
+      print(contactData);
       for (var element in contactData) {
         people[element['sectionName']] = ContactModel.fromJson(element);
+        print("HERE NFJ");
       }
       await LocalStorage.instance
           .storeData(contactData, DatabaseRecords.contacts);
@@ -169,17 +195,21 @@ class DataProvider {
     };
 
     for (var notif in response[0].data["allTopicNotifs"]!) {
+      print(notif);
       output["allTopicNotifs"]!.add(NotifsModel.fromJson(notif));
     }
     for (var notif in response[1].data["userPersonalNotifs"]!) {
+      print(notif);
       output["userPersonalNotifs"]!.add(NotifsModel.fromJson(notif));
     }
+    print("here");
     return output;
   }
 
   static Future<List<TravelTiming>> getFerryTiming() async {
     var cachedData =
         await LocalStorage.instance.getRecord(DatabaseRecords.ferryTimings);
+    print("FERRY TIMINGS");
     Map<String, dynamic> jsonData;
     if (cachedData == null) {
       jsonData = await APIService().getFerryTiming();
@@ -191,27 +221,34 @@ class DataProvider {
 
     List<TravelTiming> ferryTimings = [];
     List ferryData = jsonData['data'];
+    print(ferryData);
     for (var element in ferryData) {
       ferryTimings.add(TravelTiming.fromJson(element));
+      // print(TravelTiming.fromJson(element).toJson());
     }
     for (var j = 0; j < ferryTimings.length; j++) {
       for (int i = 0; i < ferryTimings[j].weekdays.toCampus.length; i++) {
         ferryTimings[j].weekdays.toCampus[i] =
             ferryTimings[j].weekdays.toCampus[i].toLocal();
+        print(ferryTimings[j].weekdays.toCampus[i]);
       }
       for (int i = 0; i < ferryTimings[j].weekdays.fromCampus.length; i++) {
         ferryTimings[j].weekdays.fromCampus[i] =
             ferryTimings[j].weekdays.fromCampus[i].toLocal();
+        print(ferryTimings[j].weekdays.fromCampus[i]);
       }
       for (int i = 0; i < ferryTimings[j].weekend.toCampus.length; i++) {
         ferryTimings[j].weekend.toCampus[i] =
             ferryTimings[j].weekend.toCampus[i].toLocal();
+        print(ferryTimings[j].weekend.toCampus[i]);
       }
       for (int i = 0; i < ferryTimings[j].weekend.fromCampus.length; i++) {
         ferryTimings[j].weekend.fromCampus[i] =
             ferryTimings[j].weekend.fromCampus[i].toLocal();
+        print(ferryTimings[j].weekend.fromCampus[i]);
       }
     }
+    print(ferryTimings.length);
     return ferryTimings;
   }
 }
