@@ -89,117 +89,95 @@ class MessMenu extends StatelessWidget {
                           Expanded(
                               flex: 4,
                               child: SingleChildScrollView(
-                                  child: Text(
-                                      messStore.mealData.mealDescription,
-                                      style: MyFonts.w400
-                                          .size(14)
-                                          .setColor(kWhite)))),
+                                  child: Text(messStore.mealData.mealDescription,
+                                      style: MyFonts.w400.size(14).setColor(kWhite)))),
                           Expanded(
                             flex: 2,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Theme(
-                                  data: Theme.of(context)
-                                      .copyWith(cardColor: kGrey2),
-                                  child: PopupMenuButton<String>(
-                                    initialValue: userHostel,
-                                    itemBuilder: (context) {
-                                      return days
-                                          .map(
-                                            (value) => PopupMenuItem(
-                                              onTap: () {
-                                                messStore.setDay(value);
-                                              },
-                                              value: value,
-                                              child: Text(value.substring(0, 3),
-                                                  style: MyFonts.w500
-                                                      .setColor(kWhite)),
-                                            ),
-                                          )
-                                          .toList();
-                                    },
-                                    offset: const Offset(1, 40),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 7.0, horizontal: 12.0),
-                                      decoration: const BoxDecoration(
-                                          color: kGrey2,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20))),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                              messStore.selectedDay
-                                                  .substring(0, 3),
-                                              style: MyFonts.w500
-                                                  .setColor(lBlue)
-                                                  .size(screenWidth <= 390
-                                                      ? 10
-                                                      : 13)),
-                                          Icon(
-                                            FluentIcons.chevron_down_24_regular,
-                                            color: lBlue,
-                                            size: screenWidth <= 390 ? 15 : 20,
+                                PopupMenuButton<String>(
+                                  initialValue: userHostel,
+                                  color: kBlueGrey,
+                                  itemBuilder: (context) {
+                                    return days
+                                        .map(
+                                          (value) => PopupMenuItem(
+                                            onTap: () {
+                                              messStore.setDay(value);
+                                            },
+                                            value: value,
+                                            child: Text(value.substring(0, 3),
+                                                style: MyFonts.w500.setColor(kWhite)),
                                           ),
-                                        ],
-                                      ),
+                                        )
+                                        .toList();
+                                  },
+                                  offset: const Offset(1, 40),
+                                  child: Container(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 7.0, horizontal: 12.0),
+                                    decoration: const BoxDecoration(
+                                        color: kGrey2,
+                                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(messStore.selectedDay.substring(0, 3),
+                                            style: MyFonts.w500
+                                                .setColor(lBlue)
+                                                .size(screenWidth <= 390 ? 10 : 13)),
+                                        Icon(
+                                          FluentIcons.chevron_down_24_regular,
+                                          color: lBlue,
+                                          size: screenWidth <= 390 ? 15 : 20,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                                Theme(
-                                  data: Theme.of(context)
-                                      .copyWith(cardColor: kBlueGrey),
-                                  child: PopupMenuButton<String>(
-                                    constraints:
-                                        const BoxConstraints(maxHeight: 320),
-                                    itemBuilder: (context) {
-                                      return hostels
-                                          .map(
-                                            (value) => PopupMenuItem(
-                                              onTap: () {
-                                                messStore.setHostel(value);
-                                              },
-                                              value: value,
-                                              child: Text(
-                                                value,
-                                                style: MyFonts.w500
-                                                    .setColor(kWhite),
-                                              ),
+                                PopupMenuButton<String>(
+                                  constraints: const BoxConstraints(maxHeight: 320),
+                                  color: kBlueGrey,
+                                  itemBuilder: (context) {
+                                    return hostels
+                                        .map(
+                                          (value) => PopupMenuItem(
+                                            onTap: () {
+                                              messStore.setHostel(value);
+                                            },
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                              style: MyFonts.w500.setColor(kWhite),
                                             ),
-                                          )
-                                          .toList();
-                                    },
-                                    offset: const Offset(1, 40),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 6.0, horizontal: 12.0),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(color: lBlue),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20))),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(messStore.selectedHostel.value!,
-                                              overflow: TextOverflow.fade,
-                                              style: MyFonts.w500
-                                                  .setColor(lBlue)
-                                                  .size(screenWidth <= 390
-                                                      ? 10
-                                                      : 13)),
-                                          Icon(
-                                            FluentIcons.chevron_down_24_regular,
-                                            color: lBlue,
-                                            size: screenWidth <= 390 ? 15 : 20,
                                           ),
-                                        ],
-                                      ),
+                                        )
+                                        .toList();
+                                  },
+                                  offset: const Offset(1, 40),
+                                  child: Container(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: lBlue),
+                                        borderRadius: const BorderRadius.all(Radius.circular(20))),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(messStore.selectedHostel.value!,
+                                            overflow: TextOverflow.fade,
+                                            style: MyFonts.w500
+                                                .setColor(lBlue)
+                                                .size(screenWidth <= 390 ? 10 : 13)),
+                                        Icon(
+                                          FluentIcons.chevron_down_24_regular,
+                                          color: lBlue,
+                                          size: screenWidth <= 390 ? 15 : 20,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
