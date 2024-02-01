@@ -1,21 +1,24 @@
-const List<String> kmorningClasses = [
-  "08:00 - 08:55 AM",
-  "09:00 - 09:55 AM",
-  "10:00 - 10:55 AM",
-  "11:00 - 11:55 AM",
-  "12:00 - 12:55 PM",
-  //labs
-  "09:00 - 11:55 AM",
-];
+bool isMorning(String timeString) {
+  // Split the time string into start and end times
+  List<String> parts = timeString.split(' - ');
 
-const List<String> kafternoonClasses = [
-  "01:00 - 01:55 PM",
-  "02:00 - 02:55 PM",
-  "03:00 - 03:55 PM",
-  "04:00 - 04:55 PM",
-  "05:00 - 05:55 PM",
-  //labs
-  "01:00 - 03:55 PM",
-  "02:00 - 04:55 PM",
-  "03:00 - 05:55 PM",
-];
+  // Parse start time
+  List<String> startTimeParts = parts[0].split(':');
+  int startHour = int.parse(startTimeParts[0]);
+
+  // Parse end time
+  List<String> endTimeParts = parts[1].split(':');
+  bool isAM = endTimeParts[1].split(' ')[1] == 'AM';
+
+  if(startHour == 12 && !isAM)
+    {
+      return true;
+    }
+  else if(isAM)
+    {
+      return true;
+    }
+
+  return false;
+
+}

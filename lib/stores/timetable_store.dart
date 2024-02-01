@@ -194,8 +194,6 @@ abstract class _TimetableStore with Store {
     var courseList = await getCourses();
 
     const workingDays = kworkingDays;
-    const morningClasses = kmorningClasses;
-    const afternoonClasses = kafternoonClasses;
 
     for (int i = 0; i <= 4; i++) {
       final day = workingDays[i];
@@ -204,9 +202,9 @@ abstract class _TimetableStore with Store {
         final timings = copyCourse.timings ?? {};
         if (timings.containsKey(day)) {
           var time = (timings[day] as String);
-          if (morningClasses.contains(time)) {
+          if (isMorning(time)){
             timetableCourses[i].addMorning(copyCourse);
-          } else if (afternoonClasses.contains(time)) {
+          } else{
             timetableCourses[i].addAfternoon(copyCourse);
           }
         }
