@@ -64,10 +64,11 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: const Icon(FluentIcons.arrow_left_24_regular)),
+            icon: const Icon(FluentIcons.arrow_left_24_regular,color: kWhite2,
+              )),
         title: Text(
           'Notifications',
-          style: MyFonts.w500,
+          style: MyFonts.w500.setColor(kWhite2),
         ),
       ),
       body: FutureBuilder<Map<String, List<NotifsModel>>>(
