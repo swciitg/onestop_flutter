@@ -39,24 +39,35 @@ class _HomeTabState extends State<HomeTab> {
           const SizedBox(
             height: 10,
           ),
-          Builder(builder: (context) {
-            context.read<MapBoxStore>().checkTravelPage(false);
-            return const MapBox();
-          }),
+          // Builder(builder: (context) {
+          //   context.read<MapBoxStore>().checkTravelPage(false);
+          //   return const MapBox();
+          // }),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  height: 20,
+                  color: Colors.red,
+                  child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1X-AN3kFs-XAzQU5uTMgBv7IXiWaT-L7zeQ&usqp=CAU'),
+                ),
+              ),
+            ],
+          ),
           const SizedBox(
             height: 10,
           ),
           LoginStore.isGuest
               ? Container()
               : const Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    DateCourse(),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                ),
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DateCourse(),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
           HomeLinks(title: 'Services', links: serviceLinks),
           const SizedBox(
             height: 10,
