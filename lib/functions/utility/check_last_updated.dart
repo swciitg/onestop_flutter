@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
@@ -9,11 +9,11 @@ Map<String, List<String>> recordNames = {
   "timing": [DatabaseRecords.busTimings, DatabaseRecords.ferryTimings],
   "messMenu": [DatabaseRecords.messMenu],
   "contact": [DatabaseRecords.contacts],
-  "timetable": [DatabaseRecords.timetable]
+  "timetable": [DatabaseRecords.timetable],
+  "homePage": [DatabaseRecords.timetable]
 };
 
 Future<bool> checkLastUpdated() async {
-
   Map<String, dynamic>? lastUpdated = await DataProvider.getLastUpdated();
 
   try {
@@ -27,9 +27,11 @@ Future<bool> checkLastUpdated() async {
     }
     for (var key in lastUpdated.keys) {
       if (lastUpdated[key] != last[key]) {
+        print("Im here");
         recordNames[key]?.forEach((element) async {
           await LocalStorage.instance.deleteRecord(element);
         });
+        await DefaultCacheManager().emptyCache();
       }
     }
     await LocalStorage.instance.storeData([last], DatabaseRecords.lastUpdated);

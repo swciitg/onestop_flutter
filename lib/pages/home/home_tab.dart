@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/home/date_course.dart';
 import 'package:onestop_dev/widgets/home/home_links.dart';
@@ -9,10 +10,10 @@ import 'package:onestop_dev/widgets/home/quick_links.dart';
 import 'package:onestop_dev/widgets/home/service_links.dart';
 import 'package:onestop_dev/widgets/mapbox/map_box.dart';
 import 'package:provider/provider.dart';
+import '../../functions/food/rest_frame_builder.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({Key? key}) : super(key: key);
-
   @override
   State<HomeTab> createState() => _HomeTabState();
 }
@@ -39,17 +40,18 @@ class _HomeTabState extends State<HomeTab> {
           const SizedBox(
             height: 10,
           ),
-          // Builder(builder: (context) {
-          //   context.read<MapBoxStore>().checkTravelPage(false);
-          //   return const MapBox();
-          // }),
           Row(
             children: [
               Expanded(
-                child: Container(
-                  height: 20,
-                  color: Colors.red,
-                  child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1X-AN3kFs-XAzQU5uTMgBv7IXiWaT-L7zeQ&usqp=CAU'),
+                child: CachedNetworkImage(
+                  maxHeightDiskCache: 300,
+                  imageUrl: Endpoints.baseUrl + Endpoints.homeImage,
+                  imageBuilder: (context, imageProvider) => Image(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                  placeholder: cachedImagePlaceholder,
+                  errorWidget: (context, url, error) => const MapBox(),
                 ),
               ),
             ],
@@ -60,14 +62,14 @@ class _HomeTabState extends State<HomeTab> {
           LoginStore.isGuest
               ? Container()
               : const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              DateCourse(),
-              SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DateCourse(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
           HomeLinks(title: 'Services', links: serviceLinks),
           const SizedBox(
             height: 10,

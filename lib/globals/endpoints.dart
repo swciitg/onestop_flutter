@@ -7,6 +7,7 @@ class Endpoints {
   static const String timetableURL =
       "https://swc.iitg.ac.in/smartTimetable/get-my-courses";
   static const String ferryURL = '/ferryTimings';
+  static const String homeImage = '/homeImage';
   static const String busURL = '/busTimings';
   static const String busStops = '/busstops';
   static const String messURL = "/hostelsMessMenu";
