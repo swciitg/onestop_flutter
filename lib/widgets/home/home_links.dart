@@ -27,54 +27,56 @@ class HomeLinks extends StatelessWidget {
     for (int i = 0; i < completeList.length; i++) {
       rowChildren[2 * i + 1] = completeList[i];
     }
-    return Container(
-      height: widgetHeight,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: kHomeTile,
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: FittedBox(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Text(
-                    title,
-                    style: MyFonts.w500.size(10).setColor(kWhite),
+    return links.isEmpty
+        ? Container()
+        : Container(
+            height: widgetHeight,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: kHomeTile,
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: FittedBox(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Text(
+                          title,
+                          style: MyFonts.w500.size(10).setColor(kWhite),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  Expanded(
+                    flex: 2,
+                    child: Row(
+                      // crossAxisAlignment: CrossAxisAlignment.stretch,
+                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: rowChildren.sublist(0, 9),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  if (links.length > 4) ...[
+                    Expanded(
+                      flex: 2,
+                      child: Row(
+                        children: rowChildren.sublist(8),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    )
+                  ]
+                ],
               ),
             ),
-            Expanded(
-              flex: 2,
-              child: Row(
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: rowChildren.sublist(0, 9),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            if (links.length > 4) ...[
-              Expanded(
-                flex: 2,
-                child: Row(
-                  children: rowChildren.sublist(8),
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              )
-            ]
-          ],
-        ),
-      ),
-    );
+          );
   }
 }

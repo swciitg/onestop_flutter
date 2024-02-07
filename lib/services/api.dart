@@ -422,6 +422,21 @@ class APIService {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getQuickLinks() async {
+    var response = await dio.get(Endpoints.quickLinks);
+    var status = response.statusCode;
+    var json = response.data;
+    if (status == 200) {
+      List<Map<String, dynamic>> answer = [];
+      for (var temp in json) {
+        answer.add(temp);
+      }
+      return answer;
+    } else {
+      throw Exception("Quick links could not be fetched");
+    }
+  }
+
   Future<RegisteredCourses> getTimeTable({required String roll}) async {
     final response = await dio2.post(
       Endpoints.timetableURL,
@@ -541,7 +556,7 @@ class APIService {
       );
       return res.data;
     } on DioException catch (e) {
-      print( Endpoints.irbsBaseUrl + Endpoints.messSubChange);
+      print(Endpoints.irbsBaseUrl + Endpoints.messSubChange);
       print("exception seen");
       print("Dio exception: ${e.message}");
       if (e.response != null) {
