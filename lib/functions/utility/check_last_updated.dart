@@ -10,7 +10,7 @@ Map<String, List<String>> recordNames = {
   "messMenu": [DatabaseRecords.messMenu],
   "contact": [DatabaseRecords.contacts],
   "timetable": [DatabaseRecords.timetable],
-  "homePage": [DatabaseRecords.timetable]
+  "homePage": [DatabaseRecords.homePage]
 };
 
 Future<bool> checkLastUpdated() async {
@@ -27,11 +27,13 @@ Future<bool> checkLastUpdated() async {
     }
     for (var key in lastUpdated.keys) {
       if (lastUpdated[key] != last[key]) {
-        print("Im here");
+        if(key == "homePage")
+          {
+            await DefaultCacheManager().emptyCache();
+          }
         recordNames[key]?.forEach((element) async {
           await LocalStorage.instance.deleteRecord(element);
         });
-        await DefaultCacheManager().emptyCache();
       }
     }
     await LocalStorage.instance.storeData([last], DatabaseRecords.lastUpdated);

@@ -151,10 +151,15 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
     return super.busStopPolylines;
   }
 
+  bool _busStopPolylinesIsInitialized = false;
+
   @override
   set busStopPolylines(List<Polyline> value) {
-    _$busStopPolylinesAtom.reportWrite(value, super.busStopPolylines, () {
+    _$busStopPolylinesAtom.reportWrite(
+        value, _busStopPolylinesIsInitialized ? super.busStopPolylines : null,
+        () {
       super.busStopPolylines = value;
+      _busStopPolylinesIsInitialized = true;
     });
   }
 

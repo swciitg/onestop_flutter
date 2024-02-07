@@ -4,6 +4,7 @@ import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
+import 'package:onestop_dev/models/home/quick_link.dart';
 import 'package:onestop_dev/models/news/news_model.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
@@ -94,6 +95,16 @@ class DataProvider {
     }
     return RegisteredCourses.fromJson(cachedData as Map<String, dynamic>);
   }
+
+  // static Future<List<QuickLinkModel>> getQuickLinks() async {
+  //   var cachedData = (await LocalStorage.instance.getRecord(DatabaseRecords.homePage))?[0];
+  //   if (cachedData == null) {
+  //   Map<String,dynamic> quickLinks = await APIService().getQuickLinks();
+  //     await LocalStorage.instance.storeData([quickLinks], DatabaseRecords.homePage);
+  //     return quickLinks;
+  //   }
+  //   return cachedData;
+  // }
 
   static Future<MealType> getMealData({
     required String hostel,

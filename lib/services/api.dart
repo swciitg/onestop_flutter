@@ -422,6 +422,18 @@ class APIService {
     }
   }
 
+  Future<dynamic> getQuickLinks() async {
+    var response = await dio.get(Endpoints.quickLinks);
+    var status = response.statusCode;
+    var json = response.data;
+    print(json);
+    if (status == 200) {
+      return [{"name": "GuestHouse", "icon": 1234, "link": "www.google.com"}];
+    } else {
+      throw Exception("Ferry Data could not be fetched");
+    }
+  }
+
   Future<RegisteredCourses> getTimeTable({required String roll}) async {
     final response = await dio2.post(
       Endpoints.timetableURL,
