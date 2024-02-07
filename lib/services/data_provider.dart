@@ -11,6 +11,7 @@ import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
+import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
 class DataProvider {
   static Future<Map<String, dynamic>?> getLastUpdated() async {
@@ -87,24 +88,40 @@ class DataProvider {
   }
 
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {
-    var cachedData = (await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
+    var cachedData =
+        (await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
     if (cachedData == null) {
-      RegisteredCourses timetableData = await APIService().getTimeTable(roll: roll);
-      await LocalStorage.instance.storeData([timetableData.toJson()], DatabaseRecords.timetable);
+      RegisteredCourses timetableData =
+          await APIService().getTimeTable(roll: roll);
+      await LocalStorage.instance
+          .storeData([timetableData.toJson()], DatabaseRecords.timetable);
       return timetableData;
     }
     return RegisteredCourses.fromJson(cachedData as Map<String, dynamic>);
   }
 
-  // static Future<List<QuickLinkModel>> getQuickLinks() async {
-  //   var cachedData = (await LocalStorage.instance.getRecord(DatabaseRecords.homePage))?[0];
-  //   if (cachedData == null) {
-  //   Map<String,dynamic> quickLinks = await APIService().getQuickLinks();
-  //     await LocalStorage.instance.storeData([quickLinks], DatabaseRecords.homePage);
-  //     return quickLinks;
-  //   }
-  //   return cachedData;
-  // }
+  static Future<List<HomeTabTile>> getQuickLinks() async {
+    var cachedData =
+        (await LocalStorage.instance.getRecord(DatabaseRecords.homePage));
+    List<HomeTabTile> res = [];
+    var quickLinks;
+    if (cachedData == null) {
+      quickLinks = await APIService().getQuickLinks();
+      await LocalStorage.instance
+          .storeData(quickLinks, DatabaseRecords.homePage);
+    } else {
+      quickLinks = cachedData as List<dynamic>;
+    }
+    for (var link in quickLinks) {
+      print(link['icon']);
+      res.add(HomeTabTile(
+        label: link['name'],
+        iconCode: link['icon'],
+        link: link['link'],
+      ));
+    }
+    return res;
+  }
 
   static Future<MealType> getMealData({
     required String hostel,

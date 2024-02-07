@@ -422,15 +422,18 @@ class APIService {
     }
   }
 
-  Future<dynamic> getQuickLinks() async {
+  Future<List<Map<String, dynamic>>> getQuickLinks() async {
     var response = await dio.get(Endpoints.quickLinks);
     var status = response.statusCode;
     var json = response.data;
-    print(json);
     if (status == 200) {
-      return [{"name": "GuestHouse", "icon": 1234, "link": "www.google.com"}];
+      List<Map<String, dynamic>> answer = [];
+      for (var temp in json) {
+        answer.add(temp);
+      }
+      return answer;
     } else {
-      throw Exception("Ferry Data could not be fetched");
+      throw Exception("Quick links could not be fetched");
     }
   }
 
@@ -553,7 +556,7 @@ class APIService {
       );
       return res.data;
     } on DioException catch (e) {
-      print( Endpoints.irbsBaseUrl + Endpoints.messSubChange);
+      print(Endpoints.irbsBaseUrl + Endpoints.messSubChange);
       print("exception seen");
       print("Dio exception: ${e.message}");
       if (e.response != null) {

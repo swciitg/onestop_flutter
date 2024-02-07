@@ -8,7 +8,8 @@ class HomeTabTile extends StatelessWidget {
   const HomeTabTile(
       {Key? key,
         required this.label,
-        required this.icon,
+        this.iconCode,
+        this.icon,
         this.routeId,
         this.link,
         this.newBadge = false})
@@ -16,13 +17,13 @@ class HomeTabTile extends StatelessWidget {
 
   final String label;
   final String? link;
-  final IconData icon;
+  final IconData? icon;
+  final int? iconCode;
   final String? routeId;
   final bool newBadge;
 
   Future<void> launchURL(String url) async {
     final Uri uri = Uri.parse(url);
-    print(uri);
     if (!await launchUrl(
       uri,
       mode: LaunchMode.externalApplication,
@@ -61,7 +62,7 @@ class HomeTabTile extends StatelessWidget {
               ),
               Expanded(
                 child: Icon(
-                  icon,
+                  icon ?? IconData(iconCode!, fontFamily: 'MaterialIcons'),
                   size: 40,
                   color: lBlue,
                 ),
