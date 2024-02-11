@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
@@ -138,7 +137,6 @@ class APIService {
       var response = await dio.get(Endpoints.userProfile);
       return response.data;
     } catch (e) {
-      print(e);
       throw DioException(
           requestOptions: RequestOptions(path: Endpoints.userProfile),
           response: (e as DioException).response);
@@ -179,21 +177,6 @@ class APIService {
 
   Future<List<Map<String, dynamic>>> getRestaurantData() async {
     var response = await dio.get(Endpoints.restaurantURL);
-    var status = response.statusCode;
-    var body = response.data;
-    if (status == 200) {
-      List<Map<String, dynamic>> data = [];
-      for (var json in body) {
-        data.add(json);
-      }
-      return data;
-    } else {
-      throw Exception("Data could not be fetched");
-    }
-  }
-
-  Future<List<Map<String, dynamic>>> getNewsData() async {
-    var response = await dio.get(Endpoints.newsURL);
     var status = response.statusCode;
     var body = response.data;
     if (status == 200) {
@@ -381,6 +364,7 @@ class APIService {
   }
 
   Future<Map<String, dynamic>> getLastUpdated() async {
+
     var response = await dio.get(Endpoints.lastUpdatedURL);
     var status = response.statusCode;
     var body = response.data;
@@ -541,7 +525,6 @@ class APIService {
   Future<Map<String, dynamic>> postMessSubChange(
       Map<String, dynamic> data) async {
     final bearerToken = await AuthUserHelpers.getAccessToken();
-    print("bearer token: $bearerToken");
     final json = jsonEncode(data);
     try {
       final res = await dio2.post(
@@ -556,9 +539,6 @@ class APIService {
       );
       return res.data;
     } on DioException catch (e) {
-      print(Endpoints.irbsBaseUrl + Endpoints.messSubChange);
-      print("exception seen");
-      print("Dio exception: ${e.message}");
       if (e.response != null) {
         return e.response!.data;
       }
@@ -571,7 +551,6 @@ class APIService {
 
   Future<Map<String, dynamic>> postMessOpi(Map<String, dynamic> data) async {
     final bearerToken = await AuthUserHelpers.getAccessToken();
-    print("bearer token: $bearerToken");
     try {
       final json = jsonEncode(data);
       final res = await dio2.post(

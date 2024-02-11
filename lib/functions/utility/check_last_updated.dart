@@ -1,4 +1,5 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
@@ -14,6 +15,13 @@ Map<String, List<String>> recordNames = {
 };
 
 Future<bool> checkLastUpdated() async {
+ bool isConnected = await hasInternetConnection();
+ if(!isConnected)
+   {
+     //skipping check if not connected to the internet
+     return true;
+   }
+
   Map<String, dynamic>? lastUpdated = await DataProvider.getLastUpdated();
 
   try {
@@ -38,7 +46,6 @@ Future<bool> checkLastUpdated() async {
     }
     await LocalStorage.instance.storeData([last], DatabaseRecords.lastUpdated);
   } catch (e) {
-    print(e);
     return true;
   }
   return true;
