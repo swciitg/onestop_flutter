@@ -4,8 +4,6 @@ import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
-import 'package:onestop_dev/models/home/quick_link.dart';
-import 'package:onestop_dev/models/news/news_model.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
@@ -81,12 +79,6 @@ class DataProvider {
         .toList();
   }
 
-  static Future<List<NewsModel>> getNews() async {
-    List<Map<String, dynamic>> newsData = await APIService().getNewsData();
-    List<NewsModel> news = newsData.map((e) => NewsModel.fromJson(e)).toList();
-    return news;
-  }
-
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {
     var cachedData =
         (await LocalStorage.instance.getRecord(DatabaseRecords.timetable))?[0];
@@ -113,7 +105,6 @@ class DataProvider {
       quickLinks = cachedData as List<dynamic>;
     }
     for (var link in quickLinks) {
-      print(link['icon']);
       res.add(HomeTabTile(
         label: link['name'],
         iconCode: link['icon'],
@@ -238,7 +229,6 @@ class DataProvider {
       for (int i = 0; i < ferryTimings[j].weekend.fromCampus.length; i++) {
         ferryTimings[j].weekend.fromCampus[i] =
             ferryTimings[j].weekend.fromCampus[i].toLocal();
-        print(ferryTimings[j].weekend.fromCampus[i]);
       }
     }
     return ferryTimings;

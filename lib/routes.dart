@@ -2,17 +2,8 @@ import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/food/mess_opi_form.dart';
 import 'package:onestop_dev/pages/food/mess_subscription_change_form.dart';
 import 'package:onestop_dev/pages/login/blocked.dart';
-import 'package:onestop_dev/pages/login/welcome.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
-import 'package:onestop_dev/pages/quick_links/academic_calendar.dart';
-import 'package:onestop_dev/pages/quick_links/academic_sso.dart';
-import 'package:onestop_dev/pages/quick_links/cab_share.dart';
-import 'package:onestop_dev/pages/quick_links/gc_scoreboard.dart';
-import 'package:onestop_dev/pages/quick_links/guest_house.dart';
-import 'package:onestop_dev/pages/quick_links/irbs.dart';
-import 'package:onestop_dev/pages/quick_links/news_page.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
-import 'package:onestop_dev/pages/quick_links/complaints.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/pages/home/home.dart';
@@ -20,6 +11,10 @@ import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/login/login.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
+import 'package:onestop_dev/pages/services/cab_share.dart';
+import 'package:onestop_dev/pages/services/complaints.dart';
+import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
+import 'package:onestop_dev/pages/services/irbs.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
 
 final routes = {
@@ -29,19 +24,15 @@ final routes = {
   LoginPage.id: (context) => const LoginPage(),
   HomePage.id: (context) => const HomePage(),
   RouterPage.id: (context) => const RouterPage(),
-  NewsPage.id: (context) => const NewsPage(),
   SearchPage.id: (context) => const SearchPage(),
   LostFoundHome.id: (context) => const LostFoundHome(),
   ContactPage.id: (context) => const ContactPage(),
   BuySellHome.id: (context) => const BuySellHome(),
-  AcademicSSO.id: (context) => const AcademicSSO(),
-  AcademicCalendar.id: (context) => const AcademicCalendar(),
   Complaints.id: (context) => const Complaints(),
   CabShare.id: (context) => const CabShare(),
   NotificationPage.id: (context) => const NotificationPage(),
   Scoreboard.id: (context) => const Scoreboard(),
   Upsp.id: (context) => const Upsp(),
-  GuestHouse.id: (context) => const GuestHouse(),
   ComplaintsPage.id: (context) => const ComplaintsPage(),
   MessOpiFormPage.id: (context) => const MessOpiFormPage(),
   MessSubscriptionPage.id: (context) => const MessSubscriptionPage(),
