@@ -46,7 +46,6 @@ class _HomeTabState extends State<HomeTab> {
             children: [
               Expanded(
                 child: CachedNetworkImage(
-                  maxHeightDiskCache: 300,
                   imageUrl: Endpoints.baseUrl + Endpoints.homeImage,
                   imageBuilder: (context, imageProvider) => Image(
                     image: imageProvider,
