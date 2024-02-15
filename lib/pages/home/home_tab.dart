@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/services/data_provider.dart';
@@ -12,6 +13,7 @@ import 'package:onestop_dev/widgets/home/service_links.dart';
 import 'package:onestop_dev/widgets/mapbox/map_box.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../functions/food/rest_frame_builder.dart';
 
 class HomeTab extends StatefulWidget {
@@ -45,14 +47,29 @@ class _HomeTabState extends State<HomeTab> {
           Row(
             children: [
               Expanded(
-                child: CachedNetworkImage(
-                  imageUrl: Endpoints.baseUrl + Endpoints.homeImage,
-                  imageBuilder: (context, imageProvider) => Image(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
+                child: GestureDetector(
+                  onTap: () async {
+                    print("here");
+                    String homeImageUrl = await DataProvider.getHomeImageLink();
+                    if (homeImageUrl.isNotEmpty) {
+                      await launchUrl(Uri.parse(homeImageUrl),
+                          mode: LaunchMode.externalApplication);
+                    } else {
+                      print("error");
+                    }
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: CachedNetworkImage(
+                      imageUrl: Endpoints.baseUrl + Endpoints.homeImage,
+                      imageBuilder: (context, imageProvider) => Image(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                      placeholder: cachedImagePlaceholder,
+                      errorWidget: (context, url, error) => const MapBox(),
+                    ),
                   ),
-                  placeholder: cachedImagePlaceholder,
-                  errorWidget: (context, url, error) => const MapBox(),
                 ),
               ),
             ],

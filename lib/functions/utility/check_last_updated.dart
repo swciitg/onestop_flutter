@@ -30,7 +30,7 @@ Future<bool> checkLastUpdated() async {
     if (lastUpdated == null) {
       await LocalStorage.instance.deleteAllRecord();
       await LocalStorage.instance
-          .storeData([last], DatabaseRecords.lastUpdated);
+          .storeListRecord([last], DatabaseRecords.lastUpdated);
       return true;
     }
     for (var key in lastUpdated.keys) {
@@ -44,7 +44,7 @@ Future<bool> checkLastUpdated() async {
         });
       }
     }
-    await LocalStorage.instance.storeData([last], DatabaseRecords.lastUpdated);
+    await LocalStorage.instance.storeListRecord([last], DatabaseRecords.lastUpdated);
   } catch (e) {
     return true;
   }

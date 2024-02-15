@@ -17,7 +17,7 @@ class StarButton extends StatefulWidget {
 
 class _StarButtonState extends State<StarButton> {
   Future<bool> isStarred() async {
-    var starred = await LocalStorage.instance.getRecord(DatabaseRecords.starredContacts);
+    var starred = await LocalStorage.instance.getListRecord(DatabaseRecords.starredContacts);
     if (starred == null) {
       return false;
     }
@@ -44,7 +44,7 @@ class _StarButtonState extends State<StarButton> {
             return IconButton(
               onPressed: () async {
                 var starred =
-                    await LocalStorage.instance.getRecord(DatabaseRecords.starredContacts);
+                    await LocalStorage.instance.getListRecord(DatabaseRecords.starredContacts);
                 if (starred == null) {
                   return;
                 }
@@ -64,7 +64,7 @@ class _StarButtonState extends State<StarButton> {
                   List<Map<String, dynamic>> starList =
                       starredContacts.map((e) => e.toJson()).toList();
                   await LocalStorage.instance
-                      .storeData(starList, DatabaseRecords.starredContacts);
+                      .storeListRecord(starList, DatabaseRecords.starredContacts);
                 }
                 setState(() {});
               },
@@ -77,18 +77,18 @@ class _StarButtonState extends State<StarButton> {
             return IconButton(
               onPressed: () async {
                 var starred =
-                    await LocalStorage.instance.getRecord(DatabaseRecords.starredContacts);
+                    await LocalStorage.instance.getListRecord(DatabaseRecords.starredContacts);
                 List<Map<String, dynamic>> starList = [];
                 if (starred == null) {
                   starList.add(widget.contact.toJson());
                   await LocalStorage.instance
-                      .storeData(starList, DatabaseRecords.starredContacts);
+                      .storeListRecord(starList, DatabaseRecords.starredContacts);
                 } else {
                   starList =
                       starred.map((e) => e as Map<String, dynamic>).toList();
                   starList.add(widget.contact.toJson());
                   await LocalStorage.instance
-                      .storeData(starList, DatabaseRecords.starredContacts);
+                      .storeListRecord(starList, DatabaseRecords.starredContacts);
                 }
                 if (!mounted) return;
                 context.read<ContactStore>().setStarredContacts(starList

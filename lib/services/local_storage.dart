@@ -32,25 +32,32 @@ class LocalStorage {
     _dbOpenCompleter.complete(database);
   }
 
-  Future<void> storeBusData(
+  Future<void> storeJsonRecord(
       Map<String, dynamic> busTime, String recordName) async {
     var store = StoreRef<String, Map<String, Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
     await store.record(recordName).put(localDB, busTime);
   }
 
-  Future<Map<String, Object?>?> getBusRecord(String recordName) async {
+  Future<Map<String, Object?>?> getJsonRecord(String recordName) async {
     var store = StoreRef<String, Map<String, Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
     Map<String, Object?>? value = await store.record(recordName).get(localDB);
     return value;
   }
 
-  Future<void> storeData(
+  Future<void> storeListRecord(
       List<Map<String, dynamic>> json, String recordName) async {
     var store = StoreRef<String, List<Object?>>.main();
     Database localDB = await LocalStorage.instance.database;
     await store.record(recordName).put(localDB, json);
+  }
+
+  Future<List<Object?>?> getListRecord(String recordName) async {
+    var store = StoreRef<String, List<Object?>>.main();
+    Database localDB = await LocalStorage.instance.database;
+    List<Object?>? value = await store.record(recordName).get(localDB);
+    return value;
   }
 
   Future<void> deleteRecord(String recordName) async {
@@ -76,10 +83,5 @@ class LocalStorage {
     await store.record(DatabaseRecords.timetable).delete(localDB);
   }
 
-  Future<List<Object?>?> getRecord(String recordName) async {
-    var store = StoreRef<String, List<Object?>>.main();
-    Database localDB = await LocalStorage.instance.database;
-    List<Object?>? value = await store.record(recordName).get(localDB);
-    return value;
-  }
+
 }

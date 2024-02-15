@@ -19,7 +19,7 @@ abstract class _ContactStore with Store {
       ObservableList<ContactDetailsModel>.of([]);
 
   Future<List<ContactDetailsModel>> getAllStarredContacts() async {
-    var starred = await LocalStorage.instance.getRecord(DatabaseRecords.starredContacts);
+    var starred = await LocalStorage.instance.getListRecord(DatabaseRecords.starredContacts);
     if (starred == null) {
       return [];
     }

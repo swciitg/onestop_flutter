@@ -42,7 +42,7 @@ class Endpoints {
   static const String userNotifications = "/user/notifs";
   static const String messSubChange = "/api/sub";
   static const String messOpi = "/api/opi";
-  static const String quickLinks = '/quickLinks';
+  static const String homePageUrls = '/homepage';
 
   static getHeader() {
     return {

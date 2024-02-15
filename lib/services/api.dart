@@ -406,16 +406,13 @@ class APIService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getQuickLinks() async {
-    var response = await dio.get(Endpoints.quickLinks);
+  Future<Map<String, dynamic>> getHomePageUrls() async {
+    var response = await dio.get(Endpoints.homePageUrls);
     var status = response.statusCode;
     var json = response.data;
+    print(json);
     if (status == 200) {
-      List<Map<String, dynamic>> answer = [];
-      for (var temp in json) {
-        answer.add(temp);
-      }
-      return answer;
+      return json;
     } else {
       throw Exception("Quick links could not be fetched");
     }
