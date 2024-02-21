@@ -59,8 +59,8 @@ class CourseModel /*implements Comparable<CourseModel> */ {
     data['endsem'] = endsem;
     data['venue'] = venue;
     data['instructor'] = instructor;
-    data['midSemVenue'] = midsemVenue;
-    data['endSemVenue'] = endsemVenue;
+    data['midsemVenue'] = midsemVenue;
+    data['endsemVenue'] = endsemVenue;
     data['timings'] = timings;
     return data;
   }
