@@ -1,16 +1,17 @@
+import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
+import 'package:onestop_dev/pages/contact/contact.dart';
+import 'package:onestop_dev/pages/elections/election_login.dart';
 import 'package:onestop_dev/pages/food/mess_opi_form.dart';
 import 'package:onestop_dev/pages/food/mess_subscription_change_form.dart';
-import 'package:onestop_dev/pages/login/blocked.dart';
-import 'package:onestop_dev/pages/notifications/notifications.dart';
-import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
-import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
+import 'package:onestop_dev/pages/login/blocked.dart';
 import 'package:onestop_dev/pages/login/login.dart';
-import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
+import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
+import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
 import 'package:onestop_dev/pages/services/complaints.dart';
 import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
@@ -36,4 +37,5 @@ final routes = {
   ComplaintsPage.id: (context) => const ComplaintsPage(),
   MessOpiFormPage.id: (context) => const MessOpiFormPage(),
   MessSubscriptionPage.id: (context) => const MessSubscriptionPage(),
+  ElectionLoginWebView.id: (context) => ElectionLoginWebView()
 };

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
-import 'package:onestop_dev/functions/utility/show_snackbar.dart';
+
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
@@ -8,10 +9,10 @@ import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
+import 'package:onestop_dev/pages/elections/election_login.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
-import 'package:onestop_dev/widgets/home/quick_links.dart';
 
 class DataProvider {
   static Future<Map<String, dynamic>?> getLastUpdated() async {
@@ -82,8 +83,8 @@ class DataProvider {
   }
 
   static Future<RegisteredCourses> getTimeTable({required String roll}) async {
-    var cachedData =
-        (await LocalStorage.instance.getListRecord(DatabaseRecords.timetable))?[0];
+    var cachedData = (await LocalStorage.instance
+        .getListRecord(DatabaseRecords.timetable))?[0];
     if (cachedData == null) {
       RegisteredCourses timetableData =
           await APIService().getTimeTable(roll: roll);
@@ -94,19 +95,19 @@ class DataProvider {
     return RegisteredCourses.fromJson(cachedData as Map<String, dynamic>);
   }
 
-  static Future<String> getHomeImageLink()async{
+  static Future<String> getHomeImageLink() async {
     var cachedData =
-    (await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage));
+        (await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage));
     String imageLink = "";
     if (cachedData == null) {
-      try{
+      try {
         var homePageUrls = await APIService().getHomePageUrls();
         imageLink = homePageUrls['homeImageUrl'];
         print("a");
         await LocalStorage.instance
             .storeJsonRecord(homePageUrls, DatabaseRecords.homePage);
         print("b");
-      }catch(e) {
+      } catch (e) {
         print(e.toString());
       }
     } else {
@@ -122,26 +123,32 @@ class DataProvider {
     List<HomeTabTile> res = [];
     var quickLinks;
     if (cachedData == null) {
-      try{
+      try {
         var homePageUrls = await APIService().getHomePageUrls();
-        quickLinks= homePageUrls['quickLinks'];
-        print("a");
+        quickLinks = homePageUrls['quickLinks'];
         await LocalStorage.instance
             .storeJsonRecord(homePageUrls, DatabaseRecords.homePage);
-        print("b");
-      }catch(e) {
+      } catch (e) {
         print(e.toString());
       }
     } else {
       quickLinks = cachedData['quickLinks'] as List<dynamic>;
     }
     for (var link in quickLinks) {
-      print(link);
-      res.add(HomeTabTile(
-        label: link['name'],
-        iconCode: link['icon'],
-        link: link['link'],
-      ));
+      if (link['name'] == "election_id") {
+        res.add(const HomeTabTile(
+          label: "Election Register",
+          icon: FluentIcons.person_arrow_right_16_regular,
+          routeId: ElectionLoginWebView.id,
+          newBadge: true,
+        ));
+      } else {
+        res.add(HomeTabTile(
+          label: link['name'],
+          iconCode: link['icon'],
+          link: link['link'],
+        ));
+      }
     }
     return res;
   }
@@ -151,13 +158,14 @@ class DataProvider {
     required String day,
     required String mealType,
   }) async {
-    var cachedData =
-        (await LocalStorage.instance.getListRecord(DatabaseRecords.messMenu))?[0];
+    var cachedData = (await LocalStorage.instance
+        .getListRecord(DatabaseRecords.messMenu))?[0];
     Map<String, dynamic>? jsonData;
 
     if (cachedData == null) {
       jsonData = await APIService().getMealData();
-      LocalStorage.instance.storeListRecord([jsonData], DatabaseRecords.messMenu);
+      LocalStorage.instance
+          .storeListRecord([jsonData], DatabaseRecords.messMenu);
     } else {
       jsonData = cachedData as Map<String, dynamic>;
     }
