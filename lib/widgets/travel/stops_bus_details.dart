@@ -4,7 +4,6 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_dev/widgets/travel/bus_details.dart';
-import 'package:onestop_dev/widgets/travel/stops_list.dart';
 import 'package:onestop_dev/widgets/travel/tracking_dailog.dart';
 import 'package:onestop_dev/widgets/travel/travel_drop_down.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +35,8 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
             children: [
               TextButton(
                 onPressed: () {
-                  travelStore.selectStopButton();
+                  showDialog(
+                      context: context, builder: (_) => const TrackingDailog());
                 },
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(
@@ -45,64 +45,79 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
                   child: Container(
                     height: 32,
                     width: 83,
-                    color: (!travelStore.isBusSelected) ? lBlue2 : kGrey2,
+                    color: lBlue2,
                     child: Center(
-                      child: Text("Stops",
-                          style: (!travelStore.isBusSelected)
-                              ? MyFonts.w500.setColor(kBlueGrey)
-                              : MyFonts.w500.setColor(kWhite)),
+                      child: Text(" Track Bus ",
+                          style: MyFonts.w500.setColor(kBlueGrey)),
                     ),
                   ),
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  travelStore.selectBusButton();
-                },
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(40),
-                  ),
-                  child: Container(
-                    height: 32,
-                    width: 83,
-                    color: (travelStore.isBusSelected) ? lBlue2 : kGrey2,
-                    child: Center(
-                      child: Text(
-                        "Bus",
-                        style: (travelStore.isBusSelected)
-                            ? MyFonts.w500.setColor(kBlueGrey)
-                            : MyFonts.w500.setColor(kWhite),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     showDialog(
+              //         context: context, builder: (_) => const TrackingDailog());
+              //   },
+              //   child: Text(
+              //     "Track Bus",
+              //     style: MyFonts.w500.setColor(kWhite),
+              //   ),
+              // ),
+              // TextButton(
+              //   onPressed: () {
+              //     travelStore.selectStopButton();
+              //   },
+              //   child: ClipRRect(
+              //     borderRadius: const BorderRadius.all(
+              //       Radius.circular(40),
+              //     ),
+              //     child: Container(
+              //       height: 32,
+              //       width: 83,
+              //       color: (!travelStore.isBusSelected) ? lBlue2 : kGrey2,
+              //       child: Center(
+              //         child: Text("Stops",
+              //             style: (!travelStore.isBusSelected)
+              //                 ? MyFonts.w500.setColor(kBlueGrey)
+              //                 : MyFonts.w500.setColor(kWhite)),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // TextButton(
+              //   onPressed: () {
+              //     travelStore.selectBusButton();
+              //   },
+              //   child: ClipRRect(
+              //     borderRadius: const BorderRadius.all(
+              //       Radius.circular(40),
+              //     ),
+              //     child: Container(
+              //       height: 32,
+              //       width: 83,
+              //       color: (travelStore.isBusSelected) ? lBlue2 : kGrey2,
+              //       child: Center(
+              //         child: Text(
+              //           "Bus",
+              //           style: (travelStore.isBusSelected)
+              //               ? MyFonts.w500.setColor(kBlueGrey)
+              //               : MyFonts.w500.setColor(kWhite),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Expanded(
                 child: Container(),
               ),
-              travelStore.isBusSelected
-                  ? TravelDropDown(
-                      value: travelStore.busDayType,
-                      onChange: travelStore.setBusDayString,
-                      items: const ['Weekdays', 'Weekends'],
-                    )
-                  : GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (_) => const TrackingDailog());
-                      },
-                      child: Text(
-                        "Track Bus",
-                        style: MyFonts.w500.setColor(kWhite),
-                      ),
-                    )
+              TravelDropDown(
+                value: travelStore.busDayType,
+                onChange: travelStore.setBusDayString,
+                items: const ['Weekdays', 'Weekends'],
+              )
             ],
           ),
-          !travelStore.isBusSelected
-              ? const BusStopList()
-              : BusDetails(index: travelStore.busDayTypeIndex)
+          BusDetails(index: travelStore.busDayTypeIndex)
         ],
       );
     });

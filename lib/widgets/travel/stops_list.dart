@@ -26,27 +26,25 @@ class BusStopList extends StatelessWidget {
           var mapStore = context.read<MapBoxStore>();
           var travelStore = context.read<TravelStore>();
           return FutureBuilder<List<TravelTiming>>(
-            // future: APIService().getBusTiming(),
             future: travelStore.getBusTimings(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 List<TravelTiming>? busTime = snapshot.data;
-                if(busTime!.isEmpty)
-                  {
-                    return Container();
-                  }
-                List<DateTime> weekdaysTimes=[];
-                List<DateTime> weekendTimes=[];
-                for(var xyz in busTime){
-                  int n=xyz.weekdays.fromCampus.length;
-                  for(int i=0;i<n;i++){
+                if (busTime!.isEmpty) {
+                  return Container();
+                }
+                List<DateTime> weekdaysTimes = [];
+                List<DateTime> weekendTimes = [];
+                for (var xyz in busTime) {
+                  int n = xyz.weekdays.fromCampus.length;
+                  for (int i = 0; i < n; i++) {
                     weekdaysTimes.add(xyz.weekdays.fromCampus[i]);
                   }
                 }
                 weekdaysTimes.sort((a, b) => a.compareTo(b));
-                for(var xyz in busTime){
-                  int n=xyz.weekend.fromCampus.length;
-                  for(int i=0;i<n;i++){
+                for (var xyz in busTime) {
+                  int n = xyz.weekend.fromCampus.length;
+                  for (int i = 0; i < n; i++) {
                     weekendTimes.add(xyz.weekend.fromCampus[i]);
                   }
                 }
@@ -59,9 +57,9 @@ class BusStopList extends StatelessWidget {
                       mapStore.zoomTwoMarkers(
                           LatLng(
                               mapStore.allLocationData[
-                              mapStore.selectedCarouselIndex]['lat'],
+                                  mapStore.selectedCarouselIndex]['lat'],
                               mapStore.allLocationData[
-                              mapStore.selectedCarouselIndex]['long']),
+                                  mapStore.selectedCarouselIndex]['long']),
                           LatLng(mapStore.userlat, mapStore.userlong),
                           100.0);
                     },
@@ -71,7 +69,7 @@ class BusStopList extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: kTileBackground,
                           borderRadius:
-                          const BorderRadius.all(Radius.circular(20)),
+                              const BorderRadius.all(Radius.circular(20)),
                           border: Border.all(
                               color: (mapStore.selectedCarouselIndex == index)
                                   ? lBlue5
@@ -101,13 +99,14 @@ class BusStopList extends StatelessWidget {
                             trailing: Text(
                               (getFormattedDay() == 'Fri')
                                   ? nextTime(weekendTimes,
-                                  firstTime: weekendTimes[0].toString())
+                                      firstTime: weekendTimes[0].toString())
                                   : (getFormattedDay() == 'Sun')
-                                  ? nextTime(weekendTimes,
-                                  firstTime: weekdaysTimes[0].toString())
-                                  : (getFormattedDay() == 'Sat')
-                                  ? nextTime(weekendTimes)
-                                  : nextTime(weekdaysTimes),
+                                      ? nextTime(weekendTimes,
+                                          firstTime:
+                                              weekdaysTimes[0].toString())
+                                      : (getFormattedDay() == 'Sat')
+                                          ? nextTime(weekendTimes)
+                                          : nextTime(weekdaysTimes),
                               style: MyFonts.w500.setColor(lBlue2),
                             )),
                       );
