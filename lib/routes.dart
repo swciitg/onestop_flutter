@@ -37,5 +37,5 @@ final routes = {
   ComplaintsPage.id: (context) => const ComplaintsPage(),
   MessOpiFormPage.id: (context) => const MessOpiFormPage(),
   MessSubscriptionPage.id: (context) => const MessSubscriptionPage(),
-  ElectionLoginWebView.id: (context) => ElectionLoginWebView()
+  ElectionLoginWebView.id: (context) => const ElectionLoginWebView()
 };

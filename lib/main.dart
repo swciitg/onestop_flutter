@@ -16,6 +16,7 @@ import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:provider/provider.dart';
+
 import 'firebase_options.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -44,6 +45,7 @@ final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     print("IN MY APP");
