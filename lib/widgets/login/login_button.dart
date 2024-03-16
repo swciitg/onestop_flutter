@@ -4,7 +4,6 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/ui/text_divider.dart';
-import 'package:provider/provider.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({

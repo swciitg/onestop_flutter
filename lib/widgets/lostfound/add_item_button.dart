@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
 import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:provider/provider.dart';
 
 class AddItemButton extends StatefulWidget {
   const AddItemButton({
@@ -39,28 +39,25 @@ class _AddItemButtonState extends State<AddItemButton> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                  title:
-                      const Text("From where do you want to take the photo?"),
+                  title: const Text("From where do you want to take the photo?"),
                   content: SingleChildScrollView(
                     child: ListBody(
                       children: <Widget>[
                         GestureDetector(
                           child: const Text("Gallery"),
                           onTap: () async {
-                            xFile = await ImagePicker()
-                                .pickImage(source: ImageSource.gallery);
+                            xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
                             if (!mounted) return;
-                            Navigator.of(context).pop();
+                            navigatorKey.currentState!.pop();
                           },
                         ),
                         const Padding(padding: EdgeInsets.all(8.0)),
                         GestureDetector(
                           child: const Text("Camera"),
                           onTap: () async {
-                            xFile = await ImagePicker()
-                                .pickImage(source: ImageSource.camera);
+                            xFile = await ImagePicker().pickImage(source: ImageSource.camera);
                             if (!mounted) return;
-                            Navigator.of(context).pop();
+                            navigatorKey.currentState!.pop();
                           },
                         )
                       ],
@@ -71,10 +68,9 @@ class _AddItemButtonState extends State<AddItemButton> {
         if (!mounted) return;
         if (xFile != null) {
           var bytes = File(xFile!.path).readAsBytesSync();
-          var imageSize =
-              (bytes.lengthInBytes / (1048576)); // dividing by 1024*1024
+          var imageSize = (bytes.lengthInBytes / (1048576)); // dividing by 1024*1024
           if (imageSize > 2.5) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            messengerKey.currentState!.showSnackBar(SnackBar(
                 content: Text(
               "Maximum image size can be 2.5 MB",
               style: MyFonts.w500,
@@ -83,27 +79,27 @@ class _AddItemButtonState extends State<AddItemButton> {
           }
           var imageString = base64Encode(bytes);
           if (widget.type == "Lost") {
-            Navigator.of(context).push(MaterialPageRoute(
+            navigatorKey.currentState!.push(MaterialPageRoute(
                 builder: (context) => BuySellForm(
                       category: "Lost",
                       imageString: imageString,
                     )));
             return;
           } else if (widget.type == "Found") {
-            Navigator.of(context).push(MaterialPageRoute(
+            navigatorKey.currentState!.push(MaterialPageRoute(
                 builder: (context) => LostFoundLocationForm(
                       imageString: imageString,
                     )));
           } else {
             if (widget.type == "Sell") {
-              Navigator.of(context).push(MaterialPageRoute(
+              navigatorKey.currentState!.push(MaterialPageRoute(
                   builder: (context) => BuySellForm(
                         category: "Sell",
                         imageString: imageString,
                       )));
               return;
             } else if (widget.type == "Buy") {
-              Navigator.of(context).push(MaterialPageRoute(
+              navigatorKey.currentState!.push(MaterialPageRoute(
                   builder: (context) => BuySellForm(
                         category: "Buy",
                         imageString: imageString,
@@ -131,8 +127,7 @@ class _AddItemButtonState extends State<AddItemButton> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                  top: 15, left: 16, right: 20, bottom: 18),
+              padding: const EdgeInsets.only(top: 15, left: 16, right: 20, bottom: 18),
               child: Text(
                 "${widget.type} Item",
                 style: MyFonts.w600.size(14).setColor(kBlack),

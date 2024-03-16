@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:provider/provider.dart';
 import 'package:scoreboard/scoreboard.dart';
 
 class Scoreboard extends StatelessWidget {

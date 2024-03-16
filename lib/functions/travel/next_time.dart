@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/travel/has_left.dart';
 String nextTime(List<DateTime> timings, {String firstTime = ''}) {
   DateTime answer = DateTime.now();

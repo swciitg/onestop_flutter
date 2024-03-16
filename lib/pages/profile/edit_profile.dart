@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/hostels.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -119,7 +118,7 @@ class _EditProfileState extends State<EditProfile> {
           setState(() {
             isLoading = false;
           });
-          Navigator.of(context)
+          navigatorKey.currentState!
               .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
         }
       }
@@ -127,7 +126,7 @@ class _EditProfileState extends State<EditProfile> {
 
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScope.of(context).requestFocus();
       },
       child: Scaffold(
         backgroundColor: kBackground,
