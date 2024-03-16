@@ -85,7 +85,7 @@ Future<bool> checkForNotifications() async {
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestNotificationsPermission();
+        ?.requestPermission();
   }
 
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
