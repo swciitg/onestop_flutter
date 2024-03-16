@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/functions/utility/validator.dart';
+import 'package:onestop_dev/globals/departments.dart';
 import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -29,6 +30,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
   final TextEditingController _destinationController = TextEditingController();
   String? hostel;
   final List<String> hostels = khostels;
+  var department = kdepartments.first;
   var selectedDestination = "Khokha";
   final destinationSuggestions = [
     "Khokha",
@@ -67,13 +69,15 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
       "phone": _phoneController.text,
       "room": _roomNoController.text,
       "hostel": hostel,
+      "department": department,
       "destination": destination,
     };
     final data = jsonEncode(mapData);
     final width = MediaQuery.of(navigatorKey.currentContext!).size.width;
-    final image = await QrPainter(
+    final image = QrImageView(
       data: data,
       version: QrVersions.auto,
+      size: width * 0.6,
       gapless: false,
       embeddedImageStyle: const QrEmbeddedImageStyle(
         color: Colors.white,
@@ -86,7 +90,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
         color: Colors.white,
         dataModuleShape: QrDataModuleShape.circle,
       ),
-    ).toImageData(width * 0.7);
+    );
 
     showDialog(
       context: navigatorKey.currentContext!,
@@ -95,26 +99,35 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
         return AlertDialog(
           backgroundColor: kAppBarGrey,
           surfaceTintColor: Colors.transparent,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.memory(image!.buffer.asUint8List()),
-              const SizedBox(height: 16),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Destination: ',
-                      style: MyFonts.w500.setColor(kWhite3).size(14),
+          content: SizedBox(
+            width: width * 0.6,
+            height: width * 0.6 + 60,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  image,
+                  const SizedBox(height: 16),
+                  RichText(
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Destination: ',
+                          style: MyFonts.w500.setColor(kWhite3).size(14),
+                        ),
+                        TextSpan(
+                          text: destination,
+                          style: MyFonts.w500.setColor(lBlue2).size(14),
+                        ),
+                      ],
                     ),
-                    TextSpan(
-                      text: destination,
-                      style: MyFonts.w500.setColor(lBlue2).size(14),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },
@@ -181,14 +194,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               ),
                             ),
                           ),
-                          InkWell(
-                            onTap: resetForm,
-                            child: Text(
-                              "Reset",
-                              style: MyFonts.w500.size(12).setColor(lBlue2),
-                              textAlign: TextAlign.end,
-                            ),
-                          ),
+                          resetText(),
                         ],
                       ),
                       const SizedBox(height: 24),
@@ -209,6 +215,14 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               items: hostels,
                               label: 'Hostel',
                               onChanged: (h) => hostel = h,
+                              validator: validatefield,
+                            ),
+                            const SizedBox(height: 12),
+                            CustomDropDown(
+                              value: department,
+                              items: kdepartments,
+                              label: 'Department',
+                              onChanged: (d) => department = d,
                               validator: validatefield,
                             ),
                             const SizedBox(height: 12),
@@ -303,6 +317,17 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  InkWell resetText() {
+    return InkWell(
+      onTap: resetForm,
+      child: Text(
+        "Reset",
+        style: MyFonts.w500.size(12).setColor(lBlue2),
+        textAlign: TextAlign.end,
       ),
     );
   }
