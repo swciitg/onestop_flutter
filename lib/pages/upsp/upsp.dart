@@ -8,7 +8,6 @@ import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
 import 'package:onestop_dev/widgets/upsp/checkbox_list.dart';
 import 'package:onestop_dev/widgets/upsp/file_tile.dart';
 import 'package:onestop_dev/widgets/upsp/upload_button.dart';
-import 'package:provider/provider.dart';
 import 'details_upsp.dart';
 
 const List<String> boards = [

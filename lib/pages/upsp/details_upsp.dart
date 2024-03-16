@@ -10,7 +10,6 @@ import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
-import 'package:provider/provider.dart';
 
 class DetailsUpsp extends StatefulWidget {
   final Map<String, dynamic> data;

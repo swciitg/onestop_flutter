@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/functions/utility/validator.dart';
 import 'package:onestop_dev/globals/departments.dart';
+import 'package:onestop_dev/globals/prgrams.dart';
 import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -30,6 +31,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
   final TextEditingController _destinationController = TextEditingController();
   String? hostel;
   final List<String> hostels = khostels;
+  var program = kprograms.first;
   var department = kdepartments.first;
   var selectedDestination = "Khokha";
   final destinationSuggestions = [
@@ -69,6 +71,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
       "phone": _phoneController.text,
       "room": _roomNoController.text,
       "hostel": hostel,
+      "program": program,
       "department": department,
       "destination": destination,
     };
@@ -215,6 +218,14 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               items: hostels,
                               label: 'Hostel',
                               onChanged: (h) => hostel = h,
+                              validator: validatefield,
+                            ),
+                            const SizedBox(height: 12),
+                            CustomDropDown(
+                              value: program,
+                              items: kprograms,
+                              label: 'Program',
+                              onChanged: (p) => program = p,
                               validator: validatefield,
                             ),
                             const SizedBox(height: 12),

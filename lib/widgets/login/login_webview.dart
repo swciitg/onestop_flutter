@@ -5,7 +5,6 @@ import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/profile/profile_model.dart';
 import 'package:onestop_dev/pages/profile/edit_profile.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
