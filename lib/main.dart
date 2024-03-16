@@ -70,15 +70,17 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-          navigatorKey: navigatorKey,
-          scaffoldMessengerKey: rootScaffoldMessengerKey,
-          debugShowCheckedModeBanner: false,
-          initialRoute: SplashPage.id,
-          theme: ThemeData(
-              scaffoldBackgroundColor: kBackground,
-              splashColor: Colors.transparent),
-          title: 'OneStop 2.0',
-          routes: routes),
+        navigatorKey: navigatorKey,
+        scaffoldMessengerKey: rootScaffoldMessengerKey,
+        debugShowCheckedModeBanner: false,
+        initialRoute: SplashPage.id,
+        theme: ThemeData(
+          scaffoldBackgroundColor: kBackground,
+          splashColor: Colors.transparent,
+        ),
+        title: 'OneStop 2.0',
+        routes: routes,
+      ),
     );
   }
 }

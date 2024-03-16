@@ -7,6 +7,7 @@ import 'package:onestop_dev/pages/food/mess_subscription_change_form.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
+import 'package:onestop_dev/pages/khokha_entry/khokha_entry_form.dart';
 import 'package:onestop_dev/pages/login/blocked.dart';
 import 'package:onestop_dev/pages/login/login.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
@@ -37,5 +38,6 @@ final routes = {
   ComplaintsPage.id: (context) => const ComplaintsPage(),
   MessOpiFormPage.id: (context) => const MessOpiFormPage(),
   MessSubscriptionPage.id: (context) => const MessSubscriptionPage(),
-  ElectionLoginWebView.id: (context) => ElectionLoginWebView()
+  ElectionLoginWebView.id: (context) => const ElectionLoginWebView(),
+  KhokhaEntryForm.id: (context) => const KhokhaEntryForm(),
 };

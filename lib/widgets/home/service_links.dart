@@ -3,6 +3,7 @@ import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
+import 'package:onestop_dev/pages/khokha_entry/khokha_entry_form.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
 import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
@@ -21,10 +22,7 @@ List<HomeTabTile> serviceLinks = [
     routeId: Scoreboard.id,
   ),
   const HomeTabTile(
-    label: "Cab Sharing",
-    icon: FluentIcons.vehicle_bus_24_regular,
-    routeId: CabShare.id
-  ),
+      label: "Cab Sharing", icon: FluentIcons.vehicle_bus_24_regular, routeId: CabShare.id),
   const HomeTabTile(
     label: 'IRBS',
     icon: FluentIcons.calendar_edit_16_regular,
@@ -49,5 +47,10 @@ List<HomeTabTile> serviceLinks = [
     label: "LAN",
     icon: FluentIcons.desktop_24_regular,
     routeId: RouterPage.id,
+  ),
+  const HomeTabTile(
+    label: "Khokha Entry",
+    icon: FluentIcons.door_arrow_left_24_regular,
+    routeId: KhokhaEntryForm.id,
   ),
 ];
