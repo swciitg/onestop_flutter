@@ -11,6 +11,8 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/profile/profile_model.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/widgets/khokha_entry/destination_suggestions.dart';
+import 'package:onestop_dev/widgets/khokha_entry/khokha_entry_qr.dart';
 import 'package:onestop_dev/widgets/profile/custom_dropdown.dart';
 import 'package:onestop_dev/widgets/profile/custom_text_field.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -76,8 +78,22 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
       "destination": destination,
     };
     final data = jsonEncode(mapData);
+    debugPrint("Khokha Entry Data: $data");
     final width = MediaQuery.of(navigatorKey.currentContext!).size.width;
-    final image = QrImageView(
+    final image = getQRImage(data);
+
+    showDialog(
+      context: navigatorKey.currentContext!,
+      barrierDismissible: true,
+      builder: (context) {
+        return KhokhaEntryQR(width: width, image: image, destination: destination);
+      },
+    );
+  }
+
+  QrImageView getQRImage(String data) {
+    final width = MediaQuery.of(navigatorKey.currentContext!).size.width;
+    return QrImageView(
       data: data,
       version: QrVersions.auto,
       size: width * 0.6,
@@ -94,78 +110,15 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
         dataModuleShape: QrDataModuleShape.circle,
       ),
     );
-
-    showDialog(
-      context: navigatorKey.currentContext!,
-      barrierDismissible: true,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: kAppBarGrey,
-          surfaceTintColor: Colors.transparent,
-          content: SizedBox(
-            width: width * 0.6,
-            height: width * 0.6 + 60,
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  image,
-                  const SizedBox(height: 16),
-                  RichText(
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Destination: ',
-                          style: MyFonts.w500.setColor(kWhite3).size(14),
-                        ),
-                        TextSpan(
-                          text: destination,
-                          style: MyFonts.w500.setColor(lBlue2).size(14),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
+      onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
         backgroundColor: kBackground,
-        appBar: AppBar(
-          backgroundColor: kAppBarGrey,
-          iconTheme: const IconThemeData(color: kAppBarGrey),
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios_new_outlined,
-              color: kWhite,
-            ),
-            iconSize: 20,
-          ),
-          title: Text(
-            "Khokha Entry",
-            textAlign: TextAlign.left,
-            style: MyFonts.w500.size(23).setColor(kWhite),
-          ),
-        ),
+        appBar: appBar(context),
         body: SafeArea(
           child: Column(
             children: [
@@ -288,7 +241,15 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                               counter: true,
                             ),
                             const SizedBox(height: 12),
-                            buildDestinationSuggestions(),
+                            DestinationSuggestions(
+                              onChanged: (val) {
+                                setState(() {
+                                  selectedDestination = val;
+                                });
+                              },
+                              selectedDestination: selectedDestination,
+                              destinationSuggestions: destinationSuggestions,
+                            ),
                             if (selectedDestination == "Other")
                               CustomTextField(
                                 label: 'Destination',
@@ -303,9 +264,7 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          showQRImage();
-                        },
+                        onTap: showQRImage,
                         child: Container(
                           width: double.infinity,
                           height: 48,
@@ -332,6 +291,28 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
     );
   }
 
+  AppBar appBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: kAppBarGrey,
+      iconTheme: const IconThemeData(color: kAppBarGrey),
+      automaticallyImplyLeading: false,
+      centerTitle: true,
+      leading: IconButton(
+        onPressed: Navigator.of(context).pop,
+        icon: const Icon(
+          Icons.arrow_back_ios_new_outlined,
+          color: kWhite,
+        ),
+        iconSize: 20,
+      ),
+      title: Text(
+        "Khokha Entry",
+        textAlign: TextAlign.left,
+        style: MyFonts.w500.size(23).setColor(kWhite),
+      ),
+    );
+  }
+
   InkWell resetText() {
     return InkWell(
       onTap: resetForm,
@@ -339,58 +320,6 @@ class _KhokhaEntryFormState extends State<KhokhaEntryForm> {
         "Reset",
         style: MyFonts.w500.size(12).setColor(lBlue2),
         textAlign: TextAlign.end,
-      ),
-    );
-  }
-
-  Widget buildDestinationSuggestions() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Destination: ",
-            style: MyFonts.w500.size(14).setColor(kWhite2),
-          ),
-          const SizedBox(width: 24),
-          Expanded(
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              runAlignment: WrapAlignment.start,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              direction: Axis.horizontal,
-              children: destinationSuggestions
-                  .map(
-                    (e) => GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedDestination = e;
-                        });
-                      },
-                      child: buildDestinationChip(e, selectedDestination == e),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildDestinationChip(String destination, bool selected) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(360),
-        color: selected ? lBlue2 : Colors.transparent,
-        border: !selected ? Border.all(color: lBlue2, width: 1) : null,
-      ),
-      child: Text(
-        destination,
-        style: selected ? MyFonts.w500.size(14) : MyFonts.w500.size(14).setColor(lBlue2),
       ),
     );
   }
