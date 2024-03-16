@@ -116,7 +116,7 @@ class _VoterCardState extends State<VoterCard> {
                               child: Container(
                                   alignment: Alignment.center,
                                   child: Text(
-                                    "IITG GYMKHANA ELECTIONS 2023",
+                                    "IITG GYMKHANA ELECTIONS 2024",
                                     style:
                                         MyFonts.w700.setColor(kWhite).size(25),
                                     textAlign: TextAlign.center,
@@ -203,15 +203,8 @@ class _VoterCardState extends State<VoterCard> {
                   ),
                 ),
               ),
-              Text(
-                'Made by',
-                style: MyFonts.w600.setColor(kWhite).size(10),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
               SizedBox(
-                  height: 25,
+                  height: 55,
                   child: Image.asset(
                     'assets/images/logoo.png',
                     cacheWidth: 451,

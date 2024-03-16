@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+
 import 'package:firebase_core/firebase_core.dart';
 import "package:firebase_messaging/firebase_messaging.dart";
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
@@ -84,7 +85,7 @@ Future<bool> checkForNotifications() async {
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestPermission();
+        ?.requestNotificationsPermission();
   }
 
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -140,14 +141,9 @@ Future<bool> checkForNotifications() async {
     print("Message is ${message.data}");
     if (checkNotificationCategory(message.data['category'])) {
       print("apple");
-          await flutterLocalNotificationsPlugin.show(
-              message.hashCode,
-              message.data['title'],
-              message.data['body'],
-              notificationDetails
-          );
-    }
-    else{
+      await flutterLocalNotificationsPlugin.show(message.hashCode,
+          message.data['title'], message.data['body'], notificationDetails);
+    } else {
       print("ball");
     }
   });
