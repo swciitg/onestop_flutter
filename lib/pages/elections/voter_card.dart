@@ -40,6 +40,7 @@ class _VoterCardState extends State<VoterCard> {
     'Rural-Tech': '54',
     'Linguistics': '55',
     'Others': '61',
+    'DSAI': '50',
   };
 
   Map<String, String> degrees = {
