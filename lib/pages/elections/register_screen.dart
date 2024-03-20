@@ -46,6 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     'Dihing',
     'Subansiri',
     'Dhansiri',
+    'Gaurang',
     'Married Scholar Hostel',
     'Not Alloted',
   ];
