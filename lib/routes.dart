@@ -13,7 +13,6 @@ import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
-import 'package:onestop_dev/pages/services/complaints.dart';
 import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/services/irbs.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
@@ -29,7 +28,6 @@ final routes = {
   LostFoundHome.id: (context) => const LostFoundHome(),
   ContactPage.id: (context) => const ContactPage(),
   BuySellHome.id: (context) => const BuySellHome(),
-  Complaints.id: (context) => const Complaints(),
   CabShare.id: (context) => const CabShare(),
   NotificationPage.id: (context) => const NotificationPage(),
   Scoreboard.id: (context) => const Scoreboard(),

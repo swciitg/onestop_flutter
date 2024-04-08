@@ -82,9 +82,7 @@ class _VoterCardState extends State<VoterCard> {
     dio.options.headers['cookie'] =
         widget.authCookie; // setting cookies for auth
     dio.post("https://swc.iitg.ac.in/elections_api/sgc/voting/get_eprofile/",
-        data: {"email": widget.email}).then((value) {
-      //print(value);
-    });
+        data: {"email": widget.email}).then((value) {});
     return FutureBuilder<Response>(
         future: dio.post(
             "https://swc.iitg.ac.in/elections_api/sgc/voting/get_eprofile/",
@@ -97,9 +95,7 @@ class _VoterCardState extends State<VoterCard> {
               height: 750,
             ));
           }
-          //print(snapshot.data!);
           var data = snapshot.data!.data;
-          //print(data);
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [

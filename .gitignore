@@ -1,4 +1,5 @@
 # Miscellaneous
+appLoader.sh
 *.class
 *.log
 *.pyc
