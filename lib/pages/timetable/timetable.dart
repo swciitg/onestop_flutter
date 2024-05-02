@@ -31,6 +31,8 @@ class _TimeTableTabState extends State<TimeTableTab> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
+                  // Toggle to change to either timetable or exam schedule
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -86,9 +88,13 @@ class _TimeTableTabState extends State<TimeTableTab> {
                       ),
                     ],
                   ),
+
+                  // Timetable column
                   (store.isTimetable)
                       ? Column(
                           children: [
+
+                            //Day selector
                             const SizedBox(
                               height: 130,
                               child: DateSlider(),
@@ -113,6 +119,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
                                 }),
                           ],
                         )
+                  // Exam schedule column
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -136,10 +143,15 @@ class _TimeTableTabState extends State<TimeTableTab> {
   }
 }
 
+//Exam schedule column widgdet
 class ScheduleList extends StatelessWidget {
   final RegisteredCourses data;
-  const ScheduleList({super.key, required this.data});
+  ScheduleList({super.key, required this.data});
 
+  // checks if mids are done, if true then endsem is shown on top
+  bool isMidsDone = false;
+
+  // Sort the courses according to date and time
   List<CourseModel> _sort(List<CourseModel> input, {String type = "midsem"}) {
     if (type == "midsem") {
       input.removeWhere(
@@ -148,14 +160,13 @@ class ScheduleList extends StatelessWidget {
           DateTime.parse(a.midsem!).isAfter(DateTime.parse(b.midsem!))
               ? 1
               : -1);
+      if(DateTime.parse(input.last.midsem!).isBefore(DateTime.now()))
+        {
+          isMidsDone = true;
+        }
     } else {
       input.removeWhere(
           (element) => element.endsem == null || element.endsem == "");
-      print("Here");
-      print(input);
-      for (var x in input) {
-        print(x.endsem);
-      }
       input.sort((a, b) =>
           DateTime.parse(a.endsem!).isAfter(DateTime.parse(b.endsem!))
               ? 1
@@ -163,6 +174,20 @@ class ScheduleList extends StatelessWidget {
     }
     return input;
   }
+
+   final Widget _noData = Column(
+    children: [
+      const SizedBox(
+        height: 25,
+      ),
+      Center(
+        child: Text(
+          'No data found',
+          style: MyFonts.w500.size(14).setColor(kGrey8),
+        ),
+      ),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -175,68 +200,64 @@ class ScheduleList extends StatelessWidget {
       for (var course in endsem) {
         course.venue = course.endsemVenue;
       }
+
+      List<Widget> examColumn = [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            midsem.isNotEmpty
+                ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                "Midsem Schedule",
+                style: MyFonts.w500.size(20).setColor(kWhite),
+              ),
+            )
+                : Container(),
+            for (var course in midsem)
+              ExamTile(
+                course: course,
+                isEndSem: false,
+              ),
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            endsem.isNotEmpty
+                ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                "Endsem Schedule",
+                style: MyFonts.w500.size(20).setColor(kWhite),
+              ),
+            )
+                : Container(),
+            for (var course in endsem)
+              ExamTile(
+                course: course,
+                isEndSem: true,
+              ),
+          ],
+        ),
+      ];
+
+      if(isMidsDone)
+        {
+          examColumn = examColumn.reversed.map((e) => e).toList();
+        }
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          midsem.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    "Midsem Schedule",
-                    style: MyFonts.w500.size(20).setColor(kWhite),
-                  ),
-                )
-              : Container(),
-          for (var course in midsem)
-            ExamTile(
-              course: course,
-              isEndSem: false,
-            ),
-          endsem.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    "Endsem Schedule",
-                    style: MyFonts.w500.size(20).setColor(kWhite),
-                  ),
-                )
-              : Container(),
-          for (var course in endsem)
-            ExamTile(
-              course: course,
-              isEndSem: true,
-            ),
           midsem.isEmpty && endsem.isEmpty
-              ? Column(
-                  children: [
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    Center(
-                      child: Text(
-                        'No data found',
-                        style: MyFonts.w500.size(15).setColor(kGrey8),
-                      ),
-                    ),
-                  ],
-                )
-              : Container(),
-        ],
+              ? _noData
+              : Column(
+            children: examColumn,
+          ),
+        ]
       );
     } else {
-      return Column(
-        children: [
-          const SizedBox(
-            height: 25,
-          ),
-          Center(
-            child: Text(
-              'No data found',
-              style: MyFonts.w500.size(14).setColor(kGrey8),
-            ),
-          ),
-        ],
-      );
+      return _noData;
     }
   }
 }
