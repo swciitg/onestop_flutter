@@ -45,17 +45,17 @@ class _NotificationSettingsState extends State<NotificationSettings> {
                   await APIService()
                       .updateUserNotifPref(LoginStore.userData['notifPref']);
                 } catch (e) {
-                  print(e);
+                  //print(e);
                 }
                 setState(() {
                   isLoading = false;
                 });
               },
               child: isLoading
-                  ? CircularProgressIndicator(
+                  ? const CircularProgressIndicator(
                       color: Colors.white,
                     )
-                  : Text('Save'))
+                  : const Text('Save'))
         ],
       ),
     );

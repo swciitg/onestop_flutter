@@ -48,7 +48,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("IN MY APP");
     debugInvertOversizedImages = true;
     return MultiProvider(
       providers: [

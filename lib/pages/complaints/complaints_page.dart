@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 
@@ -13,7 +12,6 @@ class ComplaintsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Future<void> launchURL(String url) async {
       final Uri uri = Uri.parse(url);
-      print(uri);
       if (!await launchUrl(
         uri,
         mode: LaunchMode.externalApplication,
@@ -22,7 +20,7 @@ class ComplaintsPage extends StatelessWidget {
       }
     }
 
-    _showIntranetDialog() async {
+    showIntranetDialog() async {
       await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -80,7 +78,7 @@ class ComplaintsPage extends StatelessWidget {
       );
     }
 
-    _showDialog() async {
+    showDialogHere() async {
       await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -107,7 +105,7 @@ class ComplaintsPage extends StatelessWidget {
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      _showIntranetDialog();
+                      showIntranetDialog();
                     },
                   ),
                   TextButton(
@@ -190,7 +188,7 @@ class ComplaintsPage extends StatelessWidget {
                             //   //print(e);
                             //   showSnackBar(e.toString());
                             // }
-                            _showDialog();
+                            showDialogHere();
                           },
                           child: SizedBox(
                             height: 16,

@@ -409,7 +409,6 @@ class APIService {
     var response = await dio.get(Endpoints.homePageUrls);
     var status = response.statusCode;
     var json = response.data;
-    print(json);
     if (status == 200) {
       return json;
     } else {
@@ -540,7 +539,6 @@ class APIService {
       }
       rethrow;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
@@ -566,7 +564,6 @@ class APIService {
       }
       rethrow;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

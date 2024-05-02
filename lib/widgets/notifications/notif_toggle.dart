@@ -7,7 +7,7 @@ import '../../globals/my_fonts.dart';
 
 class NotifToggle extends StatefulWidget {
   final String text;
-  NotifToggle({super.key, required this.text});
+  const NotifToggle({super.key, required this.text});
 
   @override
   State<NotifToggle> createState() => _NotifToggleState();

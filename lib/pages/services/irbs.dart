@@ -7,6 +7,6 @@ class IRBSPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IRBS();
+    return const IRBS();
   }
 }

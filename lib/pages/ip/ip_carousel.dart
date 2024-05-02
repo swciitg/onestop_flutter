@@ -8,7 +8,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/ip/ip_settings.dart';
 import 'package:onestop_dev/widgets/ip/ip_input.dart';
 
-List<String> textdata = [
+List<String> textData = [
   'Open Start-> Control Panel -> Network and Internet-> Network and Sharing Center ',
   "Click on 'Manage wireless networks'",
   'Right click on \'Local area connection\' and then click on properties',
@@ -30,7 +30,7 @@ class RouterPage extends StatefulWidget {
 
 class _RouterPageState extends State<RouterPage> {
   int page = 1;
-  Widget seven = Column();
+  Widget seven = const Column();
   CarouselController buttonCarouselController = CarouselController();
   TextEditingController roomController = TextEditingController();
   TextEditingController blockController = TextEditingController();
@@ -105,7 +105,7 @@ class _RouterPageState extends State<RouterPage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                 child: Text(
-                  textdata[8],
+                  textData[8],
                   style: MyFonts.w600.size(14).setColor(kGrey8),
                 ),
               ),
@@ -150,7 +150,7 @@ class _RouterPageState extends State<RouterPage> {
                                     height: 5,
                                   ),
                                   Text(
-                                    textdata[i - 1],
+                                    textData[i - 1],
                                     style:
                                         MyFonts.w400.size(14).setColor(kGrey6),
                                   ),
@@ -294,7 +294,7 @@ class _RouterPageState extends State<RouterPage> {
                               if (page != 1) {
                                 if (page == 6) {
                                   setState(() {
-                                    seven = Column();
+                                    seven = const Column();
                                   });
                                 }
                                 await buttonCarouselController.previousPage(

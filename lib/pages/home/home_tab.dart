@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/services/data_provider.dart';
@@ -49,13 +48,11 @@ class _HomeTabState extends State<HomeTab> {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                    print("here");
                     String homeImageUrl = await DataProvider.getHomeImageLink();
                     if (homeImageUrl.isNotEmpty) {
                       await launchUrl(Uri.parse(homeImageUrl),
                           mode: LaunchMode.externalApplication);
                     } else {
-                      print("error");
                     }
                   },
                   child: ClipRRect(

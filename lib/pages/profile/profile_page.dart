@@ -99,15 +99,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               DataTile(
                 title: 'Contact Number',
-                semiTitle: widget.profileModel.phoneNumber != null
-                    ? widget.profileModel.phoneNumber.toString()
-                    : null,
+                semiTitle: widget.profileModel.phoneNumber?.toString(),
               ),
               DataTile(
                 title: 'Emergency Contact Number',
-                semiTitle: widget.profileModel.emergencyPhoneNumber != null
-                    ? widget.profileModel.emergencyPhoneNumber.toString()
-                    : null,
+                semiTitle: widget.profileModel.emergencyPhoneNumber?.toString(),
               ),
               DataTile(
                 title: 'Hostel',

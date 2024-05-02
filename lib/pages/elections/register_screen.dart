@@ -599,16 +599,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           "hostel": hostel.toLowerCase(),
                                           "gender": gender
                                         };
-                                        print(data);
-                                        Response resp = await dio.patch(
+                                        await dio.patch(
                                             'https://swc.iitg.ac.in/elections_api/sgc/registration/complete/',
                                             data: data);
-                                        print(resp);
                                       } catch (e) {
                                         setState(() {
                                           submitted = false;
                                         });
-                                        print(e);
                                         showSnackBar(
                                             'Please check your internet');
                                       }
@@ -627,12 +624,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 );
               } else {
-                // show voter card
-                //print(profResp.data["euser"]);
-                // Response resp = await dio.patch(
-                //     'https://swc.iitg.ac.in/elections_api/sgc/registration/complete/',
-                //     data: data);
-                // print(resp);
                 return VoterCard(
                   email: profResp.data["euser"]["email"],
                   authCookie: widget.authCookie,

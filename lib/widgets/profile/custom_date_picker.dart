@@ -17,14 +17,14 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     return Theme(
       data: Theme.of(context).copyWith(
         textTheme: TextTheme(
-          headline4: MyFonts.w500,
-          headline5: MyFonts.w500, // Selected Date landscape
-          headline6: MyFonts.w500, // Selected Date portrait
-          overline: MyFonts.w500, // Title - SELECT DATE
-          bodyText1: MyFonts.w500, // year gridbview picker
-          subtitle1: MyFonts.w500, // input
-          subtitle2: MyFonts.w500, // month/year picker
-          caption: MyFonts.w500, // days
+          headlineMedium: MyFonts.w500,
+          headlineSmall: MyFonts.w500, // Selected Date landscape
+          titleLarge: MyFonts.w500, // Selected Date portrait
+          labelSmall: MyFonts.w500, // Title - SELECT DATE
+          bodyLarge: MyFonts.w500, // year gridbview picker
+          titleMedium: MyFonts.w500, // input
+          titleSmall: MyFonts.w500, // month/year picker
+          bodySmall: MyFonts.w500, // days
         ),
         colorScheme: const ColorScheme.dark(
           primary: lBlue4,

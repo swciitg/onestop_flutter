@@ -32,8 +32,8 @@ class UPSPDialog extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop(FileType.media);
               },
-              child: Row(
-                children: const [
+              child: const Row(
+                children: [
                   Icon(FluentIcons.image_16_regular),
                   SizedBox(
                     width: 10,
@@ -46,8 +46,8 @@ class UPSPDialog extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop(FileType.custom);
               },
-              child: Row(
-                children: const [
+              child: const Row(
+                children: [
                   Icon(FluentIcons.document_pdf_16_regular),
                   SizedBox(
                     width: 10,

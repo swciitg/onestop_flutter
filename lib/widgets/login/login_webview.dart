@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
@@ -46,8 +45,8 @@ class _LoginWebViewState extends State<LoginWebView> {
                 (await getElementById(controller, 'userTokens'))
                     .replaceAll("\\", '"');
             // var userTokensString = await controller.runJavascriptReturningResult("document.querySelector('#userTokens').innerText");
-            print("TOKENS STRING");
-            print(userTokensString);
+            // print("TOKENS STRING");
+            // print(userTokensString);
             // userTokensString = userTokensString.replaceAll('"', '');
             // print(userTokensString);
             if (userTokensString != "ERROR OCCURED") {
@@ -57,11 +56,9 @@ class _LoginWebViewState extends State<LoginWebView> {
                 BackendHelper.accesstoken: userTokensString.split('/')[0],
                 BackendHelper.refreshtoken: userTokensString.split('/')[1]
               };
-              print(userTokens);
               await LoginStore().saveToPreferences(user, userTokens);
               await LoginStore().saveToUserInfo(user);
               await WebviewCookieManager().clearCookies();
-              print("its here");
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                       builder: (context) => EditProfile(
@@ -80,12 +77,6 @@ class _LoginWebViewState extends State<LoginWebView> {
   Widget build(BuildContext context) {
     return WebViewWidget(
       controller: controller,
-      // initialUrl: "${Endpoints.baseUrl}/auth/microsoft",
-      // // javascriptMode: JavascriptMode.unrestricted,
-      // onWebViewCreated: (controller) {
-      //   widget._controller.complete(controller);
-      // },
-      // onWebResourceError: (context) {},
     );
   }
 }

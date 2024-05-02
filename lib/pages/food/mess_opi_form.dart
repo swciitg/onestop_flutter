@@ -68,7 +68,6 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
         },
         "userName": user.name,
       };
-      print(data);
       final res = await MessStore().postMessOpi(data);
       if (res.containsKey('success')) {
         showSnackBar(res['message']);

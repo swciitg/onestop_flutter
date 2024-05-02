@@ -4,7 +4,6 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/ui/text_divider.dart';
-import 'package:provider/provider.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({
@@ -62,7 +61,6 @@ class LoginButton extends StatelessWidget {
                         ..onTap = () async {
                           await LoginStore().signInAsGuest();
                           // TODO: Next version of Flutter will have context.mounted. Use that instead to escape the lint
-                          print("completed sign in");
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/', (Route<dynamic> route) => false);
                         },

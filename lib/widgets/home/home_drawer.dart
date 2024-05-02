@@ -114,7 +114,6 @@ class HomeDrawer extends StatelessWidget {
                     try {
                       await launchURL("swc.iitg.ac.in");
                     } catch (e) {
-                      print(e);
                     }
                   },
                   child: Padding(
