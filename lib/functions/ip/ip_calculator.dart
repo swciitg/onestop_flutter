@@ -1,4 +1,4 @@
-String calculatedetails(HostelDetails args, String initials) {
+String calculateDetails(HostelDetails args, String initials) {
   String block = args.block;
   int W = -1, X = -1, Y = -1, Z = -1;
 

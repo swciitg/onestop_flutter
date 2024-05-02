@@ -170,11 +170,11 @@ class _MyAdsTileState extends State<MyAdsTile> {
                 ),
                 onPressed: () async {
                   if (isLnf) {
-                    await APIService().deleteLnfMyAd(
-                        widget.model.id, widget.model.email);
+                    await APIService()
+                        .deleteLnfMyAd(widget.model.id, widget.model.email);
                   } else {
-                    await APIService().deleteBnsMyAd(
-                        widget.model.id, widget.model.email);
+                    await APIService()
+                        .deleteBnsMyAd(widget.model.id, widget.model.email);
                   }
 
                   if (!mounted) return;

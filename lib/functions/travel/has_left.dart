@@ -8,10 +8,10 @@ DateTime updateDate(DateTime input) {
   DateTime now = DateTime.now();
   return DateTime(
     now.year,
-  now.month,
- now.day,
-input.hour,
- input.minute,
- input.second,
+    now.month,
+    now.day,
+    input.hour,
+    input.minute,
+    input.second,
   );
 }

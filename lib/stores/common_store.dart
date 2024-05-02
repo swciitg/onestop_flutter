@@ -26,7 +26,7 @@ abstract class _CommonStore with Store {
   bool isPersonalNotif = true;
 
   @action
-  void setNotif(){
+  void setNotif() {
     isPersonalNotif = !isPersonalNotif;
   }
 

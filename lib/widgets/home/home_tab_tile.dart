@@ -7,12 +7,12 @@ import 'package:url_launcher/url_launcher.dart';
 class HomeTabTile extends StatelessWidget {
   const HomeTabTile(
       {Key? key,
-        required this.label,
-        this.iconCode,
-        this.icon,
-        this.routeId,
-        this.link,
-        this.newBadge = false})
+      required this.label,
+      this.iconCode,
+      this.icon,
+      this.routeId,
+      this.link,
+      this.newBadge = false})
       : super(key: key);
 
   final String label;
@@ -36,16 +36,13 @@ class HomeTabTile extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget finalWidget = FittedBox(
       child: GestureDetector(
-        onTap: (){
-          if(link != null)
-            {
-              launchURL(link!);
-            }
-          else
-            {
-              Navigator.pushNamed(context, routeId ?? "/");
-            }
-          },
+        onTap: () {
+          if (link != null) {
+            launchURL(link!);
+          } else {
+            Navigator.pushNamed(context, routeId ?? "/");
+          }
+        },
         child: Container(
           //margin: EdgeInsets.all(4),
           height: 150,
@@ -79,7 +76,7 @@ class HomeTabTile extends StatelessWidget {
     );
     if (newBadge) {
       finalWidget = Badge(
-        position: BadgePosition.topEnd(top:3),
+        position: BadgePosition.topEnd(top: 3),
         shape: BadgeShape.square,
         borderRadius: BorderRadius.circular(8),
         badgeContent: Text(

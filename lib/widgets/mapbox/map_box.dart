@@ -26,6 +26,7 @@ class MapBox extends StatefulWidget {
 
 DateTime now = DateTime.now();
 String formattedTime = DateFormat.jm().format(now);
+
 class _MapBoxState extends State<MapBox> {
   String mapString = '';
   late GoogleMapController controller;
@@ -57,9 +58,9 @@ class _MapBoxState extends State<MapBox> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            "Could not fetch your current location",
-            style: MyFonts.w500,
-          )));
+        "Could not fetch your current location",
+        style: MyFonts.w500,
+      )));
       return const LatLng(26.192613073419974, 91.69907177061708);
     }
     return coordinates;
@@ -88,10 +89,10 @@ class _MapBoxState extends State<MapBox> {
                         height: 365,
                         width: double.infinity,
                         child: GoogleMap(
-                          gestureRecognizers: <
-                              Factory<OneSequenceGestureRecognizer>>{
+                          gestureRecognizers: <Factory<
+                              OneSequenceGestureRecognizer>>{
                             Factory<OneSequenceGestureRecognizer>(
-                                    () => EagerGestureRecognizer())
+                                () => EagerGestureRecognizer())
                           },
                           onMapCreated: (mapcontroller) {
                             controller = mapcontroller;
@@ -271,7 +272,7 @@ class _MapBoxState extends State<MapBox> {
                                 await availableMap.showDirections(
                                     originTitle: 'User Location',
                                     destinationTitle:
-                                    mapStore.selectedCarouselName,
+                                        mapStore.selectedCarouselName,
                                     directionsMode: DirectionsMode.walking,
                                     destination: Coords(
                                         mapStore
@@ -284,10 +285,10 @@ class _MapBoxState extends State<MapBox> {
                                 if (!mounted) return;
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
-                                    content: Text(
-                                      "Could not open map.",
-                                      style: MyFonts.w500,
-                                    )));
+                                        content: Text(
+                                  "Could not open map.",
+                                  style: MyFonts.w500,
+                                )));
                               }
                             },
                             mini: true,
@@ -318,37 +319,37 @@ class _MapBoxState extends State<MapBox> {
                 ),
                 (!mapStore.isTravelPage)
                     ? Observer(builder: (context) {
-                  return CarouselSlider(
-                    items: mapStore.carouselCards
-                        .map((e) => GestureDetector(
-                      child: mapStore.selectedCarouselIndex ==
-                          (e as CarouselCard).index
-                          ? e
-                          : ColorFiltered(
-                        colorFilter: ColorFilter.mode(
-                            Colors.grey.shade600,
-                            BlendMode.modulate),
-                        child: e,
-                      ),
-                      onTap: () {
-                        mapStore.selectedCarousel(e.index);
-                        mapStore.zoomTwoMarkers(
-                            mapStore.selectedCarouselLatLng,
-                            LatLng(mapStore.userlat,
-                                mapStore.userlong),
-                            120.0);
-                      },
-                    ))
-                        .toList(),
-                    options: CarouselOptions(
-                      height: 100,
-                      viewportFraction: 0.7,
-                      initialPage: 0,
-                      enableInfiniteScroll: false,
-                      scrollDirection: Axis.horizontal,
-                    ),
-                  );
-                })
+                        return CarouselSlider(
+                          items: mapStore.carouselCards
+                              .map((e) => GestureDetector(
+                                    child: mapStore.selectedCarouselIndex ==
+                                            (e as CarouselCard).index
+                                        ? e
+                                        : ColorFiltered(
+                                            colorFilter: ColorFilter.mode(
+                                                Colors.grey.shade600,
+                                                BlendMode.modulate),
+                                            child: e,
+                                          ),
+                                    onTap: () {
+                                      mapStore.selectedCarousel(e.index);
+                                      mapStore.zoomTwoMarkers(
+                                          mapStore.selectedCarouselLatLng,
+                                          LatLng(mapStore.userlat,
+                                              mapStore.userlong),
+                                          120.0);
+                                    },
+                                  ))
+                              .toList(),
+                          options: CarouselOptions(
+                            height: 100,
+                            viewportFraction: 0.7,
+                            initialPage: 0,
+                            enableInfiniteScroll: false,
+                            scrollDirection: Axis.horizontal,
+                          ),
+                        );
+                      })
                     : const SizedBox(),
               ],
             ),

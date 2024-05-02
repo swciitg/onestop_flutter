@@ -66,7 +66,6 @@ class _LostFoundHomeState extends State<LostFoundHome> {
   Widget build(BuildContext context) {
     var commonStore = context.read<CommonStore>();
 
-
     return Observer(builder: (context) {
       return Scaffold(
         appBar: AppBar(
@@ -172,41 +171,45 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               )
             else
               Expanded(
-                child: LoginStore().isGuestUser ? const GuestRestrictAccess()
+                child: LoginStore().isGuestUser
+                    ? const GuestRestrictAccess()
                     : FutureBuilder(
-                    future: APIService().getLnfMyItems(
-                        LoginStore.userData['outlookEmail'] ?? ""),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        List<dynamic> models = snapshot.data! as List<dynamic>;
-                        List<MyAdsTile> tiles =
-                            models.map((e) => MyAdsTile(model: e)).toList();
-                        if (LoginStore().isGuestUser) {
-                          return const PaginationText(
-                              text:
-                                  "Log in with your IITG account to post ads");
-                        }
-                        if (tiles.isEmpty) {
-                          return const PaginationText(
-                              text: "You haven't posted any ads");
-                        }
-                        return ListView.builder(
-                          itemBuilder: (context, index) => tiles[index],
-                          itemCount: tiles.length,
-                        );
-                      }
-                      return ListShimmer(
-                        count: 5,
-                        height: 120,
-                      );
-                    }),
+                        future: APIService().getLnfMyItems(
+                            LoginStore.userData['outlookEmail'] ?? ""),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            List<dynamic> models =
+                                snapshot.data! as List<dynamic>;
+                            List<MyAdsTile> tiles =
+                                models.map((e) => MyAdsTile(model: e)).toList();
+                            if (LoginStore().isGuestUser) {
+                              return const PaginationText(
+                                  text:
+                                      "Log in with your IITG account to post ads");
+                            }
+                            if (tiles.isEmpty) {
+                              return const PaginationText(
+                                  text: "You haven't posted any ads");
+                            }
+                            return ListView.builder(
+                              itemBuilder: (context, index) => tiles[index],
+                              itemCount: tiles.length,
+                            );
+                          }
+                          return ListShimmer(
+                            count: 5,
+                            height: 120,
+                          );
+                        }),
               )
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: LoginStore().isGuestUser ? Container() : AddItemButton(
-          type: commonStore.lnfIndex,
-        ),
+        floatingActionButton: LoginStore().isGuestUser
+            ? Container()
+            : AddItemButton(
+                type: commonStore.lnfIndex,
+              ),
       );
     });
   }

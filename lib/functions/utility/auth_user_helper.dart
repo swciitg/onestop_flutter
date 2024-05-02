@@ -1,7 +1,7 @@
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthUserHelpers{
+class AuthUserHelpers {
   static Future<String> getAccessToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(BackendHelper.accesstoken) ?? " ";

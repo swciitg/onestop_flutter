@@ -15,7 +15,6 @@ class TravelTiming {
   final DayType weekend;
   final DayType weekdays;
 
-
   TravelTiming({
     required this.type,
     required this.id,

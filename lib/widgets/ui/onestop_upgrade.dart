@@ -3,14 +3,13 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:upgrader/upgrader.dart';
 
-
 class OneStopUpgraderMessages extends UpgraderMessages {
   @override
   String get title => 'OneStop Update Available';
   @override
-  String get body => 'OneStop v{{currentAppStoreVersion}} is now available. You are on a previous version - v{{currentInstalledVersion}}';
+  String get body =>
+      'OneStop v{{currentAppStoreVersion}} is now available. You are on a previous version - v{{currentInstalledVersion}}';
 }
-
 
 class OneStopUpgrader extends StatelessWidget {
   final Widget child;
@@ -27,21 +26,15 @@ class OneStopUpgrader extends StatelessWidget {
           ),
           textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                  foregroundColor: lBlue2,
-                  textStyle: MyFonts.w600
-              )
-          )
-      ),
+                  foregroundColor: lBlue2, textStyle: MyFonts.w600))),
       child: UpgradeAlert(
-        upgrader: Upgrader(
-          countryCode: 'IN',
-          durationUntilAlertAgain: const Duration(hours: 1),
-          showIgnore: false,
-          messages: OneStopUpgraderMessages(),
-        ),
-        child: child
-      ),
+          upgrader: Upgrader(
+            countryCode: 'IN',
+            durationUntilAlertAgain: const Duration(hours: 1),
+            showIgnore: false,
+            messages: OneStopUpgraderMessages(),
+          ),
+          child: child),
     );
   }
 }
-

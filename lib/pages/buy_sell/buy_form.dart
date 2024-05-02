@@ -66,7 +66,9 @@ class _BuySellFormState extends State<BuySellForm> {
             children: [
               isLoading
                   ? const LinearProgressIndicator()
-                  : widget.category == "Found" ? const ProgressBar(blue: 3, grey: 0): const ProgressBar(blue: 2, grey: 0),
+                  : widget.category == "Found"
+                      ? const ProgressBar(blue: 3, grey: 0)
+                      : const ProgressBar(blue: 2, grey: 0),
               Container(
                 margin: const EdgeInsets.only(
                     top: 40, left: 15, right: 5, bottom: 15),

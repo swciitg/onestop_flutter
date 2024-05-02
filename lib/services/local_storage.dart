@@ -82,6 +82,4 @@ class LocalStorage {
     Database localDB = await LocalStorage.instance.database;
     await store.record(DatabaseRecords.timetable).delete(localDB);
   }
-
-
 }

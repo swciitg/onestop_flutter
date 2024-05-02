@@ -74,10 +74,10 @@ class _UpspState extends State<Upsp> {
                 style: MyFonts.w400.size(14).setColor(kWhite),
               ))
             : GestureDetector(
-          onTap: (){
-            FocusScope.of(context).requestFocus(FocusNode());
-          },
-              child: Column(
+                onTap: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                },
+                child: Column(
                   children: [
                     const ProgressBar(blue: 1, grey: 1),
                     Container(
@@ -143,8 +143,8 @@ class _UpspState extends State<Upsp> {
                               padding: const EdgeInsets.all(3.0),
                               child: Container(
                                   height: 120,
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 12),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 12),
                                   decoration: BoxDecoration(
                                       border: Border.all(color: kGrey2),
                                       color: kBackground,
@@ -195,7 +195,8 @@ class _UpspState extends State<Upsp> {
                             GestureDetector(
                               onTap: () {
                                 if (problem.value.text.isEmpty) {
-                                  showSnackBar("Problem description cannot be empty");
+                                  showSnackBar(
+                                      "Problem description cannot be empty");
                                 } else {
                                   Map<String, dynamic> data = {
                                     'problem': problem.text,
@@ -221,7 +222,7 @@ class _UpspState extends State<Upsp> {
                     ),
                   ],
                 ),
-            ),
+              ),
       ),
     );
   }

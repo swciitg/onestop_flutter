@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 
-decfunction(String x) {
+decorationFUnction(String x) {
   return InputDecoration(
     labelText: x,
     labelStyle: MyFonts.w500.setColor(kGrey7),

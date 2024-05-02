@@ -137,8 +137,9 @@ abstract class _MapBoxStore with Store {
   }
 
   @action
-  Future<void> getPolylines(int i,BuildContext context) async {
-    loadOperation = APIService().getPolyline(
+  Future<void> getPolylines(int i, BuildContext context) async {
+    loadOperation = APIService()
+        .getPolyline(
             source: LatLng(userlat, userlong),
             dest: const LatLng(26.2027, 91.7004))
         .asObservable();

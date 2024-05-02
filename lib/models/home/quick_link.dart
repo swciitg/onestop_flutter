@@ -12,8 +12,7 @@ class QuickLinkModel {
   late String url;
 
 //Constructor
-  QuickLinkModel(
-      {required this.name, required this.icon, required this.url});
+  QuickLinkModel({required this.name, required this.icon, required this.url});
   factory QuickLinkModel.fromJson(Map<String, dynamic> json) =>
       _$QuickLinkModelFromJson(json);
 

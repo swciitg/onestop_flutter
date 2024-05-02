@@ -1,5 +1,5 @@
-import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/travel/has_left.dart';
+
 String nextTime(List<DateTime> timings, {String firstTime = ''}) {
   DateTime answer = DateTime.now();
   bool changed = false;
@@ -18,17 +18,19 @@ String nextTime(List<DateTime> timings, {String firstTime = ''}) {
       answer = DateTime.parse(firstTime);
     }
   }
-  String a= formatTime(answer);
+  String a = formatTime(answer);
   return a;
 }
+
 String formatTime(DateTime dateTimeo) {
   DateTime dateTime = dateTimeo.toLocal();
   var hour = dateTime.hour;
-  hour=hour>12?hour-12:hour;
+  hour = hour > 12 ? hour - 12 : hour;
   final minute = dateTime.minute.toString().padLeft(2, '0');
   final period = dateTime.hour < 12 ? 'AM' : 'PM';
   return '$hour:$minute $period';
 }
+
 int parseTime(String time) {
   var components = time.split(RegExp('[: ]'));
   if (components.length != 3) {

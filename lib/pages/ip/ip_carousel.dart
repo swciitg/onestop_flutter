@@ -190,7 +190,8 @@ class _RouterPageState extends State<RouterPage> {
                                                         //print(hostel);
                                                       },
                                                       decoration:
-                                                          decfunction(''),
+                                                          decorationFUnction(
+                                                              ''),
                                                       items: spinnerItems.map<
                                                               DropdownMenuItem<
                                                                   String>>(

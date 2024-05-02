@@ -19,7 +19,6 @@ class DateCourse extends StatefulWidget {
 }
 
 class _DateCourseState extends State<DateCourse> {
-
   @override
   void initState() {
     super.initState();
@@ -30,18 +29,17 @@ class _DateCourseState extends State<DateCourse> {
     DateTime now = DateTime.now();
     context.read<TimetableStore>().initialiseDates();
     return Observer(builder: (context) {
-        var classes = context.read<TimetableStore>().homeTimeTable;
-        bool showArrow = classes.length > 1;
-        if (showArrow) {
-          context.read<TimetableStore>().setDropDown(false);
-        }
-        return FutureBuilder(
+      var classes = context.read<TimetableStore>().homeTimeTable;
+      bool showArrow = classes.length > 1;
+      if (showArrow) {
+        context.read<TimetableStore>().setDropDown(false);
+      }
+      return FutureBuilder(
           future: context.read<TimetableStore>().initialiseTT(),
           builder: (context, snapshot) {
-            if(snapshot.hasError || !snapshot.hasData)
-              {
-                return const HomeTimetableShimmer();
-              }
+            if (snapshot.hasError || !snapshot.hasData) {
+              return const HomeTimetableShimmer();
+            }
             return Column(
               children: [
                 Row(
@@ -72,8 +70,7 @@ class _DateCourseState extends State<DateCourse> {
                 TimetableRow(classes: classes.skip(1).toList()),
               ],
             );
-          }
-        );
+          });
     });
   }
 }

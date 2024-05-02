@@ -9,13 +9,16 @@ class BlockedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("YOU HAVE BEEN BLOCKED", style: MyFonts.w500.size(14).setColor(Colors.white),),
-            Text("Contact General Secretary, SWC to unblock", style: MyFonts.w500.size(14).setColor(Colors.white),)
-          ]
-        ),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(
+            "YOU HAVE BEEN BLOCKED",
+            style: MyFonts.w500.size(14).setColor(Colors.white),
+          ),
+          Text(
+            "Contact General Secretary, SWC to unblock",
+            style: MyFonts.w500.size(14).setColor(Colors.white),
+          )
+        ]),
       ),
     );
   }

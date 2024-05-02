@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 part 'mess_menu_model.g.dart';
+
 @JsonSerializable()
 class MessMenu {
   final String id;
@@ -26,11 +27,12 @@ class MessMenu {
     required this.sunday,
     required this.v,
   });
-  factory MessMenu.fromJson(Map<String, dynamic> json) => _$MessMenuFromJson(json);
+  factory MessMenu.fromJson(Map<String, dynamic> json) =>
+      _$MessMenuFromJson(json);
 
   Map<String, dynamic> toJson() => _$MessMenuToJson(this);
-
 }
+
 @JsonSerializable()
 class Day {
   final String id;
@@ -48,6 +50,7 @@ class Day {
 
   Map<String, dynamic> toJson() => _$DayToJson(this);
 }
+
 @JsonSerializable()
 class MealType {
   final String id;
@@ -61,10 +64,10 @@ class MealType {
     required this.startTiming,
     required this.endTiming,
   });
-  factory MealType.fromJson(Map<String, dynamic> json) => _$MealTypeFromJson(json);
+  factory MealType.fromJson(Map<String, dynamic> json) =>
+      _$MealTypeFromJson(json);
 
   Map<String, dynamic> toJson() => _$MealTypeToJson(this);
-
 }
 // @JsonSerializable()
 // class MessMenuModel {

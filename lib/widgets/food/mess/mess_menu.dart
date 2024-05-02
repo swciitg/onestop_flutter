@@ -89,8 +89,11 @@ class MessMenu extends StatelessWidget {
                           Expanded(
                               flex: 4,
                               child: SingleChildScrollView(
-                                  child: Text(messStore.mealData.mealDescription,
-                                      style: MyFonts.w400.size(14).setColor(kWhite)))),
+                                  child: Text(
+                                      messStore.mealData.mealDescription,
+                                      style: MyFonts.w400
+                                          .size(14)
+                                          .setColor(kWhite)))),
                           Expanded(
                             flex: 2,
                             child: Row(
@@ -108,26 +111,33 @@ class MessMenu extends StatelessWidget {
                                             },
                                             value: value,
                                             child: Text(value.substring(0, 3),
-                                                style: MyFonts.w500.setColor(kWhite)),
+                                                style: MyFonts.w500
+                                                    .setColor(kWhite)),
                                           ),
                                         )
                                         .toList();
                                   },
                                   offset: const Offset(1, 40),
                                   child: Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 7.0, horizontal: 12.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 7.0, horizontal: 12.0),
                                     decoration: const BoxDecoration(
                                         color: kGrey2,
-                                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20))),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text(messStore.selectedDay.substring(0, 3),
+                                        Text(
+                                            messStore.selectedDay
+                                                .substring(0, 3),
                                             style: MyFonts.w500
                                                 .setColor(lBlue)
-                                                .size(screenWidth <= 390 ? 10 : 13)),
+                                                .size(screenWidth <= 390
+                                                    ? 10
+                                                    : 13)),
                                         Icon(
                                           FluentIcons.chevron_down_24_regular,
                                           color: lBlue,
@@ -138,7 +148,8 @@ class MessMenu extends StatelessWidget {
                                   ),
                                 ),
                                 PopupMenuButton<String>(
-                                  constraints: const BoxConstraints(maxHeight: 320),
+                                  constraints:
+                                      const BoxConstraints(maxHeight: 320),
                                   color: kBlueGrey,
                                   itemBuilder: (context) {
                                     return hostels
@@ -150,7 +161,8 @@ class MessMenu extends StatelessWidget {
                                             value: value,
                                             child: Text(
                                               value,
-                                              style: MyFonts.w500.setColor(kWhite),
+                                              style:
+                                                  MyFonts.w500.setColor(kWhite),
                                             ),
                                           ),
                                         )
@@ -158,20 +170,24 @@ class MessMenu extends StatelessWidget {
                                   },
                                   offset: const Offset(1, 40),
                                   child: Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 6.0, horizontal: 12.0),
                                     decoration: BoxDecoration(
                                         border: Border.all(color: lBlue),
-                                        borderRadius: const BorderRadius.all(Radius.circular(20))),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(20))),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(messStore.selectedHostel.value!,
                                             overflow: TextOverflow.fade,
                                             style: MyFonts.w500
                                                 .setColor(lBlue)
-                                                .size(screenWidth <= 390 ? 10 : 13)),
+                                                .size(screenWidth <= 390
+                                                    ? 10
+                                                    : 13)),
                                         Icon(
                                           FluentIcons.chevron_down_24_regular,
                                           color: lBlue,

@@ -11,8 +11,7 @@ class ContactModel {
   late List<ContactDetailsModel> contacts;
 
   //Constructor
-  ContactModel(
-      {required this.sectionName, required this.contacts});
+  ContactModel({required this.sectionName, required this.contacts});
 
   factory ContactModel.fromJson(Map<String, dynamic> json) =>
       _$ContactModelFromJson(json);

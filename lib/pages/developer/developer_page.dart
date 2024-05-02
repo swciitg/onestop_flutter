@@ -38,9 +38,11 @@ class _DeveloperPageState extends State<DeveloperPage> {
           children: List.filled(
             4,
             const DeveloperCard(
-              developerAvatarPath: 'assets/images/profile_placeholder.png', //Replace with your own image
+              developerAvatarPath:
+                  'assets/images/profile_placeholder.png', //Replace with your own image
               developerName: 'Developer name', //Replace with your own name
-              developerPosition: 'Developer position', //Replace with your own position
+              developerPosition:
+                  'Developer position', //Replace with your own position
             ),
           ),
         ),

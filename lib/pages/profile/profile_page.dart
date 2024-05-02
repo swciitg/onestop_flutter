@@ -26,9 +26,16 @@ class _ProfilePageState extends State<ProfilePage> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         // leadingWidth: 16,
-        leading: IconButton(onPressed: () {
-          Navigator.of(context).pop();
-        },icon: const Icon(Icons.arrow_back_ios_new_outlined,color: kWhite,),iconSize: 20,),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios_new_outlined,
+            color: kWhite,
+          ),
+          iconSize: 20,
+        ),
         title: Text(
           "Profile",
           textAlign: TextAlign.left,
@@ -92,17 +99,21 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               DataTile(
                 title: 'Contact Number',
-                semiTitle: widget.profileModel.phoneNumber!=null ? widget.profileModel.phoneNumber.toString() : null,
+                semiTitle: widget.profileModel.phoneNumber != null
+                    ? widget.profileModel.phoneNumber.toString()
+                    : null,
               ),
               DataTile(
                 title: 'Emergency Contact Number',
-                semiTitle: widget.profileModel.emergencyPhoneNumber!=null ? widget.profileModel.emergencyPhoneNumber.toString() : null,
+                semiTitle: widget.profileModel.emergencyPhoneNumber != null
+                    ? widget.profileModel.emergencyPhoneNumber.toString()
+                    : null,
               ),
               DataTile(
                 title: 'Hostel',
                 semiTitle: widget.profileModel.hostel,
               ),
-              widget.profileModel.dob==null
+              widget.profileModel.dob == null
                   ? Container()
                   : DataTile(
                       title: 'Date of Birth',
@@ -124,23 +135,25 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         )),
       ),
-      floatingActionButton: LoginStore.isGuest ? Container() : GestureDetector(
-        onTap: (() {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => EditProfile(
-                    profileModel: widget.profileModel,
-                  )));
-        }),
-        child: Container(
-          width: 48,
-          height: 48,
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(16)),
-              color: lBlue2),
-          child: const Icon(Icons.edit_outlined),
-        ),
-      ),
+      floatingActionButton: LoginStore.isGuest
+          ? Container()
+          : GestureDetector(
+              onTap: (() {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => EditProfile(
+                          profileModel: widget.profileModel,
+                        )));
+              }),
+              child: Container(
+                width: 48,
+                height: 48,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    color: lBlue2),
+                child: const Icon(Icons.edit_outlined),
+              ),
+            ),
     );
   }
 }

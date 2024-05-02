@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:onestop_dev/functions/utility/capitalize_string.dart';
@@ -19,11 +18,14 @@ class _NotifToggleState extends State<NotifToggle> {
   Widget build(BuildContext context) {
     var name = capitalize(widget.text);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical:  8,horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(name, style: MyFonts.w500.setColor(kWhite),),
+          Text(
+            name,
+            style: MyFonts.w500.setColor(kWhite),
+          ),
           FlutterSwitch(
             toggleSize: 20,
             toggleColor: kWhite,
@@ -34,8 +36,7 @@ class _NotifToggleState extends State<NotifToggle> {
             value: LoginStore.userData['notifPref'][widget.text]!,
             onToggle: (val) {
               LoginStore.userData['notifPref'][widget.text] = val;
-              setState(() {
-              });
+              setState(() {});
             },
           ),
         ],

@@ -17,6 +17,5 @@ void openMap(double latitude, double longitude, BuildContext context,
       "Could not open map.",
       style: MyFonts.w500,
     )));
-    //ScaffoldMessenger.of(context).showSnackBar();
   }
 }

@@ -17,10 +17,10 @@ class BackendHelper {
 }
 
 class NotificationCategories {
-    static const lost= "lost";
-    static const found= "found";
-    static const buy= "buy";
-    static const sell= "sell";
-    static const cabSharing= "cabSharing";
-    static const announcement= "announcement";
+  static const lost = "lost";
+  static const found = "found";
+  static const buy = "buy";
+  static const sell = "sell";
+  static const cabSharing = "cabSharing";
+  static const announcement = "announcement";
 }

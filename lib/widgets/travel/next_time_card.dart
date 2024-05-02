@@ -21,7 +21,6 @@ class NextTimeCard extends StatefulWidget {
 
 class _NextTimeCardState extends State<NextTimeCard> {
   @override
-
   Widget build(BuildContext context) {
     var travelStore = context.read<TravelStore>();
 
@@ -30,18 +29,18 @@ class _NextTimeCardState extends State<NextTimeCard> {
       String today = getFormattedDay();
       if (mapStore.indexBusesorFerry == 0) {
         List<TravelTiming> allBusTimes = await travelStore.getBusTimings();
-        List<DateTime> weekdaysTimes= [];
-        List<DateTime> weekendTimes=[];
-        for(var xyz in allBusTimes){
-          int n=xyz.weekdays.fromCampus.length;
-          for(int i=0;i<n;i++){
+        List<DateTime> weekdaysTimes = [];
+        List<DateTime> weekendTimes = [];
+        for (var xyz in allBusTimes) {
+          int n = xyz.weekdays.fromCampus.length;
+          for (int i = 0; i < n; i++) {
             weekdaysTimes.add(xyz.weekdays.fromCampus[i]);
           }
         }
         weekdaysTimes.sort((a, b) => a.compareTo(b));
-        for(var xyz in allBusTimes){
-          int n=xyz.weekend.fromCampus.length;
-          for(int i=0;i<n;i++){
+        for (var xyz in allBusTimes) {
+          int n = xyz.weekend.fromCampus.length;
+          for (int i = 0; i < n; i++) {
             weekendTimes.add(xyz.weekend.fromCampus[i]);
           }
         }
@@ -49,33 +48,32 @@ class _NextTimeCardState extends State<NextTimeCard> {
         if (today == 'Fri') {
           return nextTime(weekdaysTimes, firstTime: weekendTimes[0].toString());
         } else if (today == 'Sun') {
-          return nextTime(weekendTimes, firstTime:weekdaysTimes[0].toString());
+          return nextTime(weekendTimes, firstTime: weekdaysTimes[0].toString());
         } else if (today == 'Sat') {
           return nextTime(weekendTimes);
         }
         return nextTime(weekdaysTimes);
       } else {
         List<TravelTiming> ferryTimings = await travelStore.getFerryTimings();
-        List<DateTime> weekdaysTimes= [];
-        List<DateTime> weekendTimes=[];
-        TravelTiming requiredModel =
-        ferryTimings.firstWhere((element) => element.stop == mapStore.allLocationData[mapStore.selectedCarouselIndex]['name']);
-        int n=requiredModel.weekdays.fromCampus.length;
-        for(int i=0;i<n;i++){
+        List<DateTime> weekdaysTimes = [];
+        List<DateTime> weekendTimes = [];
+        TravelTiming requiredModel = ferryTimings.firstWhere((element) =>
+            element.stop ==
+            mapStore.allLocationData[mapStore.selectedCarouselIndex]['name']);
+        int n = requiredModel.weekdays.fromCampus.length;
+        for (int i = 0; i < n; i++) {
           weekdaysTimes.add(requiredModel.weekdays.fromCampus[i]);
         }
         weekdaysTimes.sort((a, b) => a.compareTo(b));
-        int p=requiredModel.weekend.fromCampus.length;
-        for(int i=0;i<p;i++){
+        int p = requiredModel.weekend.fromCampus.length;
+        for (int i = 0; i < p; i++) {
           weekendTimes.add(requiredModel.weekend.fromCampus[i]);
         }
         weekendTimes.sort((a, b) => a.compareTo(b));
         if (today == 'Sat') {
-          return nextTime(weekdaysTimes,
-              firstTime: weekendTimes[0].toString());
+          return nextTime(weekdaysTimes, firstTime: weekendTimes[0].toString());
         } else if (today == 'Sun') {
-          return nextTime(weekendTimes,
-              firstTime: weekdaysTimes[0].toString());
+          return nextTime(weekendTimes, firstTime: weekdaysTimes[0].toString());
         }
         return nextTime(weekdaysTimes);
       }
@@ -98,13 +96,13 @@ class _NextTimeCardState extends State<NextTimeCard> {
               radius: 20,
               child: (mapStore.indexBusesorFerry == 1)
                   ? const Icon(
-                FluentIcons.vehicle_ship_24_filled,
-                color: kBlueGrey,
-              )
+                      FluentIcons.vehicle_ship_24_filled,
+                      color: kBlueGrey,
+                    )
                   : const Icon(
-                FluentIcons.vehicle_bus_24_filled,
-                color: kBlueGrey,
-              ),
+                      FluentIcons.vehicle_bus_24_filled,
+                      color: kBlueGrey,
+                    ),
             ),
             title: Text(
               mapStore.allLocationData[mapStore.selectedCarouselIndex]['name'],
@@ -121,13 +119,13 @@ class _NextTimeCardState extends State<NextTimeCard> {
                         width: 80,
                         child: (mapStore.indexBusesorFerry == 0)
                             ? Text(
-                          'Next Bus in ${durationLeft(snapshot.data.toString())}',
-                          style: MyFonts.w500.setColor(lBlue2).size(14),
-                        )
+                                'Next Bus in ${durationLeft(snapshot.data.toString())}',
+                                style: MyFonts.w500.setColor(lBlue2).size(14),
+                              )
                             : Text(
-                          'Next Ferry in ${durationLeft(snapshot.data.toString())}',
-                          style: MyFonts.w500.setColor(lBlue2).size(14),
-                        ));
+                                'Next Ferry in ${durationLeft(snapshot.data.toString())}',
+                                style: MyFonts.w500.setColor(lBlue2).size(14),
+                              ));
                   }
                   return const CircularProgressIndicator();
                 }),

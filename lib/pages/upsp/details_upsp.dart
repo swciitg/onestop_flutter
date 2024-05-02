@@ -34,8 +34,8 @@ class _DetailsUpspState extends State<DetailsUpsp> {
     String name = userData['name']!;
     rollNo.text = userData['rollNo']!.toString();
     String selectedDropdown = userData['hostel']!;
-    contact.text=userData['phoneNumber']!.toString();
-    
+    contact.text = userData['phoneNumber']!.toString();
+
     return Scaffold(
       backgroundColor: kBackground,
       appBar: AppBar(
@@ -48,7 +48,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
       body: Form(
         key: _formKey,
         child: GestureDetector(
-          onTap: (){
+          onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
           },
           child: Column(
@@ -60,8 +60,8 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding:
-                            const EdgeInsets.only(left: 15, top: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, top: 15, bottom: 10),
                         child: Text(
                           "Your Roll Number",
                           style: MyFonts.w600.size(16).setColor(kWhite),
@@ -86,7 +86,9 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                     }
                                     return null;
                                   },
-                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
                                   keyboardType: TextInputType.number,
                                   style: MyFonts.w500.size(16).setColor(kWhite),
                                   decoration: InputDecoration(
@@ -99,8 +101,8 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                 ))),
                       ),
                       Padding(
-                        padding:
-                            const EdgeInsets.only(left: 15, top: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, top: 15, bottom: 10),
                         child: Text(
                           "Contact Number",
                           style: MyFonts.w600.size(16).setColor(kWhite),
@@ -128,7 +130,9 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                     return null;
                                   },
                                   keyboardType: TextInputType.number,
-                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
                                   controller: contact,
                                   maxLength: 10,
                                   style: MyFonts.w500.size(16).setColor(kWhite),
@@ -142,15 +146,16 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                 ))),
                       ),
                       Padding(
-                        padding:
-                            const EdgeInsets.only(left: 15, top: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, top: 15, bottom: 10),
                         child: Text(
                           "Your Hostel",
                           style: MyFonts.w600.size(16).setColor(kWhite),
                         ),
                       ),
                       Theme(
-                        data: Theme.of(context).copyWith(canvasColor: kBlueGrey),
+                        data:
+                            Theme.of(context).copyWith(canvasColor: kBlueGrey),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 5),
@@ -165,7 +170,8 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                             hint: Padding(
                               padding: const EdgeInsets.only(left: 15),
                               child: Text("Select your hostel",
-                                  style: MyFonts.w500.setColor(kGrey8).size(16)),
+                                  style:
+                                      MyFonts.w500.setColor(kGrey8).size(16)),
                             ),
                             decoration: InputDecoration(
                               errorStyle: MyFonts.w400,
@@ -204,7 +210,8 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                   padding: const EdgeInsets.only(left: 15),
                                   child: Text(
                                     value,
-                                    style: MyFonts.w600.size(14).setColor(kWhite),
+                                    style:
+                                        MyFonts.w600.size(14).setColor(kWhite),
                                   ),
                                 ),
                               );
@@ -220,37 +227,39 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                           if (!_formKey.currentState!.validate()) {
                             return;
                           }
-                          if(!submitted)
-                            {
-                              setState(() {
-                                submitted = true;
-                              });
-                              Map<String, dynamic> data = widget.data;
-                              data['phone'] = contact.text;
-                              data['hostel'] = selectedDropdown;
-                              data['name'] = name;
-                              data['roll_number'] = rollNo.text;
-                              data['email'] = email;
-                              try {
-                                var response = await APIService().postUPSP(data);
-                                if (!mounted) return;
-                                if (response['success']) {
-                                  showSnackBar("Your problem has been successfully sent to respective au1thorities.");
-                                  Navigator.popUntil(
-                                      context, ModalRoute.withName(HomePage.id));
-                                } else {
-                                  showSnackBar("Some error occurred. Try again later");
-                                  setState(() {
-                                    submitted = false;
-                                  });
-                                }
-                              } catch (err) {
-                                showSnackBar("Please check you internet connection and try again");
+                          if (!submitted) {
+                            setState(() {
+                              submitted = true;
+                            });
+                            Map<String, dynamic> data = widget.data;
+                            data['phone'] = contact.text;
+                            data['hostel'] = selectedDropdown;
+                            data['name'] = name;
+                            data['roll_number'] = rollNo.text;
+                            data['email'] = email;
+                            try {
+                              var response = await APIService().postUPSP(data);
+                              if (!mounted) return;
+                              if (response['success']) {
+                                showSnackBar(
+                                    "Your problem has been successfully sent to respective au1thorities.");
+                                Navigator.popUntil(
+                                    context, ModalRoute.withName(HomePage.id));
+                              } else {
+                                showSnackBar(
+                                    "Some error occurred. Try again later");
                                 setState(() {
                                   submitted = false;
                                 });
                               }
+                            } catch (err) {
+                              showSnackBar(
+                                  "Please check you internet connection and try again");
+                              setState(() {
+                                submitted = false;
+                              });
                             }
+                          }
                         },
                         child: const NextButton(
                           title: "Submit",

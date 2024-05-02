@@ -25,26 +25,27 @@ abstract class _TravelStore with Store {
   String selectedFerryGhat = "Mazgaon";
 
   @observable
-  ObservableList<TravelTiming> ferryTimings = ObservableList<TravelTiming>.of([]);
+  ObservableList<TravelTiming> ferryTimings =
+      ObservableList<TravelTiming>.of([]);
 
   @observable
   ObservableList<TravelTiming> busTimings = ObservableList<TravelTiming>.of([]);
 
   @action
   Future<List<TravelTiming>> getBusTimings() async {
-    if(busTimings.isEmpty)
-    {
-      busTimings = ObservableList<TravelTiming>.of((await DataProvider.getBusTiming()));
+    if (busTimings.isEmpty) {
+      busTimings =
+          ObservableList<TravelTiming>.of((await DataProvider.getBusTiming()));
     }
     return busTimings;
   }
 
   @action
   Future<List<TravelTiming>> getFerryTimings() async {
-    if(ferryTimings.isEmpty)
-      {
-        ferryTimings = ObservableList<TravelTiming>.of((await DataProvider.getFerryTiming()));
-      }
+    if (ferryTimings.isEmpty) {
+      ferryTimings = ObservableList<TravelTiming>.of(
+          (await DataProvider.getFerryTiming()));
+    }
     return ferryTimings;
   }
 

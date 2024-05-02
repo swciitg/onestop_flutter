@@ -8,16 +8,13 @@ import '../../globals/size_config.dart';
 class WelcomePage extends StatelessWidget {
   static String id = "/login2";
   final Function setLoading;
-  const WelcomePage({Key? key, 
-  required this.setLoading
-  }) : super(key: key);
+  const WelcomePage({Key? key, required this.setLoading}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      body: 
-      SafeArea(
+      body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -36,9 +33,10 @@ class WelcomePage extends StatelessWidget {
               flex: 1,
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MySpaces.horizontalScreenPadding
-                    ),
-                child:  LoginButton(setLoading: setLoading,),
+                    horizontal: MySpaces.horizontalScreenPadding),
+                child: LoginButton(
+                  setLoading: setLoading,
+                ),
               ),
             ),
           ],

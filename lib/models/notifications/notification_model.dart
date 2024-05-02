@@ -14,14 +14,12 @@ class NotifsModel {
   @JsonKey(name: "_id")
   String messageId = "";
   NotifsModel(
-      {
-        this.title,
+      {this.title,
       this.body,
-        this.read,
+      this.read,
       required this.category,
       required this.time,
-      required this.messageId
-});
+      required this.messageId});
 
   factory NotifsModel.fromJson(Map<String, dynamic> map) =>
       _$NotifsModelFromJson(map);

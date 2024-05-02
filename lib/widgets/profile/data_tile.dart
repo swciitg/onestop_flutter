@@ -4,7 +4,6 @@ import 'package:onestop_dev/stores/login_store.dart';
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 
-
 class DataTile extends StatelessWidget {
   final String title;
   final String? semiTitle;
@@ -27,7 +26,11 @@ class DataTile extends StatelessWidget {
           height: 10,
         ),
         Text(
-          semiTitle!=null && semiTitle!.isNotEmpty ? semiTitle! : (LoginStore.isGuest ? "Not set for guest user" : "Not set by you"),
+          semiTitle != null && semiTitle!.isNotEmpty
+              ? semiTitle!
+              : (LoginStore.isGuest
+                  ? "Not set for guest user"
+                  : "Not set by you"),
           style: MyFonts.w500.size(14).setColor(kWhite),
         ),
         const SizedBox(

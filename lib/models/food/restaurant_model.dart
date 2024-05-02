@@ -34,7 +34,9 @@ class RestaurantModel {
   @JsonKey(defaultValue: [])
   late List<DishModel> menu;
 
-  @JsonKey(defaultValue: "https://dw7n6pv5zdng0.cloudfront.net/modules/0001/04/thumb_3251_modules_big.jpeg")
+  @JsonKey(
+      defaultValue:
+          "https://dw7n6pv5zdng0.cloudfront.net/modules/0001/04/thumb_3251_modules_big.jpeg")
   late String imageURL;
 
   RestaurantModel(

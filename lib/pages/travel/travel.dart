@@ -32,11 +32,12 @@ class _TravelPageState extends State<TravelPage> {
           const SizedBox(
             height: 10,
           ),
-           Observer(builder: (context) {
-                return (mapStore.indexBusesorFerry == 0)
-                    ? const StopsBusDetails()
-                    : const FerryDetails();
-              },
+          Observer(
+            builder: (context) {
+              return (mapStore.indexBusesorFerry == 0)
+                  ? const StopsBusDetails()
+                  : const FerryDetails();
+            },
           )
         ],
       ),

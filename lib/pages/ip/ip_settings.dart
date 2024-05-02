@@ -59,7 +59,7 @@ class _IpPageState extends State<IpPage> {
           }
         }
       }
-      ipAdress = calculatedetails(args, ipAdress.substring(0, k));
+      ipAdress = calculateDetails(args, ipAdress.substring(0, k));
     }
 
     return Column(

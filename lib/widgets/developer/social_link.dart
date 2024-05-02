@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:url_launcher/url_launcher.dart';
-
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 
 class SocialLink extends StatelessWidget {

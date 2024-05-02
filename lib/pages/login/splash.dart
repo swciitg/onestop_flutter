@@ -20,32 +20,29 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    LoginStore()
-        .isAlreadyAuthenticated()
-        .then((result) {
-      if (result == SplashResponse.authenticated && LoginStore.isProfileComplete){
-        Navigator.of(context).pushNamedAndRemoveUntil(HomePage.id, (Route<dynamic> route) => false);
-      }
-      else if(result == SplashResponse.blocked){
-        Navigator.of(context).pushNamedAndRemoveUntil(BlockedPage.id, (Route<dynamic> route) => false);
-      }
-      else {
-        Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.id, (Route<dynamic> route) => false);
+    LoginStore().isAlreadyAuthenticated().then((result) {
+      if (result == SplashResponse.authenticated &&
+          LoginStore.isProfileComplete) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            HomePage.id, (Route<dynamic> route) => false);
+      } else if (result == SplashResponse.blocked) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            BlockedPage.id, (Route<dynamic> route) => false);
+      } else {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            LoginPage.id, (Route<dynamic> route) => false);
       }
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           SizedBox(
-             width: 200,
-               child: Image.asset('assets/images/logo.png')),
+            SizedBox(width: 200, child: Image.asset('assets/images/logo.png')),
             Image.asset('assets/images/logoo.png'),
           ],
         ),

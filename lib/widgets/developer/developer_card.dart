@@ -58,8 +58,7 @@ class DeveloperCard extends StatelessWidget {
                   imagePath: 'assets/images/github.png',
                 ),
                 SocialLink(
-                  url:
-                      'https://outlook.live.com/',
+                  url: 'https://outlook.live.com/',
                   imagePath: 'assets/images/outlook.png',
                 ),
               ],

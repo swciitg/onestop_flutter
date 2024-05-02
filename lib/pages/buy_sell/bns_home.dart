@@ -67,7 +67,6 @@ class _BuySellHomeState extends State<BuySellHome> {
   Widget build(BuildContext context) {
     var commonStore = context.read<CommonStore>();
 
-
     return Observer(
       builder: (BuildContext context) {
         return Scaffold(
@@ -169,43 +168,47 @@ class _BuySellHomeState extends State<BuySellHome> {
                 )
               else
                 Expanded(
-                  child: LoginStore().isGuestUser ? const GuestRestrictAccess()
-                  : FutureBuilder(
-                      future: APIService().getBnsMyItems(
-                          LoginStore.userData['outlookEmail']!),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          List<BuyModel> models =
-                              snapshot.data! as List<BuyModel>;
-                          List<MyAdsTile> tiles =
-                              models.map((e) => MyAdsTile(model: e)).toList();
-                          if (LoginStore().isGuestUser) {
-                            return const PaginationText(
-                                text:
-                                    "Log in with your IITG account to post ads");
-                          }
-                          if (tiles.isEmpty) {
-                            return const PaginationText(
-                                text: "You haven't posted any ads");
-                          }
-                          return ListView.builder(
-                            itemBuilder: (context, index) => tiles[index],
-                            itemCount: tiles.length,
-                          );
-                        }
-                        return ListShimmer(
-                          count: 5,
-                          height: 120,
-                        );
-                      }),
+                  child: LoginStore().isGuestUser
+                      ? const GuestRestrictAccess()
+                      : FutureBuilder(
+                          future: APIService().getBnsMyItems(
+                              LoginStore.userData['outlookEmail']!),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<BuyModel> models =
+                                  snapshot.data! as List<BuyModel>;
+                              List<MyAdsTile> tiles = models
+                                  .map((e) => MyAdsTile(model: e))
+                                  .toList();
+                              if (LoginStore().isGuestUser) {
+                                return const PaginationText(
+                                    text:
+                                        "Log in with your IITG account to post ads");
+                              }
+                              if (tiles.isEmpty) {
+                                return const PaginationText(
+                                    text: "You haven't posted any ads");
+                              }
+                              return ListView.builder(
+                                itemBuilder: (context, index) => tiles[index],
+                                itemCount: tiles.length,
+                              );
+                            }
+                            return ListShimmer(
+                              count: 5,
+                              height: 120,
+                            );
+                          }),
                 )
             ],
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: LoginStore().isGuestUser ? Container() : AddItemButton(
-            type: commonStore.bnsIndex,
-          ),
+          floatingActionButton: LoginStore().isGuestUser
+              ? Container()
+              : AddItemButton(
+                  type: commonStore.bnsIndex,
+                ),
         );
       },
     );

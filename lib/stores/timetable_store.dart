@@ -124,8 +124,7 @@ abstract class _TimetableStore with Store {
       ...allTimetableCourses[current.weekday - 1]
           .morning
           .where((e) =>
-              dateFormat.parse(e.timings![day]).hour >=
-              DateTime.now().hour)
+              dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
           .toList()
           .map((e) => TimetableTile(
                 course: e,
@@ -135,8 +134,7 @@ abstract class _TimetableStore with Store {
       ...allTimetableCourses[current.weekday - 1]
           .afternoon
           .where((e) =>
-              dateFormat.parse(e.timings![day]).hour >=
-              DateTime.now().hour)
+              dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
           .toList()
           .map((e) => TimetableTile(
                 course: e,
@@ -202,9 +200,9 @@ abstract class _TimetableStore with Store {
         final timings = copyCourse.timings ?? {};
         if (timings.containsKey(day)) {
           var time = (timings[day] as String);
-          if (isMorning(time)){
+          if (isMorning(time)) {
             timetableCourses[i].addMorning(copyCourse);
-          } else{
+          } else {
             timetableCourses[i].addAfternoon(copyCourse);
           }
         }

@@ -55,11 +55,15 @@ abstract class _RestaurantStore with Store {
     List<RestaurantModel> allRestaurants = await DataProvider.getRestaurants();
     List<RestaurantModel> searchResults = [];
     for (var restaurant in allRestaurants) {
-      if (restaurant.outletName.toLowerCase().contains(_searchString.toLowerCase())) {
+      if (restaurant.outletName
+          .toLowerCase()
+          .contains(_searchString.toLowerCase())) {
         searchResults.add(restaurant);
       } else {
         for (var dish in restaurant.menu) {
-          if (dish.itemName.toLowerCase().contains(_searchString.toLowerCase())) {
+          if (dish.itemName
+              .toLowerCase()
+              .contains(_searchString.toLowerCase())) {
             searchResults.add(restaurant);
           }
         }

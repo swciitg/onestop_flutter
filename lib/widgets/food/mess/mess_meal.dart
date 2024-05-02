@@ -4,6 +4,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:provider/provider.dart';
+
 class MessMeal extends StatelessWidget {
   const MessMeal({
     Key? key,
@@ -33,11 +34,11 @@ class MessMeal extends StatelessWidget {
                 mealName,
                 style: selected
                     ? MyFonts.w500
-                    .size(screenWidth <= 380 ? 13 : 14)
-                    .setColor(kBlueGrey)
+                        .size(screenWidth <= 380 ? 13 : 14)
+                        .setColor(kBlueGrey)
                     : MyFonts.w500
-                    .size(screenWidth <= 380 ? 13 : 14)
-                    .setColor(const Color.fromRGBO(91, 146, 227, 1)),
+                        .size(screenWidth <= 380 ? 13 : 14)
+                        .setColor(const Color.fromRGBO(91, 146, 227, 1)),
               ),
             );
           }),

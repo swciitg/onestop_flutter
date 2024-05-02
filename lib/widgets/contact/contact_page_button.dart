@@ -47,13 +47,16 @@ class _ContactPageButtonState extends State<ContactPageButton> {
           flex: 106,
           child: GestureDetector(
             onTap: () {
-              ContactModel contact = ContactModel(sectionName: widget.label, contacts: []); //case when section is not in db
-              if(widget.label=="Gymkhana" && people['Gymkhana']!=null){
-                contact=people['Gymkhana']!;
-              }
-              else if (widget.label == "Emergency" && people['Emergency']!=null) {
+              ContactModel contact = ContactModel(
+                  sectionName: widget.label,
+                  contacts: []); //case when section is not in db
+              if (widget.label == "Gymkhana" && people['Gymkhana'] != null) {
+                contact = people['Gymkhana']!;
+              } else if (widget.label == "Emergency" &&
+                  people['Emergency'] != null) {
                 contact = people['Emergency']!;
-              } else if (widget.label == 'Transport' && people['Transport']!=null) {
+              } else if (widget.label == 'Transport' &&
+                  people['Transport'] != null) {
                 contact = people['Transport']!;
               }
               Navigator.push(context, MaterialPageRoute(builder: (context) {

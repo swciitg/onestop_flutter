@@ -9,6 +9,10 @@ class Scoreboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GCScoreBoard(userInfo: {"name": LoginStore.userData["name"],"rollno": LoginStore.userData["rollNo"],"email" : LoginStore.userData["outlookEmail"]});
+    return GCScoreBoard(userInfo: {
+      "name": LoginStore.userData["name"],
+      "rollno": LoginStore.userData["rollNo"],
+      "email": LoginStore.userData["outlookEmail"]
+    });
   }
 }

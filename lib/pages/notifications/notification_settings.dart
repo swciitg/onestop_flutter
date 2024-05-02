@@ -6,7 +6,6 @@ import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/notifications/notif_toggle.dart';
 
-
 class NotificationSettings extends StatefulWidget {
   const NotificationSettings({Key? key}) : super(key: key);
 
@@ -22,37 +21,41 @@ class _NotificationSettingsState extends State<NotificationSettings> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAppBarGrey,
-        title:  Text('Notification Settings',
-        style: MyFonts.w500,
+        title: Text(
+          'Notification Settings',
+          style: MyFonts.w500,
         ),
       ),
-      body:  Column(
+      body: Column(
         children: [
           NotifToggle(text: NotificationCategories.cabSharing),
           NotifToggle(text: NotificationCategories.lost),
           NotifToggle(text: NotificationCategories.found),
           NotifToggle(text: NotificationCategories.buy),
           NotifToggle(text: NotificationCategories.sell),
-          ElevatedButton(onPressed: () async {
-            if(isLoading)
-              {
-                return;
-              }
-            setState(() {
-              isLoading = true;
-            });
-            try{
-            await APIService().updateUserNotifPref(LoginStore.userData['notifPref']);}
-            catch(e)
-            {
-              print(e);
-            }
-            setState(() {
-              isLoading = false;
-            });
-          }, child: isLoading? CircularProgressIndicator(
-            color: Colors.white,
-          ) : Text('Save'))
+          ElevatedButton(
+              onPressed: () async {
+                if (isLoading) {
+                  return;
+                }
+                setState(() {
+                  isLoading = true;
+                });
+                try {
+                  await APIService()
+                      .updateUserNotifPref(LoginStore.userData['notifPref']);
+                } catch (e) {
+                  print(e);
+                }
+                setState(() {
+                  isLoading = false;
+                });
+              },
+              child: isLoading
+                  ? CircularProgressIndicator(
+                      color: Colors.white,
+                    )
+                  : Text('Save'))
         ],
       ),
     );

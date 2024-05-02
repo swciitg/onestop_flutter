@@ -21,8 +21,8 @@ class NotificationPage extends StatefulWidget {
   State<NotificationPage> createState() => _NotificationPageState();
 }
 
-class _NotificationPageState extends State<NotificationPage> with TickerProviderStateMixin{
-
+class _NotificationPageState extends State<NotificationPage>
+    with TickerProviderStateMixin {
   IconData getIcon(bool readNotif) {
     if (!readNotif) {
       return FluentIcons.circle_24_filled;
@@ -30,12 +30,12 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
     return Icons.brightness_1_outlined;
   }
 
-   late TabController tabController;
+  late TabController tabController;
 
   @override
   void initState() {
     super.initState();
-    tabController  = TabController(length: 2, vsync: this);
+    tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -45,27 +45,30 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
       appBar: AppBar(
         backgroundColor: kAppBarGrey,
         actions: [
-          !(LoginStore().isGuestUser) ? GestureDetector(
-            onTap: (){
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context)=>const NotificationSettings())
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.only(right:16),
-              child: Icon(
-                Icons.settings,
-                color: kWhite2,
-              ),
-            ),
-          ) : Container()
+          !(LoginStore().isGuestUser)
+              ? GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const NotificationSettings()));
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 16),
+                    child: Icon(
+                      Icons.settings,
+                      color: kWhite2,
+                    ),
+                  ),
+                )
+              : Container()
         ],
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: const Icon(FluentIcons.arrow_left_24_regular,color: kWhite2,
-              )),
+            icon: const Icon(
+              FluentIcons.arrow_left_24_regular,
+              color: kWhite2,
+            )),
         title: Text(
           'Notifications',
           style: MyFonts.w500.setColor(kWhite2),
@@ -75,15 +78,15 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
           future: DataProvider.getNotifications(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if(snapshot.data!["userPersonalNotifs"]!.isEmpty && snapshot.data!["allTopicNotifs"]!.isEmpty)
-                {
-                  return Center(
-                    child: Text(
-                      'No notifications found',
-                      style: MyFonts.w300.setColor(kWhite),
-                    ),
-                  );
-                }
+              if (snapshot.data!["userPersonalNotifs"]!.isEmpty &&
+                  snapshot.data!["allTopicNotifs"]!.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No notifications found',
+                    style: MyFonts.w300.setColor(kWhite),
+                  ),
+                );
+              }
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: SingleChildScrollView(
@@ -92,64 +95,64 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
                       TabBar(
                         indicatorColor: Colors.white,
                         controller: tabController,
-                        onTap: (int index){
-                          if(index == 0)
-                            {
-                              store.isPersonalNotif = true;
-                            }
-                          else
-                            {
-                              store.isPersonalNotif = false;
-
-                            }
+                        onTap: (int index) {
+                          if (index == 0) {
+                            store.isPersonalNotif = true;
+                          } else {
+                            store.isPersonalNotif = false;
+                          }
                         },
                         tabs: const [
                           Tab(
                               child: Text(
-                                'Personal',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              )),
+                            'Personal',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          )),
                           Tab(
                               child: Text(
-                                'General',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              )),
+                            'General',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          )),
                         ],
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      Observer(builder: (context){
-                        return store.isPersonalNotif ? Column(
-                          children: [
-                            for(NotifsModel notif in snapshot.data!["userPersonalNotifs"]!)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                                child: NotificationTile(
-                                  notifModel: notif,
-                                ),
-                              ),
-                          ],
-                        ): Column(
-                          children: [
-                            for(NotifsModel notif in snapshot.data!["allTopicNotifs"]!)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                                child: NotificationTile(
-                                  notifModel: notif,
-                                ),
-                              ),
-                          ],
-                        );
+                      Observer(builder: (context) {
+                        return store.isPersonalNotif
+                            ? Column(
+                                children: [
+                                  for (NotifsModel notif
+                                      in snapshot.data!["userPersonalNotifs"]!)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: NotificationTile(
+                                        notifModel: notif,
+                                      ),
+                                    ),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  for (NotifsModel notif
+                                      in snapshot.data!["allTopicNotifs"]!)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: NotificationTile(
+                                        notifModel: notif,
+                                      ),
+                                    ),
+                                ],
+                              );
                       }),
-
-
                     ],
                   ),
                 ),
@@ -163,8 +166,8 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
                   ),
                   Expanded(
                       child: ListShimmer(
-                        count: 5,
-                      )),
+                    count: 5,
+                  )),
                 ],
               );
             }
@@ -175,17 +178,17 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
               ),
             );
           }),
-      floatingActionButton: Observer(
-        builder: (context) {
-          return store.isPersonalNotif ? FloatingActionButton(
-            onPressed: () async{
-              await APIService().deletePersonalNotif();
-            },
-            backgroundColor: lBlue2,
-            child: const Icon(Icons.delete),
-          ): Container();
-        }
-      ),
+      floatingActionButton: Observer(builder: (context) {
+        return store.isPersonalNotif
+            ? FloatingActionButton(
+                onPressed: () async {
+                  await APIService().deletePersonalNotif();
+                },
+                backgroundColor: lBlue2,
+                child: const Icon(Icons.delete),
+              )
+            : Container();
+      }),
     );
   }
 }

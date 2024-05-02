@@ -22,7 +22,7 @@ class ComplaintsPage extends StatelessWidget {
       }
     }
 
-     _showIntranetDialog() async {
+    _showIntranetDialog() async {
       await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -132,8 +132,6 @@ class ComplaintsPage extends StatelessWidget {
         },
       );
     }
-
-   
 
     return Scaffold(
       appBar: AppBar(

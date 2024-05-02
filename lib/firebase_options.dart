@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '755380116666',
     projectId: 'onestopiitg-2',
     storageBucket: 'onestopiitg-2.appspot.com',
-    iosClientId: '755380116666-if5jvrpuk5hja4qtlqoaa5eil2nlhmaa.apps.googleusercontent.com',
+    iosClientId:
+        '755380116666-if5jvrpuk5hja4qtlqoaa5eil2nlhmaa.apps.googleusercontent.com',
     iosBundleId: 'com.swciitg.onestop2swc2022',
   );
 }

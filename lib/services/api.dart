@@ -364,7 +364,6 @@ class APIService {
   }
 
   Future<Map<String, dynamic>> getLastUpdated() async {
-
     var response = await dio.get(Endpoints.lastUpdatedURL);
     var status = response.statusCode;
     var body = response.data;

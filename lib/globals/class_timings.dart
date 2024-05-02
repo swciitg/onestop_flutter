@@ -10,15 +10,11 @@ bool isMorning(String timeString) {
   List<String> endTimeParts = parts[1].split(':');
   bool isAM = endTimeParts[1].split(' ')[1] == 'AM';
 
-  if(startHour == 12 && !isAM)
-    {
-      return true;
-    }
-  else if(isAM)
-    {
-      return true;
-    }
+  if (startHour == 12 && !isAM) {
+    return true;
+  } else if (isAM) {
+    return true;
+  }
 
   return false;
-
 }

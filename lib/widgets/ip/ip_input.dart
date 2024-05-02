@@ -51,7 +51,7 @@ class IpField extends StatelessWidget {
             control.selection = TextSelection.fromPosition(
                 TextPosition(offset: control.text.length));
           },
-          decoration: decfunction(textb)),
+          decoration: decorationFUnction(textb)),
     );
   }
 }

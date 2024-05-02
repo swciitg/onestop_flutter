@@ -33,10 +33,10 @@ class NotificationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var iconColor = kGreen ;
+    var iconColor = kGreen;
     var titleColor = kWhite;
-    var bodyColor =  lBlue;
-    var tileBg =  kTimetableGreen;
+    var bodyColor = lBlue;
+    var tileBg = kTimetableGreen;
     return Container(
       decoration: BoxDecoration(
         color: tileBg,

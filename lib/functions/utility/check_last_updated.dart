@@ -15,12 +15,11 @@ Map<String, List<String>> recordNames = {
 };
 
 Future<bool> checkLastUpdated() async {
- bool isConnected = await hasInternetConnection();
- if(!isConnected)
-   {
-     //skipping check if not connected to the internet
-     return true;
-   }
+  bool isConnected = await hasInternetConnection();
+  if (!isConnected) {
+    //skipping check if not connected to the internet
+    return true;
+  }
 
   Map<String, dynamic>? lastUpdated = await DataProvider.getLastUpdated();
 
@@ -35,16 +34,16 @@ Future<bool> checkLastUpdated() async {
     }
     for (var key in lastUpdated.keys) {
       if (lastUpdated[key] != last[key]) {
-        if(key == "homePage")
-          {
-            await DefaultCacheManager().emptyCache();
-          }
+        if (key == "homePage") {
+          await DefaultCacheManager().emptyCache();
+        }
         recordNames[key]?.forEach((element) async {
           await LocalStorage.instance.deleteRecord(element);
         });
       }
     }
-    await LocalStorage.instance.storeListRecord([last], DatabaseRecords.lastUpdated);
+    await LocalStorage.instance
+        .storeListRecord([last], DatabaseRecords.lastUpdated);
   } catch (e) {
     return true;
   }

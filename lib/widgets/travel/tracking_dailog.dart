@@ -17,17 +17,17 @@ class _TrackingDailogState extends State<TrackingDailog> {
     return AlertDialog(
       backgroundColor: kBlueGrey,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-      content:const Column(
+      content: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('To track the bus, go to the following link and enter the credentials given below'),
+          Text(
+              'To track the bus, go to the following link and enter the credentials given below'),
           SizedBox(
             height: 10,
           ),
           Text('ID: 9864028093'),
           Text('Password: 123456'),
-
         ],
       ),
       actionsAlignment: MainAxisAlignment.center,
@@ -36,25 +36,24 @@ class _TrackingDailogState extends State<TrackingDailog> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Track now  ', style: MyFonts.w500.size(14).setColor(kWhite)),
-              const Icon(FluentIcons.open_16_filled, color: kWhite, size: 15,)
+              Text('Track now  ',
+                  style: MyFonts.w500.size(14).setColor(kWhite)),
+              const Icon(
+                FluentIcons.open_16_filled,
+                color: kWhite,
+                size: 15,
+              )
             ],
           ),
           onTap: () {
-            try{
+            try {
               launchURL('track4.millitrack.com');
-            }
-            catch(e){
+            } catch (e) {
               //print(e);
-
             }
-
           },
         ),
       ],
     );
   }
 }
-
-
-

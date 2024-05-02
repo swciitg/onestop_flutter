@@ -185,7 +185,7 @@ class _FeedBackState extends State<FeedBack> {
                       onTap: !enableSubmitButton
                           ? null
                           : () async {
-                            print("inside feedback submit");
+                              print("inside feedback submit");
                               bool isValid = formKey.currentState!.validate();
                               if (!isValid) {
                                 return;
@@ -194,7 +194,9 @@ class _FeedBackState extends State<FeedBack> {
                                 'title': title.text,
                                 'body': body.text,
                                 'type': selected,
-                                'user': LoginStore.userData['outlookEmail'] + " - " + LoginStore.userData["rollNo"] ??
+                                'user': LoginStore.userData['outlookEmail'] +
+                                        " - " +
+                                        LoginStore.userData["rollNo"] ??
                                     "Unknown"
                               };
                               setState(() => enableSubmitButton = false);

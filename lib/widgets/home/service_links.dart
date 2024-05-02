@@ -21,10 +21,9 @@ List<HomeTabTile> serviceLinks = [
     routeId: Scoreboard.id,
   ),
   const HomeTabTile(
-    label: "Cab Sharing",
-    icon: FluentIcons.vehicle_bus_24_regular,
-    routeId: CabShare.id
-  ),
+      label: "Cab Sharing",
+      icon: FluentIcons.vehicle_bus_24_regular,
+      routeId: CabShare.id),
   const HomeTabTile(
     label: 'IRBS',
     icon: FluentIcons.calendar_edit_16_regular,
