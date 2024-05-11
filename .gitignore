@@ -31,6 +31,8 @@ appLoader.sh
 .pub-cache/
 .pub/
 /build/
+.vscode/
+/.vscode/
 
 # Web related
 lib/generated_plugin_registrant.dart

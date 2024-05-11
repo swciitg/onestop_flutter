@@ -5,12 +5,12 @@ import 'package:onestop_dev/functions/utility/validator.dart';
 import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/models/profile/profile_model.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:onestop_dev/widgets/profile/custom_dropdown.dart';
 import 'package:onestop_dev/widgets/profile/custom_text_field.dart';
 import 'package:onestop_dev/widgets/ui/simple_button.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import '../../main.dart';
 
 class MessOpiFormPage extends StatefulWidget {
@@ -23,7 +23,7 @@ class MessOpiFormPage extends StatefulWidget {
 
 class _MessOpiFormPageState extends State<MessOpiFormPage> {
   final TextEditingController _commentsController = TextEditingController();
-  final user = ProfileModel.fromJson(LoginStore.userData);
+  final user = OneStopUser.fromJson(LoginStore.userData);
   late String selectedHostel;
   int breakfast = 0;
   int lunch = 0;
@@ -264,7 +264,7 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
     );
   }
 
-  Container _buildInfo(ProfileModel user) {
+  Container _buildInfo(OneStopUser user) {
     return Container(
       padding: const EdgeInsets.all(16),
       color: kAppBarGrey,

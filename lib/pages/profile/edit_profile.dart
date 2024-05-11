@@ -6,19 +6,19 @@ import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../functions/utility/show_snackbar.dart';
 import '../../functions/utility/validator.dart';
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
-import '../../models/profile/profile_model.dart';
 import '../../stores/login_store.dart';
 import '../../widgets/profile/custom_date_picker.dart';
 import '../../widgets/profile/custom_dropdown.dart';
 import '../../widgets/profile/custom_text_field.dart';
 
 class EditProfile extends StatefulWidget {
-  final ProfileModel profileModel;
+  final OneStopUser profileModel;
   const EditProfile({Key? key, required this.profileModel}) : super(key: key);
 
   @override
@@ -47,7 +47,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     super.initState();
-    ProfileModel p = widget.profileModel;
+    OneStopUser p = widget.profileModel;
     _nameController.text = p.name;
     _rollController.text = p.rollNo;
     _outlookEmailController.text = p.outlookEmail;

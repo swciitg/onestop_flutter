@@ -8,9 +8,8 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_meal.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
-
-import '../../../models/profile/profile_model.dart';
 
 class MessMenu extends StatelessWidget {
   MessMenu({
@@ -36,7 +35,7 @@ class MessMenu extends StatelessWidget {
       create: (_) => MessStore(),
       builder: (context, _) {
         var messStore = context.read<MessStore>();
-        var userHostel = ProfileModel.fromJson(LoginStore.userData).hostel;
+        var userHostel = OneStopUser.fromJson(LoginStore.userData).hostel;
         messStore.setHostel(userHostel ?? hostels.first);
         if (userHostel == "Married Scholars") {
           userHostel = "Kameng";
