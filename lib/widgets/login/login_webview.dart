@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
@@ -39,16 +40,12 @@ class _LoginWebViewState extends State<LoginWebView> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(NavigationDelegate(
         onPageFinished: (url) async {
+          final nav = Navigator.of(context);
           if (url.startsWith(
               "${Endpoints.baseUrl}/auth/microsoft/redirect?code")) {
             final userTokensString =
                 (await getElementById(controller, 'userTokens'))
                     .replaceAll("\\", '"');
-            // var userTokensString = await controller.runJavascriptReturningResult("document.querySelector('#userTokens').innerText");
-            // print("TOKENS STRING");
-            // print(userTokensString);
-            // userTokensString = userTokensString.replaceAll('"', '');
-            // print(userTokensString);
             if (userTokensString != "ERROR OCCURED") {
               SharedPreferences user = await SharedPreferences.getInstance();
               if (!mounted) return;
@@ -59,12 +56,12 @@ class _LoginWebViewState extends State<LoginWebView> {
               await LoginStore().saveToPreferences(user, userTokens);
               await LoginStore().saveToUserInfo(user);
               await WebviewCookieManager().clearCookies();
-              Navigator.of(context).pushAndRemoveUntil(
+              nav.pushAndRemoveUntil(
                   MaterialPageRoute(
-                      builder: (context) => EditProfile(
-                            profileModel:
-                                ProfileModel.fromJson(LoginStore.userData),
-                          )),
+                    builder: (context) => EditProfile(
+                      profileModel: ProfileModel.fromJson(LoginStore.userData),
+                    ),
+                  ),
                   (route) => false);
             }
           }
