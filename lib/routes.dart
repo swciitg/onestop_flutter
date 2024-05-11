@@ -15,6 +15,7 @@ import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
 import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/services/irbs.dart';
+import 'package:onestop_dev/pages/services/khokha_entry_page.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
 
 final routes = {
@@ -35,5 +36,6 @@ final routes = {
   ComplaintsPage.id: (context) => const ComplaintsPage(),
   MessOpiFormPage.id: (context) => const MessOpiFormPage(),
   MessSubscriptionPage.id: (context) => const MessSubscriptionPage(),
-  ElectionLoginWebView.id: (context) => const ElectionLoginWebView()
+  ElectionLoginWebView.id: (context) => const ElectionLoginWebView(),
+  KhokhaEntryPage.id: (context) => const KhokhaEntryPage(),
 };

@@ -48,6 +48,11 @@ dependencies:
   onestop_kit:
     git:
       url: https://github.com/swciitg/onestop_kit.git
+  khokha_entry:
+    git:
+      url: https://github.com/swciitg/khokha_entry_onestop.git
+      path: packages/khokha_entry
+  
   intl: ^0.18.0
   webview_cookie_manager: ^2.0.6
   dio_cookie_manager: ^2.0.0

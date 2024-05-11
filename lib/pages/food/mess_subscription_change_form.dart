@@ -5,12 +5,12 @@ import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/main.dart';
-import 'package:onestop_dev/models/profile/profile_model.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:onestop_dev/widgets/profile/custom_dropdown.dart';
 import 'package:onestop_dev/widgets/profile/custom_text_field.dart';
 import 'package:onestop_dev/widgets/ui/simple_button.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class MessSubscriptionPage extends StatefulWidget {
   static const id = '/messSubscriptionPage';
@@ -23,7 +23,7 @@ class MessSubscriptionPage extends StatefulWidget {
 class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _rollNumberController = TextEditingController();
-  final user = ProfileModel.fromJson(LoginStore.userData);
+  final user = OneStopUser.fromJson(LoginStore.userData);
   final List<String> hostels = khostels;
   bool isLoading = false;
   late String hostelFrom;
@@ -239,7 +239,7 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
     );
   }
 
-  Container _buildInfo(ProfileModel user) {
+  Container _buildInfo(OneStopUser user) {
     return Container(
       padding: const EdgeInsets.all(16),
       color: kAppBarGrey,
