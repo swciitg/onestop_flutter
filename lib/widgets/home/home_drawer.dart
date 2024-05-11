@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
-import '../../models/profile/profile_model.dart';
 import '../../pages/profile/profile_page.dart';
 import '../../stores/login_store.dart';
 import '../profile/feedback.dart';
@@ -69,7 +69,7 @@ class HomeDrawer extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (buildContext) => ProfilePage(
-                                  profileModel: ProfileModel.fromJson(
+                                  profileModel: OneStopUser.fromJson(
                                       LoginStore.userData),
                                 )));
                     scaffoldKey.currentState!.closeDrawer();

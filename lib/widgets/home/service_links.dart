@@ -7,6 +7,7 @@ import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
 import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/services/irbs.dart';
+import 'package:onestop_dev/pages/services/khokha_entry_page.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
 List<HomeTabTile> serviceLinks = [
@@ -21,9 +22,7 @@ List<HomeTabTile> serviceLinks = [
     routeId: Scoreboard.id,
   ),
   const HomeTabTile(
-      label: "Cab Sharing",
-      icon: FluentIcons.vehicle_bus_24_regular,
-      routeId: CabShare.id),
+      label: "Cab Sharing", icon: FluentIcons.vehicle_bus_24_regular, routeId: CabShare.id),
   const HomeTabTile(
     label: 'IRBS',
     icon: FluentIcons.calendar_edit_16_regular,
@@ -44,9 +43,15 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.money_20_regular,
     routeId: BuySellHome.id,
   ),
+  // const HomeTabTile(
+  //   label: "LAN",
+  //   icon: FluentIcons.desktop_24_regular,
+  //   routeId: RouterPage.id,
+  // ),
   const HomeTabTile(
-    label: "LAN",
-    icon: FluentIcons.desktop_24_regular,
-    routeId: RouterPage.id,
+    label: "GateLog",
+    icon: FluentIcons.door_20_regular,
+    routeId: KhokhaEntryPage.id,
+    newBadge: true,
   ),
 ];

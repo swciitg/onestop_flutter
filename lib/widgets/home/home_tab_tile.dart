@@ -34,7 +34,25 @@ class HomeTabTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget finalWidget = FittedBox(
+    return newBadge ? buildBadge(context) : buildTile(context);
+  }
+
+  Badge buildBadge(BuildContext context) {
+    return Badge(
+      position: BadgePosition.topEnd(top: 3),
+      shape: BadgeShape.square,
+      borderRadius: BorderRadius.circular(8),
+      badgeContent: Text(
+        'New',
+        style: MyFonts.w600.setColor(kGrey9).size(10),
+      ),
+      badgeColor: kBadgeColor,
+      child: buildTile(context),
+    );
+  }
+
+  FittedBox buildTile(BuildContext context) {
+    return FittedBox(
       child: GestureDetector(
         onTap: () {
           if (link != null) {
@@ -47,8 +65,7 @@ class HomeTabTile extends StatelessWidget {
           //margin: EdgeInsets.all(4),
           height: 150,
           width: 150,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50), color: lGrey),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: lGrey),
           padding: const EdgeInsets.all(4.0),
           child: Column(
             // Replace with a Row for horizontal icon + text
@@ -66,29 +83,12 @@ class HomeTabTile extends StatelessWidget {
               ),
               Expanded(
                 child: Text(label,
-                    style: MyFonts.w500.size(23).setColor(lBlue),
-                    textAlign: TextAlign.center),
+                    style: MyFonts.w500.size(23).setColor(lBlue), textAlign: TextAlign.center),
               ),
             ],
           ),
         ),
       ),
-    );
-    if (newBadge) {
-      finalWidget = Badge(
-        position: BadgePosition.topEnd(top: 3),
-        shape: BadgeShape.square,
-        borderRadius: BorderRadius.circular(8),
-        badgeContent: Text(
-          'New',
-          style: MyFonts.w600.setColor(kGrey9).size(10),
-        ),
-        badgeColor: kBadgeColor,
-        child: finalWidget,
-      );
-    }
-    return Expanded(
-      child: finalWidget,
     );
   }
 }

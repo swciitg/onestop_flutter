@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
-import '../../models/profile/profile_model.dart';
 import '../../stores/login_store.dart';
 import '../../widgets/profile/data_tile.dart';
 import 'edit_profile.dart';
 
 class ProfilePage extends StatefulWidget {
-  final ProfileModel profileModel;
+  final OneStopUser profileModel;
   const ProfilePage({super.key, required this.profileModel});
 
   @override
