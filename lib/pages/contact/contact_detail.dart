@@ -36,6 +36,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
               },
               icon: const Icon(
                 FluentIcons.dismiss_24_filled,
+                color: kWhite2,
               ),
             )
           ],
