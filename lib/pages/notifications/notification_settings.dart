@@ -5,6 +5,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/notifications/notif_toggle.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 class NotificationSettings extends StatefulWidget {
   const NotificationSettings({Key? key}) : super(key: key);
@@ -21,9 +22,17 @@ class _NotificationSettingsState extends State<NotificationSettings> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAppBarGrey,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              FluentIcons.arrow_left_24_regular,
+              color: kWhite2,
+            )),
         title: Text(
           'Notification Settings',
-          style: MyFonts.w500,
+          style: MyFonts.w500.setColor(kWhite),
         ),
       ),
       body: Column(
@@ -34,28 +43,33 @@ class _NotificationSettingsState extends State<NotificationSettings> {
           NotifToggle(text: NotificationCategories.buy),
           NotifToggle(text: NotificationCategories.sell),
           ElevatedButton(
-              onPressed: () async {
-                if (isLoading) {
-                  return;
-                }
-                setState(() {
-                  isLoading = true;
-                });
-                try {
-                  await APIService()
-                      .updateUserNotifPref(LoginStore.userData['notifPref']);
-                } catch (e) {
-                  //print(e);
-                }
-                setState(() {
-                  isLoading = false;
-                });
-              },
-              child: isLoading
-                  ? const CircularProgressIndicator(
-                      color: Colors.white,
-                    )
-                  : const Text('Save'))
+            onPressed: () async {
+              if (isLoading) {
+                return;
+              }
+              setState(() {
+                isLoading = true;
+              });
+              try {
+                await APIService()
+                    .updateUserNotifPref(LoginStore.userData['notifPref']);
+              } catch (e) {
+                //print(e);
+              }
+              setState(() {
+                isLoading = false;
+              });
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: kGrey9),
+            child: isLoading
+                ? const CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                : Text(
+                    'Save',
+                    style: MyFonts.w500.setColor(lBlue),
+                  ),
+          )
         ],
       ),
     );
