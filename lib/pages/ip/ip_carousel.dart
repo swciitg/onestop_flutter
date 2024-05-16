@@ -90,6 +90,7 @@ class _RouterPageState extends State<RouterPage> {
             },
             icon: const Icon(
               FluentIcons.dismiss_24_filled,
+              color: kWhite2,
             ),
           )
         ],

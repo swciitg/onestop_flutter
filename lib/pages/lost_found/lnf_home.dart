@@ -88,6 +88,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                 onPressed: () => Navigator.pop(context),
                 icon: const Icon(
                   FluentIcons.dismiss_24_filled,
+                  color: kWhite2,
                 ))
           ],
         ),
