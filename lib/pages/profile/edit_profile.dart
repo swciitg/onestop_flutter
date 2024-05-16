@@ -424,7 +424,7 @@ class _EditProfileState extends State<EditProfile> {
                                       context: context,
                                       initialDate:
                                           selectedDob ?? DateTime.now(),
-                                      firstDate: DateTime(1990),
+                                      firstDate: DateTime(1920),
                                       //DateTime.now() - not to allow to choose before today.
                                       lastDate: DateTime(2101),
                                       builder: (context, child) =>
