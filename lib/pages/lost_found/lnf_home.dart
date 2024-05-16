@@ -63,10 +63,15 @@ class _LostFoundHomeState extends State<LostFoundHome> {
     }
   }
 
-  void reload() {
+  void reload_to_intial_state() {
       _lostController.refresh();
       _foundController.refresh();
-    }
+  }
+
+  void reload_for_newpage_error() {
+    _lostController.retryLastFailedRequest();
+    _foundController.retryLastFailedRequest();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,11 +134,11 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                       itemBuilder: (context, lostItem, index) =>
                           LostFoundTile(currentModel: lostItem),
                       firstPageErrorIndicatorBuilder: (context) =>
-                          ErrorReloadScreen(apiFunction: reload),
+                          ErrorReloadScreen(apiFunction: reload_to_intial_state),
                       noItemsFoundIndicatorBuilder: (context) =>
                           const PaginationText(text: "No items found"),
                       newPageErrorIndicatorBuilder: (context) =>
-                          ErrorReloadScreen(apiFunction: reload),
+                          ErrorReloadScreen(apiFunction: reload_for_newpage_error),
                       newPageProgressIndicatorBuilder: (context) =>
                           const Padding(
                         padding: EdgeInsets.all(8.0),
@@ -156,11 +161,11 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                       itemBuilder: (context, lostItem, index) =>
                           LostFoundTile(currentModel: lostItem),
                       firstPageErrorIndicatorBuilder: (context) =>
-                          ErrorReloadScreen(apiFunction: reload),
+                          ErrorReloadScreen(apiFunction: reload_to_intial_state),
                       noItemsFoundIndicatorBuilder: (context) =>
                           const PaginationText(text: "No items found"),
                       newPageErrorIndicatorBuilder: (context) =>
-                          ErrorReloadScreen(apiFunction: reload),
+                          ErrorReloadScreen(apiFunction: reload_for_newpage_error),
                       newPageProgressIndicatorBuilder: (context) =>
                           const Padding(
                         padding: EdgeInsets.all(8.0),
@@ -202,9 +207,10 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                               itemCount: tiles.length,
                             );
                           }
-                          return ErrorReloadScreen(apiFunction: reload);
+                          return ErrorReloadScreen(apiFunction: reload_to_intial_state);
                         }),
-              )
+              ),
+              
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
