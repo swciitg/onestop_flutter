@@ -62,7 +62,10 @@ class _LostFoundHomeState extends State<LostFoundHome> {
       controller.error = e;
     }
   }
-
+  void callSetState() {
+    setState(() {
+    });
+  }
   void reload_to_intial_state() {
       _lostController.refresh();
       _foundController.refresh();
@@ -72,6 +75,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
     _lostController.retryLastFailedRequest();
     _foundController.retryLastFailedRequest();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -206,6 +211,9 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                               itemBuilder: (context, index) => tiles[index],
                               itemCount: tiles.length,
                             );
+                          }
+                          if(snapshot.hasError){
+                            return ErrorReloadScreen(apiFunction: callSetState);
                           }
                           return ListShimmer(
                             count: 5,
