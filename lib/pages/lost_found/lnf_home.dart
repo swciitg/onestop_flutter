@@ -207,7 +207,10 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                               itemCount: tiles.length,
                             );
                           }
-                          return ErrorReloadScreen(apiFunction: reload_to_intial_state);
+                          return ListShimmer(
+                            count: 5,
+                            height: 120,
+                          );
                         }),
               ),
               
