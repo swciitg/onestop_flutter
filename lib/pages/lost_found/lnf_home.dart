@@ -15,6 +15,7 @@ import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_tile.dart';
 import 'package:onestop_dev/widgets/ui/guest_restrict.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class LostFoundHome extends StatefulWidget {
@@ -61,6 +62,21 @@ class _LostFoundHomeState extends State<LostFoundHome> {
       controller.error = e;
     }
   }
+  void callSetState() {
+    setState(() {
+    });
+  }
+  void reload_to_intial_state() {
+      _lostController.refresh();
+      _foundController.refresh();
+  }
+
+  void reload_for_newpage_error() {
+    _lostController.retryLastFailedRequest();
+    _foundController.retryLastFailedRequest();
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -124,11 +140,11 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                       itemBuilder: (context, lostItem, index) =>
                           LostFoundTile(currentModel: lostItem),
                       firstPageErrorIndicatorBuilder: (context) =>
-                          const PaginationText(text: "An error occurred"),
+                          ErrorReloadScreen(apiFunction: reload_to_intial_state),
                       noItemsFoundIndicatorBuilder: (context) =>
                           const PaginationText(text: "No items found"),
                       newPageErrorIndicatorBuilder: (context) =>
-                          const PaginationText(text: "An error occurred"),
+                          ErrorReloadScreen(apiFunction: reload_for_newpage_error),
                       newPageProgressIndicatorBuilder: (context) =>
                           const Padding(
                         padding: EdgeInsets.all(8.0),
@@ -151,11 +167,11 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                       itemBuilder: (context, lostItem, index) =>
                           LostFoundTile(currentModel: lostItem),
                       firstPageErrorIndicatorBuilder: (context) =>
-                          const PaginationText(text: "An error occurred"),
+                          ErrorReloadScreen(apiFunction: reload_to_intial_state),
                       noItemsFoundIndicatorBuilder: (context) =>
                           const PaginationText(text: "No items found"),
                       newPageErrorIndicatorBuilder: (context) =>
-                          const PaginationText(text: "An error occurred"),
+                          ErrorReloadScreen(apiFunction: reload_for_newpage_error),
                       newPageProgressIndicatorBuilder: (context) =>
                           const Padding(
                         padding: EdgeInsets.all(8.0),
@@ -197,12 +213,16 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                               itemCount: tiles.length,
                             );
                           }
+                          if(snapshot.hasError){
+                            return ErrorReloadScreen(apiFunction: callSetState);
+                          }
                           return ListShimmer(
                             count: 5,
                             height: 120,
                           );
                         }),
-              )
+              ),
+              
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
