@@ -1,16 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
+import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
-import 'package:onestop_dev/models/buy_sell/sell_model.dart';
-import '../functions/utility/show_snackbar.dart';
+
 import '../functions/utility/auth_user_helper.dart';
+import '../functions/utility/show_snackbar.dart';
 
 class APIService {
   final dio = Dio(BaseOptions(

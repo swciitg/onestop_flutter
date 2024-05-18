@@ -9,9 +9,9 @@ import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:onestop_dev/widgets/lostfound/ads_tile.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_button.dart';
-import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_tile.dart';
 import 'package:onestop_dev/widgets/ui/guest_restrict.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 
 class LostFoundHome extends StatefulWidget {
   static const id = "/lostFoundHome";
+
   const LostFoundHome({Key? key}) : super(key: key);
 
   @override
@@ -62,21 +63,20 @@ class _LostFoundHomeState extends State<LostFoundHome> {
       controller.error = e;
     }
   }
+
   void callSetState() {
-    setState(() {
-    });
-  }
-  void reload_to_intial_state() {
-      _lostController.refresh();
-      _foundController.refresh();
+    setState(() {});
   }
 
-  void reload_for_newpage_error() {
+  void refreshControllers() {
+    _lostController.refresh();
+    _foundController.refresh();
+  }
+
+  void retryLastFailedRequest() {
     _lostController.retryLastFailedRequest();
     _foundController.retryLastFailedRequest();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -140,11 +140,15 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                       itemBuilder: (context, lostItem, index) =>
                           LostFoundTile(currentModel: lostItem),
                       firstPageErrorIndicatorBuilder: (context) =>
-                          ErrorReloadScreen(apiFunction: reload_to_intial_state),
+                          ErrorReloadScreen(reloadCallback: refreshControllers),
                       noItemsFoundIndicatorBuilder: (context) =>
                           const PaginationText(text: "No items found"),
-                      newPageErrorIndicatorBuilder: (context) =>
-                          ErrorReloadScreen(apiFunction: reload_for_newpage_error),
+                      newPageErrorIndicatorBuilder: (context) => Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: ErrorReloadButton(
+                          reloadCallback: retryLastFailedRequest,
+                        ),
+                      ),
                       newPageProgressIndicatorBuilder: (context) =>
                           const Padding(
                         padding: EdgeInsets.all(8.0),
@@ -167,11 +171,12 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                       itemBuilder: (context, lostItem, index) =>
                           LostFoundTile(currentModel: lostItem),
                       firstPageErrorIndicatorBuilder: (context) =>
-                          ErrorReloadScreen(apiFunction: reload_to_intial_state),
+                          ErrorReloadScreen(reloadCallback: refreshControllers),
                       noItemsFoundIndicatorBuilder: (context) =>
                           const PaginationText(text: "No items found"),
                       newPageErrorIndicatorBuilder: (context) =>
-                          ErrorReloadScreen(apiFunction: reload_for_newpage_error),
+                          ErrorReloadButton(
+                              reloadCallback: retryLastFailedRequest),
                       newPageProgressIndicatorBuilder: (context) =>
                           const Padding(
                         padding: EdgeInsets.all(8.0),
@@ -201,8 +206,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                                 models.map((e) => MyAdsTile(model: e)).toList();
                             if (LoginStore().isGuestUser) {
                               return const PaginationText(
-                                  text:
-                                      "Log in with your IITG account to post ads");
+                                  text: "Log in with your IITG "
+                                      "account to post ads");
                             }
                             if (tiles.isEmpty) {
                               return const PaginationText(
@@ -213,8 +218,9 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                               itemCount: tiles.length,
                             );
                           }
-                          if(snapshot.hasError){
-                            return ErrorReloadScreen(apiFunction: callSetState);
+                          if (snapshot.hasError) {
+                            return ErrorReloadScreen(
+                                reloadCallback: callSetState);
                           }
                           return ListShimmer(
                             count: 5,
@@ -222,10 +228,9 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                           );
                         }),
               ),
-              
           ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: LoginStore().isGuestUser
             ? Container()
             : AddItemButton(
@@ -245,6 +250,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
 
 class PaginationText extends StatelessWidget {
   final String text;
+
   const PaginationText({Key? key, required this.text}) : super(key: key);
 
   @override

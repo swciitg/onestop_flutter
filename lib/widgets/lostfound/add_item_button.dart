@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -115,25 +116,17 @@ class _AddItemButtonState extends State<AddItemButton> {
         margin: const EdgeInsets.only(bottom: 18),
         decoration: BoxDecoration(
           color: lBlue2,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(20),
         ),
-        child: Row(
+        child: const Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 17, bottom: 20, left: 20),
-              child: Icon(
-                FluentIcons.add_24_regular,
-                size: 30,
-              ),
-            ),
             Padding(
-              padding: const EdgeInsets.only(
-                  top: 15, left: 16, right: 20, bottom: 18),
-              child: Text(
-                "${widget.type} Item",
-                style: MyFonts.w600.size(14).setColor(kBlack),
+              padding: EdgeInsets.all(20),
+              child: Icon(
+                FluentIcons.add_32_filled,
+                size: 30,
               ),
             ),
           ],
