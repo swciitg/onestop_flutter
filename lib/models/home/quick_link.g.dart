@@ -9,7 +9,7 @@ part of 'quick_link.dart';
 QuickLinkModel _$QuickLinkModelFromJson(Map<String, dynamic> json) =>
     QuickLinkModel(
       name: json['name'] as String? ?? 'Name',
-      icon: json['icon'] as int? ?? 1234,
+      icon: (json['icon'] as num?)?.toInt() ?? 1234,
       url: json['url'] as String? ?? 'https://swc.iitg.ac.in/swc',
     );
 

@@ -2,7 +2,6 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
-import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -12,9 +11,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class MessMenu extends StatelessWidget {
-  MessMenu({
-    Key? key,
-  }) : super(key: key);
+  MessMenu({super.key});
 
   final List<String> days = [
     "Sunday",
@@ -25,8 +22,12 @@ class MessMenu extends StatelessWidget {
     "Friday",
     "Saturday"
   ];
-  final List<String> hostels = khostels.sublist(0, khostels.length - 1);
-  // last item is Married Scholars
+  final List<String> hostels = Hostel.values
+      .displayStrings()
+      .where((element) =>
+          element != Hostel.msh.displayString &&
+          element != Hostel.none.displayString)
+      .toList();
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +35,18 @@ class MessMenu extends StatelessWidget {
     return Provider(
       create: (_) => MessStore(),
       builder: (context, _) {
-        var messStore = context.read<MessStore>();
-        var userHostel = OneStopUser.fromJson(LoginStore.userData).hostel;
-        messStore.setHostel(userHostel ?? hostels.first);
-        if (userHostel == "Married Scholars") {
-          userHostel = "Kameng";
+        final messStore = context.read<MessStore>();
+        Hostel? userHostel = OneStopUser.fromJson(LoginStore.userData)
+            .hostel
+            ?.getHostelFromDatabaseString();
+
+        if (userHostel == Hostel.msh) {
+          userHostel = messStore.defaultUserHostel;
           messStore.setHostel(userHostel);
+        } else {
+          messStore.setHostel(userHostel ?? messStore.defaultUserHostel);
         }
+
         return Container(
             height: 171,
             decoration: BoxDecoration(
@@ -81,7 +87,8 @@ class MessMenu extends StatelessWidget {
                             child: Text(
                               messStore.mealData.id.isEmpty
                                   ? "Not Specified"
-                                  : "${DateFormat.jm().format(messStore.mealData.startTiming)} - ${DateFormat.jm().format(messStore.mealData.endTiming)}", // id empty means not updated by HMC
+                                  : "${DateFormat.jm().format(messStore.mealData.startTiming)} - ${DateFormat.jm().format(messStore.mealData.endTiming)}",
+                              // id empty means not updated by HMC
                               style: MyFonts.w500.size(12).setColor(kGrey12),
                             ),
                           ),
@@ -99,7 +106,7 @@ class MessMenu extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 PopupMenuButton<String>(
-                                  initialValue: userHostel,
+                                  initialValue: messStore.selectedDay,
                                   color: kBlueGrey,
                                   itemBuilder: (context) {
                                     return days
@@ -155,7 +162,8 @@ class MessMenu extends StatelessWidget {
                                         .map(
                                           (value) => PopupMenuItem(
                                             onTap: () {
-                                              messStore.setHostel(value);
+                                              messStore.setHostel(value
+                                                  .getHostelFromDisplayString()!);
                                             },
                                             value: value,
                                             child: Text(
@@ -180,7 +188,9 @@ class MessMenu extends StatelessWidget {
                                           MainAxisAlignment.spaceAround,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text(messStore.selectedHostel.value!,
+                                        Text(
+                                            messStore.selectedHostel.value!
+                                                .displayString,
                                             overflow: TextOverflow.fade,
                                             style: MyFonts.w500
                                                 .setColor(lBlue)

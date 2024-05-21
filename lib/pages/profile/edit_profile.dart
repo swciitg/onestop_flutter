@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,7 @@ import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../functions/utility/show_snackbar.dart';
 import '../../functions/utility/validator.dart';
 import '../../globals/my_colors.dart';
@@ -19,6 +21,7 @@ import '../../widgets/profile/custom_text_field.dart';
 
 class EditProfile extends StatefulWidget {
   final OneStopUser profileModel;
+
   const EditProfile({Key? key, required this.profileModel}) : super(key: key);
 
   @override
@@ -36,14 +39,16 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _homeAddressController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _linkedinController = TextEditingController();
-  String? hostel;
+  late Hostel hostel;
   String? gender;
   DateTime? selectedDob;
+
   // String? imageString;
   final List<String> genders = ["Male", "Female", "Others"];
   final List<String> hostels = khostels;
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -61,7 +66,7 @@ class _EditProfileState extends State<EditProfile> {
     _dobController.text = DateFormat('dd-MMM-yyyy')
         .format(DateTime.parse(p.dob ?? DateTime.now().toIso8601String()));
     _linkedinController.text = p.linkedin ?? "";
-    hostel = p.hostel;
+    hostel = p.hostel!.getHostelFromDatabaseString() ?? Hostel.none;
     gender = p.gender;
     selectedDob = p.dob != null ? DateTime.parse(p.dob!) : DateTime.now();
     // imageString = p.image;
@@ -92,11 +97,12 @@ class _EditProfileState extends State<EditProfile> {
             'gender': gender,
             'phoneNumber': _phoneController.text,
             'emergencyPhoneNumber': _emergencyController.text,
-            'hostel': hostel,
+            'hostel': hostel.databaseString,
             'roomNo': _roomNoController.text,
             'homeAddress': _homeAddressController.text,
             'linkedin': _linkedinController.text
           };
+          print(data);
           try {
             await APIService().updateUserProfile(data, null);
             await LocalStorage.instance.deleteRecord(DatabaseRecords.timetable);
@@ -404,11 +410,23 @@ class _EditProfileState extends State<EditProfile> {
                                 height: 12,
                               ),
                               CustomDropDown(
-                                value: hostel,
-                                items: hostels,
+                                value: hostel.displayString,
+                                items: Hostel.values.displayStrings(),
                                 label: 'Hostel',
-                                onChanged: (h) => hostel = h,
-                                validator: validatefield,
+                                onChanged: (String h) =>
+                                    hostel = h.getHostelFromDisplayString()!,
+                                validator: (String? value) {
+                                  if (value == null) {
+                                    return 'Field cannot be empty';
+                                  }
+                                  final selectedHostel =
+                                      value.getHostelFromDisplayString();
+                                  if (selectedHostel == null ||
+                                      selectedHostel == Hostel.none) {
+                                    return 'Field cannot be empty';
+                                  }
+                                  return null;
+                                },
                               ),
                               const SizedBox(
                                 height: 12,

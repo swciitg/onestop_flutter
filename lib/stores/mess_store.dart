@@ -4,7 +4,9 @@ import 'package:onestop_dev/functions/food/get_day.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 part 'mess_store.g.dart';
 
 class MessStore = _MessStore with _$MessStore;
@@ -13,13 +15,14 @@ abstract class _MessStore with Store {
   _MessStore() {
     setupReactions();
   }
+
   @observable
   String selectedDay = getFormattedDayForMess();
   @observable
   String selectedMeal = getMeal();
 
   static String getMeal() {
-    DateTime now = DateTime.now();
+    DateTime now = DateTime.now().toLocal();
     if (now.hour < 10) {
       return "Breakfast";
     } else if (now.hour < 14) {
@@ -31,15 +34,22 @@ abstract class _MessStore with Store {
   }
 
   @observable
-  ObservableFuture<String> selectedHostel = ObservableFuture(getSavedHostel());
+  ObservableFuture<Hostel> selectedHostel = ObservableFuture(getSavedHostel());
   @observable
   MealType mealData = MealType(
       id: 'id',
       mealDescription: 'mealDescription',
-      startTiming: DateTime.now(),
-      endTiming: DateTime.now());
+      startTiming: DateTime.now().toLocal(),
+      endTiming: DateTime.now().toLocal());
+
   @computed
   bool get hostelLoaded => selectedHostel.status == FutureStatus.fulfilled;
+
+  static Hostel defaultHostel = Hostel.kameng;
+
+  @computed
+  Hostel get defaultUserHostel => defaultHostel;
+
   @action
   void setDay(String s) {
     selectedDay = s;
@@ -51,51 +61,41 @@ abstract class _MessStore with Store {
   }
 
   @action
-  void setHostel(String s) {
-    selectedHostel = ObservableFuture.value(s);
-    print(selectedHostel.value);
-    print("___________________________________");
+  void setHostel(Hostel h) {
+    selectedHostel = ObservableFuture.value(h);
   }
 
   @action
-  void setmealData(MealType m) {
+  void setMealData(MealType m) {
     mealData = m;
   }
 
   void setupReactions() async {
     autorun((_) async {
       if (selectedHostel.status == FutureStatus.fulfilled) {
-        print("selected hostel");
-        print(selectedHostel.value);
-        // MealType requiredModel = await APIService().getMealData(selectedHostel.value! , selectedDay, selectedMeal);
         MealType requiredModel = await DataProvider.getMealData(
             hostel: selectedHostel.value!,
             day: selectedDay,
             mealType: selectedMeal);
-        print(requiredModel.toJson());
-        setmealData(requiredModel);
+        setMealData(requiredModel);
       } else {
-        print("else selected hostel");
-        // MealType requiredModel = await APIService().getMealData('kameng' , 'Monday', 'Breakfast');
         MealType requiredModel = await DataProvider.getMealData(
-            hostel: 'kameng', day: 'monday', mealType: 'breakfast');
-        print(requiredModel.toJson());
-        setmealData(requiredModel);
+            hostel: defaultHostel, day: selectedDay, mealType: selectedMeal);
+        setMealData(requiredModel);
       }
     });
   }
 
-  static Future<String> getSavedHostel() async {
-    var prefs = await SharedPreferences.getInstance();
+  static Future<Hostel> getSavedHostel() async {
+    final prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('hostel')) {
-      if (prefs.getString('hostel') == "Brahma") {
-        return 'Brahmaputra';
-      } else if (prefs.getString('hostel') == "Married Scholars") {
-        return "Kameng";
+      final hostel = prefs.getString('hostel');
+      if (hostel == Hostel.msh.databaseString || hostel == null) {
+        return defaultHostel;
       }
-      return prefs.getString('hostel') ?? "Kameng";
+      return hostel.getHostelFromDatabaseString()!;
     }
-    return "Kameng";
+    return defaultHostel;
   }
 
   Future<Map<String, dynamic>> postMessSubChange(

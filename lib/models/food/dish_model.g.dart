@@ -8,7 +8,7 @@ part of 'dish_model.dart';
 
 DishModel _$DishModelFromJson(Map<String, dynamic> json) => DishModel(
       itemName: json['itemName'] as String? ?? 'Unnamed',
-      price: json['price'] as int? ?? 2,
+      price: (json['price'] as num?)?.toInt() ?? 2,
       imageURL: json['imageURL'] as String? ??
           "https://d4t7t8y8xqo0t.cloudfront.net/resized/750X436/eazytrendz%2F3070%2Ftrend20210218124824.jpg",
     );

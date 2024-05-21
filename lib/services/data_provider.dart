@@ -13,11 +13,12 @@ import 'package:onestop_dev/pages/elections/election_login.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class DataProvider {
   static Future<Map<String, dynamic>?> getLastUpdated() async {
     var cachedData =
-        await LocalStorage.instance.getListRecord(DatabaseRecords.lastUpdated);
+    await LocalStorage.instance.getListRecord(DatabaseRecords.lastUpdated);
     if (cachedData == null) {
       return null;
     }
@@ -26,7 +27,7 @@ class DataProvider {
 
   static Future<List<TravelTiming>> getBusTiming() async {
     var cachedData =
-        await LocalStorage.instance.getListRecord(DatabaseRecords.busTimings);
+    await LocalStorage.instance.getListRecord(DatabaseRecords.busTimings);
     Map<String, dynamic> jsonData;
     if (cachedData == null) {
       jsonData = await APIService().getBusTiming();
@@ -64,13 +65,13 @@ class DataProvider {
 
   static Future<List<RestaurantModel>> getRestaurants() async {
     var cachedData =
-        await LocalStorage.instance.getListRecord(DatabaseRecords.restaurant);
+    await LocalStorage.instance.getListRecord(DatabaseRecords.restaurant);
 
     if (cachedData == null) {
       List<Map<String, dynamic>> restaurantData =
-          await APIService().getRestaurantData();
+      await APIService().getRestaurantData();
       List<RestaurantModel> restaurants =
-          restaurantData.map((e) => RestaurantModel.fromJson(e)).toList();
+      restaurantData.map((e) => RestaurantModel.fromJson(e)).toList();
 
       await LocalStorage.instance
           .storeListRecord(restaurantData, DatabaseRecords.restaurant);
@@ -87,7 +88,7 @@ class DataProvider {
         .getListRecord(DatabaseRecords.timetable))?[0];
     if (cachedData == null) {
       RegisteredCourses timetableData =
-          await APIService().getTimeTable(roll: roll);
+      await APIService().getTimeTable(roll: roll);
       await LocalStorage.instance
           .storeListRecord([timetableData.toJson()], DatabaseRecords.timetable);
       return timetableData;
@@ -97,7 +98,7 @@ class DataProvider {
 
   static Future<String> getHomeImageLink() async {
     var cachedData =
-        (await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage));
+    (await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage));
     String imageLink = "";
     if (cachedData == null) {
       try {
@@ -119,7 +120,7 @@ class DataProvider {
 
   static Future<List<HomeTabTile>> getQuickLinks() async {
     var cachedData =
-        (await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage));
+    (await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage));
     List<HomeTabTile> res = [];
     var quickLinks;
     if (cachedData == null) {
@@ -154,7 +155,7 @@ class DataProvider {
   }
 
   static Future<MealType> getMealData({
-    required String hostel,
+    required Hostel hostel,
     required String day,
     required String mealType,
   }) async {
@@ -171,40 +172,37 @@ class DataProvider {
     }
 
     List<dynamic> answer = jsonData['details']!;
-    var meal = answer.firstWhere(
-        (m) =>
-            m['hostel'].toString().trim().toLowerCase() ==
-            hostel.toString().toLowerCase(),
+    var meal = answer.firstWhere((m) => m['hostel'] == hostel.databaseString,
         orElse: () => 'no data');
     if (meal == 'no data') {
       return MealType(
           id: '',
-          mealDescription:
-              "Not updated by $hostel's HMC. Kindly Contact ask them to update",
-          startTiming: DateTime.now(),
-          endTiming: DateTime.now());
+          mealDescription: "Not updated by ${hostel.displayString}'s HMC. "
+              "Kindly Contact ask them to update",
+          startTiming: DateTime.now().toLocal(),
+          endTiming: DateTime.now().toLocal());
     }
     return MealType(
         id: meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]
-            ['_id'],
+        ['_id'],
         mealDescription: meal[day.trim().toLowerCase()]
-            [mealType.trim().toLowerCase()]['mealDescription'],
+        [mealType.trim().toLowerCase()]['mealDescription'],
         startTiming: DateTime.parse(
           meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]
-              ['startTiming'],
+          ['startTiming'],
         ).toLocal(),
         endTiming: DateTime.parse(meal[day.trim().toLowerCase()]
-                [mealType.trim().toLowerCase()]['endTiming'])
+        [mealType.trim().toLowerCase()]['endTiming'])
             .toLocal());
   }
 
   static Future<SplayTreeMap<String, ContactModel>> getContacts() async {
     var cachedData =
-        await LocalStorage.instance.getListRecord(DatabaseRecords.contacts);
+    await LocalStorage.instance.getListRecord(DatabaseRecords.contacts);
     SplayTreeMap<String, ContactModel> people = SplayTreeMap();
     if (cachedData == null) {
       List<Map<String, dynamic>> contactData =
-          await APIService().getContactData();
+      await APIService().getContactData();
       for (var element in contactData) {
         people[element['sectionName']] = ContactModel.fromJson(element);
       }
@@ -238,7 +236,7 @@ class DataProvider {
 
   static Future<List<TravelTiming>> getFerryTiming() async {
     var cachedData =
-        await LocalStorage.instance.getListRecord(DatabaseRecords.ferryTimings);
+    await LocalStorage.instance.getListRecord(DatabaseRecords.ferryTimings);
     Map<String, dynamic> jsonData;
     if (cachedData == null) {
       jsonData = await APIService().getFerryTiming();
