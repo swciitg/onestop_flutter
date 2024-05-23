@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
@@ -9,6 +10,7 @@ import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
+import 'package:onestop_dev/stores/common_store.dart';
 import '../functions/utility/show_snackbar.dart';
 import '../functions/utility/auth_user_helper.dart';
 
@@ -207,14 +209,54 @@ class APIService {
     await dio.post(Endpoints.deleteFoundURL, data: {'id': id, 'email': email});
   }
 
-  Future<List> getBuyItems() async {
-    var response = await dio.get(Endpoints.buyURL);
-    return response.data.details;
+  Future<List<SellModel>> getBuyPageData() async {
+    List<SellModel> sellPage = [];
+    int pageNumber = 1;
+    while (true) {
+      var result = await getBuyPage(pageNumber);
+      if (result.length < CommonStore().pageSize) {
+        sellPage += result;
+        break;
+      }
+      sellPage += result;
+      pageNumber++;
+    }
+    return sellPage;
   }
 
-  Future<List> getSellItems() async {
-    var res = await dio.get(Endpoints.sellURL);
-    return res.data.details;
+  Future<List<BuyModel>> getSellPageData() async {
+    List<BuyModel> buyPage = [];
+    int pageNumber = 1;
+    while (true) {
+      var result = await getSellPage(pageNumber);
+      if (result.length < CommonStore().pageSize) {
+        buyPage += result;
+        break;
+      }
+      buyPage += result;
+      pageNumber++;
+    }
+    return buyPage;
+  }
+
+  Future<SplayTreeMap<String, SellModel>> getBuy() async {
+    SplayTreeMap<String, SellModel> sellmap = SplayTreeMap();
+    List<SellModel> selldata = [];
+    selldata += await getBuyPageData();
+    for (var element in selldata) {
+      sellmap[element.title] = element;
+    }
+    return sellmap;
+  }
+
+  Future<SplayTreeMap<String, BuyModel>> getSell() async {
+    SplayTreeMap<String, BuyModel> buymap = SplayTreeMap();
+    List<BuyModel> buydata = [];
+    buydata += await getSellPageData();
+    for (var element in buydata) {
+      buymap[element.title] = element;
+    }
+    return buymap;
   }
 
   Future<List<BuyModel>> getBnsMyItems(String mail) async {

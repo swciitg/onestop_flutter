@@ -10,6 +10,7 @@ import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/widgets/buy_sell/buy_sell_search_bar.dart';
 import 'package:onestop_dev/widgets/buy_sell/buy_tile.dart';
 import 'package:onestop_dev/widgets/buy_sell/item_type_bar.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
@@ -112,60 +113,80 @@ class _BuySellHomeState extends State<BuySellHome> {
               ),
               if (commonStore.bnsIndex == "Sell")
                 Expanded(
-                  child: PagedListView<int, BuyModel>(
-                      pagingController: _sellController,
-                      builderDelegate: PagedChildBuilderDelegate(
-                        itemBuilder: (context, sellItem, index) =>
-                            BuyTile(model: sellItem),
-                        firstPageErrorIndicatorBuilder: (context) =>
-                            const PaginationText(text: "An error occurred"),
-                        noItemsFoundIndicatorBuilder: (context) =>
-                            const PaginationText(text: "No items found"),
-                        newPageErrorIndicatorBuilder: (context) =>
-                            const PaginationText(text: "An error occurred"),
-                        newPageProgressIndicatorBuilder: (context) =>
-                            const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Center(child: CircularProgressIndicator()),
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(8, 14, 8, 14),
+                        child: BnS_SearchBar(bnsIndex: "Sell"),
+                      ),
+                      Expanded(
+                        child: PagedListView<int, BuyModel>(
+                          pagingController: _sellController,
+                          builderDelegate: PagedChildBuilderDelegate(
+                            itemBuilder: (context, sellItem, index) =>
+                                BuyTile(model: sellItem),
+                            firstPageErrorIndicatorBuilder: (context) =>
+                                const PaginationText(text: "An error occurred"),
+                            noItemsFoundIndicatorBuilder: (context) =>
+                                const PaginationText(text: "No items found"),
+                            newPageErrorIndicatorBuilder: (context) =>
+                                const PaginationText(text: "An error occurred"),
+                            newPageProgressIndicatorBuilder: (context) =>
+                                const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
+                            firstPageProgressIndicatorBuilder: (context) =>
+                                ListShimmer(
+                              count: 5,
+                              height: 120,
+                            ),
+                            noMoreItemsIndicatorBuilder: (context) =>
+                                const PaginationText(
+                                    text: "You've reached the end"),
+                          ),
                         ),
-                        firstPageProgressIndicatorBuilder: (context) =>
-                            ListShimmer(
-                          count: 5,
-                          height: 120,
-                        ),
-                        noMoreItemsIndicatorBuilder: (context) =>
-                            const PaginationText(
-                                text: "You've reached the end"),
-                      )),
+                      ),
+                    ],
+                  ),
                 )
               else if (commonStore.bnsIndex == "Buy")
                 Expanded(
-                  child: PagedListView<int, SellModel>(
-                      pagingController: _buyController,
-                      builderDelegate: PagedChildBuilderDelegate(
-                        itemBuilder: (context, buyItem, index) =>
-                            BuyTile(model: buyItem),
-                        firstPageErrorIndicatorBuilder: (context) =>
-                            const PaginationText(text: "An error occurred"),
-                        noItemsFoundIndicatorBuilder: (context) =>
-                            const PaginationText(text: "No items found"),
-                        newPageErrorIndicatorBuilder: (context) =>
-                            const PaginationText(text: "An error occurred"),
-                        newPageProgressIndicatorBuilder: (context) =>
-                            const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Center(child: CircularProgressIndicator()),
-                        ),
-                        firstPageProgressIndicatorBuilder: (context) =>
-                            ListShimmer(
-                          count: 5,
-                          height: 120,
-                        ),
-                        noMoreItemsIndicatorBuilder: (context) =>
-                            const PaginationText(
-                                text: "You've reached the end"),
-                      )),
-                )
+                    child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(8, 14, 8, 14),
+                      child: BnS_SearchBar(bnsIndex: "Buy"),
+                    ),
+                    Expanded(
+                      child: PagedListView<int, SellModel>(
+                          pagingController: _buyController,
+                          builderDelegate: PagedChildBuilderDelegate(
+                            itemBuilder: (context, buyItem, index) =>
+                                BuyTile(model: buyItem),
+                            firstPageErrorIndicatorBuilder: (context) =>
+                                const PaginationText(text: "An error occurred"),
+                            noItemsFoundIndicatorBuilder: (context) =>
+                                const PaginationText(text: "No items found"),
+                            newPageErrorIndicatorBuilder: (context) =>
+                                const PaginationText(text: "An error occurred"),
+                            newPageProgressIndicatorBuilder: (context) =>
+                                const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
+                            firstPageProgressIndicatorBuilder: (context) =>
+                                ListShimmer(
+                              count: 5,
+                              height: 120,
+                            ),
+                            noMoreItemsIndicatorBuilder: (context) =>
+                                const PaginationText(
+                                    text: "You've reached the end"),
+                          )),
+                    )
+                  ],
+                ))
               else
                 Expanded(
                   child: LoginStore().isGuestUser
