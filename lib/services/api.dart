@@ -209,6 +209,15 @@ class APIService {
     await dio.post(Endpoints.deleteFoundURL, data: {'id': id, 'email': email});
   }
 
+  Future<List> getBuyItems() async {
+    var response = await dio.get(Endpoints.buyURL);
+    return response.data.details;
+  }
+
+  Future<List> getSellItems() async {
+    var res = await dio.get(Endpoints.sellURL);
+    return res.data.details;
+  }
   Future<List<SellModel>> getBuyPageData() async {
     List<SellModel> sellPage = [];
     int pageNumber = 1;
