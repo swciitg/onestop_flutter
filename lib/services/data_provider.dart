@@ -99,32 +99,23 @@ class DataProvider {
   }
 
   static Future<List<HomeImageModel>> getHomeImageLinks() async {
-    var cachedData =
-        (await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage));
+    Map<String, dynamic>? cachedData =
+        await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage);
     List<HomeImageModel> res = [];
-    var imageLinks;
+    List<Map<String, dynamic>> imageLinks;
     if (cachedData == null) {
-      try {
-        var homePageUrls = await APIService().getHomePageUrls();
-        print("checking homePageUrls");
-        // print(homePageUrls);
-        imageLinks = homePageUrls['cardsDataList'];
-        print(imageLinks);
-        await LocalStorage.instance
-            .storeJsonRecord(homePageUrls, DatabaseRecords.homePage);
-        // Log.d
-      } catch (e) {
-        print(e.toString());
-      }
+      final homePageUrls = await APIService().getHomePageUrls();
+      imageLinks = homePageUrls['cardsDataList'];
+      await LocalStorage.instance
+          .storeJsonRecord(homePageUrls, DatabaseRecords.homePage);
     } else {
-      imageLinks = cachedData['cardsDataList'];
+      imageLinks =
+          (cachedData['cardsDataList'] as List).cast<Map<String, dynamic>>();
     }
 
-    for (var link in imageLinks) {
+    for (Map<String, dynamic> link in imageLinks) {
       res.add(HomeImageModel.fromJson(link));
-      print(link);
     }
-
     return res;
   }
 

@@ -52,62 +52,53 @@ class _HomeTabState extends State<HomeTab> {
           const SizedBox(
             height: 10,
           ),
-          FutureBuilder(
+          FutureBuilder<List<HomeImageModel>>(
               future: DataProvider.getHomeImageLinks(),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                   return CarouselSlider(
-                      items: (snapshot.data as List<HomeImageModel>)
-                          .map((image) => GestureDetector(
-                                onTap: () async {
-                                  String homeImageUrl = image.redirectUrl;
-                                  print(homeImageUrl);
-                                  if (homeImageUrl.isNotEmpty) {
-                                    await launchUrl(Uri.parse(homeImageUrl),
-                                        mode: LaunchMode.externalApplication);
-                                  } else {
-                                    print("not loading");
-                                  }
-                                },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(25),
-                                  child: CachedNetworkImage(
-                                    width: 0.92 *
-                                        MediaQuery.of(context).size.width,
-                                    height: 0.92 *
-                                        MediaQuery.of(context).size.height,
-                                    imageUrl: image.imageUrl,
-                                    imageBuilder: (context, imageProvider) =>
-                                        Image(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    placeholder: cachedImagePlaceholder,
-                                    errorWidget: (context, url, error) =>
-                                        Container(
-                                      color: kTimetableDisabled,
-                                      child: ErrorReloadScreen(
-                                          reloadCallback: callSetState),
+                    items: snapshot.data!
+                        .map((image) => GestureDetector(
+                              onTap: () async {
+                                final homeImageUrl = image.redirectUrl;
+                                if (homeImageUrl.isNotEmpty) {
+                                  await launchUrl(Uri.parse(homeImageUrl),
+                                      mode: LaunchMode.externalApplication);
+                                }
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(25),
+                                child: CachedNetworkImage(
+                                  width:
+                                      0.92 * MediaQuery.of(context).size.width,
+                                  imageUrl: image.imageUrl,
+                                  placeholder: cachedImagePlaceholder,
+                                  fit: BoxFit.cover,
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    color: kTimetableDisabled,
+                                    child: ErrorReloadScreen(
+                                      reloadCallback: callSetState,
                                     ),
                                   ),
                                 ),
-                              ))
-                          .toList(),
-                      options: CarouselOptions(
-                        height: 0.45 * MediaQuery.of(context).size.height,
-                        viewportFraction: 1,
-                        autoPlay: true,
-                        animateToClosest: false,
-                        enableInfiniteScroll: true,
-                        padEnds: false,
-                        aspectRatio: 16 / 9,
-                        autoPlayInterval: const Duration(seconds: 3),
-                        // enlargeCenterPage: true,
-                        // enlargeFactor: 0.2
-                      ));
+                              ),
+                            ))
+                        .toList(),
+                    options: CarouselOptions(
+                      height: 0.92 * MediaQuery.of(context).size.width,
+                      viewportFraction: 1,
+                      autoPlay: false,
+                      animateToClosest: false,
+                      enableInfiniteScroll: true,
+                      padEnds: false,
+                      aspectRatio: 1,
+                      autoPlayInterval: const Duration(seconds: 3),
+                    ),
+                  );
                 }
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                return const Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                   child: MapBox(),
                 );
               }),
@@ -116,9 +107,9 @@ class _HomeTabState extends State<HomeTab> {
           ),
           LoginStore.isGuest
               ? Container()
-              : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: const Column(
+              : const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       DateCourse(),

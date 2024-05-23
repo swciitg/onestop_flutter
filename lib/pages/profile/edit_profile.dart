@@ -66,7 +66,7 @@ class _EditProfileState extends State<EditProfile> {
     _dobController.text = DateFormat('dd-MMM-yyyy')
         .format(DateTime.parse(p.dob ?? DateTime.now().toIso8601String()));
     _linkedinController.text = p.linkedin ?? "";
-    hostel = p.hostel!.getHostelFromDatabaseString() ?? Hostel.none;
+    hostel = p.hostel?.getHostelFromDatabaseString() ?? Hostel.none;
     gender = p.gender;
     selectedDob = p.dob != null ? DateTime.parse(p.dob!) : DateTime.now();
     // imageString = p.image;
