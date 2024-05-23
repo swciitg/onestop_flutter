@@ -98,28 +98,6 @@ class DataProvider {
     return RegisteredCourses.fromJson(cachedData as Map<String, dynamic>);
   }
 
-  static Future<String> getHomeImageLink() async {
-    var cachedData =
-        (await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage));
-    String imageLink = "";
-    if (cachedData == null) {
-      try {
-        var homePageUrls = await APIService().getHomePageUrls();
-        imageLink = homePageUrls['homeImageUrl'];
-        print("a");
-        await LocalStorage.instance
-            .storeJsonRecord(homePageUrls, DatabaseRecords.homePage);
-        print("b");
-      } catch (e) {
-        print(e.toString());
-      }
-    } else {
-      imageLink = cachedData['homeImageUrl'].toString();
-    }
-
-    return imageLink;
-  }
-
   static Future<List<HomeImageModel>> getHomeImageLinks() async {
     var cachedData =
         (await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage));

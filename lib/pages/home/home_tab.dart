@@ -72,8 +72,10 @@ class _HomeTabState extends State<HomeTab> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(25),
                                   child: CachedNetworkImage(
-                                    width:
-                                        0.9 * MediaQuery.of(context).size.width,
+                                    width: 0.92 *
+                                        MediaQuery.of(context).size.width,
+                                    height: 0.92 *
+                                        MediaQuery.of(context).size.height,
                                     imageUrl: image.imageUrl,
                                     imageBuilder: (context, imageProvider) =>
                                         Image(
@@ -92,13 +94,13 @@ class _HomeTabState extends State<HomeTab> {
                               ))
                           .toList(),
                       options: CarouselOptions(
-                        height: 0.5 * MediaQuery.of(context).size.height,
+                        height: 0.45 * MediaQuery.of(context).size.height,
                         viewportFraction: 1,
                         autoPlay: true,
-                        animateToClosest: true,
-                        enableInfiniteScroll: false,
+                        animateToClosest: false,
+                        enableInfiniteScroll: true,
                         padEnds: false,
-                        aspectRatio: 2,
+                        aspectRatio: 16 / 9,
                         autoPlayInterval: const Duration(seconds: 3),
                         // enlargeCenterPage: true,
                         // enlargeFactor: 0.2
@@ -109,33 +111,6 @@ class _HomeTabState extends State<HomeTab> {
                   child: MapBox(),
                 );
               }),
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: GestureDetector(
-          //         onTap: () async {
-          //           String homeImageUrl = await DataProvider.getHomeImageLink();
-          //           if (homeImageUrl.isNotEmpty) {
-          //             await launchUrl(Uri.parse(homeImageUrl),
-          //                 mode: LaunchMode.externalApplication);
-          //           } else {}
-          //         },
-          //         child: ClipRRect(
-          //           borderRadius: BorderRadius.circular(25),
-          //           child: CachedNetworkImage(
-          //             imageUrl: Endpoints.baseUrl + Endpoints.homeImage,
-          //             imageBuilder: (context, imageProvider) => Image(
-          //               image: imageProvider,
-          //               fit: BoxFit.cover,
-          //             ),
-          //             placeholder: cachedImagePlaceholder,
-          //             errorWidget: (context, url, error) => const MapBox(),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
           const SizedBox(
             height: 10,
           ),
