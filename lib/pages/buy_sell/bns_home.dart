@@ -17,6 +17,7 @@ import 'package:onestop_dev/widgets/lostfound/ads_tile.dart';
 import 'package:onestop_dev/widgets/ui/guest_restrict.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:provider/provider.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class BuySellHome extends StatefulWidget {
   static const id = "/buySellHome";
@@ -61,6 +62,10 @@ class _BuySellHomeState extends State<BuySellHome> {
     } catch (e) {
       controller.error = "An error occurred";
     }
+  }
+
+  void reload() {
+    Navigator.pop(context);
   }
 
   @override
@@ -119,11 +124,12 @@ class _BuySellHomeState extends State<BuySellHome> {
                         itemBuilder: (context, sellItem, index) =>
                             BuyTile(model: sellItem),
                         firstPageErrorIndicatorBuilder: (context) =>
-                            const PaginationText(text: "An error occurred"),
+                            ErrorReloadScreen(reloadCallback: reload),
                         noItemsFoundIndicatorBuilder: (context) =>
                             const PaginationText(text: "No items found"),
                         newPageErrorIndicatorBuilder: (context) =>
-                            const PaginationText(text: "An error occurred"),
+                            // const PaginationText(text: "An error occurred"),
+                            ErrorReloadScreen(reloadCallback: reload),
                         newPageProgressIndicatorBuilder: (context) =>
                             const Padding(
                           padding: EdgeInsets.all(8.0),
@@ -147,11 +153,11 @@ class _BuySellHomeState extends State<BuySellHome> {
                         itemBuilder: (context, buyItem, index) =>
                             BuyTile(model: buyItem),
                         firstPageErrorIndicatorBuilder: (context) =>
-                            const PaginationText(text: "An error occurred"),
+                            ErrorReloadScreen(reloadCallback: reload),
                         noItemsFoundIndicatorBuilder: (context) =>
                             const PaginationText(text: "No items found"),
                         newPageErrorIndicatorBuilder: (context) =>
-                            const PaginationText(text: "An error occurred"),
+                            ErrorReloadScreen(reloadCallback: reload),
                         newPageProgressIndicatorBuilder: (context) =>
                             const Padding(
                           padding: EdgeInsets.all(8.0),
@@ -195,10 +201,11 @@ class _BuySellHomeState extends State<BuySellHome> {
                                 itemCount: tiles.length,
                               );
                             }
-                            return ListShimmer(
-                              count: 5,
-                              height: 120,
-                            );
+                            // return ListShimmer(
+                            //   count: 5,
+                            //   height: 120,
+                            // );
+                            return ErrorReloadScreen(reloadCallback: reload);
                           }),
                 )
             ],
