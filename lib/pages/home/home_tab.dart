@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/endpoints.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -11,12 +12,16 @@ import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 import 'package:onestop_dev/widgets/home/service_links.dart';
 import 'package:onestop_dev/widgets/mapbox/map_box.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../functions/food/rest_frame_builder.dart';
+import '../../models/home/home_image.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({Key? key}) : super(key: key);
+
   @override
   State<HomeTab> createState() => _HomeTabState();
 }
@@ -25,6 +30,10 @@ class _HomeTabState extends State<HomeTab> {
   int selectedIndex = 0;
   String sel = '';
   Future<RegisteredCourses>? timetable;
+
+  void callSetState() {
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -43,66 +52,97 @@ class _HomeTabState extends State<HomeTab> {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () async {
-                    String homeImageUrl = await DataProvider.getHomeImageLink();
-                    if (homeImageUrl.isNotEmpty) {
-                      await launchUrl(Uri.parse(homeImageUrl),
-                          mode: LaunchMode.externalApplication);
-                    } else {
-                    }
-                  },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: CachedNetworkImage(
-                      imageUrl: Endpoints.baseUrl + Endpoints.homeImage,
-                      imageBuilder: (context, imageProvider) => Image(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                      ),
-                      placeholder: cachedImagePlaceholder,
-                      errorWidget: (context, url, error) => const MapBox(),
+          FutureBuilder<List<HomeImageModel>>(
+              future: DataProvider.getHomeImageLinks(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return CarouselSlider(
+                    items: snapshot.data!
+                        .map((image) => GestureDetector(
+                              onTap: () async {
+                                final homeImageUrl = image.redirectUrl;
+                                if (homeImageUrl.isNotEmpty) {
+                                  await launchUrl(Uri.parse(homeImageUrl),
+                                      mode: LaunchMode.externalApplication);
+                                }
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(25),
+                                child: CachedNetworkImage(
+                                  width:
+                                      0.92 * MediaQuery.of(context).size.width,
+                                  imageUrl: image.imageUrl,
+                                  placeholder: cachedImagePlaceholder,
+                                  fit: BoxFit.cover,
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    color: kTimetableDisabled,
+                                    child: ErrorReloadScreen(
+                                      reloadCallback: callSetState,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                    options: CarouselOptions(
+                      height: 0.92 * MediaQuery.of(context).size.width,
+                      viewportFraction: 1,
+                      autoPlay: false,
+                      animateToClosest: false,
+                      enableInfiniteScroll: true,
+                      padEnds: false,
+                      aspectRatio: 1,
+                      autoPlayInterval: const Duration(seconds: 3),
                     ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+                  );
+                }
+                return const Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  child: MapBox(),
+                );
+              }),
           const SizedBox(
             height: 10,
           ),
           LoginStore.isGuest
               ? Container()
-              : const Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    DateCourse(),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
+              : const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      DateCourse(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
                 ),
-          HomeLinks(title: 'Services', links: serviceLinks),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: HomeLinks(title: 'Services', links: serviceLinks),
+          ),
           const SizedBox(
             height: 10,
           ),
-          FutureBuilder<List<HomeTabTile>>(
-              future: DataProvider.getQuickLinks(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return HomeLinks(
-                    links: snapshot.data!,
-                    title: 'Quick Links',
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: FutureBuilder<List<HomeTabTile>>(
+                future: DataProvider.getQuickLinks(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return HomeLinks(
+                      links: snapshot.data!,
+                      title: 'Quick Links',
+                    );
+                  }
+                  return ListShimmer(
+                    count: 1,
+                    height: 80,
                   );
-                }
-                return ListShimmer(
-                  count: 1,
-                  height: 80,
-                );
-              }),
+                }),
+          ),
           const SizedBox(
             height: 10,
           ),

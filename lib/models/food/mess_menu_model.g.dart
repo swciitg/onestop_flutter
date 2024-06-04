@@ -16,7 +16,7 @@ MessMenu _$MessMenuFromJson(Map<String, dynamic> json) => MessMenu(
       friday: Day.fromJson(json['friday'] as Map<String, dynamic>),
       saturday: Day.fromJson(json['saturday'] as Map<String, dynamic>),
       sunday: Day.fromJson(json['sunday'] as Map<String, dynamic>),
-      v: json['v'] as int,
+      v: (json['v'] as num).toInt(),
     );
 
 Map<String, dynamic> _$MessMenuToJson(MessMenu instance) => <String, dynamic>{

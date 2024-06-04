@@ -87,6 +87,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                 },
                 icon: const Icon(
                   FluentIcons.dismiss_24_filled,
+                  color: kWhite2,
                 ),
               )
             ],

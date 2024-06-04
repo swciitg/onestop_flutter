@@ -13,7 +13,7 @@ RestaurantModel _$RestaurantModelFromJson(Map<String, dynamic> json) =>
       closingTime: json['closingTime'] as String? ?? '10:00 PM',
       phoneNumber: json['phoneNumber'] == null
           ? ' '
-          : fromJsonPhone(json['phoneNumber'] as int),
+          : fromJsonPhone((json['phoneNumber'] as num).toInt()),
       latitude: (json['latitude'] as num?)?.toDouble() ?? 26.19247153449412,
       longitude: (json['longitude'] as num?)?.toDouble() ?? 91.6993500129393,
       location: json['location'] as String? ?? 'IIT Guwahati',

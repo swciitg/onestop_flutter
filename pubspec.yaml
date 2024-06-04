@@ -63,7 +63,7 @@ dependencies:
   file_picker: ^5.2.5
   shared_preferences: ^2.0.12
   barcode_widget: ^2.0.3
-  carousel_slider: ^4.0.0
+  carousel_slider: ^4.2.1
   url_launcher: ^6.0.20
   alphabet_scroll_view: ^0.3.1
   cached_network_image: ^3.3.1
@@ -83,7 +83,7 @@ dependencies:
   geolocator: ^9.0.1
   path_provider: ^2.0.11
   path: ^1.8.0
-  infinite_scroll_pagination: ^3.2.0
+  infinite_scroll_pagination: ^4.0.0
   upgrader: ^6.2.0
   badges: ^2.0.3
   image: ^4.0.15

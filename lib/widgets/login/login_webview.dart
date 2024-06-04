@@ -21,12 +21,14 @@ class LoginWebView extends StatefulWidget {
 class _LoginWebViewState extends State<LoginWebView> {
   late WebViewController controller;
 
-  Future<String> getElementById(WebViewController controller, String elementId) async {
-    var element = await controller
-        .runJavaScriptReturningResult("document.querySelector('#$elementId').innerText");
+  Future<String> getElementById(
+      WebViewController controller, String elementId) async {
+    var element = await controller.runJavaScriptReturningResult(
+        "document.querySelector('#$elementId').innerText");
     String newString = element.toString();
     if (element.toString().startsWith('"')) {
-      newString = element.toString().substring(1, element.toString().length - 1);
+      newString =
+          element.toString().substring(1, element.toString().length - 1);
     }
     return newString.replaceAll('\\', '');
   }
@@ -39,14 +41,12 @@ class _LoginWebViewState extends State<LoginWebView> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(NavigationDelegate(
         onPageFinished: (url) async {
-          if (url.startsWith("${Endpoints.baseUrl}/auth/microsoft/redirect?code")) {
+          if (url.startsWith(
+              "${Endpoints.baseUrl}/auth/microsoft/redirect?code")) {
             final userTokensString =
-                (await getElementById(controller, 'userTokens')).replaceAll("\\", '"');
-            // var userTokensString = await controller.runJavascriptReturningResult("document.querySelector('#userTokens').innerText");
-            // print("TOKENS STRING");
-            // print(userTokensString);
-            // userTokensString = userTokensString.replaceAll('"', '');
-            // print(userTokensString);
+                (await getElementById(controller, 'userTokens'))
+                    .replaceAll("\\", '"');
+
             if (userTokensString != "ERROR OCCURED") {
               SharedPreferences user = await SharedPreferences.getInstance();
               if (!mounted) return;
@@ -60,7 +60,8 @@ class _LoginWebViewState extends State<LoginWebView> {
               navigatorKey.currentState!.pushAndRemoveUntil(
                   MaterialPageRoute(
                       builder: (context) => EditProfile(
-                            profileModel: OneStopUser.fromJson(LoginStore.userData),
+                            profileModel:
+                                OneStopUser.fromJson(LoginStore.userData),
                           )),
                   (route) => false);
             }

@@ -13,6 +13,9 @@ import 'package:onestop_dev/pages/elections/election_login.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
+import 'package:onestop_kit/onestop_kit.dart';
+
+import '../models/home/home_image.dart';
 
 class DataProvider {
   static Future<Map<String, dynamic>?> getLastUpdated() async {
@@ -95,26 +98,25 @@ class DataProvider {
     return RegisteredCourses.fromJson(cachedData as Map<String, dynamic>);
   }
 
-  static Future<String> getHomeImageLink() async {
-    var cachedData =
-        (await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage));
-    String imageLink = "";
+  static Future<List<HomeImageModel>> getHomeImageLinks() async {
+    Map<String, dynamic>? cachedData =
+        await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage);
+    List<HomeImageModel> res = [];
+    List<Map<String, dynamic>> imageLinks;
     if (cachedData == null) {
-      try {
-        var homePageUrls = await APIService().getHomePageUrls();
-        imageLink = homePageUrls['homeImageUrl'];
-        print("a");
-        await LocalStorage.instance
-            .storeJsonRecord(homePageUrls, DatabaseRecords.homePage);
-        print("b");
-      } catch (e) {
-        print(e.toString());
-      }
+      final homePageUrls = await APIService().getHomePageUrls();
+      imageLinks = homePageUrls['cardsDataList'];
+      await LocalStorage.instance
+          .storeJsonRecord(homePageUrls, DatabaseRecords.homePage);
     } else {
-      imageLink = cachedData['homeImageUrl'].toString();
+      imageLinks =
+          (cachedData['cardsDataList'] as List).cast<Map<String, dynamic>>();
     }
 
-    return imageLink;
+    for (Map<String, dynamic> link in imageLinks) {
+      res.add(HomeImageModel.fromJson(link));
+    }
+    return res;
   }
 
   static Future<List<HomeTabTile>> getQuickLinks() async {
@@ -154,7 +156,7 @@ class DataProvider {
   }
 
   static Future<MealType> getMealData({
-    required String hostel,
+    required Hostel hostel,
     required String day,
     required String mealType,
   }) async {
@@ -171,18 +173,15 @@ class DataProvider {
     }
 
     List<dynamic> answer = jsonData['details']!;
-    var meal = answer.firstWhere(
-        (m) =>
-            m['hostel'].toString().trim().toLowerCase() ==
-            hostel.toString().toLowerCase(),
+    var meal = answer.firstWhere((m) => m['hostel'] == hostel.databaseString,
         orElse: () => 'no data');
     if (meal == 'no data') {
       return MealType(
           id: '',
-          mealDescription:
-              "Not updated by $hostel's HMC. Kindly Contact ask them to update",
-          startTiming: DateTime.now(),
-          endTiming: DateTime.now());
+          mealDescription: "Not updated by ${hostel.displayString}'s HMC. "
+              "Kindly Contact ask them to update",
+          startTiming: DateTime.now().toLocal(),
+          endTiming: DateTime.now().toLocal());
     }
     return MealType(
         id: meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]

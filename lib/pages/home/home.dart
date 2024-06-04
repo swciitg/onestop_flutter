@@ -11,12 +11,14 @@ import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/ui/onestop_upgrade.dart';
 import 'package:provider/provider.dart';
+
 import '../../widgets/home/home_drawer.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
 class HomePage extends StatefulWidget {
   static String id = "/home2";
+
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -31,6 +33,7 @@ class _HomePageState extends State<HomePage> {
     const TravelPage(),
     const TimeTableTab(),
   ];
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -57,10 +60,12 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: tabs[index],
-          ),
+          child: index != 0 // Check if index is not 0
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: tabs[index],
+                )
+              : tabs[index], // No padding if index is 0
         ),
       ),
     );

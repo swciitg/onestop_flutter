@@ -16,6 +16,13 @@ mixin _$MessStore on _MessStore, Store {
       (_$hostelLoadedComputed ??= Computed<bool>(() => super.hostelLoaded,
               name: '_MessStore.hostelLoaded'))
           .value;
+  Computed<Hostel>? _$defaultUserHostelComputed;
+
+  @override
+  Hostel get defaultUserHostel => (_$defaultUserHostelComputed ??=
+          Computed<Hostel>(() => super.defaultUserHostel,
+              name: '_MessStore.defaultUserHostel'))
+      .value;
 
   late final _$selectedDayAtom =
       Atom(name: '_MessStore.selectedDay', context: context);
@@ -53,13 +60,13 @@ mixin _$MessStore on _MessStore, Store {
       Atom(name: '_MessStore.selectedHostel', context: context);
 
   @override
-  ObservableFuture<String> get selectedHostel {
+  ObservableFuture<Hostel> get selectedHostel {
     _$selectedHostelAtom.reportRead();
     return super.selectedHostel;
   }
 
   @override
-  set selectedHostel(ObservableFuture<String> value) {
+  set selectedHostel(ObservableFuture<Hostel> value) {
     _$selectedHostelAtom.reportWrite(value, super.selectedHostel, () {
       super.selectedHostel = value;
     });
@@ -107,22 +114,22 @@ mixin _$MessStore on _MessStore, Store {
   }
 
   @override
-  void setHostel(String s) {
+  void setHostel(Hostel h) {
     final _$actionInfo =
         _$_MessStoreActionController.startAction(name: '_MessStore.setHostel');
     try {
-      return super.setHostel(s);
+      return super.setHostel(h);
     } finally {
       _$_MessStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void setmealData(MealType m) {
+  void setMealData(MealType m) {
     final _$actionInfo = _$_MessStoreActionController.startAction(
-        name: '_MessStore.setmealData');
+        name: '_MessStore.setMealData');
     try {
-      return super.setmealData(m);
+      return super.setMealData(m);
     } finally {
       _$_MessStoreActionController.endAction(_$actionInfo);
     }
@@ -135,7 +142,8 @@ selectedDay: ${selectedDay},
 selectedMeal: ${selectedMeal},
 selectedHostel: ${selectedHostel},
 mealData: ${mealData},
-hostelLoaded: ${hostelLoaded}
+hostelLoaded: ${hostelLoaded},
+defaultUserHostel: ${defaultUserHostel}
     ''';
   }
 }
