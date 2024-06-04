@@ -64,8 +64,19 @@ class _BuySellHomeState extends State<BuySellHome> {
     }
   }
 
-  void reload() {
-    Navigator.of(context).pop();
+  void refresh() {
+    _sellController.refresh();
+    _buyController.refresh();
+  }
+
+  void retryLastFailedRequest() {
+    _sellController.retryLastFailedRequest();
+    _buyController.retryLastFailedRequest();
+  }
+  void callSetState(){
+    setState(() {
+      
+    });
   }
 
   @override
@@ -124,11 +135,12 @@ class _BuySellHomeState extends State<BuySellHome> {
                         itemBuilder: (context, sellItem, index) =>
                             BuyTile(model: sellItem),
                         firstPageErrorIndicatorBuilder: (context) =>
-                            ErrorReloadScreen(reloadCallback: reload),
+                            ErrorReloadScreen(reloadCallback: refresh),
                         noItemsFoundIndicatorBuilder: (context) =>
                             const PaginationText(text: "No items found"),
                         newPageErrorIndicatorBuilder: (context) =>
-                            ErrorReloadButton(reloadCallback: reload),
+                            ErrorReloadButton(
+                                reloadCallback: retryLastFailedRequest),
                         newPageProgressIndicatorBuilder: (context) =>
                             const Padding(
                           padding: EdgeInsets.all(8.0),
@@ -152,11 +164,12 @@ class _BuySellHomeState extends State<BuySellHome> {
                         itemBuilder: (context, buyItem, index) =>
                             BuyTile(model: buyItem),
                         firstPageErrorIndicatorBuilder: (context) =>
-                            ErrorReloadScreen(reloadCallback: reload),
+                            ErrorReloadScreen(reloadCallback: refresh),
                         noItemsFoundIndicatorBuilder: (context) =>
                             const PaginationText(text: "No items found"),
                         newPageErrorIndicatorBuilder: (context) =>
-                            ErrorReloadButton(reloadCallback: reload),
+                            ErrorReloadButton(
+                                reloadCallback: retryLastFailedRequest),
                         newPageProgressIndicatorBuilder: (context) =>
                             const Padding(
                           padding: EdgeInsets.all(8.0),
@@ -199,14 +212,23 @@ class _BuySellHomeState extends State<BuySellHome> {
                                 itemBuilder: (context, index) => tiles[index],
                                 itemCount: tiles.length,
                               );
-                            }
-                            return ErrorReloadScreen(reloadCallback: reload);
+                             }
+                             if (snapshot.hasError) {
+                              return ErrorReloadScreen(
+                                  reloadCallback: callSetState);
+                             }
+
+
+                            return ListShimmer(
+                              count: 5,
+                              height: 120,
+                            );
+                           
                           }),
                 )
             ],
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.endFloat,
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           floatingActionButton: LoginStore().isGuestUser
               ? Container()
               : AddItemButton(
