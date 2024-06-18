@@ -48,10 +48,10 @@ dependencies:
   onestop_kit:
     git:
       url: https://github.com/swciitg/onestop_kit.git
-  khokha_entry:
+  gate_log:
     git:
       url: https://github.com/swciitg/khokha_entry_onestop.git
-      path: packages/khokha_entry
+      path: packages/gate_log
   
   intl: ^0.18.0
   webview_cookie_manager: ^2.0.6

@@ -5,7 +5,7 @@ import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
 import 'package:onestop_dev/pages/services/irbs.dart';
-import 'package:onestop_dev/pages/services/khokha_entry_page.dart';
+import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
 List<HomeTabTile> serviceLinks = [
@@ -52,7 +52,7 @@ List<HomeTabTile> serviceLinks = [
   const HomeTabTile(
     label: "GateLog",
     icon: FluentIcons.door_20_regular,
-    routeId: KhokhaEntryPage.id,
+    routeId: GateLogPage.id,
     newBadge: true,
   ),
 ];
