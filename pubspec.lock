@@ -686,7 +686,7 @@ packages:
     description:
       path: "packages/gate_log"
       ref: HEAD
-      resolved-ref: ef4becf73f9abf1bb4cd3d54ecbb9ca242d40f41
+      resolved-ref: "35aa2ae38b7e2c092852848cc718a3d2001acf41"
       url: "https://github.com/swciitg/khokha_entry_onestop.git"
     source: git
     version: "0.0.1"

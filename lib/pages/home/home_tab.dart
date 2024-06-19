@@ -58,7 +58,6 @@ class _HomeTabState extends State<HomeTab> {
                 future: DataProvider.getHomeImageLinks(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    print(snapshot.error);
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: ClipRRect(
@@ -74,7 +73,12 @@ class _HomeTabState extends State<HomeTab> {
                       ),
                     );
                   } else if (snapshot.hasData == false) {
-                    return cachedImagePlaceholder(context, '');
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: cachedImagePlaceholder(context, '')),
+                    );
                   } else if (snapshot.data!.isEmpty) {
                     return const MapBox();
                   }
