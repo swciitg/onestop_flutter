@@ -52,56 +52,74 @@ class _HomeTabState extends State<HomeTab> {
           const SizedBox(
             height: 10,
           ),
-          FutureBuilder<List<HomeImageModel>>(
-              future: DataProvider.getHomeImageLinks(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          SizedBox(
+            height: 365,
+            child: FutureBuilder<List<HomeImageModel>>(
+                future: DataProvider.getHomeImageLinks(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Container(
+                          color: kTimetableDisabled,
+                          child: Center(
+                            child: ErrorReloadButton(
+                              reloadCallback: callSetState,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  } else if (snapshot.hasData == false) {
+                    return cachedImagePlaceholder(context, '');
+                  } else if (snapshot.data!.isEmpty) {
+                    return const MapBox();
+                  }
                   return CarouselSlider(
-                    items: snapshot.data!
-                        .map((image) => GestureDetector(
-                              onTap: () async {
-                                final homeImageUrl = image.redirectUrl;
-                                if (homeImageUrl.isNotEmpty) {
-                                  await launchUrl(Uri.parse(homeImageUrl),
-                                      mode: LaunchMode.externalApplication);
-                                }
-                              },
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(25),
-                                child: CachedNetworkImage(
-                                  width:
-                                      0.92 * MediaQuery.of(context).size.width,
-                                  imageUrl: image.imageUrl,
-                                  placeholder: cachedImagePlaceholder,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) =>
-                                      Container(
-                                    color: kTimetableDisabled,
-                                    child: ErrorReloadScreen(
-                                      reloadCallback: callSetState,
-                                    ),
-                                  ),
+                    items: snapshot.data!.map((image) {
+                      return GestureDetector(
+                        onTap: () async {
+                          final homeImageUrl = image.redirectUrl;
+                          if (homeImageUrl.isNotEmpty) {
+                            await launchUrl(Uri.parse(homeImageUrl),
+                                mode: LaunchMode.externalApplication);
+                          }
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: CachedNetworkImage(
+                            width: 0.92 * MediaQuery.of(context).size.width,
+                            imageUrl: image.imageUrl,
+                            placeholder: cachedImagePlaceholder,
+                            fit: BoxFit.cover,
+                            errorWidget: (context, url, error) => Container(
+                              color: kTimetableDisabled,
+                              child: Center(
+                                child: ErrorReloadButton(
+                                  reloadCallback: callSetState,
                                 ),
                               ),
-                            ))
-                        .toList(),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
                     options: CarouselOptions(
                       height: 0.92 * MediaQuery.of(context).size.width,
                       viewportFraction: 1,
                       autoPlay: false,
                       animateToClosest: false,
-                      enableInfiniteScroll: true,
+                      enableInfiniteScroll: snapshot.data!.length > 1,
                       padEnds: false,
                       aspectRatio: 1,
                       autoPlayInterval: const Duration(seconds: 3),
                     ),
                   );
-                }
-                return const Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                  child: MapBox(),
-                );
-              }),
+                }),
+          ),
           const SizedBox(
             height: 10,
           ),

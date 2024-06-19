@@ -6,6 +6,7 @@ import 'package:upgrader/upgrader.dart';
 class OneStopUpgraderMessages extends UpgraderMessages {
   @override
   String get title => 'OneStop Update Available';
+
   @override
   String get body =>
       'OneStop v{{currentAppStoreVersion}} is now available. You are on a previous version - v{{currentInstalledVersion}}';
@@ -13,6 +14,7 @@ class OneStopUpgraderMessages extends UpgraderMessages {
 
 class OneStopUpgrader extends StatelessWidget {
   final Widget child;
+
   const OneStopUpgrader({Key? key, required this.child}) : super(key: key);
 
   @override
@@ -31,9 +33,9 @@ class OneStopUpgrader extends StatelessWidget {
           upgrader: Upgrader(
             countryCode: 'IN',
             durationUntilAlertAgain: const Duration(hours: 1),
-            showIgnore: false,
             messages: OneStopUpgraderMessages(),
           ),
+          showIgnore: false,
           child: child),
     );
   }

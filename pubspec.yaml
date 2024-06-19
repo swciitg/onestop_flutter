@@ -58,7 +58,7 @@ dependencies:
   dio_cookie_manager: ^2.0.0
   cookie_jar: 3.0.1
   provider: ^6.0.2
-  http: ^0.13.4
+  http: ^1.0.0
   dio: ^5.0.3
   file_picker: ^5.2.5
   shared_preferences: ^2.0.12
@@ -84,13 +84,13 @@ dependencies:
   path_provider: ^2.0.11
   path: ^1.8.0
   infinite_scroll_pagination: ^4.0.0
-  upgrader: ^6.2.0
+  upgrader: ^10.3.0
   badges: ^2.0.3
   image: ^4.0.15
   firebase_messaging: ^14.7.20
   flutter_local_notifications: ^17.0.0
   firebase_core: ^2.27.1
-  flutter_svg: ^1.1.6
+  flutter_svg: ^2.0.10+1
   flutter_cache_manager: ^3.3.1
 
 dev_dependencies:

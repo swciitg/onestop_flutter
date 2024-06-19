@@ -105,7 +105,8 @@ class DataProvider {
     List<Map<String, dynamic>> imageLinks;
     if (cachedData == null) {
       final homePageUrls = await APIService().getHomePageUrls();
-      imageLinks = homePageUrls['cardsDataList'];
+      imageLinks =
+          (homePageUrls['cardsDataList'] as List).cast<Map<String, dynamic>>();
       await LocalStorage.instance
           .storeJsonRecord(homePageUrls, DatabaseRecords.homePage);
     } else {
