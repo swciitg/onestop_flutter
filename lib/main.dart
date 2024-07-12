@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/check_last_updated.dart';
+import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/routes.dart';
@@ -23,14 +24,17 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Future.wait([
-    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
-    checkLastUpdated(),
-  ]);
-  await Future.wait([
-    checkForNotifications(),
-    FirebaseMessaging.instance.getToken(),
-  ]);
+
+  if (await hasInternetConnection()) {
+    await Future.wait([
+      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+      checkLastUpdated(),
+    ]);
+    await Future.wait([
+      checkForNotifications(),
+      FirebaseMessaging.instance.getToken(),
+    ]);
+  }
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,

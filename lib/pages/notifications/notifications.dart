@@ -11,10 +11,12 @@ import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/notifications/notification_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class NotificationPage extends StatefulWidget {
   static String id = "/notifications";
+
   const NotificationPage({Key? key}) : super(key: key);
 
   @override
@@ -77,6 +79,11 @@ class _NotificationPageState extends State<NotificationPage>
       body: FutureBuilder<Map<String, List<NotifsModel>>>(
           future: DataProvider.getNotifications(),
           builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return ErrorReloadScreen(reloadCallback: () {
+                setState(() {});
+              });
+            }
             if (snapshot.hasData) {
               if (snapshot.data!["userPersonalNotifs"]!.isEmpty &&
                   snapshot.data!["allTopicNotifs"]!.isEmpty) {
@@ -185,7 +192,10 @@ class _NotificationPageState extends State<NotificationPage>
                   await APIService().deletePersonalNotif();
                 },
                 backgroundColor: lBlue2,
-                child: const Icon(Icons.delete),
+                child: const Icon(
+                  Icons.delete,
+                  color: OneStopColors.backgroundColor,
+                ),
               )
             : Container();
       }),

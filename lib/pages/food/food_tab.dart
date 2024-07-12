@@ -3,8 +3,6 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/services/data_provider.dart';
-import 'package:onestop_dev/widgets/food/favourite_dishes.dart';
-import 'package:onestop_dev/widgets/food/food_search_bar.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_links.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_menu.dart';
 import 'package:onestop_dev/widgets/food/outlets_filter.dart';
@@ -25,7 +23,7 @@ class FoodTab extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          FoodSearchBar(),
+          // FoodSearchBar(),
           const SizedBox(
             height: 16,
           ),
@@ -36,8 +34,8 @@ class FoodTab extends StatelessWidget {
                   MessMenu(),
                   const SizedBox(height: 16),
                   const MessLinks(),
-                  const SizedBox(height: 16),
-                  const FavoriteDishes(),
+                  // const SizedBox(height: 16),
+                  // const FavoriteDishes(),
                   const SizedBox(height: 16),
                   const OutletsFilter(),
                   const SizedBox(height: 10),

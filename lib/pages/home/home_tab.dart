@@ -80,7 +80,10 @@ class _HomeTabState extends State<HomeTab> {
                           child: cachedImagePlaceholder(context, '')),
                     );
                   } else if (snapshot.data!.isEmpty) {
-                    return const MapBox();
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: MapBox(),
+                    );
                   }
                   return CarouselSlider(
                     items: snapshot.data!.map((image) {

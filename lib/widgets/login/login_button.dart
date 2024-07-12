@@ -39,8 +39,8 @@ class LoginButton extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.fitWidth,
               child: Text(
-                'LOGIN WITH OUTLOOK',
-                style: MyFonts.w500.factor(3.2).setColor(kBlack),
+                'Login with Outlook',
+                style: MyFonts.w500.factor(2.5).setColor(kBlack),
               ),
             ),
           ),
@@ -59,9 +59,10 @@ class LoginButton extends StatelessWidget {
                       text: 'Guest',
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
+                          final nav = Navigator.of(context);
                           await LoginStore().signInAsGuest();
-                          // TODO: Next version of Flutter will have context.mounted. Use that instead to escape the lint
-                          Navigator.of(context).pushNamedAndRemoveUntil(
+
+                          nav.pushNamedAndRemoveUntil(
                               '/', (Route<dynamic> route) => false);
                         },
                       style: MyFonts.w500.factor(2).setColor(kGrey8).copyWith(

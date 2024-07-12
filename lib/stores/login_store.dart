@@ -1,12 +1,14 @@
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/enums.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginStore {
   static Map<String, dynamic> userData = {};
@@ -18,23 +20,28 @@ class LoginStore {
     SharedPreferences user = await SharedPreferences.getInstance();
     Map userInfo = {};
     if (user.containsKey("userInfo")) {
-      try {
-        userInfo = await APIService().getUserProfile();
-      } catch (e) {
-        if ((e as DioException).response == null) {
-          return SplashResponse.authenticated;
+      if (await hasInternetConnection()) {
+        try {
+          userInfo = await APIService().getUserProfile();
+        } catch (e) {
+          if ((e as DioException).response == null) {
+            return SplashResponse.authenticated;
+          }
+          if (e.response!.statusCode == 418) {
+            return SplashResponse.blocked;
+          } else {
+            return SplashResponse.authenticated;
+          }
         }
-        if ((e).response!.statusCode == 418) {
-          return SplashResponse.blocked;
-        } else {
-          return SplashResponse.authenticated;
-        }
+        await user.setString('userInfo', jsonEncode(userInfo));
+
+        await saveToUserInfo(user);
+      } else {
+        userData = jsonDecode(user.getString('userInfo') ?? "");
       }
-      await user.setString('userInfo', jsonEncode(userInfo));
       if (user.containsKey("isProfileComplete")) {
         isProfileComplete = true;
-      } else {}
-      await saveToUserInfo(user);
+      }
       return SplashResponse.authenticated;
     }
     return SplashResponse.notAuthenticated;

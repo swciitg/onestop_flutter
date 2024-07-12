@@ -1,14 +1,15 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class LostFoundLocationForm extends StatefulWidget {
   final String imageString;
+
   const LostFoundLocationForm({Key? key, required this.imageString})
       : super(key: key);
 
@@ -21,7 +22,13 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
   bool checkBox = false;
   String? selectedDropdown;
   List<String> libraries = ["Library", "Central library"];
-  List<String> hostels = khostels;
+  List<String> hostels = [
+    "Hostel",
+    ...Hostel.values
+        .where((e) => e != Hostel.none)
+        .map((e) => e.displayString)
+        .toList(),
+  ];
   List<String> sacs = ["SAC", "Old SAC", "New SAC"];
   List<String> cores = ["Core", "Core 1", "Core 2", "Core 3", "Core 4"];
 
@@ -67,7 +74,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                         child: Checkbox(
                           checkColor: kBlack,
                           activeColor: lBlue3,
-                          overlayColor: MaterialStateProperty.all(lBlue3),
+                          overlayColor: const WidgetStatePropertyAll(lBlue3),
                           value: checkBox,
                           onChanged: (value) {
                             setState(() {

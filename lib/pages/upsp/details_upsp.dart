@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
-import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home/home.dart';
@@ -10,9 +9,11 @@ import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class DetailsUpsp extends StatefulWidget {
   final Map<String, dynamic> data;
+
   const DetailsUpsp({Key? key, required this.data}) : super(key: key);
 
   @override
@@ -23,7 +24,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
   bool submitted = false;
   TextEditingController contact = TextEditingController();
   TextEditingController rollNo = TextEditingController();
-  List<String> hostels = khostels;
+  List<Hostel> hostels = Hostel.values;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -32,7 +33,9 @@ class _DetailsUpspState extends State<DetailsUpsp> {
     String email = userData['outlookEmail']!;
     String name = userData['name']!;
     rollNo.text = userData['rollNo']!.toString();
-    String selectedDropdown = userData['hostel']!;
+    Hostel selectedHostel =
+        userData['hostel']!.toString().getHostelFromDatabaseString() ??
+            Hostel.none;
     contact.text = userData['phoneNumber']!.toString();
 
     return Scaffold(
@@ -158,10 +161,10 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 5),
-                          child: DropdownButtonFormField<String>(
-                            value: selectedDropdown,
+                          child: DropdownButtonFormField<Hostel>(
+                            value: selectedHostel,
                             validator: (val) {
-                              if (val == null) {
+                              if (val == null || val == Hostel.none) {
                                 return "Hostel can not be empty";
                               }
                               return null;
@@ -198,17 +201,17 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                             style: MyFonts.w600.size(14).setColor(kWhite),
                             onChanged: (data) {
                               setState(() {
-                                selectedDropdown = data!;
+                                selectedHostel = data!;
                               });
                             },
-                            items: hostels
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
+                            items:
+                                hostels.map<DropdownMenuItem<Hostel>>((value) {
+                              return DropdownMenuItem<Hostel>(
                                 value: value,
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 15),
                                   child: Text(
-                                    value,
+                                    value.displayString,
                                     style:
                                         MyFonts.w600.size(14).setColor(kWhite),
                                   ),
@@ -232,7 +235,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                             });
                             Map<String, dynamic> data = widget.data;
                             data['phone'] = contact.text;
-                            data['hostel'] = selectedDropdown;
+                            data['hostel'] = selectedHostel.databaseString;
                             data['name'] = name;
                             data['roll_number'] = rollNo.text;
                             data['email'] = email;

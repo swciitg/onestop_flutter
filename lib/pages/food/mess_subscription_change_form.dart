@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/functions/utility/validator.dart';
-import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/main.dart';
@@ -14,6 +13,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class MessSubscriptionPage extends StatefulWidget {
   static const id = '/messSubscriptionPage';
+
   const MessSubscriptionPage({super.key});
 
   @override
@@ -24,18 +24,21 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _rollNumberController = TextEditingController();
   final user = OneStopUser.fromJson(LoginStore.userData);
-  final List<String> hostels = khostels;
+  final List<Hostel> hostels = Hostel.values;
   bool isLoading = false;
-  late String hostelFrom;
-  late String hostelTo;
+  late Hostel hostelFrom;
+  late Hostel hostelTo;
 
-  void onChangeCurrentHostel(String? hostel) => hostelFrom = hostel!;
-  void onChangeDesiredHostel(String? hostel) => hostelTo = hostel!;
+  void onChangeCurrentHostel(String? hostel) =>
+      hostelFrom = hostel?.getHostelFromDisplayString() ?? Hostel.none;
+
+  void onChangeDesiredHostel(String? hostel) =>
+      hostelTo = hostel?.getHostelFromDisplayString() ?? Hostel.none;
 
   @override
   void initState() {
-    hostelFrom = user.hostel ?? hostels.first;
-    hostelTo = hostels.first;
+    hostelFrom = user.hostel?.getHostelFromDatabaseString() ?? Hostel.none;
+    hostelTo = Hostel.none;
     _phoneController.text = user.phoneNumber!.toString();
     _rollNumberController.text = user.rollNo;
     super.initState();
@@ -54,8 +57,8 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
         return;
       }
       final data = {
-        "hostelFrom": hostelFrom,
-        "hostelTo": hostelTo,
+        "hostelFrom": hostelFrom.databaseString,
+        "hostelTo": hostelTo.databaseString,
         "contact": _phoneController.text,
         "rollNumber": user.rollNo,
         "userName": user.name,
@@ -92,8 +95,8 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
 
   @override
   Widget build(BuildContext context) {
-    hostelFrom = user.hostel ?? hostels.first;
-    hostelTo = hostels.first;
+    hostelFrom = user.hostel?.getHostelFromDatabaseString() ?? Hostel.none;
+    hostelTo = Hostel.none;
 
     const dropDownIcon = Icon(
       Icons.keyboard_arrow_down_rounded,
@@ -108,7 +111,6 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -152,9 +154,12 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
                           isNeccessary: true),
                       const SizedBox(height: 12),
                       CustomDropDown(
-                        items: hostels,
+                        items:
+                            Hostel.values.map((e) => e.displayString).toList(),
                         // hintText: user.hostel ?? hostels.first,
-                        value: user.hostel,
+                        value: (user.hostel?.getHostelFromDatabaseString() ??
+                                Hostel.none)
+                            .displayString,
                         onChanged: onChangeCurrentHostel,
                         validator: validatefield,
                         borderRadius: BorderRadius.circular(24),
@@ -168,9 +173,10 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
                           isNeccessary: true),
                       const SizedBox(height: 12),
                       CustomDropDown(
-                        items: hostels,
+                        items:
+                            Hostel.values.map((e) => e.displayString).toList(),
                         // hintText: hostels.first,
-                        value: hostels.first,
+                        value: Hostel.none.displayString,
                         onChanged: onChangeDesiredHostel,
                         validator: validatefield,
                         borderRadius: BorderRadius.circular(24),
@@ -219,6 +225,7 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
+      scrolledUnderElevation: 0,
       backgroundColor: kAppBarGrey,
       iconTheme: const IconThemeData(color: kAppBarGrey),
       centerTitle: false,

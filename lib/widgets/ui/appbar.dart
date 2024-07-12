@@ -15,6 +15,7 @@ AppBar appBar(
     backgroundColor: kBackground,
     iconTheme: const IconThemeData(color: kAppBarGrey),
     automaticallyImplyLeading: false,
+    scrolledUnderElevation: 0,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,

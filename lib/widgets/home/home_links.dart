@@ -6,7 +6,9 @@ import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 class HomeLinks extends StatelessWidget {
   final List<HomeTabTile> links;
   final String title;
-  const HomeLinks({Key? key, required this.links, required this.title}) : super(key: key);
+
+  const HomeLinks({Key? key, required this.links, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class HomeLinks extends StatelessWidget {
         : Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(30),
               color: kHomeTile,
             ),
             child: Container(

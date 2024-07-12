@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/functions/utility/validator.dart';
-import 'package:onestop_dev/globals/hostels.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -11,10 +10,12 @@ import 'package:onestop_dev/widgets/profile/custom_dropdown.dart';
 import 'package:onestop_dev/widgets/profile/custom_text_field.dart';
 import 'package:onestop_dev/widgets/ui/simple_button.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+
 import '../../main.dart';
 
 class MessOpiFormPage extends StatefulWidget {
   static const id = '/messOpiFormPage';
+
   const MessOpiFormPage({super.key});
 
   @override
@@ -24,12 +25,12 @@ class MessOpiFormPage extends StatefulWidget {
 class _MessOpiFormPageState extends State<MessOpiFormPage> {
   final TextEditingController _commentsController = TextEditingController();
   final user = OneStopUser.fromJson(LoginStore.userData);
-  late String selectedHostel;
+  late Hostel selectedHostel;
   int breakfast = 0;
   int lunch = 0;
   int dinner = 0;
   bool isLoading = false;
-  final List<String> hostels = khostels;
+  final List<Hostel> hostels = Hostel.values;
   final List<int> points = [1, 2, 3, 4, 5];
   final dropDownIcon = const Icon(
     Icons.keyboard_arrow_down_rounded,
@@ -39,14 +40,19 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
 
   @override
   void initState() {
-    selectedHostel = user.hostel ?? hostels.first;
+    selectedHostel =
+        user.hostel?.getHostelFromDatabaseString() ?? hostels.first;
     super.initState();
   }
 
-  void onChangeSelectedHostel(String? hostel) => selectedHostel = hostel!;
+  void onChangeSelectedHostel(String? hostel) =>
+      selectedHostel = hostel?.getHostelFromDisplayString() ?? Hostel.none;
+
   void onChangeBreakfastPoints(String? points) =>
       breakfast = int.parse(points!);
+
   void onChangeLunchPoints(String? points) => lunch = int.parse(points!);
+
   void onChangeDinnerPoints(String? points) => dinner = int.parse(points!);
 
   void onSubmit() async {
@@ -60,7 +66,7 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
       }
       final data = {
         "comments": _commentsController.text.trim(),
-        "hostel": selectedHostel,
+        "hostel": selectedHostel.databaseString,
         "satisfaction": {
           "breakfast": breakfast,
           "lunch": lunch,
@@ -108,7 +114,6 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -129,8 +134,10 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
                           isNeccessary: true),
                       const SizedBox(height: 12),
                       CustomDropDown(
-                        items: hostels,
-                        value: user.hostel,
+                        items: hostels.map((e) => e.displayString).toList(),
+                        value: (user.hostel?.getHostelFromDatabaseString() ??
+                                Hostel.none)
+                            .displayString,
                         onChanged: onChangeSelectedHostel,
                         validator: validatefield,
                         borderRadius: BorderRadius.circular(24),
@@ -245,6 +252,7 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: kAppBarGrey,
+      scrolledUnderElevation: 0,
       iconTheme: const IconThemeData(color: kAppBarGrey),
       centerTitle: false,
       automaticallyImplyLeading: false,
