@@ -2,10 +2,11 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
+import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
-import 'package:onestop_dev/pages/services/irbs.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
+import 'package:onestop_dev/pages/services/irbs.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
 List<HomeTabTile> serviceLinks = [
@@ -44,11 +45,11 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.money_20_regular,
     routeId: BuySellHome.id,
   ),
-  // const HomeTabTile(
-  //   label: "LAN",
-  //   icon: FluentIcons.desktop_24_regular,
-  //   routeId: RouterPage.id,
-  // ),
+  const HomeTabTile(
+    label: "LAN",
+    icon: FluentIcons.desktop_24_regular,
+    routeId: RouterPage.id,
+  ),
   const HomeTabTile(
     label: "GateLog",
     icon: FluentIcons.door_20_regular,
