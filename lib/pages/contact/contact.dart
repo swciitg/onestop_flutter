@@ -1,5 +1,4 @@
 import 'dart:collection';
-
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,7 @@ import 'contact_detail.dart';
 
 class ContactPage extends StatefulWidget {
   static const String id = "/contacto";
+
   const ContactPage({Key? key}) : super(key: key);
 
   @override
