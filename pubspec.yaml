@@ -52,7 +52,7 @@ dependencies:
     git:
       url: https://github.com/swciitg/khokha_entry_onestop.git
       path: packages/gate_log
-  
+
   intl: ^0.18.0
   webview_cookie_manager: ^2.0.6
   dio_cookie_manager: ^2.0.0
@@ -115,7 +115,6 @@ flutter_icons:
   adaptive_icon_foreground: "assets/images/app_launcher_icon.png"
 
 flutter_native_splash:
-
   color: "#3d82ff"
   image: "assets/images/logo.png"
   branding: "assets/images/branding.png"
