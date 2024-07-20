@@ -65,21 +65,31 @@ internal fun updateAppWidget(
     val sharedPrefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
     var timetableData = sharedPrefs.getString("timetable_data", "[]") ?: "[]"
     if(timetableData=="[]"){
-        println("_____________________")
         GlobalScope.launch {
             performApiCall(context,appWidgetManager,appWidgetId)
             timetableData = sharedPrefs.getString("timetable_data", "[]") ?: "[]"
+            val intent = Intent(context, TimeTableService::class.java).apply {
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                putExtra("timetable_data_key",timetableData)
+            }
+            val views = RemoteViews(context.packageName, R.layout.time_table_widget).apply {
+                setRemoteAdapter(R.id.timetable_list, intent)
+                setEmptyView(R.id.timetable_list, android.R.id.empty)
+            }
+            appWidgetManager.updateAppWidget(appWidgetId, views)
         }
+    }else{
+        val intent = Intent(context, TimeTableService::class.java).apply {
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            putExtra("timetable_data_key",timetableData)
+        }
+        val views = RemoteViews(context.packageName, R.layout.time_table_widget).apply {
+            setRemoteAdapter(R.id.timetable_list, intent)
+            setEmptyView(R.id.timetable_list, android.R.id.empty)
+        }
+        appWidgetManager.updateAppWidget(appWidgetId, views)
     }
-    val intent = Intent(context, TimeTableService::class.java).apply {
-        putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-        putExtra("timetable_data_key",timetableData)
-    }
-    val views = RemoteViews(context.packageName, R.layout.time_table_widget).apply {
-        setRemoteAdapter(R.id.timetable_list, intent)
-        setEmptyView(R.id.timetable_list, android.R.id.empty)
-    }
-    appWidgetManager.updateAppWidget(appWidgetId, views)
+
 }
 private fun scheduleDailyWidgetUpdate(context: Context) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

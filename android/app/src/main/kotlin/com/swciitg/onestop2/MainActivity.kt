@@ -20,8 +20,8 @@ class MainActivity: FlutterActivity() {
         methodChannel!!.setMethodCallHandler{
                 call,result ->
             if (call.method == "sendRollNumber") {
-//                val rollNumber = call.argument<String>("rollNumber")
-                val rollNumber="210108009"
+                val rollNumber = call.argument<String>("rollNumber")
+//                val rollNumber="210108009"
                 if (rollNumber != null) {
                     Log.d("inside ------------------ ",rollNumber)
                     updateWidget(rollNumber)
@@ -47,8 +47,8 @@ class MainActivity: FlutterActivity() {
         for(id in widgetIds){
             GlobalScope.launch {
                 performApiCall(context,appWidgetManager, id)
+                appWidgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.layout.time_table_widget)
             }
         }
-        appWidgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.layout.time_table_widget)
     }
 }
