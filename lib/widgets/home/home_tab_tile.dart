@@ -76,7 +76,7 @@ class HomeTabTile extends StatelessWidget {
               ),
               Expanded(
                 child: Icon(
-                  icon ?? IconData(iconCode!, fontFamily: 'MaterialIcons'),
+                  icon ,
                   size: 40,
                   color: lBlue,
                 ),

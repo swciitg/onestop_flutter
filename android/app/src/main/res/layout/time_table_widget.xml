@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Android.AppWidget.Container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/Theme.Android.AppWidgetContainer">
+    <!--    <TextView-->
+    <!--        android:id="@+id/widget_heading"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="@string/today_s_schedule"-->
+    <!--        android:textSize="20sp"-->
+    <!--        android:textColor="@android:color/white"-->
+    <!--        android:fontFamily="sans-serif-medium"-->
+    <!--        android:paddingBottom="8dp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:background="@drawable/heading_background"-->
+    <!--        android:padding="8dp"-->
+    <!--        android:layout_marginBottom="16dp"-->
+    <!--        android:layout_gravity="center_horizontal" />-->
+    <ListView
+        android:id="@+id/timetable_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@android:color/transparent"
+
+        android:dividerHeight="8dp" />
+</LinearLayout>

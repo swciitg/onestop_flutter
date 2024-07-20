@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/home/navigation_icons.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -10,8 +11,10 @@ import 'package:onestop_dev/pages/travel/travel.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/ui/onestop_upgrade.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
+import '../../stores/login_store.dart';
 import '../../widgets/home/home_drawer.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -33,7 +36,20 @@ class _HomePageState extends State<HomePage> {
     const TravelPage(),
     const TimeTableTab(),
   ];
-
+  static const platform = MethodChannel('com.swciitg.onestop2/sendRollnumber');
+  @override
+  void initState(){
+    super.initState();
+    sendRollNumber(OneStopUser.fromJson(
+        LoginStore.userData).rollNo);
+  }
+  Future<void> sendRollNumber(String rollNumber) async {
+    try {
+      await platform.invokeMethod('sendRollNumber', {'rollNumber': rollNumber});
+    } on PlatformException catch (e) {
+      print("Failed to send roll number: '${e.message}'.");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
