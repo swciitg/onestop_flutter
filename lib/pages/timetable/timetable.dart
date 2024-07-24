@@ -194,6 +194,9 @@ class _ScheduleListState extends State<ScheduleList> {
   @override
   Widget build(BuildContext context) {
     if (widget.data.courses != null) {
+      if (widget.data.courses!.isEmpty) {
+        return _noData;
+      }
       List<CourseModel> endsem = _sort(widget.data.courses!, type: "endsem");
       List<CourseModel> midsem = _sort(widget.data.courses!);
       for (var course in midsem) {
@@ -247,6 +250,7 @@ class _ScheduleListState extends State<ScheduleList> {
       if (isMidsDone) {
         examColumn = examColumn.reversed.map((e) => e).toList();
       }
+
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         midsem.isEmpty && endsem.isEmpty
             ? _noData
