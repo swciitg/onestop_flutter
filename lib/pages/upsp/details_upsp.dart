@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -44,7 +43,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
         backgroundColor: kBlueGrey,
         title: Text(
           "2. Your Details",
-          style: MyFonts.w600.size(16).setColor(kWhite),
+          style: OnestopFonts.w600.size(16).setColor(kWhite),
         ),
       ),
       body: Form(
@@ -66,7 +65,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                             left: 15, top: 15, bottom: 10),
                         child: Text(
                           "Your Roll Number",
-                          style: MyFonts.w600.size(16).setColor(kWhite),
+                          style: OnestopFonts.w600.size(16).setColor(kWhite),
                         ),
                       ),
                       Padding(
@@ -92,9 +91,11 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                     FilteringTextInputFormatter.digitsOnly
                                   ],
                                   keyboardType: TextInputType.number,
-                                  style: MyFonts.w500.size(16).setColor(kWhite),
+                                  style: OnestopFonts.w500
+                                      .size(16)
+                                      .setColor(kWhite),
                                   decoration: InputDecoration(
-                                    errorStyle: MyFonts.w400,
+                                    errorStyle: OnestopFonts.w400,
                                     counterText: "",
                                     border: InputBorder.none,
                                     hintText: 'Your Answer',
@@ -107,7 +108,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                             left: 15, top: 15, bottom: 10),
                         child: Text(
                           "Contact Number",
-                          style: MyFonts.w600.size(16).setColor(kWhite),
+                          style: OnestopFonts.w600.size(16).setColor(kWhite),
                         ),
                       ),
                       Padding(
@@ -137,9 +138,11 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                   ],
                                   controller: contact,
                                   maxLength: 10,
-                                  style: MyFonts.w500.size(16).setColor(kWhite),
+                                  style: OnestopFonts.w500
+                                      .size(16)
+                                      .setColor(kWhite),
                                   decoration: InputDecoration(
-                                    errorStyle: MyFonts.w400,
+                                    errorStyle: OnestopFonts.w400,
                                     counterText: "",
                                     border: InputBorder.none,
                                     hintText: 'Your Answer',
@@ -152,7 +155,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                             left: 15, top: 15, bottom: 10),
                         child: Text(
                           "Your Hostel",
-                          style: MyFonts.w600.size(16).setColor(kWhite),
+                          style: OnestopFonts.w600.size(16).setColor(kWhite),
                         ),
                       ),
                       Theme(
@@ -172,11 +175,12 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                             hint: Padding(
                               padding: const EdgeInsets.only(left: 15),
                               child: Text("Select your hostel",
-                                  style:
-                                      MyFonts.w500.setColor(kGrey8).size(16)),
+                                  style: OnestopFonts.w500
+                                      .setColor(kGrey8)
+                                      .size(16)),
                             ),
                             decoration: InputDecoration(
-                              errorStyle: MyFonts.w400,
+                              errorStyle: OnestopFonts.w400,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(color: kGrey8),
                                 borderRadius: BorderRadius.circular(24),
@@ -198,7 +202,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                               FluentIcons.chevron_down_24_regular,
                               color: kWhite,
                             ),
-                            style: MyFonts.w600.size(14).setColor(kWhite),
+                            style: OnestopFonts.w600.size(14).setColor(kWhite),
                             onChanged: (data) {
                               setState(() {
                                 selectedHostel = data!;
@@ -212,8 +216,9 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                                   padding: const EdgeInsets.only(left: 15),
                                   child: Text(
                                     value.displayString,
-                                    style:
-                                        MyFonts.w600.size(14).setColor(kWhite),
+                                    style: OnestopFonts.w600
+                                        .size(14)
+                                        .setColor(kWhite),
                                   ),
                                 ),
                               );

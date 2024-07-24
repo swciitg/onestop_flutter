@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+
 import '../../globals/my_colors.dart';
-import '../../globals/my_fonts.dart';
 import '../../stores/login_store.dart';
 import '../../widgets/profile/data_tile.dart';
 import 'edit_profile.dart';
 
 class ProfilePage extends StatefulWidget {
   final OneStopUser profileModel;
+
   const ProfilePage({super.key, required this.profileModel});
 
   @override
@@ -39,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text(
           "Profile",
           textAlign: TextAlign.left,
-          style: MyFonts.w500.size(23).setColor(kWhite),
+          style: OnestopFonts.w500.size(23).setColor(kWhite),
         ),
       ),
       body: SafeArea(
@@ -77,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
               //   height: 24,
               // ),
               Text('Basic Information',
-                  style: MyFonts.w600.size(16).setColor(kWhite)),
+                  style: OnestopFonts.w600.size(16).setColor(kWhite)),
               const SizedBox(
                 height: 6,
               ),

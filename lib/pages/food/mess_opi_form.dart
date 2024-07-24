@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/functions/utility/validator.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:onestop_dev/widgets/profile/custom_dropdown.dart';
@@ -223,7 +222,7 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
 
   Widget _pointsInfo() {
     final style =
-        MyFonts.w600.size(14).setColor(kWhite).copyWith(height: 20 / 14);
+        OnestopFonts.w600.size(14).setColor(kWhite).copyWith(height: 20 / 14);
     return Text(
       "Very Poor (1 Points)\nPoor (2 Points)\nAverage (3 Points)\nGood (4 Points)\nVery Good (5 Points)",
       style: style,
@@ -237,12 +236,12 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
         children: [
           TextSpan(
             text: title,
-            style: MyFonts.w600.size(16).setColor(kWhite),
+            style: OnestopFonts.w600.size(16).setColor(kWhite),
           ),
           if (isNeccessary)
             TextSpan(
               text: ' * ',
-              style: MyFonts.w500.size(16).setColor(kRed),
+              style: OnestopFonts.w500.size(16).setColor(kRed),
             ),
         ],
       ),
@@ -267,7 +266,7 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
       title: Text(
         "Mess OPI Form",
         textAlign: TextAlign.left,
-        style: MyFonts.w600.size(16).setColor(kWhite),
+        style: OnestopFonts.w600.size(16).setColor(kWhite),
       ),
     );
   }
@@ -281,13 +280,13 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
         children: [
           Text(
             "Filling form as ${user.outlookEmail}",
-            style: MyFonts.w500.size(11).setColor(kGrey10),
+            style: OnestopFonts.w500.size(11).setColor(kGrey10),
           ),
           const SizedBox(height: 16),
           Text(
             "This form is to be filled out by the mess subscribers of the hostels to provide assessment points to the mess catering service based on overall satisfaction with the food.",
             softWrap: true,
-            style: MyFonts.w400
+            style: OnestopFonts.w400
                 .size(14)
                 .setColor(kWhite)
                 .copyWith(height: 20 / 14),
@@ -298,15 +297,15 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
               children: [
                 TextSpan(
                   text: "Fields marked with",
-                  style: MyFonts.w500.size(11).setColor(kGrey10),
+                  style: OnestopFonts.w500.size(11).setColor(kGrey10),
                 ),
                 TextSpan(
                   text: ' * ',
-                  style: MyFonts.w500.size(14).setColor(kRed),
+                  style: OnestopFonts.w500.size(14).setColor(kRed),
                 ),
                 TextSpan(
                   text: "are compulsory",
-                  style: MyFonts.w500.size(11).setColor(kGrey10),
+                  style: OnestopFonts.w500.size(11).setColor(kGrey10),
                 ),
               ],
             ),

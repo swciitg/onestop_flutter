@@ -1,7 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
@@ -40,7 +39,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
         backgroundColor: kBlueGrey,
         title: Text(
           "2. Submit at desk",
-          style: MyFonts.w600.size(16).setColor(kWhite),
+          style: OnestopFonts.w600.size(16).setColor(kWhite),
         ),
       ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -50,7 +49,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
               const EdgeInsets.only(top: 40, left: 16, right: 16, bottom: 15),
           child: Text(
             "Please submit the found item at your nearest security desk.",
-            style: MyFonts.w400.size(14).setColor(kWhite),
+            style: OnestopFonts.w400.size(14).setColor(kWhite),
           ),
         ),
         ConstrainedBox(
@@ -67,7 +66,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                   children: [
                     Text(
                       "I have submitted it",
-                      style: MyFonts.w400.size(16).setColor(kWhite),
+                      style: OnestopFonts.w400.size(16).setColor(kWhite),
                     ),
                     Theme(
                         data: ThemeData(unselectedWidgetColor: lBlue3),
@@ -90,7 +89,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
           padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
           child: Text(
             "Where did you submit it at?",
-            style: MyFonts.w500.size(16).setColor(kWhite),
+            style: OnestopFonts.w500.size(16).setColor(kWhite),
           ),
         ),
         ListView(
@@ -109,7 +108,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                     FluentIcons.chevron_down_24_regular,
                     color: kWhite,
                   ),
-                  style: MyFonts.w500.size(16).setColor(kWhite),
+                  style: OnestopFonts.w500.size(16).setColor(kWhite),
                   onChanged: (data) {
                     setState(() {
                       selectedLocation = data!;
@@ -125,7 +124,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                         padding: const EdgeInsets.only(left: 15),
                         child: Text(
                           value,
-                          style: MyFonts.w500.size(18).setColor(kWhite),
+                          style: OnestopFonts.w500.size(18).setColor(kWhite),
                         ),
                       ),
                     );
@@ -146,7 +145,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                     FluentIcons.chevron_down_24_regular,
                     color: kWhite,
                   ),
-                  style: MyFonts.w500.size(16).setColor(kWhite),
+                  style: OnestopFonts.w500.size(16).setColor(kWhite),
                   onChanged: (data) {
                     setState(() {
                       selectedLocation = data!;
@@ -161,7 +160,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                         padding: const EdgeInsets.only(left: 15),
                         child: Text(
                           value,
-                          style: MyFonts.w500.size(18).setColor(kWhite),
+                          style: OnestopFonts.w500.size(18).setColor(kWhite),
                         ),
                       ),
                     );
@@ -180,7 +179,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                     FluentIcons.chevron_down_24_regular,
                     color: kWhite,
                   ),
-                  style: MyFonts.w500.size(16).setColor(kWhite),
+                  style: OnestopFonts.w500.size(16).setColor(kWhite),
                   onChanged: (data) {
                     setState(() {
                       selectedLocation = data!;
@@ -195,7 +194,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                         padding: const EdgeInsets.only(left: 15),
                         child: Text(
                           value,
-                          style: MyFonts.w500.size(18).setColor(kWhite),
+                          style: OnestopFonts.w500.size(18).setColor(kWhite),
                         ),
                       ),
                     );
@@ -214,7 +213,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                     FluentIcons.chevron_down_24_regular,
                     color: kWhite,
                   ),
-                  style: MyFonts.w500.size(16).setColor(kWhite),
+                  style: OnestopFonts.w500.size(16).setColor(kWhite),
                   onChanged: (data) {
                     setState(() {
                       selectedLocation = data!;
@@ -229,7 +228,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
                         padding: const EdgeInsets.only(left: 15),
                         child: Text(
                           value,
-                          style: MyFonts.w500.size(18).setColor(kWhite),
+                          style: OnestopFonts.w500.size(18).setColor(kWhite),
                         ),
                       ),
                     );
@@ -247,7 +246,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
               "Mark the checkbox if you have submitted the item",
-              style: MyFonts.w500,
+              style: OnestopFonts.w500,
             )));
             return;
           }
@@ -256,7 +255,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
               "Please select location of item submission",
-              style: MyFonts.w500,
+              style: OnestopFonts.w500,
             )));
             return;
           }
@@ -278,7 +277,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
 decfunction(String x) {
   return InputDecoration(
     labelText: x,
-    labelStyle: MyFonts.w500.setColor(kGrey7),
+    labelStyle: OnestopFonts.w500.setColor(kGrey7),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(25.0),
       borderSide: const BorderSide(color: kGrey2, width: 1),

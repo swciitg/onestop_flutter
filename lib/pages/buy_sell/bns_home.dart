@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
@@ -14,13 +13,13 @@ import 'package:onestop_dev/widgets/buy_sell/buy_tile.dart';
 import 'package:onestop_dev/widgets/buy_sell/item_type_bar.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:onestop_dev/widgets/lostfound/ads_tile.dart';
-import 'package:onestop_dev/widgets/ui/guest_restrict.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
-import 'package:provider/provider.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+import 'package:provider/provider.dart';
 
 class BuySellHome extends StatefulWidget {
   static const id = "/buySellHome";
+
   const BuySellHome({Key? key}) : super(key: key);
 
   @override
@@ -73,10 +72,9 @@ class _BuySellHomeState extends State<BuySellHome> {
     _sellController.retryLastFailedRequest();
     _buyController.retryLastFailedRequest();
   }
-  void callSetState(){
-    setState(() {
-      
-    });
+
+  void callSetState() {
+    setState(() {});
   }
 
   @override
@@ -90,7 +88,7 @@ class _BuySellHomeState extends State<BuySellHome> {
             backgroundColor: kBlueGrey,
             title: Text(
               "Buy and Sell",
-              style: MyFonts.w500.size(20).setColor(kWhite),
+              style: OnestopFonts.w500.size(20).setColor(kWhite),
             ),
             elevation: 0,
             automaticallyImplyLeading: false,
@@ -138,9 +136,11 @@ class _BuySellHomeState extends State<BuySellHome> {
                             ErrorReloadScreen(reloadCallback: refresh),
                         noItemsFoundIndicatorBuilder: (context) =>
                             const PaginationText(text: "No items found"),
-                        newPageErrorIndicatorBuilder: (context) =>
-                            ErrorReloadButton(
-                                reloadCallback: retryLastFailedRequest),
+                        newPageErrorIndicatorBuilder: (context) => Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: ErrorReloadButton(
+                              reloadCallback: retryLastFailedRequest),
+                        ),
                         newPageProgressIndicatorBuilder: (context) =>
                             const Padding(
                           padding: EdgeInsets.all(8.0),
@@ -167,9 +167,11 @@ class _BuySellHomeState extends State<BuySellHome> {
                             ErrorReloadScreen(reloadCallback: refresh),
                         noItemsFoundIndicatorBuilder: (context) =>
                             const PaginationText(text: "No items found"),
-                        newPageErrorIndicatorBuilder: (context) =>
-                            ErrorReloadButton(
-                                reloadCallback: retryLastFailedRequest),
+                        newPageErrorIndicatorBuilder: (context) => Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: ErrorReloadButton(
+                              reloadCallback: retryLastFailedRequest),
+                        ),
                         newPageProgressIndicatorBuilder: (context) =>
                             const Padding(
                           padding: EdgeInsets.all(8.0),
@@ -212,18 +214,16 @@ class _BuySellHomeState extends State<BuySellHome> {
                                 itemBuilder: (context, index) => tiles[index],
                                 itemCount: tiles.length,
                               );
-                             }
-                             if (snapshot.hasError) {
+                            }
+                            if (snapshot.hasError) {
                               return ErrorReloadScreen(
                                   reloadCallback: callSetState);
-                             }
-
+                            }
 
                             return ListShimmer(
                               count: 5,
                               height: 120,
                             );
-                           
                           }),
                 )
             ],
@@ -265,7 +265,7 @@ class ItemType2 extends StatelessWidget {
       child: ItemTypeBar(
         text: label ?? title,
         margin: const EdgeInsets.only(left: 8, bottom: 10),
-        textStyle: MyFonts.w500
+        textStyle: OnestopFonts.w500
             .size(14)
             .setColor(commonStore.bnsIndex == title ? kBlack : kWhite),
         backgroundColor: commonStore.bnsIndex == title ? lBlue2 : kBlueGrey,

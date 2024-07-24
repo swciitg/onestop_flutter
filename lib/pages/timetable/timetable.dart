@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -9,18 +8,21 @@ import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/timetable/date_slider.dart';
 import 'package:onestop_dev/widgets/timetable/exam_schedule_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
-import 'package:onestop_dev/widgets/ui/guest_restrict.dart';
 
 class TimeTableTab extends StatefulWidget {
   static const String id = '/time';
+
   const TimeTableTab({Key? key}) : super(key: key);
+
   @override
   State<TimeTableTab> createState() => _TimeTableTabState();
 }
 
 class _TimeTableTabState extends State<TimeTableTab> {
   List<Map<int, List<List<String>>>> data1 = [];
+
   @override
   Widget build(BuildContext context) {
     var store = context.read<TimetableStore>();
@@ -52,8 +54,8 @@ class _TimeTableTabState extends State<TimeTableTab> {
                               child: Center(
                                 child: Text("Timetable",
                                     style: (store.isTimetable)
-                                        ? MyFonts.w500.setColor(kBlueGrey)
-                                        : MyFonts.w500.setColor(kWhite)),
+                                        ? OnestopFonts.w500.setColor(kBlueGrey)
+                                        : OnestopFonts.w500.setColor(kWhite)),
                               ),
                             ),
                           ),
@@ -77,8 +79,8 @@ class _TimeTableTabState extends State<TimeTableTab> {
                                 child: Text(
                                   "Schedule",
                                   style: !(store.isTimetable)
-                                      ? MyFonts.w500.setColor(kBlueGrey)
-                                      : MyFonts.w500.setColor(kWhite),
+                                      ? OnestopFonts.w500.setColor(kBlueGrey)
+                                      : OnestopFonts.w500.setColor(kWhite),
                                 ),
                               ),
                             ),
@@ -144,6 +146,7 @@ class _TimeTableTabState extends State<TimeTableTab> {
 //Exam schedule column widgdet
 class ScheduleList extends StatefulWidget {
   final RegisteredCourses data;
+
   const ScheduleList({super.key, required this.data});
 
   @override
@@ -185,7 +188,7 @@ class _ScheduleListState extends State<ScheduleList> {
       Center(
         child: Text(
           'No data found',
-          style: MyFonts.w500.size(14).setColor(kGrey8),
+          style: OnestopFonts.w500.size(14).setColor(kGrey8),
         ),
       ),
     ],
@@ -212,7 +215,7 @@ class _ScheduleListState extends State<ScheduleList> {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
                       "Midsem Schedule",
-                      style: MyFonts.w500.size(20).setColor(kWhite),
+                      style: OnestopFonts.w500.size(20).setColor(kWhite),
                     ),
                   )
                 : Container(),
@@ -231,7 +234,7 @@ class _ScheduleListState extends State<ScheduleList> {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
                       "Endsem Schedule",
-                      style: MyFonts.w500.size(20).setColor(kWhite),
+                      style: OnestopFonts.w500.size(20).setColor(kWhite),
                     ),
                   )
                 : Container(),

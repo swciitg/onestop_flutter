@@ -2,7 +2,6 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/pages/notifications/notification_settings.dart';
 import 'package:onestop_dev/services/api.dart';
@@ -73,7 +72,7 @@ class _NotificationPageState extends State<NotificationPage>
             )),
         title: Text(
           'Notifications',
-          style: MyFonts.w500.setColor(kWhite2),
+          style: OnestopFonts.w500.setColor(kWhite2),
         ),
       ),
       body: FutureBuilder<Map<String, List<NotifsModel>>>(
@@ -90,7 +89,7 @@ class _NotificationPageState extends State<NotificationPage>
                 return Center(
                   child: Text(
                     'No notifications found',
-                    style: MyFonts.w300.setColor(kWhite),
+                    style: OnestopFonts.w300.setColor(kWhite),
                   ),
                 );
               }
@@ -181,7 +180,7 @@ class _NotificationPageState extends State<NotificationPage>
             return Center(
               child: Text(
                 'No notifications found',
-                style: MyFonts.w300.setColor(kWhite),
+                style: OnestopFonts.w300.setColor(kWhite),
               ),
             );
           }),

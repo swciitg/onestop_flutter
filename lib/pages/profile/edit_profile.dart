@@ -12,7 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../functions/utility/show_snackbar.dart';
 import '../../functions/utility/validator.dart';
 import '../../globals/my_colors.dart';
-import '../../globals/my_fonts.dart';
 import '../../stores/login_store.dart';
 import '../../widgets/profile/custom_date_picker.dart';
 import '../../widgets/profile/custom_dropdown.dart';
@@ -152,7 +151,7 @@ class _EditProfileState extends State<EditProfile> {
           title: Text(
             "Profile Setup",
             textAlign: TextAlign.left,
-            style: MyFonts.w500.size(23).setColor(kWhite),
+            style: OnestopFonts.w500.size(23).setColor(kWhite),
           ),
         ),
         body: SafeArea(
@@ -174,13 +173,18 @@ class _EditProfileState extends State<EditProfile> {
                           children: [
                             TextSpan(
                                 text: 'Fields marked with',
-                                style: MyFonts.w500.setColor(kWhite3).size(12)),
+                                style: OnestopFonts.w500
+                                    .setColor(kWhite3)
+                                    .size(12)),
                             TextSpan(
                                 text: ' * ',
-                                style: MyFonts.w500.setColor(kRed).size(12)),
+                                style:
+                                    OnestopFonts.w500.setColor(kRed).size(12)),
                             TextSpan(
                                 text: 'are compulsory',
-                                style: MyFonts.w500.setColor(kWhite3).size(12)),
+                                style: OnestopFonts.w500
+                                    .setColor(kWhite3)
+                                    .size(12)),
                           ],
                         ),
                       ),
@@ -214,12 +218,12 @@ class _EditProfileState extends State<EditProfile> {
                       //                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
                       //                 backgroundColor: kBlueGrey,
                       //                   title:  Text(
-                      //                       "Do you want to change your profile photo?",style: MyFonts.w500.size(16).setColor(kWhite2),),
+                      //                       "Do you want to change your profile photo?",style: OnestopFonts.w500.size(16).setColor(kWhite2),),
                       //                   content: SingleChildScrollView(
                       //                     child: ListBody(
                       //                       children: <Widget>[
                       //                          GestureDetector(
-                      //                           child:  Text("Take Photo",style: MyFonts.w500.size(14).setColor(kWhite),),
+                      //                           child:  Text("Take Photo",style: OnestopFonts.w500.size(14).setColor(kWhite),),
                       //                           onTap: () async {
                       //                             xFile = await ImagePicker().pickImage(
                       //                                 source: ImageSource.camera);
@@ -230,7 +234,7 @@ class _EditProfileState extends State<EditProfile> {
                       //                         const Padding(
                       //                             padding: EdgeInsets.all(8.0)),
                       //                             GestureDetector(
-                      //                           child:  Text("Choose Photo",style: MyFonts.w500.size(14).setColor(kWhite),),
+                      //                           child:  Text("Choose Photo",style: OnestopFonts.w500.size(14).setColor(kWhite),),
                       //                           onTap: () async {
                       //                             xFile = await ImagePicker().pickImage(
                       //                                 source: ImageSource.gallery);
@@ -242,7 +246,7 @@ class _EditProfileState extends State<EditProfile> {
                       //                             padding: EdgeInsets.all(8.0)),
                       //
                       //                         GestureDetector(
-                      //                           child: Text("Remove Photo",style: MyFonts.w500.size(14).setColor(kRed),),
+                      //                           child: Text("Remove Photo",style: OnestopFonts.w500.size(14).setColor(kRed),),
                       //                           onTap: () async {
                       //                             setState(() {
                       //                               imageString=null;
@@ -265,7 +269,7 @@ class _EditProfileState extends State<EditProfile> {
                       //             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       //                 content: Text(
                       //               "Maximum image size can be 2.5 MB",
-                      //               style: MyFonts.w500,
+                      //               style: OnestopFonts.w500,
                       //             )));
                       //             return;
                       //           }
@@ -290,7 +294,7 @@ class _EditProfileState extends State<EditProfile> {
                       //   height: 24,
                       // ),
                       Text('Basic Information',
-                          style: MyFonts.w600.size(16).setColor(kWhite)),
+                          style: OnestopFonts.w600.size(16).setColor(kWhite)),
                       const SizedBox(
                         height: 18,
                       ),

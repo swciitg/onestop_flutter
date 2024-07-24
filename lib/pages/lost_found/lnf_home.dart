@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/services/api.dart';
@@ -13,7 +12,6 @@ import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:onestop_dev/widgets/lostfound/ads_tile.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_button.dart';
 import 'package:onestop_dev/widgets/lostfound/lost_found_tile.dart';
-import 'package:onestop_dev/widgets/ui/guest_restrict.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
@@ -88,18 +86,12 @@ class _LostFoundHomeState extends State<LostFoundHome> {
           backgroundColor: kBlueGrey,
           title: Text(
             "Lost and Found",
-            style: MyFonts.w500.size(20).setColor(kWhite),
+            style: OnestopFonts.w500.size(20).setColor(kWhite),
           ),
           elevation: 0,
           automaticallyImplyLeading: false,
           leadingWidth: 18,
           actions: [
-            // GestureDetector(
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //   },
-            //   child: ,
-            // )
             IconButton(
                 onPressed: () => Navigator.pop(context),
                 icon: const Icon(
@@ -174,9 +166,11 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                           ErrorReloadScreen(reloadCallback: refreshControllers),
                       noItemsFoundIndicatorBuilder: (context) =>
                           const PaginationText(text: "No items found"),
-                      newPageErrorIndicatorBuilder: (context) =>
-                          ErrorReloadButton(
-                              reloadCallback: retryLastFailedRequest),
+                      newPageErrorIndicatorBuilder: (context) => Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: ErrorReloadButton(
+                            reloadCallback: retryLastFailedRequest),
+                      ),
                       newPageProgressIndicatorBuilder: (context) =>
                           const Padding(
                         padding: EdgeInsets.all(8.0),
@@ -260,7 +254,7 @@ class PaginationText extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Text(
           text,
-          style: MyFonts.w400.setColor(kWhite),
+          style: OnestopFonts.w400.setColor(kWhite),
         ),
       ),
     );

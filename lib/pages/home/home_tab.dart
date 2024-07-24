@@ -117,7 +117,7 @@ class _HomeTabState extends State<HomeTab> {
                     options: CarouselOptions(
                       height: 0.92 * MediaQuery.of(context).size.width,
                       viewportFraction: 1,
-                      autoPlay: false,
+                      autoPlay: true,
                       animateToClosest: false,
                       enableInfiniteScroll: snapshot.data!.length > 1,
                       padEnds: false,

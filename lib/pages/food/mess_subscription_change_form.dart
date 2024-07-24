@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/functions/utility/validator.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
@@ -211,12 +210,12 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
         children: [
           TextSpan(
             text: title,
-            style: MyFonts.w600.size(16).setColor(kWhite),
+            style: OnestopFonts.w600.size(16).setColor(kWhite),
           ),
           if (isNeccessary)
             TextSpan(
               text: ' * ',
-              style: MyFonts.w500.size(16).setColor(kRed),
+              style: OnestopFonts.w500.size(16).setColor(kRed),
             ),
         ],
       ),
@@ -241,7 +240,7 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
       title: Text(
         "Mess Subscription Change Form",
         textAlign: TextAlign.left,
-        style: MyFonts.w600.size(16).setColor(kWhite),
+        style: OnestopFonts.w600.size(16).setColor(kWhite),
       ),
     );
   }
@@ -255,13 +254,13 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
         children: [
           Text(
             "Filling form as ${user.outlookEmail}",
-            style: MyFonts.w500.size(11).setColor(kGrey10),
+            style: OnestopFonts.w500.size(11).setColor(kGrey10),
           ),
           const SizedBox(height: 16),
           Text(
             "Please submit the form ONLY if you want to change your mess subscription to another hostel. Your subscription of all the meals for the aforementioned month will be changed to the chosen hostel.",
             softWrap: true,
-            style: MyFonts.w400
+            style: OnestopFonts.w400
                 .size(14)
                 .setColor(kWhite)
                 .copyWith(height: 20 / 14),
@@ -272,15 +271,15 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
               children: [
                 TextSpan(
                   text: "Fields marked with",
-                  style: MyFonts.w500.size(11).setColor(kGrey10),
+                  style: OnestopFonts.w500.size(11).setColor(kGrey10),
                 ),
                 TextSpan(
                   text: ' * ',
-                  style: MyFonts.w500.size(14).setColor(kRed),
+                  style: OnestopFonts.w500.size(14).setColor(kRed),
                 ),
                 TextSpan(
                   text: "are compulsory",
-                  style: MyFonts.w500.size(11).setColor(kGrey10),
+                  style: OnestopFonts.w500.size(11).setColor(kGrey10),
                 ),
               ],
             ),

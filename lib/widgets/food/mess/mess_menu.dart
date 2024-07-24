@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_meal.dart';
@@ -89,7 +88,8 @@ class MessMenu extends StatelessWidget {
                                   ? "Not Specified"
                                   : "${DateFormat.jm().format(messStore.mealData.startTiming)} - ${DateFormat.jm().format(messStore.mealData.endTiming)}",
                               // id empty means not updated by HMC
-                              style: MyFonts.w500.size(12).setColor(kGrey12),
+                              style:
+                                  OnestopFonts.w500.size(12).setColor(kGrey12),
                             ),
                           ),
                           Expanded(
@@ -97,7 +97,7 @@ class MessMenu extends StatelessWidget {
                               child: SingleChildScrollView(
                                   child: Text(
                                       messStore.mealData.mealDescription,
-                                      style: MyFonts.w400
+                                      style: OnestopFonts.w400
                                           .size(14)
                                           .setColor(kWhite)))),
                           Expanded(
@@ -117,7 +117,7 @@ class MessMenu extends StatelessWidget {
                                             },
                                             value: value,
                                             child: Text(value.substring(0, 3),
-                                                style: MyFonts.w500
+                                                style: OnestopFonts.w500
                                                     .setColor(kWhite)),
                                           ),
                                         )
@@ -139,7 +139,7 @@ class MessMenu extends StatelessWidget {
                                         Text(
                                             messStore.selectedDay
                                                 .substring(0, 3),
-                                            style: MyFonts.w500
+                                            style: OnestopFonts.w500
                                                 .setColor(lBlue)
                                                 .size(screenWidth <= 390
                                                     ? 10
@@ -168,8 +168,8 @@ class MessMenu extends StatelessWidget {
                                             value: value,
                                             child: Text(
                                               value,
-                                              style:
-                                                  MyFonts.w500.setColor(kWhite),
+                                              style: OnestopFonts.w500
+                                                  .setColor(kWhite),
                                             ),
                                           ),
                                         )
@@ -192,7 +192,7 @@ class MessMenu extends StatelessWidget {
                                             messStore.selectedHostel.value!
                                                 .displayString,
                                             overflow: TextOverflow.fade,
-                                            style: MyFonts.w500
+                                            style: OnestopFonts.w500
                                                 .setColor(lBlue)
                                                 .size(screenWidth <= 390
                                                     ? 10

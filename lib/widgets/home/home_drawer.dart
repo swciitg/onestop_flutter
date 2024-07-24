@@ -1,11 +1,10 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 import '../../globals/my_colors.dart';
-import '../../globals/my_fonts.dart';
 import '../../pages/profile/profile_page.dart';
 import '../../stores/login_store.dart';
 import '../profile/feedback.dart';
@@ -28,11 +27,14 @@ class HomeDrawer extends StatelessWidget {
                 text: TextSpan(children: [
               TextSpan(
                 text: "Onestop",
-                style: MyFonts.w600.size(23).letterSpace(1.0).setColor(lBlue2),
+                style: OnestopFonts.w600
+                    .size(23)
+                    .letterSpace(1.0)
+                    .setColor(lBlue2),
               ),
               TextSpan(
                 text: ".",
-                style: MyFonts.w500.size(23).setColor(kYellow),
+                style: OnestopFonts.w500.size(23).setColor(kYellow),
               )
             ])),
           ),
@@ -69,8 +71,8 @@ class HomeDrawer extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (buildContext) => ProfilePage(
-                                  profileModel: OneStopUser.fromJson(
-                                      LoginStore.userData),
+                                  profileModel:
+                                      OneStopUser.fromJson(LoginStore.userData),
                                 )));
                     scaffoldKey.currentState!.closeDrawer();
                   },
@@ -79,7 +81,7 @@ class HomeDrawer extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     child: Text(
                       "View Profile",
-                      style: MyFonts.w400.size(14).setColor(kWhite),
+                      style: OnestopFonts.w400.size(14).setColor(kWhite),
                     ),
                   ),
                 ),
@@ -105,7 +107,7 @@ class HomeDrawer extends StatelessWidget {
                       child: Text(
                         "Bug/Feature Request",
                         textAlign: TextAlign.center,
-                        style: MyFonts.w400.size(14).setColor(kWhite),
+                        style: OnestopFonts.w400.size(14).setColor(kWhite),
                       ),
                     ),
                   ),
@@ -113,8 +115,7 @@ class HomeDrawer extends StatelessWidget {
                   onTap: () async {
                     try {
                       await launchURL("swc.iitg.ac.in");
-                    } catch (e) {
-                    }
+                    } catch (e) {}
                   },
                   child: Padding(
                     padding:
@@ -122,7 +123,7 @@ class HomeDrawer extends StatelessWidget {
                     child: Text(
                       "About Us",
                       textAlign: TextAlign.center,
-                      style: MyFonts.w400.size(14).setColor(kWhite),
+                      style: OnestopFonts.w400.size(14).setColor(kWhite),
                     ),
                   ),
                 ),
@@ -141,7 +142,7 @@ class HomeDrawer extends StatelessWidget {
                 //         const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 //     child: Text(
                 //       "Team",
-                //       style: MyFonts.w400.size(14).setColor(kWhite),
+                //       style: OnestopFonts.w400.size(14).setColor(kWhite),
                 //     ),
                 //   ),
                 // ),
@@ -151,7 +152,7 @@ class HomeDrawer extends StatelessWidget {
                 TextButton(
                   child: Text(
                     "Logout",
-                    style: MyFonts.w400.size(18).setColor(kRed),
+                    style: OnestopFonts.w400.size(18).setColor(kRed),
                   ),
                   onPressed: () {
                     {
