@@ -188,3 +188,4 @@ linux/
 windows/
 .run/
 .env
+*.ps1
