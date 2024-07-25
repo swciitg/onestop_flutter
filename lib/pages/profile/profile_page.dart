@@ -108,7 +108,9 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               DataTile(
                 title: 'Hostel',
-                semiTitle: widget.profileModel.hostel,
+                semiTitle: widget.profileModel.hostel
+                    ?.getHostelFromDatabaseString()
+                    ?.displayString,
               ),
               widget.profileModel.dob == null
                   ? Container()
