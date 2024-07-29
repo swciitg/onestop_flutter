@@ -1,4 +1,3 @@
-// ignore_for_file: unused_import
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/routes.dart';
-import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/notifications_provider.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -17,7 +15,6 @@ import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:provider/provider.dart';
-
 import 'firebase_options.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
