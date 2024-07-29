@@ -710,10 +710,10 @@ packages:
     dependency: transitive
     description:
       name: geolocator_android
-      sha256: "00c7177a95823dd3ee35ef42fd8666cd27d219ae14cea472ac76a21dff43000b"
+      sha256: "7aefc530db47d90d0580b552df3242440a10fe60814496a979aa67aa98b1fd47"
       url: "https://pub.dev"
     source: hosted
-    version: "4.6.0"
+    version: "4.6.1"
   geolocator_apple:
     dependency: transitive
     description:
@@ -935,7 +935,7 @@ packages:
     description:
       path: "packages/irbs"
       ref: HEAD
-      resolved-ref: "2da3efd8da1f24c8871d060355bb98b477b2477f"
+      resolved-ref: "14743476d4a2ec8e0e44e53ea4571f95c79dc38e"
       url: "https://github.com/swciitg/irbs.git"
     source: git
     version: "1.0.0"
