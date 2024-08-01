@@ -37,11 +37,11 @@ class _NotificationSettingsState extends State<NotificationSettings> {
       ),
       body: Column(
         children: [
-          NotifToggle(text: NotificationCategories.cabSharing),
-          NotifToggle(text: NotificationCategories.lost),
-          NotifToggle(text: NotificationCategories.found),
-          NotifToggle(text: NotificationCategories.buy),
-          NotifToggle(text: NotificationCategories.sell),
+          const NotifToggle(text: NotificationCategories.cabSharing),
+          const NotifToggle(text: NotificationCategories.lost),
+          const NotifToggle(text: NotificationCategories.found),
+          const NotifToggle(text: NotificationCategories.buy),
+          const NotifToggle(text: NotificationCategories.sell),
           ElevatedButton(
             onPressed: () async {
               if (isLoading) {
