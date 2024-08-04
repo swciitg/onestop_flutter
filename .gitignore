@@ -189,3 +189,5 @@ windows/
 .run/
 .env
 *.ps1
+/appLoader.sh
+/buildIPA.sh
