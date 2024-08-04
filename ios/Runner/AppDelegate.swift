@@ -21,7 +21,7 @@ import flutter_local_notifications
         result(FlutterMethodNotImplemented)
         return
       }
-      self?.preventScreenshots(arguments: call.arguments as? Bool ?? false)
+      self?.preventScreenshots(enabled: call.arguments as? Bool ?? false)
       result(nil)
     })
     if #available(iOS 10.0, *) {
@@ -41,16 +41,39 @@ import flutter_local_notifications
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
-  private func preventScreenshots(arguments: Bool) {
-    if arguments {
-      let snapshotView = UIView(frame: UIScreen.main.bounds)
-      snapshotView.backgroundColor = UIColor.white // You can set any color you like
-      window?.addSubview(snapshotView)
-        self.snapshotView = snapshotView
+  private func preventScreenshots(enabled: Bool) {
+    if enabled {
+      NotificationCenter.default.removeObserver(
+          self,
+          name: UIApplication.userDidTakeScreenshotNotification,
+          object: nil
+      )
     } else {
-      self.snapshotView?.removeFromSuperview()
-      self.snapshotView = nil
+      NotificationCenter.default.addObserver(
+          self,
+          selector: #selector(didTakeScreenshot),
+          name: UIApplication.userDidTakeScreenshotNotification,
+          object: nil
+      )
     }
+  }
+
+  @objc private func didTakeScreenshot() {
+    guard let window = self.window else { return }
+      // Add a blur effect view to hide sensitive information
+      let blurEffect = UIBlurEffect(style: .light)
+      let blurEffectView = UIVisualEffectView(effect: blurEffect)
+      blurEffectView.frame = window.bounds
+      window.addSubview(blurEffectView)
+
+      // Store the blur effect view in a property so it can be removed later
+      self.blurEffectView = blurEffectView
+
+      // Optionally remove the blur effect after some delay
+      DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        blurEffectView.removeFromSuperview()
+        self.blurEffectView = nil
+      }
   }
 }
 
