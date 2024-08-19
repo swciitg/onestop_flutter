@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/pages/elections/voter_card.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';

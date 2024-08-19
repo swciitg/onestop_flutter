@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class BlockedPage extends StatelessWidget {
   static const String id = "/blocked";
+
   const BlockedPage({super.key});
 
   @override

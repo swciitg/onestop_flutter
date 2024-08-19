@@ -1,20 +1,25 @@
 import 'dart:async';
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/services/moderation_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/buy_sell/buy_sell_field.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class BuySellForm extends StatefulWidget {
   static const id = "/buySellForm";
   final String category;
   final String imageString;
   final String? submittedAt;
+
   const BuySellForm(
       {Key? key,
       required this.category,
@@ -161,6 +166,36 @@ class _BuySellFormState extends State<BuySellForm> {
           data['total_price'] = "${_price.text}-${_price2.text}";
 
           try {
+            final isTitleValid =
+                await ModerationService().validateBuyOrSell(_title.text.trim());
+            if (!isTitleValid) {
+              Fluttertoast.showToast(
+                  msg: 'Please Enter an appropriate title!',
+                  backgroundColor: OneStopColors.cardColor2.withOpacity(0.7));
+              dbSavingController.sink.add(false);
+              savingToDB = false;
+              setState(() {
+                isLoading = false;
+              });
+              return;
+            }
+
+            final isDescValid = await ModerationService()
+                .validateBuyOrSell(_description.text.trim());
+            if (!isDescValid) {
+              Fluttertoast.showToast(
+                  msg: 'Please Enter an appropriate description!',
+                  backgroundColor: OneStopColors.cardColor2.withOpacity(0.7));
+              dbSavingController.sink.add(false);
+              savingToDB = false;
+              setState(() {
+                isLoading = false;
+              });
+              return;
+            }
+          } catch (e) {}
+
+          try {
             if (widget.category == "Sell") {
               res = await APIService().postSellData(data);
             }
@@ -182,11 +217,10 @@ class _BuySellFormState extends State<BuySellForm> {
 
           if (!mounted) return;
           if (responseBody["saved_successfully"] == true) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-              "Saved data successfully",
-              style: MyFonts.w500,
-            )));
+            Fluttertoast.showToast(
+              msg: "Request posted successfully!",
+              backgroundColor: OneStopColors.cardColor2.withOpacity(0.7),
+            );
             Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
           } else {
             dbSavingController.sink.add(false);
@@ -195,21 +229,19 @@ class _BuySellFormState extends State<BuySellForm> {
               isLoading = false;
             });
             if (responseBody["image_safe"] == false) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                "The chosen image is not safe for work !!",
-                style: MyFonts.w500,
-              )));
+              Fluttertoast.showToast(
+                msg: "The chosen image is NSFW!",
+                backgroundColor: OneStopColors.cardColor2.withOpacity(0.7),
+              );
               return;
             }
             setState(() {
               isLoading = false;
             });
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-              "Some error occured, please try again",
-              style: MyFonts.w500,
-            )));
+            Fluttertoast.showToast(
+              msg: "Some error occurred! Please try again.",
+              backgroundColor: OneStopColors.cardColor2.withOpacity(0.7),
+            );
           }
         },
         child: StreamBuilder(

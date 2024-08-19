@@ -3,6 +3,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/my_spaces.dart';
 import 'package:onestop_dev/globals/size_config.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class PowerUp extends StatelessWidget {
   const PowerUp({Key? key}) : super(key: key);

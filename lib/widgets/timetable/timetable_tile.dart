@@ -6,11 +6,13 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/working_days.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class TimetableTile extends StatelessWidget {
   final CourseModel course;
   final bool inHomePage;
+
   const TimetableTile({Key? key, required this.course, this.inHomePage = false})
       : super(key: key);
 

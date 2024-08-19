@@ -4,6 +4,7 @@ import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/dish_model.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class FoodTile extends StatelessWidget {
   const FoodTile({

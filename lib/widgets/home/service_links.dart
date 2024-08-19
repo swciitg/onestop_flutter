@@ -6,6 +6,7 @@ import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
+import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/services/irbs.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
@@ -15,11 +16,6 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.contact_card_group_24_regular,
     routeId: ContactPage.id,
   ),
-  // const HomeTabTile(
-  //   label: "GC Score Board",
-  //   icon: FluentIcons.trophy_20_regular,
-  //   routeId: Scoreboard.id,
-  // ),
   const HomeTabTile(
     label: "Cab Sharing",
     icon: FluentIcons.vehicle_bus_24_regular,
@@ -29,6 +25,11 @@ List<HomeTabTile> serviceLinks = [
     label: 'IRBS',
     icon: FluentIcons.calendar_edit_16_regular,
     routeId: IRBSPage.id,
+  ),
+  const HomeTabTile(
+    label: "GateLog",
+    icon: FluentIcons.door_20_regular,
+    routeId: GateLogPage.id,
   ),
   const HomeTabTile(
     label: "Complaints",
@@ -49,11 +50,5 @@ List<HomeTabTile> serviceLinks = [
     label: "LAN",
     icon: FluentIcons.desktop_24_regular,
     routeId: RouterPage.id,
-  ),
-  const HomeTabTile(
-    label: "GateLog",
-    icon: FluentIcons.door_20_regular,
-    routeId: GateLogPage.id,
-    newBadge: true,
   ),
 ];

@@ -658,7 +658,7 @@ packages:
     source: sdk
     version: "0.0.0"
   fluttertoast:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: fluttertoast
       sha256: "95f349437aeebe524ef7d6c9bde3e6b4772717cf46a0eb6a3ceaddc740b297cc"
@@ -1329,7 +1329,7 @@ packages:
     description:
       path: "packages/scoreboard"
       ref: HEAD
-      resolved-ref: "97985dd064cf05ebd62d282a3dd201774effe1d2"
+      resolved-ref: "9690f2f9397e6af163ff2ab9311037289bb585d9"
       url: "https://github.com/swciitg/gc_scoreboard.git"
     source: git
     version: "0.0.0"

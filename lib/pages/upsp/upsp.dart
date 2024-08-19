@@ -8,6 +8,8 @@ import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
 import 'package:onestop_dev/widgets/upsp/checkbox_list.dart';
 import 'package:onestop_dev/widgets/upsp/file_tile.dart';
 import 'package:onestop_dev/widgets/upsp/upload_button.dart';
+import 'package:onestop_kit/onestop_kit.dart';
+
 import 'details_upsp.dart';
 
 const List<String> boards = [
@@ -34,6 +36,7 @@ const List<String> subcommittees = [
 
 class Upsp extends StatefulWidget {
   static const String id = "/upsp";
+
   const Upsp({Key? key}) : super(key: key);
 
   @override

@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeTabTile extends StatelessWidget {
@@ -65,7 +66,8 @@ class HomeTabTile extends StatelessWidget {
           //margin: EdgeInsets.all(4),
           height: 150,
           width: 150,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: lGrey),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50), color: lGrey),
           padding: const EdgeInsets.all(4.0),
           child: Column(
             // Replace with a Row for horizontal icon + text
@@ -83,7 +85,8 @@ class HomeTabTile extends StatelessWidget {
               ),
               Expanded(
                 child: Text(label,
-                    style: MyFonts.w500.size(23).setColor(lBlue), textAlign: TextAlign.center),
+                    style: MyFonts.w500.size(23).setColor(lBlue),
+                    textAlign: TextAlign.center),
               ),
             ],
           ),

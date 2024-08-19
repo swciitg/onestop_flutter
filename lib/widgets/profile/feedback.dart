@@ -5,6 +5,7 @@ import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class FeedBack extends StatefulWidget {
   const FeedBack({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _FeedBackState extends State<FeedBack> {
   TextEditingController body = TextEditingController();
   String selected = 'Issue Report';
   bool enableSubmitButton = true;
+
   Widget? counterBuilder(context,
       {required currentLength, required isFocused, required maxLength}) {
     if (currentLength == 0) {

@@ -3,6 +3,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class FavouriteFoodDetails extends StatelessWidget {
@@ -14,6 +15,7 @@ class FavouriteFoodDetails extends StatelessWidget {
 
   final String foodName;
   final Image img;
+
   @override
   Widget build(BuildContext context) {
     return TextButton(

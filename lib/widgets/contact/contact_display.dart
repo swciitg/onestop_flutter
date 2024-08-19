@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class ContactText extends StatelessWidget {
   final String text;
   final AlignmentDirectional align;
+
   const ContactText({Key? key, required this.text, required this.align})
       : super(key: key);
 
@@ -30,6 +32,7 @@ class ContactTextHeader extends StatelessWidget {
   final String text;
   final double width;
   final AlignmentDirectional align;
+
   const ContactTextHeader(
       {Key? key, required this.text, required this.width, required this.align})
       : super(key: key);

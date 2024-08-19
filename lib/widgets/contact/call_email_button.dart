@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 enum ContactType { call, email }
 
 class ContactButton extends StatelessWidget {
   final ContactType type;
   final String data;
+
   const ContactButton({Key? key, required this.type, required this.data})
       : super(key: key);
 

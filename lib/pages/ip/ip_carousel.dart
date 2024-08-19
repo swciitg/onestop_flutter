@@ -7,6 +7,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/ip/ip_settings.dart';
 import 'package:onestop_dev/widgets/ip/ip_input.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 List<String> textData = [
   'Open Start-> Control Panel -> Network and Internet-> Network and Sharing Center ',
@@ -23,7 +24,9 @@ bool fg = true;
 
 class RouterPage extends StatefulWidget {
   static const String id = "/ip";
+
   const RouterPage({Key? key}) : super(key: key);
+
   @override
   State<RouterPage> createState() => _RouterPageState();
 }

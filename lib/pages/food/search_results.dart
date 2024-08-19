@@ -8,6 +8,7 @@ import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/widgets/food/food_search_bar.dart';
 import 'package:onestop_dev/widgets/food/restaurant/restaurant_tile.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/ui/list_shimmer.dart';
@@ -15,6 +16,7 @@ import '../../widgets/ui/list_shimmer.dart';
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
   static String id = "/foodSearchResults";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

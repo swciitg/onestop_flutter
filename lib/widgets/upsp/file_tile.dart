@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class FileTile extends StatelessWidget {
   const FileTile({Key? key, required this.filename, required this.onDelete})

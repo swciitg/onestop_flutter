@@ -5,6 +5,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/stores/common_store.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 AppBar appBar(

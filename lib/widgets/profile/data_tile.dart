@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
@@ -7,6 +8,7 @@ import '../../globals/my_fonts.dart';
 class DataTile extends StatelessWidget {
   final String title;
   final String? semiTitle;
+
   const DataTile({Key? key, required this.title, required this.semiTitle})
       : super(key: key);
 

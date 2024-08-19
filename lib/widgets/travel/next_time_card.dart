@@ -10,6 +10,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class NextTimeCard extends StatefulWidget {

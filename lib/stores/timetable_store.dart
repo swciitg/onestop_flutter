@@ -12,8 +12,9 @@ import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/timetable/timetable_day.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:onestop_dev/widgets/ui/text_divider.dart';
 import 'package:onestop_dev/widgets/timetable/timetable_tile.dart';
+import 'package:onestop_dev/widgets/ui/text_divider.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 part 'timetable_store.g.dart';
 

@@ -4,9 +4,11 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
 import 'package:onestop_dev/widgets/contact/call_email_button.dart';
 import 'package:onestop_dev/widgets/contact/star_button.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class ContactDialog extends StatefulWidget {
   final ContactDetailsModel details;
+
   const ContactDialog({Key? key, required this.details}) : super(key: key);
 
   @override

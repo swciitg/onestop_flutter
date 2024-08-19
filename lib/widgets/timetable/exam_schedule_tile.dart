@@ -2,12 +2,15 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
+import 'package:onestop_kit/onestop_kit.dart';
+
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 
 class ExamTile extends StatelessWidget {
   bool isEndSem = false;
   final CourseModel course;
+
   ExamTile({super.key, required this.course, this.isEndSem = false});
 
   String formatTime(String time, String type) {

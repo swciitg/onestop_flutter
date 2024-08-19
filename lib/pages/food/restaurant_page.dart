@@ -6,6 +6,7 @@ import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/widgets/food/restaurant/food_tile.dart';
 import 'package:onestop_dev/widgets/food/restaurant/restaurant_header.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/food/restaurant_model.dart';

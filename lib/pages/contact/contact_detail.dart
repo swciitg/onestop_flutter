@@ -6,13 +6,16 @@ import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/widgets/contact/contact_dialog.dart';
 import 'package:onestop_dev/widgets/contact/contact_display.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class ContactDetailsPage extends StatefulWidget {
   final String title;
   final ContactModel? contact;
+
   const ContactDetailsPage({Key? key, this.contact, required this.title})
       : super(key: key);
+
   @override
   State<ContactDetailsPage> createState() => _ContactDetailsPageState();
 }

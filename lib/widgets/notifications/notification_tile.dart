@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class NotificationTile extends StatelessWidget {
   const NotificationTile({Key? key, required this.notifModel})

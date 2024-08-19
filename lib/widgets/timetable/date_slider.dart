@@ -4,10 +4,12 @@ import 'package:onestop_dev/globals/days.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class DateSlider extends StatefulWidget {
   const DateSlider({Key? key}) : super(key: key);
+
   @override
   State<DateSlider> createState() => _DateSliderState();
 }

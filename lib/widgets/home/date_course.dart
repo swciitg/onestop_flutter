@@ -7,6 +7,7 @@ import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/timetable/dropdown_arrow.dart';
 import 'package:onestop_dev/widgets/timetable/home_shimmer.dart';
 import 'package:onestop_dev/widgets/timetable/timetable_row.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class DateCourse extends StatefulWidget {

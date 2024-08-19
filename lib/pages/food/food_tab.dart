@@ -7,6 +7,7 @@ import 'package:onestop_dev/widgets/food/mess/mess_menu.dart';
 import 'package:onestop_dev/widgets/food/outlets_filter.dart';
 import 'package:onestop_dev/widgets/food/restaurant/restaurant_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class FoodTab extends StatelessWidget {
   const FoodTab({Key? key}) : super(key: key);

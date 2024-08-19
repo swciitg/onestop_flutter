@@ -1,4 +1,6 @@
 class Endpoints {
+  static const moderationBaseUrl =
+      String.fromEnvironment('MODERATION-SERVER-URL');
   static const baseUrl = String.fromEnvironment('SERVER-URL');
   static const irbsBaseUrl = String.fromEnvironment('IRBS-SERVER-URL');
   static const String restaurantURL = "/getAllOutlets";

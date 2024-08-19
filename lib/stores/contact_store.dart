@@ -8,6 +8,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_dev/widgets/contact/starred_contact.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 part 'contact_store.g.dart';
 

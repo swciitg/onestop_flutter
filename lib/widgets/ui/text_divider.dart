@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class TextDivider extends StatelessWidget {
   const TextDivider({Key? key, required this.text}) : super(key: key);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/my_spaces.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class WelcomeHeader extends StatelessWidget {
   const WelcomeHeader({

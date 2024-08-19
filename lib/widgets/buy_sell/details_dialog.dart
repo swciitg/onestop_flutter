@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
-import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/widgets/lostfound/claim_call_button.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 void detailsDialogBox(context, dynamic model, [parentContext]) {
   final screenWidth = MediaQuery.of(context).size.width;

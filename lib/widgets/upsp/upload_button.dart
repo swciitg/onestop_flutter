@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/pick_file.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class UploadButton extends StatefulWidget {
   const UploadButton({Key? key, required this.callBack}) : super(key: key);
   final Function callBack;
+
   @override
   State<UploadButton> createState() => _UploadButtonState();
 }
 
 class _UploadButtonState extends State<UploadButton> {
   bool uploading = false;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

@@ -1,4 +1,5 @@
 import 'dart:collection';
+
 import 'package:alphabet_scroll_view/alphabet_scroll_view.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/widgets/contact/contact_page_button.dart';
 import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 import 'contact_detail.dart';

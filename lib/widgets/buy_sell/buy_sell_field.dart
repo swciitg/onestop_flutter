@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class InputField extends StatefulWidget {
   final TextEditingController controller;
   final String type;
+
   const InputField({Key? key, required this.controller, required this.type})
       : super(key: key);
 

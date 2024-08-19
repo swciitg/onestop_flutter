@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:onestop_dev/functions/utility/capitalize_string.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_kit/onestop_kit.dart';
+
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 
 class NotifToggle extends StatefulWidget {
   final String text;
+
   const NotifToggle({super.key, required this.text});
 
   @override

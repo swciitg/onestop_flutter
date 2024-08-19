@@ -8,10 +8,12 @@ import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_dev/widgets/travel/timing_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class BusDetails extends StatefulWidget {
   late final int index;
+
   // ignore: prefer_const_constructors_in_immutables
   BusDetails({Key? key, required this.index}) : super(key: key);
 
@@ -23,6 +25,7 @@ class _BusDetailsState extends State<BusDetails> {
   bool isCity = false;
   bool isCampus = false;
   List<TravelTiming>? busTime = [];
+
   @override
   void initState() {
     super.initState();

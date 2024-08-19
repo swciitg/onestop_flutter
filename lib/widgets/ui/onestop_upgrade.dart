@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:upgrader/upgrader.dart';
 
 class OneStopUpgraderMessages extends UpgraderMessages {

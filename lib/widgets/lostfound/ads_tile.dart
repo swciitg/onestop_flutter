@@ -8,10 +8,12 @@ import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class MyAdsTile extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
   final model;
+
   const MyAdsTile({Key? key, this.model}) : super(key: key);
 
   @override
@@ -20,6 +22,7 @@ class MyAdsTile extends StatefulWidget {
 
 class _MyAdsTileState extends State<MyAdsTile> {
   bool isOverlay = false;
+
   @override
   Widget build(BuildContext context) {
     bool isLnf = (widget.model is FoundModel) || (widget.model is LostModel);

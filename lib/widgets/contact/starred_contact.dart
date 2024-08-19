@@ -4,10 +4,12 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/widgets/contact/contact_dialog.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class StarContactNameTile extends StatelessWidget {
   final ContactDetailsModel contact;
+
   const StarContactNameTile({Key? key, required this.contact})
       : super(key: key);
 
