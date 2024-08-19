@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/ip/ip_calculator.dart';
@@ -34,7 +34,7 @@ class RouterPage extends StatefulWidget {
 class _RouterPageState extends State<RouterPage> {
   int page = 1;
   Widget seven = const Column();
-  CarouselController buttonCarouselController = CarouselController();
+  final buttonCarouselController = carousel_slider.CarouselController();
   TextEditingController roomController = TextEditingController();
   TextEditingController blockController = TextEditingController();
   TextEditingController floorController = TextEditingController();
@@ -127,7 +127,7 @@ class _RouterPageState extends State<RouterPage> {
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CarouselSlider(
+                      carousel_slider.CarouselSlider(
                         items: [1, 2, 3, 4, 5, 6, 7, 8].map((i) {
                           return Builder(
                             builder: (BuildContext context) {
@@ -275,7 +275,7 @@ class _RouterPageState extends State<RouterPage> {
                           );
                         }).toList(),
                         carouselController: buttonCarouselController,
-                        options: CarouselOptions(
+                        options: carousel_slider.CarouselOptions(
                             onPageChanged: (index, reason) {
                               setState(() {
                                 page = index + 1; //<-- Page index
