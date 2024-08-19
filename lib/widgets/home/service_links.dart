@@ -51,4 +51,9 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.desktop_24_regular,
     routeId: RouterPage.id,
   ),
+  const HomeTabTile(
+    label: "GC Score Board",
+    icon: FluentIcons.trophy_48_filled,
+    routeId: Scoreboard.id,
+  ),
 ];
