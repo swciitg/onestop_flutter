@@ -6,6 +6,7 @@ import flutter_local_notifications
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
+var field = UITextField()
   private var blurEffectView: UIVisualEffectView?
   private let SCREENSHOT_CHANNEL = "com.example.app/screenshot"
   override func application(
@@ -43,20 +44,56 @@ import flutter_local_notifications
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
- @objc private func userDidTakeScreenshot() {
-     if let window = UIApplication.shared.keyWindow {
-       addBlurEffect(to: window)
-       DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-         self.removeBlurEffect()
-       }
-     }
-   }
+  override func applicationWillResignActive(_ application: UIApplication){
+    field.isSecureTextEntry = false
+  }
+
+  override func applicationDidBecomeActive(_ application: UIApplication){
+      field.isSecureTextEntry = true
+  }
+
+  private func addSecureView(){
+    if(!window.subviews.contains(field)){
+        window.addSubview(field)
+        field.centerYAnchor.constraint(equalTo: window.centerYAnchor).isActive = true
+        field.centerXAnchor.constraint(equalTo: window.centerXAnchor).isActive = true
+        window.layer.superlayer?.addSublayer(field.layer)
+        if #available(iOS 17.0, *){
+            field.layer.sublayers?.last?.addSublayer(window.layer)
+        }else{
+            field.layer.sublayers?.first?.addSublayer(window.layer)
+        }
+    }
+  }
+
+  func removeSecureView() {
+
+      guard let window = UIApplication.shared.windows.first(where: \.isKeyWindow) else { return }
+
+      if field.isDescendant(of: window) {
+          print("myNewView isDescendant of window")
+      }
+
+      for view in window.subviews as [UIView] where view == field {
+          view.removeFromSuperview()
+          break
+      }
+
+      if field.isDescendant(of: window) {
+          print("myNewView isDescendant of window")
+      } else {
+          print("myNewView is REMOVED from window") // THIS WILL PRINT
+      }
+  }
 
    private func setSecureScreen(_ secure: Bool) {
      if secure {
+        field.isSecureTextEntry = true
+       addSecureView()
        NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
        NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
      } else {
+       field.isSecureTextEntry = false
        NotificationCenter.default.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
      }
