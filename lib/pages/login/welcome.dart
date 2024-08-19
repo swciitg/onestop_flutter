@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_spaces.dart';
 import 'package:onestop_dev/widgets/login/login_button.dart';
 import 'package:onestop_dev/widgets/login/welcome_header.dart';
-
-import '../../globals/size_config.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class WelcomePage extends StatelessWidget {
   static String id = "/login2";
   final Function setLoading;
+
   const WelcomePage({Key? key, required this.setLoading}) : super(key: key);
 
   @override

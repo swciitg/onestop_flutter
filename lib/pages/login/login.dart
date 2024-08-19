@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_dev/pages/login/welcome.dart';
 import 'package:onestop_dev/widgets/login/login_webview.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class LoginPage extends StatefulWidget {
   static String id = "/login";
