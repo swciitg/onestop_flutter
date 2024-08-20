@@ -1,3 +1,8 @@
+buildscript {
+    ext {
+        agp_version = '8.5.1'
+    }
+}
 allprojects {
     repositories {
         google()
@@ -14,5 +19,5 @@ subprojects {
 }
 
 tasks.register("clean", Delete) {
-    delete rootProject.buildDir
+    delete getLayout().getBuildDirectory()
 }

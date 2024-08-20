@@ -8,7 +8,6 @@ import 'package:onestop_dev/pages/profile/edit_profile.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginWebView extends StatefulWidget {
@@ -36,7 +35,6 @@ class _LoginWebViewState extends State<LoginWebView> {
   @override
   void initState() {
     super.initState();
-
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(NavigationDelegate(
@@ -56,7 +54,7 @@ class _LoginWebViewState extends State<LoginWebView> {
               };
               await LoginStore().saveToPreferences(user, userTokens);
               await LoginStore().saveToUserInfo(user);
-              await WebviewCookieManager().clearCookies();
+              await WebViewCookieManager().clearCookies();
               navigatorKey.currentState!.pushAndRemoveUntil(
                   MaterialPageRoute(
                       builder: (context) => EditProfile(

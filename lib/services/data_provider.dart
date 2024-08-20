@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
@@ -9,7 +8,6 @@ import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
-import 'package:onestop_dev/pages/elections/election_login.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
@@ -139,12 +137,12 @@ class DataProvider {
     }
     for (var link in quickLinks) {
       if (link['name'] == "election_id") {
-        res.add(const HomeTabTile(
-          label: "Election Register",
-          icon: FluentIcons.person_arrow_right_16_regular,
-          routeId: ElectionLoginWebView.id,
-          newBadge: true,
-        ));
+        // res.add(const HomeTabTile(
+        //   label: "Election Register",
+        //   icon: FluentIcons.person_arrow_right_16_regular,
+        //   routeId: ElectionLoginWebView.id,
+        //   newBadge: true,
+        // ));
       } else {
         res.add(HomeTabTile(
           label: link['name'],

@@ -8,11 +8,11 @@ import 'package:onestop_dev/globals/enums.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:webview_cookie_manager/webview_cookie_manager.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginStore {
   static Map<String, dynamic> userData = {};
-  final cookieManager = WebviewCookieManager();
+  final cookieManager = WebViewCookieManager();
   static bool isGuest = false;
   static bool isProfileComplete = false;
 
