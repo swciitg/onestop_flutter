@@ -14,6 +14,7 @@ jobs:
       - name: Setting up Java
         uses: actions/setup-java@v4
         with:
+          distribution: microsoft
           java-version: '21'
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
