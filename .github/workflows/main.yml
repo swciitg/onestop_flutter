@@ -27,7 +27,6 @@ jobs:
       - name: Create Release
         uses: actions/upload-artifact@v1
         with:
-          artifacts: "build/app/outputs/flutter-apk/app-debug.apk"
-          tag: v1.0.${{ github.run_number }}
-          token: ${{ secrets.GIT_TOKEN }}
+          path: "build/app/outputs/flutter-apk/app-debug.apk"
+          name: v1.0.${{ github.run_number }}
 
