@@ -23,11 +23,11 @@ jobs:
       - run: flutter --version
       - run: flutter pub get
       - run: flutter pub upgrade
-      - run: flutter build apk --dart-define SERVER-URL=${{ secrets.SERVER_URL }} --dart-define IRBS-SERVER-URL=${{ secrets.IRBS_SERVER_URL }} --dart-define SECURITY-KEY=${{ secrets.SECURITY_KEY }} --dart-define GMAP_KEY=${{ secrets.GMAP_KEY }} --dart-define GITHUB_ISSUE_TOKEN=${{ secrets.GIT_TOKEN }} --dart-define GATELOG-WEBSOCKET-URL=${{ secrets.GATELOG_WEBSOCKET_URL }} --dart-define GATELOG-SERVER-URL=${{ secrets.GATELOG_SERVER_URL }} --dart-define MODERATION-SERVER-URL=${{ secrets.MODERATION_SERVER_URL }}  --no-tree-shake-icons
+      - run: flutter build apk --debug --dart-define SERVER-URL=${{ secrets.SERVER_URL }} --dart-define IRBS-SERVER-URL=${{ secrets.IRBS_SERVER_URL }} --dart-define SECURITY-KEY=${{ secrets.SECURITY_KEY }} --dart-define GMAP_KEY=${{ secrets.GMAP_KEY }} --dart-define GITHUB_ISSUE_TOKEN=${{ secrets.GIT_TOKEN }} --dart-define GATELOG-WEBSOCKET-URL=${{ secrets.GATELOG_WEBSOCKET_URL }} --dart-define GATELOG-SERVER-URL=${{ secrets.GATELOG_SERVER_URL }} --dart-define MODERATION-SERVER-URL=${{ secrets.MODERATION_SERVER_URL }}  --no-tree-shake-icons
       - name: Create Release
         uses: actions/upload-artifact@v1
         with:
-          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
+          artifacts: "build/app/outputs/flutter-apk/app-debug.apk"
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.GIT_TOKEN }}
 
