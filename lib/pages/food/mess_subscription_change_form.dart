@@ -22,6 +22,7 @@ class MessSubscriptionPage extends StatefulWidget {
 class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _rollNumberController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final user = OneStopUser.fromJson(LoginStore.userData);
   final List<Hostel> hostels = Hostel.values;
   bool isLoading = false;
@@ -124,6 +125,17 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      _buildFieldTitle(title: "Name", isNeccessary: true),
+                      const SizedBox(height: 12),
+                      CustomTextField(
+                        controller: _nameController,
+                        hintText: user.name,
+                        inputType: TextInputType.text,
+                        isNecessary: false,
+                        counter: true,
+                        maxLength: 9,
+                      ),
+                      const SizedBox(height: 16),
                       _buildFieldTitle(
                           title: "Contact Number", isNeccessary: true),
                       const SizedBox(height: 12),
@@ -136,6 +148,7 @@ class _MessSubscriptionPageState extends State<MessSubscriptionPage> {
                         maxLength: 10,
                       ),
                       const SizedBox(height: 16),
+                     
                       _buildFieldTitle(
                           title: "Roll Number", isNeccessary: true),
                       const SizedBox(height: 12),
