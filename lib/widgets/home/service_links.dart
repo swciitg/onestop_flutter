@@ -5,6 +5,7 @@ import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/elections/election_login.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
+import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
@@ -57,4 +58,9 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.trophy_48_filled,
     routeId: Scoreboard.id,
   ),
+  const HomeTabTile(
+    label: "Medical Section",
+    icon: FluentIcons.doctor_28_filled,
+    routeId: MedicalSection.id,
+  )
 ];
