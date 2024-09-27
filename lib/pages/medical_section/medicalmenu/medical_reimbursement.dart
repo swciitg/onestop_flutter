@@ -214,7 +214,7 @@ AppBar _buildAppBar(BuildContext context) {
     automaticallyImplyLeading: false,
     centerTitle: true,
     title: Text(
-      "Medical Insurance",
+      "Medical Reimbursement",
       textAlign: TextAlign.center,
       style: OnestopFonts.w500.size(20).setColor(kWhite),
     ),
