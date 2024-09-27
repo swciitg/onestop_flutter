@@ -392,6 +392,58 @@ class APIService {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getMedicalContactData() async {
+    // var response = await dio.get(Endpoints.medicalContactURL);
+    // var status = response.statusCode;
+    // var body = response.data;
+    var status = 200;
+    var body = {
+      {
+        "name": "Dr. John Doe",
+        "category": "Doctor",
+        "email": "johndoe@example.com",
+        "contact": "9876543210",
+        "designation": "Senior Consultant",
+        "degree": "MD, Cardiology"
+      },
+      {
+        "name": "Dr. Jane Smith",
+        "category": "Doctor",
+        "email": "janesmith@example.com",
+        "contact": "9123456789",
+        "designation": "Consultant",
+        "degree": "MBBS, MD"
+      },
+      {
+        "name": "Dr. Emily Brown",
+        "category": "Visiting Consultant",
+        "email": "emilybrown@example.com",
+        "contact": "9988776655",
+        "designation": "Pediatric Specialist",
+        "degree": "MBBS, DCH"
+      },
+      {
+        "name": "Dr. Emily Brown",
+        "category": "miscellaneous",
+        "email": "emilybrown@example.com",
+        "contact": "9988776655",
+        "designation": "Pediatric Specialist",
+        "degree": "MBBS, DCH"
+      },
+    };
+
+    if (status == 200) {
+      List<Map<String, dynamic>> data = [];
+      for (var json in body) {
+        data.add(json as Map<String, dynamic>);
+      }
+      print("api data ${data}");
+      return data;
+    } else {
+      throw Exception("Medical Contact Data could not be fetched");
+    }
+  }
+
   Future<List<Map<String, dynamic>>> getFerryData() async {
     var response = await dio.get(Endpoints.ferryURL);
     var status = response.statusCode;

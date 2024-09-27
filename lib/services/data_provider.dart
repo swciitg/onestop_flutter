@@ -5,6 +5,7 @@ import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
+import 'package:onestop_dev/models/medicalcontacts/medicalcontact_model.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
@@ -216,6 +217,56 @@ class DataProvider {
       }
       return people;
     }
+  }
+
+  static Future<List<List<MedicalcontactModel>>> getMedicalContacts() async {
+    List<List<MedicalcontactModel>> medicalPeople = [[], [], []];
+    var cachedData = await LocalStorage.instance
+        .getListRecord(DatabaseRecords.medicalcontacts);
+    try {
+      List<Map<String, dynamic>> medicalContactData =
+          await APIService().getMedicalContactData();
+      await LocalStorage.instance
+          .storeListRecord(medicalContactData, DatabaseRecords.medicalcontacts);
+      print("cache storage success");
+      for (var element in medicalContactData) {
+        if (element['category'] == 'Doctor') {
+          MedicalcontactModel doctor = MedicalcontactModel.fromJson(element);
+          medicalPeople[0].add(doctor);
+        } else if (element['category'] == 'Visiting Consultant') {
+          MedicalcontactModel volunteer = MedicalcontactModel.fromJson(element);
+          medicalPeople[1].add(volunteer);
+        } else {
+          MedicalcontactModel misc = MedicalcontactModel.fromJson(element);
+          medicalPeople[2].add(misc); // Miscelleneous
+        }
+      }
+    } catch (e) {
+      print(e);
+      if (cachedData == null) {
+        return medicalPeople;
+      } else {
+        for (var element in cachedData) {
+          var dataelement = element as Map<String, dynamic>;
+          if (dataelement['category'] == 'Doctor') {
+            MedicalcontactModel doctor =
+                MedicalcontactModel.fromJson(dataelement);
+            medicalPeople[0].add(doctor);
+          } else if (dataelement['category'] == 'Visiting Consultant') {
+            MedicalcontactModel volunteer =
+                MedicalcontactModel.fromJson(dataelement);
+            medicalPeople[1].add(volunteer);
+          } else {
+            MedicalcontactModel misc =
+                MedicalcontactModel.fromJson(dataelement);
+            medicalPeople[2].add(misc); // Miscelleneous
+          }
+        }
+      }
+    }
+
+    print(medicalPeople);
+    return medicalPeople;
   }
 
   static Future<Map<String, List<NotifsModel>>> getNotifications() async {

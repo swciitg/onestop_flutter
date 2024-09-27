@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/medical_section/medicalmenu/gmis.dart';
-import 'package:onestop_dev/pages/medical_section/medicalmenu/medical_contacts.dart';
-import 'package:onestop_dev/pages/medical_section/medicalmenu/medical_feedback.dart';
+import 'package:onestop_dev/pages/medical_section/medicalmenu/contacts/medical_contacts.dart';
+import 'package:onestop_dev/pages/medical_section/medicalmenu/feedback/medical_feedback.dart';
 import 'package:onestop_dev/pages/medical_section/medicalmenu/medical_insurance.dart';
 import 'package:onestop_dev/pages/medical_section/medicalmenu/medical_reimbursement.dart';
 import 'package:onestop_dev/pages/medical_section/medicalmenu/opd.dart';
 import 'package:onestop_dev/widgets/medicalsection/menuoption.dart';
-import 'package:onestop_dev/widgets/profile/feedback.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class MedicalSection extends StatelessWidget {
@@ -19,7 +18,7 @@ class MedicalSection extends StatelessWidget {
     "Available Doctors",
     "Feedback",
     "Medical Insurance",
-    "Download GMIS (Medical Insurance) Card",
+    "Download GMIS Card",
     "Medical Reimbursement",
     "Contacts",
     "Medical Rules"
@@ -29,7 +28,7 @@ class MedicalSection extends StatelessWidget {
 
   final constructors = [
     const Opd(),
-    const MedicalFeedback(),
+    MedicalFeedback(),
     const MedicalInsurance(),
     const Gmis(),
     const MedicalReimbursement(),

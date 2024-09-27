@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MedicalFeedback extends StatelessWidget {
-  const MedicalFeedback({super.key});
+class FacilityFeedback extends StatelessWidget {
+  const FacilityFeedback({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +7,6 @@ import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../functions/utility/show_snackbar.dart';
 import '../../functions/utility/validator.dart';
 import '../../globals/my_colors.dart';
