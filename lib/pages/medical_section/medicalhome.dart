@@ -39,36 +39,44 @@ class MedicalSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(28, 28, 30, 1),
-      appBar: _buildAppBar(context),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+      appBar: AppBar(
+        backgroundColor: OneStopColors.backgroundColor,
+        centerTitle: true,
+        leadingWidth: 100,
+        scrolledUnderElevation: 0,
+        leading: OneStopBackButton(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: AppBarTitle(title: 'Medical Section'),
+      ),
+      body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-          child: Center(
-            child: ListView.builder(
-              itemCount: options.length,
-              itemBuilder: (context, index) {
-                if (index != 6) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Menuoption(
-                          name: options[index],
-                          navigationwidget: constructors[index]),
-                      const SizedBox(height: 30),
-                    ],
-                  );
-                } else {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Menuoption(name: options[index], link: ruleslink),
-                      const SizedBox(height: 30),
-                    ],
-                  );
-                }
-              },
-            ),
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30,),
+          child: ListView.builder(
+            itemCount: options.length,
+            itemBuilder: (context, index) {
+              if (index != 6) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Menuoption(
+                        name: options[index],
+                        navigationwidget: constructors[index]),
+                    const SizedBox(height: 30),
+                  ],
+                );
+              } else {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Menuoption(name: options[index], link: ruleslink),
+                    const SizedBox(height: 30),
+                  ],
+                );
+              }
+            },
           ),
         ),
       ),
