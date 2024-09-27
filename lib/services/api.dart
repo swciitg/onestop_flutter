@@ -492,6 +492,11 @@ class APIService {
     }
   }
 
+  Future<Map<String, dynamic>> postHAB(Map<String, dynamic> data) async {
+    var res = await dio.post(Endpoints.habPost, data: data);
+    return res.data;
+  }
+
   Future<Map<String, dynamic>> getFerryTiming() async {
     try {
       Response res = await dio.get(Endpoints.ferryURL);

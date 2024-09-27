@@ -31,19 +31,19 @@ class MessLinkTile extends StatelessWidget {
         },
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24), color: lGrey),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+              borderRadius: BorderRadius.circular(12), color: lGrey),
+          child: Row(
+            //mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Icon(
                 icon,
-                size: 30,
+                size: 40,
                 color: lBlue,
               ),
-              const SizedBox(height: 5),
+              const SizedBox(width: 24),
               Text(
                 label,
                 softWrap: true,

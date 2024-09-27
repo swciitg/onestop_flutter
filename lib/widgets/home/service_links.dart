@@ -3,6 +3,7 @@ import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/elections/election_login.dart';
+import 'package:onestop_dev/pages/hab/hab_page.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
@@ -56,5 +57,10 @@ List<HomeTabTile> serviceLinks = [
     label: "GC Score Board",
     icon: FluentIcons.trophy_48_filled,
     routeId: Scoreboard.id,
+  ),
+  const HomeTabTile(
+    label: "HAB",
+    icon: FluentIcons.home_database_24_regular,
+    routeId: Hab_Page.id,
   ),
 ];
