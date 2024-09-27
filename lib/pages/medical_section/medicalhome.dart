@@ -7,7 +7,6 @@ import 'package:onestop_dev/pages/medical_section/medicalmenu/medical_insurance.
 import 'package:onestop_dev/pages/medical_section/medicalmenu/medical_reimbursement.dart';
 import 'package:onestop_dev/pages/medical_section/medicalmenu/opd.dart';
 import 'package:onestop_dev/widgets/medicalsection/menuoption.dart';
-import 'package:onestop_dev/widgets/profile/feedback.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class MedicalSection extends StatelessWidget {
@@ -19,7 +18,7 @@ class MedicalSection extends StatelessWidget {
     "Available Doctors",
     "Feedback",
     "Medical Insurance",
-    "Download GMIS (Medical Insurance) Card",
+    "Download GMIS Card",
     "Medical Reimbursement",
     "Contacts",
     "Medical Rules"
@@ -40,36 +39,44 @@ class MedicalSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(28, 28, 30, 1),
-      appBar: _buildAppBar(context),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+      appBar: AppBar(
+        backgroundColor: OneStopColors.backgroundColor,
+        centerTitle: true,
+        leadingWidth: 100,
+        scrolledUnderElevation: 0,
+        leading: OneStopBackButton(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: AppBarTitle(title: 'Medical Section'),
+      ),
+      body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-          child: Center(
-            child: ListView.builder(
-              itemCount: options.length,
-              itemBuilder: (context, index) {
-                if (index != 6) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Menuoption(
-                          name: options[index],
-                          navigationwidget: constructors[index]),
-                      const SizedBox(height: 30),
-                    ],
-                  );
-                } else {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Menuoption(name: options[index], link: ruleslink),
-                      const SizedBox(height: 30),
-                    ],
-                  );
-                }
-              },
-            ),
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30,),
+          child: ListView.builder(
+            itemCount: options.length,
+            itemBuilder: (context, index) {
+              if (index != 6) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Menuoption(
+                        name: options[index],
+                        navigationwidget: constructors[index]),
+                    const SizedBox(height: 30),
+                  ],
+                );
+              } else {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Menuoption(name: options[index], link: ruleslink),
+                    const SizedBox(height: 30),
+                  ],
+                );
+              }
+            },
           ),
         ),
       ),
