@@ -27,6 +27,7 @@ class _MyAdsTileState extends State<MyAdsTile> {
   Widget build(BuildContext context) {
     bool isLnf = (widget.model is FoundModel) || (widget.model is LostModel);
     return Stack(
+      alignment: AlignmentDirectional.center,
       children: [
         GestureDetector(
           onTap: () {
@@ -56,30 +57,23 @@ class _MyAdsTileState extends State<MyAdsTile> {
                           Expanded(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        isOverlay = true;
-                                      });
-                                    },
-                                    child: const Icon(
-                                      FluentIcons.more_vertical_28_filled,
-                                      size: 15,
-                                      color: kWhite,
-                                    ),
-                                  ),
+                                Text(
+                                  widget.model.title,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: MyFonts.w600.size(16).setColor(kWhite),
                                 ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Text(
-                                    widget.model.title,
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        MyFonts.w600.size(16).setColor(kWhite),
+                                const Spacer(),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isOverlay = true;
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    FluentIcons.more_vertical_28_filled,
+                                    size: 15,
+                                    color: kWhite,
                                   ),
                                 ),
                               ],
@@ -157,34 +151,30 @@ class _MyAdsTileState extends State<MyAdsTile> {
             ),
           ),
         if (isOverlay)
-          Positioned(
-            top: 20,
-            left: 30 + 14, // Adding the tile padding
-            child: Container(
-              height: 33,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: lBlue2,
+          Container(
+            height: 33,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: lBlue2,
+            ),
+            child: TextButton(
+              child: Text(
+                "Delete",
+                style: MyFonts.w400.size(14).setColor(kBlack),
               ),
-              child: TextButton(
-                child: Text(
-                  "Delete",
-                  style: MyFonts.w400.size(14).setColor(kBlack),
-                ),
-                onPressed: () async {
-                  if (isLnf) {
-                    await APIService()
-                        .deleteLnfMyAd(widget.model.id, widget.model.email);
-                  } else {
-                    await APIService()
-                        .deleteBnsMyAd(widget.model.id, widget.model.email);
-                  }
+              onPressed: () async {
+                if (isLnf) {
+                  await APIService()
+                      .deleteLnfMyAd(widget.model.id, widget.model.email);
+                } else {
+                  await APIService()
+                      .deleteBnsMyAd(widget.model.id, widget.model.email);
+                }
 
-                  if (!mounted) return;
-                  Navigator.of(context).pop();
-                  showSnackBar("Deleted your post successfully");
-                },
-              ),
+                if (!mounted) return;
+                Navigator.of(context).pop();
+                showSnackBar("Deleted your post successfully");
+              },
             ),
           ),
       ],
