@@ -45,8 +45,9 @@ class Upsp extends StatefulWidget {
 class _UpspState extends State<Upsp> {
   List<String> files = [];
   TextEditingController problem = TextEditingController();
-  CheckBoxListController subcommitteeController = CheckBoxListController();
-  CheckBoxListController boardsController = CheckBoxListController();
+  RadioButtonListController subcommitteeController =
+      RadioButtonListController();
+  RadioButtonListController boardsController = RadioButtonListController();
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +175,7 @@ class _UpspState extends State<Upsp> {
                                 style: MyFonts.w600.size(16).setColor(kWhite),
                               ),
                             ),
-                            CheckBoxList(
+                            RadioButtonList(
                               values: boards,
                               controller: boardsController,
                             ),
@@ -186,7 +187,7 @@ class _UpspState extends State<Upsp> {
                                 style: MyFonts.w600.size(16).setColor(kWhite),
                               ),
                             ),
-                            CheckBoxList(
+                            RadioButtonList(
                               values: subcommittees,
                               controller: subcommitteeController,
                             ),
@@ -202,9 +203,9 @@ class _UpspState extends State<Upsp> {
                                   Map<String, dynamic> data = {
                                     'problem': problem.text,
                                     'files': files,
-                                    'boards': boardsController.selectedItems,
+                                    'boards': boardsController.selectedItem,
                                     'subcommittees':
-                                        subcommitteeController.selectedItems
+                                        subcommitteeController.selectedItem
                                   };
 
                                   Navigator.of(context).push(MaterialPageRoute(

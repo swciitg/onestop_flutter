@@ -3,17 +3,20 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
-class CheckBoxList extends StatefulWidget {
-  const CheckBoxList({Key? key, required this.values, required this.controller})
-      : super(key: key);
+class RadioButtonList extends StatefulWidget {
+  const RadioButtonList({
+    Key? key,
+    required this.values,
+    required this.controller,
+  }) : super(key: key);
   final List<String> values;
-  final CheckBoxListController controller;
+  final RadioButtonListController controller;
 
   @override
-  State<CheckBoxList> createState() => _CheckBoxListState();
+  State<RadioButtonList> createState() => _RadioButtonListState();
 }
 
-class _CheckBoxListState extends State<CheckBoxList> {
+class _RadioButtonListState extends State<RadioButtonList> {
   @override
   void initState() {
     super.initState();
@@ -31,23 +34,17 @@ class _CheckBoxListState extends State<CheckBoxList> {
       itemBuilder: (context, i) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-          child: CheckboxListTile(
+          child: RadioListTile<String>(
             controlAffinity: ListTileControlAffinity.leading,
-            // value: committeeCheck[i],
-            value: widget.controller.selectedItems.contains(widget.values[i]),
-            checkColor: kGrey6,
+            value: widget.values[i],
+            groupValue: widget.controller.selectedItem,
             activeColor: lBlue2,
-            // selected: true,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24.0), // Optionally
+              borderRadius: BorderRadius.circular(24.0),
               side: const BorderSide(color: kGrey2),
             ),
             onChanged: (v) {
-              if (widget.controller.selectedItems.contains(widget.values[i])) {
-                widget.controller.removeItem(widget.values[i]);
-              } else {
-                widget.controller.addItem(widget.values[i]);
-              }
+              widget.controller.selectItem(v!);
             },
             title: Text(
               widget.values[i],
@@ -60,16 +57,16 @@ class _CheckBoxListState extends State<CheckBoxList> {
   }
 }
 
-class CheckBoxListController extends ChangeNotifier {
-  List<String> selectedItems = [];
+class RadioButtonListController extends ChangeNotifier {
+  String? selectedItem;
 
-  void addItem(String item) {
-    selectedItems.add(item);
+  void selectItem(String item) {
+    selectedItem = item;
     notifyListeners();
   }
 
-  void removeItem(String item) {
-    selectedItems.remove(item);
+  void clearSelection() {
+    selectedItem = null;
     notifyListeners();
   }
 }

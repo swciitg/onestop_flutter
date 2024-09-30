@@ -36,7 +36,8 @@ class Endpoints {
       'https://api.github.com/repos/swciitg/onestop_flutter/issues';
   static const String upspPost = '/upsp/submit-request';
   static const String uploadFileUPSP = "/upsp/file-upload";
-  static const String habPost = '/hab-complaint/file-upload';
+  static const String habPost = '/hab-complaint/submit-request';
+  static const String uploadFileHAB = '/hab-complaint/file-upload';
   static const String guestLogin = "/user/guest/login";
   static const String userProfile = "/user";
   static const String userDeviceTokens = "/user/device-tokens";

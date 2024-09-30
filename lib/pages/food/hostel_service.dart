@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/pages/hab/hab_page.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -34,7 +35,7 @@ class HostelService extends StatefulWidget {
 class HostelServiceState extends State<HostelService> {
   List<String> files = [];
   TextEditingController problem = TextEditingController();
-  CheckBoxListController servicesController = CheckBoxListController();
+  RadioButtonListController servicesController = RadioButtonListController();
   bool submitted = false;
   TextEditingController contact = TextEditingController();
   TextEditingController roomNo = TextEditingController();
@@ -84,7 +85,8 @@ class HostelServiceState extends State<HostelService> {
                       color: kBlueGrey,
                       child: Container(
                         margin: const EdgeInsets.only(
-                            top: 10, left: 16, right: 16, bottom: 15),
+                            top: 10, bottom: 15, left: 15),
+                        width: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -250,7 +252,7 @@ class HostelServiceState extends State<HostelService> {
                                 style: MyFonts.w600.size(16).setColor(kWhite),
                               ),
                             ),
-                            CheckBoxList(
+                            RadioButtonList(
                               values: services,
                               controller: servicesController,
                             ),
@@ -353,7 +355,7 @@ class HostelServiceState extends State<HostelService> {
                                         files.removeAt(index);
                                       })),
                             files.length < 5
-                                ? UploadButton(callBack: (fName) {
+                                ? UploadButton2(callBack: (fName) {
                                     if (fName != null) files.add(fName);
                                     setState(() {});
                                   })
@@ -370,17 +372,17 @@ class HostelServiceState extends State<HostelService> {
                                   Map<String, dynamic> data = {
                                     'problem': problem.text,
                                     'files': files,
-                                    'boards': servicesController.selectedItems,
+                                    'services': servicesController.selectedItem,
                                     'phone': contact.text,
                                     'name': name,
                                     'email': email,
                                     'room_number': roomNo.text,
                                     'hostel': selectedHostel.databaseString,
                                   };
-
-                                  if (!_formKey.currentState!.validate()) {
+                                  //print(data);
+                                  /*if (!_formKey.currentState!.validate()) {
                                     return;
-                                  }
+                                  }*/
                                   if (!submitted) {
                                     setState(() {
                                       submitted = true;
@@ -394,7 +396,7 @@ class HostelServiceState extends State<HostelService> {
                                         showSnackBar(
                                             "Your problem has been successfully sent to respective au1thorities.");
                                         Navigator.popUntil(context,
-                                            ModalRoute.withName(HomePage.id));
+                                            ModalRoute.withName(Hab_Page.id));
                                       } else {
                                         showSnackBar(
                                             "Some error occurred. Try again later");
