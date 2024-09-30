@@ -47,8 +47,8 @@ class _HomePageState extends State<HomePage> {
           data: NavigationBarThemeData(
               indicatorColor: lGrey,
               labelTextStyle:
-                  MaterialStateProperty.all(MyFonts.w500.setColor(kTabText)),
-              iconTheme: MaterialStateProperty.all(
+                  WidgetStateProperty.all(MyFonts.w500.setColor(kTabText)),
+              iconTheme: WidgetStateProperty.all(
                   const IconThemeData(color: kTabText))),
           child: NavigationBar(
             backgroundColor: kTabBar,
