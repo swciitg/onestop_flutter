@@ -496,7 +496,7 @@ class APIService {
         "designation": "Clinical Psychologist",
         "degree": "PhD in Clinical Psychology"
       }
-  };
+    };
 
     if (status == 200) {
       List<Map<String, dynamic>> data = [];
@@ -511,9 +511,72 @@ class APIService {
   }
 
   Future<List<Map<String, dynamic>>> getDropDownContacts() async {
-    var response = await dio.get(Endpoints.getAllDoctors);
-    var status = response.statusCode;
-    var body = response.data;
+    // var response = await dio.get(Endpoints.dropownDoctors);
+    // var status = response.statusCode;
+    // var body = response.data;
+    var status = 200;
+    var body = {
+      {
+        "name": "Dr. John Doe",
+        "designation": "Senior Consultant",
+        "degree": "MD, Cardiology"
+      },
+      {
+        "name": "Dr. Jane Smith",
+        "designation": "Consultant",
+        "degree": "MBBS, MD"
+      },
+      {
+        "name": "Dr. Emily Brown",
+        "designation": "Pediatric Specialist",
+        "degree": "MBBS, DCH"
+      },
+      {
+        "name": "Dr. Emily Brown",
+        "designation": "Pediatric Specialist",
+        "degree": "MBBS, DCH"
+      },
+      {
+        "name": "Dr. Michael Johnson",
+        "designation": "Orthopedic Surgeon",
+        "degree": "MBBS, MS Ortho"
+      },
+      {
+        "name": "Dr. Sarah Williams",
+        "designation": "Dermatology Consultant",
+        "degree": "MBBS, MD Dermatology"
+      },
+      {
+        "name": "Dr. Robert Davis",
+        "designation": "ENT Specialist",
+        "degree": "MBBS, MS ENT"
+      },
+      {
+        "name": "Dr. Laura Lee",
+        "designation": "Psychiatrist",
+        "degree": "MBBS, MD Psychiatry"
+      },
+      {
+        "name": "Dr. Benjamin Taylor",
+        "designation": "Nutrition Expert",
+        "degree": "PhD in Nutrition"
+      },
+      {
+        "name": "Dr. Linda Martinez",
+        "designation": "Gynecologist",
+        "degree": "MBBS, MD Obstetrics & Gynecology"
+      },
+      {
+        "name": "Dr. Kevin Clark",
+        "designation": "Cardiology Consultant",
+        "degree": "MBBS, MD Cardiology"
+      },
+      {
+        "name": "Dr. Jessica Miller",
+        "designation": "Clinical Psychologist",
+        "degree": "PhD in Clinical Psychology"
+      }
+    };
     if (status == 200) {
       List<Map<String, dynamic>> data = [];
       for (var json in body) {
@@ -668,6 +731,12 @@ class APIService {
   Future<Map<String, dynamic>> postFacilityFeedback(
       Map<String, dynamic> data) async {
     var res = await dio.post(Endpoints.hospitalFacilitiesFeedback, data: data);
+    return res.data;
+  }
+
+  Future<Map<String, dynamic>> postDoctorFeedback(
+      Map<String, dynamic> data) async {
+    var res = await dio.post(Endpoints.doctorsFeedback, data: data);
     return res.data;
   }
 

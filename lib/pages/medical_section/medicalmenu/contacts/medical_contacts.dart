@@ -135,7 +135,7 @@ void _showContactInfoDialog(BuildContext context, MedicalcontactModel contact) {
                 SizedBox(height: 10,),
                 _buildInfoRow(Icons.work, contact.designation),
                 _buildInfoRow(Icons.school, contact.degree),
-                _buildInfoRow(Icons.phone, "0361258${contact.contact}"),
+                _buildInfoRow(Icons.phone, "0361258${contact.phone}"),
                 _buildInfoRow(Icons.email, contact.email),
               ],
             ),
@@ -149,7 +149,7 @@ void _showContactInfoDialog(BuildContext context, MedicalcontactModel contact) {
                 children: [
                   IconButton(onPressed: () async {
                     try {
-                      await _launchPhoneURL("0361258${contact.contact}");
+                      await _launchPhoneURL("0361258${contact.phone}");
                     } catch (e) {
                       if (kDebugMode) {
                         print(e);

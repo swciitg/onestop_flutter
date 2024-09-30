@@ -41,7 +41,7 @@ class Endpoints {
       "/feedback/servicesFeedback-submit";
   static const String doctorsFeedback =
       "/feedback/doctorsFeedback-submit";
-  static const String getAllDoctors = "/getDoctors";
+  static const String dropownDoctors = "/getDoctors";
   static const String uploadFileUPSP = "/upsp/file-upload";
   static const String facilityFileUpload = "/servicesFeedback/file-upload";
   static const String doctorFileUpload = "/doctorsFeedback/file-upload";

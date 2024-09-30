@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
+import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/medicalcontacts/dropdown_contact_model.dart';
+import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -25,15 +30,15 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
   final TextEditingController remarks = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool submitted = false;
-  MedicalcontactModel? selectedDoctor;
+  DropdownContactModel? selectedDoctor;
   DateTime? selecteddate;
-  late Future<List<List<MedicalcontactModel>>> medicalContacts;
+  late Future<List<DropdownContactModel>> medicalContacts;
 
   @override
   void initState() {
     super.initState();
     selecteddate = DateTime.now();
-    medicalContacts=DataProvider.getMedicalContacts();
+    medicalContacts=DataProvider.getDropDownContacts();
   }
 
   @override
@@ -99,10 +104,9 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                         ),
                         FutureBuilder(
                           future: medicalContacts,
-                          builder: (BuildContext context, AsyncSnapshot<List<List<MedicalcontactModel>>> snapshot) {
+                          builder: (BuildContext context, AsyncSnapshot<List<DropdownContactModel>> snapshot) {
                             if(snapshot.hasData) {
-                              List<List<MedicalcontactModel>> medicalContacts = snapshot.data as List<List<MedicalcontactModel>>;
-                              List<MedicalcontactModel> doctors = medicalContacts[0];
+                              List<DropdownContactModel> doctors = snapshot.data as List<DropdownContactModel>;
 
                               doctors.sort((a, b) => a.name.compareTo(b.name)); // Sort by name
 
@@ -117,10 +121,10 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                    child: DropdownButtonFormField<MedicalcontactModel>(
+                                    child: DropdownButtonFormField<DropdownContactModel>(
                                       value: selectedDoctor,
-                                      items: doctors.map((MedicalcontactModel doctor) {
-                                        return DropdownMenuItem<MedicalcontactModel>(
+                                      items: doctors.map((DropdownContactModel doctor) {
+                                        return DropdownMenuItem<DropdownContactModel>(
                                           value: doctor,
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,14 +144,14 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                                         );
                                       }).toList(),
                                       selectedItemBuilder: (BuildContext context) {
-                                        return doctors.map<Widget>((MedicalcontactModel doctor) {
+                                        return doctors.map<Widget>((DropdownContactModel doctor) {
                                           return Text(
                                             doctor.name,
                                             style: OnestopFonts.w500.size(16).setColor(kWhite),
                                           );
                                         }).toList();
                                       },
-                                      onChanged: (MedicalcontactModel? newValue) {
+                                      onChanged: (DropdownContactModel? newValue) {
                                         setState(() {
                                           selectedDoctor = newValue; // Set selected doctor
                                         });
@@ -235,7 +239,7 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                             ? UploadButton(callBack: (fName) {
                           if (fName != null) files.add(fName);
                           setState(() {});
-                        })
+                        }, endpoint: Endpoints.doctorFileUpload,)
                         : Container(),
                         const SizedBox(height: 24,),
                         GestureDetector(
@@ -257,31 +261,30 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                               data['remarks'] = remarks.text;
                               data['email'] = patientEmail;
                               data['date']=selecteddate;
-                              data['doctor_email']= selectedDoctor!.email;
                               print(data);
-/*                              try {
-                                // var response =
-                                //     await APIService().postUPSP(data);
-                                if (!mounted) return;
-                                if (response['success']) {
-                     "{             showSnackBar(
-                                      "Your problem has been successfully sent to respective au1thorities.");
-                                  Navigator.popUntil(context,
-                                      ModalRoute.withName(HomePage.id));
-                                } else {
-                                  showSnackBar(
-                                      "Some error occurred. Try again later");
-                                  setState(() {
-                                    submitted = false;
-                                  });
-                                }
-                              } catch (err) {
-                                showSnackBar(
-                                    "Please check you internet connection and try again");
-                                setState(() {
-                                  submitted = false;
-                                });
-                              }*/
+                            try {
+                                      var response =
+                                          await APIService().postDoctorFeedback(data);
+                                      if (!mounted) return;
+                                      if (response['success']) {
+                                        showSnackBar(
+                                            "Your problem has been successfully sent to respective au1thorities.");
+                                        Navigator.popUntil(context,
+                                            ModalRoute.withName(HomePage.id));
+                                      } else {
+                                        showSnackBar(
+                                            "Some error occurred. Try again later");
+                                        setState(() {
+                                          submitted = false;
+                                        });
+                                      }
+                                    } catch (err) {
+                                      showSnackBar(
+                                          "Please check you internet connection and try again");
+                                      setState(() {
+                                        submitted = false;
+                                      });
+                                    }
                             }
                           },
                           child: const NextButton(
