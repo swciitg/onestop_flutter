@@ -11,9 +11,10 @@ class MedicalContactPageButton extends StatefulWidget {
 
   final String label;
   final List<MedicalcontactModel> labelContacts;
+  final Icon icon;
 
   const MedicalContactPageButton(
-      {Key? key, required this.label, required this.labelContacts})
+      {Key? key, required this.label, required this.labelContacts, required this.icon})
       : super(key: key);
 
   @override
@@ -58,17 +59,12 @@ class _MedicalContactPageButtonState extends State<MedicalContactPageButton> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  (widget.label == 'Doctors')
-                      ? FluentIcons.doctor_48_filled
-                      : (widget.label == 'Visiting Consultants')
-                          ? FluentIcons.doctor_48_filled
-                          : FluentIcons.warning_48_filled,
-                  color: kGrey8,
-                ),
+                widget.icon,
+                const SizedBox(height: 3),
                 Text(
                   widget.label,
-                  style: MyFonts.w600.size(10).setColor(kWhite),
+                  style: MyFonts.w600.size(9).setColor(kWhite),
+                   overflow:TextOverflow.ellipsis,
                 ),
               ],
             ),
