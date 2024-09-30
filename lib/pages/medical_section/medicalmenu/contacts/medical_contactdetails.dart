@@ -1,4 +1,5 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -7,6 +8,8 @@ import 'package:onestop_dev/widgets/contact/contact_display.dart';
 import 'package:onestop_dev/widgets/medicalsection/medical_contact_dialog.dart';
 import 'package:onestop_dev/widgets/medicalsection/medical_contact_display.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+
+import '../../../../functions/utility/phone_email.dart';
 
 class MedicalContactdetails extends StatefulWidget {
   final String title;
@@ -57,14 +60,6 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
                     style: MyFonts.w600.size(16).setColor(kWhite),
                   ),
                 ),
-                // const Expanded(child: SizedBox()),
-                // Padding(
-                //   padding: const EdgeInsets.only(right: 8.0),
-                //   child: Text(
-                //     widget.contact!.group,
-                //     style: MyFonts.w400.size(14).setColor(kGrey2),
-                //   ),
-                // )
               ],
             ),
             Row(
@@ -114,11 +109,7 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
                           top: 4.0, bottom: 4.0, right: 10),
                       child: GestureDetector(
                         onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (_) => MedicalContactDialog(details: item),
-                                  
-                              barrierDismissible: true);
+                          _showContactInfoDialog(context,item);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +121,7 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
                                 text: item.email,
                                 align: AlignmentDirectional.center),
                             ContactText(
-                                text: item.contact.toString(),
+                                text: "0361258${item.contact.toString()}",
                                 align: AlignmentDirectional.bottomEnd),
                           ],
                         ),
@@ -145,4 +136,93 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
       ),
     );
   }
+}
+
+
+void _showContactInfoDialog(BuildContext context, MedicalcontactModel contact) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.grey[900], // Dark background
+        content: Container(
+          width: 600,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  contact.name,
+                  style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 10,),
+                _buildInfoRow(Icons.work, contact.designation),
+                _buildInfoRow(Icons.school, contact.degree),
+                _buildInfoRow(Icons.phone, "0361258${contact.contact}"),
+                _buildInfoRow(Icons.email, contact.email),
+              ],
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  IconButton(onPressed: () async {
+                    try {
+                      await launchPhoneURL(contact.contact);
+                    } catch (e) {
+                      if (kDebugMode) {
+                        print(e);
+                      }
+                    }
+
+                  }, icon: const Icon(Icons.call, color: Colors.green),),
+                  IconButton(onPressed: () async {
+                    try {
+                      await launchEmailURL(contact.email);
+                    } catch (e) {
+                      if (kDebugMode) {
+                        print(e);
+                      }
+                    }
+                  }, icon: const Icon(Icons.mail, color: Colors.blue),),
+                ],
+              ),
+              TextButton(
+                child: const Text("Close", style: TextStyle(color: Colors.white70)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Widget _buildInfoRow(IconData icon, String info) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4.0),
+    child: Row(
+      children: [
+        Icon(icon, color: Colors.white70, size: 20), // Icon only
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            info,
+            style: const TextStyle(color: Colors.white70, fontSize: 15),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    ),
+  );
 }

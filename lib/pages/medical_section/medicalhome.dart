@@ -1,3 +1,5 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/medical_section/medicalmenu/gmis.dart';
@@ -8,6 +10,10 @@ import 'package:onestop_dev/pages/medical_section/medicalmenu/medical_reimbursem
 import 'package:onestop_dev/pages/medical_section/medicalmenu/opd.dart';
 import 'package:onestop_dev/widgets/medicalsection/menuoption.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../functions/utility/show_snackbar.dart';
+import '../../globals/my_fonts.dart';
 
 class MedicalSection extends StatelessWidget {
   static const id = "/medicalsection";
@@ -73,6 +79,34 @@ class MedicalSection extends StatelessWidget {
                   children: [
                     Menuoption(name: options[index], link: ruleslink),
                     const SizedBox(height: 30),
+                   //Spacer(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 0,vertical: 30),
+                      child: Row(
+                        children: [
+                          Icon(Icons.info_outline_rounded,color:Colors.grey),
+                          SizedBox(width:3),
+                          Text.rich(TextSpan(
+                            text: "For more details:",
+                            style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500,color: Colors.white,fontSize: 16),
+                            children: [
+                              TextSpan(
+                                text:" click here",
+                                style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500,color: Colors.blueAccent,fontSize: 16,decoration: TextDecoration.underline,),
+                                recognizer: TapGestureRecognizer()..onTap=(){
+
+                                  try {
+                                    _launchURL("https://www.iitg.ac.in/medical/");
+                                  } catch (e) {
+                                    showSnackBar(e.toString());
+                                  }
+                                }
+                              )
+                            ]
+                          )),
+                        ],
+                      ),
+                    )
                   ],
                 );
               }
@@ -84,25 +118,12 @@ class MedicalSection extends StatelessWidget {
   }
 }
 
-AppBar _buildAppBar(BuildContext context) {
-  return AppBar(
-    backgroundColor: kAppBarGrey,
-    iconTheme: const IconThemeData(color: kAppBarGrey),
-    automaticallyImplyLeading: false,
-    centerTitle: true,
-    title: Text(
-      "Medical Section",
-      textAlign: TextAlign.center,
-      style: OnestopFonts.w500.size(20).setColor(kWhite),
-    ),
-    actions: [
-      IconButton(
-        onPressed: () => Navigator.of(context).pop(),
-        icon: const Icon(
-          Icons.clear,
-          color: kWhite,
-        ),
-      ),
-    ],
-  );
+Future<void> _launchURL(String url) async {
+  final Uri uri = Uri.parse(url);  // Use Uri.parse to handle the full URL
+  if (!await launchUrl(
+    uri,
+    mode: LaunchMode.externalApplication,
+  )) {
+    throw "Cannot launch URL";
+  }
 }

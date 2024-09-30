@@ -4,15 +4,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../globals/my_colors.dart';
 import '../../../globals/my_fonts.dart';
-
-List<String> textData = [
-  "Click the Link",
-  "Enter your UserName & Password",
-  "Download E-Card"];
-
 
 class Gmis extends StatefulWidget {
   const Gmis({super.key});
@@ -48,7 +41,7 @@ class _GmisState extends State<Gmis> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                     child: Text(
-                      "Make sure the connection is no-proxy/direct connection. ",
+                      "Follow the steps below to successfully download your GMIS card and enjoy the benefits it offers.",
                       style: MyFonts.w600.size(14).setColor(kGrey8),
                     ),
                   ),
@@ -63,8 +56,6 @@ class _GmisState extends State<Gmis> {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                       child: Column(
-                        //crossAxisAlignment: CrossAxisAlignment.start,
-                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CarouselSlider(
                             items: [1, 2, 3].map((i) {
@@ -92,12 +83,13 @@ class _GmisState extends State<Gmis> {
                                   });
                                 },
                                 autoPlay: false,
+                                enableInfiniteScroll: false,
+                                scrollDirection: Axis.horizontal,
                                 enlargeCenterPage: true,
                                 viewportFraction: 0.95,
                                 height: 445,
                                 initialPage: 0,
-                                scrollPhysics:
-                                const NeverScrollableScrollPhysics()),
+                                ),
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
