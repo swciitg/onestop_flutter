@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
+import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/profile/custom_date_picker.dart';
@@ -21,12 +25,8 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
   List<String> files = [];
   final TextEditingController patientName = TextEditingController();
   final TextEditingController mobilenumber = TextEditingController();
-  final TextEditingController numberofmedicinesPrescribed =
-      TextEditingController();
-  final TextEditingController numberofmedicinesAvailable =
-      TextEditingController();
-  final TextEditingController notAvailableInstantly = TextEditingController();
-  final TextEditingController notAvailableMedicine24 = TextEditingController();
+  final TextEditingController notAvailableNumber = TextEditingController();
+  final TextEditingController notAvailableNames = TextEditingController();
   final TextEditingController remarks = TextEditingController();
   final TextEditingController _datecontroller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -47,9 +47,7 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
   Widget build(BuildContext context) {
     var userData = LoginStore.userData;
     String patientEmail = userData['outlookEmail'];
-    return LoginStore.isGuest
-        ? const GuestRestrictAccess()
-        : Theme(
+    return Theme(
             data: Theme.of(context).copyWith(
                 checkboxTheme: CheckboxThemeData(
                     side: const BorderSide(color: kWhite),
@@ -98,25 +96,25 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 15, bottom: 10),
-                              child: Text(
-                                "Upload any related screenshot/video/pdf attachment proof",
-                                style: MyFonts.w600.size(16).setColor(kWhite),
+                                padding: const EdgeInsets.only(
+                                    left: 15, top: 15, bottom: 10),
+                                child: Text(
+                                  "Please attach a photo or PDF of the prescription (compulsory)",
+                                  style: MyFonts.w600.size(16).setColor(kWhite),
+                                ),
                               ),
-                            ),
-                            for (int index = 0; index < files.length; index++)
-                              FileTile(
-                                  filename: files[index],
-                                  onDelete: () => setState(() {
-                                        files.removeAt(index);
-                                      })),
-                            files.length < 5
-                                ? UploadButton(callBack: (fName) {
-                                    if (fName != null) files.add(fName);
-                                    setState(() {});
-                                  })
-                                : Container(),
+                              for (int index = 0; index < files.length; index++)
+                                FileTile(
+                                    filename: files[index],
+                                    onDelete: () => setState(() {
+                                          files.removeAt(index);
+                                        })),
+                              files.length < 5
+                                  ? UploadButton(callBack: (fName) {
+                                      if (fName != null) files.add(fName);
+                                      setState(() {});
+                                    },endpoint: Endpoints.pharmacyFileUpload,)
+                                  : Container(),
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 15, top: 15, bottom: 10),
@@ -296,7 +294,7 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                                 padding: const EdgeInsets.only(
                                     left: 15, top: 15, bottom: 10),
                                 child: Text(
-                                  "No of medicine prescribed by the doctor",
+                                  "No of Prescribed Medications Not Available at the Pharmacy",
                                   style: OnestopFonts.w600
                                       .size(16)
                                       .setColor(kWhite),
@@ -325,7 +323,7 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly
                                       ],
-                                      controller: numberofmedicinesPrescribed,
+                                      controller: notAvailableNumber,
                                       maxLength: 10,
                                       style: OnestopFonts.w500
                                           .size(16)
@@ -346,57 +344,7 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                                 padding: const EdgeInsets.only(
                                     left: 15, top: 15, bottom: 10),
                                 child: Text(
-                                  "No of medicine available at the Pharmacy",
-                                  style: OnestopFonts.w600
-                                      .size(16)
-                                      .setColor(kWhite),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: kGrey2),
-                                      color: kBackground,
-                                      borderRadius: BorderRadius.circular(24)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    child: TextFormField(
-                                      validator: (val) {
-                                        if (val == null || val.isEmpty) {
-                                          return "Please fill the required details";
-                                        }
-                                        return null;
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly
-                                      ],
-                                      controller: numberofmedicinesAvailable,
-                                      maxLength: 10,
-                                      style: OnestopFonts.w500
-                                          .size(16)
-                                          .setColor(kWhite),
-                                      decoration: InputDecoration(
-                                        errorStyle: OnestopFonts.w400,
-                                        counterText: "",
-                                        border: InputBorder.none,
-                                        hintText: 'Must be a number',
-                                        hintStyle:
-                                            const TextStyle(color: kGrey8),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15, top: 15, bottom: 10),
-                                child: Text(
-                                  "No of medicine not available at the Pharmacy at the time of purchase",
+                                  "Names of Prescribed Medications Not Available at the Pharmacy",
                                   style: MyFonts.w600.size(16).setColor(kWhite),
                                 ),
                               ),
@@ -416,42 +364,7 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                                             horizontal: 20, vertical: 10),
                                         child: TextFormField(
                                           maxLines: 4,
-                                          controller: notAvailableInstantly,
-                                          style: MyFonts.w500
-                                              .size(16)
-                                              .setColor(kWhite),
-                                          decoration: const InputDecoration(
-                                            border: InputBorder.none,
-                                            hintText: 'Your answer',
-                                            hintStyle: TextStyle(color: kGrey8),
-                                          ),
-                                        ))),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15, top: 15, bottom: 10),
-                                child: Text(
-                                  "Name of the medicines not made available within 24 hours",
-                                  style: MyFonts.w600.size(16).setColor(kWhite),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Container(
-                                    height: 120,
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 12),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: kGrey2),
-                                        color: kBackground,
-                                        borderRadius:
-                                            BorderRadius.circular(24)),
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 10),
-                                        child: TextFormField(
-                                          maxLines: 4,
-                                          controller: notAvailableMedicine24,
+                                          controller: notAvailableNames,
                                           style: MyFonts.w500
                                               .size(16)
                                               .setColor(kWhite),
@@ -500,6 +413,32 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                               const SizedBox(
                                 height: 24,
                               ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.info_outline_rounded,
+                                      color: Colors.grey,
+                                      size: 24,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                          "Note: As per the MOU signed by the pharmacy, all medications must be made available within 24 hours.",
+                                          style: OnestopFonts.w400
+                                              .size(16)
+                                              .setColor(kWhite),
+                                          softWrap: true,
+                                          overflow: TextOverflow.visible),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
                               GestureDetector(
                                 onTap: () async {
                                   if (!_formKey.currentState!.validate()) {
@@ -516,40 +455,36 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                                     data['date'] = date.toIso8601String();
                                     data['patient_name'] = patientName.text;
                                     data['mobile_number'] = mobilenumber.text;
-                                    data['no_of_medicines_prescribed'] =
-                                        numberofmedicinesPrescribed.text;
-                                    data['no_of_medicines_available'] =
-                                        numberofmedicinesAvailable.text;
-                                    data['not_made_available_medicine'] =
-                                        notAvailableMedicine24.text;
-                                    data['not_made_available_instantly'] =
-                                        notAvailableInstantly.text;
+                                    data['not_available_number'] =
+                                        notAvailableNumber.text;
+                                    data['not_available_names'] =
+                                        notAvailableNames.text;
                                     data['remarks'] = remarks.text;
                                     data['email'] = patientEmail;
                                     print(data);
-                                    // try {
-                                    //   // var response =
-                                    //   //     await APIService().postUPSP(data);
-                                    //   if (!mounted) return;
-                                    //   if (response['success']) {
-                                    //     showSnackBar(
-                                    //         "Your problem has been successfully sent to respective au1thorities.");
-                                    //     Navigator.popUntil(context,
-                                    //         ModalRoute.withName(HomePage.id));
-                                    //   } else {
-                                    //     showSnackBar(
-                                    //         "Some error occurred. Try again later");
-                                    //     setState(() {
-                                    //       submitted = false;
-                                    //     });
-                                    //   }
-                                    // } catch (err) {
-                                    //   showSnackBar(
-                                    //       "Please check you internet connection and try again");
-                                    //   setState(() {
-                                    //     submitted = false;
-                                    //   });
-                                    // }
+                                    try {
+                                      var response =
+                                          await APIService().postPharmacyFeedback(data);
+                                      if (!mounted) return;
+                                      if (response['success']) {
+                                        showSnackBar(
+                                            "Your problem has been successfully sent to respective au1thorities.");
+                                        Navigator.popUntil(context,
+                                            ModalRoute.withName(HomePage.id));
+                                      } else {
+                                        showSnackBar(
+                                            "Some error occurred. Try again later");
+                                        setState(() {
+                                          submitted = false;
+                                        });
+                                      }
+                                    } catch (err) {
+                                      showSnackBar(
+                                          "Please check you internet connection and try again");
+                                      setState(() {
+                                        submitted = false;
+                                      });
+                                    }
                                   }
                                 },
                                 child: const NextButton(
@@ -572,9 +507,8 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
   void dispose() {
     patientName.dispose();
     mobilenumber.dispose();
-    numberofmedicinesAvailable.dispose();
-    numberofmedicinesPrescribed.dispose();
-    notAvailableMedicine24.dispose();
+    notAvailableNames.dispose();
+    notAvailableNumber.dispose();
     remarks.dispose();
     _datecontroller.dispose();
     super.dispose();

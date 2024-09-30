@@ -50,7 +50,7 @@ class _ContactDialogState extends State<MedicalContactDialog> {
               style: MyFonts.w600.size(24).setColor(kWhite),
             ),
           ),
-          ContactButton(type: ContactType.call, data: widget.details.contact),
+          ContactButton(type: ContactType.call, data: widget.details.phone),
           ContactButton(type: ContactType.email, data: widget.details.email),
         ],
       ),

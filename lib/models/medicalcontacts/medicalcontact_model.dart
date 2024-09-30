@@ -11,7 +11,7 @@ class MedicalcontactModel {
   @JsonKey(defaultValue: "Unknown")
   late String email;
   @JsonKey(defaultValue: "123456789")
-  late String contact;
+  late String phone;
   @JsonKey(defaultValue: "Untitled")
   late String designation;
   @JsonKey(defaultValue: "Untitled")
@@ -20,7 +20,7 @@ class MedicalcontactModel {
 
 //Constructor
   MedicalcontactModel(
-      {required this.name, required this.email, required this.contact, required this.category, required this.designation, required this.degree});
+      {required this.name, required this.email, required this.phone, required this.category, required this.designation, required this.degree});
   factory MedicalcontactModel.fromJson(Map<String, dynamic> json) =>
       _$MedicalcontactModelFromJson(json);
 

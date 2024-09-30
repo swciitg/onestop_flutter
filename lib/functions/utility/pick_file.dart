@@ -6,7 +6,7 @@ import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/widgets/upsp/dialog.dart';
 
 Future<String?> uploadFile(
-    BuildContext context, Function uploadCallback) async {
+    BuildContext context, Function uploadCallback,String endpoint) async {
   var fileType = await showDialog(
       context: context,
       builder: (context) => const UPSPDialog(),
@@ -18,7 +18,7 @@ Future<String?> uploadFile(
   if (result != null) {
     File file = File(result.files.single.path!);
     uploadCallback();
-    String? responseFilename = await APIService().uploadFileToServer(file);
+    String? responseFilename = await APIService().uploadFileToServer(file,endpoint);
     if (responseFilename == null) {
       showSnackBar("There was an error uploading your file");
     }

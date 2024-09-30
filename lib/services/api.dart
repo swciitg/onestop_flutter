@@ -9,6 +9,8 @@ import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
+import 'package:onestop_dev/models/medicaltimetable/all_doctors.dart';
+import 'package:onestop_dev/models/medicaltimetable/doctor_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 
 import '../functions/utility/auth_user_helper.dart';
@@ -400,7 +402,7 @@ class APIService {
     var body = {
       {
         "name": "Dr. John Doe",
-        "category": "Doctor",
+        "category": "Permanent Doctors",
         "email": "johndoe@example.com",
         "contact": "9876543210",
         "designation": "Senior Consultant",
@@ -408,7 +410,7 @@ class APIService {
       },
       {
         "name": "Dr. Jane Smith",
-        "category": "Doctor",
+        "category": "Permanent Doctors",
         "email": "janesmith@example.com",
         "contact": "9123456789",
         "designation": "Consultant",
@@ -438,6 +440,21 @@ class APIService {
         data.add(json as Map<String, dynamic>);
       }
       print("api data ${data}");
+      return data;
+    } else {
+      throw Exception("Medical Contact Data could not be fetched");
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getDropDownContacts() async {
+    var response = await dio.get(Endpoints.getAllDoctors);
+    var status = response.statusCode;
+    var body = response.data;
+    if (status == 200) {
+      List<Map<String, dynamic>> data = [];
+      for (var json in body) {
+        data.add(json as Map<String, dynamic>);
+      }
       return data;
     } else {
       throw Exception("Medical Contact Data could not be fetched");
@@ -484,6 +501,63 @@ class APIService {
     }
   }
 
+  Future<AllDoctors> getmedicalTimeTable() async {
+    // final response = await dio.get(
+    //   Endpoints.timetableURL, // chusuko
+    // );
+    // var body = response.data;
+    // if (response.statusCode == 200) {
+    //   return AllDoctors.fromJson(response.data);
+    // } else {
+    //   throw Exception(response.statusCode);
+    // }
+    var status = 200;
+    var body = {
+      {
+        "name": "Dr. Grace Brown",
+        "degree": "PhD",
+        "designation": "Psychologist",
+        "category": "Visiting_docs",
+        "date": "05-10-2024",
+        "starttime1": "8:00 AM",
+        "endtime1": "12:00 PM",
+        "starttime2": "1:00 PM",
+        "endtime2": "6:00 PM"
+      },
+      {
+        "name": "Dr. Brown",
+        "degree": "PhD",
+        "designation": "Psychologist",
+        "category": "Institute_Docs",
+        "date": "05-10-2024",
+        "starttime1": "8:00 AM",
+        "endtime1": "12:00 PM",
+        "starttime2": "1:00 PM",
+        "endtime2": "6:00 PM"
+      },
+      {
+        "name": "Dr. Brown",
+        "degree": "PhD",
+        "designation": "Psychologist",
+        "category": "Institute_Docs",
+        "date": "04-10-2024",
+        "starttime1": "7:00 AM",
+        "endtime1": "12:00 PM",
+        "starttime2": "",
+        "endtime2": ""
+      }
+    };
+    AllDoctors alldoc = AllDoctors(alldoctors: []);
+    if (status == 200) {
+      for (var json in body) {
+        alldoc.addDocToList(DoctorModel.fromJson(json as Map<String, dynamic>));
+      }
+      return alldoc;
+    } else {
+      throw Exception("Medical TimeTable Data could not be fetched");
+    }
+  }
+
   Future<List<Map<String, dynamic>>> getMessMenu() async {
     var response = await dio.get(Endpoints.messURL);
     var status = response.statusCode;
@@ -521,14 +595,26 @@ class APIService {
     return res.data;
   }
 
-  Future<String?> uploadFileToServer(File file) async {
+  Future<Map<String, dynamic>> postPharmacyFeedback(
+      Map<String, dynamic> data) async {
+    var res = await dio.post(Endpoints.pharmacyFeedback, data: data);
+    return res.data;
+  }
+
+  Future<Map<String, dynamic>> postFacilityFeedback(
+      Map<String, dynamic> data) async {
+    var res = await dio.post(Endpoints.hospitalFacilitiesFeedback, data: data);
+    return res.data;
+  }
+
+  Future<String?> uploadFileToServer(File file, String endpoint) async {
     var fileName = file.path.split('/').last;
     var formData = FormData.fromMap({
       'file': await MultipartFile.fromFile(file.path, filename: fileName),
     });
     try {
       var response = await dio.post(
-        Endpoints.uploadFileUPSP,
+        endpoint,
         options: Options(contentType: 'multipart/form-data'),
         data: formData,
         onSendProgress: (int send, int total) {

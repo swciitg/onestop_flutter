@@ -130,7 +130,7 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
                                 text: item.email,
                                 align: AlignmentDirectional.center),
                             ContactText(
-                                text: item.contact.toString(),
+                                text: item.phone.toString(),
                                 align: AlignmentDirectional.bottomEnd),
                           ],
                         ),

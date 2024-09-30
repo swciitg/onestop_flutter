@@ -5,6 +5,8 @@ abstract class DatabaseRecords {
   static const starredContacts = "StarredContacts";
   static const contacts = "Contact";
   static const medicalcontacts = "MedicalContacts";
+  static const dropdowncontacts = "DropDownContacts";
+  static const medicaltimetable = "MedicalTimetable";
   static const messMenu = "MessMenu";
   static const ferryTimings = "ferryTimings";
   static const busTimings = "busTimings";

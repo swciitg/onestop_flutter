@@ -6,8 +6,10 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class UploadButton extends StatefulWidget {
-  const UploadButton({Key? key, required this.callBack}) : super(key: key);
+  const UploadButton({Key? key, required this.callBack, required this.endpoint})
+      : super(key: key);
   final Function callBack;
+  final String endpoint;
 
   @override
   State<UploadButton> createState() => _UploadButtonState();
@@ -26,7 +28,8 @@ class _UploadButtonState extends State<UploadButton> {
                   context,
                   () => setState(() {
                         uploading = true;
-                      }));
+                      }),
+                  widget.endpoint);
               widget.callBack(fileName);
               setState(() {
                 uploading = false;

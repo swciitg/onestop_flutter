@@ -36,7 +36,16 @@ class Endpoints {
   static const feedback =
       'https://api.github.com/repos/swciitg/onestop_flutter/issues';
   static const String upspPost = '/upsp/submit-request';
+  static const String pharmacyFeedback = "/feedback/pharmacyFeedback-submit";
+  static const String hospitalFacilitiesFeedback =
+      "/feedback/servicesFeedback-submit";
+  static const String doctorsFeedback =
+      "/feedback/doctorsFeedback-submit";
+  static const String getAllDoctors = "/getDoctors";
   static const String uploadFileUPSP = "/upsp/file-upload";
+  static const String facilityFileUpload = "/servicesFeedback/file-upload";
+  static const String doctorFileUpload = "/doctorsFeedback/file-upload";
+  static const String pharmacyFileUpload = "/pharmacyFeedback/file-upload";
   static const String guestLogin = "/user/guest/login";
   static const String userProfile = "/user";
   static const String userDeviceTokens = "/user/device-tokens";

@@ -5,7 +5,7 @@ import 'package:onestop_dev/pages/medical_section/medicalmenu/contacts/medical_c
 import 'package:onestop_dev/pages/medical_section/medicalmenu/feedback/medical_feedback.dart';
 import 'package:onestop_dev/pages/medical_section/medicalmenu/medical_insurance.dart';
 import 'package:onestop_dev/pages/medical_section/medicalmenu/medical_reimbursement.dart';
-import 'package:onestop_dev/pages/medical_section/medicalmenu/opd.dart';
+import 'package:onestop_dev/pages/medical_section/medical_timetable/medical_timetable.dart';
 import 'package:onestop_dev/widgets/medicalsection/menuoption.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
@@ -27,7 +27,7 @@ class MedicalSection extends StatelessWidget {
   final ruleslink = "https://www.iitg.ac.in/medical/Medical%20Rules.pdf";
 
   final constructors = [
-    const Opd(),
+    const MedicalTimetable(),
     MedicalFeedback(),
     const MedicalInsurance(),
     const Gmis(),

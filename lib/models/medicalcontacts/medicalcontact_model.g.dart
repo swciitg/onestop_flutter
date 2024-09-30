@@ -10,7 +10,7 @@ MedicalcontactModel _$MedicalcontactModelFromJson(Map<String, dynamic> json) =>
     MedicalcontactModel(
       name: json['name'] as String? ?? 'Untitled',
       email: json['email'] as String? ?? 'Unknown',
-      contact: json['contact'] as String? ?? '123456789',
+      phone: json['phone'] as String? ?? '123456789',
       category: json['category'] as String? ?? 'Untitled',
       designation: json['designation'] as String? ?? 'Untitled',
       degree: json['degree'] as String? ?? 'Untitled',
@@ -22,7 +22,7 @@ Map<String, dynamic> _$MedicalcontactModelToJson(
       'name': instance.name,
       'category': instance.category,
       'email': instance.email,
-      'contact': instance.contact,
+      'phone': instance.phone,
       'designation': instance.designation,
       'degree': instance.degree,
     };
