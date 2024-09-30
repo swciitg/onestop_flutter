@@ -50,7 +50,18 @@ class MedicalInsurance extends StatelessWidget {
                           ),
                           //Text(" - Every student is automatically covered for Rs. 1,00,000/- (Rupees One lakh only)",style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),),
                           SizedBox(height: 4,),
-                          Text("- No separate enrollment is required, as this coverage is already included in the semester fees.",style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),),
+                          Text.rich(
+                              TextSpan(
+                                text: "- No separate enrollment is required,",
+                                style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),
+                                children: [
+                                  TextSpan(
+                                    text:" as this coverage is already included in the semester fees.",
+                                    style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300)
+                                  )
+                                ]
+                          )),
+                          //Text("- No separate enrollment is required, as this coverage is already included in the semester fees.",style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
                           const SizedBox(height: 4,),
                           const SizedBox(
                             height: 10,
@@ -79,7 +90,7 @@ class MedicalInsurance extends StatelessWidget {
                                       style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),
                                     ),
                                     TextSpan(text:" by paying the additional top-up fees (extra fees).",
-                                      style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),
+                                      style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),
                                     )
                                   ]
                               )

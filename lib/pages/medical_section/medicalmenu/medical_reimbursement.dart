@@ -22,50 +22,48 @@ class MedicalReimbursement extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(
                             height: 24,
                           ),
-                          Theme(
-                            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                            child: ExpansionTile(title: Text("1. Fill the form", style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),)
-                                ,
-                                children:[
-                                  Padding(
-                                    padding: const EdgeInsets.only(left:15),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("FORM 1",style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w600),),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:10),
-                                          child: Text("Reimbursement Form for OPD Treatment by Institute Doctor.",style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),),
-                                        ),
-                                        const SizedBox(height: 4,),
-                                        Text("FORM 2",style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:10),
-                                          child: Text("Reimbursement Form for OPD Treatment referred to Outside Doctor/Consultants of panel hospitals. ",style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),),
-                                        ),
-                                        const SizedBox(height: 6,),
-                                        InkWell(
-                                            onTap: (){
-                                              try{
-                                                _launchURL("https://www.iitg.ac.in/medical/FORMS.html");
-                                              }catch(e){
-                                                showSnackBar(e.toString());
-                                              }
-                                            },
-                                            child: Text("Click here for form",style: MyFonts.w700.setColor(kWhite).size(13).copyWith(fontWeight: FontWeight.w500,color: Colors.blueAccent),))
-                                      ],
-                                    ),
-                                  ),
-                                ]
+                          Text("1. Fill the Form", style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
+                          SizedBox(height: 10,),
+                          Padding(
+                            padding: const EdgeInsets.only(left:15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("FORM 1",style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w600),),
+                                Padding(
+                                  padding: const EdgeInsets.only(left:10),
+                                  child: Text("Reimbursement Form for OPD Treatment by Institute Doctor.",style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),),
+                                ),
+                                const SizedBox(height: 4,),
+                                Text("FORM 2",style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
+                                Padding(
+                                  padding: const EdgeInsets.only(left:10),
+                                  child: Text("Reimbursement Form for OPD Treatment referred to Outside Doctor/Consultants of panel hospitals. ",style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),),
+                                ),
+                                const SizedBox(height: 6,),
+                                InkWell(
+                                    onTap: (){
+                                      try{
+                                        _launchURL("https://www.iitg.ac.in/medical/FORMS.html");
+                                      }catch(e){
+                                        showSnackBar(e.toString());
+                                      }
+                                    },
+                                    child: Text("Click here for form",style: MyFonts.w700.setColor(kWhite).size(13).copyWith(fontWeight: FontWeight.w500,color: Colors.blueAccent),))
+                              ],
                             ),
+                          ),
+                          const SizedBox(
+                            height: 4,
                           ),
                           const SizedBox(
                             height: 10,
@@ -83,11 +81,9 @@ class MedicalReimbursement extends StatelessWidget {
                           ),
                           Text("2. Original bills for consultation fees/registration fees, medicines to be attached.", style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
                           const SizedBox(
-                            height: 4,
+                            height: 14,
                           ),
-                          const SizedBox(
-                            height: 10,
-                          )
+
                         ]),
                   ),
                   const Divider(height: 1, color: kTabBar,),
@@ -172,7 +168,7 @@ class MedicalReimbursement extends StatelessWidget {
                       Expanded(
                         child: Text(
                           "For any Hospitalization (not covered under insurance), please submit Form 3",
-                          style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w700,color: Colors.grey),
+                          style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w400,color: Colors.white),
                           softWrap: true,
                           overflow: TextOverflow.visible
                         ),
@@ -183,7 +179,7 @@ class MedicalReimbursement extends StatelessWidget {
                   SizedBox(height: 15,),
                   Text(
                       "Kindly note that the Part B of Form 3 is to be duly signed with seal by theconcerned Hospital",
-                      style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w700,color: Colors.grey),
+                      style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w400,color: Colors.white),
                       softWrap: true,
                       overflow: TextOverflow.visible
                   ),

@@ -423,6 +423,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  dropdown_model_list:
+    dependency: "direct main"
+    description:
+      name: dropdown_model_list
+      sha256: b92acdd478e5105ce917daf05e9cead2bb93e6b19754a00f73fb756316fc5896
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.3"
   fake_async:
     dependency: transitive
     description:
@@ -547,10 +555,10 @@ packages:
     dependency: "direct main"
     description:
       name: fluentui_system_icons
-      sha256: "08b538663c8f5c6843012cf864c3c3109b725d17ddb299d7d0e1ce8abe927d27"
+      sha256: f707a5735b0934cb1e0156e859cfa6e115d4fc338a0d8520f0ba94ff0b3ffc3e
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.257"
+    version: "1.1.258"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -779,10 +787,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps
-      sha256: "463b38e5a92a05cde41220a11fd5eef3847031fef3e8cf295ac76ec453246907"
+      sha256: "4d6e199c561ca06792c964fa24b2bac7197bf4b401c2e1d23e345e5f9939f531"
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.0"
+    version: "8.1.1"
   google_maps_flutter:
     dependency: "direct main"
     description:
@@ -811,10 +819,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_platform_interface
-      sha256: "099874463dc4c9bff04fe4b2b8cf7284d2455c2deead8f9a59a87e1b9f028c69"
+      sha256: faf05935c2714445ae23ca16af523beba7bd5418c4c74798d67144f562df3e87
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.2"
+    version: "2.9.3"
   google_maps_flutter_web:
     dependency: transitive
     description:

@@ -430,7 +430,71 @@ class APIService {
         "designation": "Pediatric Specialist",
         "degree": "MBBS, DCH"
       },
-    };
+      {
+        "name": "Dr. Michael Johnson",
+        "category": "Doctor",
+        "email": "michaeljohnson@example.com",
+        "contact": "9812345678",
+        "designation": "Orthopedic Surgeon",
+        "degree": "MBBS, MS Ortho"
+      },
+      {
+        "name": "Dr. Sarah Williams",
+        "category": "Visiting Consultant",
+        "email": "sarahwilliams@example.com",
+        "contact": "9998887776",
+        "designation": "Dermatology Consultant",
+        "degree": "MBBS, MD Dermatology"
+      },
+      {
+        "name": "Dr. Robert Davis",
+        "category": "Doctor",
+        "email": "robertdavis@example.com",
+        "contact": "9823456789",
+        "designation": "ENT Specialist",
+        "degree": "MBBS, MS ENT"
+      },
+      {
+        "name": "Dr. Laura Lee",
+        "category": "Visiting Consultant",
+        "email": "lauralee@example.com",
+        "contact": "9879871234",
+        "designation": "Psychiatrist",
+        "degree": "MBBS, MD Psychiatry"
+      },
+      {
+        "name": "Dr. Benjamin Taylor",
+        "category": "miscellaneous",
+        "email": "benjamintaylor@example.com",
+        "contact": "9865432100",
+        "designation": "Nutrition Expert",
+        "degree": "PhD in Nutrition"
+      },
+      {
+        "name": "Dr. Linda Martinez",
+        "category": "Doctor",
+        "email": "lindamartinez@example.com",
+        "contact": "9987123456",
+        "designation": "Gynecologist",
+        "degree": "MBBS, MD Obstetrics & Gynecology"
+      },
+      {
+        "name": "Dr. Kevin Clark",
+        "category": "Visiting Consultant",
+        "email": "kevinclark@example.com",
+        "contact": "9876543211",
+        "designation": "Cardiology Consultant",
+        "degree": "MBBS, MD Cardiology"
+      },
+      {
+        "name": "Dr. Jessica Miller",
+        "category": "miscellaneous",
+        "email": "jessicamiller@example.com",
+        "contact": "9988665544",
+        "designation": "Clinical Psychologist",
+        "degree": "PhD in Clinical Psychology"
+      }
+  };
 
     if (status == 200) {
       List<Map<String, dynamic>> data = [];
