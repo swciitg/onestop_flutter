@@ -219,7 +219,7 @@ class APIService {
     return res.data.details;
   }
 
-  Future<List<BuyModel>> getBnsMyItems(String mail) async {
+  Future<List<BuyModel>> getBnsMyItems(String mail, bool isSell) async {
     var res = await dio.post(Endpoints.bnsMyAdsURL, data: {'email': mail});
     var myItemsDetails = res.data;
     var sellList = (myItemsDetails["details"]["sellList"] as List)
@@ -228,11 +228,15 @@ class APIService {
     var buyList = (myItemsDetails["details"]["buyList"] as List)
         .map((e) => BuyModel.fromJson(e))
         .toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
-    return [...sellList, ...buyList];
+    //await Future.delayed(const Duration(milliseconds: 300), () => null);
+    if (isSell) {
+      return sellList;
+    } else {
+      return buyList;
+    }
   }
 
-  Future<List<dynamic>> getLnfMyItems(String mail) async {
+  Future<List<dynamic>> getLnfMyItems(String mail, bool isLost) async {
     var res = await dio.post(Endpoints.lnfMyAdsURL, data: {'email': mail});
     var myItemsDetails = res.data;
     var foundList = (myItemsDetails["details"]["foundList"] as List)
@@ -241,8 +245,12 @@ class APIService {
     var lostList = (myItemsDetails["details"]["lostList"] as List)
         .map((e) => LostModel.fromJson(e))
         .toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
-    return [...foundList, ...lostList];
+    //await Future.delayed(const Duration(milliseconds: 300), () => null);
+    if (isLost) {
+      return lostList;
+    } else {
+      return foundList;
+    }
   }
 
   Future<List> getLostItems() async {
@@ -261,7 +269,7 @@ class APIService {
     List<LostModel> lostPage = (json['details'] as List<dynamic>)
         .map((e) => LostModel.fromJson(e))
         .toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
+    // await Future.delayed(const Duration(milliseconds: 300), () => null);
     return lostPage;
   }
 
@@ -275,7 +283,7 @@ class APIService {
     List<FoundModel> lostPage = (json['details'] as List<dynamic>)
         .map((e) => FoundModel.fromJson(e))
         .toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
+    //await Future.delayed(const Duration(milliseconds: 300), () => null);
     return lostPage;
   }
 
@@ -289,7 +297,7 @@ class APIService {
     List<BuyModel> sellPage = (json['details'] as List<dynamic>)
         .map((e) => BuyModel.fromJson(e))
         .toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
+    //await Future.delayed(const Duration(milliseconds: 300), () => null);
     return sellPage;
   }
 
@@ -303,7 +311,7 @@ class APIService {
     List<SellModel> buyPage = (json['details'] as List<dynamic>)
         .map((e) => SellModel.fromJson(e))
         .toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
+    //await Future.delayed(const Duration(milliseconds: 300), () => null);
     return buyPage;
   }
 
