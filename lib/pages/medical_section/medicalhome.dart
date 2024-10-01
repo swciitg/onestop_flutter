@@ -55,62 +55,66 @@ class MedicalSection extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        title: AppBarTitle(title: 'Medical Section'),
+        title: const AppBarTitle(title: 'Medical Section'),
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30,),
-          child: ListView.builder(
-            itemCount: options.length,
-            itemBuilder: (context, index) {
-              if (index != 6) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+          child: Column(
+            children: [
+              Menuoption(name: options[0], navigationwidget: constructors[0]),
+              const SizedBox(height: 30),
+              Menuoption(name: options[1], navigationwidget: constructors[1]),
+              const SizedBox(height: 30),
+              Menuoption(name: options[2], navigationwidget: constructors[2]),
+              const SizedBox(height: 30),
+              Menuoption(name: options[3], navigationwidget: constructors[3]),
+              const SizedBox(height: 30),
+              Menuoption(name: options[4], navigationwidget: constructors[4]),
+              const SizedBox(height: 30),
+              Menuoption(name: options[5], navigationwidget: constructors[5]),
+              const SizedBox(height: 30),
+              Menuoption(name: options[6], link: ruleslink),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 30),
+                child: Row(
                   children: [
-                    Menuoption(
-                        name: options[index],
-                        navigationwidget: constructors[index]),
-                    const SizedBox(height: 30),
-                  ],
-                );
-              } else {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Menuoption(name: options[index], link: ruleslink),
-                    const SizedBox(height: 30),
-                   //Spacer(),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 0,vertical: 30),
-                      child: Row(
+                    const Icon(Icons.info_outline_rounded, color: Colors.grey),
+                    const SizedBox(width: 3),
+                    Text.rich(
+                      TextSpan(
+                        text: "For more details:",
+                        style: MyFonts.w700.setColor(kWhite).size(14).copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
                         children: [
-                          Icon(Icons.info_outline_rounded,color:Colors.grey),
-                          SizedBox(width:3),
-                          Text.rich(TextSpan(
-                            text: "For more details:",
-                            style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500,color: Colors.white,fontSize: 16),
-                            children: [
-                              TextSpan(
-                                text:" click here",
-                                style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500,color: Colors.blueAccent,fontSize: 16,decoration: TextDecoration.underline,),
-                                recognizer: TapGestureRecognizer()..onTap=(){
-
-                                  try {
-                                    _launchURL("https://www.iitg.ac.in/medical/");
-                                  } catch (e) {
-                                    showSnackBar(e.toString());
-                                  }
+                          TextSpan(
+                            text: " click here",
+                            style: MyFonts.w700.setColor(kWhite).size(14).copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.blueAccent,
+                                  fontSize: 16,
+                                  decoration: TextDecoration.underline,
+                                ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                try {
+                                  _launchURL("https://www.iitg.ac.in/medical/");
+                                } catch (e) {
+                                  showSnackBar(e.toString());
                                 }
-                              )
-                            ]
-                          )),
+                              },
+                          )
                         ],
                       ),
-                    )
+                    ),
                   ],
-                );
-              }
-            },
+                ),
+              ),
+            ],
           ),
         ),
       ),

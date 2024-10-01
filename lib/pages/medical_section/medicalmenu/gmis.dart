@@ -335,17 +335,17 @@ Widget widg3 = Column(
       TextSpan(
         text: "Once you are redirected to the homepage, go to the ", // Normal text
         style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),
-        children: <TextSpan>[
-          const TextSpan(
+        children: const <TextSpan>[
+          TextSpan(
             text: "Policy Tab", // Bold text for 'Policy Tab'
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          const TextSpan(text: " and select the "), // Normal text
-          const TextSpan(
+          TextSpan(text: " and select the "), // Normal text
+          TextSpan(
             text: "Download E-Card", // Bold text for 'Download E-Card'
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          const TextSpan(text: " option."), // Normal text
+          TextSpan(text: " option."), // Normal text
         ],
       ),
     ),

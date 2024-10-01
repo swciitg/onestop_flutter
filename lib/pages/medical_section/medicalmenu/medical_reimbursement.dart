@@ -32,7 +32,7 @@ class MedicalReimbursement extends StatelessWidget {
                             height: 24,
                           ),
                           Text("1. Fill the Form", style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.only(left:15),
                             child: Column(
@@ -158,13 +158,13 @@ class MedicalReimbursement extends StatelessWidget {
                           )
                         ]),
                   ),
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 30,),
                   const Divider(),
-                  SizedBox(height: 15,),
+                  const SizedBox(height: 15,),
                   Row(
                     children: [
-                      Icon(Icons.info_outline_rounded, color: Colors.grey,size: 24,),
-                      SizedBox(width: 8),
+                      const Icon(Icons.info_outline_rounded, color: Colors.grey,size: 24,),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           "For any Hospitalization (not covered under insurance), please submit Form 3",
@@ -176,14 +176,14 @@ class MedicalReimbursement extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 15,),
+                  const SizedBox(height: 15,),
                   Text(
                       "Kindly note that the Part B of Form 3 is to be duly signed with seal by theconcerned Hospital",
                       style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w400,color: Colors.white),
                       softWrap: true,
                       overflow: TextOverflow.visible
                   ),
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 30,),
 
                 ],
               ),

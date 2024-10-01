@@ -444,6 +444,10 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                                   if (!_formKey.currentState!.validate()) {
                                     return;
                                   }
+                                  if(files.isEmpty){
+                                    showSnackBar(
+                                      "Please attach photo or pdf of prescription");
+                                  }
                                   if (!submitted) {
                                     DateTime date = DateTime(selecteddate!.year,
                                         selecteddate!.month, selecteddate!.day);
@@ -468,7 +472,7 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                                       if (!mounted) return;
                                       if (response['success']) {
                                         showSnackBar(
-                                            "Your problem has been successfully sent to respective au1thorities.");
+                                            "Your Feedback has been successfully sent to respective authorities.");
                                         Navigator.popUntil(context,
                                             ModalRoute.withName(HomePage.id));
                                       } else {

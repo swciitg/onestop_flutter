@@ -177,7 +177,7 @@ class _FacilityFeedbackState extends State<FacilityFeedback> {
                                       if (!mounted) return;
                                       if (response['success']) {
                                         showSnackBar(
-                                            "Your problem has been successfully sent to respective au1thorities.");
+                                            "Your Feedback has been successfully sent to respective authorities.");
                                         Navigator.popUntil(context,
                                             ModalRoute.withName(HomePage.id));
                                       } else {

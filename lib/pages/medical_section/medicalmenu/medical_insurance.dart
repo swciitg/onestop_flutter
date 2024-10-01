@@ -49,7 +49,7 @@ class MedicalInsurance extends StatelessWidget {
 
                           ),
                           //Text(" - Every student is automatically covered for Rs. 1,00,000/- (Rupees One lakh only)",style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),),
-                          SizedBox(height: 4,),
+                          const SizedBox(height: 4,),
                           Text.rich(
                               TextSpan(
                                 text: "- No separate enrollment is required,",
@@ -133,11 +133,11 @@ class MedicalInsurance extends StatelessWidget {
                               )
                           ),
                           //Text("1. Visit the registration link",style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),),
-                          SizedBox(height: 4,),
+                          const SizedBox(height: 4,),
                           Text("2. Log in using your Institute credentials.",style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),),
-                          SizedBox(height: 4,),
+                          const SizedBox(height: 4,),
                           Text("3. Navigate to the GMIS section and follow the instructions for top-up registration.",style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),),
-                          SizedBox(height: 4,),
+                          const SizedBox(height: 4,),
                           InkWell(
                               onTap: (){
                                 try {
