@@ -9,7 +9,10 @@ import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
+import 'package:onestop_dev/pages/food/restaurant_page.dart';
+import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+import 'package:provider/provider.dart';
 
 import 'call_map_button.dart';
 
@@ -125,20 +128,23 @@ class _RestaurantTileState extends State<RestaurantTile> {
                             },
                           ),
                         
-                          // Expanded(child: Container()),
-                             CallMapButton(
+                          CallMapButton(
                             callMap: 'Menu',
                             icon: FluentIcons.food_16_filled,
                             callback: () {
-                              final List<String> images = widget
-                                  .restaurantModel.menu
-                                  .map((menuItem) => menuItem.imageURL)
-                                  .where((url) => url.isNotEmpty)
-                                  .toList();
-
-                              showBlurDialog(context, images);
+                              context
+                                  .read<RestaurantStore>()
+                                  .setSelectedRestaurant(
+                                      widget.restaurantModel);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RestaurantPage(),
+                                ),
+                              );
                             },
                           ),
+
                         ],
                       )
                     ],
