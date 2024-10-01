@@ -495,6 +495,35 @@ class APIService {
         return response.data['filename'];
       }
       return null;
+    } catch (e) {
+      print("Upload" + e.toString());
+      return null;
+    }
+  }
+
+  Future<Map<String, dynamic>> postHAB(Map<String, dynamic> data) async {
+    var res = await dio.post(Endpoints.habPost, data: data);
+    return res.data;
+  }
+
+  Future<String?> uploadFileToServer2(File file) async {
+    var fileName = file.path.split('/').last;
+    var formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(file.path, filename: fileName),
+    });
+    try {
+      var response = await dio.post(
+        Endpoints.uploadFileHAB,
+        options: Options(contentType: 'multipart/form-data'),
+        data: formData,
+        onSendProgress: (int send, int total) {
+          // TODO: Show send/total percent as progress indicator
+        },
+      );
+      if (response.statusCode == 200) {
+        return response.data['filename'];
+      }
+      return null;
     } on DioException {
       return null;
     }

@@ -294,6 +294,48 @@ class ComplaintsPage extends StatelessWidget {
                       )
                     ]),
               ),
+              const Divider(
+                height: 1,
+                color: kTabBar,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        "Hostel Complaints",
+                        style: MyFonts.w700.setColor(kWhite).size(14),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "For queries related to hostel Affairs",
+                        style: MyFonts.w500.setColor(kWhite).size(14),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, "/hostelService");
+                          },
+                          child: SizedBox(
+                            height: 16,
+                            child: Text(
+                              "Click here",
+                              style: MyFonts.w500.setColor(lBlue4).size(14),
+                            ),
+                          )),
+                      const SizedBox(
+                        height: 8,
+                      )
+                    ]),
+              ),
             ],
           ),
         ),
