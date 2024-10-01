@@ -2,7 +2,7 @@ import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/elections/election_login.dart';
-import 'package:onestop_dev/pages/food/hostel_service.dart';
+import 'package:onestop_dev/pages/complaints/hostel_service.dart';
 import 'package:onestop_dev/pages/food/mess_opi_form.dart';
 import 'package:onestop_dev/pages/food/mess_subscription_change_form.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
@@ -42,5 +42,5 @@ final routes = {
   HostelService.id: (context) => const HostelService(),
   // ElectionLoginWebView.id: (context) => const ElectionLoginWebView(),
   GateLogPage.id: (context) => const GateLogPage(),
-  Hab_Page.id: (context) => const Hab_Page(),
+  // Hab_Page.id: (context) => const Hab_Page(),
 };

@@ -58,9 +58,9 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.trophy_48_filled,
     routeId: Scoreboard.id,
   ),
-  const HomeTabTile(
+  /* const HomeTabTile(
     label: "HAB",
     icon: FluentIcons.home_database_24_regular,
     routeId: Hab_Page.id,
-  ),
+  ),*/
 ];

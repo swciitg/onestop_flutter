@@ -37,7 +37,7 @@ class FoodTab extends StatelessWidget {
                   // const MessOpiFormPage(),
 
                   const SizedBox(height: 16),
-                  //const MessLinks(),
+                  const MessLinks(),
                   // const SizedBox(height: 16),
                   // const FavoriteDishes(),
                   const SizedBox(height: 16),
