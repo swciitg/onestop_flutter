@@ -4,12 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/hab/hab_page.dart';
-import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
-import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
 import 'package:onestop_dev/widgets/upsp/checkbox_list.dart';
 import 'package:onestop_dev/widgets/upsp/file_tile.dart';
 import 'package:onestop_dev/widgets/upsp/upload_button.dart';
@@ -20,7 +18,8 @@ const List<String> services = [
   'Juice Center',
   'Mess',
   'Stationery',
-  'Infra'
+  'Infra',
+  'General'
 ];
 
 class HostelService extends StatefulWidget {
@@ -395,8 +394,10 @@ class HostelServiceState extends State<HostelService> {
                                       if (response['success']) {
                                         showSnackBar(
                                             "Your problem has been successfully sent to respective au1thorities.");
-                                        Navigator.popUntil(context,
-                                            ModalRoute.withName(HomePage.id));
+                                        Navigator.popUntil(
+                                            context,
+                                            ModalRoute.withName(
+                                                ComplaintsPage.id));
                                       } else {
                                         showSnackBar(
                                             "Some error occurred. Try again later");
