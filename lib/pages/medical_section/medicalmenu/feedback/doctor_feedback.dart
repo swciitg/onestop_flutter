@@ -45,9 +45,7 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
   Widget build(BuildContext context) {
     var userData = LoginStore.userData;
     String patientEmail = userData['outlookEmail'];
-    return LoginStore.isGuest
-        ? const GuestRestrictAccess()
-        : Theme(
+    return Theme(
       data: Theme.of(context).copyWith(
           checkboxTheme: CheckboxThemeData(
               side: const BorderSide(color: kWhite),
@@ -75,10 +73,10 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(
+                        !LoginStore.isGuest ? Text(
                           "Filling this form as $patientEmail",
                           style: MyFonts.w500.size(11).setColor(kGrey10),
-                        ),
+                        ) : SizedBox(height: 0,), 
                         const SizedBox(
                           height: 15,
                         ),
@@ -225,7 +223,7 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                           padding: const EdgeInsets.only(
                               left: 15, top: 15, bottom: 10),
                           child: Text(
-                            "Upload any related screenshot/video/pdf attachment proof",
+                            "Please upload any relevant screenshots, videos, or PDF attachments, if available.",
                             style: MyFonts.w600.size(16).setColor(kWhite),
                           ),
                         ),
@@ -260,7 +258,7 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                               data['mobile_number'] = userData['phoneNumber'].toString();
                               data['remarks'] = remarks.text;
                               data['email'] = patientEmail;
-                              data['date']=selecteddate;
+                              data['date']=selecteddate.toString();
                               print(data);
                             try {
                                       var response =

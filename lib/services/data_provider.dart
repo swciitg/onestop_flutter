@@ -103,24 +103,14 @@ class DataProvider {
 
   static Future<AllDoctors> getMedicalTimeTable() async {
     AllDoctors medicalTimetableData = AllDoctors(alldoctors: []);
-    // var cachedData = (await LocalStorage.instance
-    //     .getListRecord(DatabaseRecords.medicaltimetable))?[0]; // chusuko
     try {
       AllDoctors medicalTimetableData =
           await APIService().getmedicalTimeTable();
-      print(medicalTimetableData.alldoctors.length.toString() +
-          " Data sucess"); // 10 is printed
-      // await LocalStorage.instance.storeListRecord(
-      //     [medicalTimetableData.toJson()], DatabaseRecords.medicaltimetable);
+
       print("cache storage success");
       return medicalTimetableData;
     } catch (e) {
       print(e);
-      // if (cachedData == null) {
-      //   return medicalTimetableData;
-      // } else {
-      //   return AllDoctors.fromJson(cachedData as Map<String, dynamic>);
-      // }
     }
     return medicalTimetableData;
   }

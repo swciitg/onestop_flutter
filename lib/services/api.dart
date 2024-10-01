@@ -629,60 +629,196 @@ class APIService {
   }
 
   Future<AllDoctors> getmedicalTimeTable() async {
-    // final response = await dio.get(
-    //   Endpoints.timetableURL, // chusuko
-    // );
-    // var body = response.data;
-    // if (response.statusCode == 200) {
-    //   return AllDoctors.fromJson(response.data);
-    // } else {
-    //   throw Exception(response.statusCode);
-    // }
-    var status = 200;
-    var body = {
-      {
-        "name": "Dr. Grace Brown",
-        "degree": "PhD",
-        "designation": "Psychologist",
-        "category": "Visiting_docs",
-        "date": "05-10-2024",
-        "starttime1": "8:00 AM",
-        "endtime1": "12:00 PM",
-        "starttime2": "1:00 PM",
-        "endtime2": "6:00 PM"
-      },
-      {
-        "name": "Dr. Brown",
-        "degree": "PhD",
-        "designation": "Psychologist",
-        "category": "Institute_Docs",
-        "date": "05-10-2024",
-        "starttime1": "8:00 AM",
-        "endtime1": "12:00 PM",
-        "starttime2": "1:00 PM",
-        "endtime2": "6:00 PM"
-      },
-      {
-        "name": "Dr. Brown",
-        "degree": "PhD",
-        "designation": "Psychologist",
-        "category": "Institute_Docs",
-        "date": "04-10-2024",
-        "starttime1": "7:00 AM",
-        "endtime1": "12:00 PM",
-        "starttime2": "",
-        "endtime2": ""
-      }
-    };
+    final response = await dio.get(
+      Endpoints.timetableURL, // chusuko
+    );
+    var body = response.data;
     AllDoctors alldoc = AllDoctors(alldoctors: []);
-    if (status == 200) {
+    if (response.statusCode == 200) {
       for (var json in body) {
         alldoc.addDocToList(DoctorModel.fromJson(json as Map<String, dynamic>));
       }
       return alldoc;
     } else {
-      throw Exception("Medical TimeTable Data could not be fetched");
+      throw Exception(response.statusCode);
     }
+    // var status = 200;
+    // var body = {
+    //   {
+    //     "name": "Dr. Grace Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Visiting_docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "05-10-2024",
+    //     "starttime1": "8:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "1:00 PM",
+    //     "endtime2": "6:00 PM"
+    //   },
+    //   {
+    //     "name": "Dr. Brown",
+    //     "degree": "PhD",
+    //     "designation": "Psychologist",
+    //     "category": "Institute_Docs",
+    //     "date": "04-10-2024",
+    //     "starttime1": "7:00 AM",
+    //     "endtime1": "12:00 PM",
+    //     "starttime2": "",
+    //     "endtime2": ""
+    //   }
+    // };
+    // AllDoctors alldoc = AllDoctors(alldoctors: []);
+    // if (status == 200) {
+    //   for (var json in body) {
+    //     alldoc.addDocToList(DoctorModel.fromJson(json as Map<String, dynamic>));
+    //   }
+    //   return alldoc;
+    // } else {
+    //   throw Exception("Medical TimeTable Data could not be fetched");
+    // }
   }
 
   Future<List<Map<String, dynamic>>> getMessMenu() async {

@@ -21,7 +21,7 @@ class MedicalSection extends StatelessWidget {
   MedicalSection({Key? key}) : super(key: key);
 
   final List<String> options = [
-    "Available Doctors",
+    "Doctors Timetable",
     "Feedback",
     "Medical Insurance",
     "Download GMIS Card",
@@ -76,9 +76,7 @@ class MedicalSection extends StatelessWidget {
               const SizedBox(height: 30),
               Menuoption(name: options[6], link: ruleslink),
               const Spacer(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 30),
-                child: Row(
+              Row(
                   children: [
                     const Icon(Icons.info_outline_rounded, color: Colors.grey),
                     const SizedBox(width: 3),
@@ -113,7 +111,43 @@ class MedicalSection extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
+              const SizedBox(height: 15,),
+              Row(
+                  children: [
+                    const Icon(Icons.info_outline_rounded, color: Colors.grey),
+                    const SizedBox(width: 3),
+                    Text.rich(
+                      TextSpan(
+                        text: "For Complete TimeTable:",
+                        style: MyFonts.w700.setColor(kWhite).size(14).copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                        children: [
+                          TextSpan(
+                            text: " click here",
+                            style: MyFonts.w700.setColor(kWhite).size(14).copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.blueAccent,
+                                  fontSize: 16,
+                                  decoration: TextDecoration.underline,
+                                ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                try {
+                                  _launchURL("https://www.iitg.ac.in/medical/live_timetable.pdf");
+                                } catch (e) {
+                                  showSnackBar(e.toString());
+                                }
+                              },
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              
             ],
           ),
         ),

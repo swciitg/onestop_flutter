@@ -73,10 +73,10 @@ class _FacilityFeedbackState extends State<FacilityFeedback> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                "Filling this form as $patientEmail",
-                                style: MyFonts.w500.size(11).setColor(kGrey10),
-                              ),
+                              !LoginStore.isGuest ? Text(
+                          "Filling this form as $patientEmail",
+                          style: MyFonts.w500.size(11).setColor(kGrey10),
+                        ) : SizedBox(height: 0,), 
                               const SizedBox(
                                 height: 15,
                               ),

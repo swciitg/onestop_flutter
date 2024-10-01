@@ -1,14 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/medicalcontacts/medicalcontact_model.dart';
-import 'package:onestop_dev/widgets/contact/call_email_button.dart';
-import 'package:onestop_kit/onestop_kit.dart';
 
 class MedicalContactDialog extends StatefulWidget {
-  final MedicalcontactModel details;
+  final MedicalcontactModel contact;
 
-  const MedicalContactDialog({Key? key, required this.details}) : super(key: key);
+  const MedicalContactDialog({Key? key, required this.contact}) : super(key: key);
 
   @override
   State<MedicalContactDialog> createState() => _ContactDialogState();
@@ -25,41 +25,84 @@ class _ContactDialogState extends State<MedicalContactDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: kBlueGrey,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-      title: Row(
-        children: [
-          Expanded(
-            flex: 7,
-            child: Text(
-              "${widget.details.name} ${widget.details.degree}",
-              style: MyFonts.w600.size(24).setColor(kWhite),
+        backgroundColor: kBlueGrey, // Dark background
+        content: Container(
+          width: 600,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  widget.contact.name,
+                  style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 10,),
+                _buildInfoRow(Icons.work, widget.contact.designation),
+                _buildInfoRow(Icons.school, widget.contact.degree),
+                _buildInfoRow(Icons.phone, "0361258${widget.contact.phone}"),
+                _buildInfoRow(Icons.email, widget.contact.email),
+              ],
             ),
           ),
-        ],
-      ),
-      content: Row(
-        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Expanded(
-            flex: 7,
-            child: Text(
-              widget.details.designation,
-              style: MyFonts.w600.size(24).setColor(kWhite),
-            ),
+        ),
+        actions: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  IconButton(onPressed: () async {
+                    try {
+                      await launchPhoneURL(widget.contact.phone);
+                    } catch (e) {
+                      if (kDebugMode) {
+                        print(e);
+                      }
+                    }
+
+                  }, icon: const Icon(Icons.call, color: Colors.green),),
+                  IconButton(onPressed: () async {
+                    try {
+                      await launchEmailURL(widget.contact.email);
+                    } catch (e) {
+                      if (kDebugMode) {
+                        print(e);
+                      }
+                    }
+                  }, icon: const Icon(Icons.mail, color: Colors.blue),),
+                ],
+              ),
+              TextButton(
+                child: const Text("Close", style: TextStyle(color: Colors.white70)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           ),
-          ContactButton(type: ContactType.call, data: widget.details.phone),
-          ContactButton(type: ContactType.email, data: widget.details.email),
         ],
-      ),
-      actions: <Widget>[
-        TextButton(
-          child: Text('Done', style: MyFonts.w500.size(14).setColor(kWhite)),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+      );
+  }
+}
+
+Widget _buildInfoRow(IconData icon, String info) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4.0),
+    child: Row(
+      children: [
+        Icon(icon, color: Colors.white70, size: 20), // Icon only
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            info,
+            style: const TextStyle(color: Colors.white70, fontSize: 15),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
-    );
-  }
+    ),
+  );
 }

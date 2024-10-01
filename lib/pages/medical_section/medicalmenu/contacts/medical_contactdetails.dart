@@ -109,7 +109,12 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
                           top: 4.0, bottom: 4.0, right: 10),
                       child: GestureDetector(
                         onTap: () {
-                          _showContactInfoDialog(context,item);
+                          showDialog(
+                              context: context,
+                              builder: (_) => 
+                                    MedicalContactDialog(contact: item),
+                                  
+                              barrierDismissible: true);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -136,93 +141,4 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
       ),
     );
   }
-}
-
-
-void _showContactInfoDialog(BuildContext context, MedicalcontactModel contact) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.grey[900], // Dark background
-        content: Container(
-          width: 600,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  contact.name,
-                  style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 10,),
-                _buildInfoRow(Icons.work, contact.designation),
-                _buildInfoRow(Icons.school, contact.degree),
-                _buildInfoRow(Icons.phone, "0361258${contact.phone}"),
-                _buildInfoRow(Icons.email, contact.email),
-              ],
-            ),
-          ),
-        ),
-        actions: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  IconButton(onPressed: () async {
-                    try {
-                      await launchPhoneURL(contact.phone);
-                    } catch (e) {
-                      if (kDebugMode) {
-                        print(e);
-                      }
-                    }
-
-                  }, icon: const Icon(Icons.call, color: Colors.green),),
-                  IconButton(onPressed: () async {
-                    try {
-                      await launchEmailURL(contact.email);
-                    } catch (e) {
-                      if (kDebugMode) {
-                        print(e);
-                      }
-                    }
-                  }, icon: const Icon(Icons.mail, color: Colors.blue),),
-                ],
-              ),
-              TextButton(
-                child: const Text("Close", style: TextStyle(color: Colors.white70)),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        ],
-      );
-    },
-  );
-}
-
-Widget _buildInfoRow(IconData icon, String info) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4.0),
-    child: Row(
-      children: [
-        Icon(icon, color: Colors.white70, size: 20), // Icon only
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            info,
-            style: const TextStyle(color: Colors.white70, fontSize: 15),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
-    ),
-  );
 }

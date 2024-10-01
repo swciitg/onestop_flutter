@@ -62,5 +62,6 @@ List<HomeTabTile> serviceLinks = [
     label: "Medical Section",
     icon: FluentIcons.doctor_28_filled,
     routeId: MedicalSection.id,
+    newBadge: true,
   )
 ];
