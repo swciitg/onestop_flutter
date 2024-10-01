@@ -6,6 +6,7 @@ import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
@@ -47,6 +48,8 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
   Widget build(BuildContext context) {
     var userData = LoginStore.userData;
     String patientEmail = userData['outlookEmail'];
+    String? hostel = userData['hostel'];
+
     return Theme(
       data: Theme.of(context).copyWith(
           checkboxTheme: CheckboxThemeData(
@@ -425,11 +428,11 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                             if (!_formKey.currentState!.validate()) {
                               return;
                             }
-                            if (files.isEmpty) {
-                              showSnackBar(
-                                  "Please attach photo or pdf of prescription");
-                              return;
-                            }
+                            // if (files.isEmpty) {
+                            //   showSnackBar(
+                            //       "Please attach photo or pdf of prescription");
+                            //   return;
+                            // }
                             if (!submitted) {
                               DateTime date = DateTime(selecteddate!.year,
                                   selecteddate!.month, selecteddate!.day);
@@ -438,15 +441,18 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                               });
                               Map<String, dynamic> data = {};
                               data['files'] = files;
-                              data['date'] = date.toIso8601String();
-                              data['patient_name'] = patientName.text;
-                              data['mobile_number'] = mobilenumber.text;
-                              data['not_available_number'] =
+                              data['prescDate'] =
+                                  date.toIso8601String().substring(0, 10);
+                              data['patientName'] = patientName.text;
+                              data['mobile'] = mobilenumber.text;
+                              data['numNotAvailableMedicines'] =
                                   notAvailableNumber.text;
-                              data['not_available_names'] =
+                              data['notAvailableMedicines'] =
                                   notAvailableNames.text;
+                              data['rollNo'] = userData['rollNo'];
+                              data['patientHostel'] = hostel ?? "";
                               data['remarks'] = remarks.text;
-                              data['email'] = patientEmail;
+                              data['patientEmail'] = patientEmail;
                               print(data);
                               try {
                                 var response = await APIService()
@@ -456,7 +462,7 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                                   showSnackBar(
                                       "Your Feedback has been successfully sent to respective authorities.");
                                   Navigator.popUntil(context,
-                                      ModalRoute.withName(HomePage.id));
+                                      ModalRoute.withName(MedicalSection.id));
                                 } else {
                                   showSnackBar(
                                       "Some error occurred. Try again later");

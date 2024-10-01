@@ -60,7 +60,7 @@ abstract class _MedicalTimetableStore with Store {
       String day = dateTimes[i].day.toString().padLeft(2, '0');
       String month = dateTimes[i].month.toString().padLeft(2, '0');
       String year = dateTimes[i].year.toString();
-      datematch[i] = '$day-$month-$year';
+      datematch[i] = '$year-$month-$day';
       print(datematch[i] + i.toString());
     }
   }
@@ -138,7 +138,7 @@ abstract class _MedicalTimetableStore with Store {
         dates); // datematch is the list of translated dates of the week
     for (int i = 0; i < 7; i++) {
       final date = datematch[i];
-      for (var doctor in doctorsList.alldoctors) {
+      for (var doctor in doctorsList.alldoctors!) {
         DoctorModel copyDoctor = DoctorModel.clone(doctor);
         final docdate = copyDoctor.date ?? "";
         final docCategory = copyDoctor.category;
@@ -154,13 +154,13 @@ abstract class _MedicalTimetableStore with Store {
         }
       }
       medicalTimetableDay[i].institute_docs.sort((a, b) {
-        int t1 = int.parse(b.starttime1.toString().split(':')[0]);
-        int t2 = int.parse(b.starttime1.toString().split(':')[0]);
+        int t1 = int.parse(b.startTime1.toString().split(':')[0]);
+        int t2 = int.parse(b.startTime1.toString().split(':')[0]);
         return t1.compareTo(t2);
       });
       medicalTimetableDay[i].visiting_docs.sort((a, b) {
-        int t1 = int.parse(a.starttime1.toString().split(':')[0]);
-        int t2 = int.parse(b.starttime1.toString().split(':')[0]);
+        int t1 = int.parse(a.startTime1.toString().split(':')[0]);
+        int t2 = int.parse(b.startTime1.toString().split(':')[0]);
         return t1.compareTo(t2);
       });
     }

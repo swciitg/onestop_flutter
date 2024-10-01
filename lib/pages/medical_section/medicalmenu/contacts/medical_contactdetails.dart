@@ -120,10 +120,10 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ContactText(
-                                text: item.name,
+                                text: item.name.name!,
                                 align: AlignmentDirectional.topStart),
                             ContactText(
-                                text: item.email,
+                                text: item.email!,
                                 align: AlignmentDirectional.center),
                             ContactText(
                                 text: "0361258${item.phone.toString()}",

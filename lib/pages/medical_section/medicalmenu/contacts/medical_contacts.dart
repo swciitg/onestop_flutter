@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/models/medicalcontacts/allmedicalcontacts.dart';
 import 'package:onestop_dev/models/medicalcontacts/medicalcontact_model.dart';
 import 'package:onestop_dev/services/data_provider.dart';
 import 'package:onestop_dev/widgets/medicalsection/medical_contact_dialog.dart';
@@ -23,12 +24,23 @@ class _MedicalContactsState extends State<MedicalContacts> {
       appBar: _buildAppBar(context),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
-        child: FutureBuilder<List<List<MedicalcontactModel>>>(
+        child: FutureBuilder<Allmedicalcontacts?>(
             future: DataProvider.getMedicalContacts(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                List<List<MedicalcontactModel>> medicalContacts =
-                    snapshot.data as List<List<MedicalcontactModel>>;
+                Allmedicalcontacts medicalAPIContacts =
+                    snapshot.data as Allmedicalcontacts;
+                List<List<MedicalcontactModel>> medicalContacts = [[], [], []];
+                for (var element in medicalAPIContacts.alldoctors) {
+                  if (element.category == 'Permanent Doctors') {
+                    medicalContacts[0].add(element);
+                  } else if (element.category == 'Visiting Consultant') {
+                    medicalContacts[1].add(element);
+                  } else {
+                    medicalContacts[2].add(element); // Miscelleneous
+                  }
+                }
+
                 return SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,49 +48,94 @@ class _MedicalContactsState extends State<MedicalContacts> {
                       Row(
                         children: [
                           Expanded(
-                        flex: 16,
-                        child: Container(),
-                      ),
-                      MedicalContactPageButton(
+                            flex: 16,
+                            child: Container(),
+                          ),
+                          MedicalContactPageButton(
                             label: 'Institute Doctors',
-                            labelContacts: medicalContacts[0], icon: const Icon(FluentIcons.person_home_28_filled,color: kGrey8,size: 30,),
+                            labelContacts: medicalContacts[0],
+                            icon: const Icon(
+                              FluentIcons.person_home_28_filled,
+                              color: kGrey8,
+                              size: 30,
+                            ),
                           ),
-                      Expanded(
-                        flex: 5,
-                        child: Container(),
-                      ),
-                      MedicalContactPageButton(
+                          Expanded(
+                            flex: 5,
+                            child: Container(),
+                          ),
+                          MedicalContactPageButton(
                             label: "Visiting Doctors",
-                            labelContacts: medicalContacts[1], icon: const Icon(FluentIcons.person_accounts_24_filled,color: kGrey8,size: 30,),
+                            labelContacts: medicalContacts[1],
+                            icon: const Icon(
+                              FluentIcons.person_accounts_24_filled,
+                              color: kGrey8,
+                              size: 30,
+                            ),
                           ),
-                      Expanded(
-                        flex: 5,
-                        child: Container(),
-                      ),
-                      MedicalContactPageButton(
+                          Expanded(
+                            flex: 5,
+                            child: Container(),
+                          ),
+                          MedicalContactPageButton(
                             label: 'Reception & Support',
-                            labelContacts: medicalContacts[2], icon: const Icon(Icons.people_outlined, color: kGrey8,size: 30,),
+                            labelContacts: medicalContacts[2],
+                            icon: const Icon(
+                              Icons.people_outlined,
+                              color: kGrey8,
+                              size: 30,
+                            ),
                           ),
-                      Expanded(
-                        flex: 16,
-                        child: Container(),
-                      ),
+                          Expanded(
+                            flex: 16,
+                            child: Container(),
+                          ),
                         ],
                       ),
                       const Divider(),
-                      const SizedBox(height: 10,),
-                      Text("Institute Doctors",
-                          style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500,color: Colors.grey,fontSize: 16)
+                      const SizedBox(
+                        height: 10,
                       ),
-                      const SizedBox(height: 10,),
+                      Text("Institute Doctors",
+                          style: MyFonts.w700
+                              .setColor(kWhite)
+                              .size(14)
+                              .copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey,
+                                  fontSize: 16)),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       _buildContactList(medicalContacts[0]),
-                      const SizedBox(height: 10,),
-                      Text("Visiting Doctors",style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500,color: Colors.grey,fontSize: 16),),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Visiting Doctors",
+                        style: MyFonts.w700.setColor(kWhite).size(14).copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey,
+                            fontSize: 16),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       _buildContactList(medicalContacts[1]),
-                      const SizedBox(height: 10,),
-                      Text("Reception & Support Contacts",style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500,color: Colors.grey,fontSize: 16)),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text("Reception & Support Contacts",
+                          style: MyFonts.w700
+                              .setColor(kWhite)
+                              .size(14)
+                              .copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey,
+                                  fontSize: 16)),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       _buildContactList(medicalContacts[2]),
                     ],
                   ),
@@ -114,20 +171,18 @@ AppBar _buildAppBar(BuildContext context) {
   );
 }
 
-Widget _buildContactList(List<MedicalcontactModel> medList){
+Widget _buildContactList(List<MedicalcontactModel> medList) {
   return ListView.builder(
       itemCount: medList.length,
       shrinkWrap: true,
       primary: false,
-      itemBuilder: (context,index){
+      itemBuilder: (context, index) {
         return InkWell(
-          onTap: (){
-           showDialog(
-                              context: context,
-                              builder: (_) => 
-                                    MedicalContactDialog(contact: medList[index]),
-                                  
-                              barrierDismissible: true);
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (_) => MedicalContactDialog(contact: medList[index]),
+                barrierDismissible: true);
           },
           child: Card(
             color: const Color.fromRGBO(28, 28, 30, 1), // Dark background color
@@ -141,7 +196,7 @@ Widget _buildContactList(List<MedicalcontactModel> medList){
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    medList[index].name,
+                    medList[index].name.name!,
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -150,7 +205,7 @@ Widget _buildContactList(List<MedicalcontactModel> medList){
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    medList[index].designation,
+                    medList[index].designation!,
                     style: const TextStyle(
                       fontSize: 13,
                       color: Colors.grey, // Grey text color for phone number
@@ -161,6 +216,5 @@ Widget _buildContactList(List<MedicalcontactModel> medList){
             ),
           ),
         );
-      }
-  );
+      });
 }

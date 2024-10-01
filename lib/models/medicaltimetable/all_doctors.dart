@@ -6,11 +6,11 @@ part 'all_doctors.g.dart';
 @JsonSerializable()
 class AllDoctors {
   @JsonKey(defaultValue: [])
-  late List<DoctorModel> alldoctors;
+  late List<DoctorModel>? alldoctors;
 
-  AllDoctors({required this.alldoctors});
+  AllDoctors({ this.alldoctors});
 
-  void addDocToList(DoctorModel c) => alldoctors.add(c);
+  void addDocToList(DoctorModel c) => alldoctors?.add(c);
   
   factory AllDoctors.fromJson(Map<String, dynamic> json) =>
       _$AllDoctorsFromJson(json);

@@ -8,12 +8,12 @@ part of 'medicalcontact_model.dart';
 
 MedicalcontactModel _$MedicalcontactModelFromJson(Map<String, dynamic> json) =>
     MedicalcontactModel(
-      name: json['name'] as String? ?? 'Untitled',
+      name: DropdownContactModel.fromJson(json['name'] as Map<String, dynamic>),
       email: json['email'] as String? ?? 'Unknown',
       phone: json['phone'] as String? ?? '123456789',
       category: json['category'] as String? ?? 'Untitled',
-      designation: json['designation'] as String? ?? 'Untitled',
-      degree: json['degree'] as String? ?? 'Untitled',
+      designation: json['designation'] as String? ?? '',
+      degree: json['degree'] as String? ?? '',
     );
 
 Map<String, dynamic> _$MedicalcontactModelToJson(

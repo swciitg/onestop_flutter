@@ -5,17 +5,17 @@ part 'dropdown_contact_model.g.dart';
 @JsonSerializable()
 class DropdownContactModel {
   @JsonKey(defaultValue: "Untitled")
-  late String name;
+  late String? name;
   @JsonKey(defaultValue: "Untitled")
-  late String degree;
+  late String? degree;
   @JsonKey(defaultValue: "Untitled")
-  late String designation;
+  late String? designation;
   
 
 
 //Constructor
   DropdownContactModel(
-      {required this.name, required this.degree, required this.designation});
+      { this.name,  this.degree,  this.designation});
   factory DropdownContactModel.fromJson(Map<String, dynamic> json) =>
       _$DropdownContactModelFromJson(json);
 

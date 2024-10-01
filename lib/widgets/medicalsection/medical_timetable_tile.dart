@@ -16,11 +16,11 @@ class MedicalTimetableTile extends StatelessWidget {
     var tileIcon = FluentIcons.doctor_24_filled;
     Color bg = kTimetableDisabled;
     String timing = "";
-    if (doctor.starttime1 != "") {
-      timing = "$timing${doctor.starttime1} - ${doctor.endtime1}";
+    if (doctor.startTime1 != "") {
+      timing = "$timing${doctor.startTime1} - ${doctor.endTime1}";
     }
-    if(doctor.starttime2 != ""){
-      timing = "$timing     ${doctor.starttime2} - ${doctor.endtime2}";
+    if(doctor.startTime2 != ""){
+      timing = "$timing     ${doctor.startTime2} - ${doctor.endTime2}";
     }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -64,7 +64,7 @@ class MedicalTimetableTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${doctor.name!}  ${doctor.degree!}",
+                        "${doctor.doctor.name!}  ${doctor.degree!}",
                         style: MyFonts.w500.size(15).setColor(kWhite),
                       ),
                       const SizedBox(

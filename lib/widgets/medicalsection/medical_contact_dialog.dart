@@ -34,16 +34,16 @@ class _ContactDialogState extends State<MedicalContactDialog> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  widget.contact.name,
+                  widget.contact.name.name!,
                   style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
 
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 10,),
-                _buildInfoRow(Icons.work, widget.contact.designation),
-                _buildInfoRow(Icons.school, widget.contact.degree),
+                _buildInfoRow(Icons.work, widget.contact.designation!),
+                _buildInfoRow(Icons.school, widget.contact.degree!),
                 _buildInfoRow(Icons.phone, "0361258${widget.contact.phone}"),
-                _buildInfoRow(Icons.email, widget.contact.email),
+                _buildInfoRow(Icons.email, widget.contact.email!),
               ],
             ),
           ),
@@ -56,7 +56,7 @@ class _ContactDialogState extends State<MedicalContactDialog> {
                 children: [
                   IconButton(onPressed: () async {
                     try {
-                      await launchPhoneURL(widget.contact.phone);
+                      await launchPhoneURL(widget.contact.phone!);
                     } catch (e) {
                       if (kDebugMode) {
                         print(e);
@@ -66,7 +66,7 @@ class _ContactDialogState extends State<MedicalContactDialog> {
                   }, icon: const Icon(Icons.call, color: Colors.green),),
                   IconButton(onPressed: () async {
                     try {
-                      await launchEmailURL(widget.contact.email);
+                      await launchEmailURL(widget.contact.email!);
                     } catch (e) {
                       if (kDebugMode) {
                         print(e);

@@ -9,6 +9,8 @@ import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
+import 'package:onestop_dev/models/medicalcontacts/allmedicalcontacts.dart';
+import 'package:onestop_dev/models/medicalcontacts/medicalcontact_model.dart';
 import 'package:onestop_dev/models/medicaltimetable/all_doctors.dart';
 import 'package:onestop_dev/models/medicaltimetable/doctor_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
@@ -394,247 +396,147 @@ class APIService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getMedicalContactData() async {
+  Future<Allmedicalcontacts?> getMedicalContactData() async {
     // var response = await dio.get(Endpoints.medicalContactURL);
     // var status = response.statusCode;
     // var body = response.data;
-    var status = 200;
-    var body = {
-      {
-        "name": "Dr. John Doe",
-        "category": "Permanent Doctors",
-        "email": "johndoe@example.com",
-        "contact": "9876543210",
-        "designation": "Senior Consultant",
-        "degree": "MD, Cardiology"
-      },
-      {
-        "name": "Dr. Jane Smith",
-        "category": "Permanent Doctors",
-        "email": "janesmith@example.com",
-        "contact": "9123456789",
-        "designation": "Consultant",
-        "degree": "MBBS, MD"
-      },
-      {
-        "name": "Dr. Emily Brown",
-        "category": "Visiting Consultant",
-        "email": "emilybrown@example.com",
-        "contact": "9988776655",
-        "designation": "Pediatric Specialist",
-        "degree": "MBBS, DCH"
-      },
-      {
-        "name": "Dr. Emily Brown",
-        "category": "miscellaneous",
-        "email": "emilybrown@example.com",
-        "contact": "9988776655",
-        "designation": "Pediatric Specialist",
-        "degree": "MBBS, DCH"
-      },
-      {
-        "name": "Dr. Michael Johnson",
-        "category": "Doctor",
-        "email": "michaeljohnson@example.com",
-        "contact": "9812345678",
-        "designation": "Orthopedic Surgeon",
-        "degree": "MBBS, MS Ortho"
-      },
-      {
-        "name": "Dr. Sarah Williams",
-        "category": "Visiting Consultant",
-        "email": "sarahwilliams@example.com",
-        "contact": "9998887776",
-        "designation": "Dermatology Consultant",
-        "degree": "MBBS, MD Dermatology"
-      },
-      {
-        "name": "Dr. Robert Davis",
-        "category": "Doctor",
-        "email": "robertdavis@example.com",
-        "contact": "9823456789",
-        "designation": "ENT Specialist",
-        "degree": "MBBS, MS ENT"
-      },
-      {
-        "name": "Dr. Laura Lee",
-        "category": "Visiting Consultant",
-        "email": "lauralee@example.com",
-        "contact": "9879871234",
-        "designation": "Psychiatrist",
-        "degree": "MBBS, MD Psychiatry"
-      },
-      {
-        "name": "Dr. Benjamin Taylor",
-        "category": "miscellaneous",
-        "email": "benjamintaylor@example.com",
-        "contact": "9865432100",
-        "designation": "Nutrition Expert",
-        "degree": "PhD in Nutrition"
-      },
-      {
-        "name": "Dr. Linda Martinez",
-        "category": "Doctor",
-        "email": "lindamartinez@example.com",
-        "contact": "9987123456",
-        "designation": "Gynecologist",
-        "degree": "MBBS, MD Obstetrics & Gynecology"
-      },
-      {
-        "name": "Dr. Kevin Clark",
-        "category": "Visiting Consultant",
-        "email": "kevinclark@example.com",
-        "contact": "9876543211",
-        "designation": "Cardiology Consultant",
-        "degree": "MBBS, MD Cardiology"
-      },
-      {
-        "name": "Dr. Jessica Miller",
-        "category": "miscellaneous",
-        "email": "jessicamiller@example.com",
-        "contact": "9988665544",
-        "designation": "Clinical Psychologist",
-        "degree": "PhD in Clinical Psychology"
-      }
-    };
 
-    if (status == 200) {
-      List<Map<String, dynamic>> data = [];
-      for (var json in body) {
-        data.add(json as Map<String, dynamic>);
-      }
-      print("api data ${data}");
-      return data;
-    } else {
-      throw Exception("Medical Contact Data could not be fetched");
-    }
-  }
-
-  Future<List<Map<String, dynamic>>> getDropDownContacts() async {
-    // var response = await dio.get(Endpoints.dropownDoctors);
-    // var status = response.statusCode;
-    // var body = response.data;
-    var status = 200;
-    var body = {
-      {
-        "name": "Dr. John Doe",
-        "designation": "Senior Consultant",
-        "degree": "MD, Cardiology"
-      },
-      {
-        "name": "Dr. Jane Smith",
-        "designation": "Consultant",
-        "degree": "MBBS, MD"
-      },
-      {
-        "name": "Dr. Emily Brown",
-        "designation": "Pediatric Specialist",
-        "degree": "MBBS, DCH"
-      },
-      {
-        "name": "Dr. Emily Brown",
-        "designation": "Pediatric Specialist",
-        "degree": "MBBS, DCH"
-      },
-      {
-        "name": "Dr. Michael Johnson",
-        "designation": "Orthopedic Surgeon",
-        "degree": "MBBS, MS Ortho"
-      },
-      {
-        "name": "Dr. Sarah Williams",
-        "designation": "Dermatology Consultant",
-        "degree": "MBBS, MD Dermatology"
-      },
-      {
-        "name": "Dr. Robert Davis",
-        "designation": "ENT Specialist",
-        "degree": "MBBS, MS ENT"
-      },
-      {
-        "name": "Dr. Laura Lee",
-        "designation": "Psychiatrist",
-        "degree": "MBBS, MD Psychiatry"
-      },
-      {
-        "name": "Dr. Benjamin Taylor",
-        "designation": "Nutrition Expert",
-        "degree": "PhD in Nutrition"
-      },
-      {
-        "name": "Dr. Linda Martinez",
-        "designation": "Gynecologist",
-        "degree": "MBBS, MD Obstetrics & Gynecology"
-      },
-      {
-        "name": "Dr. Kevin Clark",
-        "designation": "Cardiology Consultant",
-        "degree": "MBBS, MD Cardiology"
-      },
-      {
-        "name": "Dr. Jessica Miller",
-        "designation": "Clinical Psychologist",
-        "degree": "PhD in Clinical Psychology"
-      }
-    };
-    if (status == 200) {
-      List<Map<String, dynamic>> data = [];
-      for (var json in body) {
-        data.add(json as Map<String, dynamic>);
-      }
-      return data;
-    } else {
-      throw Exception("Medical Contact Data could not be fetched");
-    }
-  }
-
-  Future<List<Map<String, dynamic>>> getFerryData() async {
-    var response = await dio.get(Endpoints.ferryURL);
-    var status = response.statusCode;
-    var json = response.data;
-    if (status == 200) {
-      List<Map<String, dynamic>> answer = [];
-      for (var temp in json) {
-        answer.add(temp);
-      }
-      return answer;
-    } else {
-      throw Exception("Ferry Data could not be fetched");
-    }
-  }
-
-  Future<Map<String, dynamic>> getHomePageUrls() async {
-    var response = await dio.get(Endpoints.homePageUrls);
-    var status = response.statusCode;
-    var json = response.data;
-    if (status == 200) {
-      return json;
-    } else {
-      throw Exception("Quick links could not be fetched");
-    }
-  }
-
-  Future<RegisteredCourses> getTimeTable({required String roll}) async {
-    final response = await dio2.post(
-      Endpoints.timetableURL,
-      data: {
-        "roll_number": roll,
-      },
+    final response = await dio.get(
+      Endpoints.medicalContactURL, // chusuko
     );
+    var body = response.data;
+    print(body);
+    Allmedicalcontacts alldoc = Allmedicalcontacts(alldoctors: []);
     if (response.statusCode == 200) {
-      return RegisteredCourses.fromJson(response.data);
+      
+      for (var json in body) {
+        alldoc.addDocToList(MedicalcontactModel.fromJson(json));
+      }
+      return alldoc;
     } else {
       throw Exception(response.statusCode);
     }
+    
+    // var status = 200;
+    // var body = {
+    //   {
+    //     "name": "Dr. John Doe",
+    //     "category": "Permanent Doctors",
+    //     "email": "johndoe@example.com",
+    //     "contact": "9876543210",
+    //     "designation": "Senior Consultant",
+    //     "degree": "MD, Cardiology"
+    //   },
+    //   {
+    //     "name": "Dr. Jane Smith",
+    //     "category": "Permanent Doctors",
+    //     "email": "janesmith@example.com",
+    //     "contact": "9123456789",
+    //     "designation": "Consultant",
+    //     "degree": "MBBS, MD"
+    //   },
+    //   {
+    //     "name": "Dr. Emily Brown",
+    //     "category": "Visiting Consultant",
+    //     "email": "emilybrown@example.com",
+    //     "contact": "9988776655",
+    //     "designation": "Pediatric Specialist",
+    //     "degree": "MBBS, DCH"
+    //   },
+    //   {
+    //     "name": "Dr. Emily Brown",
+    //     "category": "miscellaneous",
+    //     "email": "emilybrown@example.com",
+    //     "contact": "9988776655",
+    //     "designation": "Pediatric Specialist",
+    //     "degree": "MBBS, DCH"
+    //   },
+    //   {
+    //     "name": "Dr. Michael Johnson",
+    //     "category": "Doctor",
+    //     "email": "michaeljohnson@example.com",
+    //     "contact": "9812345678",
+    //     "designation": "Orthopedic Surgeon",
+    //     "degree": "MBBS, MS Ortho"
+    //   },
+    //   {
+    //     "name": "Dr. Sarah Williams",
+    //     "category": "Visiting Consultant",
+    //     "email": "sarahwilliams@example.com",
+    //     "contact": "9998887776",
+    //     "designation": "Dermatology Consultant",
+    //     "degree": "MBBS, MD Dermatology"
+    //   },
+    //   {
+    //     "name": "Dr. Robert Davis",
+    //     "category": "Doctor",
+    //     "email": "robertdavis@example.com",
+    //     "contact": "9823456789",
+    //     "designation": "ENT Specialist",
+    //     "degree": "MBBS, MS ENT"
+    //   },
+    //   {
+    //     "name": "Dr. Laura Lee",
+    //     "category": "Visiting Consultant",
+    //     "email": "lauralee@example.com",
+    //     "contact": "9879871234",
+    //     "designation": "Psychiatrist",
+    //     "degree": "MBBS, MD Psychiatry"
+    //   },
+    //   {
+    //     "name": "Dr. Benjamin Taylor",
+    //     "category": "miscellaneous",
+    //     "email": "benjamintaylor@example.com",
+    //     "contact": "9865432100",
+    //     "designation": "Nutrition Expert",
+    //     "degree": "PhD in Nutrition"
+    //   },
+    //   {
+    //     "name": "Dr. Linda Martinez",
+    //     "category": "Doctor",
+    //     "email": "lindamartinez@example.com",
+    //     "contact": "9987123456",
+    //     "designation": "Gynecologist",
+    //     "degree": "MBBS, MD Obstetrics & Gynecology"
+    //   },
+    //   {
+    //     "name": "Dr. Kevin Clark",
+    //     "category": "Visiting Consultant",
+    //     "email": "kevinclark@example.com",
+    //     "contact": "9876543211",
+    //     "designation": "Cardiology Consultant",
+    //     "degree": "MBBS, MD Cardiology"
+    //   },
+    //   {
+    //     "name": "Dr. Jessica Miller",
+    //     "category": "miscellaneous",
+    //     "email": "jessicamiller@example.com",
+    //     "contact": "9988665544",
+    //     "designation": "Clinical Psychologist",
+    //     "degree": "PhD in Clinical Psychology"
+    //   }
+    // };
+
+    // if (status == 200) {
+    //   print(body);
+    //   dynamic data = [];
+    //   for (var json in body) {
+    //     data.add(json);
+    //   }
+    //   return data;
+    // } else {
+    //   throw Exception("Medical Contact Data could not be fetched");
+    // }
   }
 
-  Future<AllDoctors> getmedicalTimeTable() async {
+  Future<AllDoctors?> getmedicalTimeTable() async {
     final response = await dio.get(
-      Endpoints.timetableURL, // chusuko
+      Endpoints.medicalTimetableURL, // chusuko
     );
     var body = response.data;
     AllDoctors alldoc = AllDoctors(alldoctors: []);
     if (response.statusCode == 200) {
+      print(body);
       for (var json in body) {
         alldoc.addDocToList(DoctorModel.fromJson(json as Map<String, dynamic>));
       }
@@ -820,6 +722,126 @@ class APIService {
     //   throw Exception("Medical TimeTable Data could not be fetched");
     // }
   }
+
+  Future<List<Map<String, dynamic>>> getDropDownContacts() async {
+    var response = await dio.get(Endpoints.dropownDoctors);
+    var status = response.statusCode;
+    var body = response.data;
+    // var status = 200;
+    // var body = {
+    //   {
+    //     "name": "Dr. John Doe",
+    //     "designation": "Senior Consultant",
+    //     "degree": "MD, Cardiology"
+    //   },
+    //   {
+    //     "name": "Dr. Jane Smith",
+    //     "designation": "Consultant",
+    //     "degree": "MBBS, MD"
+    //   },
+    //   {
+    //     "name": "Dr. Emily Brown",
+    //     "designation": "Pediatric Specialist",
+    //     "degree": "MBBS, DCH"
+    //   },
+    //   {
+    //     "name": "Dr. Emily Brown",
+    //     "designation": "Pediatric Specialist",
+    //     "degree": "MBBS, DCH"
+    //   },
+    //   {
+    //     "name": "Dr. Michael Johnson",
+    //     "designation": "Orthopedic Surgeon",
+    //     "degree": "MBBS, MS Ortho"
+    //   },
+    //   {
+    //     "name": "Dr. Sarah Williams",
+    //     "designation": "Dermatology Consultant",
+    //     "degree": "MBBS, MD Dermatology"
+    //   },
+    //   {
+    //     "name": "Dr. Robert Davis",
+    //     "designation": "ENT Specialist",
+    //     "degree": "MBBS, MS ENT"
+    //   },
+    //   {
+    //     "name": "Dr. Laura Lee",
+    //     "designation": "Psychiatrist",
+    //     "degree": "MBBS, MD Psychiatry"
+    //   },
+    //   {
+    //     "name": "Dr. Benjamin Taylor",
+    //     "designation": "Nutrition Expert",
+    //     "degree": "PhD in Nutrition"
+    //   },
+    //   {
+    //     "name": "Dr. Linda Martinez",
+    //     "designation": "Gynecologist",
+    //     "degree": "MBBS, MD Obstetrics & Gynecology"
+    //   },
+    //   {
+    //     "name": "Dr. Kevin Clark",
+    //     "designation": "Cardiology Consultant",
+    //     "degree": "MBBS, MD Cardiology"
+    //   },
+    //   {
+    //     "name": "Dr. Jessica Miller",
+    //     "designation": "Clinical Psychologist",
+    //     "degree": "PhD in Clinical Psychology"
+    //   }
+    // };
+    if (status == 200) {
+      List<Map<String, dynamic>> data = [];
+      for (var json in body) {
+        data.add(json as Map<String, dynamic>);
+      }
+      return data;
+    } else {
+      throw Exception("Medical Contact Data could not be fetched");
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getFerryData() async {
+    var response = await dio.get(Endpoints.ferryURL);
+    var status = response.statusCode;
+    var json = response.data;
+    if (status == 200) {
+      List<Map<String, dynamic>> answer = [];
+      for (var temp in json) {
+        answer.add(temp);
+      }
+      return answer;
+    } else {
+      throw Exception("Ferry Data could not be fetched");
+    }
+  }
+
+  Future<Map<String, dynamic>> getHomePageUrls() async {
+    var response = await dio.get(Endpoints.homePageUrls);
+    var status = response.statusCode;
+    var json = response.data;
+    if (status == 200) {
+      return json;
+    } else {
+      throw Exception("Quick links could not be fetched");
+    }
+  }
+
+  Future<RegisteredCourses> getTimeTable({required String roll}) async {
+    final response = await dio2.post(
+      Endpoints.timetableURL,
+      data: {
+        "roll_number": roll,
+      },
+    );
+    if (response.statusCode == 200) {
+      return RegisteredCourses.fromJson(response.data);
+    } else {
+      throw Exception(response.statusCode);
+    }
+  }
+
+  
 
   Future<List<Map<String, dynamic>>> getMessMenu() async {
     var response = await dio.get(Endpoints.messURL);

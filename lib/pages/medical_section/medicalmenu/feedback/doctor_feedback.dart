@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/medicalcontacts/dropdown_contact_model.dart';
 import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_kit/onestop_kit.dart';
-
-import '../../../../models/medicalcontacts/medicalcontact_model.dart';
 import '../../../../services/data_provider.dart';
 import '../../../../widgets/upsp/file_tile.dart';
 import '../../../../widgets/upsp/upload_button.dart';
-
 
 class DoctorFeedback extends StatefulWidget {
   const DoctorFeedback({super.key});
@@ -38,13 +35,14 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
   void initState() {
     super.initState();
     selecteddate = DateTime.now();
-    medicalContacts=DataProvider.getDropDownContacts();
+    medicalContacts = DataProvider.getDropDownContacts();
   }
 
   @override
   Widget build(BuildContext context) {
     var userData = LoginStore.userData;
     String patientEmail = userData['outlookEmail'];
+    String? hostel = userData['hostel'];
     return Theme(
       data: Theme.of(context).copyWith(
           checkboxTheme: CheckboxThemeData(
@@ -73,10 +71,14 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                         const SizedBox(
                           height: 10,
                         ),
-                        !LoginStore.isGuest ? Text(
-                          "Filling this form as $patientEmail",
-                          style: MyFonts.w500.size(11).setColor(kGrey10),
-                        ) : SizedBox(height: 0,), 
+                        !LoginStore.isGuest
+                            ? Text(
+                                "Filling this form as $patientEmail",
+                                style: MyFonts.w500.size(11).setColor(kGrey10),
+                              )
+                            : SizedBox(
+                                height: 0,
+                              ),
                         const SizedBox(
                           height: 15,
                         ),
@@ -94,7 +96,8 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
+                          padding: const EdgeInsets.only(
+                              left: 15, top: 15, bottom: 10),
                           child: Text(
                             "Doctor's Name",
                             style: OnestopFonts.w600.size(16).setColor(kWhite),
@@ -102,56 +105,78 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                         ),
                         FutureBuilder(
                           future: medicalContacts,
-                          builder: (BuildContext context, AsyncSnapshot<List<DropdownContactModel>> snapshot) {
-                            if(snapshot.hasData) {
-                              List<DropdownContactModel> doctors = snapshot.data as List<DropdownContactModel>;
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<DropdownContactModel>>
+                                  snapshot) {
+                            if (snapshot.hasData) {
+                              List<DropdownContactModel> doctors =
+                                  snapshot.data as List<DropdownContactModel>;
 
-                              doctors.sort((a, b) => a.name.compareTo(b.name)); // Sort by name
+                              doctors.sort((a, b) =>
+                                  a.name!.compareTo(b.name!)); // Sort by name
 
                               return Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: Container(
-                                  margin: const EdgeInsets.symmetric(horizontal: 12),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 12),
                                   decoration: BoxDecoration(
                                     border: Border.all(color: kGrey2),
                                     color: kBackground,
                                     borderRadius: BorderRadius.circular(24),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                    child: DropdownButtonFormField<DropdownContactModel>(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    child: DropdownButtonFormField<
+                                        DropdownContactModel>(
                                       value: selectedDoctor,
-                                      items: doctors.map((DropdownContactModel doctor) {
-                                        return DropdownMenuItem<DropdownContactModel>(
+                                      items: doctors
+                                          .map((DropdownContactModel doctor) {
+                                        return DropdownMenuItem<
+                                            DropdownContactModel>(
                                           value: doctor,
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                doctor.name, // Display the doctor's name
-                                                style: OnestopFonts.w500.size(16).setColor(kWhite),
+                                                doctor
+                                                    .name!, // Display the doctor's name
+                                                style: OnestopFonts.w500
+                                                    .size(16)
+                                                    .setColor(kWhite),
                                               ),
                                               SizedBox(height: 2),
                                               Text(
-                                                doctor.designation, // Display doctor's designation or other data
-                                                style: OnestopFonts.w400.size(12).setColor(kGrey8),
+                                                doctor
+                                                    .designation!, // Display doctor's designation or other data
+                                                style: OnestopFonts.w400
+                                                    .size(12)
+                                                    .setColor(kGrey8),
                                               ),
-                                              SizedBox(height:8),
+                                              SizedBox(height: 8),
                                             ],
                                           ),
                                         );
                                       }).toList(),
-                                      selectedItemBuilder: (BuildContext context) {
-                                        return doctors.map<Widget>((DropdownContactModel doctor) {
+                                      selectedItemBuilder:
+                                          (BuildContext context) {
+                                        return doctors.map<Widget>(
+                                            (DropdownContactModel doctor) {
                                           return Text(
-                                            doctor.name,
-                                            style: OnestopFonts.w500.size(16).setColor(kWhite),
+                                            doctor.name!,
+                                            style: OnestopFonts.w500
+                                                .size(16)
+                                                .setColor(kWhite),
                                           );
                                         }).toList();
                                       },
-                                      onChanged: (DropdownContactModel? newValue) {
+                                      onChanged:
+                                          (DropdownContactModel? newValue) {
                                         setState(() {
-                                          selectedDoctor = newValue; // Set selected doctor
+                                          selectedDoctor =
+                                              newValue; // Set selected doctor
                                         });
                                       },
                                       validator: (val) {
@@ -164,13 +189,18 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                                         errorStyle: OnestopFonts.w400,
                                         border: InputBorder.none,
                                         hintText: 'Select Doctor',
-                                        hintStyle: const TextStyle(color: kGrey8),
+                                        hintStyle:
+                                            const TextStyle(color: kGrey8),
                                       ),
-                                      dropdownColor: kBackground, // Dropdown background color
-                                      icon: Icon(Icons.arrow_drop_down, color: kWhite),
+                                      dropdownColor:
+                                          kBackground, // Dropdown background color
+                                      icon: Icon(Icons.arrow_drop_down,
+                                          color: kWhite),
                                       isExpanded: true,
                                       elevation: 16,
-                                      style: OnestopFonts.w500.size(16).setColor(kWhite),
+                                      style: OnestopFonts.w500
+                                          .size(16)
+                                          .setColor(kWhite),
                                       menuMaxHeight: 250,
                                       borderRadius: BorderRadius.circular(16),
                                     ),
@@ -181,9 +211,6 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                             return Container();
                           },
                         ),
-
-
-
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 15, top: 15, bottom: 10),
@@ -196,22 +223,26 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                           padding: const EdgeInsets.all(3.0),
                           child: Container(
                               height: 120,
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 12),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 12),
                               decoration: BoxDecoration(
                                   border: Border.all(color: kGrey2),
                                   color: kBackground,
-                                      borderRadius:
-                                      BorderRadius.circular(24)),
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
+                                  borderRadius: BorderRadius.circular(24)),
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 10),
                                   child: TextFormField(
+                                    validator: (val) {
+                                      if (val == null || val.isEmpty) {
+                                        return "Please fill the required details";
+                                      }
+                                      return null;
+                                    },
                                     maxLines: 4,
                                     controller: remarks,
-                                    style: MyFonts.w500
-                                        .size(16)
-                                        .setColor(kWhite),
+                                    style:
+                                        MyFonts.w500.size(16).setColor(kWhite),
                                     decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'Your answer',
@@ -231,15 +262,20 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                           FileTile(
                               filename: files[index],
                               onDelete: () => setState(() {
-                                files.removeAt(index);
-                              })),
+                                    files.removeAt(index);
+                                  })),
                         files.length < 5
-                            ? UploadButton(callBack: (fName) {
-                          if (fName != null) files.add(fName);
-                          setState(() {});
-                        }, endpoint: Endpoints.doctorFileUpload,)
-                        : Container(),
-                        const SizedBox(height: 24,),
+                            ? UploadButton(
+                                callBack: (fName) {
+                                  if (fName != null) files.add(fName);
+                                  setState(() {});
+                                },
+                                endpoint: Endpoints.doctorFileUpload,
+                              )
+                            : Container(),
+                        const SizedBox(
+                          height: 24,
+                        ),
                         GestureDetector(
                           onTap: () async {
                             if (!_formKey.currentState!.validate()) {
@@ -253,36 +289,39 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                               });
                               Map<String, dynamic> data = {};
                               data['files'] = files;
-                              data['doctor_name'] = selectedDoctor!.name;
-                              data['patient_name'] = userData['name']??"";
-                              data['mobile_number'] = userData['phoneNumber'].toString();
+                              data['doctorName'] = selectedDoctor!.name;
+                              data['doctorDegree'] = selectedDoctor!.degree;
+                              data['patientEmail'] = userData['outlookEmail'];
+                              data['patientName'] = userData['name'] ?? "";
+                              data['mobile'] =
+                                  userData['phoneNumber'].toString();
+                              data['patientHostel'] = userData['hostel'];
                               data['remarks'] = remarks.text;
-                              data['email'] = patientEmail;
-                              data['date']=selecteddate.toString();
+                              data['rollNo'] = userData['rollNo'];
                               print(data);
-                            try {
-                                      var response =
-                                          await APIService().postDoctorFeedback(data);
-                                      if (!mounted) return;
-                                      if (response['success']) {
-                                        showSnackBar(
-                                            "Your Feedback has been successfully sent to respective authorities.");
-                                        Navigator.popUntil(context,
-                                            ModalRoute.withName(HomePage.id));
-                                      } else {
-                                        showSnackBar(
-                                            "Some error occurred. Try again later");
-                                        setState(() {
-                                          submitted = false;
-                                        });
-                                      }
-                                    } catch (err) {
-                                      showSnackBar(
-                                          "Please check you internet connection and try again");
-                                      setState(() {
-                                        submitted = false;
-                                      });
-                                    }
+                              try {
+                                var response =
+                                    await APIService().postDoctorFeedback(data);
+                                if (!mounted) return;
+                                if (response['success']) {
+                                  showSnackBar(
+                                      "Your Feedback has been successfully sent to respective authorities.");
+                                  Navigator.popUntil(context,
+                                      ModalRoute.withName(MedicalSection.id));
+                                } else {
+                                  showSnackBar(
+                                      "Some error occurred. Try again later");
+                                  setState(() {
+                                    submitted = false;
+                                  });
+                                }
+                              } catch (err) {
+                                showSnackBar(
+                                    "Please check you internet connection and try again");
+                                setState(() {
+                                  submitted = false;
+                                });
+                              }
                             }
                           },
                           child: const NextButton(
