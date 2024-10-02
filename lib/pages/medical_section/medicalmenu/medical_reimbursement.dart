@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -165,12 +166,14 @@ class MedicalReimbursement extends StatelessWidget {
                     children: [
                       const Icon(Icons.info_outline_rounded, color: Colors.grey,size: 24,),
                       const SizedBox(width: 8),
+                      Spacer(),
                       Expanded(
                         child: Text(
                           "For any Hospitalization (not covered under insurance), please submit Form 3",
                           style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w400,color: Colors.white),
                           softWrap: true,
-                          overflow: TextOverflow.visible
+                          overflow: TextOverflow.visible,
+                          //textAlign: BadgePosition.bottomStart(bottom: -8),
                         ),
 
                       ),
