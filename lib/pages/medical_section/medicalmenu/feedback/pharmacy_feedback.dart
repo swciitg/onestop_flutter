@@ -38,7 +38,7 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
   void initState() {
     super.initState();
     patientName.text = LoginStore.isGuest?"": LoginStore.userData['name'] ?? "";
-    mobilenumber.text = LoginStore.userData['phoneNumber'].toString();
+    mobilenumber.text = LoginStore.isGuest?"": LoginStore.userData['phoneNumber'].toString();
     _datecontroller.text = DateFormat('dd-MMM-yyyy')
         .format(DateTime.parse(DateTime.now().toIso8601String()));
     selecteddate = DateTime.now();
