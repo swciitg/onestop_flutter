@@ -4,6 +4,7 @@ import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/medicalcontacts/medicalcontact_model.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 class MedicalContactDialog extends StatefulWidget {
   final MedicalcontactModel contact;
@@ -35,7 +36,7 @@ class _ContactDialogState extends State<MedicalContactDialog> {
               children: [
                 Text(
                   widget.contact.name.name!,
-                  style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                  style: MyFonts.w700.setColor(kWhite).size(20).copyWith(fontWeight: FontWeight.bold),
 
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -98,7 +99,7 @@ Widget _buildInfoRow(IconData icon, String info) {
         Expanded(
           child: Text(
             info,
-            style: const TextStyle(color: Colors.white70, fontSize: 15),
+            style: MyFonts.w500.setColor(kWhite3).size(16),
             overflow: TextOverflow.ellipsis,
           ),
         ),
