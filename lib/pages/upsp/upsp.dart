@@ -183,7 +183,7 @@ class _UpspState extends State<Upsp> {
                               padding: const EdgeInsets.only(
                                   left: 15, top: 15, bottom: 10),
                               child: Text(
-                                "Respective Subcommittee dealing with the grievance raisefd",
+                                "Respective Subcommittee dealing with the grievance raised",
                                 style: MyFonts.w600.size(16).setColor(kWhite),
                               ),
                             ),
