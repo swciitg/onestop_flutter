@@ -99,7 +99,7 @@ Widget _buildInfoRow(IconData icon, String info) {
         Expanded(
           child: Text(
             info,
-            style: MyFonts.w700.setColor(kWhite3).size(15),
+            style: MyFonts.w500.setColor(kWhite3).size(16),
             overflow: TextOverflow.ellipsis,
           ),
         ),

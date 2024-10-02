@@ -162,11 +162,11 @@ class MedicalReimbursement extends StatelessWidget {
                   const SizedBox(height: 30,),
                   const Divider(),
                   const SizedBox(height: 15,),
+                  const Spacer(),
                   Row(
                     children: [
                       const Icon(Icons.info_outline_rounded, color: Colors.grey,size: 24,),
                       const SizedBox(width: 8),
-                      Spacer(),
                       Expanded(
                         child: Text(
                           "For any Hospitalization (not covered under insurance), please submit Form 3",

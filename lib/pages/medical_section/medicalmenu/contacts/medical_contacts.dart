@@ -197,12 +197,12 @@ Widget _buildContactList(List<MedicalcontactModel> medList) {
                 children: [
                   Text(
                     medList[index].name.name!,
-                    style: MyFonts.w700.setColor(kWhite).size(15).copyWith(fontWeight: FontWeight.bold),
+                    style: MyFonts.w500.setColor(kWhite).size(16).copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     medList[index].designation!,
-                    style: MyFonts.w700.setColor(kWhite3).size(13),
+                    style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),
                   ),
                 ],
               ),
