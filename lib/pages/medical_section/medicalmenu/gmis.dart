@@ -145,6 +145,7 @@ List<Widget> _CarsoulWidgets=[widg1, widg2, widg3];
 Widget widg1 = Column(
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
+    SizedBox(height: 230,),
     // Step 1 Title
     Text(
       "Step 1: Go to the following link:",
@@ -323,6 +324,7 @@ Widget widg2 = Column(
 Widget widg3 = Column(
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
+    SizedBox(height: 230,),
     // Step 2 Title
     Text(
       "Step 3: Download E-Card:",

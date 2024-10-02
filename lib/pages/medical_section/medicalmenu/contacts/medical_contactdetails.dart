@@ -1,5 +1,4 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -8,8 +7,6 @@ import 'package:onestop_dev/widgets/contact/contact_display.dart';
 import 'package:onestop_dev/widgets/medicalsection/medical_contact_dialog.dart';
 import 'package:onestop_dev/widgets/medicalsection/medical_contact_display.dart';
 import 'package:onestop_kit/onestop_kit.dart';
-
-import '../../../../functions/utility/phone_email.dart';
 
 class MedicalContactdetails extends StatefulWidget {
   final String title;
@@ -123,7 +120,7 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
                                 text: item.name.name!,
                                 align: AlignmentDirectional.topStart),
                             ContactText(
-                                text: item.email!,
+                                text: item.email,
                                 align: AlignmentDirectional.center),
                             ContactText(
                                 text: "0361258${item.phone.toString()}",

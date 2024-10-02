@@ -7,10 +7,7 @@ import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/models/medicalcontacts/allmedicalcontacts.dart';
 import 'package:onestop_dev/models/medicalcontacts/dropdown_contact_model.dart';
-import 'package:onestop_dev/models/medicalcontacts/medicalcontact_model.dart';
 import 'package:onestop_dev/models/medicaltimetable/all_doctors.dart';
-import 'package:onestop_dev/models/medicaltimetable/doctor_model.dart';
-import 'package:onestop_dev/models/medicaltimetable/medical_timetable_day.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
@@ -229,8 +226,6 @@ class DataProvider {
     try {
       AllDoctors? medicalTimetableData =
           await APIService().getmedicalTimeTable();
-
-      print("cache storage success");
       return medicalTimetableData;
     } catch (e) {
       print(e);
@@ -243,61 +238,12 @@ class DataProvider {
     try {
       Allmedicalcontacts? medicalContactData =
           await APIService().getMedicalContactData();
-
-      print("cache storage success");
       return medicalContactData;
     } catch (e) {
       print(e);
     }
     return medicalContactData;
   }
-
-  // static Future<List<List<MedicalcontactModel>>> getMedicalContacts() async {
-  //   List<List<MedicalcontactModel>> medicalPeople = [[], [], []];
-  //   Allmedicalcontacts medicalContactData = Allmedicalcontacts(alldoctors: []);
-  //   // var cachedData = await LocalStorage.instance
-  //   //     .getListRecord(DatabaseRecords.medicalcontacts);
-  //   try {
-  //     Allmedicalcontacts? medicalContactApiData =
-  //         await APIService().getMedicalContactData();
-      
-  //     // await LocalStorage.instance
-  //     //     .storeListRecord(medicalContactData as List<Map<String, dynamic>>, DatabaseRecords.medicalcontacts);
-  //     for (var element in medicalContactApiData?.alldoctors ?? medicalContactData.alldoctors) {
-  //       if (element.category == 'Permanent Doctors') {
-  //         medicalPeople[0].add(element);
-  //       } else if (element.category == 'Visiting Consultant') {
-  //         medicalPeople[1].add(element);
-  //       } else {
-  //         medicalPeople[2].add(element); // Miscelleneous
-  //       }
-  //     }
-  //     return medicalPeople;
-  //   } catch (e) {
-  //     print(e);
-  //     // if (cachedData == null) {
-  //     //   return medicalPeople;
-  //     // } else {
-  //     //   for (var element in cachedData) {
-  //     //     var dataelement = element as Map<String, dynamic>;
-  //     //     if (dataelement['category'] == 'Doctor') {
-  //     //       MedicalcontactModel doctor =
-  //     //           MedicalcontactModel.fromJson(dataelement);
-  //     //       medicalPeople[0].add(doctor);
-  //     //     } else if (dataelement['category'] == 'Visiting Consultant') {
-  //     //       MedicalcontactModel volunteer =
-  //     //           MedicalcontactModel.fromJson(dataelement);
-  //     //       medicalPeople[1].add(volunteer);
-  //     //     } else {
-  //     //       MedicalcontactModel misc =
-  //     //           MedicalcontactModel.fromJson(dataelement);
-  //     //       medicalPeople[2].add(misc); // Miscelleneous
-  //     //     }
-  //     //   }
-  //     // }
-  //   }
-  //   return medicalPeople;
-  // }
 
   static Future<List<DropdownContactModel>> getDropDownContacts() async {
     List<DropdownContactModel> DropDownContacts = [];
@@ -308,7 +254,6 @@ class DataProvider {
           await APIService().getDropDownContacts();
       await LocalStorage.instance
           .storeListRecord(DropDownData, DatabaseRecords.medicalcontacts);
-      print("cache storage success");
       for (var element in DropDownData) {
         DropdownContactModel doctor = DropdownContactModel.fromJson(element);
         DropDownContacts.add(doctor);

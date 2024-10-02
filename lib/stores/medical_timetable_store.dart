@@ -1,7 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:onestop_dev/globals/class_timings.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/medicaltimetable/all_doctors.dart';
@@ -18,7 +17,6 @@ class MedicalTimetableStore = _MedicalTimetableStore
     with _$MedicalTimetableStore;
 
 abstract class _MedicalTimetableStore with Store {
-  //List of medical time table of each day of the week
   List<MedicalTimetableDay> allmedicalTimetable =
       List.generate(7, (index) => MedicalTimetableDay());
 
@@ -42,10 +40,8 @@ abstract class _MedicalTimetableStore with Store {
     return "Success";
   }
 
-  //List of dates to show in the date slider
   List<DateTime> dates = List.filled(7, DateTime.now());
 
-  //Initialising the dates
   void initialiseMedicalDates() {
     dates = List.filled(7, DateTime.now());
     for (int i = 1; i < 7; i++) {
@@ -61,7 +57,6 @@ abstract class _MedicalTimetableStore with Store {
       String month = dateTimes[i].month.toString().padLeft(2, '0');
       String year = dateTimes[i].year.toString();
       datematch[i] = '$year-$month-$day';
-      print(datematch[i] + i.toString());
     }
   }
 
@@ -128,11 +123,9 @@ abstract class _MedicalTimetableStore with Store {
   }
 
   Future<void> processMedicalTimetable() async {
-    //A list of timetable of each day, with index 0 to 4 signifying mon to fri
     List<MedicalTimetableDay> medicalTimetableDay =
         List.generate(7, (index) => MedicalTimetableDay());
 
-    //Lets fill the above now
     var doctorsList = await getDoctors();
     updateDateList(
         dates); // datematch is the list of translated dates of the week
@@ -143,9 +136,6 @@ abstract class _MedicalTimetableStore with Store {
         final docdate = copyDoctor.date ?? "";
         final docCategory = copyDoctor.category;
         if (date == docdate) {
-          print(date);
-          print(docdate);
-          print(i.toString());
           if (docCategory == "Institute_Docs") {
             medicalTimetableDay[i].institute_docs.add(copyDoctor);
           } else {

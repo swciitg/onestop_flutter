@@ -1,4 +1,3 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -7,7 +6,7 @@ import 'package:onestop_dev/pages/medical_section/medicalmenu/contacts/medical_c
 import 'package:onestop_dev/pages/medical_section/medicalmenu/feedback/medical_feedback.dart';
 import 'package:onestop_dev/pages/medical_section/medicalmenu/medical_insurance.dart';
 import 'package:onestop_dev/pages/medical_section/medicalmenu/medical_reimbursement.dart';
-import 'package:onestop_dev/pages/medical_section/medical_timetable/medical_timetable.dart';
+import 'package:onestop_dev/pages/medical_section/medicalmenu/medical_timetable.dart';
 import 'package:onestop_dev/widgets/medicalsection/menuoption.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:url_launcher/url_launcher.dart';

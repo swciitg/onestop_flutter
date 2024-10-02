@@ -4,7 +4,6 @@ import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -78,7 +77,7 @@ class _FacilityFeedbackState extends State<FacilityFeedback> {
                                 "Filling this form as $patientEmail",
                                 style: MyFonts.w500.size(11).setColor(kGrey10),
                               )
-                            : SizedBox(
+                            : const SizedBox(
                                 height: 0,
                               ),
                         const SizedBox(
@@ -168,8 +167,8 @@ class _FacilityFeedbackState extends State<FacilityFeedback> {
                               return;
                             }
                             if (!submitted) {
-                              DateTime date = DateTime(selecteddate!.year,
-                                  selecteddate!.month, selecteddate!.day);
+                              // DateTime date = DateTime(selecteddate!.year,
+                              //     selecteddate!.month, selecteddate!.day);
                               setState(() {
                                 submitted = true;
                               });
@@ -181,7 +180,7 @@ class _FacilityFeedbackState extends State<FacilityFeedback> {
                               data['userEmail'] = patientEmail;
                               data['userHostel'] = hostel;
                               data['rollNo'] = userData['rollNo'];
-                              print(data);
+                              // print(data);
                               try {
                                 var response = await APIService()
                                     .postFacilityFeedback(data);

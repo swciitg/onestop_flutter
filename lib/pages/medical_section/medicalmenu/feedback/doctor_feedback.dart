@@ -4,7 +4,6 @@ import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/medicalcontacts/dropdown_contact_model.dart';
-import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -42,7 +41,6 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
   Widget build(BuildContext context) {
     var userData = LoginStore.userData;
     String patientEmail = userData['outlookEmail'];
-    String? hostel = userData['hostel'];
     return Theme(
       data: Theme.of(context).copyWith(
           checkboxTheme: CheckboxThemeData(
@@ -76,7 +74,7 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                                 "Filling this form as $patientEmail",
                                 style: MyFonts.w500.size(11).setColor(kGrey10),
                               )
-                            : SizedBox(
+                            : const SizedBox(
                                 height: 0,
                               ),
                         const SizedBox(
@@ -147,7 +145,7 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                                                     .size(16)
                                                     .setColor(kWhite),
                                               ),
-                                              SizedBox(height: 2),
+                                              const SizedBox(height: 2),
                                               Text(
                                                 doctor
                                                     .designation!, // Display doctor's designation or other data
@@ -155,7 +153,7 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                                                     .size(12)
                                                     .setColor(kGrey8),
                                               ),
-                                              SizedBox(height: 8),
+                                              const SizedBox(height: 8),
                                             ],
                                           ),
                                         );
@@ -194,7 +192,7 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                                       ),
                                       dropdownColor:
                                           kBackground, // Dropdown background color
-                                      icon: Icon(Icons.arrow_drop_down,
+                                      icon: const Icon(Icons.arrow_drop_down,
                                           color: kWhite),
                                       isExpanded: true,
                                       elevation: 16,
@@ -282,8 +280,8 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                               return;
                             }
                             if (!submitted) {
-                              DateTime date = DateTime(selecteddate!.year,
-                                  selecteddate!.month, selecteddate!.day);
+                              // DateTime date = DateTime(selecteddate!.year,
+                              //     selecteddate!.month, selecteddate!.day);
                               setState(() {
                                 submitted = true;
                               });
@@ -298,7 +296,7 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                               data['patientHostel'] = userData['hostel'];
                               data['remarks'] = remarks.text;
                               data['rollNo'] = userData['rollNo'];
-                              print(data);
+                              // print(data);
                               try {
                                 var response =
                                     await APIService().postDoctorFeedback(data);
