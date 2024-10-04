@@ -1,15 +1,10 @@
 // ignore_for_file: library_private_types_in_public_api
-import 'package:flutter/material.dart';
+
 import 'package:mobx/mobx.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/medicaltimetable/all_doctors.dart';
 import 'package:onestop_dev/models/medicaltimetable/doctor_model.dart';
 import 'package:onestop_dev/models/medicaltimetable/medical_timetable_day.dart';
 import 'package:onestop_dev/services/data_provider.dart';
-import 'package:onestop_dev/widgets/medicalsection/medical_timetable_tile.dart';
-import 'package:onestop_dev/widgets/ui/text_divider.dart';
-import 'package:onestop_kit/onestop_kit.dart';
 
 part 'medical_timetable_store.g.dart';
 
@@ -25,11 +20,6 @@ abstract class _MedicalTimetableStore with Store {
 
   @observable
   AllDoctors? doctors;
-
-  Future<AllDoctors> getDoctors() async {
-    doctors ??= await DataProvider.getMedicalTimeTable();
-    return doctors!;
-  }
 
   initialiseMedicalTT() async {
     if (!isProcessed) {
@@ -79,56 +69,29 @@ abstract class _MedicalTimetableStore with Store {
   }
 
   @computed
-  List<Widget> get todayMedicalTimeTable {
+  bool get institutionDoctorsPresent =>
+      allmedicalTimetable[selectedDate].institute_docs.isNotEmpty;
+
+  @computed
+  bool get visitingDoctorsPresent =>
+      allmedicalTimetable[selectedDate].visiting_docs.isNotEmpty;
+
+  @computed
+  List<DoctorModel> get todayMedicalTimeTable {
     int timetableIndex = selectedDate;
-    bool instituteDocsPresent =
-        allmedicalTimetable[timetableIndex].institute_docs.isEmpty;
-    bool visitingDocsPresent =
-        allmedicalTimetable[timetableIndex].visiting_docs.isEmpty;
-    List<Widget> l = [
-      !instituteDocsPresent
-          ? const TextDivider(
-              text: 'Institute Doctors',
-            )
-          : const SizedBox(
-              height: 0,
-            ),
-      ...allmedicalTimetable[timetableIndex]
-          .institute_docs
-          .map((e) => MedicalTimetableTile(doctor: e))
-          .toList(),
-      !visitingDocsPresent
-          ? const TextDivider(
-              text: 'Visiting Doctors',
-            )
-          : const SizedBox(
-              height: 0,
-            ),
-      ...allmedicalTimetable[timetableIndex]
-          .visiting_docs
-          .map((e) => MedicalTimetableTile(doctor: e))
-          .toList()
+    List<DoctorModel> list = [
+      ...allmedicalTimetable[timetableIndex].institute_docs,
+      ...allmedicalTimetable[timetableIndex].visiting_docs
     ];
-    if (l.length == 2) {
-      l = [
-        Center(
-          child: Text(
-            'No data found',
-            style: MyFonts.w500.size(14).setColor(kGrey8),
-          ),
-        )
-      ];
-    }
-    return l;
+    return list;
   }
 
   Future<void> processMedicalTimetable() async {
     List<MedicalTimetableDay> medicalTimetableDay =
         List.generate(7, (index) => MedicalTimetableDay());
 
-    var doctorsList = await getDoctors();
-    updateDateList(
-        dates); // datematch is the list of translated dates of the week
+    var doctorsList = await DataProvider.getMedicalTimeTable();
+    updateDateList(dates); // datematch is the list of translated dates of the week
     for (int i = 0; i < 7; i++) {
       final date = datematch[i];
       for (var doctor in doctorsList.alldoctors!) {

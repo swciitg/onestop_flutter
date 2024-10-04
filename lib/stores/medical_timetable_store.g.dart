@@ -9,13 +9,28 @@ part of 'medical_timetable_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$MedicalTimetableStore on _MedicalTimetableStore, Store {
-  Computed<List<Widget>>? _$todayMedicalTimeTableComputed;
+  Computed<bool>? _$institutionDoctorsPresentComputed;
 
   @override
-  List<Widget> get todayMedicalTimeTable => (_$todayMedicalTimeTableComputed ??=
-          Computed<List<Widget>>(() => super.todayMedicalTimeTable,
-              name: '_MedicalTimetableStore.todayMedicalTimeTable'))
+  bool get institutionDoctorsPresent => (_$institutionDoctorsPresentComputed ??=
+          Computed<bool>(() => super.institutionDoctorsPresent,
+              name: '_MedicalTimetableStore.institutionDoctorsPresent'))
       .value;
+  Computed<bool>? _$visitingDoctorsPresentComputed;
+
+  @override
+  bool get visitingDoctorsPresent => (_$visitingDoctorsPresentComputed ??=
+          Computed<bool>(() => super.visitingDoctorsPresent,
+              name: '_MedicalTimetableStore.visitingDoctorsPresent'))
+      .value;
+  Computed<List<DoctorModel>>? _$todayMedicalTimeTableComputed;
+
+  @override
+  List<DoctorModel> get todayMedicalTimeTable =>
+      (_$todayMedicalTimeTableComputed ??= Computed<List<DoctorModel>>(
+              () => super.todayMedicalTimeTable,
+              name: '_MedicalTimetableStore.todayMedicalTimeTable'))
+          .value;
 
   late final _$isProcessedAtom =
       Atom(name: '_MedicalTimetableStore.isProcessed', context: context);
@@ -113,6 +128,8 @@ isProcessed: ${isProcessed},
 doctors: ${doctors},
 selectedDate: ${selectedDate},
 selectedDay: ${selectedDay},
+institutionDoctorsPresent: ${institutionDoctorsPresent},
+visitingDoctorsPresent: ${visitingDoctorsPresent},
 todayMedicalTimeTable: ${todayMedicalTimeTable}
     ''';
   }

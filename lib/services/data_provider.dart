@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
@@ -221,16 +222,13 @@ class DataProvider {
     }
   }
 
-  static Future<AllDoctors?> getMedicalTimeTable() async {
-    AllDoctors medicalTimetableData = AllDoctors(alldoctors: []);
-    try {
-      AllDoctors? medicalTimetableData =
-          await APIService().getmedicalTimeTable();
-      return medicalTimetableData;
-    } catch (e) {
-      print(e);
+  static Future<AllDoctors> getMedicalTimeTable() async {
+    try{
+      return await APIService().getmedicalTimeTable();
+    }catch (e){
+      debugPrint("Error Fetching Medical TT");
+      rethrow ;
     }
-    return medicalTimetableData;
   }
 
   static Future<Allmedicalcontacts?> getMedicalContacts() async {
