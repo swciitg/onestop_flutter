@@ -4,19 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/food/get_restaurant_distance.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/functions/utility/open_map.dart';
+import 'package:onestop_dev/functions/utility/open_restaurant_page.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
+import 'package:onestop_dev/pages/food/restaurant_page.dart';
+import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+import 'package:provider/provider.dart';
 
 import 'call_map_button.dart';
 
-class RestaurantTile extends StatelessWidget {
+class RestaurantTile extends StatefulWidget {
   const RestaurantTile({super.key, required this.restaurantModel});
 
   final RestaurantModel restaurantModel;
 
+  @override
+  State<RestaurantTile> createState() => _RestaurantTileState();
+}
+
+class _RestaurantTileState extends State<RestaurantTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +36,7 @@ class RestaurantTile extends StatelessWidget {
         color: kBlueGrey,
       ),
       child: LayoutBuilder(builder: (context, constraints) {
-        double imageWidth = constraints.maxWidth * 0.35; //For 35/(35+65) flex
+        double imageWidth = constraints.maxWidth * 0.35; 
         return IntrinsicHeight(
           child: Row(
             children: [
@@ -41,7 +51,7 @@ class RestaurantTile extends StatelessWidget {
                     aspectRatio: 1,
                     child: CachedNetworkImage(
                       maxHeightDiskCache: 200,
-                      imageUrl: restaurantModel.imageURL,
+                      imageUrl: widget.restaurantModel.imageURL,
                       imageBuilder: (context, imageProvider) => Image(
                         image: imageProvider,
                         fit: BoxFit.cover,
@@ -61,57 +71,74 @@ class RestaurantTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        restaurantModel.outletName,
-                        textAlign: TextAlign.left,
-                        style: MyFonts.w600.size(16).setColor(kWhite),
+                      Row(
+                        children: [
+                          Text(
+                            widget.restaurantModel.outletName,
+                            textAlign: TextAlign.left,
+                            style: MyFonts.w600.size(16).setColor(kWhite),
+                          ),
+                          Expanded(child: Container()),
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 100),
+                            child: Text(
+                                getRestaurantDistance(
+                                    context, widget.restaurantModel),
+                                textAlign: TextAlign.center,
+                                style: MyFonts.w500.size(11).setColor(kWhite)),
+                          ),
+                        ],
                       ),
                       Text(
-                        restaurantModel.caption,
+                        widget.restaurantModel.caption,
                         style: MyFonts.w400.size(14).setColor(kFontGrey),
                       ),
                       const SizedBox(
                         height: 8,
                       ),
                       Text(
-                        'Closes at ${restaurantModel.closingTime}',
+                        'Closes at ${widget.restaurantModel.closingTime}',
                         style: MyFonts.w500.size(11).setColor(lRed2),
                       ),
                       const SizedBox(
                         height: 8,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           CallMapButton(
                             callMap: 'Call',
                             icon: FluentIcons.call_20_regular,
                             callback: () {
-                              launchPhoneURL(restaurantModel.phoneNumber);
+                              launchPhoneURL(
+                                  widget.restaurantModel.phoneNumber);
                             },
-                          ),
-                          const SizedBox(
-                            width: 4,
                           ),
                           CallMapButton(
                             callMap: 'Map',
                             icon: FluentIcons.location_24_regular,
                             callback: () {
                               openMap(
-                                  restaurantModel.latitude,
-                                  restaurantModel.longitude,
+                                  widget.restaurantModel.latitude,
+                                  widget.restaurantModel.longitude,
                                   context,
-                                  restaurantModel.outletName);
+                                  widget.restaurantModel.outletName);
                             },
                           ),
-                          Expanded(child: Container()),
-                          ConstrainedBox(
-                            constraints: const BoxConstraints(maxWidth: 55),
-                            child: Text(
-                                getRestaurantDistance(context, restaurantModel),
-                                textAlign: TextAlign.center,
-                                style: MyFonts.w500.size(11).setColor(kWhite)),
+                          CallMapButton(
+                            callMap: 'Menu',
+                            icon: FluentIcons.food_16_filled,
+                            callback: () {
+                              final List<String> images = widget
+                                  .restaurantModel.menu
+                                  .map((menuItem) => menuItem.imageURL)
+                                  .where((url) => url.isNotEmpty)
+                                  .toList();
+                              images.isNotEmpty
+                                  ? openResturantPage(context, images)
+                                  : showSnackBar('No menu found');
+                            },
                           ),
-                          Expanded(child: Container()),
                         ],
                       )
                     ],
