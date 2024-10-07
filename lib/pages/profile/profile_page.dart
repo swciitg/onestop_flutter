@@ -112,6 +112,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     ?.getHostelFromDatabaseString()
                     ?.displayString,
               ),
+              DataTile(
+                  title: 'Subscribed Mess',
+                  semiTitle: widget.profileModel.subscribedMess
+                      ?.getMessFromDatabaseString()
+                      ?.displayString),
               widget.profileModel.dob == null
                   ? Container()
                   : DataTile(
@@ -122,6 +127,10 @@ class _ProfilePageState extends State<ProfilePage> {
               DataTile(
                 title: 'Home Address',
                 semiTitle: widget.profileModel.homeAddress,
+              ),
+              DataTile(
+                title: 'Cycle Registration Number',
+                semiTitle: widget.profileModel.cycleReg,
               ),
               DataTile(
                 title: 'LinkedIn Profile',

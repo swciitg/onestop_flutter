@@ -34,7 +34,7 @@ abstract class _MessStore with Store {
   }
 
   @observable
-  ObservableFuture<Hostel> selectedHostel = ObservableFuture(getSavedHostel());
+  ObservableFuture<Mess> selectedMess = ObservableFuture(getSavedMess());
   @observable
   MealType mealData = MealType(
       id: 'id',
@@ -43,12 +43,12 @@ abstract class _MessStore with Store {
       endTiming: DateTime.now().toLocal());
 
   @computed
-  bool get hostelLoaded => selectedHostel.status == FutureStatus.fulfilled;
+  bool get messLoaded => selectedMess.status == FutureStatus.fulfilled;
 
-  static Hostel defaultHostel = Hostel.kameng;
+  static Mess defaultMess = Mess.kameng;
 
   @computed
-  Hostel get defaultUserHostel => defaultHostel;
+  Mess get defaultUserMess => defaultMess;
 
   @action
   void setDay(String s) {
@@ -61,8 +61,8 @@ abstract class _MessStore with Store {
   }
 
   @action
-  void setHostel(Hostel h) {
-    selectedHostel = ObservableFuture.value(h);
+  void setMess(Mess m) {
+    selectedMess = ObservableFuture.value(m);
   }
 
   @action
@@ -72,30 +72,30 @@ abstract class _MessStore with Store {
 
   void setupReactions() async {
     autorun((_) async {
-      if (selectedHostel.status == FutureStatus.fulfilled) {
+      if (selectedMess.status == FutureStatus.fulfilled) {
         MealType requiredModel = await DataProvider.getMealData(
-            hostel: selectedHostel.value!,
+            mess: selectedMess.value!,
             day: selectedDay,
             mealType: selectedMeal);
         setMealData(requiredModel);
       } else {
         MealType requiredModel = await DataProvider.getMealData(
-            hostel: defaultHostel, day: selectedDay, mealType: selectedMeal);
+            mess: defaultMess, day: selectedDay, mealType: selectedMeal);
         setMealData(requiredModel);
       }
     });
   }
 
-  static Future<Hostel> getSavedHostel() async {
+  static Future<Mess> getSavedMess() async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('hostel')) {
-      final hostel = prefs.getString('hostel');
-      if (hostel == Hostel.msh.databaseString || hostel == null) {
-        return defaultHostel;
+    if (prefs.containsKey('subscribedMess')) {
+      final mess = prefs.getString('subscribedMess');
+      if (mess == Mess.none.databaseString || mess == null) {
+        return defaultMess;
       }
-      return hostel.getHostelFromDatabaseString()!;
+      return mess.getMessFromDatabaseString()!;
     }
-    return defaultHostel;
+    return defaultMess;
   }
 
   Future<Map<String, dynamic>> postMessSubChange(

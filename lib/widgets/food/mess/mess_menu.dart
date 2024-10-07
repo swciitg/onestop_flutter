@@ -21,11 +21,9 @@ class MessMenu extends StatelessWidget {
     "Friday",
     "Saturday"
   ];
-  final List<String> hostels = Hostel.values
+  final List<String> hostels = Mess.values
       .displayStrings()
-      .where((element) =>
-          element != Hostel.msh.displayString &&
-          element != Hostel.none.displayString)
+      .where((element) => element != Mess.none.displayString)
       .toList();
 
   @override
@@ -35,15 +33,15 @@ class MessMenu extends StatelessWidget {
       create: (_) => MessStore(),
       builder: (context, _) {
         final messStore = context.read<MessStore>();
-        Hostel? userHostel = OneStopUser.fromJson(LoginStore.userData)
-            .hostel
-            ?.getHostelFromDatabaseString();
+        Mess? userMess = OneStopUser.fromJson(LoginStore.userData)
+            .subscribedMess
+            ?.getMessFromDatabaseString();
 
-        if (userHostel == Hostel.msh) {
-          userHostel = messStore.defaultUserHostel;
-          messStore.setHostel(userHostel);
+        if (userMess == Mess.none) {
+          userMess = messStore.defaultUserMess;
+          messStore.setMess(userMess);
         } else {
-          messStore.setHostel(userHostel ?? messStore.defaultUserHostel);
+          messStore.setMess(userMess ?? messStore.defaultUserMess);
         }
 
         return Container(
@@ -70,7 +68,7 @@ class MessMenu extends StatelessWidget {
                   width: 16,
                 ),
                 Observer(builder: (context) {
-                  if (!messStore.hostelLoaded) {
+                  if (!messStore.messLoaded) {
                     return Expanded(
                       flex: 2,
                       child: Container(),
@@ -162,8 +160,8 @@ class MessMenu extends StatelessWidget {
                                         .map(
                                           (value) => PopupMenuItem(
                                             onTap: () {
-                                              messStore.setHostel(value
-                                                  .getHostelFromDisplayString()!);
+                                              messStore.setMess(value
+                                                  .getMessFromDisplayString()!);
                                             },
                                             value: value,
                                             child: Text(
@@ -189,7 +187,7 @@ class MessMenu extends StatelessWidget {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
-                                            messStore.selectedHostel.value!
+                                            messStore.selectedMess.value!
                                                 .displayString,
                                             overflow: TextOverflow.fade,
                                             style: OnestopFonts.w500

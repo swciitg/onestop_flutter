@@ -9,20 +9,19 @@ part of 'mess_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$MessStore on _MessStore, Store {
-  Computed<bool>? _$hostelLoadedComputed;
+  Computed<bool>? _$messLoadedComputed;
 
   @override
-  bool get hostelLoaded =>
-      (_$hostelLoadedComputed ??= Computed<bool>(() => super.hostelLoaded,
-              name: '_MessStore.hostelLoaded'))
-          .value;
-  Computed<Hostel>? _$defaultUserHostelComputed;
-
-  @override
-  Hostel get defaultUserHostel => (_$defaultUserHostelComputed ??=
-          Computed<Hostel>(() => super.defaultUserHostel,
-              name: '_MessStore.defaultUserHostel'))
+  bool get messLoaded => (_$messLoadedComputed ??=
+          Computed<bool>(() => super.messLoaded, name: '_MessStore.messLoaded'))
       .value;
+  Computed<Mess>? _$defaultUserMessComputed;
+
+  @override
+  Mess get defaultUserMess =>
+      (_$defaultUserMessComputed ??= Computed<Mess>(() => super.defaultUserMess,
+              name: '_MessStore.defaultUserMess'))
+          .value;
 
   late final _$selectedDayAtom =
       Atom(name: '_MessStore.selectedDay', context: context);
@@ -56,19 +55,19 @@ mixin _$MessStore on _MessStore, Store {
     });
   }
 
-  late final _$selectedHostelAtom =
-      Atom(name: '_MessStore.selectedHostel', context: context);
+  late final _$selectedMessAtom =
+      Atom(name: '_MessStore.selectedMess', context: context);
 
   @override
-  ObservableFuture<Hostel> get selectedHostel {
-    _$selectedHostelAtom.reportRead();
-    return super.selectedHostel;
+  ObservableFuture<Mess> get selectedMess {
+    _$selectedMessAtom.reportRead();
+    return super.selectedMess;
   }
 
   @override
-  set selectedHostel(ObservableFuture<Hostel> value) {
-    _$selectedHostelAtom.reportWrite(value, super.selectedHostel, () {
-      super.selectedHostel = value;
+  set selectedMess(ObservableFuture<Mess> value) {
+    _$selectedMessAtom.reportWrite(value, super.selectedMess, () {
+      super.selectedMess = value;
     });
   }
 
@@ -114,11 +113,11 @@ mixin _$MessStore on _MessStore, Store {
   }
 
   @override
-  void setHostel(Hostel h) {
+  void setMess(Mess m) {
     final _$actionInfo =
-        _$_MessStoreActionController.startAction(name: '_MessStore.setHostel');
+        _$_MessStoreActionController.startAction(name: '_MessStore.setMess');
     try {
-      return super.setHostel(h);
+      return super.setMess(m);
     } finally {
       _$_MessStoreActionController.endAction(_$actionInfo);
     }
@@ -140,10 +139,10 @@ mixin _$MessStore on _MessStore, Store {
     return '''
 selectedDay: ${selectedDay},
 selectedMeal: ${selectedMeal},
-selectedHostel: ${selectedHostel},
+selectedMess: ${selectedMess},
 mealData: ${mealData},
-hostelLoaded: ${hostelLoaded},
-defaultUserHostel: ${defaultUserHostel}
+messLoaded: ${messLoaded},
+defaultUserMess: ${defaultUserMess}
     ''';
   }
 }

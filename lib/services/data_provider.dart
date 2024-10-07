@@ -155,7 +155,7 @@ class DataProvider {
   }
 
   static Future<MealType> getMealData({
-    required Hostel hostel,
+    required Mess mess,
     required String day,
     required String mealType,
   }) async {
@@ -172,12 +172,13 @@ class DataProvider {
     }
 
     List<dynamic> answer = jsonData['details']!;
-    var meal = answer.firstWhere((m) => m['hostel'] == hostel.databaseString,
+    var meal = answer.firstWhere(
+        (m) => m['subscribedMess'] == mess.databaseString,
         orElse: () => 'no data');
     if (meal == 'no data') {
       return MealType(
           id: '',
-          mealDescription: "Not updated by ${hostel.displayString}'s HMC. "
+          mealDescription: "Not updated by ${mess.displayString}'s HMC. "
               "Kindly Contact ask them to update",
           startTiming: DateTime.now().toLocal(),
           endTiming: DateTime.now().toLocal());
