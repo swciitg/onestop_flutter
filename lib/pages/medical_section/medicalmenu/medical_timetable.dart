@@ -71,7 +71,7 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                         return SfCalendar(
                         controller: calendarController,
                         todayHighlightColor: kWhite,
-                        showCurrentTimeIndicator: false,
+                        showCurrentTimeIndicator: true,
 
                         view: CalendarView.timelineDay,
                         maxDate: maxDate,
@@ -80,6 +80,7 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                             EventDataSource(docs, selectedDate: displayDate),
                         timeSlotViewSettings: TimeSlotViewSettings(
                           timeInterval: const Duration(hours: 1),
+                          timeIntervalWidth: 80,
                           timeTextStyle: MyFonts.w500.setColor(kWhite),
                         ),
 
@@ -106,6 +107,7 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                         },
                         appointmentBuilder:
                             (context, calendarAppointmentDetails) {
+                          
                           final docs = (calendarAppointmentDetails.appointments)
                               .toList();
                           final doctor = docs.first as DoctorModel;
@@ -113,15 +115,31 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                             padding: const EdgeInsets.all(4),
                             margin: const EdgeInsets.all(2),
                             decoration: BoxDecoration(
-                              color: doctor.category! == "Institute_docs"
-                                  ? kTabBar
+                              color: doctor.category! == "OPD"
+                                  ? Colors.green
                                   : kGrey2,
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Text(
-                              "${doctor.doctor.name!}  ${doctor.degree!}",
-                              style: MyFonts.w500.setColor(kWhite),
-                              overflow: TextOverflow.clip,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    doctor.doctor.name!,
+                                    style: MyFonts.w600.setColor(kWhite).copyWith(
+                                      fontSize: 16,
+                                    ),
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                  Text(
+                                    doctor.degree!,
+                                    style: MyFonts.w600.setColor(kWhite).copyWith(
+                                      fontSize: 16,
+                                    ),
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },

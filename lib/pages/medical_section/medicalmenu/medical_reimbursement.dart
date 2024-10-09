@@ -162,7 +162,7 @@ class MedicalReimbursement extends StatelessWidget {
                   const SizedBox(height: 30,),
                   const Divider(),
                   const SizedBox(height: 15,),
-                  const Spacer(),
+                  
                   Row(
                     children: [
                       const Icon(Icons.info_outline_rounded, color: Colors.grey,size: 24,),
