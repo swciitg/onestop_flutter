@@ -71,7 +71,8 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                         return SfCalendar(
                         controller: calendarController,
                         todayHighlightColor: kWhite,
-                        showCurrentTimeIndicator: true,
+                        showCurrentTimeIndicator: false,
+
                         view: CalendarView.timelineDay,
                         maxDate: maxDate,
                         minDate: minDate,
@@ -81,6 +82,8 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                           timeInterval: const Duration(hours: 1),
                           timeTextStyle: MyFonts.w500.setColor(kWhite),
                         ),
+
+                        //Month year
                         headerStyle: CalendarHeaderStyle(
                           textStyle: MyFonts.w500.setColor(kWhite),
                           backgroundColor: kBackground,
@@ -122,12 +125,13 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                             ),
                           );
                         },
+                          viewHeaderHeight: 0,
                         viewHeaderStyle: ViewHeaderStyle(
-                          backgroundColor: kBackground,
-                          dateTextStyle: MyFonts.w600.setColor(kWhite),
-                          dayTextStyle: MyFonts.w600.setColor(kWhite),
+                          //backgroundColor: kBackground,
+                          dateTextStyle: MyFonts.w600.setColor(kWhite).copyWith(color: Colors.transparent),
+                          dayTextStyle: MyFonts.w600.setColor(kWhite).copyWith(color: Colors.transparent),
                         ),
-                        allowAppointmentResize: false,
+                        allowAppointmentResize: true,
                         allowDragAndDrop: false,
                         onViewChanged: (viewChangedDetails) {
                           final days = viewChangedDetails.visibleDates;
