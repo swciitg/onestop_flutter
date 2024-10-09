@@ -146,7 +146,7 @@ class _HomeTabState extends State<HomeTab> {
                 ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: HomeLinks(title: 'Services', links: serviceLinks,rows: 3,),
+            child: HomeLinks(title: 'Services', links: serviceLinks,rows: 2,),
           ),
           const SizedBox(
             height: 10,

@@ -403,7 +403,6 @@ class APIService {
     var body = response.data;
     Allmedicalcontacts alldoc = Allmedicalcontacts(alldoctors: []);
     if (response.statusCode == 200) {
-      
       for (var json in body) {
         alldoc.addDocToList(MedicalcontactModel.fromJson(json));
       }
@@ -413,15 +412,28 @@ class APIService {
     }
   }
 
-  Future<AllDoctors?> getmedicalTimeTable() async {
-    final response = await dio.get(
-      Endpoints.medicalTimetableURL, // chusuko
-    );
+  Future<AllDoctors> getmedicalTimeTable() async {
+    final response = await dio.get(Endpoints.medicalTimetableURL);
     var body = response.data;
+    print(body);
     AllDoctors alldoc = AllDoctors(alldoctors: []);
     if (response.statusCode == 200) {
       for (var json in body) {
-        alldoc.addDocToList(DoctorModel.fromJson(json as Map<String, dynamic>));
+        final firstSession = DoctorModel.fromJson(json);
+        DoctorModel? secondSession;
+        if (firstSession.startTime2!.isNotEmpty) {
+          secondSession = DoctorModel.clone(firstSession);
+          secondSession.startTime1 = firstSession.startTime2;
+          secondSession.endTime1 = firstSession.endTime2;
+          firstSession.startTime2 = "";
+          firstSession.endTime2 = "";
+          secondSession.startTime2 = "";
+          secondSession.endTime2 = "";
+        }
+        alldoc.addDocToList(firstSession);
+        if (secondSession != null) {
+          alldoc.addDocToList(secondSession);
+        }
       }
       return alldoc;
     } else {
@@ -483,8 +495,6 @@ class APIService {
       throw Exception(response.statusCode);
     }
   }
-
-  
 
   Future<List<Map<String, dynamic>>> getMessMenu() async {
     var response = await dio.get(Endpoints.messURL);

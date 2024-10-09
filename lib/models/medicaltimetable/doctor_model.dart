@@ -16,12 +16,14 @@ class DoctorModel /*implements Comparable<DoctorModel> */ {
   });
 
   DoctorModel.fromJson(Map<String, dynamic> json) {
-    doctor = DropdownContactModel.fromJson(json['doctor'] as Map<String, dynamic>);
+    doctor = DropdownContactModel.fromJson(json['doctor'] as Map<String, dynamic>? ?? {});
     degree = json['degree'] ?? "";
     designation = json['designation'] ?? "";
     category = json['category'];
     date = json['date'].toString().substring(0,10);
     startTime1 = json['startTime1'] ?? "";
+    print("StartTime : $startTime1");
+    print("Date: $date");
     endTime1 = json['endTime1'] ?? "";
     startTime2 = json['startTime2'] ?? "";
     endTime2 = json['endTime2'] ?? "";
