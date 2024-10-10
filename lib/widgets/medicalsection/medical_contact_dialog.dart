@@ -25,6 +25,7 @@ class _ContactDialogState extends State<MedicalContactDialog> {
 
   @override
   Widget build(BuildContext context) {
+    var phoneNumber = "0361258${widget.contact.phone}";
     return AlertDialog(
         backgroundColor: kBlueGrey, // Dark background
         content: Container(
@@ -57,7 +58,7 @@ class _ContactDialogState extends State<MedicalContactDialog> {
                 children: [
                   IconButton(onPressed: () async {
                     try {
-                      await launchPhoneURL(widget.contact.phone!);
+                      await launchPhoneURL(phoneNumber);
                     } catch (e) {
                       if (kDebugMode) {
                         print(e);
@@ -67,7 +68,7 @@ class _ContactDialogState extends State<MedicalContactDialog> {
                   }, icon: const Icon(Icons.call, color: Colors.green),),
                   IconButton(onPressed: () async {
                     try {
-                      await launchEmailURL(widget.contact.email!);
+                      await launchEmailURL(widget.contact.email);
                     } catch (e) {
                       if (kDebugMode) {
                         print(e);

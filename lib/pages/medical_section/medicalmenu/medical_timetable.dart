@@ -62,103 +62,170 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                       }
                       final minDate = DateTime.now();
                       final maxDate = minDate.add(const Duration(days: 6));
-                      
-                      return Observer(builder: (context){
+
+                      return Observer(builder: (context) {
                         final docs = store.todayMedicalTimeTable;
                         final displayDate = DateTime.now()
-                          .add(Duration(days: store.selectedDate));
-                      calendarController.displayDate = displayDate;
+                            .add(Duration(days: store.selectedDate));
+                        calendarController.displayDate = displayDate;
                         return SfCalendar(
-                        controller: calendarController,
-                        todayHighlightColor: kWhite,
-                        showCurrentTimeIndicator: true,
+                          controller: calendarController,
+                          todayHighlightColor: kWhite,
+                          showCurrentTimeIndicator: true,
 
-                        view: CalendarView.timelineDay,
-                        maxDate: maxDate,
-                        minDate: minDate,
-                        dataSource:
-                            EventDataSource(docs, selectedDate: displayDate),
-                        timeSlotViewSettings: TimeSlotViewSettings(
-                          timeInterval: const Duration(hours: 1),
-                          timeIntervalWidth: 80,
-                          timeTextStyle: MyFonts.w500.setColor(kWhite),
-                        ),
+                          view: CalendarView.timelineDay,
+                          maxDate: maxDate,
+                          minDate: minDate,
+                          dataSource:
+                              EventDataSource(docs, selectedDate: displayDate),
+                          timeSlotViewSettings: TimeSlotViewSettings(
+                            timeInterval: const Duration(hours: 1),
+                            timeIntervalWidth: 80,
+                            timeTextStyle: MyFonts.w500.setColor(kWhite),
+                          ),
 
-                        //Month year
-                        headerStyle: CalendarHeaderStyle(
-                          textStyle: MyFonts.w500.setColor(kWhite),
-                          backgroundColor: kBackground,
-                        ),
-                        cellBorderColor: kGrey2,
-                        selectionDecoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        onDragUpdate: (details) {
-                          if (details.draggingTime == null) return;
-                          setState(() {
-                            int date =
-                                details.draggingTime!.day - DateTime.now().day;
-                            if (date >= 0 && date < 7) {
-                              store.selectedDate = date;
-                            }
-                          });
-                        },
-                        appointmentBuilder:
-                            (context, calendarAppointmentDetails) {
-                          
-                          final docs = (calendarAppointmentDetails.appointments)
-                              .toList();
-                          final doctor = docs.first as DoctorModel;
-                          return Container(
-                            padding: const EdgeInsets.all(4),
-                            margin: const EdgeInsets.all(2),
-                            decoration: BoxDecoration(
-                              color: doctor.category! == "OPD"
-                                  ? Colors.green
-                                  : kGrey2,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    doctor.doctor.name!,
-                                    style: MyFonts.w600.setColor(kWhite).copyWith(
-                                      fontSize: 16,
-                                    ),
-                                    overflow: TextOverflow.clip,
+                          //Month year
+                          headerStyle: CalendarHeaderStyle(
+                            textStyle: MyFonts.w500.setColor(kWhite),
+                            backgroundColor: kBackground,
+                          ),
+                          cellBorderColor: kGrey2,
+                          selectionDecoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(color: Colors.transparent),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          onDragUpdate: (details) {
+                            if (details.draggingTime == null) return;
+                            setState(() {
+                              int date = details.draggingTime!.day -
+                                  DateTime.now().day;
+                              if (date >= 0 && date < 7) {
+                                store.selectedDate = date;
+                              }
+                            });
+                          },
+                          appointmentBuilder:
+                              (context, calendarAppointmentDetails) {
+                            final docs =
+                                (calendarAppointmentDetails.appointments)
+                                    .toList();
+                            final doctor = docs.first as DoctorModel;
+                            return InkWell(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: kBlueGrey,
+                                      title: Text('Doctor Information',
+                                          style: MyFonts.w500.setColor(kWhite)),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text('Name: ${doctor.doctor.name!}',
+                                              style: MyFonts.w500
+                                                  .setColor(kWhite)
+                                                  .copyWith(fontSize: 14)),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text('Degree: ${doctor.degree!}',
+                                              style: MyFonts.w500
+                                                  .setColor(kWhite)
+                                                  .copyWith(fontSize: 14)),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                              'Category: ${doctor.designation!}',
+                                              style: MyFonts.w500
+                                                  .setColor(kWhite)
+                                                  .copyWith(fontSize: 14)),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                              'Timings: ${doctor.startTime1!} - ${doctor.endTime1!}',
+                                              style: MyFonts.w500
+                                                  .setColor(kWhite)
+                                                  .copyWith(fontSize: 14)),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                        ],
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Close the dialog
+                                          },
+                                          child: Text('Close',
+                                              style: MyFonts.w300
+                                                  .setColor(kWhite)),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                margin: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: doctor.category! == "OPD"
+                                      ? Colors.green
+                                      : kGrey2,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        doctor.doctor.name!,
+                                        style: MyFonts.w600
+                                            .setColor(kWhite)
+                                            .copyWith(
+                                              fontSize: 14,
+                                            ),
+                                        overflow: TextOverflow.clip,
+                                      ),
+                                      Text(
+                                        doctor.degree!,
+                                        style: MyFonts.w600
+                                            .setColor(kWhite)
+                                            .copyWith(
+                                              fontSize: 14,
+                                            ),
+                                        overflow: TextOverflow.clip,
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    doctor.degree!,
-                                    style: MyFonts.w600.setColor(kWhite).copyWith(
-                                      fontSize: 16,
-                                    ),
-                                    overflow: TextOverflow.clip,
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
                           viewHeaderHeight: 0,
-                        viewHeaderStyle: ViewHeaderStyle(
-                          //backgroundColor: kBackground,
-                          dateTextStyle: MyFonts.w600.setColor(kWhite).copyWith(color: Colors.transparent),
-                          dayTextStyle: MyFonts.w600.setColor(kWhite).copyWith(color: Colors.transparent),
-                        ),
-                        allowAppointmentResize: true,
-                        allowDragAndDrop: false,
-                        onViewChanged: (viewChangedDetails) {
-                          final days = viewChangedDetails.visibleDates;
-                          final index = days.first.day - DateTime.now().day;
-                          store.setDate(index);
-                          store.setDay(store.dates[index].weekday - 1);
-                        },
-
-                      );
+                          viewHeaderStyle: ViewHeaderStyle(
+                            backgroundColor: kBackground,
+                            dateTextStyle: MyFonts.w600
+                                .setColor(kWhite)
+                                .copyWith(color: Colors.transparent),
+                            dayTextStyle: MyFonts.w600
+                                .setColor(kWhite)
+                                .copyWith(color: Colors.transparent),
+                          ),
+                          allowAppointmentResize: true,
+                          allowDragAndDrop: false,
+                          onViewChanged: (viewChangedDetails) {
+                            final days = viewChangedDetails.visibleDates;
+                            final index = days.first.day - DateTime.now().day;
+                            store.setDate(index);
+                            store.setDay(store.dates[index].weekday - 1);
+                          },
+                        );
                       });
                     },
                   ),
