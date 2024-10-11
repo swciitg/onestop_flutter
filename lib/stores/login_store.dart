@@ -42,6 +42,7 @@ class LoginStore {
       if (user.containsKey("isProfileComplete")) {
         isProfileComplete = true;
       }
+      isProfileComplete = true;
       return SplashResponse.authenticated;
     }
     return SplashResponse.notAuthenticated;

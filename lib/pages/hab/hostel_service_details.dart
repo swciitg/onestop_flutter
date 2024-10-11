@@ -1,45 +1,90 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
+import 'package:onestop_dev/functions/utility/validator.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
+import 'package:onestop_dev/pages/hab/hostel_service.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
+import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
 import 'package:onestop_dev/widgets/upsp/checkbox_list.dart';
 import 'package:onestop_dev/widgets/upsp/file_tile.dart';
 import 'package:onestop_dev/widgets/upsp/upload_button.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
-const List<String> services = [
-  'Canteen',
-  'Juice Center',
-  'Mess',
-  'Stationery',
-  'Infra',
-  'General'
+const List<String> Infra = [
+  'Electrician',
+  'Carpenter',
+  'Sanitation',
+  'Plumbing',
+  'Civil (Room panting damage)',
 ];
 
-class HostelService extends StatefulWidget {
-  static const String id = "/hostelService";
+const List<String> Services = [
+  'Canteen',
+  'Mess',
+  'Stationary',
+  'Juice Center',
+];
 
-  const HostelService({Key? key}) : super(key: key);
+class HostelServiceDetails extends StatefulWidget {
+  final String complaintType;
+
+  const HostelServiceDetails({Key? key, required this.complaintType})
+      : super(key: key);
 
   @override
-  State<HostelService> createState() => HostelServiceState();
+  State<HostelServiceDetails> createState() => HostelServiceDetailsState();
 }
 
-class HostelServiceState extends State<HostelService> {
+class HostelServiceDetailsState extends State<HostelServiceDetails> {
   List<String> files = [];
   TextEditingController problem = TextEditingController();
   RadioButtonListController servicesController = RadioButtonListController();
+  RadioButtonListController InfraController = RadioButtonListController();
   bool submitted = false;
   TextEditingController contact = TextEditingController();
+  TextEditingController complaintID = TextEditingController();
+  TextEditingController dateController = TextEditingController();
   TextEditingController roomNo = TextEditingController();
   List<Hostel> hostels = Hostel.values;
-  final _formKey = GlobalKey<FormState>();
+  DateTime? selectedDate;
+  //final _formKey = GlobalKey<FormState>();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.dark(
+              primary: Colors.blueGrey,
+              onPrimary: kWhite,
+              surface: kBlueGrey,
+              onSurface: kWhite,
+            ),
+            dialogBackgroundColor: kBlueGrey,
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        dateController.text = DateFormat('dd/MM/yyyy').format(picked);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +124,7 @@ class HostelServiceState extends State<HostelService> {
                 },
                 child: Column(
                   children: [
-                    //const ProgressBar(blue: 1, grey: 1),
+                    const ProgressBar(blue: 2, grey: 0),
                     Container(
                       color: kBlueGrey,
                       child: Container(
@@ -112,6 +157,105 @@ class HostelServiceState extends State<HostelService> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            if (widget.complaintType != "General") ...[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, top: 15, bottom: 10),
+                                child: Text(
+                                  "Complaint ID",
+                                  style: OnestopFonts.w600
+                                      .size(16)
+                                      .setColor(kWhite),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 12),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: kGrey2),
+                                        color: kBackground,
+                                        borderRadius:
+                                            BorderRadius.circular(24)),
+                                    child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 10),
+                                        child: TextFormField(
+                                          controller: complaintID,
+                                          validator: (val) {
+                                            if (val == null || val.isEmpty) {
+                                              return "Please fill your complaint ID";
+                                            }
+                                            return null;
+                                          },
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp('[A-Z0-9!-]')),
+                                          ],
+                                          // keyboardType: TextInputType.number,
+                                          style: OnestopFonts.w500
+                                              .size(16)
+                                              .setColor(kWhite),
+                                          decoration: InputDecoration(
+                                            errorStyle: OnestopFonts.w400,
+                                            counterText: "",
+                                            border: InputBorder.none,
+                                            hintText:
+                                                'Complaint ID of complaint on IPM Section',
+                                            hintStyle:
+                                                const TextStyle(color: kGrey8),
+                                          ),
+                                        ))),
+                              ),
+                            ],
+                            if (widget.complaintType == "Infra") ...[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, top: 15, bottom: 10),
+                                child: Text(
+                                  "Complaint Date",
+                                  style: MyFonts.w600.size(16).setColor(kWhite),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 12),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: kGrey2),
+                                    color: kBackground,
+                                    borderRadius: BorderRadius.circular(24),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    child: TextFormField(
+                                      controller: dateController,
+                                      readOnly: true,
+                                      style: MyFonts.w500
+                                          .size(16)
+                                          .setColor(kWhite),
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Select Date',
+                                        hintStyle:
+                                            const TextStyle(color: kGrey8),
+                                        suffixIcon: IconButton(
+                                          icon: const Icon(
+                                              FluentIcons
+                                                  .calendar_ltr_24_regular,
+                                              color: kWhite),
+                                          onPressed: () => _selectDate(context),
+                                        ),
+                                      ),
+                                      onTap: () => _selectDate(context),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 15, top: 15, bottom: 10),
@@ -243,18 +387,34 @@ class HostelServiceState extends State<HostelService> {
                                         ),
                                       ))),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 15, bottom: 10),
-                              child: Text(
-                                "On which service would you like to give to feedback or register complaint?",
-                                style: MyFonts.w600.size(16).setColor(kWhite),
+                            if (widget.complaintType == "Infra") ...[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, top: 15, bottom: 10),
+                                child: Text(
+                                  "On which service would you like to give to feedback or register complaint?",
+                                  style: MyFonts.w600.size(16).setColor(kWhite),
+                                ),
                               ),
-                            ),
-                            RadioButtonList(
-                              values: services,
-                              controller: servicesController,
-                            ),
+                              RadioButtonList(
+                                values: Infra,
+                                controller: InfraController,
+                              ),
+                            ],
+                            if (widget.complaintType == "Services") ...[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, top: 15, bottom: 10),
+                                child: Text(
+                                  "On which service would you like to give to feedback or register complaint?",
+                                  style: MyFonts.w600.size(16).setColor(kWhite),
+                                ),
+                              ),
+                              RadioButtonList(
+                                values: Services,
+                                controller: servicesController,
+                              ),
+                            ],
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 15, top: 15, bottom: 10),
@@ -367,51 +527,106 @@ class HostelServiceState extends State<HostelService> {
                                 if (problem.value.text.isEmpty) {
                                   showSnackBar(
                                       "Problem description cannot be empty");
+                                }
+                                if (widget.complaintType != "General" &&
+                                    complaintID.text.isEmpty) {
+                                  showSnackBar("Complaint ID cannot be empty");
+                                  return;
+                                }
+                                if (widget.complaintType == "Infra") {
+                                  if (selectedDate == null) {
+                                    showSnackBar(
+                                        "Please select a complaint date");
+                                    return;
+                                  }
+                                  if (InfraController.selectedItem == null) {
+                                    showSnackBar(
+                                        "Please select an infrastructure service");
+                                    return;
+                                  }
+                                }
+
+                                if (widget.complaintType == "Services" &&
+                                    servicesController.selectedItem == null) {
+                                  showSnackBar("Please select a service");
+                                  return;
+                                }
+
+                                if (contact.text.isEmpty ||
+                                    contact.text.length < 10) {
+                                  showSnackBar(
+                                      "Please enter a valid contact number");
+                                  return;
+                                }
+
+                                if (roomNo.text.isEmpty) {
+                                  showSnackBar("Please enter your room number");
+                                  return;
+                                }
+
+                                if (selectedHostel == Hostel.none) {
+                                  showSnackBar("Please select your hostel");
+                                  return;
+                                }
+                                String temp = "";
+                                if (widget.complaintType == "Infra") {
+                                  temp = InfraController.selectedItem!;
+                                } else if (widget.complaintType == "Services") {
+                                  temp = servicesController.selectedItem!;
                                 } else {
-                                  Map<String, dynamic> data = {
-                                    'problem': problem.text,
-                                    'files': files,
-                                    'services': servicesController.selectedItem,
-                                    'phone': contact.text,
-                                    'name': name,
-                                    'email': email,
-                                    'room_number': roomNo.text,
-                                    'hostel': selectedHostel.databaseString,
-                                  };
-                                  //print(data);
-                                  /*if (!_formKey.currentState!.validate()) {
+                                  temp = "General";
+                                }
+                                Map<String, dynamic> data = {
+                                  'problem': problem.text,
+                                  'files': files,
+                                  'services': temp,
+                                  'phone': contact.text,
+                                  'name': name,
+                                  'email': email,
+                                  'room_number': roomNo.text,
+                                  'hostel': selectedHostel.databaseString,
+                                  'complaintID':
+                                      widget.complaintType != "General"
+                                          ? complaintID
+                                          : null,
+                                  'compalintDate':
+                                      widget.complaintType == "Infra"
+                                          ? selectedDate
+                                          : null,
+                                };
+                                //print(data);
+                                /*if (!_formKey.currentState!.validate()) {
                                     return;
                                   }*/
-                                  if (!submitted) {
-                                    setState(() {
-                                      submitted = true;
-                                    });
+                                if (!submitted) {
+                                  setState(() {
+                                    submitted = true;
+                                  });
 
-                                    try {
-                                      var response =
-                                          await APIService().postHAB(data);
-                                      if (!mounted) return;
-                                      if (response['success']) {
-                                        showSnackBar(
-                                            "Your problem has been successfully sent to respective au1thorities.");
-                                        Navigator.popUntil(
-                                            context,
-                                            ModalRoute.withName(
-                                                ComplaintsPage.id));
-                                      } else {
-                                        showSnackBar(
-                                            "Some error occurred. Try again later");
-                                        setState(() {
-                                          submitted = false;
-                                        });
-                                      }
-                                    } catch (err) {
+                                  try {
+                                    var response =
+                                        await APIService().postHAB(data);
+                                    if (!mounted) return;
+                                    if (response['success']) {
                                       showSnackBar(
-                                          "Please check you internet connection and try again");
+                                          "Your problem has been successfully sent to respective au1thorities.");
+                                      Navigator.popUntil(
+                                          context,
+                                          ModalRoute.withName(
+                                              ComplaintsPage.id));
+                                    } else {
+                                      showSnackBar(
+                                          "Some error occurred. Try again later");
                                       setState(() {
                                         submitted = false;
                                       });
                                     }
+                                  } catch (err) {
+                                    showSnackBar(
+                                        "Please check you internet connection and try again");
+                                    setState(() {
+                                      submitted = false;
+                                    });
                                   }
                                 }
                               },

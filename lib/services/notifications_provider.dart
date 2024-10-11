@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:firebase_core/firebase_core.dart';
 import "package:firebase_messaging/firebase_messaging.dart";
+import 'package:flutter/material.dart';
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,7 +62,7 @@ void onDidReceiveNotificationResponse(
 }
 
 bool checkNotificationCategory(String type) {
-  print(type);
+  debugPrint("Notification type: $type");
   switch (type) {
     case "announcement":
     case "lost":
@@ -115,29 +116,28 @@ Future<bool> checkForNotifications() async {
   );
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
-    // onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
-    // onDidReceiveBackgroundNotificationResponse:
-    //     onDidReceiveNotificationResponse,
+    onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+  );
+
+  AndroidNotificationDetails androidNotificationDetails =
+      AndroidNotificationDetails(channel.id, channel.name,
+          channelDescription: channel.description,
+          importance: Importance.high,
+          playSound: true,
+          icon: 'notification_icon');
+  DarwinNotificationDetails iosNotificationDetails =
+      const DarwinNotificationDetails(
+    presentAlert: true,
+    presentBadge: true,
+    presentSound: true,
+  );
+  NotificationDetails notificationDetails = NotificationDetails(
+    android: androidNotificationDetails,
+    iOS: iosNotificationDetails,
   );
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     print("Here me");
-    AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(channel.id, channel.name,
-            channelDescription: channel.description,
-            importance: Importance.high,
-            playSound: true,
-            icon: 'notification_icon');
-    DarwinNotificationDetails iosNotificationDetails =
-        const DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true,
-    );
-    NotificationDetails notificationDetails = NotificationDetails(
-      android: androidNotificationDetails,
-      iOS: iosNotificationDetails,
-    );
     print("Message is ${message.data}");
     if (checkNotificationCategory(message.data['category'])) {
       print("apple");
