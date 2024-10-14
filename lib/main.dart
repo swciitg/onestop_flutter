@@ -9,6 +9,7 @@ import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/services/notifications_provider.dart';
 import 'package:onestop_dev/stores/common_store.dart';
+import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
@@ -66,6 +67,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<TravelStore>(
           create: (_) => TravelStore(),
+        ),
+        Provider<EventsStore>(
+          create: (_) => EventsStore(),
         ),
         Provider<TimetableStore>(
           create: (_) => TimetableStore(),

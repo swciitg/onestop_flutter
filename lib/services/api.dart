@@ -7,6 +7,7 @@ import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
+import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
@@ -307,6 +308,15 @@ class APIService {
     return buyPage;
   }
 
+  Future<List<EventModel>> getEventPage(String category) async {
+    var response = await dio.get('http://swc.iitg.ac.in/events/categories');
+    var json = response.data[category];
+    List<EventModel> eventPage =
+        (json as List<dynamic>).map((e) => EventModel.fromJson(e)).toList();
+    await Future.delayed(const Duration(milliseconds: 300), () => null);
+    return eventPage;
+  }
+
   Future<List> getFoundItems() async {
     var res = await dio.get(Endpoints.foundURL);
     var foundItemsDetails = res.data;
@@ -323,6 +333,16 @@ class APIService {
       'email': data['email'],
       'username': data['name']
     });
+    return res.data;
+  }
+
+  Future<Map<String, dynamic>> postEvent(Map<String, String?> formData) async {
+    var res = await dio.post('http://swc.iitg.ac.in/events', data: formData);
+    return res.data;
+  }
+
+  Future<Map<String, dynamic>> deleteEvent(String id) async {
+    var res = await dio.delete('http://swc.iitg.ac.in//events/:id', data: id);
     return res.data;
   }
 

@@ -157,7 +157,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (widget.complaintType != "General") ...[
+                            if (widget.complaintType == "Infra") ...[
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 15, top: 15, bottom: 10),
@@ -528,7 +528,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                   showSnackBar(
                                       "Problem description cannot be empty");
                                 }
-                                if (widget.complaintType != "General" &&
+                                if (widget.complaintType == "Infra" &&
                                     complaintID.text.isEmpty) {
                                   showSnackBar("Complaint ID cannot be empty");
                                   return;
@@ -585,10 +585,9 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                   'email': email,
                                   'room_number': roomNo.text,
                                   'hostel': selectedHostel.databaseString,
-                                  'complaintID':
-                                      widget.complaintType != "General"
-                                          ? complaintID
-                                          : null,
+                                  'complaintID': widget.complaintType == "Infra"
+                                      ? complaintID
+                                      : null,
                                   'compalintDate':
                                       widget.complaintType == "Infra"
                                           ? selectedDate
