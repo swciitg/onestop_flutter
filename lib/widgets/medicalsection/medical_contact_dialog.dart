@@ -8,8 +8,10 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class MedicalContactDialog extends StatefulWidget {
   final MedicalcontactModel contact;
-
-  const MedicalContactDialog({Key? key, required this.contact}) : super(key: key);
+  final bool isMisc;
+  const MedicalContactDialog(
+      {Key? key, required this.contact, required this.isMisc})
+      : super(key: key);
 
   @override
   State<MedicalContactDialog> createState() => _ContactDialogState();
@@ -26,7 +28,11 @@ class _ContactDialogState extends State<MedicalContactDialog> {
   @override
   Widget build(BuildContext context) {
     var phoneNumber = "0361258${widget.contact.phone}";
-    return AlertDialog(
+    var name = widget.isMisc
+        ? widget.contact.miscellaneous_contact!
+        : widget.contact.name.name!;
+    if (!widget.isMisc) {
+      return AlertDialog(
         backgroundColor: kBlueGrey, // Dark background
         content: Container(
           width: 600,
@@ -36,14 +42,18 @@ class _ContactDialogState extends State<MedicalContactDialog> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  widget.contact.name.name!,
-                  style: MyFonts.w700.setColor(kWhite).size(20).copyWith(fontWeight: FontWeight.bold),
-
+                  name,
+                  style: MyFonts.w700
+                      .setColor(kWhite)
+                      .size(20)
+                      .copyWith(fontWeight: FontWeight.bold),
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 10,),
-                _buildInfoRow(Icons.work, widget.contact.designation!),
-                _buildInfoRow(Icons.school, widget.contact.degree!),
+                const SizedBox(
+                  height: 10,
+                ),
+                _buildInfoRow(Icons.work, widget.contact.name.designation!),
+                _buildInfoRow(Icons.school, widget.contact.name.degree!),
                 _buildInfoRow(Icons.phone, "0361258${widget.contact.phone}"),
                 _buildInfoRow(Icons.email, widget.contact.email!),
               ],
@@ -56,29 +66,35 @@ class _ContactDialogState extends State<MedicalContactDialog> {
             children: [
               Row(
                 children: [
-                  IconButton(onPressed: () async {
-                    try {
-                      await launchPhoneURL(phoneNumber);
-                    } catch (e) {
-                      if (kDebugMode) {
-                        print(e);
+                  IconButton(
+                    onPressed: () async {
+                      try {
+                        await launchPhoneURL(phoneNumber);
+                      } catch (e) {
+                        if (kDebugMode) {
+                          print(e);
+                        }
                       }
-                    }
-
-                  }, icon: const Icon(Icons.call, color: Colors.green),),
-                  IconButton(onPressed: () async {
-                    try {
-                      await launchEmailURL(widget.contact.email);
-                    } catch (e) {
-                      if (kDebugMode) {
-                        print(e);
+                    },
+                    icon: const Icon(Icons.call, color: Colors.green),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      try {
+                        await launchEmailURL(widget.contact.email ?? "");
+                      } catch (e) {
+                        if (kDebugMode) {
+                          print(e);
+                        }
                       }
-                    }
-                  }, icon: const Icon(Icons.mail, color: Colors.blue),),
+                    },
+                    icon: const Icon(Icons.mail, color: Colors.blue),
+                  ),
                 ],
               ),
               TextButton(
-                child: const Text("Close", style: TextStyle(color: Colors.white70)),
+                child: const Text("Close",
+                    style: TextStyle(color: Colors.white70)),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -87,6 +103,77 @@ class _ContactDialogState extends State<MedicalContactDialog> {
           ),
         ],
       );
+    } else {
+      return AlertDialog(
+        backgroundColor: kBlueGrey, // Dark background
+        content: Container(
+          width: 600,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  name,
+                  style: MyFonts.w700
+                      .setColor(kWhite)
+                      .size(20)
+                      .copyWith(fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                _buildInfoRow(Icons.phone, "0361258${widget.contact.phone}"),
+                _buildInfoRow(Icons.email, widget.contact.email!),
+              ],
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () async {
+                      try {
+                        await launchPhoneURL(phoneNumber);
+                      } catch (e) {
+                        if (kDebugMode) {
+                          print(e);
+                        }
+                      }
+                    },
+                    icon: const Icon(Icons.call, color: Colors.green),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      try {
+                        await launchEmailURL(widget.contact.email ?? "");
+                      } catch (e) {
+                        if (kDebugMode) {
+                          print(e);
+                        }
+                      }
+                    },
+                    icon: const Icon(Icons.mail, color: Colors.blue),
+                  ),
+                ],
+              ),
+              TextButton(
+                child: const Text("Close",
+                    style: TextStyle(color: Colors.white70)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+    }
   }
 }
 

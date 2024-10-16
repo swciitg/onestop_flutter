@@ -64,14 +64,14 @@ class MedicalTimetableTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${doctor.doctor.name!}  ${doctor.degree!}",
+                        "${doctor.doctor.name!}  ${doctor.doctor.degree!}",
                         style: MyFonts.w500.size(15).setColor(kWhite),
                       ),
                       const SizedBox(
                         height: 4.0,
                       ),
                       Text(
-                        doctor.designation!,
+                        doctor.doctor.designation!,
                         style: MyFonts.w500.size(15).setColor(kWhite),
                       ),
                       const SizedBox(

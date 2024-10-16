@@ -8,6 +8,7 @@ class Allmedicalcontacts {
   @JsonKey(defaultValue: [])
   late List<MedicalcontactModel> alldoctors;
 
+
   Allmedicalcontacts({ required this.alldoctors});
 
   void addDocToList(MedicalcontactModel c) => alldoctors.add(c);

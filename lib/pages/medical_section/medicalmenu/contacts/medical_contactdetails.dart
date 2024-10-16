@@ -22,6 +22,7 @@ class MedicalContactdetails extends StatefulWidget {
 class _MedicalContactdetailsState extends State<MedicalContactdetails> {
   @override
   Widget build(BuildContext context) {
+    bool isMisc = widget.title == 'Reception & Support';
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -101,6 +102,7 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: widget.contacts.map((item) {
+                    var name = isMisc ? item.miscellaneous_contact : item.name.name;
                     return Padding(
                       padding: const EdgeInsets.only(
                           top: 4.0, bottom: 4.0, right: 10),
@@ -109,7 +111,7 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
                           showDialog(
                               context: context,
                               builder: (_) => 
-                                    MedicalContactDialog(contact: item),
+                                    MedicalContactDialog(contact: item, isMisc: isMisc),
                                   
                               barrierDismissible: true);
                         },
@@ -117,10 +119,10 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ContactText(
-                                text: item.name.name!,
+                                text: name!,
                                 align: AlignmentDirectional.topStart),
                             ContactText(
-                                text: item.email,
+                                text: item.email ?? "",
                                 align: AlignmentDirectional.center),
                             ContactText(
                                 text: "0361258${item.phone.toString()}",

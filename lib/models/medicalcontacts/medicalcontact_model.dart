@@ -1,28 +1,50 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:onestop_dev/models/medicalcontacts/dropdown_contact_model.dart';
 
-part 'medicalcontact_model.g.dart';
-
-@JsonSerializable()
 class MedicalcontactModel {
   late DropdownContactModel name;
-  @JsonKey(defaultValue: "Untitled")
-  late String category;
-  @JsonKey(defaultValue: "Unknown")
-  late String email;
-  @JsonKey(defaultValue: "123456789")
-  late String phone;
-  @JsonKey(defaultValue: "")
-  late String? designation;
-  @JsonKey(defaultValue: "")
-  late String? degree;
+  String? miscellaneous_contact;
+  String? category;
+  String? email;
+  String? phone;
+  String? designation;
+  String? degree;
 
+  MedicalcontactModel({
+    required this.name,this.miscellaneous_contact,this.category,this.email,this.phone,this.designation,this.degree
+  });
 
-//Constructor
-  MedicalcontactModel(
-      {required this.name, required this.email, required this.phone, required this.category,  this.designation,  this.degree});
-  factory MedicalcontactModel.fromJson(Map<String, dynamic> json) =>
-      _$MedicalcontactModelFromJson(json);
+  MedicalcontactModel.fromJson(Map<String, dynamic> json) {
 
-  Map<String, dynamic> toJson() => _$MedicalcontactModelToJson(this);
+    name = DropdownContactModel.fromJson(json['name'] as Map<String, dynamic>? ?? {});
+    miscellaneous_contact = json['miscellaneous_contact'] ?? "";
+    category = json['category'];
+    email = json['email'];
+    phone = json['phone'] ?? "";
+    designation = json['designation'] ?? "";
+    degree = json['degree'] ?? "";
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['miscellaneous_contact'] = miscellaneous_contact;
+    data['category'] = category;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['designation'] = designation;
+    data['degree'] = degree;
+    return data;
+  }
+
+  String formatTime(String time) {
+    var times = time.split(' - ');
+    List<String> ft = [];
+    for (var t in times) {
+      if (t[1] == ':') {
+        t = '0$t';
+      }
+      ft.add(t);
+    }
+    return ft.join(' - ');
+  }
 }

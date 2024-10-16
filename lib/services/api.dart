@@ -415,7 +415,7 @@ class APIService {
   Future<AllDoctors> getmedicalTimeTable() async {
     final response = await dio.get(Endpoints.medicalTimetableURL);
     var body = response.data;
-    print(body);
+  
     AllDoctors alldoc = AllDoctors(alldoctors: []);
     if (response.statusCode == 200) {
       for (var json in body) {

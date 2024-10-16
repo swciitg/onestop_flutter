@@ -130,7 +130,7 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                                           const SizedBox(
                                             height: 5,
                                           ),
-                                          Text('Degree: ${doctor.degree!}',
+                                          Text('Degree: ${doctor.doctor.degree!}',
                                               style: MyFonts.w500
                                                   .setColor(kWhite)
                                                   .copyWith(fontSize: 14)),
@@ -138,7 +138,7 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                                             height: 5,
                                           ),
                                           Text(
-                                              'Category: ${doctor.designation!}',
+                                              'Category: ${doctor.doctor.designation!}',
                                               style: MyFonts.w500
                                                   .setColor(kWhite)
                                                   .copyWith(fontSize: 14)),
@@ -174,9 +174,7 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                                 padding: const EdgeInsets.all(4),
                                 margin: const EdgeInsets.all(2),
                                 decoration: BoxDecoration(
-                                  color: doctor.category! == "OPD"
-                                      ? Colors.green
-                                      : kGrey2,
+                                  color: Colors.green,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Center(
@@ -193,7 +191,7 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                                         overflow: TextOverflow.clip,
                                       ),
                                       Text(
-                                        doctor.degree!,
+                                        doctor.doctor.degree!,
                                         style: MyFonts.w600
                                             .setColor(kWhite)
                                             .copyWith(
@@ -309,7 +307,7 @@ class EventDataSource extends CalendarDataSource {
   @override
   String getSubject(int index) {
     final doctor = (appointments![index] as DoctorModel);
-    return "${doctor.doctor.name!}  ${doctor.degree!}";
+    return "${doctor.doctor.name!}  ${doctor.doctor.degree!}";
   }
 
   @override

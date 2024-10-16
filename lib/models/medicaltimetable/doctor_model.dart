@@ -2,8 +2,6 @@ import 'package:onestop_dev/models/medicalcontacts/dropdown_contact_model.dart';
 
 class DoctorModel /*implements Comparable<DoctorModel> */ {
   late DropdownContactModel doctor;
-  String? degree;
-  String? designation;
   String? category;
   String? date;
   String? startTime1;
@@ -12,13 +10,11 @@ class DoctorModel /*implements Comparable<DoctorModel> */ {
   String? endTime2;
 
   DoctorModel({
-    required this.doctor,this.degree,this.designation,this.category,this.date,this.startTime1,this.endTime1,this.startTime2,this.endTime2
+    required this.doctor,this.category,this.date,this.startTime1,this.endTime1,this.startTime2,this.endTime2
   });
 
   DoctorModel.fromJson(Map<String, dynamic> json) {
     doctor = DropdownContactModel.fromJson(json['doctor'] as Map<String, dynamic>? ?? {});
-    degree = json['degree'] ?? "";
-    designation = json['designation'] ?? "";
     category = json['category'];
     date = json['date'].toString().substring(0,10);
     startTime1 = json['startTime1'] ?? "";
@@ -32,8 +28,6 @@ class DoctorModel /*implements Comparable<DoctorModel> */ {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['doctor'] = doctor;
-    data['degree'] = degree;
-    data['designation'] = designation;
     data['category'] = category;
     data['date'] = date;
     data['startTime1'] = startTime1;
@@ -58,8 +52,6 @@ class DoctorModel /*implements Comparable<DoctorModel> */ {
   DoctorModel.clone(DoctorModel c)
       : this(
           doctor: c.doctor,
-          degree: c.degree,
-          designation: c.designation,
           category: c.category,
           date: c.date,
           startTime1: c.startTime1,
