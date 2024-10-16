@@ -148,6 +148,31 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                               "One Stop Services Complaint Redressal by HAB",
                               style: MyFonts.w400.size(14).setColor(kWhite),
                             ),
+                            if (widget.complaintType == "Infra") ...[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 0, top: 10, bottom: 0),
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: '* ', // The asterisk in red color
+                                        style: OnestopFonts.w600
+                                            .size(11)
+                                            .copyWith(color: Colors.red),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            'File your complaint 72 hours after registering on the IPM portal.', // Rest of the text
+                                        style: OnestopFonts.w600
+                                            .size(11)
+                                            .setColor(kGrey8),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ]
                           ],
                         ),
                       ),
@@ -168,27 +193,32 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                       .setColor(kWhite),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10, top: 0, bottom: 0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: '* ', // The asterisk in red color
-                                        style: OnestopFonts.w600
-                                            .size(16)
-                                            .copyWith(color: Colors.red),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom:
+                                                1.5), // Adjust this value as needed
+                                        child: Text(
+                                          '*',
+                                          style: OnestopFonts.w600
+                                              .size(10)
+                                              .copyWith(color: Colors.red),
+                                        ),
                                       ),
-                                      TextSpan(
-                                        text:
-                                            'Complaint ID registered on IPM complaint portal', // Rest of the text
-                                        style: OnestopFonts.w600
-                                            .size(10)
-                                            .setColor(kGrey8),
-                                      ),
-                                    ],
-                                  ),
+                                      alignment: PlaceholderAlignment
+                                          .middle, // Aligns the asterisk vertically in the center
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          'Complaint ID registered on complaint portal',
+                                      style: OnestopFonts.w600
+                                          .size(10)
+                                          .setColor(kGrey8),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Padding(
@@ -241,27 +271,32 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                   style: MyFonts.w600.size(16).setColor(kWhite),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10, top: 0, bottom: 0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: '* ', // The asterisk in red color
-                                        style: OnestopFonts.w600
-                                            .size(16)
-                                            .copyWith(color: Colors.red),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom:
+                                                1.5), // Adjust this value as needed
+                                        child: Text(
+                                          '*',
+                                          style: OnestopFonts.w600
+                                              .size(10)
+                                              .copyWith(color: Colors.red),
+                                        ),
                                       ),
-                                      TextSpan(
-                                        text:
-                                            'File your complaint 72 hours after registering on the IPM portal.', // Rest of the text
-                                        style: OnestopFonts.w600
-                                            .size(10)
-                                            .setColor(kGrey8),
-                                      ),
-                                    ],
-                                  ),
+                                      alignment: PlaceholderAlignment
+                                          .middle, // Aligns the asterisk vertically in the center
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          'Complaint registration date on the portal.',
+                                      style: OnestopFonts.w600
+                                          .size(10)
+                                          .setColor(kGrey8),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Padding(
