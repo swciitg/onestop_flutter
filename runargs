@@ -1,2 +1,1 @@
 --dart-define SERVER-URL="https://swc.iitg.ac.in/test/onestop/api/v3" --dart-define SECURITY-KEY="0ne5t0p-Test" --dart-define GMAP_KEY="X" --dart-define GITHUB_ISSUE_TOKEN="X" --dart-define IRBS-SERVER-URL="https://swc.iitg.ac.in/test/irbs"
-

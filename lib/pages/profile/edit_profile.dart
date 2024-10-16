@@ -35,7 +35,9 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _homeAddressController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _linkedinController = TextEditingController();
+  final TextEditingController _cycleRegController = TextEditingController();
   late Hostel hostel;
+  late Mess mess;
   String? gender;
   DateTime? selectedDob;
 
@@ -62,8 +64,10 @@ class _EditProfileState extends State<EditProfile> {
         .format(DateTime.parse(p.dob ?? DateTime.now().toIso8601String()));
     _linkedinController.text = p.linkedin ?? "";
     hostel = p.hostel?.getHostelFromDatabaseString() ?? Hostel.none;
+    mess = p.subscribedMess?.getMessFromDatabaseString() ?? Mess.none;
     gender = p.gender;
     selectedDob = p.dob != null ? DateTime.parse(p.dob!) : DateTime.now();
+    _cycleRegController.text = p.cycleReg ?? "";
     // imageString = p.image;
   }
 
@@ -95,7 +99,9 @@ class _EditProfileState extends State<EditProfile> {
             'hostel': hostel.databaseString,
             'roomNo': _roomNoController.text,
             'homeAddress': _homeAddressController.text,
-            'linkedin': _linkedinController.text
+            'cycleReg': _cycleRegController.text,
+            'linkedin': _linkedinController.text,
+            'subscribedMess': mess.databaseString
           };
           print(data);
           try {
@@ -334,7 +340,7 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                               CustomTextField(
                                 isEnabled: false,
-                                label: 'Outlook EmailID',
+                                label: 'Outlook Email ID',
                                 // validator: validatefield,
                                 isNecessary: false,
                                 controller: _outlookEmailController,
@@ -343,7 +349,7 @@ class _EditProfileState extends State<EditProfile> {
                                 height: 12,
                               ),
                               CustomTextField(
-                                label: 'Alt Email',
+                                label: 'Alt Email ID',
                                 validator: validatefield,
                                 isNecessary: true,
                                 controller: _altEmailController,
@@ -431,6 +437,20 @@ class _EditProfileState extends State<EditProfile> {
                               const SizedBox(
                                 height: 12,
                               ),
+                              CustomDropDown(
+                                  value: mess.displayString,
+                                  items: Mess.values.displayStrings(),
+                                  label: 'Subscribed Mess',
+                                  onChanged: (String m) =>
+                                      mess = m.getMessFromDisplayString()!,
+                                  validator: (String? value) {
+                                    {
+                                      return null;
+                                    }
+                                  }),
+                              const SizedBox(
+                                height: 12,
+                              ),
                               CustomTextField(
                                 label: 'Date of Birth',
                                 validator: validatefield,
@@ -467,7 +487,7 @@ class _EditProfileState extends State<EditProfile> {
                                 height: 12,
                               ),
                               CustomTextField(
-                                label: 'Hostel room no',
+                                label: 'Hostel Room Number',
                                 validator: validatefield,
                                 isNecessary: true,
                                 controller: _roomNoController,
@@ -485,6 +505,17 @@ class _EditProfileState extends State<EditProfile> {
                                 controller: _homeAddressController,
                                 maxLength: 400,
                                 // maxLines: 1,
+                                counter: true,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              CustomTextField(
+                                label: 'Cycle Registration Number',
+                                isNecessary: false,
+                                controller: _cycleRegController,
+                                maxLength: 5,
+                                maxLines: 1,
                                 counter: true,
                               ),
                               const SizedBox(

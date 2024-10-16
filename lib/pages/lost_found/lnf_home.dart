@@ -116,112 +116,125 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                     label: "Found Items",
                     category: "Found",
                   ),
-                  LostFoundButton(
-                    store: commonStore,
-                    label: "My Ads",
-                    category: "My Ads",
-                  ),
                 ],
               ),
             ),
-            if (commonStore.lnfIndex == "Lost")
-              Expanded(
-                child: PagedListView<int, LostModel>(
-                    pagingController: _lostController,
-                    builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, lostItem, index) =>
-                          LostFoundTile(currentModel: lostItem),
-                      firstPageErrorIndicatorBuilder: (context) =>
-                          ErrorReloadScreen(reloadCallback: refreshControllers),
-                      noItemsFoundIndicatorBuilder: (context) =>
-                          const PaginationText(text: "No items found"),
-                      newPageErrorIndicatorBuilder: (context) => Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: ErrorReloadButton(
-                          reloadCallback: retryLastFailedRequest,
-                        ),
-                      ),
-                      newPageProgressIndicatorBuilder: (context) =>
-                          const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(child: CircularProgressIndicator()),
-                      ),
-                      firstPageProgressIndicatorBuilder: (context) =>
-                          ListShimmer(
-                        count: 5,
-                        height: 120,
-                      ),
-                      noMoreItemsIndicatorBuilder: (context) =>
-                          const PaginationText(text: "You've reached the end"),
-                    )),
-              )
-            else if (commonStore.lnfIndex == "Found")
-              Expanded(
-                child: PagedListView<int, FoundModel>(
-                    pagingController: _foundController,
-                    builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, lostItem, index) =>
-                          LostFoundTile(currentModel: lostItem),
-                      firstPageErrorIndicatorBuilder: (context) =>
-                          ErrorReloadScreen(reloadCallback: refreshControllers),
-                      noItemsFoundIndicatorBuilder: (context) =>
-                          const PaginationText(text: "No items found"),
-                      newPageErrorIndicatorBuilder: (context) => Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: ErrorReloadButton(
-                            reloadCallback: retryLastFailedRequest),
-                      ),
-                      newPageProgressIndicatorBuilder: (context) =>
-                          const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(child: CircularProgressIndicator()),
-                      ),
-                      firstPageProgressIndicatorBuilder: (context) =>
-                          ListShimmer(
-                        count: 5,
-                        height: 120,
-                      ),
-                      noMoreItemsIndicatorBuilder: (context) =>
-                          const PaginationText(text: "You've reached the end"),
-                    )),
-              )
-            else
-              Expanded(
-                child: LoginStore().isGuestUser
-                    ? const GuestRestrictAccess()
-                    : FutureBuilder(
-                        future: APIService().getLnfMyItems(
-                            LoginStore.userData['outlookEmail'] ?? ""),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            List<dynamic> models =
-                                snapshot.data! as List<dynamic>;
-                            List<MyAdsTile> tiles =
-                                models.map((e) => MyAdsTile(model: e)).toList();
-                            if (LoginStore().isGuestUser) {
-                              return const PaginationText(
-                                  text: "Log in with your IITG "
-                                      "account to post ads");
+            Expanded(
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                      child: FutureBuilder(
+                          future: APIService().getLnfMyItems(
+                              LoginStore.userData['outlookEmail'] ?? "",
+                              commonStore.lnfIndex == "Lost"),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<dynamic> models =
+                                  snapshot.data! as List<dynamic>;
+                              List<MyAdsTile> tiles = models
+                                  .map((e) => MyAdsTile(model: e))
+                                  .toList();
+                              if (tiles.isEmpty || LoginStore().isGuestUser) {
+                                return const SizedBox();
+                              }
+                              return Column(children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 18.0),
+                                    child: Text("My Ads",
+                                        style: OneStopStyles.basicFontStyle
+                                            .setColor(kWhite)),
+                                  ),
+                                ),
+                                ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) => tiles[index],
+                                  itemCount: tiles.length,
+                                )
+                              ]);
                             }
-                            if (tiles.isEmpty) {
-                              return const PaginationText(
-                                  text: "You haven't posted any ads");
+                            if (snapshot.hasError) {
+                              return ErrorReloadScreen(
+                                  reloadCallback: callSetState);
                             }
-                            return ListView.builder(
-                              itemBuilder: (context, index) => tiles[index],
-                              itemCount: tiles.length,
+                            return ListShimmer(
+                              count: 5,
+                              height: 120,
                             );
-                          }
-                          if (snapshot.hasError) {
-                            return ErrorReloadScreen(
-                                reloadCallback: callSetState);
-                          }
-                          return ListShimmer(
+                          })),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 18.0),
+                      child: Text("All Ads",
+                          style: OneStopStyles.basicFontStyle.setColor(kWhite)),
+                    ),
+                  ),
+                  if (commonStore.lnfIndex == "Lost")
+                    PagedSliverList<int, LostModel>(
+                        pagingController: _lostController,
+                        builderDelegate: PagedChildBuilderDelegate(
+                          itemBuilder: (context, lostItem, index) =>
+                              LostFoundTile(currentModel: lostItem),
+                          firstPageErrorIndicatorBuilder: (context) =>
+                              ErrorReloadScreen(
+                                  reloadCallback: refreshControllers),
+                          noItemsFoundIndicatorBuilder: (context) =>
+                              const PaginationText(text: "No items found"),
+                          newPageErrorIndicatorBuilder: (context) => Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: ErrorReloadButton(
+                              reloadCallback: retryLastFailedRequest,
+                            ),
+                          ),
+                          newPageProgressIndicatorBuilder: (context) =>
+                              const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(child: CircularProgressIndicator()),
+                          ),
+                          firstPageProgressIndicatorBuilder: (context) =>
+                              ListShimmer(
                             count: 5,
                             height: 120,
-                          );
-                        }),
+                          ),
+                          noMoreItemsIndicatorBuilder: (context) =>
+                              const PaginationText(
+                                  text: "You've reached the end"),
+                        ))
+                  else if (commonStore.lnfIndex == "Found")
+                    PagedSliverList<int, FoundModel>(
+                        pagingController: _foundController,
+                        builderDelegate: PagedChildBuilderDelegate(
+                          itemBuilder: (context, lostItem, index) =>
+                              LostFoundTile(currentModel: lostItem),
+                          firstPageErrorIndicatorBuilder: (context) =>
+                              ErrorReloadScreen(
+                                  reloadCallback: refreshControllers),
+                          noItemsFoundIndicatorBuilder: (context) =>
+                              const PaginationText(text: "No items found"),
+                          newPageErrorIndicatorBuilder: (context) => Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: ErrorReloadButton(
+                                reloadCallback: retryLastFailedRequest),
+                          ),
+                          newPageProgressIndicatorBuilder: (context) =>
+                              const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(child: CircularProgressIndicator()),
+                          ),
+                          firstPageProgressIndicatorBuilder: (context) =>
+                              ListShimmer(
+                            count: 5,
+                            height: 120,
+                          ),
+                          noMoreItemsIndicatorBuilder: (context) =>
+                              const PaginationText(
+                                  text: "You've reached the end"),
+                        )),
+                ],
               ),
+            )
           ],
         ),
         // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

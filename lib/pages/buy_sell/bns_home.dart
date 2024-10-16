@@ -108,7 +108,7 @@ class _BuySellHomeState extends State<BuySellHome> {
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.only(left: 10.0, top: 15.0),
                 child: Row(
                   children: [
                     ItemType2(
@@ -121,79 +121,17 @@ class _BuySellHomeState extends State<BuySellHome> {
                       title: "Buy",
                       label: "Requested Item",
                     ),
-                    ItemType2(commonStore: commonStore, title: "My Ads"),
                   ],
                 ),
               ),
-              if (commonStore.bnsIndex == "Sell")
-                Expanded(
-                  child: PagedListView<int, BuyModel>(
-                      pagingController: _sellController,
-                      builderDelegate: PagedChildBuilderDelegate(
-                        itemBuilder: (context, sellItem, index) =>
-                            BuyTile(model: sellItem),
-                        firstPageErrorIndicatorBuilder: (context) =>
-                            ErrorReloadScreen(reloadCallback: refresh),
-                        noItemsFoundIndicatorBuilder: (context) =>
-                            const PaginationText(text: "No items found"),
-                        newPageErrorIndicatorBuilder: (context) => Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: ErrorReloadButton(
-                              reloadCallback: retryLastFailedRequest),
-                        ),
-                        newPageProgressIndicatorBuilder: (context) =>
-                            const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Center(child: CircularProgressIndicator()),
-                        ),
-                        firstPageProgressIndicatorBuilder: (context) =>
-                            ListShimmer(
-                          count: 5,
-                          height: 120,
-                        ),
-                        noMoreItemsIndicatorBuilder: (context) =>
-                            const PaginationText(
-                                text: "You've reached the end"),
-                      )),
-                )
-              else if (commonStore.bnsIndex == "Buy")
-                Expanded(
-                  child: PagedListView<int, SellModel>(
-                      pagingController: _buyController,
-                      builderDelegate: PagedChildBuilderDelegate(
-                        itemBuilder: (context, buyItem, index) =>
-                            BuyTile(model: buyItem),
-                        firstPageErrorIndicatorBuilder: (context) =>
-                            ErrorReloadScreen(reloadCallback: refresh),
-                        noItemsFoundIndicatorBuilder: (context) =>
-                            const PaginationText(text: "No items found"),
-                        newPageErrorIndicatorBuilder: (context) => Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: ErrorReloadButton(
-                              reloadCallback: retryLastFailedRequest),
-                        ),
-                        newPageProgressIndicatorBuilder: (context) =>
-                            const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Center(child: CircularProgressIndicator()),
-                        ),
-                        firstPageProgressIndicatorBuilder: (context) =>
-                            ListShimmer(
-                          count: 5,
-                          height: 120,
-                        ),
-                        noMoreItemsIndicatorBuilder: (context) =>
-                            const PaginationText(
-                                text: "You've reached the end"),
-                      )),
-                )
-              else
-                Expanded(
-                  child: LoginStore().isGuestUser
-                      ? const GuestRestrictAccess()
-                      : FutureBuilder(
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: FutureBuilder(
                           future: APIService().getBnsMyItems(
-                              LoginStore.userData['outlookEmail']!),
+                              LoginStore.userData['outlookEmail']!,
+                              commonStore.bnsIndex == "Sell"),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               List<BuyModel> models =
@@ -201,31 +139,113 @@ class _BuySellHomeState extends State<BuySellHome> {
                               List<MyAdsTile> tiles = models
                                   .map((e) => MyAdsTile(model: e))
                                   .toList();
-                              if (LoginStore().isGuestUser) {
-                                return const PaginationText(
-                                    text:
-                                        "Log in with your IITG account to post ads");
+
+                              if (tiles.isEmpty || LoginStore().isGuestUser) {
+                                return const SizedBox();
                               }
-                              if (tiles.isEmpty) {
-                                return const PaginationText(
-                                    text: "You haven't posted any ads");
-                              }
-                              return ListView.builder(
-                                itemBuilder: (context, index) => tiles[index],
-                                itemCount: tiles.length,
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Column(children: [
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 18.0),
+                                      child: Text("My Ads",
+                                          style: OneStopStyles.basicFontStyle
+                                              .setColor(kWhite)),
+                                    ),
+                                  ),
+                                  ListView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) =>
+                                        tiles[index],
+                                    itemCount: tiles.length,
+                                  )
+                                ]),
                               );
                             }
                             if (snapshot.hasError) {
                               return ErrorReloadScreen(
                                   reloadCallback: callSetState);
                             }
-
                             return ListShimmer(
                               count: 5,
                               height: 120,
                             );
                           }),
-                )
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 18.0),
+                        child: Text("All Ads",
+                            style:
+                                OneStopStyles.basicFontStyle.setColor(kWhite)),
+                      ),
+                    ),
+                    if (commonStore.bnsIndex == "Sell")
+                      PagedSliverList<int, BuyModel>(
+                          pagingController: _sellController,
+                          builderDelegate: PagedChildBuilderDelegate(
+                            itemBuilder: (context, sellItem, index) =>
+                                BuyTile(model: sellItem),
+                            firstPageErrorIndicatorBuilder: (context) =>
+                                ErrorReloadScreen(reloadCallback: refresh),
+                            noItemsFoundIndicatorBuilder: (context) =>
+                                const PaginationText(text: "No items found"),
+                            newPageErrorIndicatorBuilder: (context) => Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: ErrorReloadButton(
+                                  reloadCallback: retryLastFailedRequest),
+                            ),
+                            newPageProgressIndicatorBuilder: (context) =>
+                                const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
+                            firstPageProgressIndicatorBuilder: (context) =>
+                                ListShimmer(
+                              count: 5,
+                              height: 120,
+                            ),
+                            noMoreItemsIndicatorBuilder: (context) =>
+                                const PaginationText(
+                                    text: "You've reached the end"),
+                          ))
+                    else if (commonStore.bnsIndex == "Buy")
+                      PagedSliverList<int, SellModel>(
+                          pagingController: _buyController,
+                          builderDelegate: PagedChildBuilderDelegate(
+                            itemBuilder: (context, buyItem, index) =>
+                                BuyTile(model: buyItem),
+                            firstPageErrorIndicatorBuilder: (context) =>
+                                ErrorReloadScreen(reloadCallback: refresh),
+                            noItemsFoundIndicatorBuilder: (context) =>
+                                const PaginationText(text: "No items found"),
+                            newPageErrorIndicatorBuilder: (context) => Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: ErrorReloadButton(
+                                  reloadCallback: retryLastFailedRequest),
+                            ),
+                            newPageProgressIndicatorBuilder: (context) =>
+                                const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
+                            firstPageProgressIndicatorBuilder: (context) =>
+                                ListShimmer(
+                              count: 5,
+                              height: 120,
+                            ),
+                            noMoreItemsIndicatorBuilder: (context) =>
+                                const PaginationText(
+                                    text: "You've reached the end"),
+                          ))
+                  ],
+                ),
+              ),
             ],
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

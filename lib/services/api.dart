@@ -223,7 +223,7 @@ class APIService {
     return res.data.details;
   }
 
-  Future<List<BuyModel>> getBnsMyItems(String mail) async {
+  Future<List<BuyModel>> getBnsMyItems(String mail, bool isSell) async {
     var res = await dio.post(Endpoints.bnsMyAdsURL, data: {'email': mail});
     var myItemsDetails = res.data;
     var sellList = (myItemsDetails["details"]["sellList"] as List)
@@ -232,11 +232,15 @@ class APIService {
     var buyList = (myItemsDetails["details"]["buyList"] as List)
         .map((e) => BuyModel.fromJson(e))
         .toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
-    return [...sellList, ...buyList];
+    //await Future.delayed(const Duration(milliseconds: 300), () => null);
+    if (isSell) {
+      return sellList;
+    } else {
+      return buyList;
+    }
   }
 
-  Future<List<dynamic>> getLnfMyItems(String mail) async {
+  Future<List<dynamic>> getLnfMyItems(String mail, bool isLost) async {
     var res = await dio.post(Endpoints.lnfMyAdsURL, data: {'email': mail});
     var myItemsDetails = res.data;
     var foundList = (myItemsDetails["details"]["foundList"] as List)
@@ -245,8 +249,12 @@ class APIService {
     var lostList = (myItemsDetails["details"]["lostList"] as List)
         .map((e) => LostModel.fromJson(e))
         .toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
-    return [...foundList, ...lostList];
+    //await Future.delayed(const Duration(milliseconds: 300), () => null);
+    if (isLost) {
+      return lostList;
+    } else {
+      return foundList;
+    }
   }
 
   Future<List> getLostItems() async {
@@ -265,7 +273,7 @@ class APIService {
     List<LostModel> lostPage = (json['details'] as List<dynamic>)
         .map((e) => LostModel.fromJson(e))
         .toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
+    // await Future.delayed(const Duration(milliseconds: 300), () => null);
     return lostPage;
   }
 
@@ -279,7 +287,7 @@ class APIService {
     List<FoundModel> lostPage = (json['details'] as List<dynamic>)
         .map((e) => FoundModel.fromJson(e))
         .toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
+    //await Future.delayed(const Duration(milliseconds: 300), () => null);
     return lostPage;
   }
 
@@ -293,7 +301,7 @@ class APIService {
     List<BuyModel> sellPage = (json['details'] as List<dynamic>)
         .map((e) => BuyModel.fromJson(e))
         .toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
+    //await Future.delayed(const Duration(milliseconds: 300), () => null);
     return sellPage;
   }
 
@@ -307,7 +315,7 @@ class APIService {
     List<SellModel> buyPage = (json['details'] as List<dynamic>)
         .map((e) => SellModel.fromJson(e))
         .toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
+    //await Future.delayed(const Duration(milliseconds: 300), () => null);
     return buyPage;
   }
 
@@ -559,6 +567,35 @@ class APIService {
     try {
       var response = await dio.post(
         endpoint,
+        options: Options(contentType: 'multipart/form-data'),
+        data: formData,
+        onSendProgress: (int send, int total) {
+          // TODO: Show send/total percent as progress indicator
+        },
+      );
+      if (response.statusCode == 200) {
+        return response.data['filename'];
+      }
+      return null;
+    } catch (e) {
+      print("Upload" + e.toString());
+      return null;
+    }
+  }
+
+  Future<Map<String, dynamic>> postHAB(Map<String, dynamic> data) async {
+    var res = await dio.post(Endpoints.habPost, data: data);
+    return res.data;
+  }
+
+  Future<String?> uploadFileToServer2(File file) async {
+    var fileName = file.path.split('/').last;
+    var formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(file.path, filename: fileName),
+    });
+    try {
+      var response = await dio.post(
+        Endpoints.uploadFileHAB,
         options: Options(contentType: 'multipart/form-data'),
         data: formData,
         onSendProgress: (int send, int total) {

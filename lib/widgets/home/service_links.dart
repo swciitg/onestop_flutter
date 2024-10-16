@@ -3,6 +3,7 @@ import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/elections/election_login.dart';
+import 'package:onestop_dev/pages/hab/hab_page.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
@@ -63,5 +64,10 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.doctor_28_filled,
     routeId: MedicalSection.id,
     newBadge: true,
-  )
+  ),
+  /* const HomeTabTile(
+    label: "HAB",
+    icon: FluentIcons.home_database_24_regular,
+    routeId: Hab_Page.id,
+  ),*/
 ];

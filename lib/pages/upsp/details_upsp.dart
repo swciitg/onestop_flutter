@@ -11,6 +11,7 @@ import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class DetailsUpsp extends StatefulWidget {
+  static const id = '/DetailsUpspPage';
   final Map<String, dynamic> data;
 
   const DetailsUpsp({Key? key, required this.data}) : super(key: key);

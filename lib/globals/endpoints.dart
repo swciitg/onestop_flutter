@@ -47,6 +47,8 @@ class Endpoints {
   static const String facilityFileUpload = "/servicesFeedback/file-upload";
   static const String doctorFileUpload = "/doctorsFeedback/file-upload";
   static const String pharmacyFileUpload = "/pharmacyFeedback/file-upload";
+  static const String habPost = '/hab-complaint/submit-request';
+  static const String uploadFileHAB = '/hab-complaint/file-upload';
   static const String guestLogin = "/user/guest/login";
   static const String userProfile = "/user";
   static const String userDeviceTokens = "/user/device-tokens";
