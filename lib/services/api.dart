@@ -9,6 +9,10 @@ import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
+import 'package:onestop_dev/models/medicalcontacts/allmedicalcontacts.dart';
+import 'package:onestop_dev/models/medicalcontacts/medicalcontact_model.dart';
+import 'package:onestop_dev/models/medicaltimetable/all_doctors.dart';
+import 'package:onestop_dev/models/medicaltimetable/doctor_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 
 import '../functions/utility/auth_user_helper.dart';
@@ -400,6 +404,66 @@ class APIService {
     }
   }
 
+  Future<Allmedicalcontacts?> getMedicalContactData() async {
+    final response = await dio.get(
+      Endpoints.medicalContactURL, // chusuko
+    );
+    var body = response.data;
+    Allmedicalcontacts alldoc = Allmedicalcontacts(alldoctors: []);
+    if (response.statusCode == 200) {
+      for (var json in body) {
+        alldoc.addDocToList(MedicalcontactModel.fromJson(json));
+      }
+      return alldoc;
+    } else {
+      throw Exception(response.statusCode);
+    }
+  }
+
+  Future<AllDoctors> getmedicalTimeTable() async {
+    final response = await dio.get(Endpoints.medicalTimetableURL);
+    var body = response.data;
+  
+    AllDoctors alldoc = AllDoctors(alldoctors: []);
+    if (response.statusCode == 200) {
+      for (var json in body) {
+        final firstSession = DoctorModel.fromJson(json);
+        DoctorModel? secondSession;
+        if (firstSession.startTime2!.isNotEmpty) {
+          secondSession = DoctorModel.clone(firstSession);
+          secondSession.startTime1 = firstSession.startTime2;
+          secondSession.endTime1 = firstSession.endTime2;
+          firstSession.startTime2 = "";
+          firstSession.endTime2 = "";
+          secondSession.startTime2 = "";
+          secondSession.endTime2 = "";
+        }
+        alldoc.addDocToList(firstSession);
+        if (secondSession != null) {
+          alldoc.addDocToList(secondSession);
+        }
+      }
+      return alldoc;
+    } else {
+      throw Exception(response.statusCode);
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getDropDownContacts() async {
+    var response = await dio.get(Endpoints.dropownDoctors);
+    var status = response.statusCode;
+    var body = response.data;
+    if (status == 200) {
+      List<Map<String, dynamic>> data = [];
+      for (var json in body) {
+        data.add(json as Map<String, dynamic>);
+      }
+      return data;
+    } else {
+      throw Exception("Medical Contact Data could not be fetched");
+    }
+  }
+
   Future<List<Map<String, dynamic>>> getFerryData() async {
     var response = await dio.get(Endpoints.ferryURL);
     var status = response.statusCode;
@@ -477,14 +541,32 @@ class APIService {
     return res.data;
   }
 
-  Future<String?> uploadFileToServer(File file) async {
+  Future<Map<String, dynamic>> postPharmacyFeedback(
+      Map<String, dynamic> data) async {
+    var res = await dio.post(Endpoints.pharmacyFeedback, data: data);
+    return res.data;
+  }
+
+  Future<Map<String, dynamic>> postFacilityFeedback(
+      Map<String, dynamic> data) async {
+    var res = await dio.post(Endpoints.hospitalFacilitiesFeedback, data: data);
+    return res.data;
+  }
+
+  Future<Map<String, dynamic>> postDoctorFeedback(
+      Map<String, dynamic> data) async {
+    var res = await dio.post(Endpoints.doctorsFeedback, data: data);
+    return res.data;
+  }
+
+  Future<String?> uploadFileToServer(File file, String endpoint) async {
     var fileName = file.path.split('/').last;
     var formData = FormData.fromMap({
       'file': await MultipartFile.fromFile(file.path, filename: fileName),
     });
     try {
       var response = await dio.post(
-        Endpoints.uploadFileUPSP,
+        endpoint,
         options: Options(contentType: 'multipart/form-data'),
         data: formData,
         onSendProgress: (int send, int total) {

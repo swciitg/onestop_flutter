@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
+import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -131,7 +132,8 @@ class _UpspState extends State<Upsp> {
                                 ? UploadButton(callBack: (fName) {
                                     if (fName != null) files.add(fName);
                                     setState(() {});
-                                  })
+                                  },
+                                  endpoint: Endpoints.uploadFileUPSP,)
                                 : Container(),
                             Padding(
                               padding: const EdgeInsets.only(

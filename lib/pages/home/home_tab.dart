@@ -146,7 +146,7 @@ class _HomeTabState extends State<HomeTab> {
                 ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: HomeLinks(title: 'Services', links: serviceLinks),
+            child: HomeLinks(title: 'Services', links: serviceLinks,rows: 2,),
           ),
           const SizedBox(
             height: 10,
@@ -160,6 +160,7 @@ class _HomeTabState extends State<HomeTab> {
                     return HomeLinks(
                       links: snapshot.data!,
                       title: 'Quick Links',
+                      rows: 2,
                     );
                   }
                   return ListShimmer(

@@ -423,6 +423,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  dropdown_model_list:
+    dependency: "direct main"
+    description:
+      name: dropdown_model_list
+      sha256: b92acdd478e5105ce917daf05e9cead2bb93e6b19754a00f73fb756316fc5896
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.3"
   fake_async:
     dependency: transitive
     description:
@@ -1141,7 +1149,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: cf50bb2de78f2c66ec4f2789678748d76b2db9ac
+      resolved-ref: c5d1e98577c9a1a72cc097213b9023d883df7b95
       url: "https://github.com/swciitg/onestop_kit.git"
     source: git
     version: "0.0.1"
@@ -1544,7 +1552,7 @@ packages:
     source: hosted
     version: "1.2.0"
   syncfusion_flutter_calendar:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
       sha256: a91ba8f2ae2bd891004515fcae98330eb40b8bece639a5660ed27bdbb9917e54
