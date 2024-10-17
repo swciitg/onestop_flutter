@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/working_days.dart';
 import 'package:onestop_dev/models/event_scheduler/admin_model.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/event_description.dart';
@@ -13,6 +15,7 @@ import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
+import 'package:onestop_dev/stores/event_store.dart';
 
 class EventsScreen extends StatefulWidget {
   @override
@@ -33,7 +36,6 @@ class _EventsScreenState extends State<EventsScreen> {
         PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
   };
 
-
   @override
   void initState() {
     super.initState();
@@ -45,7 +47,8 @@ class _EventsScreenState extends State<EventsScreen> {
     });
   }
 
-  Future<void> _fetchPage(PagingController<int, EventModel> controller, String category, int pageKey) async {
+  Future<void> _fetchPage(PagingController<int, EventModel> controller,
+      String category, int pageKey) async {
     log("fetching the category of $category");
     try {
       final admins = await APIService().getAdmins();
@@ -64,8 +67,6 @@ class _EventsScreenState extends State<EventsScreen> {
       controller.error = error;
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -107,23 +108,42 @@ class _EventsScreenState extends State<EventsScreen> {
             Expanded(
               child: TabBarView(
                 children: [
-                  EventListView(pagingController: _pagingControllers['Saved']!),
-
-                  EventListView(pagingController: _pagingControllers['All Events']!),
-
-                  EventListView(pagingController: _pagingControllers['Academic']!),
-
-                  EventListView(pagingController: _pagingControllers['Sports']!),
-
-                  EventListView(pagingController: _pagingControllers['Technical']!),
-
-                  EventListView(pagingController: _pagingControllers['Cultural']!),
-
-                  EventListView(pagingController: _pagingControllers['Welfare']!),
-
+                  //EventListView(pagingController: _pagingControllers['Saved']!),
+                  FutureBuilder(
+                      future: context.read<EventsStore>().getAllSavedEvents(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<EventModel> events =
+                              snapshot.data as List<EventModel>;
+                          context.read<EventsStore>().setSavedEvents(events);
+                          return SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Observer(builder: (context) {
+                                return Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: context
+                                        .read<EventsStore>()
+                                        .savedScroll);
+                              }));
+                        }
+                        return Container();
+                      }),
+                  EventListView(
+                      pagingController: _pagingControllers['All Events']!),
+                  EventListView(
+                      pagingController: _pagingControllers['Academic']!),
+                  EventListView(
+                      pagingController: _pagingControllers['Sports']!),
+                  EventListView(
+                      pagingController: _pagingControllers['Technical']!),
+                  EventListView(
+                      pagingController: _pagingControllers['Cultural']!),
+                  EventListView(
+                      pagingController: _pagingControllers['Welfare']!),
                   EventListView(pagingController: _pagingControllers['SWC']!),
-
-                  EventListView(pagingController: _pagingControllers['Miscellaneous']!),
+                  EventListView(
+                      pagingController: _pagingControllers['Miscellaneous']!),
                 ],
               ),
             ),
@@ -204,7 +224,11 @@ class EventListView extends StatelessWidget {
   void _navigateToEventDetails(BuildContext context, EventModel event) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => EventDetailsScreen(event: event,isAdmin: false,)),
+      MaterialPageRoute(
+          builder: (context) => EventDetailsScreen(
+                event: event,
+                isAdmin: false,
+              )),
     );
   }
 }

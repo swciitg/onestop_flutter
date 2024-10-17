@@ -49,6 +49,22 @@ mixin _$EventsStore on _EventsStore, Store {
     });
   }
 
+  late final _$savedEventsAtom =
+      Atom(name: '_EventsStore.savedEvents', context: context);
+
+  @override
+  ObservableList<EventModel> get savedEvents {
+    _$savedEventsAtom.reportRead();
+    return super.savedEvents;
+  }
+
+  @override
+  set savedEvents(ObservableList<EventModel> value) {
+    _$savedEventsAtom.reportWrite(value, super.savedEvents, () {
+      super.savedEvents = value;
+    });
+  }
+
   late final _$_EventsStoreActionController =
       ActionController(name: '_EventsStore', context: context);
 
@@ -75,10 +91,22 @@ mixin _$EventsStore on _EventsStore, Store {
   }
 
   @override
+  void setSavedEvents(List<EventModel> l) {
+    final _$actionInfo = _$_EventsStoreActionController.startAction(
+        name: '_EventsStore.setSavedEvents');
+    try {
+      return super.setSavedEvents(l);
+    } finally {
+      _$_EventsStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 selectedEventTab: ${selectedEventTab},
 isAdminView: ${isAdminView},
+savedEvents: ${savedEvents},
 currentEventCategory: ${currentEventCategory}
     ''';
   }

@@ -8,6 +8,7 @@ abstract class DatabaseRecords {
   static const ferryTimings = "ferryTimings";
   static const busTimings = "busTimings";
   static const homePage = "HomePage";
+  static const savedEvents = "SavedEvents";
 }
 
 class BackendHelper {

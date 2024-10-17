@@ -1,4 +1,15 @@
+// ignore_for_file: library_private_types_in_public_api
+
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:onestop_dev/globals/database_strings.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/event_scheduler/event_model.dart';
+import 'package:onestop_dev/pages/events/event_tile.dart';
+import 'package:onestop_dev/services/local_storage.dart';
+import 'package:onestop_kit/onestop_kit.dart';
+
 part 'event_store.g.dart';
 
 class EventsStore = _EventsStore with _$EventsStore;
@@ -72,4 +83,42 @@ abstract class _EventsStore with Store {
   }
 
   int get pageSize => 10;
+
+  @observable
+  ObservableList<EventModel> savedEvents = ObservableList<EventModel>.of([]);
+
+  Future<List<EventModel>> getAllSavedEvents() async {
+    var saved =
+        await LocalStorage.instance.getListRecord(DatabaseRecords.savedEvents);
+    if (saved == null) {
+      return [];
+    }
+    var savedEvents = saved
+        .map((e) => EventModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return savedEvents;
+  }
+
+  @action
+  void setSavedEvents(List<EventModel> l) {
+    savedEvents = ObservableList<EventModel>.of(l);
+  }
+
+  @computed
+  List<Widget> get savedScroll {
+    if (savedEvents.isEmpty) {
+      return [
+        Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Text(
+            "You have no saved events",
+            style: MyFonts.w400.setColor(kGrey8),
+          ),
+        )
+      ];
+    }
+    return savedEvents
+        .map((element) => EventTile(onTap: () {}, model: element))
+        .toList();
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
+import 'package:onestop_dev/pages/events/widgets/save_button.dart';
 
 class EventTile extends StatelessWidget {
   final VoidCallback onTap;
@@ -123,16 +124,7 @@ class EventTile extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.bookmark_border,
-                          color: Colors.white),
-                      onPressed: () {
-                        // Save functionality
-                      },
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      iconSize: 20,
-                    ),
+                    SaveButton(event: model),
                   ],
                 ),
               ),

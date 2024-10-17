@@ -84,9 +84,8 @@ class YourEventListView extends StatelessWidget {
     try {
       final admin = await _getAdmin();
 
-      final newItems = await APIService().getEventPage(admin != null
-          ? admin.board
-          : ""  );
+      final newItems =
+          await APIService().getEventPage(admin != null ? admin.board : "");
       final isLastPage = newItems.length < 10;
       if (isLastPage) {
         pagingController.appendLastPage(newItems);
