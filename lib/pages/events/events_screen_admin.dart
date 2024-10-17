@@ -19,8 +19,7 @@ class EventsScreen1 extends StatefulWidget {
 
 class _EventsScreen1State extends State<EventsScreen1> {
   final Map<String, PagingController<int, EventModel>> _pagingControllers = {
-    'Your Events':
-        PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
+    'Your Events': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
     'All Events': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
     'Academic': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
     'Sports': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
@@ -192,7 +191,7 @@ class EventListView extends StatelessWidget {
   void _navigateToEventDetails(BuildContext context, EventModel event) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => EventDetailsScreen(event: event)),
+      MaterialPageRoute(builder: (context) => EventDetailsScreen(event: event, isAdmin: false,)),
     );
   }
 }

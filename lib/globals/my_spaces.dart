@@ -1,4 +1,3 @@
-import 'package:onestop_dev/globals/size_config.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class MySpaces {

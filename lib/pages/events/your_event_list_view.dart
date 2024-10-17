@@ -1,10 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:onestop_dev/models/event_scheduler/admin_model.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/event_tile.dart';
 import 'package:onestop_dev/pages/events/event_description.dart';
 import 'package:onestop_dev/pages/events/event_form_screen.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class YourEventListView extends StatelessWidget {
@@ -78,7 +82,11 @@ class YourEventListView extends StatelessWidget {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await APIService().getEventPage('Your Events');
+      final admin = await _getAdmin();
+
+      final newItems = await APIService().getEventPage(admin != null
+          ? admin.board
+          : ""  );
       final isLastPage = newItems.length < 10;
       if (isLastPage) {
         pagingController.appendLastPage(newItems);
@@ -93,7 +101,27 @@ class YourEventListView extends StatelessWidget {
   void _navigateToEventDetails(BuildContext context, EventModel event) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => EventDetailsScreen(event: event)),
+      MaterialPageRoute(
+          builder: (context) => EventDetailsScreen(
+                event: event,
+                isAdmin: true,
+              )),
     );
+  }
+}
+
+Future<Admin?> _getAdmin() async {
+  try {
+    List<Admin> admins = await APIService().getAdmins();
+    var userData = LoginStore.userData;
+
+    Admin? admin = admins.firstWhere(
+      (admin) => admin.outlookEmail == userData['outlookEmail'],
+      //orElse: () => null,
+    );
+    return admin;
+  } catch (e) {
+    log("Error checking admin status: $e");
+    return null;
   }
 }

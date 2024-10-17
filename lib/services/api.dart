@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -7,6 +8,7 @@ import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
+import 'package:onestop_dev/models/event_scheduler/admin_model.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
@@ -108,6 +110,7 @@ class APIService {
       return false;
     }
   }
+
 
   Future<bool> postFeedbackData(Map<String, String> data) async {
     String tag = data['type'] == 'Issue Report' ? 'bug' : 'enhancement';
@@ -308,14 +311,63 @@ class APIService {
     return buyPage;
   }
 
+
+  //TODO
+  //sending dummy data here
+
   Future<List<EventModel>> getEventPage(String category) async {
-    var response = await dio.get('http://swc.iitg.ac.in/events/categories');
-    var json = response.data[category];
-    List<EventModel> eventPage =
-        (json as List<dynamic>).map((e) => EventModel.fromJson(e)).toList();
-    await Future.delayed(const Duration(milliseconds: 300), () => null);
-    return eventPage;
+    try{
+      var response = await dio.get("https://swc.iitg.ac.in/events/categories");
+      var json = response.data[category];
+      //var json = _getDummyEventData()[category];
+
+      if(json!=null){
+        List<EventModel> eventPage = (json as List<dynamic>).map((e) => EventModel.fromJson(e)).toList();
+        return eventPage;
+      }else{
+        return [];
+      }
+    } catch (e) {
+  log("Error fetching events: $e");
+  rethrow;
+    }
   }
+
+/*
+  Future<List<Admin>> getAdmins() async {
+    try{
+      var response = await dio.get("https://swc.iitg.ac.in/events/por");
+      var json = response.data;
+      if(json!=null){
+        List<Admin> eventPage = (json as List<dynamic>).map((e) => Admin.fromJson(e)).toList();
+        return eventPage;
+      }else{
+        return [];
+      }
+    } catch (e) {
+      log("Error fetching events: $e");
+      rethrow;
+    }
+  }*/
+
+  Future<List<Admin>> getAdmins() async {
+    try {
+      var response = await dio.get("https://swc.iitg.ac.in/events/por");
+
+      var json = response.data;
+
+      if (json != null && json is List) {
+        List<Admin> adminList = (json).map((e) => Admin.fromJson(e)).toList();
+        return adminList;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      log("Error fetching admins: $e");
+      rethrow;
+    }
+  }
+
 
   Future<List> getFoundItems() async {
     var res = await dio.get(Endpoints.foundURL);
@@ -345,6 +397,21 @@ class APIService {
     var res = await dio.delete('http://swc.iitg.ac.in//events/:id', data: id);
     return res.data;
   }
+
+  Future<Map<String, dynamic>> putEvent(String id, Map<String, dynamic> updatedData) async {
+    try {
+      // Make a PATCH request to the API with the updated event data
+      var res = await dio.put(
+        'https://swc.iitg.ac.in/events/$id',  // Replace with the actual endpoint
+        data: updatedData,
+      );
+      return res.data;  // Return the response data
+    } catch (e) {
+      throw Exception('Failed to update event: $e');
+    }
+  }
+
+
 
   Future<Map<String, dynamic>> postBuyData(Map<String, String> data) async {
     var res = await dio.post(Endpoints.buyURL, data: {
@@ -618,4 +685,8 @@ class APIService {
       rethrow;
     }
   }
+
+
+
+
 }

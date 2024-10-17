@@ -57,7 +57,7 @@ class EventTile extends StatelessWidget {
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
-                            '${model.date.hour}:${model.date.minute.toString().padLeft(2, '0')} PM',
+                            '${model.startDateTime.hour}:${model.startDateTime.minute.toString().padLeft(2, '0')} PM',
                             style: const TextStyle(
                               fontFamily: 'Montserrat',
                               color: Color(0xFFA2ACC0),
@@ -99,7 +99,7 @@ class EventTile extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 2.0, horizontal: 6.0),
                       child: Text(
-                        model.club_org,
+                        model.clubOrg,
                         style: const TextStyle(
                           color: Color(0xFF76ACFF),
                           fontSize: 10,
@@ -117,7 +117,7 @@ class EventTile extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.network(
-                        model.compressedImageURL,
+                        model.compressedImageUrl,
                         width: 80,
                         height: 100,
                         fit: BoxFit.cover,

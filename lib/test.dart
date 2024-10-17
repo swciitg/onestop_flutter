@@ -1,26 +1,11 @@
-import 'dart:developer';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:onestop_dev/pages/events/events_screen.dart';
-import 'package:onestop_dev/pages/events/events_screen_admin.dart';
-import 'package:onestop_dev/services/api.dart';
-import 'package:onestop_dev/stores/login_store.dart';
-import 'package:provider/provider.dart';
-import 'package:onestop_dev/stores/event_store.dart';
-
-import '../../models/event_scheduler/admin_model.dart';
-
+/*
 class EventsScreenWrapper extends StatefulWidget {
-
-
   @override
   State<EventsScreenWrapper> createState() => _EventsScreenWrapperState();
 }
 
 class _EventsScreenWrapperState extends State<EventsScreenWrapper> {
-
-  bool isAdmin=false; // Nullable to handle async check
+  bool? isAdmin; // Nullable to handle async check
 
   @override
   void initState() {
@@ -58,15 +43,22 @@ class _EventsScreenWrapperState extends State<EventsScreenWrapper> {
   Widget build(BuildContext context) {
     final eventsStore = Provider.of<EventsStore>(context);
 
+    if (isAdmin == null) {
+      // Show a loading indicator while checking the admin status
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Observer(
       builder: (_) => Scaffold(
         appBar: CustomAppBar(
           title: 'Events',
           onBackPressed: () => Navigator.of(context).pop(),
           onViewToggled: eventsStore.toggleAdminView,
-          isAdminView: eventsStore.isAdminView, isAdmin: isAdmin,
+          isAdminView: isAdmin == true ? eventsStore.isAdminView : false,
         ),
-        body: eventsStore.isAdminView ? EventsScreen1() : EventsScreen(),
+        body: isAdmin == true ? EventsScreen1() : EventsScreen(),
       ),
     );
   }
@@ -77,17 +69,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onBackPressed;
   final VoidCallback onViewToggled;
   final bool isAdminView;
-  final bool isAdmin;
 
   const CustomAppBar({
     Key? key,
     required this.title,
     required this.onBackPressed,
     required this.onViewToggled,
-    required this.isAdminView, required this.isAdmin,
+    required this.isAdminView,
   }) : super(key: key);
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +108,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       actions: [
-        if(isAdmin)
         PopupMenuButton<String>(
           icon: const Icon(Icons.more_vert, color: Colors.white),
           color: const Color(0xFF3E4758),
@@ -142,3 +130,4 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
+*/
