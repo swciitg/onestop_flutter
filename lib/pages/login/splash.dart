@@ -19,8 +19,8 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     LoginStore().isAlreadyAuthenticated().then((result) {
-      if (result == SplashResponse.authenticated &&
-          LoginStore.isProfileComplete) {
+      if (result == SplashResponse.authenticated //&&
+          /*LoginStore.isProfileComplete*/) {
         Navigator.of(context).pushNamedAndRemoveUntil(
             HomePage.id, (Route<dynamic> route) => false);
       } else if (result == SplashResponse.blocked) {
