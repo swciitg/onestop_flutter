@@ -193,5 +193,5 @@ class EventListView extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (context) => EventDetailsScreen(event: event, isAdmin: false,)),
     );
-  }y
+  }
 }
