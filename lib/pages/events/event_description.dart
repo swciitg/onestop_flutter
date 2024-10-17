@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
+import 'package:onestop_dev/pages/events/event_form_screen.dart';
 import 'package:onestop_dev/services/api.dart';
 
 class EventDetailsScreen extends StatefulWidget {
   final EventModel event;
+  final bool isAdmin;
 
-  const EventDetailsScreen({Key? key, required this.event}) : super(key: key);
+  const EventDetailsScreen({Key? key, required this.event, required this.isAdmin}) : super(key: key);
 
   @override
   _EventDetailsScreenState createState() => _EventDetailsScreenState();
@@ -21,7 +23,11 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   }
 
   void _handleEditOption() {
-    //ADD functionality
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EventFormScreen(event: widget.event,)),
+    );
     print('Edit option selected');
   }
 
@@ -46,7 +52,6 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               onPressed: () {
                 print('Event deleted');
                 var res;
-
                 try {
                   res = APIService().deleteEvent(widget.event.id);
                 } catch (e) {
@@ -106,11 +111,12 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
                       child: Image.network(
-                        widget.event.imageURL,
+                        widget.event.imageUrl,
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
+                  if(widget.isAdmin)
                   Positioned(
                     top: 10,
                     right: 10,
@@ -142,15 +148,15 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               Column(
                 children: [
                   _buildEventDetail("Date",
-                      "${widget.event.date.day}/${widget.event.date.month}/${widget.event.date.year}"),
+                      "${widget.event.startDateTime.day}/${widget.event.startDateTime.month}/${widget.event.startDateTime.year}"),
                   const SizedBox(width: 5.0),
                   _buildEventDetail("Time",
-                      "${widget.event.date.hour}:${widget.event.date.minute.toString().padLeft(2, '0')} - ${(widget.event.date.add(const Duration(hours: 1)).hour).toString().padLeft(2, '0')}:${widget.event.date.minute.toString().padLeft(2, '0')}"),
+                      "${widget.event.startDateTime.hour}:${widget.event.startDateTime.minute.toString().padLeft(2, '0')} - ${(widget.event.startDateTime.add(const Duration(hours: 1)).hour).toString().padLeft(2, '0')}:${widget.event.startDateTime.minute.toString().padLeft(2, '0')}"),
                 ],
               ),
               _buildEventDetail("Venue", widget.event.venue),
-              _buildEventDetail("Contact Details", widget.event.contactNumber),
-              _buildEventDetail("Conducted by", widget.event.club_org),
+              //_buildEventDetail("Contact Details", widget.event.contactNumber),
+              _buildEventDetail("Conducted by", widget.event.clubOrg),
               const SizedBox(height: 8.0),
               // Event Description
               Text(

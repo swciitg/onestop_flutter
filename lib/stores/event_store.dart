@@ -71,5 +71,5 @@ abstract class _EventsStore with Store {
     }
   }
 
-  int get pageSize => 5;
+  int get pageSize => 10;
 }

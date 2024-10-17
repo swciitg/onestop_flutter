@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:onestop_dev/models/event_scheduler/admin_model.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/event_description.dart';
 import 'package:onestop_dev/pages/events/event_tile.dart';
-import 'package:onestop_dev/pages/events/events_appbar.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/event_store.dart';
@@ -31,9 +33,11 @@ class _EventsScreenState extends State<EventsScreen> {
         PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
   };
 
+
   @override
   void initState() {
     super.initState();
+    // _fetchAdmins();
     _pagingControllers.forEach((key, controller) {
       controller.addPageRequestListener((pageKey) async {
         await _fetchPage(controller, key, pageKey);
@@ -41,10 +45,14 @@ class _EventsScreenState extends State<EventsScreen> {
     });
   }
 
-  Future<void> _fetchPage(PagingController<int, EventModel> controller,
-      String category, int pageKey) async {
+  Future<void> _fetchPage(PagingController<int, EventModel> controller, String category, int pageKey) async {
+    log("fetching the category of $category");
     try {
+      final admins = await APIService().getAdmins();
+      print(admins.length);
       final newItems = await APIService().getEventPage(category);
+
+      log("Loaded ${newItems.length} events for $category");
       final isLastPage = newItems.length < EventsStore().pageSize;
       if (isLastPage) {
         controller.appendLastPage(newItems);
@@ -52,9 +60,12 @@ class _EventsScreenState extends State<EventsScreen> {
         controller.appendPage(newItems, pageKey + 1);
       }
     } catch (error) {
+      log("Error fetching events: $error");
       controller.error = error;
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -97,21 +108,22 @@ class _EventsScreenState extends State<EventsScreen> {
               child: TabBarView(
                 children: [
                   EventListView(pagingController: _pagingControllers['Saved']!),
-                  EventListView(
-                      pagingController: _pagingControllers['All Events']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Academic']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Sports']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Technical']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Cultural']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Welfare']!),
+
+                  EventListView(pagingController: _pagingControllers['All Events']!),
+
+                  EventListView(pagingController: _pagingControllers['Academic']!),
+
+                  EventListView(pagingController: _pagingControllers['Sports']!),
+
+                  EventListView(pagingController: _pagingControllers['Technical']!),
+
+                  EventListView(pagingController: _pagingControllers['Cultural']!),
+
+                  EventListView(pagingController: _pagingControllers['Welfare']!),
+
                   EventListView(pagingController: _pagingControllers['SWC']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Miscellaneous']!),
+
+                  EventListView(pagingController: _pagingControllers['Miscellaneous']!),
                 ],
               ),
             ),
@@ -192,7 +204,7 @@ class EventListView extends StatelessWidget {
   void _navigateToEventDetails(BuildContext context, EventModel event) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => EventDetailsScreen(event: event)),
+      MaterialPageRoute(builder: (context) => EventDetailsScreen(event: event,isAdmin: false,)),
     );
   }
 }
