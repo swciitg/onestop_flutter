@@ -102,7 +102,7 @@ class _HostelServiceState extends State<HostelService> {
                             ),
                             const Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 10)),
+                                     EdgeInsets.symmetric(vertical: 10)),
                             GestureDetector(
                               onTap: () {
                                 if (complaintTypeController.selectedItem ==
