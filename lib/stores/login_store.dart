@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:logger/logger.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/enums.dart';
@@ -57,14 +58,13 @@ class LoginStore {
     final response = await APIService().guestUserLogin();
 
     await Future.wait([
-      saveToPreferences(sharedPrefs, response.data),
+      saveTokensToPrefs(sharedPrefs, response.data),
       saveToUserInfo(sharedPrefs),
       sharedPrefs.setBool("isProfileComplete", true)
     ]);
   }
 
-  Future<void> saveToPreferences(
-      SharedPreferences instance, dynamic data) async {
+  Future<void> saveTokensToPrefs(SharedPreferences instance, Map data) async {
     await Future.wait([
       instance.setString(
           BackendHelper.accesstoken, data[BackendHelper.accesstoken]),
@@ -81,7 +81,8 @@ class LoginStore {
   Future<void> saveToUserInfo(SharedPreferences instance) async {
     // only called after saving jwt tokens in local storage
     userData = jsonDecode(instance.getString("userInfo")!);
-    var fcmToken = await FirebaseMessaging.instance.getToken();
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    Logger().i("FCM Token: $fcmToken");
     if (instance.getBool("isGuest") == false) {
       String? deviceToken = instance.getString("deviceToken");
       if (deviceToken == null) {

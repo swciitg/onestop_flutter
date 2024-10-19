@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:firebase_core/firebase_core.dart';
@@ -5,6 +6,88 @@ import "package:firebase_messaging/firebase_messaging.dart";
 import 'package:flutter/material.dart';
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import 'package:shared_preferences/shared_preferences.dart';
+
+// Timer? timer;
+//
+// @pragma('vm:entry-point')
+// void firewallNotificationTap(NotificationResponse details) async {
+//   if (details.actionId == "connect") {
+//     final auth = FirewallAuth();
+//     await auth.login();
+//     timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+//       Logger().i("Sending keep-alive request...");
+//       await auth.refreshSession();
+//     });
+//   } else if (details.actionId == "disconnect") {
+//     final auth = FirewallAuth();
+//     await auth.logout();
+//     timer?.cancel();
+//   }
+// }
+//
+// Future<void> showPersistentNotification() async {
+//   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//       FlutterLocalNotificationsPlugin();
+//
+//   const AndroidNotificationChannel channel = AndroidNotificationChannel(
+//     'firewall_notification_channel', // id
+//     'Firewall Notification Channel', // title
+//     description: 'Firewall Notification Channel',
+//     importance: Importance.max,
+//   );
+//
+//   AndroidInitializationSettings initializationSettingsAndroid =
+//       const AndroidInitializationSettings('@mipmap/ic_launcher');
+//
+//   InitializationSettings initializationSettings =
+//       InitializationSettings(android: initializationSettingsAndroid);
+//
+//   await flutterLocalNotificationsPlugin
+//       .resolvePlatformSpecificImplementation<
+//           AndroidFlutterLocalNotificationsPlugin>()
+//       ?.createNotificationChannel(channel);
+//
+//   flutterLocalNotificationsPlugin.initialize(initializationSettings,
+//       onDidReceiveNotificationResponse: firewallNotificationTap);
+//
+//   AndroidNotificationDetails androidNotificationDetails =
+//       const AndroidNotificationDetails(
+//     "firewall_notification_channel",
+//     "Firewall Notification Channel",
+//     channelDescription: "Firewall Notification Channel",
+//     importance: Importance.max,
+//     priority: Priority.high,
+//     icon: 'notification_icon',
+//     ongoing: true,
+//     autoCancel: false,
+//     actions: <AndroidNotificationAction>[
+//       AndroidNotificationAction(
+//         'connect',
+//         'Connect',
+//         showsUserInterface: false,
+//         cancelNotification: false,
+//         icon: null,
+//       ),
+//       AndroidNotificationAction(
+//         'disconnect',
+//         'Disconnect',
+//         showsUserInterface: false,
+//         cancelNotification: false,
+//         icon: null,
+//       ),
+//     ],
+//   );
+//   NotificationDetails notificationDetails = NotificationDetails(
+//     android: androidNotificationDetails,
+//   );
+//
+//   await flutterLocalNotificationsPlugin.show(
+//     0,
+//     "IITG Network Login",
+//     "Hello",
+//     notificationDetails,
+//   );
+// }
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();

@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:logger/logger.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
@@ -41,7 +42,7 @@ class APIService {
       print(await AuthUserHelpers.getAccessToken());
       print(options.path);
       options.headers["Authorization"] =
-          "Bearer ${await AuthUserHelpers.getAccessToken()}";
+      "Bearer ${await AuthUserHelpers.getAccessToken()}";
       handler.next(options);
     }, onError: (error, handler) async {
       print("A dio Error has occured and been caught");
@@ -75,9 +76,9 @@ class APIService {
   Future<Response<dynamic>> retryRequest(Response response) async {
     RequestOptions requestOptions = response.requestOptions;
     response.requestOptions.headers[BackendHelper.authorization] =
-        "Bearer ${await AuthUserHelpers.getAccessToken()}";
+    "Bearer ${await AuthUserHelpers.getAccessToken()}";
     final options =
-        Options(method: requestOptions.method, headers: requestOptions.headers);
+    Options(method: requestOptions.method, headers: requestOptions.headers);
     Dio retryDio = Dio(BaseOptions(
         baseUrl: Endpoints.baseUrl,
         connectTimeout: const Duration(seconds: 5),
@@ -102,11 +103,11 @@ class APIService {
           connectTimeout: const Duration(seconds: 5),
           receiveTimeout: const Duration(seconds: 5)));
       Response<Map<String, dynamic>> resp =
-          await regenDio.post("/user/accesstoken",
-              options: Options(headers: {
-                'Security-Key': Endpoints.apiSecurityKey,
-                "authorization": "Bearer $refreshToken"
-              }));
+      await regenDio.post("/user/accesstoken",
+          options: Options(headers: {
+            'Security-Key': Endpoints.apiSecurityKey,
+            "authorization": "Bearer $refreshToken"
+          }));
       var data = resp.data!;
       print("REGENRATED ACCESS TOKEN");
       await AuthUserHelpers.setAccessToken(data[BackendHelper.accesstoken]);
@@ -273,7 +274,7 @@ class APIService {
       'page': pageNumber.toString(),
     };
     var response =
-        await dio.get(Endpoints.lostPath, queryParameters: queryParameters);
+    await dio.get(Endpoints.lostPath, queryParameters: queryParameters);
     var json = response.data;
     List<LostModel> lostPage = (json['details'] as List<dynamic>)
         .map((e) => LostModel.fromJson(e))
@@ -287,7 +288,7 @@ class APIService {
       'page': pageNumber.toString(),
     };
     var response =
-        await dio.get(Endpoints.foundPath, queryParameters: queryParameters);
+    await dio.get(Endpoints.foundPath, queryParameters: queryParameters);
     var json = response.data;
     List<FoundModel> lostPage = (json['details'] as List<dynamic>)
         .map((e) => FoundModel.fromJson(e))
@@ -301,7 +302,7 @@ class APIService {
       'page': pageNumber.toString(),
     };
     var response =
-        await dio.get(Endpoints.sellPath, queryParameters: queryParameters);
+    await dio.get(Endpoints.sellPath, queryParameters: queryParameters);
     var json = response.data;
     List<BuyModel> sellPage = (json['details'] as List<dynamic>)
         .map((e) => BuyModel.fromJson(e))
@@ -315,7 +316,7 @@ class APIService {
       'page': pageNumber.toString(),
     };
     var response =
-        await dio.get(Endpoints.buyPath, queryParameters: queryParameters);
+    await dio.get(Endpoints.buyPath, queryParameters: queryParameters);
     var json = response.data;
     List<SellModel> buyPage = (json['details'] as List<dynamic>)
         .map((e) => SellModel.fromJson(e))
@@ -649,7 +650,9 @@ class APIService {
   }
 
   Future<String?> uploadFileToServer(File file, String endpoint) async {
-    var fileName = file.path.split('/').last;
+    var fileName = file.path
+        .split('/')
+        .last;
     var formData = FormData.fromMap({
       'file': await MultipartFile.fromFile(file.path, filename: fileName),
     });
@@ -678,7 +681,9 @@ class APIService {
   }
 
   Future<String?> uploadFileToServer2(File file) async {
-    var fileName = file.path.split('/').last;
+    var fileName = file.path
+        .split('/')
+        .last;
     var formData = FormData.fromMap({
       'file': await MultipartFile.fromFile(file.path, filename: fileName),
     });
