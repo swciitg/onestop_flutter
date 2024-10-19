@@ -5,10 +5,10 @@ import 'package:onestop_kit/onestop_kit.dart';
 import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 
-class Hab_Page extends StatelessWidget {
+class HabPage extends StatelessWidget {
   static const String id = "/hab_page";
 
-  const Hab_Page({super.key});
+  const HabPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/home/navigation_icons.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/globals/size_config.dart';
+import 'package:onestop_dev/pages/events/events_appbar.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/pages/home/home_tab.dart';
 import 'package:onestop_dev/pages/timetable/timetable.dart';
@@ -32,6 +32,8 @@ class _HomePageState extends State<HomePage> {
     const HomeTab(),
     const FoodTab(),
     const TravelPage(),
+    //EventsScreen(),
+    EventsScreenWrapper(),
     const TimeTableTab(),
   ];
 
