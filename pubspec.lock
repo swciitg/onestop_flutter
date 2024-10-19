@@ -423,6 +423,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  dropdown_model_list:
+    dependency: "direct main"
+    description:
+      name: dropdown_model_list
+      sha256: b92acdd478e5105ce917daf05e9cead2bb93e6b19754a00f73fb756316fc5896
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.3"
   fake_async:
     dependency: transitive
     description:
@@ -1507,26 +1515,10 @@ packages:
     dependency: transitive
     description:
       name: sqflite_common
-      sha256: "4468b24876d673418a7b7147e5a08a715b4998a7ae69227acafaab762e0e5490"
+      sha256: "2d8e607db72e9cb7748c9c6e739e2c9618320a5517de693d5a24609c4671b1a4"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.4+5"
-  sqflite_darwin:
-    dependency: transitive
-    description:
-      name: sqflite_darwin
-      sha256: "769733dddf94622d5541c73e4ddc6aa7b252d865285914b6fcd54a63c4b4f027"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.1-1"
-  sqflite_platform_interface:
-    dependency: transitive
-    description:
-      name: sqflite_platform_interface
-      sha256: "8dd4515c7bdcae0a785b0062859336de775e8c65db81ae33dd5445f35be61920"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.0"
+    version: "2.5.4+4"
   stack_trace:
     dependency: transitive
     description:
@@ -1568,7 +1560,7 @@ packages:
     source: hosted
     version: "1.2.0"
   syncfusion_flutter_calendar:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
       sha256: a91ba8f2ae2bd891004515fcae98330eb40b8bece639a5660ed27bdbb9917e54

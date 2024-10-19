@@ -12,6 +12,7 @@ import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
+import 'package:onestop_dev/stores/medical_timetable_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
@@ -73,6 +74,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<TimetableStore>(
           create: (_) => TimetableStore(),
+        ),
+        Provider<MedicalTimetableStore>(
+          create: (_) => MedicalTimetableStore(),
         )
       ],
       child: MaterialApp(

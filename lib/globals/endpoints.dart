@@ -6,8 +6,11 @@ class Endpoints {
   static const String restaurantURL = "/getAllOutlets";
   static const String lastUpdatedURL = "/lastDataUpdate";
   static const String contactURL = "/getContacts";
+  static const String medicalContactURL = '/hospital/getContacts';
   static const String timetableURL =
       "https://swc.iitg.ac.in/smartTimetable/get-my-courses";
+  static const String medicalTimetableURL = '/hospital/getTimetable';
+  
   static const String ferryURL = '/ferryTimings';
   static const String homeImage = '/homeImage';
   static const String busURL = '/busTimings';
@@ -36,7 +39,15 @@ class Endpoints {
   static const feedback =
       'https://api.github.com/repos/swciitg/onestop_flutter/issues';
   static const String upspPost = '/upsp/submit-request';
+  static const String pharmacyFeedback = "/feedback/pharmacyFeedback-submit";
+  static const String hospitalFacilitiesFeedback =
+      "/feedback/servicesFeedback-submit";
+  static const String doctorsFeedback = "/feedback/doctorsFeedback-submit";
+  static const String dropownDoctors = "/getDoctors";
   static const String uploadFileUPSP = "/upsp/file-upload";
+  static const String facilityFileUpload = "/servicesFeedback/file-upload";
+  static const String doctorFileUpload = "/doctorsFeedback/file-upload";
+  static const String pharmacyFileUpload = "/pharmacyFeedback/file-upload";
   static const String habPost = '/hab-complaint/submit-request';
   static const String uploadFileHAB = '/hab-complaint/file-upload';
   static const String guestLogin = "/user/guest/login";

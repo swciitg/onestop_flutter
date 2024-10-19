@@ -9,9 +9,14 @@ import 'package:onestop_kit/onestop_kit.dart';
 class HomeLinks extends StatefulWidget {
   final List<HomeTabTile> links;
   final String title;
+  final int rows; // Number of rows as an argument
 
-  const HomeLinks({Key? key, required this.links, required this.title})
-      : super(key: key);
+  const HomeLinks({
+    Key? key,
+    required this.links,
+    required this.title,
+    this.rows = 2, // Default number of rows set to 2
+  }) : super(key: key);
 
   @override
   State<HomeLinks> createState() => _HomeLinksState();
@@ -22,6 +27,9 @@ class _HomeLinksState extends State<HomeLinks> {
 
   @override
   Widget build(BuildContext context) {
+    // Calculate the number of items per page (rows * columns)
+    int itemsPerSlide = widget.rows * 4;
+
     return widget.links.isEmpty
         ? const SizedBox()
         : Container(
@@ -44,21 +52,7 @@ class _HomeLinksState extends State<HomeLinks> {
                   ),
                   CarouselSlider(
                     items: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: GridView.count(
-                          crossAxisCount: 4,
-                          childAspectRatio: 1,
-                          shrinkWrap: true,
-                          mainAxisSpacing: 4,
-                          crossAxisSpacing: 4,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: widget.links.length <= 8
-                              ? widget.links
-                              : widget.links.sublist(0, 8),
-                        ),
-                      ),
-                      if (widget.links.length > 8)
+                      for (int i = 0; i < widget.links.length; i += itemsPerSlide)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: GridView.count(
@@ -68,14 +62,20 @@ class _HomeLinksState extends State<HomeLinks> {
                             mainAxisSpacing: 4,
                             crossAxisSpacing: 4,
                             physics: const NeverScrollableScrollPhysics(),
-                            children: widget.links.sublist(8),
+                            // Display a slice of the links based on current page
+                            children: widget.links.sublist(
+                              i,
+                              (i + itemsPerSlide) > widget.links.length
+                                  ? widget.links.length
+                                  : (i + itemsPerSlide),
+                            ),
                           ),
                         ),
                     ],
                     options: CarouselOptions(
                       viewportFraction: 1,
                       pageSnapping: true,
-                      aspectRatio: 2,
+                      aspectRatio: (4 / widget.rows),
                       autoPlay: false,
                       animateToClosest: false,
                       enableInfiniteScroll: false,
@@ -87,7 +87,7 @@ class _HomeLinksState extends State<HomeLinks> {
                       },
                     ),
                   ),
-                  if (widget.links.length > 8)
+                  if (widget.links.length > itemsPerSlide)
                     DotsIndicator(
                       position: activePageIndex,
                       decorator: const DotsDecorator(
@@ -97,7 +97,7 @@ class _HomeLinksState extends State<HomeLinks> {
                         size: Size(5, 5),
                         activeSize: Size(5, 5),
                       ),
-                      dotsCount: (widget.links.length / 8).ceil(),
+                      dotsCount: (widget.links.length / itemsPerSlide).ceil(),
                     )
                 ],
               ),

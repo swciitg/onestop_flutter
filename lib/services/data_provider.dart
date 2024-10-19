@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
+import 'package:onestop_dev/models/medicalcontacts/allmedicalcontacts.dart';
+import 'package:onestop_dev/models/medicalcontacts/dropdown_contact_model.dart';
+import 'package:onestop_dev/models/medicaltimetable/all_doctors.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
@@ -155,7 +159,7 @@ class DataProvider {
   }
 
   static Future<MealType> getMealData({
-    required Hostel hostel,
+    required Mess mess,
     required String day,
     required String mealType,
   }) async {
@@ -172,12 +176,13 @@ class DataProvider {
     }
 
     List<dynamic> answer = jsonData['details']!;
-    var meal = answer.firstWhere((m) => m['hostel'] == hostel.databaseString,
+    var meal = answer.firstWhere(
+        (m) => m['subscribedMess'] == mess.databaseString,
         orElse: () => 'no data');
     if (meal == 'no data') {
       return MealType(
           id: '',
-          mealDescription: "Not updated by ${hostel.displayString}'s HMC. "
+          mealDescription: "Not updated by ${mess.displayString}'s HMC. "
               "Kindly Contact ask them to update",
           startTiming: DateTime.now().toLocal(),
           endTiming: DateTime.now().toLocal());
@@ -216,6 +221,55 @@ class DataProvider {
       }
       return people;
     }
+  }
+
+  static Future<AllDoctors> getMedicalTimeTable() async {
+    try{
+      return await APIService().getmedicalTimeTable();
+    }catch (e){
+      debugPrint("Error Fetching Medical TT");
+      rethrow ;
+    }
+  }
+
+  static Future<Allmedicalcontacts?> getMedicalContacts() async {
+    Allmedicalcontacts medicalContactData = Allmedicalcontacts(alldoctors: []);
+    try {
+      Allmedicalcontacts? medicalContactData =
+          await APIService().getMedicalContactData();
+      return medicalContactData;
+    } catch (e) {
+      print(e);
+    }
+    return medicalContactData;
+  }
+
+  static Future<List<DropdownContactModel>> getDropDownContacts() async {
+    List<DropdownContactModel> DropDownContacts = [];
+    var cachedData = await LocalStorage.instance
+        .getListRecord(DatabaseRecords.dropdowncontacts);
+    try {
+      List<Map<String, dynamic>> DropDownData =
+          await APIService().getDropDownContacts();
+      await LocalStorage.instance
+          .storeListRecord(DropDownData, DatabaseRecords.medicalcontacts);
+      for (var element in DropDownData) {
+        DropdownContactModel doctor = DropdownContactModel.fromJson(element);
+        DropDownContacts.add(doctor);
+      }
+    } catch (e) {
+      print(e);
+      if (cachedData == null) {
+        return DropDownContacts;
+      } else {
+        for (var element in cachedData) {
+          DropdownContactModel doctor =
+              DropdownContactModel.fromJson(element as Map<String, dynamic>);
+          DropDownContacts.add(doctor);
+        }
+      }
+    }
+    return DropDownContacts;
   }
 
   static Future<Map<String, List<NotifsModel>>> getNotifications() async {

@@ -13,6 +13,7 @@ import 'package:onestop_dev/pages/login/blocked.dart';
 import 'package:onestop_dev/pages/login/login.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
+import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
 import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
@@ -39,6 +40,7 @@ final routes = {
   ComplaintsPage.id: (context) => const ComplaintsPage(),
   MessOpiFormPage.id: (context) => const MessOpiFormPage(),
   MessSubscriptionPage.id: (context) => const MessSubscriptionPage(),
+  MedicalSection.id: (context) => MedicalSection(),
   HostelService.id: (context) => const HostelService(),
   // ElectionLoginWebView.id: (context) => const ElectionLoginWebView(),
   GateLogPage.id: (context) => const GateLogPage(),
