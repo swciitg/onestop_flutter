@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
@@ -388,17 +389,17 @@ class APIService {
     return res.data;
   }
 
-  Future<Map<String, dynamic>> postEvent(Map<String, String?> formData) async {
-    var res = await dio.post('http://swc.iitg.ac.in/events', data: formData);
+  Future<Map<String, dynamic>> postEvent(FormData formData) async {
+    var res = await dio.post('https://swc.iitg.ac.in/events', data: formData);
     return res.data;
   }
 
   Future<Map<String, dynamic>> deleteEvent(String id) async {
-    var res = await dio.delete('http://swc.iitg.ac.in//events/:id', data: id);
+    var res = await dio.delete('https://swc.iitg.ac.in/events/$id');
     return res.data;
   }
 
-  Future<Map<String, dynamic>> putEvent(String id, Map<String, dynamic> updatedData) async {
+  Future<Map<String, dynamic>> putEvent(String id, FormData updatedData) async {
     try {
       // Make a PATCH request to the API with the updated event data
       var res = await dio.put(
@@ -407,6 +408,7 @@ class APIService {
       );
       return res.data;  // Return the response data
     } catch (e) {
+      print("Error updating event: $e");
       throw Exception('Failed to update event: $e');
     }
   }

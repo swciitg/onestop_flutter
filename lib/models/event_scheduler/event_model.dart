@@ -3,8 +3,8 @@ import 'dart:convert';
 class EventModel {
   String id;
   String title;
-  String imageUrl;
-  String compressedImageUrl;
+  String? imageUrl;
+  String? compressedImageUrl;
   String description;
   String clubOrg;
   String board;
@@ -17,8 +17,8 @@ class EventModel {
   EventModel({
     required this.id,
     required this.title,
-    required this.imageUrl,
-    required this.compressedImageUrl,
+     this.imageUrl,
+     this.compressedImageUrl,
     required this.description,
     required this.clubOrg,
     required this.board,

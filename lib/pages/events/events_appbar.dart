@@ -13,6 +13,7 @@ import '../../models/event_scheduler/admin_model.dart';
 
 class EventsScreenWrapper extends StatefulWidget {
 
+  const EventsScreenWrapper({super.key});
 
   @override
   State<EventsScreenWrapper> createState() => _EventsScreenWrapperState();

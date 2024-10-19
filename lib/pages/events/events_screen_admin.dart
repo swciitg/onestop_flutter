@@ -17,7 +17,7 @@ class EventsScreen1 extends StatefulWidget {
   State<EventsScreen1> createState() => _EventsScreen1State();
 }
 
-class _EventsScreen1State extends State<EventsScreen1> {
+class _EventsScreen1State extends State<EventsScreen1>{
   final Map<String, PagingController<int, EventModel>> _pagingControllers = {
     'Your Events':
         PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
@@ -31,16 +31,6 @@ class _EventsScreen1State extends State<EventsScreen1> {
     'Miscellaneous':
         PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
   };
-
-  @override
-  void initState() {
-    super.initState();
-    _pagingControllers.forEach((key, controller) {
-      controller.addPageRequestListener((pageKey) async {
-        await _fetchPage(controller, key, pageKey);
-      });
-    });
-  }
 
   Future<void> _fetchPage(PagingController<int, EventModel> controller,
       String category, int pageKey) async {
@@ -60,16 +50,27 @@ class _EventsScreen1State extends State<EventsScreen1> {
   @override
   Widget build(BuildContext context) {
     final eventsStore = context.read<EventsStore>();
+    final tabs = [
+                  'Your Events',
+                  'All Events',
+                  'Academic',
+                  'Sports',
+                  'Technical',
+                  'Cultural',
+                  'Welfare',
+                  'SWC',
+                  'Miscellaneous',
+                ];
 
     return Observer(
       builder: (context) => DefaultTabController(
-        length: 8,
+        length: tabs.length,
         child: Column(
           children: [
             Container(
               color: const Color(0xFF1b1b1d),
               child: TabBar(
-                onTap: eventsStore.setSelectedEventTab,
+                onTap:(val)=> eventsStore.setSelectedEventTab(val),
                 indicator: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(color: Colors.transparent),
@@ -79,40 +80,23 @@ class _EventsScreen1State extends State<EventsScreen1> {
                 labelColor: Colors.black,
                 unselectedLabelColor: Colors.white,
                 isScrollable: true,
-                tabs: [
-                  _buildTab('Your Events', 0, eventsStore),
-                  _buildTab('All Events', 1, eventsStore),
-                  _buildTab('Academic', 2, eventsStore),
-                  _buildTab('Sports', 3, eventsStore),
-                  _buildTab('Technical', 4, eventsStore),
-                  _buildTab('Cultural', 5, eventsStore),
-                  _buildTab('Welfare', 6, eventsStore),
-                  _buildTab('SWC', 7, eventsStore),
-                  _buildTab('Miscellaneous', 8, eventsStore),
-                ],
+                tabs: List.generate(tabs.length, (index){
+                  return _buildTab(tabs[index], index, eventsStore);
+                }),
               ),
             ),
             Expanded(
               child: TabBarView(
-                children: [
-                  YourEventListView(
-                      pagingController: _pagingControllers['Your Events']!),
-                  EventListView(
-                      pagingController: _pagingControllers['All Events']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Academic']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Sports']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Technical']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Cultural']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Welfare']!),
-                  EventListView(pagingController: _pagingControllers['SWC']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Miscellaneous']!),
-                ],
+                children: List.generate(tabs.length, (index){
+                  if(index == 0){
+                    return YourEventListView(pagingController: _pagingControllers[tabs[index]]!,refresh: (){
+                    _pagingControllers[tabs.first]!.refresh();
+                  },);
+                  }
+                  return EventListView(pagingController: _pagingControllers[tabs[index]]!, fetchPage: (val){
+                    _fetchPage(_pagingControllers[tabs[index]]!, tabs[index], val);
+                  },);
+                }),
               ),
             ),
           ],
@@ -153,23 +137,38 @@ class _EventsScreen1State extends State<EventsScreen1> {
   }
 }
 
-class EventListView extends StatelessWidget {
+class EventListView extends StatefulWidget {
   final PagingController<int, EventModel> pagingController;
+  final Function(int) fetchPage;
 
-  const EventListView({Key? key, required this.pagingController})
+  const EventListView({Key? key, required this.pagingController, required this.fetchPage})
       : super(key: key);
+
+  @override
+  State<EventListView> createState() => _EventListViewState();
+}
+
+class _EventListViewState extends State<EventListView> {
+
+  @override
+  void initState(){
+     widget.pagingController.addPageRequestListener((pageKey) async {
+      await widget.fetchPage(pageKey);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return PagedListView<int, EventModel>(
-      pagingController: pagingController,
+      pagingController: widget.pagingController,
       builderDelegate: PagedChildBuilderDelegate<EventModel>(
         itemBuilder: (context, event, index) => EventTile(
           onTap: () => _navigateToEventDetails(context, event),
           model: event,
         ),
         firstPageErrorIndicatorBuilder: (context) => ErrorReloadScreen(
-          reloadCallback: () => pagingController.refresh(),
+          reloadCallback: () => widget.pagingController.refresh(),
         ),
         noItemsFoundIndicatorBuilder: (context) => const PaginationText(
           text: "No events found",
