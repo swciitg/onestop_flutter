@@ -33,74 +33,72 @@ class _HomeLinksState extends State<HomeLinks> {
     return widget.links.isEmpty
         ? const SizedBox()
         : Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.only(top: 5, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               color: kHomeTile,
             ),
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Text(
-                      widget.title,
-                      style: MyFonts.w500.size(16).setColor(kWhite),
-                    ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: Text(
+                    widget.title,
+                    style: MyFonts.w500.size(16).setColor(kWhite),
                   ),
-                  CarouselSlider(
-                    items: [
-                      for (int i = 0; i < widget.links.length; i += itemsPerSlide)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: GridView.count(
-                            crossAxisCount: 4,
-                            childAspectRatio: 1,
-                            shrinkWrap: true,
-                            mainAxisSpacing: 4,
-                            crossAxisSpacing: 4,
-                            physics: const NeverScrollableScrollPhysics(),
-                            // Display a slice of the links based on current page
-                            children: widget.links.sublist(
-                              i,
-                              (i + itemsPerSlide) > widget.links.length
-                                  ? widget.links.length
-                                  : (i + itemsPerSlide),
-                            ),
+                ),
+                CarouselSlider(
+                  items: [
+                    for (int i = 0; i < widget.links.length; i += itemsPerSlide)
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
+                        child: GridView.count(
+                          crossAxisCount: 4,
+                          childAspectRatio: 1,
+                          shrinkWrap: true,
+                          mainAxisSpacing: 4,
+                          crossAxisSpacing: 4,
+                          physics: const NeverScrollableScrollPhysics(),
+                          // Display a slice of the links based on current page
+                          children: widget.links.sublist(
+                            i,
+                            (i + itemsPerSlide) > widget.links.length
+                                ? widget.links.length
+                                : (i + itemsPerSlide),
                           ),
                         ),
-                    ],
-                    options: CarouselOptions(
-                      viewportFraction: 1,
-                      pageSnapping: true,
-                      aspectRatio: (4 / widget.rows),
-                      autoPlay: false,
-                      animateToClosest: false,
-                      enableInfiniteScroll: false,
-                      padEnds: false,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          activePageIndex = index;
-                        });
-                      },
-                    ),
-                  ),
-                  if (widget.links.length > itemsPerSlide)
-                    DotsIndicator(
-                      position: activePageIndex,
-                      decorator: const DotsDecorator(
-                        activeColor: OneStopColors.kWhite,
-                        color: OneStopColors.cardColor,
-                        spacing: EdgeInsets.symmetric(horizontal: 3),
-                        size: Size(5, 5),
-                        activeSize: Size(5, 5),
                       ),
-                      dotsCount: (widget.links.length / itemsPerSlide).ceil(),
-                    )
-                ],
-              ),
+                  ],
+                  options: CarouselOptions(
+                    viewportFraction: 1,
+                    pageSnapping: true,
+                    aspectRatio: (4 / widget.rows),
+                    autoPlay: false,
+                    animateToClosest: false,
+                    enableInfiniteScroll: false,
+                    padEnds: false,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        activePageIndex = index;
+                      });
+                    },
+                  ),
+                ),
+                if (widget.links.length > itemsPerSlide)
+                  DotsIndicator(
+                    position: activePageIndex,
+                    decorator: const DotsDecorator(
+                      activeColor: OneStopColors.kWhite,
+                      color: OneStopColors.cardColor,
+                      spacing: EdgeInsets.symmetric(horizontal: 3),
+                      size: Size(5, 5),
+                      activeSize: Size(5, 5),
+                    ),
+                    dotsCount: (widget.links.length / itemsPerSlide).ceil(),
+                  ),
+              ],
             ),
           );
   }

@@ -9,12 +9,13 @@ import 'package:provider/provider.dart';
 
 class TravelPage extends StatefulWidget {
   const TravelPage({Key? key}) : super(key: key);
+
   @override
   State<TravelPage> createState() => _TravelPageState();
 }
 
 class _TravelPageState extends State<TravelPage> {
-  int selectBusesorStops = 0;
+  int selectBusesOrStops = 0;
 
   @override
   Widget build(BuildContext context) {

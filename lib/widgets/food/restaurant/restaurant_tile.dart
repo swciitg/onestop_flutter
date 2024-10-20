@@ -10,10 +10,7 @@ import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
-import 'package:onestop_dev/pages/food/restaurant_page.dart';
-import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
-import 'package:provider/provider.dart';
 
 import 'call_map_button.dart';
 
@@ -36,7 +33,7 @@ class _RestaurantTileState extends State<RestaurantTile> {
         color: kBlueGrey,
       ),
       child: LayoutBuilder(builder: (context, constraints) {
-        double imageWidth = constraints.maxWidth * 0.35; 
+        double imageWidth = constraints.maxWidth * 0.35;
         return IntrinsicHeight(
           child: Row(
             children: [
@@ -135,7 +132,13 @@ class _RestaurantTileState extends State<RestaurantTile> {
                                   .where((url) => url.isNotEmpty)
                                   .toList();
                               images.isNotEmpty
-                                  ? openResturantPage(context, images)
+                                  ? openRestaurantPage(
+                                      context,
+                                      images,
+                                      () {
+                                        setState(() {});
+                                      },
+                                    )
                                   : showSnackBar('No menu found');
                             },
                           ),
