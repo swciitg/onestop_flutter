@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
@@ -68,7 +69,7 @@ class EventTile extends StatelessWidget {
                               const SizedBox(width: 6),
                               Expanded(
                                 child: Text(
-                                  '${model.startDateTime.hour}:${model.startDateTime.minute} - ${model.endDateTime.hour}:${model.endDateTime.minute}',
+                                  '${DateFormat('hh:mm a').format(model.startDateTime)} - ${DateFormat('hh:mm a').format(model.endDateTime)}',
                                   style: MyFonts.w500
                                       .copyWith(color: kWhite3, fontSize: 12),
                                   overflow: TextOverflow.ellipsis,
@@ -121,6 +122,7 @@ class EventTile extends StatelessWidget {
                       ),
                     ),
                   ),
+                 const SizedBox(width:5),
                  if(model.compressedImageUrl != null) Expanded(
                     flex: 2, // Adjusting flex for a balanced layout
                     child: ClipRRect(

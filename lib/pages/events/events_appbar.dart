@@ -39,15 +39,10 @@ class _EventsScreenWrapperState extends State<EventsScreenWrapper> {
 
   Future<bool> _checkIfUserIsAdminLogic() async {
     try {
-      // Fetch the list of admins
-      List<Admin> admins = await APIService().getAdmins();
-
-      // Get the logged-in user's data
-      var userData = LoginStore.userData;
-      String? userEmail = userData['outlookEmail'];
-
-      // Check if user's email is part of the admins
-      bool isAdmin = admins.any((admin) => admin.outlookEmail == userEmail);
+      final email = LoginStore.userData['outlookEmail'];
+      final admin = await APIService().getAdmins();
+      if(admin == null) return false;
+      bool isAdmin = admin.getUserClubs(email).isNotEmpty;
       return isAdmin;
     } catch (e) {
       log("Error checking admin status: $e");

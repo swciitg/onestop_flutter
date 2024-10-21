@@ -1,15 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/event_scheduler/admin_model.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/event_tile.dart';
 import 'package:onestop_dev/pages/events/event_description.dart';
 import 'package:onestop_dev/pages/events/event_form_screen.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+import 'package:provider/provider.dart';
 
 class YourEventListView extends StatefulWidget {
   final PagingController<int, EventModel> pagingController;
@@ -23,11 +25,15 @@ class YourEventListView extends StatefulWidget {
 }
 
 class _YourEventListViewState extends State<YourEventListView> {
+  late String? yourClub;
   @override
   void initState(){
     widget.pagingController.addPageRequestListener((pageKey) async {
       await _fetchPage(pageKey);
     });
+    Admin? admin= context.read<EventsStore>().admin;
+    final userClubs = admin?.getUserClubs(LoginStore.userData['outlookEmail']!);
+    yourClub=userClubs?.first.name;
     super.initState();
   }
    
@@ -73,7 +79,7 @@ refresh: widget.refresh,
                   context,
                   MaterialPageRoute(builder: (context) => const EventFormScreen()),
                 );
-                widget.refresh();
+               widget.refresh();
               },
               backgroundColor: const Color(0xFF81AAF9),
               icon: const Icon(Icons.add, color: Color(0xFF001B3E), size: 15),
@@ -93,10 +99,12 @@ refresh: widget.refresh,
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final admin = await _getAdmin();
-
+      var admin = context.read<EventsStore>().admin;
+      admin ??= await APIService().getAdmins();
+      if(admin == null) return;
+      context.read<EventsStore>().setAdmin(admin);
       final newItems =
-          await APIService().getEventPage(admin != null ? admin.board : "");
+          await APIService().getEventPage(yourClub??"");//todo
       final isLastPage = newItems.length < 10;
       if (isLastPage) {
         widget.pagingController.appendLastPage(newItems);
@@ -123,18 +131,3 @@ refresh: widget.refresh,
   }
 }
 
-Future<Admin?> _getAdmin() async {
-  try {
-    List<Admin> admins = await APIService().getAdmins();
-    var userData = LoginStore.userData;
-
-    Admin? admin = admins.firstWhere(
-      (admin) => admin.outlookEmail == userData['outlookEmail'],
-      //orElse: () => null,
-    );
-    return admin;
-  } catch (e) {
-    log("Error checking admin status: $e");
-    return null;
-  }
-}

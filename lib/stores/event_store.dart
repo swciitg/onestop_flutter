@@ -5,6 +5,7 @@ import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/models/event_scheduler/admin_model.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/event_tile.dart';
 import 'package:onestop_dev/services/local_storage.dart';
@@ -29,6 +30,14 @@ abstract class _EventsStore with Store {
   @action
   void toggleAdminView() {
     isAdminView = !isAdminView;
+  }
+
+  @observable
+  Admin? admin = null;
+
+  @action
+  void setAdmin(Admin updated){
+    admin = updated;
   }
 
   @computed
