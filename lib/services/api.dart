@@ -313,14 +313,10 @@ class APIService {
   }
 
 
-  //TODO
-  //sending dummy data here
-
   Future<List<EventModel>> getEventPage(String category) async {
     try{
       var response = await dio.get("https://swc.iitg.ac.in/events/categories");
       var json = response.data[category];
-      //var json = _getDummyEventData()[category];
 
       if(json!=null){
         List<EventModel> eventPage = (json as List<dynamic>).map((e) => EventModel.fromJson(e)).toList();
@@ -334,34 +330,20 @@ class APIService {
     }
   }
 
-/*
-  Future<List<Admin>> getAdmins() async {
-    try{
-      var response = await dio.get("https://swc.iitg.ac.in/events/por");
-      var json = response.data;
-      if(json!=null){
-        List<Admin> eventPage = (json as List<dynamic>).map((e) => Admin.fromJson(e)).toList();
-        return eventPage;
-      }else{
-        return [];
-      }
-    } catch (e) {
-      log("Error fetching events: $e");
-      rethrow;
-    }
-  }*/
 
-  Future<List<Admin>> getAdmins() async {
+
+  Future<Admin?> getAdmins() async {
     try {
       var response = await dio.get("https://swc.iitg.ac.in/events/por");
 
       var json = response.data;
 
       if (json != null && json is List) {
-        List<Admin> adminList = (json).map((e) => Admin.fromJson(e)).toList();
-        return adminList;
+        final data = json[0];
+        Admin admin = Admin.fromJson(data);
+        return admin;
       } else {
-        return [];
+        return null;
       }
     } catch (e) {
       log("Error fetching admins: $e");
