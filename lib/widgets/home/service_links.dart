@@ -1,6 +1,5 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
-import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
@@ -28,9 +27,9 @@ List<HomeTabTile> serviceLinks = [
     routeId: GateLogPage.id,
   ),
   const HomeTabTile(
-    label: "Complaints",
-    icon: FluentIcons.chat_help_24_regular,
-    routeId: ComplaintsPage.id,
+    label: "Contacts",
+    icon: FluentIcons.contact_card_group_24_regular,
+    routeId: ContactPage.id,
   ),
   const HomeTabTile(
     label: "Lost and Found",
@@ -52,11 +51,6 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.doctor_28_filled,
     routeId: MedicalSection.id,
     newBadge: true,
-  ),
-  const HomeTabTile(
-    label: "Contacts",
-    icon: FluentIcons.contact_card_group_24_regular,
-    routeId: ContactPage.id,
   ),
   const HomeTabTile(
     label: "LAN",
