@@ -36,13 +36,14 @@ class CallMapButton extends StatelessWidget {
                   size: fontSize,
                   color: kWhite,
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  callMap,
-                  style: MyFonts.w500.size(fontSize).setColor(kWhite),
-                ),
+               
+              if (callMap.isNotEmpty) ...[
+                 const SizedBox(width: 5), 
+                  Text(
+                    callMap,
+                    style: MyFonts.w500.size(fontSize).setColor(kWhite),
+                  ),
+                ],
               ],
             ),
           )),
