@@ -8,6 +8,7 @@ import 'package:onestop_dev/pages/services/cab_share.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/services/irbs.dart';
+import 'package:onestop_dev/widgets/food/outlets_filter.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
 List<HomeTabTile> serviceLinks = [
@@ -57,6 +58,12 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.desktop_24_regular,
     routeId: RouterPage.id,
   ),
+  const HomeTabTile(
+    label: "Outlets near you",
+    icon: FluentIcons.desktop_24_regular,
+    routeId: OutletsFilter.id,
+  ),
+
   /* const HomeTabTile(
     label: "HAB",
     icon: FluentIcons.home_database_24_regular,

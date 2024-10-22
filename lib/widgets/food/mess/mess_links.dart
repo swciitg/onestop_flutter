@@ -30,7 +30,7 @@ class MessLinks extends StatelessWidget {
           const SizedBox(height: 10),
           GridView.count(
             crossAxisCount: 3,
-            childAspectRatio: 100 / 130,
+            childAspectRatio: 100 / 120,
             shrinkWrap: true,
             crossAxisSpacing: 12,
             physics: const NeverScrollableScrollPhysics(),
