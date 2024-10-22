@@ -31,18 +31,20 @@ class CallMapButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+               
                 Icon(
                   icon,
                   size: fontSize,
                   color: kWhite,
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  callMap,
-                  style: MyFonts.w500.size(fontSize).setColor(kWhite),
-                ),
+               
+                if (callMap.isNotEmpty) ...[
+                 const SizedBox(width: 5),
+                  Text(
+                    callMap,
+                    style: MyFonts.w500.size(fontSize).setColor(kWhite),
+                  ),
+                ],
               ],
             ),
           )),
