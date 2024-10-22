@@ -104,21 +104,21 @@ class _RestaurantTileState extends State<RestaurantTile> {
                       ),
                       Row(
                         
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                       
                         children: [
                           CallMapButton(
-                            callMap: 'Call',
+                            callMap: '',
                             icon: FluentIcons.call_20_regular,
                             callback: () {
                               launchPhoneURL(widget.restaurantModel.phoneNumber);
                             },
                           ),
-                          // const SizedBox(
-                          //   width: 4,
-                          // ),
+                          const SizedBox(
+                            width: 4,
+                          ),
                           CallMapButton(
-                            callMap: 'Map',
-                            icon: FluentIcons.location_24_regular,
+                            callMap: '',
+                            icon: FluentIcons.location_48_regular,
                             callback: () {
                               openMap(
                                   widget.restaurantModel.latitude,
@@ -127,7 +127,9 @@ class _RestaurantTileState extends State<RestaurantTile> {
                                   widget.restaurantModel.outletName);
                             },
                           ),
-                        
+                           const SizedBox(
+                            width: 4,
+                          ),
                           CallMapButton(
                             callMap: 'Menu',
                             icon: FluentIcons.food_16_filled,
