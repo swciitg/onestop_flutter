@@ -50,7 +50,7 @@ class MessLinkTile extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 3,
                 textAlign: TextAlign.center,
-                style: MyFonts.w500.size(14).setColor(lBlue),
+                style: MyFonts.w500.size(13).setColor(lBlue),
               ),
             ],
           ),
