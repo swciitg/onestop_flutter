@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -21,7 +23,7 @@ class _EventsScreen1State extends State<EventsScreen1>{
   final Map<String, PagingController<int, EventModel>> _pagingControllers = {
     'Your Events':
         PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
-    'All Events': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
+    'All': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
     'Academic': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
     'Sports': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
     'Technical': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
@@ -52,7 +54,7 @@ class _EventsScreen1State extends State<EventsScreen1>{
     final eventsStore = context.read<EventsStore>();
     final tabs = [
                   'Your Events',
-                  'All Events',
+                  'All',
                   'Academic',
                   'Sports',
                   'Technical',

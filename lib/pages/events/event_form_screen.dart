@@ -1,9 +1,18 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/stores/login_store.dart';
+
+import '../../globals/my_fonts.dart';
+import '../../models/event_scheduler/admin_model.dart';
+import '../../stores/event_store.dart';
+import 'package:provider/provider.dart';
 
 class EventFormScreen extends StatefulWidget {
   final EventModel? event;
@@ -20,34 +29,44 @@ class _EventFormScreenState extends State<EventFormScreen> {
   TimeOfDay? selectedEndTime;
   String? selectedBoard;
   String? uploadedFilePath;
+  late String selectedClub;
 
   // Controllers for text fields
   final titleController = TextEditingController();
   final venueController = TextEditingController();
   final contactNumberController = TextEditingController();
   final descriptionController = TextEditingController();
-  final clubController = TextEditingController();
 
   final FocusNode titleFocusNode = FocusNode();
   final FocusNode venueFocusNode = FocusNode();
   final FocusNode descriptionFocusNode = FocusNode();
+  late List<String> clubs;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
+
+
+    Admin? admin= context.read<EventsStore>().admin;
+    final userClubs = admin?.getUserClubs(LoginStore.userData['outlookEmail']!);
+    selectedBoard= userClubs?.first.name;
+
+    clubs = userClubs!.first.members.clubsOrgs;
+    selectedClub=clubs.first;
+    log("selectedBoard== $selectedBoard");
     if (widget.event != null) {
       final event = widget.event!;
       titleController.text = event.title;
       venueController.text = event.venue;
       descriptionController.text = event.description;
-      clubController.text=event.clubOrg;
+
 
       selectedDate = event.startDateTime;
       selectedStartTime = TimeOfDay.fromDateTime(event.startDateTime);
       selectedEndTime = TimeOfDay.fromDateTime(event.endDateTime);
 
       selectedBoard = event.board;
-      //uploadedFilePath = event.imageUrl;
     }
   }
 
@@ -163,62 +182,12 @@ class _EventFormScreenState extends State<EventFormScreen> {
                 ),
 
                 const SizedBox(height: 7),
-                widget.event == null
-                    ? DropdownButtonFormField<String>(
-                  value: selectedBoard,
-                  decoration: InputDecoration(
-                    fillColor: const Color(0xFF273141),
-                    filled: true,
-                    contentPadding: const EdgeInsets.only(left: 10),
-                    labelText: 'Board *',
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    labelStyle: const TextStyle(
-                        color: Color(0xFFA2ACC0),
-                        fontWeight: FontWeight.w400),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(
-                          color: Colors.blue, width: 1.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(
-                          color: Color(0xFF273141), width: 1.0),
-                    ),
-                  ),
-                  dropdownColor: const Color(0xFF273141),
-                  items: [
-                    "Academic",
-                    "Cultural",
-                    "Technical",
-                    "Sports",
-                    "Welfare",
-                    "Miscellaneous",
-                    "SWC"
-                  ]
-                      .map((board) => DropdownMenuItem(
-                      value: board,
-                      child: Text(board,
-                          style:
-                          const TextStyle(color: Colors.white))))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedBoard = value;
-                    });
-                  },
-                  icon: const Padding(
-                    padding: EdgeInsets.only(right: 10.0),
-                    child: Icon(Icons.arrow_drop_down,
-                        color: Color(0xFFA2ACC0)),
-                  ),
-                )
-                    : TextField(
-                  //controller: TextEditingController();,
+                TextField(
+                  controller: TextEditingController(text: selectedBoard),
                   style: const TextStyle(color: Colors.white),
+                  
                   decoration: InputDecoration(
+                    
                     fillColor: const Color(0xFF273141),
                     filled: true,
                     hintText: selectedBoard,
@@ -244,14 +213,15 @@ class _EventFormScreenState extends State<EventFormScreen> {
                 const SizedBox(height: 7),
 
                 // Text field for Club
-                TextField(
-                  controller: clubController,
-                  style: const TextStyle(color: Colors.white),
+                DropdownButtonFormField<String>(
+                  value: selectedClub,
                   decoration: InputDecoration(
                     fillColor: const Color(0xFF273141),
                     filled: true,
-                    hintText: "Club Name",
-                    hintStyle: const TextStyle(
+                    contentPadding: const EdgeInsets.only(left: 10),
+                    labelText: 'Board',
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    labelStyle: const TextStyle(
                         color: Color(0xFFA2ACC0),
                         fontWeight: FontWeight.w400),
                     border: OutlineInputBorder(
@@ -267,7 +237,26 @@ class _EventFormScreenState extends State<EventFormScreen> {
                           color: Color(0xFF273141), width: 1.0),
                     ),
                   ),
-                  enabled: true,
+                  dropdownColor: const Color(0xFF273141),
+                  items: clubs
+                      .map((board) => DropdownMenuItem(
+                      value: board,
+                      child: Text(board,
+                          style:
+                          const TextStyle(color: Colors.white))))
+                      .toList(),
+                  onChanged: (value) {
+
+                    if(value!=null){
+                      setState(() {
+                      selectedClub = value;
+                    });}
+                  },
+                  icon: const Padding(
+                    padding: EdgeInsets.only(right: 10.0),
+                    child: Icon(Icons.arrow_drop_down,
+                        color: Color(0xFFA2ACC0)),
+                  ),
                 ),
 
                 const SizedBox(height: 7),
@@ -340,15 +329,20 @@ class _EventFormScreenState extends State<EventFormScreen> {
                     onPressed: () {
                       if (titleController.text.isNotEmpty &&
                           descriptionController.text.isNotEmpty &&
-                          clubController.text.isNotEmpty &&
+
                           venueController.text.isNotEmpty &&
                           selectedDate != null &&
                           selectedStartTime != null &&
-                          selectedEndTime != null &&
-                          uploadedFilePath != null) {
+                          selectedEndTime != null ) {
 
                         if (widget.event == null) {
-                          _submitForm();
+                          if (uploadedFilePath != null) {
+                            _submitForm();
+                          }
+                          else{
+                            ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Please fill in all required fields.')),);
+                          }
                         } else {
                           _editForm();
                         }
@@ -507,12 +501,12 @@ class _EventFormScreenState extends State<EventFormScreen> {
     if (pickedTime != null) {
       setState(() {
         selectedEndTime = pickedTime;
-        print("selectedEndTime =>>${selectedEndTime}");
+        print("selectedEndTime =>>$selectedEndTime");
       });
     }
   }
 
-  //TODO change the form data
+
   // Submit Form Method
   Future<void> _submitForm() async {
     var fileName = uploadedFilePath!.split('/').last;
@@ -520,26 +514,52 @@ class _EventFormScreenState extends State<EventFormScreen> {
       'file': await MultipartFile.fromFile(uploadedFilePath!, filename: fileName),
       'title': titleController.text,
       'description': descriptionController.text,
-      'club_org': clubController,
-      'startDateTime': _formatDateTime(selectedDate!,selectedStartTime!),
-      'endDateTime': _formatDateTime(selectedDate!,selectedEndTime!),
+      'club_org': selectedClub,
+      'startDateTime': _formatDateTime(selectedDate!, selectedStartTime!),
+      'endDateTime': _formatDateTime(selectedDate!, selectedEndTime!),
       'venue': venueController.text,
-      'categories':<String>["Academic", "All"], //TODO editable categories
+      'categories': <String>["$selectedBoard", "All"],
       'board': selectedBoard,
     });
 
-    Map<String,dynamic> res = {};
+    Map<String, dynamic> res = {};
+
+    // Show the loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return  AlertDialog(
+          backgroundColor: const Color(0xFF273141),
+          title: Text('Uploading Event',style: MyFonts.w500.copyWith(color: kWhite),),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(height: 20),
+              Text('Please wait...',style: MyFonts.w300.copyWith(color: kWhite3),),
+            ],
+          ),
+        );
+      },
+    );
+
     try {
+      log("Uploading to server");
       res = await APIService().postEvent(formData);
     } catch (e) {
       print(e.toString());
     }
+
+    // Hide the loading dialog
+    Navigator.of(context).pop();
 
     if (res['saved_successfully']) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Event submitted successfully!')),
       );
 
+      // Navigate back to the previous screen after success
       Navigator.of(context).pop();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -548,12 +568,82 @@ class _EventFormScreenState extends State<EventFormScreen> {
     }
   }
 
+
+
   Future<void> _editForm() async {
     var res = {};
     final formData = FormData.fromMap({
       'title': titleController.text,
       'description': descriptionController.text,
-      'club_org': clubController,
+      'club_org': selectedClub,
+      'startDateTime': _formatDateTime(selectedDate!, selectedStartTime!),
+      'endDateTime': _formatDateTime(selectedDate!, selectedEndTime!),
+      'venue': venueController.text,
+      'categories': widget.event!.categories,
+      'board': selectedBoard,
+      'file': uploadedFilePath != null
+          ? (await MultipartFile.fromFile(uploadedFilePath!))
+          : null,
+      'imageURL': uploadedFilePath == null ? widget.event!.imageUrl : null,
+      'compressedImageURL': uploadedFilePath == null
+          ? widget.event!.compressedImageUrl
+          : null,
+    });
+
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return  AlertDialog(
+          backgroundColor: const Color(0xFF273141),
+          title: Text('Updating Event',style: MyFonts.w500.copyWith(color: kWhite),),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(height: 20),
+              Text('Please wait...',style: MyFonts.w300.copyWith(color: kWhite3),),
+            ],
+          ),
+        );
+      },
+    );
+
+    try {
+      // Send the request to update the event
+      res = await APIService().putEvent(widget.event!.id, formData);
+
+      // Hide the loading dialog after the event is updated
+      Navigator.of(context).pop();
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Event updated successfully!'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+     // await Future.delayed(const Duration(seconds: 2));
+
+      // Pop the current screen and go back to the previous one
+      Navigator.of(context).pop();
+    } catch (e) {
+      // Hide the loading dialog if an error occurs
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Some unknown error occurred!')),
+      );
+    }
+  }
+
+
+ /* Future<void> _editForm() async {
+    var res = {};
+    final formData = FormData.fromMap({
+      'title': titleController.text,
+      'description': descriptionController.text,
+      'club_org': selectedClub,
       'startDateTime': _formatDateTime(selectedDate!,selectedStartTime!),
       'endDateTime': _formatDateTime(selectedDate!,selectedEndTime!),
       'venue': venueController.text,
@@ -578,16 +668,12 @@ class _EventFormScreenState extends State<EventFormScreen> {
         const SnackBar(content: Text('Some unknown error occurred!')),
       );
     }
-  }
+  }*/
 }
 
 
 String _formatDateTime(DateTime selectedDate, TimeOfDay time) {
-  final String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
-
-  final String formattedTime = "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
-
-  final String finalTime = "$formattedDate$formattedTime:00.000Z";
-
-  return finalTime;
+  final formattedDate = selectedDate.copyWith(hour: time.hour, minute:  time.minute
+  );
+  return formattedDate.toUtc().toString();
 }
