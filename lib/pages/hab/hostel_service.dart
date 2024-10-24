@@ -40,7 +40,7 @@ class _HostelServiceState extends State<HostelService> {
         appBar: AppBar(
           backgroundColor: kBlueGrey,
           title: Text(
-            "1. Hostel Services",
+            "Hostel Services",
             style: MyFonts.w600.size(16).setColor(kWhite),
           ),
         ),
