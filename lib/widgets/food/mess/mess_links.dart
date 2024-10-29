@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
@@ -5,6 +6,8 @@ import 'package:onestop_dev/pages/food/mess_opi_form.dart';
 import 'package:onestop_dev/pages/food/mess_subscription_change_form.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_link_tile.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+
+import '../../../pages/complaints/complaints_page.dart';
 
 class MessLinks extends StatelessWidget {
   const MessLinks({Key? key}) : super(key: key);
@@ -26,8 +29,8 @@ class MessLinks extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           GridView.count(
-            crossAxisCount: 2,
-            childAspectRatio: 140 / 100,
+            crossAxisCount: 3,
+            childAspectRatio: 100 / 120,
             shrinkWrap: true,
             crossAxisSpacing: 12,
             physics: const NeverScrollableScrollPhysics(),
@@ -41,6 +44,11 @@ class MessLinks extends StatelessWidget {
                 label: "Mess OPI (Overall Performance Index)",
                 icon: Icons.edit_document,
                 routeId: MessOpiFormPage.id,
+              ),
+              MessLinkTile(
+                label: "Complaints",
+                icon: FluentIcons.chat_help_24_regular,
+                routeId: ComplaintsPage.id,
               ),
             ],
           ),
