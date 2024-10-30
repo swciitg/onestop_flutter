@@ -182,7 +182,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                         children: [
                           const Icon(Icons.access_time_filled,size: 20,color: kWhite,),
                           const SizedBox(width: 4,),
-                          Text("${DateFormat('hh:mm a').format(widget.event.startDateTime)} - ${DateFormat('hh:mm a').format(widget.event.endDateTime)}",style: MyFonts.w500.copyWith(color:kWhite),)
+                           Text("${DateFormat('hh:mm a').format(widget.event.startDateTime.toLocal())} - ${DateFormat('hh:mm a').format(widget.event.endDateTime.toLocal())}",style: MyFonts.w500.copyWith(color:kWhite),)
                         ],
                       ),
                       const SizedBox(height: 10,),

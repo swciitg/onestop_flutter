@@ -32,8 +32,7 @@ class _HomePageState extends State<HomePage> {
     const HomeTab(),
     const FoodTab(),
     const TravelPage(),
-    //EventsScreen(),
-    EventsScreenWrapper(),
+    const EventsScreenWrapper(),
     const TimeTableTab(),
   ];
 

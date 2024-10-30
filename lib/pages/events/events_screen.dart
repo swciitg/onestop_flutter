@@ -1,8 +1,8 @@
-
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/event_description.dart';
@@ -21,6 +21,8 @@ class EventsScreen extends StatefulWidget {
 
 class _EventsScreenState extends State<EventsScreen>
     with TickerProviderStateMixin {
+  late TabController _tabController; // Added TabController
+
   final Map<String, PagingController<int, EventModel>> _pagingControllers = {
     'Saved': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
     'Sports': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
@@ -34,17 +36,25 @@ class _EventsScreenState extends State<EventsScreen>
         PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
   };
 
-  late TabController _tabController; // Added TabController
-
   @override
   void initState() {
     super.initState();
 
-    // Initialize TabController and add a listener for tab changes
     _tabController = TabController(length: 9, vsync: this);
+
+    // Listener to handle both taps and swipes
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) {
         context.read<EventsStore>().setSelectedEventTab(_tabController.index);
+      }
+    });
+
+    // Update the tab selection when swiping between tabs
+    _tabController.animation?.addListener(() {
+      final newIndex = _tabController.animation?.value.round();
+      if (newIndex != null &&
+          newIndex != context.read<EventsStore>().selectedEventTab) {
+        context.read<EventsStore>().setSelectedEventTab(newIndex);
       }
     });
 
@@ -159,9 +169,7 @@ class _EventsScreenState extends State<EventsScreen>
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 8.0),
         decoration: BoxDecoration(
-          color: eventsStore.selectedEventTab == index
-              ? Colors.blue
-              : const Color(0xFF3E4758),
+          color: eventsStore.selectedEventTab == index ? lBlue2 : kGrey9,
           borderRadius: BorderRadius.circular(25),
         ),
         child: Text(

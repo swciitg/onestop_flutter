@@ -69,7 +69,7 @@ class EventTile extends StatelessWidget {
                               const SizedBox(width: 6),
                               Expanded(
                                 child: Text(
-                                  '${DateFormat('hh:mm a').format(model.startDateTime)} - ${DateFormat('hh:mm a').format(model.endDateTime)}',
+                                  '${DateFormat('hh:mm a').format(model.startDateTime.toLocal())} - ${DateFormat('hh:mm a').format(model.endDateTime.toLocal())}',
                                   style: MyFonts.w500
                                       .copyWith(color: kWhite3, fontSize: 12),
                                   overflow: TextOverflow.ellipsis,
