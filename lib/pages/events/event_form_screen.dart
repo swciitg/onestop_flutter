@@ -637,38 +637,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
     }
   }
 
-
- /* Future<void> _editForm() async {
-    var res = {};
-    final formData = FormData.fromMap({
-      'title': titleController.text,
-      'description': descriptionController.text,
-      'club_org': selectedClub,
-      'startDateTime': _formatDateTime(selectedDate!,selectedStartTime!),
-      'endDateTime': _formatDateTime(selectedDate!,selectedEndTime!),
-      'venue': venueController.text,
-      'categories': widget.event!.categories,
-      'board': selectedBoard,
-      'file':uploadedFilePath != null ? (await MultipartFile.fromFile(uploadedFilePath!)): null,
-      'imageURL' : uploadedFilePath == null ? widget.event!.imageUrl : null,
-      'compressedImageURL' : uploadedFilePath == null ? widget.event!.compressedImageUrl : null,
-    });
-
-    try {
-      res = await APIService().putEvent(widget.event!.id, formData);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Event updated successfully!'), duration: const Duration(seconds: 2),),
-        
-      );
-      await Future.delayed(const Duration(seconds: 2));
-      Navigator.of(context).pop();
-    } catch (e) {
-      print("Error updating event: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Some unknown error occurred!')),
-      );
-    }
-  }*/
 }
 
 

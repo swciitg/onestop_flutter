@@ -182,7 +182,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                         children: [
                           const Icon(Icons.access_time_filled,size: 20,color: kWhite,),
                           const SizedBox(width: 4,),
-                          Text("${DateFormat('hh:mm a').format(widget.event.startDateTime)} - ${DateFormat('hh:mm a').format(widget.event.endDateTime)}",style: MyFonts.w500.copyWith(color:kWhite),)
+                          Text("${DateFormat('hh:mm a').format(widget.event.startDateTime.toLocal())} - ${DateFormat('hh:mm a').format(widget.event.endDateTime.toLocal())}",style: MyFonts.w500.copyWith(color:kWhite),)
                         ],
                       ),
                       const SizedBox(height: 10,),
@@ -198,18 +198,6 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                   )
                 ],
               ),
-              /*Column(
-                children: [
-                  _buildEventDetail("Date",
-                      "${widget.event.startDateTime.day}/${widget.event.startDateTime.month}/${widget.event.startDateTime.year}"),
-                  const SizedBox(width: 5.0),
-                  _buildEventDetail("Time",
-                      "${widget.event.startDateTime.hour}:${widget.event.startDateTime.minute} - ${(widget.event.startDateTime.add(const Duration(hours: 1)).hour).toString().padLeft(2, '0')}:${widget.event.startDateTime.minute.toString().padLeft(2, '0')}"),
-                ],
-              ),
-              _buildEventDetail("Venue", widget.event.venue),
-              //_buildEventDetail("Contact Details", widget.event.contactNumber),
-              _buildEventDetail("Conducted by", widget.event.clubOrg),*/
               const SizedBox(height: 10.0),
               // Event Description
               Padding(
