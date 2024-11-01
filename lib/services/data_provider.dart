@@ -224,11 +224,11 @@ class DataProvider {
   }
 
   static Future<AllDoctors> getMedicalTimeTable() async {
-    try{
+    try {
       return await APIService().getmedicalTimeTable();
-    }catch (e){
+    } catch (e) {
       debugPrint("Error Fetching Medical TT");
-      rethrow ;
+      rethrow;
     }
   }
 

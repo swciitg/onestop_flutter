@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
@@ -27,7 +28,7 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  int selectedIndex = 0;
+  int activePageIndex = 0;
   String sel = '';
   Future<RegisteredCourses>? timetable;
 
@@ -45,91 +46,108 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
+    final imageWidth = 0.92 * MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            height: 365,
-            child: FutureBuilder<List<HomeImageModel>>(
-                future: DataProvider.getHomeImageLinks(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: Container(
-                          color: kTimetableDisabled,
-                          child: Center(
-                            child: ErrorReloadButton(
-                              reloadCallback: callSetState,
-                            ),
+          const SizedBox(height: 10),
+          FutureBuilder<List<HomeImageModel>>(
+              future: DataProvider.getHomeImageLinks(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Container(
+                        height: imageWidth,
+                        color: kTimetableDisabled,
+                        child: Center(
+                          child: ErrorReloadButton(
+                            reloadCallback: callSetState,
                           ),
                         ),
                       ),
-                    );
-                  } else if (snapshot.hasData == false) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: cachedImagePlaceholder(context, '')),
-                    );
-                  } else if (snapshot.data!.isEmpty) {
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: MapBox(),
-                    );
-                  }
-                  return CarouselSlider(
-                    items: snapshot.data!.map((image) {
-                      return GestureDetector(
-                        onTap: () async {
-                          final homeImageUrl = image.redirectUrl;
-                          if (homeImageUrl.isNotEmpty) {
-                            await launchUrl(Uri.parse(homeImageUrl),
-                                mode: LaunchMode.externalApplication);
-                          }
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: CachedNetworkImage(
-                            width: 0.92 * MediaQuery.of(context).size.width,
-                            imageUrl: image.imageUrl,
-                            placeholder: cachedImagePlaceholder,
-                            fit: BoxFit.cover,
-                            errorWidget: (context, url, error) => Container(
-                              color: kTimetableDisabled,
-                              child: Center(
-                                child: ErrorReloadButton(
-                                  reloadCallback: callSetState,
+                    ),
+                  );
+                } else if (snapshot.hasData == false) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: cachedImagePlaceholder(context, '')),
+                  );
+                } else if (snapshot.data!.isEmpty) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: MapBox(),
+                  );
+                }
+                return Column(
+                  children: [
+                    CarouselSlider(
+                      items: snapshot.data!.map((image) {
+                        return GestureDetector(
+                          onTap: () async {
+                            final homeImageUrl = image.redirectUrl;
+                            if (homeImageUrl.isNotEmpty) {
+                              await launchUrl(Uri.parse(homeImageUrl),
+                                  mode: LaunchMode.externalApplication);
+                            }
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: CachedNetworkImage(
+                              width: imageWidth,
+                              imageUrl: image.imageUrl,
+                              placeholder: cachedImagePlaceholder,
+                              fit: BoxFit.cover,
+                              errorWidget: (context, url, error) => Container(
+                                color: kTimetableDisabled,
+                                child: Center(
+                                  child: ErrorReloadButton(
+                                    reloadCallback: callSetState,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    }).toList(),
-                    options: CarouselOptions(
-                      height: 0.92 * MediaQuery.of(context).size.width,
-                      viewportFraction: 1,
-                      autoPlay: true,
-                      animateToClosest: false,
-                      enableInfiniteScroll: snapshot.data!.length > 1,
-                      padEnds: false,
-                      aspectRatio: 1,
-                      autoPlayInterval: const Duration(seconds: 3),
+                        );
+                      }).toList(),
+                      options: CarouselOptions(
+                        height: imageWidth,
+                        viewportFraction: 1,
+                        animateToClosest: false,
+                        enableInfiniteScroll: false,
+                        padEnds: false,
+                        aspectRatio: 1,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            activePageIndex = index;
+                          });
+                        },
+                        autoPlayInterval: const Duration(seconds: 3),
+                      ),
                     ),
-                  );
-                }),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
+                    SizedBox(height: snapshot.data!.length > 1 ? 10 : 0),
+                    snapshot.data!.length <= 1
+                        ? const SizedBox.shrink()
+                        : DotsIndicator(
+                            position: activePageIndex,
+                            decorator: const DotsDecorator(
+                              activeColor: OneStopColors.kWhite,
+                              color: OneStopColors.cardColor,
+                              spacing: EdgeInsets.symmetric(horizontal: 3),
+                              size: Size(5, 5),
+                              activeSize: Size(5, 5),
+                            ),
+                            dotsCount: snapshot.data!.length,
+                          ),
+                  ],
+                );
+              }),
+          const SizedBox(height: 10),
           LoginStore.isGuest
               ? Container()
               : const Padding(
@@ -146,7 +164,11 @@ class _HomeTabState extends State<HomeTab> {
                 ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: HomeLinks(title: 'Services', links: serviceLinks,rows: 2,),
+            child: HomeLinks(
+              title: 'Services',
+              links: serviceLinks,
+              rows: 2,
+            ),
           ),
           const SizedBox(
             height: 10,

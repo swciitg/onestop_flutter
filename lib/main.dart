@@ -17,6 +17,7 @@ import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:provider/provider.dart';
+
 import 'firebase_options.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -38,6 +39,9 @@ void main() async {
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
+
+  // showPersistentNotification();
+  // await initializeBackgroundService();
 
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   runApp(const MyApp());

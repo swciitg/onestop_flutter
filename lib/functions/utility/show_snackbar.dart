@@ -8,6 +8,7 @@ void showSnackBar(String message) {
     SnackBar(
       content: Text(message, style: MyFonts.w500),
       duration: const Duration(seconds: 1),
+      behavior: SnackBarBehavior.floating,
     ),
   );
 }
