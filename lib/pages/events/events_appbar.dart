@@ -6,13 +6,11 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/events/events_screen.dart';
 import 'package:onestop_dev/pages/events/events_screen_admin.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/services/events_api_service.dart';
+import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
-import 'package:onestop_dev/stores/event_store.dart';
-
-import '../../models/event_scheduler/admin_model.dart';
 
 class EventsScreenWrapper extends StatefulWidget {
   const EventsScreenWrapper({super.key});
@@ -41,7 +39,7 @@ class _EventsScreenWrapperState extends State<EventsScreenWrapper> {
   Future<bool> _checkIfUserIsAdminLogic() async {
     try {
       final email = LoginStore.userData['outlookEmail'];
-      final admin = await APIService().getAdmins();
+      final admin = await EventsApiService().getAdmins();
       if (admin == null) return false;
       bool isAdmin = admin.getUserClubs(email).isNotEmpty;
       return isAdmin;

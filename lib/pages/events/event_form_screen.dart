@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/services/events_api_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:provider/provider.dart';
 
 import '../../globals/my_fonts.dart';
 import '../../models/event_scheduler/admin_model.dart';
 import '../../stores/event_store.dart';
-import 'package:provider/provider.dart';
 
 class EventFormScreen extends StatefulWidget {
   final EventModel? event;
@@ -47,20 +47,18 @@ class _EventFormScreenState extends State<EventFormScreen> {
   void initState() {
     super.initState();
 
-
-    Admin? admin= context.read<EventsStore>().admin;
+    Admin? admin = context.read<EventsStore>().admin;
     final userClubs = admin?.getUserClubs(LoginStore.userData['outlookEmail']!);
-    selectedBoard= userClubs?.first.name;
+    selectedBoard = userClubs?.first.name;
 
     clubs = userClubs!.first.members.clubsOrgs;
-    selectedClub=clubs.first;
+    selectedClub = clubs.first;
     log("selectedBoard== $selectedBoard");
     if (widget.event != null) {
       final event = widget.event!;
       titleController.text = event.title;
       venueController.text = event.venue;
       descriptionController.text = event.description;
-
 
       selectedDate = event.startDateTime;
       selectedStartTime = TimeOfDay.fromDateTime(event.startDateTime);
@@ -96,9 +94,15 @@ class _EventFormScreenState extends State<EventFormScreen> {
           title: Text(widget.event == null ? 'Add Event' : "Edit Event",
               style: const TextStyle(color: Colors.white, fontSize: 20)),
           backgroundColor: const Color(0xFF273141),
-          leading: IconButton(onPressed: (){
-            Navigator.of(context).pop();
-          }, icon: const Icon(Icons.arrow_back_ios_new_rounded,color: Colors.white,),),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: Colors.white,
+            ),
+          ),
           actions: [
             IconButton(
               icon: const Icon(Icons.close),
@@ -128,7 +132,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide:
-                      const BorderSide(color: Colors.blue, width: 1.0),
+                          const BorderSide(color: Colors.blue, width: 1.0),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -185,21 +189,18 @@ class _EventFormScreenState extends State<EventFormScreen> {
                 TextField(
                   controller: TextEditingController(text: selectedBoard),
                   style: const TextStyle(color: Colors.white),
-                  
                   decoration: InputDecoration(
-                    
                     fillColor: const Color(0xFF273141),
                     filled: true,
                     hintText: selectedBoard,
                     hintStyle: const TextStyle(
-                        color: Color(0xFFA2ACC0),
-                        fontWeight: FontWeight.w400),
+                        color: Color(0xFFA2ACC0), fontWeight: FontWeight.w400),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(
-                          color: Colors.blue, width: 1.0),
+                      borderSide:
+                          const BorderSide(color: Colors.blue, width: 1.0),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -222,14 +223,13 @@ class _EventFormScreenState extends State<EventFormScreen> {
                     labelText: 'Board',
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                     labelStyle: const TextStyle(
-                        color: Color(0xFFA2ACC0),
-                        fontWeight: FontWeight.w400),
+                        color: Color(0xFFA2ACC0), fontWeight: FontWeight.w400),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(
-                          color: Colors.blue, width: 1.0),
+                      borderSide:
+                          const BorderSide(color: Colors.blue, width: 1.0),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -240,22 +240,21 @@ class _EventFormScreenState extends State<EventFormScreen> {
                   dropdownColor: const Color(0xFF273141),
                   items: clubs
                       .map((board) => DropdownMenuItem(
-                      value: board,
-                      child: Text(board,
-                          style:
-                          const TextStyle(color: Colors.white))))
+                          value: board,
+                          child: Text(board,
+                              style: const TextStyle(color: Colors.white))))
                       .toList(),
                   onChanged: (value) {
-
-                    if(value!=null){
+                    if (value != null) {
                       setState(() {
-                      selectedClub = value;
-                    });}
+                        selectedClub = value;
+                      });
+                    }
                   },
                   icon: const Padding(
                     padding: EdgeInsets.only(right: 10.0),
-                    child: Icon(Icons.arrow_drop_down,
-                        color: Color(0xFFA2ACC0)),
+                    child:
+                        Icon(Icons.arrow_drop_down, color: Color(0xFFA2ACC0)),
                   ),
                 ),
 
@@ -282,7 +281,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide:
-                      const BorderSide(color: Colors.blue, width: 1.0),
+                          const BorderSide(color: Colors.blue, width: 1.0),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -311,7 +310,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide:
-                      const BorderSide(color: Colors.blue, width: 1.0),
+                          const BorderSide(color: Colors.blue, width: 1.0),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -329,26 +328,28 @@ class _EventFormScreenState extends State<EventFormScreen> {
                     onPressed: () {
                       if (titleController.text.isNotEmpty &&
                           descriptionController.text.isNotEmpty &&
-
                           venueController.text.isNotEmpty &&
                           selectedDate != null &&
                           selectedStartTime != null &&
-                          selectedEndTime != null ) {
-
+                          selectedEndTime != null) {
                         if (widget.event == null) {
                           if (uploadedFilePath != null) {
                             _submitForm();
-                          }
-                          else{
+                          } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Please fill in all required fields.')),);
+                              const SnackBar(
+                                  content: Text(
+                                      'Please fill in all required fields.')),
+                            );
                           }
                         } else {
                           _editForm();
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Please fill in all required fields.')),
+                          const SnackBar(
+                              content:
+                                  Text('Please fill in all required fields.')),
                         );
                       }
                     },
@@ -506,12 +507,12 @@ class _EventFormScreenState extends State<EventFormScreen> {
     }
   }
 
-
   // Submit Form Method
   Future<void> _submitForm() async {
     var fileName = uploadedFilePath!.split('/').last;
     var formData = FormData.fromMap({
-      'file': await MultipartFile.fromFile(uploadedFilePath!, filename: fileName),
+      'file':
+          await MultipartFile.fromFile(uploadedFilePath!, filename: fileName),
       'title': titleController.text,
       'description': descriptionController.text,
       'club_org': selectedClub,
@@ -529,15 +530,21 @@ class _EventFormScreenState extends State<EventFormScreen> {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return  AlertDialog(
+        return AlertDialog(
           backgroundColor: const Color(0xFF273141),
-          title: Text('Uploading Event',style: MyFonts.w500.copyWith(color: kWhite),),
+          title: Text(
+            'Uploading Event',
+            style: MyFonts.w500.copyWith(color: kWhite),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(),
               const SizedBox(height: 20),
-              Text('Please wait...',style: MyFonts.w300.copyWith(color: kWhite3),),
+              Text(
+                'Please wait...',
+                style: MyFonts.w300.copyWith(color: kWhite3),
+              ),
             ],
           ),
         );
@@ -546,7 +553,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
 
     try {
       log("Uploading to server");
-      res = await APIService().postEvent(formData);
+      res = await EventsApiService().postEvent(formData);
     } catch (e) {
       print(e.toString());
     }
@@ -568,8 +575,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
     }
   }
 
-
-
   Future<void> _editForm() async {
     var res = {};
     final formData = FormData.fromMap({
@@ -585,24 +590,29 @@ class _EventFormScreenState extends State<EventFormScreen> {
           ? (await MultipartFile.fromFile(uploadedFilePath!))
           : null,
       'imageURL': uploadedFilePath == null ? widget.event!.imageUrl : null,
-      'compressedImageURL': uploadedFilePath == null
-          ? widget.event!.compressedImageUrl
-          : null,
+      'compressedImageURL':
+          uploadedFilePath == null ? widget.event!.compressedImageUrl : null,
     });
 
     showDialog(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return  AlertDialog(
+        return AlertDialog(
           backgroundColor: const Color(0xFF273141),
-          title: Text('Updating Event',style: MyFonts.w500.copyWith(color: kWhite),),
+          title: Text(
+            'Updating Event',
+            style: MyFonts.w500.copyWith(color: kWhite),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(),
               const SizedBox(height: 20),
-              Text('Please wait...',style: MyFonts.w300.copyWith(color: kWhite3),),
+              Text(
+                'Please wait...',
+                style: MyFonts.w300.copyWith(color: kWhite3),
+              ),
             ],
           ),
         );
@@ -611,7 +621,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
 
     try {
       // Send the request to update the event
-      res = await APIService().putEvent(widget.event!.id, formData);
+      res = await EventsApiService().putEvent(widget.event!.id, formData);
 
       // Hide the loading dialog after the event is updated
       Navigator.of(context).pop();
@@ -624,7 +634,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
         ),
       );
 
-     // await Future.delayed(const Duration(seconds: 2));
+      // await Future.delayed(const Duration(seconds: 2));
 
       // Pop the current screen and go back to the previous one
       Navigator.of(context).pop();
@@ -637,8 +647,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
     }
   }
 
-
- /* Future<void> _editForm() async {
+/* Future<void> _editForm() async {
     var res = {};
     final formData = FormData.fromMap({
       'title': titleController.text,
@@ -655,10 +664,10 @@ class _EventFormScreenState extends State<EventFormScreen> {
     });
 
     try {
-      res = await APIService().putEvent(widget.event!.id, formData);
+      res = await EventsApiService().putEvent(widget.event!.id, formData);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Event updated successfully!'), duration: const Duration(seconds: 2),),
-        
+
       );
       await Future.delayed(const Duration(seconds: 2));
       Navigator.of(context).pop();
@@ -671,9 +680,8 @@ class _EventFormScreenState extends State<EventFormScreen> {
   }*/
 }
 
-
 String _formatDateTime(DateTime selectedDate, TimeOfDay time) {
-  final formattedDate = selectedDate.copyWith(hour: time.hour, minute:  time.minute
-  );
+  final formattedDate =
+      selectedDate.copyWith(hour: time.hour, minute: time.minute);
   return formattedDate.toUtc().toString();
 }
