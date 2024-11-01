@@ -667,12 +667,13 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                   'room_number': roomNo.text,
                                   'hostel': selectedHostel.databaseString,
                                   'complaintID': widget.complaintType == "Infra"
-                                      ? complaintID
+                                      ? complaintID.text
                                       : null,
-                                  'compalintDate':
+                                  'complaintDate':
                                       widget.complaintType == "Infra"
-                                          ? selectedDate
+                                          ? selectedDate?.toIso8601String()
                                           : null,
+                                  'complaintType': widget.complaintType,
                                 };
                                 //print(data);
                                 /*if (!_formKey.currentState!.validate()) {
@@ -684,8 +685,11 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                   });
 
                                   try {
+                                    print(data);
+
                                     var response =
                                         await APIService().postHAB(data);
+                                    print(response);
                                     if (!mounted) return;
                                     if (response['success']) {
                                       showSnackBar(
@@ -702,8 +706,10 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                       });
                                     }
                                   } catch (err) {
+                                    print(err);
                                     showSnackBar(
                                         "Please check you internet connection and try again");
+
                                     setState(() {
                                       submitted = false;
                                     });

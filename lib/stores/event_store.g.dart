@@ -16,6 +16,13 @@ mixin _$EventsStore on _EventsStore, Store {
           Computed<String>(() => super.currentEventCategory,
               name: '_EventsStore.currentEventCategory'))
       .value;
+  Computed<List<Widget>>? _$savedScrollComputed;
+
+  @override
+  List<Widget> get savedScroll =>
+      (_$savedScrollComputed ??= Computed<List<Widget>>(() => super.savedScroll,
+              name: '_EventsStore.savedScroll'))
+          .value;
 
   late final _$selectedEventTabAtom =
       Atom(name: '_EventsStore.selectedEventTab', context: context);
@@ -46,6 +53,21 @@ mixin _$EventsStore on _EventsStore, Store {
   set isAdminView(bool value) {
     _$isAdminViewAtom.reportWrite(value, super.isAdminView, () {
       super.isAdminView = value;
+    });
+  }
+
+  late final _$adminAtom = Atom(name: '_EventsStore.admin', context: context);
+
+  @override
+  Admin? get admin {
+    _$adminAtom.reportRead();
+    return super.admin;
+  }
+
+  @override
+  set admin(Admin? value) {
+    _$adminAtom.reportWrite(value, super.admin, () {
+      super.admin = value;
     });
   }
 
@@ -91,6 +113,17 @@ mixin _$EventsStore on _EventsStore, Store {
   }
 
   @override
+  void setAdmin(Admin updated) {
+    final _$actionInfo = _$_EventsStoreActionController.startAction(
+        name: '_EventsStore.setAdmin');
+    try {
+      return super.setAdmin(updated);
+    } finally {
+      _$_EventsStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setSavedEvents(List<EventModel> l) {
     final _$actionInfo = _$_EventsStoreActionController.startAction(
         name: '_EventsStore.setSavedEvents');
@@ -106,8 +139,10 @@ mixin _$EventsStore on _EventsStore, Store {
     return '''
 selectedEventTab: ${selectedEventTab},
 isAdminView: ${isAdminView},
+admin: ${admin},
 savedEvents: ${savedEvents},
-currentEventCategory: ${currentEventCategory}
+currentEventCategory: ${currentEventCategory},
+savedScroll: ${savedScroll}
     ''';
   }
 }

@@ -1,11 +1,9 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/working_days.dart';
-import 'package:onestop_dev/models/event_scheduler/admin_model.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/event_description.dart';
 import 'package:onestop_dev/pages/events/event_tile.dart';
@@ -15,18 +13,20 @@ import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
-import 'package:onestop_dev/stores/event_store.dart';
 
 class EventsScreen extends StatefulWidget {
   @override
   State<EventsScreen> createState() => _EventsScreenState();
 }
 
-class _EventsScreenState extends State<EventsScreen> {
+class _EventsScreenState extends State<EventsScreen>
+    with TickerProviderStateMixin {
+  late TabController _tabController; // Added TabController
+
   final Map<String, PagingController<int, EventModel>> _pagingControllers = {
     'Saved': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
     'Sports': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
-    'All Events': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
+    'All': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
     'Technical': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
     'Cultural': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
     'Academic': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
@@ -39,7 +39,25 @@ class _EventsScreenState extends State<EventsScreen> {
   @override
   void initState() {
     super.initState();
-    // _fetchAdmins();
+
+    _tabController = TabController(length: 9, vsync: this);
+
+    // Listener to handle both taps and swipes
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        context.read<EventsStore>().setSelectedEventTab(_tabController.index);
+      }
+    });
+
+    // Update the tab selection when swiping between tabs
+    _tabController.animation?.addListener(() {
+      final newIndex = _tabController.animation?.value.round();
+      if (newIndex != null &&
+          newIndex != context.read<EventsStore>().selectedEventTab) {
+        context.read<EventsStore>().setSelectedEventTab(newIndex);
+      }
+    });
+
     _pagingControllers.forEach((key, controller) {
       controller.addPageRequestListener((pageKey) async {
         await _fetchPage(controller, key, pageKey);
@@ -51,17 +69,9 @@ class _EventsScreenState extends State<EventsScreen> {
       String category, int pageKey) async {
     log("fetching the category of $category");
     try {
-      final admins = await APIService().getAdmins();
-      print(admins.length);
       final newItems = await APIService().getEventPage(category);
-
       log("Loaded ${newItems.length} events for $category");
-      final isLastPage = newItems.length < EventsStore().pageSize;
-      if (isLastPage) {
-        controller.appendLastPage(newItems);
-      } else {
-        controller.appendPage(newItems, pageKey + 1);
-      }
+      controller.appendLastPage(newItems);
     } catch (error) {
       log("Error fetching events: $error");
       controller.error = error;
@@ -80,6 +90,7 @@ class _EventsScreenState extends State<EventsScreen> {
             Container(
               color: const Color(0xFF1b1b1d),
               child: TabBar(
+                controller: _tabController,
                 onTap: (index) {
                   eventsStore.setSelectedEventTab(index);
                 },
@@ -88,7 +99,7 @@ class _EventsScreenState extends State<EventsScreen> {
                     bottom: BorderSide(color: Colors.transparent),
                   ),
                 ),
-                labelPadding: const EdgeInsets.symmetric(horizontal: 7.0),
+                labelPadding: const EdgeInsets.symmetric(horizontal: 3.5),
                 labelColor: Colors.black,
                 unselectedLabelColor: Colors.white,
                 isScrollable: true,
@@ -107,8 +118,9 @@ class _EventsScreenState extends State<EventsScreen> {
             ),
             Expanded(
               child: TabBarView(
+                controller: _tabController,
+                // Added TabController to TabBarView
                 children: [
-                  //EventListView(pagingController: _pagingControllers['Saved']!),
                   FutureBuilder(
                       future: context.read<EventsStore>().getAllSavedEvents(),
                       builder: (context, snapshot) {
@@ -129,8 +141,7 @@ class _EventsScreenState extends State<EventsScreen> {
                         }
                         return Container();
                       }),
-                  EventListView(
-                      pagingController: _pagingControllers['All Events']!),
+                  EventListView(pagingController: _pagingControllers['All']!),
                   EventListView(
                       pagingController: _pagingControllers['Academic']!),
                   EventListView(
@@ -158,20 +169,16 @@ class _EventsScreenState extends State<EventsScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 8.0),
         decoration: BoxDecoration(
-          color: eventsStore.selectedEventTab == index
-              ? Colors.blue
-              : const Color(0xFF3E4758),
+          color: eventsStore.selectedEventTab == index ? lBlue2 : kGrey9,
           borderRadius: BorderRadius.circular(25),
         ),
         child: Text(
           label,
-          style: TextStyle(
+          style: MyFonts.w700.copyWith(
             fontSize: 12,
-            fontFamily: 'Montserrat',
             color: eventsStore.selectedEventTab == index
                 ? const Color(0xFF001B3E)
                 : const Color(0xFFDAE3F9),
-            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -180,6 +187,8 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   void dispose() {
+    // Dispose the TabController when the widget is disposed
+    _tabController.dispose();
     _pagingControllers.values.forEach((controller) => controller.dispose());
     super.dispose();
   }

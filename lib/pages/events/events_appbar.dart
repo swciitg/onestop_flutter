@@ -2,17 +2,19 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/events/events_screen.dart';
 import 'package:onestop_dev/pages/events/events_screen_admin.dart';
 import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:onestop_dev/stores/event_store.dart';
 
 import '../../models/event_scheduler/admin_model.dart';
 
 class EventsScreenWrapper extends StatefulWidget {
-
   const EventsScreenWrapper({super.key});
 
   @override
@@ -20,8 +22,7 @@ class EventsScreenWrapper extends StatefulWidget {
 }
 
 class _EventsScreenWrapperState extends State<EventsScreenWrapper> {
-
-  bool isAdmin=false; // Nullable to handle async check
+  bool isAdmin = false; // Nullable to handle async check
 
   @override
   void initState() {
@@ -39,15 +40,10 @@ class _EventsScreenWrapperState extends State<EventsScreenWrapper> {
 
   Future<bool> _checkIfUserIsAdminLogic() async {
     try {
-      // Fetch the list of admins
-      List<Admin> admins = await APIService().getAdmins();
-
-      // Get the logged-in user's data
-      var userData = LoginStore.userData;
-      String? userEmail = userData['outlookEmail'];
-
-      // Check if user's email is part of the admins
-      bool isAdmin = admins.any((admin) => admin.outlookEmail == userEmail);
+      final email = LoginStore.userData['outlookEmail'];
+      final admin = await APIService().getAdmins();
+      if (admin == null) return false;
+      bool isAdmin = admin.getUserClubs(email).isNotEmpty;
       return isAdmin;
     } catch (e) {
       log("Error checking admin status: $e");
@@ -65,7 +61,8 @@ class _EventsScreenWrapperState extends State<EventsScreenWrapper> {
           title: 'Events',
           onBackPressed: () => Navigator.of(context).pop(),
           onViewToggled: eventsStore.toggleAdminView,
-          isAdminView: eventsStore.isAdminView, isAdmin: isAdmin,
+          isAdminView: eventsStore.isAdminView,
+          isAdmin: isAdmin,
         ),
         body: eventsStore.isAdminView ? EventsScreen1() : EventsScreen(),
       ),
@@ -85,10 +82,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.title,
     required this.onBackPressed,
     required this.onViewToggled,
-    required this.isAdminView, required this.isAdmin,
+    required this.isAdminView,
+    required this.isAdmin,
   }) : super(key: key);
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -106,36 +102,35 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
-                color: Color.fromARGB(255, 110, 170, 219),
-                fontFamily: 'Montserrat'),
+            style: MyFonts.w600.size(22).letterSpace(1.0).setColor(lBlue2),
           ),
           const Text(
             '.',
             style: TextStyle(
-                color: Colors.yellow,
+                color: kBadgeColor,
                 fontFamily: 'Montserrat',
                 fontWeight: FontWeight.bold),
           ),
         ],
       ),
       actions: [
-        if(isAdmin)
-        PopupMenuButton<String>(
-          icon: const Icon(Icons.more_vert, color: Colors.white),
-          color: const Color(0xFF3E4758),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          itemBuilder: (BuildContext context) => [
-            PopupMenuItem(
-              value: isAdminView ? "user" : "admin",
-              child: Text(
-                isAdminView ? "Switch to User View" : "Switch to Admin View",
-                style: const TextStyle(color: Colors.white),
+        if (isAdmin)
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert, color: Colors.white),
+            color: const Color(0xFF3E4758),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem(
+                value: isAdminView ? "user" : "admin",
+                child: Text(
+                  isAdminView ? "Switch to User View" : "Switch to Admin View",
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
-            ),
-          ],
-          onSelected: (_) => onViewToggled(),
-        ),
+            ],
+            onSelected: (_) => onViewToggled(),
+          ),
       ],
     );
   }

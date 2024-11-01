@@ -1,37 +1,54 @@
-import 'dart:convert';
-
 class Admin {
-  String id;
-  String outlookEmail;
-  String board;
-  String position;
-  int v;
+  List<Club> clubs;
 
   Admin({
-    required this.id,
-    required this.outlookEmail,
-    required this.board,
-    required this.position,
-    required this.v,
+    required this.clubs,
   });
 
-  factory Admin.fromRawJson(String str) => Admin.fromJson(json.decode(str));
+  factory Admin.fromJson(Map<String,dynamic> json){
+    print(json);
+    json.remove("_id");
+    json.remove('__v');
+    List<Club> clubs = [];
+    for(var e in json.entries){
+      final club = Club(name: e.key, members: ClubMembers.fromJson(e.value));
+      clubs.add(club);
+    }
+    return Admin(clubs: clubs);
+  }
 
-  String toRawJson() => json.encode(toJson());
+  List<Club> getUserClubs(String email){
+    final userClubs = clubs.where((e){
+      final admin = e.members.admins.contains(email);
+      return admin;
+    }).toList();
+    return userClubs;
+  }
+}
 
-  factory Admin.fromJson(Map<String, dynamic> json) => Admin(
-    id: json["_id"],
-    outlookEmail: json["outlookEmail"],
-    board: json["board"],
-    position: json["position"],
-    v: json["__v"],
-  );
+class Club {
+  String name;
+  ClubMembers members;
 
-  Map<String, dynamic> toJson() => {
-    "_id": id,
-    "outlookEmail": outlookEmail,
-    "board": board,
-    "position": position,
-    "__v": v,
-  };
+  Club({
+    required this.name,
+    required this.members,
+  });
+}
+
+class ClubMembers {
+  List<String> admins;
+  List<String> clubsOrgs;
+
+  ClubMembers({
+    required this.admins,
+    required this.clubsOrgs,
+  });
+
+  factory ClubMembers.fromJson(Map<String, dynamic> json) {
+    return ClubMembers(
+      admins: (json['admins'] as List).map((e) => e.toString()).toList(),
+      clubsOrgs: (json['clubs_orgs'] as List).map((e) => e.toString()).toList(),
+    );
+  }
 }
