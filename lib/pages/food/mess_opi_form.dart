@@ -1,11 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/functions/utility/validator.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:onestop_dev/widgets/profile/custom_dropdown.dart';
@@ -25,10 +23,12 @@ class MessOpiFormPage extends StatefulWidget {
 }
 
 class _MessOpiFormPageState extends State<MessOpiFormPage> {
+  APIService apiService = APIService();
   final TextEditingController _commentsController = TextEditingController();
   final user = OneStopUser.fromJson(LoginStore.userData);
-  late bool isSmcMember;
-  List<String> smcEmails = [];
+  bool isSmcMember = false;
+
+  Map<String, List<String>> smcEmails = {};
   String errorMessage = '';
   late Hostel selectedHostel;
   int breakfast = 0;
@@ -52,58 +52,21 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
     selectedHostel =
         user.hostel?.getHostelFromDatabaseString() ?? hostels.first;
     super.initState();
-    _fetchSMCEmails();
-    isSmcMember = isUserPartOfSMC(user.outlookEmail);
+    initializeSMCEmails();
   }
 
-  // Function to fetch SMC Emails
-  Future<void> _fetchSMCEmails() async {
-    setState(() {
-      isLoading = true;
-      errorMessage = ''; // Reset error message before fetching
-    });
-
-    try {
-      final response =
-          await http.get(Uri.parse('/test/onestop/api/v3/mess/opi/smc'));
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-
-        if (data['success'] == true && data['smcEmails'] != null) {
-          setState(() {
-            smcEmails = List<String>.from(data['smcEmails']);
-            isLoading = false;
-          });
-        } else {
-          // Handle the case where success is false or smcEmails is null
-          setState(() {
-            isLoading = false;
-            errorMessage = 'Failed to load SMC emails. Please try again later.';
-          });
-        }
-      } else {
-        // Handle HTTP error response
-        setState(() {
-          isLoading = false;
-          errorMessage =
-              'Server error: ${response.statusCode}. Please try again.';
-        });
-      }
-    } catch (e) {
-      // Handle connection or parsing error
-      setState(() {
-        isLoading = false;
-        errorMessage =
-            'An error occurred. Please check your internet connection and try again.';
-      });
-      print('Error: $e'); // Log the error for debugging purposes
-    }
+  Future<void> initializeSMCEmails() async {
+    // Perform the async operations
+    smcEmails = await apiService.fetchSMCEmails();
+    print(smcEmails);
+    // Update the isSmcMember property
+    isSmcMember = isUserPartOfSMC(user.outlookEmail);
   }
 
   bool isUserPartOfSMC(String? userEmail) {
     if (userEmail == null) return false; // If no email is found, return false
-    return smcEmails.contains(userEmail); // Check if the email is in the list
+    // Check if the email exists in any of the lists in the smcEmails map
+    return smcEmails.values.any((emails) => emails.contains(userEmail));
   }
 
   void onChangeSelectedHostel(String? hostel) =>

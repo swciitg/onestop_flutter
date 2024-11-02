@@ -3,9 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:logger/logger.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
@@ -42,7 +40,7 @@ class APIService {
       print(await AuthUserHelpers.getAccessToken());
       print(options.path);
       options.headers["Authorization"] =
-      "Bearer ${await AuthUserHelpers.getAccessToken()}";
+          "Bearer ${await AuthUserHelpers.getAccessToken()}";
       handler.next(options);
     }, onError: (error, handler) async {
       print("A dio Error has occured and been caught");
@@ -76,9 +74,9 @@ class APIService {
   Future<Response<dynamic>> retryRequest(Response response) async {
     RequestOptions requestOptions = response.requestOptions;
     response.requestOptions.headers[BackendHelper.authorization] =
-    "Bearer ${await AuthUserHelpers.getAccessToken()}";
+        "Bearer ${await AuthUserHelpers.getAccessToken()}";
     final options =
-    Options(method: requestOptions.method, headers: requestOptions.headers);
+        Options(method: requestOptions.method, headers: requestOptions.headers);
     Dio retryDio = Dio(BaseOptions(
         baseUrl: Endpoints.baseUrl,
         connectTimeout: const Duration(seconds: 5),
@@ -103,11 +101,11 @@ class APIService {
           connectTimeout: const Duration(seconds: 5),
           receiveTimeout: const Duration(seconds: 5)));
       Response<Map<String, dynamic>> resp =
-      await regenDio.post("/user/accesstoken",
-          options: Options(headers: {
-            'Security-Key': Endpoints.apiSecurityKey,
-            "authorization": "Bearer $refreshToken"
-          }));
+          await regenDio.post("/user/accesstoken",
+              options: Options(headers: {
+                'Security-Key': Endpoints.apiSecurityKey,
+                "authorization": "Bearer $refreshToken"
+              }));
       var data = resp.data!;
       print("REGENRATED ACCESS TOKEN");
       await AuthUserHelpers.setAccessToken(data[BackendHelper.accesstoken]);
@@ -116,7 +114,6 @@ class APIService {
       return false;
     }
   }
-
 
   Future<bool> postFeedbackData(Map<String, String> data) async {
     String tag = data['type'] == 'Issue Report' ? 'bug' : 'enhancement';
@@ -274,7 +271,7 @@ class APIService {
       'page': pageNumber.toString(),
     };
     var response =
-    await dio.get(Endpoints.lostPath, queryParameters: queryParameters);
+        await dio.get(Endpoints.lostPath, queryParameters: queryParameters);
     var json = response.data;
     List<LostModel> lostPage = (json['details'] as List<dynamic>)
         .map((e) => LostModel.fromJson(e))
@@ -288,7 +285,7 @@ class APIService {
       'page': pageNumber.toString(),
     };
     var response =
-    await dio.get(Endpoints.foundPath, queryParameters: queryParameters);
+        await dio.get(Endpoints.foundPath, queryParameters: queryParameters);
     var json = response.data;
     List<FoundModel> lostPage = (json['details'] as List<dynamic>)
         .map((e) => FoundModel.fromJson(e))
@@ -302,7 +299,7 @@ class APIService {
       'page': pageNumber.toString(),
     };
     var response =
-    await dio.get(Endpoints.sellPath, queryParameters: queryParameters);
+        await dio.get(Endpoints.sellPath, queryParameters: queryParameters);
     var json = response.data;
     List<BuyModel> sellPage = (json['details'] as List<dynamic>)
         .map((e) => BuyModel.fromJson(e))
@@ -316,7 +313,7 @@ class APIService {
       'page': pageNumber.toString(),
     };
     var response =
-    await dio.get(Endpoints.buyPath, queryParameters: queryParameters);
+        await dio.get(Endpoints.buyPath, queryParameters: queryParameters);
     var json = response.data;
     List<SellModel> buyPage = (json['details'] as List<dynamic>)
         .map((e) => SellModel.fromJson(e))
@@ -325,25 +322,25 @@ class APIService {
     return buyPage;
   }
 
-
   //TODO
   //sending dummy data here
 
   Future<List<EventModel>> getEventPage(String category) async {
-    try{
+    try {
       var response = await dio.get("https://swc.iitg.ac.in/events/categories");
       var json = response.data[category];
       //var json = _getDummyEventData()[category];
 
-      if(json!=null){
-        List<EventModel> eventPage = (json as List<dynamic>).map((e) => EventModel.fromJson(e)).toList();
+      if (json != null) {
+        List<EventModel> eventPage =
+            (json as List<dynamic>).map((e) => EventModel.fromJson(e)).toList();
         return eventPage;
-      }else{
+      } else {
         return [];
       }
     } catch (e) {
-  log("Error fetching events: $e");
-  rethrow;
+      log("Error fetching events: $e");
+      rethrow;
     }
   }
 
@@ -382,7 +379,6 @@ class APIService {
     }
   }
 
-
   Future<List> getFoundItems() async {
     var res = await dio.get(Endpoints.foundURL);
     var foundItemsDetails = res.data;
@@ -416,17 +412,15 @@ class APIService {
     try {
       // Make a PATCH request to the API with the updated event data
       var res = await dio.put(
-        'https://swc.iitg.ac.in/events/$id',  // Replace with the actual endpoint
+        'https://swc.iitg.ac.in/events/$id', // Replace with the actual endpoint
         data: updatedData,
       );
-      return res.data;  // Return the response data
+      return res.data; // Return the response data
     } catch (e) {
       print("Error updating event: $e");
       throw Exception('Failed to update event: $e');
     }
   }
-
-
 
   Future<Map<String, dynamic>> postBuyData(Map<String, String> data) async {
     var res = await dio.post(Endpoints.buyURL, data: {
@@ -513,7 +507,7 @@ class APIService {
   Future<AllDoctors> getmedicalTimeTable() async {
     final response = await dio.get(Endpoints.medicalTimetableURL);
     var body = response.data;
-  
+
     AllDoctors alldoc = AllDoctors(alldoctors: []);
     if (response.statusCode == 200) {
       for (var json in body) {
@@ -650,9 +644,7 @@ class APIService {
   }
 
   Future<String?> uploadFileToServer(File file, String endpoint) async {
-    var fileName = file.path
-        .split('/')
-        .last;
+    var fileName = file.path.split('/').last;
     var formData = FormData.fromMap({
       'file': await MultipartFile.fromFile(file.path, filename: fileName),
     });
@@ -681,9 +673,7 @@ class APIService {
   }
 
   Future<String?> uploadFileToServer2(File file) async {
-    var fileName = file.path
-        .split('/')
-        .last;
+    var fileName = file.path.split('/').last;
     var formData = FormData.fromMap({
       'file': await MultipartFile.fromFile(file.path, filename: fileName),
     });
@@ -783,7 +773,37 @@ class APIService {
     }
   }
 
+  Future<Map<String, List<String>>> fetchSMCEmails() async {
+    final bearerToken = await AuthUserHelpers.getAccessToken();
+    try {
+      var response = await dio.get(
+        Endpoints.smcEmails,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $bearerToken',
+            'Security-Key': Endpoints.apiSecurityKey,
+          },
+        ),
+      );
 
+      var data = response.data;
 
-
+      // Check if the API call was successful
+      if (data['success'] == true && data['smcEmails'] != null) {
+        Map<String, List<String>> smcEmailsMap = Map<String, List<String>>.from(
+          (data['smcEmails'] as Map).map(
+            (key, value) => MapEntry(key, List<String>.from(value)),
+          ),
+        );
+        return smcEmailsMap;
+      } else {
+        // Handle the case where the response is not successful
+        throw Exception('Failed to load SMC emails.');
+      }
+    } catch (e) {
+      // Handle errors (e.g., network issues, parsing errors)
+      print('Error fetching SMC emails: $e');
+      return {}; // Return an empty map in case of an error
+    }
+  }
 }
