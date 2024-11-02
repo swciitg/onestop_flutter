@@ -10,7 +10,7 @@ class Endpoints {
   static const String timetableURL =
       "https://swc.iitg.ac.in/smartTimetable/get-my-courses";
   static const String medicalTimetableURL = '/hospital/getTimetable';
-  
+
   static const String ferryURL = '/ferryTimings';
   static const String homeImage = '/homeImage';
   static const String busURL = '/busTimings';
@@ -59,6 +59,7 @@ class Endpoints {
   static const String messSubChange = "/api/sub";
   static const String messOpi = "/api/opi";
   static const String homePageUrls = '/homepage';
+  static const String smcEmails = "/mess/opi/smc";
 
   static getHeader() {
     return {
