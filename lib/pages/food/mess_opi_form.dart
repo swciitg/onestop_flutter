@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/functions/utility/validator.dart';
@@ -24,10 +27,17 @@ class MessOpiFormPage extends StatefulWidget {
 class _MessOpiFormPageState extends State<MessOpiFormPage> {
   final TextEditingController _commentsController = TextEditingController();
   final user = OneStopUser.fromJson(LoginStore.userData);
+  late bool isSmcMember;
+  List<String> smcEmails = [];
+  String errorMessage = '';
   late Hostel selectedHostel;
   int breakfast = 0;
   int lunch = 0;
   int dinner = 0;
+  int wasteDisposal = 0;
+  int punctuality = 0;
+  int quality = 0;
+  int hygiene = 0;
   bool isLoading = false;
   final List<Hostel> hostels = Hostel.values;
   final List<int> points = [1, 2, 3, 4, 5];
@@ -42,6 +52,58 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
     selectedHostel =
         user.hostel?.getHostelFromDatabaseString() ?? hostels.first;
     super.initState();
+    _fetchSMCEmails();
+    isSmcMember = isUserPartOfSMC(user.outlookEmail);
+  }
+
+  // Function to fetch SMC Emails
+  Future<void> _fetchSMCEmails() async {
+    setState(() {
+      isLoading = true;
+      errorMessage = ''; // Reset error message before fetching
+    });
+
+    try {
+      final response =
+          await http.get(Uri.parse('/test/onestop/api/v3/mess/opi/smc'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (data['success'] == true && data['smcEmails'] != null) {
+          setState(() {
+            smcEmails = List<String>.from(data['smcEmails']);
+            isLoading = false;
+          });
+        } else {
+          // Handle the case where success is false or smcEmails is null
+          setState(() {
+            isLoading = false;
+            errorMessage = 'Failed to load SMC emails. Please try again later.';
+          });
+        }
+      } else {
+        // Handle HTTP error response
+        setState(() {
+          isLoading = false;
+          errorMessage =
+              'Server error: ${response.statusCode}. Please try again.';
+        });
+      }
+    } catch (e) {
+      // Handle connection or parsing error
+      setState(() {
+        isLoading = false;
+        errorMessage =
+            'An error occurred. Please check your internet connection and try again.';
+      });
+      print('Error: $e'); // Log the error for debugging purposes
+    }
+  }
+
+  bool isUserPartOfSMC(String? userEmail) {
+    if (userEmail == null) return false; // If no email is found, return false
+    return smcEmails.contains(userEmail); // Check if the email is in the list
   }
 
   void onChangeSelectedHostel(String? hostel) =>
@@ -54,6 +116,16 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
 
   void onChangeDinnerPoints(String? points) => dinner = int.parse(points!);
 
+  void onChangeWasteDisposalPoints(String? points) =>
+      wasteDisposal = int.parse(points!);
+
+  void onChangePunctualityPoints(String? points) =>
+      punctuality = int.parse(points!);
+
+  void onChangeQualityPoints(String? points) => quality = int.parse(points!);
+
+  void onChangeHygienePoints(String? points) => hygiene = int.parse(points!);
+
   void onSubmit() async {
     try {
       setState(() {
@@ -63,6 +135,21 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
         showSnackBar("Please fill all the compulsory fields");
         return;
       }
+      // Additional check for SMC members
+      if (isSmcMember) {
+        // Check if additional SMC-specific fields are filled
+        if (wasteDisposal == 0 ||
+            hygiene == 0 ||
+            punctuality == 0 ||
+            quality == 0) {
+          showSnackBar("Please fill all the compulsory fields");
+          setState(() {
+            isLoading = false;
+          });
+          return;
+        }
+      }
+
       final data = {
         "comments": _commentsController.text.trim(),
         "hostel": selectedHostel.databaseString,
@@ -73,6 +160,13 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
         },
         "userName": user.name,
       };
+      // Include additional fields if the user is an SMC member
+      if (isSmcMember) {
+        data["wasteDisposal"] = wasteDisposal;
+        data["hygiene"] = hygiene;
+        data["quality"] = quality;
+        data["punctuality"] = punctuality;
+      }
       final res = await MessStore().postMessOpi(data);
       if (res.containsKey('success')) {
         showSnackBar(res['message']);
@@ -151,6 +245,63 @@ class _MessOpiFormPageState extends State<MessOpiFormPage> {
                       const SizedBox(height: 16),
                       _pointsInfo(),
                       const SizedBox(height: 16),
+                      if (isSmcMember) ...[
+                        _buildFieldTitle(
+                            title: "Waste Disposal", isNeccessary: true),
+                        const SizedBox(height: 12),
+                        CustomDropDown(
+                          items: points.map((e) => e.toString()).toList(),
+                          hintText: 'Points',
+                          onChanged: onChangeWasteDisposalPoints,
+                          validator: validatefield,
+                          borderRadius: BorderRadius.circular(24),
+                          isNecessary: false,
+                          icon: dropDownIcon,
+                        ),
+                        const SizedBox(height: 16),
+                        _buildFieldTitle(
+                            title: "Uniform And Punctuality",
+                            isNeccessary: true),
+                        const SizedBox(height: 12),
+                        CustomDropDown(
+                          items: points.map((e) => e.toString()).toList(),
+                          hintText: 'Points',
+                          onChanged: onChangePunctualityPoints,
+                          validator: validatefield,
+                          borderRadius: BorderRadius.circular(24),
+                          isNecessary: false,
+                          icon: dropDownIcon,
+                        ),
+                        const SizedBox(height: 16),
+                        _buildFieldTitle(
+                            title: "Quality Of Ingredients",
+                            isNeccessary: true),
+                        const SizedBox(height: 12),
+                        CustomDropDown(
+                          items: points.map((e) => e.toString()).toList(),
+                          hintText: 'Points',
+                          onChanged: onChangeQualityPoints,
+                          validator: validatefield,
+                          borderRadius: BorderRadius.circular(24),
+                          isNecessary: false,
+                          icon: dropDownIcon,
+                        ),
+                        const SizedBox(height: 16),
+                        _buildFieldTitle(
+                            title: "Cleanliness And Hygiene",
+                            isNeccessary: true),
+                        const SizedBox(height: 12),
+                        CustomDropDown(
+                          items: points.map((e) => e.toString()).toList(),
+                          hintText: 'Points',
+                          onChanged: onChangeHygienePoints,
+                          validator: validatefield,
+                          borderRadius: BorderRadius.circular(24),
+                          isNecessary: false,
+                          icon: dropDownIcon,
+                        ),
+                        const SizedBox(height: 16),
+                      ],
                       _buildFieldTitle(
                           title: "Overall Satisfaction - Breakfast",
                           isNeccessary: true),
