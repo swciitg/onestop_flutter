@@ -2,8 +2,8 @@
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/functions/food/get_day.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
-import 'package:onestop_dev/services/api.dart';
 import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/services/irbs_api_service.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -100,12 +100,12 @@ abstract class _MessStore with Store {
 
   Future<Map<String, dynamic>> postMessSubChange(
       Map<String, dynamic> data) async {
-    final res = await APIService().postMessSubChange(data);
+    final res = await IRBSApiService().postMessSubChange(data);
     return res;
   }
 
   Future<Map<String, dynamic>> postMessOpi(Map<String, dynamic> data) async {
-    final res = await APIService().postMessOpi(data);
+    final res = await IRBSApiService().postMessOpi(data);
     return res;
   }
 }

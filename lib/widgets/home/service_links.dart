@@ -23,14 +23,14 @@ List<HomeTabTile> serviceLinks = [
     routeId: IRBSPage.id,
   ),
   const HomeTabTile(
-    label: "GateLog",
-    icon: FluentIcons.door_20_regular,
-    routeId: GateLogPage.id,
-  ),
-  const HomeTabTile(
     label: "Complaints",
     icon: FluentIcons.chat_help_24_regular,
     routeId: ComplaintsPage.id,
+  ),
+  const HomeTabTile(
+    label: "GateLog",
+    icon: FluentIcons.door_20_regular,
+    routeId: GateLogPage.id,
   ),
   const HomeTabTile(
     label: "Lost and Found",

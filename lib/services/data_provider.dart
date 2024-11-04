@@ -176,8 +176,7 @@ class DataProvider {
     }
 
     List<dynamic> answer = jsonData['details']!;
-    var meal = answer.firstWhere(
-        (m) => m['subscribedMess'] == mess.databaseString,
+    var meal = answer.firstWhere((m) => m['hostel'] == mess.databaseString,
         orElse: () => 'no data');
     if (meal == 'no data') {
       return MealType(

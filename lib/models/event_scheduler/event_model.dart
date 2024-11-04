@@ -17,8 +17,8 @@ class EventModel {
   EventModel({
     required this.id,
     required this.title,
-     this.imageUrl,
-     this.compressedImageUrl,
+    this.imageUrl,
+    this.compressedImageUrl,
     required this.description,
     required this.clubOrg,
     required this.board,
@@ -58,39 +58,40 @@ class EventModel {
         v: v ?? this.v,
       );
 
-  factory EventModel.fromRawJson(String str) => EventModel.fromJson(json.decode(str));
+  factory EventModel.fromRawJson(String str) =>
+      EventModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
-    id: json["_id"],
-    title: json["title"],
-    imageUrl: json["imageURL"],
-    compressedImageUrl: json["compressedImageURL"],
-    description: json["description"],
-    clubOrg: json["club_org"],
-    board: json["board"],
-    startDateTime: DateTime.parse(json["startDateTime"]),
-    endDateTime: DateTime.parse(json["endDateTime"]),
-    venue: json["venue"],
-    categories: List<String>.from(json["categories"].map((x) => x)),
-    v: json["__v"],
-  );
+        id: json["_id"],
+        title: json["title"],
+        imageUrl: json["imageURL"],
+        compressedImageUrl: json["compressedImageURL"],
+        description: json["description"],
+        clubOrg: json["club_org"],
+        board: json["board"],
+        startDateTime: DateTime.parse(json["startDateTime"]),
+        endDateTime: DateTime.parse(json["endDateTime"]),
+        venue: json["venue"],
+        categories: List<String>.from(json["categories"].map((x) => x)),
+        v: json["__v"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "title": title,
-    "imageURL": imageUrl,
-    "compressedImageURL": compressedImageUrl,
-    "description": description,
-    "club_org": clubOrg,
-    "board": board,
-    "startDateTime": startDateTime.toIso8601String(),
-    "endDateTime": endDateTime.toIso8601String(),
-    "venue": venue,
-    "categories": List<dynamic>.from(categories.map((x) => x)),
-    "__v": v,
-  };
+        "_id": id,
+        "title": title,
+        "imageURL": imageUrl,
+        "compressedImageURL": compressedImageUrl,
+        "description": description,
+        "club_org": clubOrg,
+        "board": board,
+        "startDateTime": startDateTime.toIso8601String(),
+        "endDateTime": endDateTime.toIso8601String(),
+        "venue": venue,
+        "categories": List<dynamic>.from(categories.map((x) => x)),
+        "__v": v,
+      };
 }
 
 

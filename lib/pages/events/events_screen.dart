@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -8,7 +9,7 @@ import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/event_description.dart';
 import 'package:onestop_dev/pages/events/event_tile.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/services/events_api_service.dart';
 import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -69,7 +70,7 @@ class _EventsScreenState extends State<EventsScreen>
       String category, int pageKey) async {
     log("fetching the category of $category");
     try {
-      final newItems = await APIService().getEventPage(category);
+      final newItems = await EventsApiService().getEventPage(category);
       log("Loaded ${newItems.length} events for $category");
       controller.appendLastPage(newItems);
     } catch (error) {
@@ -205,10 +206,17 @@ class EventListView extends StatelessWidget {
     return PagedListView<int, EventModel>(
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate<EventModel>(
-        itemBuilder: (context, event, index) => EventTile(
-          onTap: () => _navigateToEventDetails(context, event),
-          model: event,
-        ),
+        itemBuilder: (context, event, index) {
+          // Filter for events that are ongoing or upcoming
+          final currentTime = DateTime.now();
+          if (event.endDateTime.isAfter(currentTime)) {
+            return EventTile(
+              onTap: () => _navigateToEventDetails(context, event),
+              model: event,
+            );
+          }
+          return Container(); // Return an empty container for events that don't match
+        },
         firstPageErrorIndicatorBuilder: (context) => ErrorReloadScreen(
           reloadCallback: () => pagingController.refresh(),
         ),

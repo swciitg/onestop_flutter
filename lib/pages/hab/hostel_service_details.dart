@@ -199,6 +199,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                     WidgetSpan(
                                       child: Padding(
                                         padding: const EdgeInsets.only(
+                                            left: 15,
                                             bottom:
                                                 1.5), // Adjust this value as needed
                                         child: Text(
@@ -277,6 +278,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                     WidgetSpan(
                                       child: Padding(
                                         padding: const EdgeInsets.only(
+                                            left: 15,
                                             bottom:
                                                 1.5), // Adjust this value as needed
                                         child: Text(
@@ -608,6 +610,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                 if (problem.value.text.isEmpty) {
                                   showSnackBar(
                                       "Problem description cannot be empty");
+                                  return;
                                 }
                                 if (widget.complaintType == "Infra" &&
                                     complaintID.text.isEmpty) {
