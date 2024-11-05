@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:logger/logger.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
@@ -70,13 +69,13 @@ class _EventsScreenState extends State<EventsScreen>
 
   Future<void> _fetchPage(PagingController<int, EventModel> controller,
       String category, int pageKey) async {
-    log("fetching the category of $category");
+    Logger().i("fetching the category of $category");
     try {
       final newItems = await EventsApiService().getEventPage(category);
-      log("Loaded ${newItems.length} events for $category");
+      Logger().i("Loaded ${newItems.length} events for $category");
       controller.appendLastPage(newItems);
     } catch (error) {
-      log("Error fetching events: $error");
+      Logger().i("Error fetching events: $error");
       controller.error = error;
     }
   }
