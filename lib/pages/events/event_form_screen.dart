@@ -369,7 +369,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
                           );
                           return;
                         }
-
                         if (widget.event == null) {
                           if (uploadedFilePath != null) {
                             _submitForm();
@@ -379,6 +378,8 @@ class _EventFormScreenState extends State<EventFormScreen> {
                                 content:
                                     Text('Please fill in all required fields.'),
                               ),
+                                  content: Text(
+                                      'Please fill in all required fields.')),
                             );
                           }
                         } else {
@@ -387,9 +388,8 @@ class _EventFormScreenState extends State<EventFormScreen> {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content:
-                                Text('Please fill in all required fields.'),
-                          ),
+                              content:
+                                  Text('Please fill in all required fields.')),
                         );
                       }
                     },

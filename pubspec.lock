@@ -166,7 +166,7 @@ packages:
     description:
       path: "packages/cab_sharing"
       ref: HEAD
-      resolved-ref: fb88d524323344fd7ffada81693dbd3152905db6
+      resolved-ref: d1c64af6357ff8c6bc0c88984324fbed30b5d4f5
       url: "https://github.com/swciitg/cab_sharing_onestop.git"
     source: git
     version: "1.0.1"
@@ -742,7 +742,7 @@ packages:
     description:
       path: "packages/gate_log"
       ref: HEAD
-      resolved-ref: "3d407ff8a8d8b4b730f41c65ea929bdc14b48669"
+      resolved-ref: "6ef34a7a43f16b5e65586e0fce12c93fc7c456e6"
       url: "https://github.com/swciitg/gatelog_onestop.git"
     source: git
     version: "0.0.1"
