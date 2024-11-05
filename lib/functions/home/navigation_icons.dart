@@ -28,14 +28,14 @@ List<Widget> bottomNavIcons() {
         color: lBlue2,
       ),
     ),
-    const NavigationDestination(
-      icon: Icon(Icons.bookmark_border),
-      label: 'Events',
-      selectedIcon: Icon(
-        FluentIcons.bookmark_24_filled,
-        color: lBlue2,
-      ),
-    ),
+    // const NavigationDestination(
+    //   icon: Icon(Icons.bookmark_border),
+    //   label: 'Events',
+    //   selectedIcon: Icon(
+    //     FluentIcons.bookmark_24_filled,
+    //     color: lBlue2,
+    //   ),
+    // ),
     const NavigationDestination(
       icon: Icon(FluentIcons.calendar_ltr_24_regular),
       label: 'Timetable',

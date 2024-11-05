@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
+import 'package:onestop_dev/pages/events/events_appbar.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
@@ -19,7 +20,7 @@ List<HomeTabTile> serviceLinks = [
   ),
   const HomeTabTile(
     label: 'IRBS',
-    icon: FluentIcons.calendar_edit_16_regular,
+    icon: FluentIcons.calendar_edit_24_regular,
     routeId: IRBSPage.id,
   ),
   const HomeTabTile(
@@ -39,17 +40,17 @@ List<HomeTabTile> serviceLinks = [
   ),
   const HomeTabTile(
     label: "Buy and Sell",
-    icon: FluentIcons.money_20_regular,
+    icon: FluentIcons.money_24_regular,
     routeId: BuySellHome.id,
   ),
   const HomeTabTile(
     label: "GC Score Board",
-    icon: FluentIcons.trophy_48_filled,
+    icon: FluentIcons.trophy_24_regular,
     routeId: Scoreboard.id,
   ),
   const HomeTabTile(
     label: "Medical Section",
-    icon: FluentIcons.doctor_28_filled,
+    icon: FluentIcons.doctor_24_regular,
     routeId: MedicalSection.id,
     newBadge: true,
   ),
@@ -63,9 +64,9 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.desktop_24_regular,
     routeId: RouterPage.id,
   ),
-  /* const HomeTabTile(
-    label: "HAB",
-    icon: FluentIcons.home_database_24_regular,
-    routeId: Hab_Page.id,
-  ),*/
+  const HomeTabTile(
+    label: "Events",
+    icon: FluentIcons.bookmark_24_regular,
+    routeId: EventsScreenWrapper.id,
+  ),
 ];

@@ -16,6 +16,8 @@ import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class EventsScreen extends StatefulWidget {
+  const EventsScreen({super.key});
+
   @override
   State<EventsScreen> createState() => _EventsScreenState();
 }
@@ -168,7 +170,7 @@ class _EventsScreenState extends State<EventsScreen>
   Tab _buildTab(String label, int index, EventsStore eventsStore) {
     return Tab(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 8),
         decoration: BoxDecoration(
           color: eventsStore.selectedEventTab == index ? lBlue2 : kGrey9,
           borderRadius: BorderRadius.circular(25),
@@ -190,7 +192,9 @@ class _EventsScreenState extends State<EventsScreen>
   void dispose() {
     // Dispose the TabController when the widget is disposed
     _tabController.dispose();
-    _pagingControllers.values.forEach((controller) => controller.dispose());
+    for (var controller in _pagingControllers.values) {
+      controller.dispose();
+    }
     super.dispose();
   }
 }
@@ -198,8 +202,7 @@ class _EventsScreenState extends State<EventsScreen>
 class EventListView extends StatelessWidget {
   final PagingController<int, EventModel> pagingController;
 
-  const EventListView({Key? key, required this.pagingController})
-      : super(key: key);
+  const EventListView({super.key, required this.pagingController});
 
   @override
   Widget build(BuildContext context) {

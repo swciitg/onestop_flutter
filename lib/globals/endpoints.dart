@@ -2,7 +2,7 @@ class Endpoints {
   static const moderationBaseUrl =
       String.fromEnvironment('MODERATION-SERVER-URL');
   static const baseUrl = String.fromEnvironment('SERVER-URL');
-  static const eventsBaseUrl = String.fromEnvironment('SERVER-EVENT-URL');
+  static const eventsBaseUrl = String.fromEnvironment('EVENT-SERVER-URL');
   static const irbsBaseUrl = String.fromEnvironment('IRBS-SERVER-URL');
   static const String restaurantURL = "/getAllOutlets";
   static const String lastUpdatedURL = "/lastDataUpdate";
@@ -20,6 +20,7 @@ class Endpoints {
   static const String buyURL = '/buy';
   static const String sellURL = '/sell';
   static const String buyPath = '/buyPage';
+
   // static const String eventPath = '/eventPage';
   static const String sellPath = '/sellPage';
   static const String bnsMyAdsURL = '/bns/myads';

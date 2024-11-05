@@ -4,13 +4,15 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/services/events_api_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
-import '../../globals/my_fonts.dart';
 import '../../models/event_scheduler/admin_model.dart';
 import '../../stores/event_store.dart';
 
@@ -378,8 +380,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
                                 content:
                                     Text('Please fill in all required fields.'),
                               ),
-                                  content: Text(
-                                      'Please fill in all required fields.')),
                             );
                           }
                         } else {
@@ -551,6 +551,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
 
   // Submit Form Method
   Future<void> _submitForm() async {
+    final nav = Navigator.of(context);
     var fileName = uploadedFilePath!.split('/').last;
     Map<String, dynamic> data = {};
     data['file'] =
@@ -564,19 +565,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
     data['categories'] = <String>["$selectedBoard", "All"];
     data['board'] = selectedBoard;
 
-    /*var formData = FormData.fromMap({
-      'file':
-          await MultipartFile.fromFile(uploadedFilePath!, filename: fileName),
-      'title': titleController.text,
-      'description': descriptionController.text,
-      'club_org': selectedClub,
-      'startDateTime': _formatDateTime(selectedDate!, selectedStartTime!),
-      'endDateTime': _formatDateTime(selectedDate!, selectedEndTime!),
-      'venue': venueController.text,
-      'categories': <String>["$selectedBoard", "All"],
-      'board': selectedBoard,
-    });
-*/
     Map<String, dynamic> res = {};
 
     // Show the loading dialog
@@ -588,7 +576,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
           backgroundColor: const Color(0xFF273141),
           title: Text(
             'Uploading Event',
-            style: MyFonts.w500.copyWith(color: kWhite),
+            style: OnestopFonts.w500.copyWith(color: kWhite),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -597,7 +585,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
               const SizedBox(height: 20),
               Text(
                 'Please wait...',
-                style: MyFonts.w300.copyWith(color: kWhite3),
+                style: OnestopFonts.w300.copyWith(color: kWhite3),
               ),
             ],
           ),
@@ -606,31 +594,24 @@ class _EventFormScreenState extends State<EventFormScreen> {
     );
 
     try {
-      log("Uploading to server");
+      Logger().i("Uploading to server");
       res = await EventsApiService().postEvent(data);
     } catch (e) {
-      print(e.toString());
+      showSnackBar('Some unknown error occurred!');
     }
-
-    // Hide the loading dialog
-    Navigator.of(context).pop();
+    nav.pop();
 
     if (res['saved_successfully']) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Event submitted successfully!')),
-      );
-
-      // Navigate back to the previous screen after success
-      Navigator.of(context).pop();
+      showSnackBar('Event submitted successfully!');
+      nav.pop();
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Some unknown error occurred!')),
-      );
+      showSnackBar('Some unknown error occurred!');
     }
   }
 
   Future<void> _editForm() async {
     var res = {};
+    final nav = Navigator.of(context);
 
     Map<String, dynamic> data = {};
     data['file'] = uploadedFilePath != null
@@ -645,23 +626,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
     data['categories'] = <String>["$selectedBoard", "All"];
     data['board'] = selectedBoard;
 
-    /* final formData = FormData.fromMap({
-      'title': titleController.text,
-      'description': descriptionController.text,
-      'club_org': selectedClub,
-      'startDateTime': _formatDateTime(selectedDate!, selectedStartTime!),
-      'endDateTime': _formatDateTime(selectedDate!, selectedEndTime!),
-      'venue': venueController.text,
-      'categories': widget.event!.categories,
-      'board': selectedBoard,
-      'file': uploadedFilePath != null
-          ? (await MultipartFile.fromFile(uploadedFilePath!))
-          : null,
-      'imageURL': uploadedFilePath == null ? widget.event!.imageUrl : null,
-      'compressedImageURL':
-          uploadedFilePath == null ? widget.event!.compressedImageUrl : null,
-    });
-*/
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -670,7 +634,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
           backgroundColor: const Color(0xFF273141),
           title: Text(
             'Updating Event',
-            style: MyFonts.w500.copyWith(color: kWhite),
+            style: OnestopFonts.w500.copyWith(color: kWhite),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -679,7 +643,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
               const SizedBox(height: 20),
               Text(
                 'Please wait...',
-                style: MyFonts.w300.copyWith(color: kWhite3),
+                style: OnestopFonts.w300.copyWith(color: kWhite3),
               ),
             ],
           ),
@@ -688,64 +652,17 @@ class _EventFormScreenState extends State<EventFormScreen> {
     );
 
     try {
-      // Send the request to update the event
       res = await EventsApiService().putEvent(widget.event!.id, data);
-
       // Hide the loading dialog after the event is updated
-      Navigator.of(context).pop();
-
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Event updated successfully!'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-
-      // await Future.delayed(const Duration(seconds: 2));
-
-      // Pop the current screen and go back to the previous one
-      Navigator.of(context).pop();
+      nav.pop();
+      showSnackBar('Event updated successfully!');
+      nav.pop();
     } catch (e) {
       // Hide the loading dialog if an error occurs
-      Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Some unknown error occurred!')),
-      );
+      nav.pop();
+      showSnackBar('Some unknown error occurred!');
     }
   }
-
-/* Future<void> _editForm() async {
-    var res = {};
-    final formData = FormData.fromMap({
-      'title': titleController.text,
-      'description': descriptionController.text,
-      'club_org': selectedClub,
-      'startDateTime': _formatDateTime(selectedDate!,selectedStartTime!),
-      'endDateTime': _formatDateTime(selectedDate!,selectedEndTime!),
-      'venue': venueController.text,
-      'categories': widget.event!.categories,
-      'board': selectedBoard,
-      'file':uploadedFilePath != null ? (await MultipartFile.fromFile(uploadedFilePath!)): null,
-      'imageURL' : uploadedFilePath == null ? widget.event!.imageUrl : null,
-      'compressedImageURL' : uploadedFilePath == null ? widget.event!.compressedImageUrl : null,
-    });
-
-    try {
-      res = await EventsApiService().putEvent(widget.event!.id, formData);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Event updated successfully!'), duration: const Duration(seconds: 2),),
-
-      );
-      await Future.delayed(const Duration(seconds: 2));
-      Navigator.of(context).pop();
-    } catch (e) {
-      print("Error updating event: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Some unknown error occurred!')),
-      );
-    }
-  }*/
 }
 
 String _formatDateTime(DateTime selectedDate, TimeOfDay time) {

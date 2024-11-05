@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/events/events_screen.dart';
 import 'package:onestop_dev/pages/events/events_screen_admin.dart';
 import 'package:onestop_dev/services/events_api_service.dart';
@@ -14,6 +12,8 @@ import 'package:provider/provider.dart';
 
 class EventsScreenWrapper extends StatefulWidget {
   const EventsScreenWrapper({super.key});
+
+  static const id = "/events/home";
 
   @override
   State<EventsScreenWrapper> createState() => _EventsScreenWrapperState();
@@ -88,29 +88,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      backgroundColor: const Color(0xFF273141),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(20),
-          top: Radius.circular(20),
-        ),
-      ),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            title,
-            style: MyFonts.w600.size(22).letterSpace(1.0).setColor(lBlue2),
-          ),
-          const Text(
-            '.',
-            style: TextStyle(
-                color: kBadgeColor,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
+      leadingWidth: 100,
+      scrolledUnderElevation: 0,
+      backgroundColor: OneStopColors.backgroundColor,
+      leading: OneStopBackButton(onTap: () {
+        Navigator.of(context).pop();
+      }),
+      title: const AppBarTitle(title: "Events"),
+      centerTitle: true,
       actions: [
         if (isAdmin)
           PopupMenuButton<String>(
