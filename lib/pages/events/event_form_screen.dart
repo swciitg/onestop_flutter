@@ -68,6 +68,33 @@ class _EventFormScreenState extends State<EventFormScreen> {
     }
   }
 
+  bool _isValidDateTimeRange() {
+    if (selectedDate == null ||
+        selectedStartTime == null ||
+        selectedEndTime == null) {
+      return false;
+    }
+
+    // Convert selected times to DateTime objects for comparison
+    final startDateTime = DateTime(
+      selectedDate!.year,
+      selectedDate!.month,
+      selectedDate!.day,
+      selectedStartTime!.hour,
+      selectedStartTime!.minute,
+    );
+
+    final endDateTime = DateTime(
+      selectedDate!.year,
+      selectedDate!.month,
+      selectedDate!.day,
+      selectedEndTime!.hour,
+      selectedEndTime!.minute,
+    );
+
+    return startDateTime.isBefore(endDateTime);
+  }
+
   void _unfocusAll() {
     titleFocusNode.unfocus();
     venueFocusNode.unfocus();
@@ -332,12 +359,25 @@ class _EventFormScreenState extends State<EventFormScreen> {
                           selectedDate != null &&
                           selectedStartTime != null &&
                           selectedEndTime != null) {
+                        if (!_isValidDateTimeRange()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  'End time must be later than start time.'),
+                              backgroundColor: Color.fromARGB(255, 70, 68, 68),
+                            ),
+                          );
+                          return;
+                        }
                         if (widget.event == null) {
                           if (uploadedFilePath != null) {
                             _submitForm();
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
+                                content:
+                                    Text('Please fill in all required fields.'),
+                              ),
                                   content: Text(
                                       'Please fill in all required fields.')),
                             );
@@ -357,10 +397,13 @@ class _EventFormScreenState extends State<EventFormScreen> {
                       backgroundColor: const Color(0xFF76ACFF),
                       minimumSize: const Size(double.infinity, 53),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
-                    child: const Text('Submit',
-                        style: TextStyle(color: Color(0xFF00210B))),
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(color: Color(0xFF00210B)),
+                    ),
                   ),
                 ),
               ],
@@ -502,7 +545,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
     if (pickedTime != null) {
       setState(() {
         selectedEndTime = pickedTime;
-        print("selectedEndTime =>>$selectedEndTime");
       });
     }
   }
@@ -510,7 +552,19 @@ class _EventFormScreenState extends State<EventFormScreen> {
   // Submit Form Method
   Future<void> _submitForm() async {
     var fileName = uploadedFilePath!.split('/').last;
-    var formData = FormData.fromMap({
+    Map<String, dynamic> data = {};
+    data['file'] =
+        await MultipartFile.fromFile(uploadedFilePath!, filename: fileName);
+    data['title'] = titleController.text;
+    data['description'] = descriptionController.text;
+    data['club_org'] = selectedClub;
+    data['startDateTime'] = _formatDateTime(selectedDate!, selectedStartTime!);
+    data['endDateTime'] = _formatDateTime(selectedDate!, selectedEndTime!);
+    data['venue'] = venueController.text;
+    data['categories'] = <String>["$selectedBoard", "All"];
+    data['board'] = selectedBoard;
+
+    /*var formData = FormData.fromMap({
       'file':
           await MultipartFile.fromFile(uploadedFilePath!, filename: fileName),
       'title': titleController.text,
@@ -522,7 +576,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
       'categories': <String>["$selectedBoard", "All"],
       'board': selectedBoard,
     });
-
+*/
     Map<String, dynamic> res = {};
 
     // Show the loading dialog
@@ -553,7 +607,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
 
     try {
       log("Uploading to server");
-      res = await EventsApiService().postEvent(formData);
+      res = await EventsApiService().postEvent(data);
     } catch (e) {
       print(e.toString());
     }
@@ -577,7 +631,21 @@ class _EventFormScreenState extends State<EventFormScreen> {
 
   Future<void> _editForm() async {
     var res = {};
-    final formData = FormData.fromMap({
+
+    Map<String, dynamic> data = {};
+    data['file'] = uploadedFilePath != null
+        ? (await MultipartFile.fromFile(uploadedFilePath!))
+        : null;
+    data['title'] = titleController.text;
+    data['description'] = descriptionController.text;
+    data['club_org'] = selectedClub;
+    data['startDateTime'] = _formatDateTime(selectedDate!, selectedStartTime!);
+    data['endDateTime'] = _formatDateTime(selectedDate!, selectedEndTime!);
+    data['venue'] = venueController.text;
+    data['categories'] = <String>["$selectedBoard", "All"];
+    data['board'] = selectedBoard;
+
+    /* final formData = FormData.fromMap({
       'title': titleController.text,
       'description': descriptionController.text,
       'club_org': selectedClub,
@@ -593,7 +661,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
       'compressedImageURL':
           uploadedFilePath == null ? widget.event!.compressedImageUrl : null,
     });
-
+*/
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -621,7 +689,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
 
     try {
       // Send the request to update the event
-      res = await EventsApiService().putEvent(widget.event!.id, formData);
+      res = await EventsApiService().putEvent(widget.event!.id, data);
 
       // Hide the loading dialog after the event is updated
       Navigator.of(context).pop();

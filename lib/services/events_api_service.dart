@@ -14,7 +14,7 @@ class EventsApiService extends OneStopApi {
             onestopBaseUrl: Endpoints.baseUrl,
             // TODO: get this url from the run arguments in Endpoints class
             //  and use that here
-            serverBaseUrl: "https://swc.iitg.ac.in/events",
+            serverBaseUrl: Endpoints.eventsBaseUrl,
             onestopSecurityKey: Endpoints.apiSecurityKey);
 
   Future<Admin?> getAdmins() async {
@@ -22,7 +22,7 @@ class EventsApiService extends OneStopApi {
       // TODO: Don't hardcode these paths
       //  Create static variables for each path in the endpoints class
       //  Name the variables appropriately!
-      var response = await serverDio.get("/por");
+      var response = await serverDio.get(Endpoints.getEventAdmin);
 
       var json = response.data;
 
@@ -42,24 +42,24 @@ class EventsApiService extends OneStopApi {
   // TODO: Don't Use FormData here
   //  The UI Layer should be independent of the Service Layer
   //  Use XFile/File and Map as function parameters
-  Future<Map<String, dynamic>> postEvent(FormData formData) async {
-    var res =
-        await serverDio.post('https://swc.iitg.ac.in/events', data: formData);
+  Future<Map<String, dynamic>> postEvent(Map<String, dynamic> data) async {
+    var res = await serverDio.post(serverBaseUrl, data: FormData.fromMap(data));
     return res.data;
   }
 
   Future<Map<String, dynamic>> deleteEvent(String id) async {
-    var res = await serverDio.delete('https://swc.iitg.ac.in/events/$id');
+    var res = await serverDio.delete('${serverBaseUrl}/$id');
     return res.data;
   }
 
   // TODO: Same here
-  Future<Map<String, dynamic>> putEvent(String id, FormData updatedData) async {
+  Future<Map<String, dynamic>> putEvent(
+      String id, Map<String, dynamic> data) async {
     try {
       // Make a PATCH request to the API with the updated event data
       var res = await serverDio.put(
-        'https://swc.iitg.ac.in/events/$id', // Replace with the actual endpoint
-        data: updatedData,
+        '${serverBaseUrl}/$id', // Replace with the actual endpoint
+        data: FormData.fromMap(data),
       );
       return res.data; // Return the response data
     } catch (e) {
@@ -73,7 +73,7 @@ class EventsApiService extends OneStopApi {
 
   Future<List<EventModel>> getEventPage(String category) async {
     try {
-      var response = await serverDio.get("/categories");
+      var response = await serverDio.get(Endpoints.eventCategories);
       var json = response.data[category];
 
       if (json != null) {

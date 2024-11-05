@@ -2,6 +2,7 @@ class Endpoints {
   static const moderationBaseUrl =
       String.fromEnvironment('MODERATION-SERVER-URL');
   static const baseUrl = String.fromEnvironment('SERVER-URL');
+  static const eventsBaseUrl = String.fromEnvironment('SERVER-EVENT-URL');
   static const irbsBaseUrl = String.fromEnvironment('IRBS-SERVER-URL');
   static const String restaurantURL = "/getAllOutlets";
   static const String lastUpdatedURL = "/lastDataUpdate";
@@ -10,7 +11,7 @@ class Endpoints {
   static const String timetableURL =
       "https://swc.iitg.ac.in/smartTimetable/get-my-courses";
   static const String medicalTimetableURL = '/hospital/getTimetable';
-  
+
   static const String ferryURL = '/ferryTimings';
   static const String homeImage = '/homeImage';
   static const String busURL = '/busTimings';
@@ -33,6 +34,8 @@ class Endpoints {
   static const String foundURL = '/found';
   static const String claimItemURL = "/found/claim";
   static const String newsURL = "/news";
+  static const String getEventAdmin = "/por";
+  static const String eventCategories = "/categories";
   static const String githubIssueToken =
       String.fromEnvironment('GITHUB_ISSUE_TOKEN');
   static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');

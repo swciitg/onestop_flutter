@@ -206,10 +206,17 @@ class EventListView extends StatelessWidget {
     return PagedListView<int, EventModel>(
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate<EventModel>(
-        itemBuilder: (context, event, index) => EventTile(
-          onTap: () => _navigateToEventDetails(context, event),
-          model: event,
-        ),
+        itemBuilder: (context, event, index) {
+          // Filter for events that are ongoing or upcoming
+          final currentTime = DateTime.now();
+          if (event.endDateTime.isAfter(currentTime)) {
+            return EventTile(
+              onTap: () => _navigateToEventDetails(context, event),
+              model: event,
+            );
+          }
+          return Container(); // Return an empty container for events that don't match
+        },
         firstPageErrorIndicatorBuilder: (context) => ErrorReloadScreen(
           reloadCallback: () => pagingController.refresh(),
         ),
