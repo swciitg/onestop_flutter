@@ -73,7 +73,7 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                         } else {
                           displayDate = DateTime.now()
                               .add(Duration(days: store.selectedDate))
-                              .copyWith(hour: 0, minute: 0);
+                              .copyWith(hour: 7, minute: 0);
                         }
 
                         calendarController.displayDate = displayDate;
