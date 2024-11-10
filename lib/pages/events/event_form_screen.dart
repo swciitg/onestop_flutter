@@ -378,8 +378,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
                                 content:
                                     Text('Please fill in all required fields.'),
                               ),
-                                  content: Text(
-                                      'Please fill in all required fields.')),
                             );
                           }
                         } else {

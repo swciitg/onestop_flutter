@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:logger/logger.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
@@ -16,6 +15,8 @@ import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class EventsScreen extends StatefulWidget {
+  const EventsScreen({super.key});
+
   @override
   State<EventsScreen> createState() => _EventsScreenState();
 }
@@ -68,13 +69,13 @@ class _EventsScreenState extends State<EventsScreen>
 
   Future<void> _fetchPage(PagingController<int, EventModel> controller,
       String category, int pageKey) async {
-    log("fetching the category of $category");
+    Logger().i("fetching the category of $category");
     try {
       final newItems = await EventsApiService().getEventPage(category);
-      log("Loaded ${newItems.length} events for $category");
+      Logger().i("Loaded ${newItems.length} events for $category");
       controller.appendLastPage(newItems);
     } catch (error) {
-      log("Error fetching events: $error");
+      Logger().i("Error fetching events: $error");
       controller.error = error;
     }
   }
@@ -123,25 +124,32 @@ class _EventsScreenState extends State<EventsScreen>
                 // Added TabController to TabBarView
                 children: [
                   FutureBuilder(
-                      future: context.read<EventsStore>().getAllSavedEvents(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          List<EventModel> events =
-                              snapshot.data as List<EventModel>;
-                          context.read<EventsStore>().setSavedEvents(events);
-                          return SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: Observer(builder: (context) {
-                                return Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: context
-                                        .read<EventsStore>()
-                                        .savedScroll);
-                              }));
-                        }
-                        return Container();
-                      }),
+                    future: context.read<EventsStore>().getAllSavedEvents(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<EventModel> events =
+                            snapshot.data as List<EventModel>;
+                        context.read<EventsStore>().setSavedEvents(events);
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Observer(
+                            builder: (context) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children:
+                                    context.read<EventsStore>().savedScroll,
+                              );
+                            },
+                          ),
+                        );
+                      }
+                      // Add a loading indicator while fetching data
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  ),
                   EventListView(pagingController: _pagingControllers['All']!),
                   EventListView(
                       pagingController: _pagingControllers['Academic']!),
@@ -168,7 +176,7 @@ class _EventsScreenState extends State<EventsScreen>
   Tab _buildTab(String label, int index, EventsStore eventsStore) {
     return Tab(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 8),
         decoration: BoxDecoration(
           color: eventsStore.selectedEventTab == index ? lBlue2 : kGrey9,
           borderRadius: BorderRadius.circular(25),
@@ -190,7 +198,9 @@ class _EventsScreenState extends State<EventsScreen>
   void dispose() {
     // Dispose the TabController when the widget is disposed
     _tabController.dispose();
-    _pagingControllers.values.forEach((controller) => controller.dispose());
+    for (var controller in _pagingControllers.values) {
+      controller.dispose();
+    }
     super.dispose();
   }
 }
@@ -198,8 +208,7 @@ class _EventsScreenState extends State<EventsScreen>
 class EventListView extends StatelessWidget {
   final PagingController<int, EventModel> pagingController;
 
-  const EventListView({Key? key, required this.pagingController})
-      : super(key: key);
+  const EventListView({super.key, required this.pagingController});
 
   @override
   Widget build(BuildContext context) {
@@ -207,15 +216,22 @@ class EventListView extends StatelessWidget {
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate<EventModel>(
         itemBuilder: (context, event, index) {
-          // Filter for events that are ongoing or upcoming
-          final currentTime = DateTime.now();
-          if (event.endDateTime.isAfter(currentTime)) {
+          final currentTime = DateTime.now().toLocal();
+          final eventEndDateTime = event.endDateTime.toUtc();
+
+          // Compare hours and minutes
+          final isEventUpcomingbyhr =
+              eventEndDateTime.hour > currentTime.hour ||
+                  (eventEndDateTime.hour == currentTime.hour &&
+                      eventEndDateTime.minute > currentTime.minute);
+          final isEventUpcomingByDate = eventEndDateTime.day >= currentTime.day;
+          if (isEventUpcomingbyhr && isEventUpcomingByDate) {
             return EventTile(
               onTap: () => _navigateToEventDetails(context, event),
               model: event,
             );
           }
-          return Container(); // Return an empty container for events that don't match
+          return const SizedBox.shrink();
         },
         firstPageErrorIndicatorBuilder: (context) => ErrorReloadScreen(
           reloadCallback: () => pagingController.refresh(),

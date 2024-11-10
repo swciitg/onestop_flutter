@@ -36,7 +36,7 @@ abstract class _EventsStore with Store {
   Admin? admin = null;
 
   @action
-  void setAdmin(Admin updated){
+  void setAdmin(Admin updated) {
     admin = updated;
   }
 
@@ -114,20 +114,33 @@ abstract class _EventsStore with Store {
   }
 
   @computed
+  List<EventModel> get activeSavedEvents {
+    final currentTime = DateTime.now();
+    return savedEvents
+        .where((event) => event.endDateTime.isAfter(currentTime))
+        .toList();
+  }
+
+  @computed
   List<Widget> get savedScroll {
-    if (savedEvents.isEmpty) {
+    if (activeSavedEvents.isEmpty) {
       return [
         Padding(
           padding: const EdgeInsets.only(left: 15),
           child: Text(
-            "You have no saved events",
+            "You have no active saved events",
             style: MyFonts.w400.setColor(kGrey8),
           ),
         )
       ];
     }
-    return savedEvents
-        .map((element) => EventTile(onTap: () {}, model: element))
+    return activeSavedEvents
+        .map((element) => EventTile(
+              onTap: () {
+                // Add your onTap navigation logic here if needed
+              },
+              model: element,
+            ))
         .toList();
   }
 }

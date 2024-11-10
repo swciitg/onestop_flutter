@@ -7,14 +7,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 class HomeTabTile extends StatelessWidget {
   const HomeTabTile(
-      {Key? key,
+      {super.key,
       required this.label,
       this.iconCode,
       this.icon,
       this.routeId,
       this.link,
-      this.newBadge = false})
-      : super(key: key);
+      this.newBadge = false});
 
   final String label;
   final String? link;
@@ -41,13 +40,15 @@ class HomeTabTile extends StatelessWidget {
   Badge buildBadge(BuildContext context) {
     return Badge(
       position: BadgePosition.topEnd(top: 3),
-      shape: BadgeShape.square,
-      borderRadius: BorderRadius.circular(8),
+      badgeStyle: BadgeStyle(
+        badgeColor: kBadgeColor,
+        shape: BadgeShape.square,
+        borderRadius: BorderRadius.circular(8),
+      ),
       badgeContent: Text(
         'New',
         style: MyFonts.w600.setColor(kGrey9).size(10),
       ),
-      badgeColor: kBadgeColor,
       child: buildTile(context),
     );
   }
