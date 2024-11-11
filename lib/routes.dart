@@ -42,4 +42,5 @@ final routes = {
   HostelService.id: (context) => const HostelService(),
   // ElectionLoginWebView.id: (context) => const ElectionLoginWebView(),
   GateLogPage.id: (context) => const GateLogPage(),
+  EventsScreenWrapper.id: (context) => const EventsScreenWrapper(),
 };

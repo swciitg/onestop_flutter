@@ -64,4 +64,9 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.desktop_24_regular,
     routeId: RouterPage.id,
   ),
+  const HomeTabTile(
+    label: "Events",
+    icon: FluentIcons.bookmark_24_regular,
+    routeId: EventsScreenWrapper.id,
+  ),
 ];
