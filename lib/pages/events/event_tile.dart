@@ -17,12 +17,13 @@ class EventTile extends StatelessWidget {
       {Key? key,
       required this.onTap,
       required this.model,
-      this.isAdmin = false, this.refresh})
+      this.isAdmin = false,
+      this.refresh})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if(isAdmin){
+    if (isAdmin) {
       assert(refresh != null);
     }
     return GestureDetector(
@@ -69,7 +70,7 @@ class EventTile extends StatelessWidget {
                               const SizedBox(width: 6),
                               Expanded(
                                 child: Text(
-                                  '${DateFormat('hh:mm a').format(model.startDateTime.toLocal())} - ${DateFormat('hh:mm a').format(model.endDateTime.toLocal())}',
+                                  '${DateFormat('hh:mm a').format(model.startDateTime)} - ${DateFormat('hh:mm a').format(model.endDateTime)}',
                                   style: MyFonts.w500
                                       .copyWith(color: kWhite3, fontSize: 12),
                                   overflow: TextOverflow.ellipsis,
@@ -122,49 +123,54 @@ class EventTile extends StatelessWidget {
                       ),
                     ),
                   ),
-                 const SizedBox(width:5),
-                 if(model.compressedImageUrl != null) Expanded(
-                    flex: 2, // Adjusting flex for a balanced layout
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
-                      ),
-                      child: Image.network(
-                        model.compressedImageUrl! ,
-                        width: 140,
-                        height: 150,
-                        fit: BoxFit
-                            .cover, // Ensures the image covers the entire area
+                  const SizedBox(width: 5),
+                  if (model.compressedImageUrl != null)
+                    Expanded(
+                      flex: 2, // Adjusting flex for a balanced layout
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(8),
+                          bottomRight: Radius.circular(8),
+                        ),
+                        child: Image.network(
+                          model.compressedImageUrl!,
+                          width: 140,
+                          height: 150,
+                          fit: BoxFit
+                              .cover, // Ensures the image covers the entire area
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
             Positioned(
               top: 10,
               right: 150, // Adjust padding as needed
-              child: isAdmin? InkWell(
-                onTap: ()async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => EventFormScreen(event: model)),
-                    );
-                    if(isAdmin){
-                      refresh!();
-                    }
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                     Icons.edit
-                       ,
-                    color: kWhite, //Color(0xFF76ACFF), // Color of the icon
-                    size: 24, // Size of the icon
-                  ),
-                ),
-              ): SaveButton(event: model),
+              child: isAdmin
+                  ? InkWell(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  EventFormScreen(event: model)),
+                        );
+                        if (isAdmin) {
+                          refresh!();
+                        }
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.edit,
+                          color:
+                              kWhite, //Color(0xFF76ACFF), // Color of the icon
+                          size: 24, // Size of the icon
+                        ),
+                      ),
+                    )
+                  : SaveButton(event: model),
             ),
           ],
         ));

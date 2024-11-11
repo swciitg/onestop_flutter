@@ -124,25 +124,32 @@ class _EventsScreenState extends State<EventsScreen>
                 // Added TabController to TabBarView
                 children: [
                   FutureBuilder(
-                      future: context.read<EventsStore>().getAllSavedEvents(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          List<EventModel> events =
-                              snapshot.data as List<EventModel>;
-                          context.read<EventsStore>().setSavedEvents(events);
-                          return SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: Observer(builder: (context) {
-                                return Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: context
-                                        .read<EventsStore>()
-                                        .savedScroll);
-                              }));
-                        }
-                        return Container();
-                      }),
+                    future: context.read<EventsStore>().getAllSavedEvents(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<EventModel> events =
+                            snapshot.data as List<EventModel>;
+                        context.read<EventsStore>().setSavedEvents(events);
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Observer(
+                            builder: (context) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children:
+                                    context.read<EventsStore>().savedScroll,
+                              );
+                            },
+                          ),
+                        );
+                      }
+                      // Add a loading indicator while fetching data
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  ),
                   EventListView(pagingController: _pagingControllers['All']!),
                   EventListView(
                       pagingController: _pagingControllers['Academic']!),
@@ -209,15 +216,22 @@ class EventListView extends StatelessWidget {
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate<EventModel>(
         itemBuilder: (context, event, index) {
-          // Filter for events that are ongoing or upcoming
-          final currentTime = DateTime.now();
-          if (event.endDateTime.isAfter(currentTime)) {
+          final currentTime = DateTime.now().toLocal();
+          final eventEndDateTime = event.endDateTime.toUtc();
+
+          // Compare hours and minutes
+          final isEventUpcomingbyhr =
+              eventEndDateTime.hour > currentTime.hour ||
+                  (eventEndDateTime.hour == currentTime.hour &&
+                      eventEndDateTime.minute > currentTime.minute);
+          final isEventUpcomingByDate = eventEndDateTime.day >= currentTime.day;
+          if (isEventUpcomingbyhr && isEventUpcomingByDate) {
             return EventTile(
               onTap: () => _navigateToEventDetails(context, event),
               model: event,
             );
           }
-          return Container(); // Return an empty container for events that don't match
+          return const SizedBox.shrink();
         },
         firstPageErrorIndicatorBuilder: (context) => ErrorReloadScreen(
           reloadCallback: () => pagingController.refresh(),

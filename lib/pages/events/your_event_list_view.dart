@@ -46,12 +46,27 @@ class _YourEventListViewState extends State<YourEventListView> {
           PagedListView<int, EventModel>(
             pagingController: widget.pagingController,
             builderDelegate: PagedChildBuilderDelegate<EventModel>(
-              itemBuilder: (context, event, index) => EventTile(
-                onTap: () => _navigateToEventDetails(context, event),
-                model: event,
-                isAdmin: true,
-                refresh: widget.refresh,
-              ),
+              itemBuilder: (context, event, index) {
+                final currentTime = DateTime.now().toLocal();
+                final eventEndDateTime = event.endDateTime.toUtc();
+
+                // Compare hours and minutes
+                final isEventUpcomingbyhr =
+                    eventEndDateTime.hour > currentTime.hour ||
+                        (eventEndDateTime.hour == currentTime.hour &&
+                            eventEndDateTime.minute > currentTime.minute);
+                final isEventUpcomingByDate =
+                    eventEndDateTime.day >= currentTime.day;
+                if (isEventUpcomingbyhr && isEventUpcomingByDate) {
+                  return EventTile(
+                    onTap: () => _navigateToEventDetails(context, event),
+                    model: event,
+                    isAdmin: true,
+                    refresh: widget.refresh,
+                  );
+                }
+                return Container();
+              },
               firstPageErrorIndicatorBuilder: (context) => ErrorReloadScreen(
                 reloadCallback: () => widget.pagingController.refresh(),
               ),
