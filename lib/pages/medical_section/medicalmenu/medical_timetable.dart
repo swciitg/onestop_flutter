@@ -33,7 +33,6 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
     calendarController.dispose();
     super.dispose();
   }
-  // List<Map<int, List<List<String>>>> data1 = [];
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +45,11 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
           builder: (context) {
             return Column(
               children: [
-                // MedicalDateSlider stays fixed at the top
                 const SizedBox(
                   height: 130,
                   child: MedicalDateSlider(),
                 ),
                 const SizedBox(height: 10),
-                // Scrollable content below
                 Expanded(
                   child: FutureBuilder(
                     future: store.initialiseMedicalTT(),
@@ -65,26 +62,35 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
 
                       return Observer(builder: (context) {
                         final docs = store.todayMedicalTimeTable;
-                        final displayDate = DateTime.now()
-                            .add(Duration(days: store.selectedDate));
+
+                        // Determine if the selected day is today
+                        final isToday = store.selectedDate == 0;
+                        DateTime displayDate;
+
+                        // Set displayDate to current time if today, or midnight if another day
+                        if (isToday) {
+                          displayDate = DateTime.now();
+                        } else {
+                          displayDate = DateTime.now()
+                              .add(Duration(days: store.selectedDate))
+                              .copyWith(hour: 7, minute: 0);
+                        }
+
                         calendarController.displayDate = displayDate;
+
                         return SfCalendar(
                           controller: calendarController,
                           todayHighlightColor: kWhite,
                           showCurrentTimeIndicator: true,
-
                           view: CalendarView.timelineDay,
                           maxDate: maxDate,
                           minDate: minDate,
-                          dataSource:
-                              EventDataSource(docs, selectedDate: displayDate),
+                          dataSource: EventDataSource(docs, selectedDate: displayDate),
                           timeSlotViewSettings: TimeSlotViewSettings(
                             timeInterval: const Duration(hours: 1),
                             timeIntervalWidth: 80,
                             timeTextStyle: MyFonts.w500.setColor(kWhite),
                           ),
-
-                          //Month year
                           headerStyle: CalendarHeaderStyle(
                             textStyle: MyFonts.w500.setColor(kWhite),
                             backgroundColor: kBackground,
@@ -98,18 +104,14 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                           onDragUpdate: (details) {
                             if (details.draggingTime == null) return;
                             setState(() {
-                              int date = details.draggingTime!.day -
-                                  DateTime.now().day;
+                              int date = details.draggingTime!.day - DateTime.now().day;
                               if (date >= 0 && date < 7) {
                                 store.selectedDate = date;
                               }
                             });
                           },
-                          appointmentBuilder:
-                              (context, calendarAppointmentDetails) {
-                            final docs =
-                                (calendarAppointmentDetails.appointments)
-                                    .toList();
+                          appointmentBuilder: (context, calendarAppointmentDetails) {
+                            final docs = (calendarAppointmentDetails.appointments).toList();
                             final doctor = docs.first as DoctorModel;
                             return InkWell(
                               onTap: () {
@@ -124,46 +126,30 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text('Name: ${doctor.doctor.name!}',
-                                              style: MyFonts.w500
-                                                  .setColor(kWhite)
+                                              style: MyFonts.w500.setColor(kWhite)
                                                   .copyWith(fontSize: 14)),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
+                                          const SizedBox(height: 5),
                                           Text('Degree: ${doctor.doctor.degree!}',
-                                              style: MyFonts.w500
-                                                  .setColor(kWhite)
+                                              style: MyFonts.w500.setColor(kWhite)
                                                   .copyWith(fontSize: 14)),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                              'Category: ${doctor.doctor.designation!}',
-                                              style: MyFonts.w500
-                                                  .setColor(kWhite)
+                                          const SizedBox(height: 5),
+                                          Text('Category: ${doctor.doctor.designation!}',
+                                              style: MyFonts.w500.setColor(kWhite)
                                                   .copyWith(fontSize: 14)),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                              'Timings: ${doctor.startTime1!} - ${doctor.endTime1!}',
-                                              style: MyFonts.w500
-                                                  .setColor(kWhite)
+                                          const SizedBox(height: 5),
+                                          Text('Timings: ${doctor.startTime1!} - ${doctor.endTime1!}',
+                                              style: MyFonts.w500.setColor(kWhite)
                                                   .copyWith(fontSize: 14)),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
+                                          const SizedBox(height: 5),
                                         ],
                                       ),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
-                                            Navigator.of(context)
-                                                .pop(); // Close the dialog
+                                            Navigator.of(context).pop();
                                           },
                                           child: Text('Close',
-                                              style: MyFonts.w300
-                                                  .setColor(kWhite)),
+                                              style: MyFonts.w300.setColor(kWhite)),
                                         ),
                                       ],
                                     );
@@ -183,20 +169,14 @@ class _MedicalTimetableState extends State<MedicalTimetable> {
                                     children: [
                                       Text(
                                         doctor.doctor.name!,
-                                        style: MyFonts.w600
-                                            .setColor(kWhite)
-                                            .copyWith(
-                                              fontSize: 14,
-                                            ),
+                                        style: MyFonts.w600.setColor(kWhite)
+                                            .copyWith(fontSize: 14),
                                         overflow: TextOverflow.clip,
                                       ),
                                       Text(
                                         doctor.doctor.degree!,
-                                        style: MyFonts.w600
-                                            .setColor(kWhite)
-                                            .copyWith(
-                                              fontSize: 14,
-                                            ),
+                                        style: MyFonts.w600.setColor(kWhite)
+                                            .copyWith(fontSize: 14),
                                         overflow: TextOverflow.clip,
                                       ),
                                     ],
@@ -261,7 +241,7 @@ AppBar _buildAppBar(BuildContext context) {
 }
 
 Future<void> _launchURL(String url) async {
-  final Uri uri = Uri.parse(url); // Use Uri.parse to handle the full URL
+  final Uri uri = Uri.parse(url);
   if (!await launchUrl(
     uri,
     mode: LaunchMode.externalApplication,
@@ -284,14 +264,13 @@ class EventDataSource extends CalendarDataSource {
     if (data.last == "PM" && hr != 12) {
       hr += 12;
     }
-    DateTime finalDateTime = DateTime(
+    return DateTime(
       selectedDate.year,
       selectedDate.month,
       selectedDate.day,
       hr,
       min,
     );
-    return finalDateTime;
   }
 
   @override
@@ -313,9 +292,7 @@ class EventDataSource extends CalendarDataSource {
   @override
   Color getColor(int index) {
     final doc = (appointments![index] as DoctorModel);
-    return doc.category! == "Institute_docs"
-        ? kTimetableDisabled
-        : kTimetableGreen;
+    return doc.category! == "Institute_docs" ? kTimetableDisabled : kTimetableGreen;
   }
 
   @override
