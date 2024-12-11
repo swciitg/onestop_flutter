@@ -1,12 +1,14 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../functions/utility/show_snackbar.dart';
 import '../../functions/utility/validator.dart';
 import '../../globals/my_colors.dart';
@@ -105,7 +107,7 @@ class _EditProfileState extends State<EditProfile> {
           };
           print(data);
           try {
-            await APIService().updateUserProfile(data, null);
+            await APIRepository().updateUserProfile(data, null);
             await LocalStorage.instance.deleteRecord(DatabaseRecords.timetable);
           } catch (e) {
             setState(() {
@@ -114,7 +116,7 @@ class _EditProfileState extends State<EditProfile> {
             showSnackBar(e.toString());
             return;
           }
-          Map userInfo = await APIService().getUserProfile();
+          Map userInfo = await APIRepository().getUserProfile();
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString("userInfo", jsonEncode(userInfo));
           await LoginStore().saveToUserInfo(

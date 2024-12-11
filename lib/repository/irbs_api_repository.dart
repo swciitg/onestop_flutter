@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
-class IRBSApiService extends OneStopApi {
-  IRBSApiService()
+class IrbsApiRepository extends OneStopApi {
+  IrbsApiRepository()
       : super(
           onestopBaseUrl: Endpoints.baseUrl,
           serverBaseUrl: Endpoints.irbsBaseUrl,

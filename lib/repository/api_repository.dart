@@ -14,13 +14,13 @@ import 'package:onestop_dev/models/medicaltimetable/doctor_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
-class APIService extends OneStopApi {
+class APIRepository extends OneStopApi {
   final dio2 = Dio(BaseOptions(
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 15),
       headers: Endpoints.getHeader()));
 
-  APIService()
+  APIRepository()
       : super(
           onestopBaseUrl: Endpoints.baseUrl,
           serverBaseUrl: Endpoints.baseUrl,
@@ -55,7 +55,7 @@ class APIService extends OneStopApi {
 
   Future<Map> getUserProfile() async {
     try {
-      var response = await serverDio.get(Endpoints.userProfile);
+      final response = await serverDio.get(Endpoints.userProfile);
       return response.data;
     } catch (e) {
       throw DioException(

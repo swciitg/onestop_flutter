@@ -10,7 +10,7 @@ import 'package:onestop_dev/globals/working_days.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/timetable/timetable_day.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/timetable/timetable_tile.dart';
 import 'package:onestop_dev/widgets/ui/text_divider.dart';
@@ -33,7 +33,7 @@ abstract class _TimetableStore with Store {
 
   Future<RegisteredCourses> getCourses() async {
     courses ??=
-        await DataProvider.getTimeTable(roll: LoginStore.userData['rollNo']);
+        await DataService.getTimeTable(roll: LoginStore.userData['rollNo']);
     return courses!;
   }
 

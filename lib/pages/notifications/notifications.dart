@@ -4,8 +4,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/pages/notifications/notification_settings.dart';
-import 'package:onestop_dev/services/api.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
+import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/notifications/notification_tile.dart';
@@ -76,7 +76,7 @@ class _NotificationPageState extends State<NotificationPage>
         ),
       ),
       body: FutureBuilder<Map<String, List<NotifsModel>>>(
-          future: DataProvider.getNotifications(),
+          future: DataService.getNotifications(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return ErrorReloadScreen(reloadCallback: () {
@@ -188,7 +188,7 @@ class _NotificationPageState extends State<NotificationPage>
         return store.isPersonalNotif
             ? FloatingActionButton(
                 onPressed: () async {
-                  await APIService().deletePersonalNotif();
+                  await APIRepository().deletePersonalNotif();
                 },
                 backgroundColor: lBlue2,
                 child: const Icon(

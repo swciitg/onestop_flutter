@@ -2,7 +2,7 @@
 
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/services/data_service.dart';
 
 part 'travel_store.g.dart';
 
@@ -35,7 +35,7 @@ abstract class _TravelStore with Store {
   Future<List<TravelTiming>> getBusTimings() async {
     if (busTimings.isEmpty) {
       busTimings =
-          ObservableList<TravelTiming>.of((await DataProvider.getBusTiming()));
+          ObservableList<TravelTiming>.of((await DataService.getBusTiming()));
     }
     return busTimings;
   }
@@ -43,8 +43,8 @@ abstract class _TravelStore with Store {
   @action
   Future<List<TravelTiming>> getFerryTimings() async {
     if (ferryTimings.isEmpty) {
-      ferryTimings = ObservableList<TravelTiming>.of(
-          (await DataProvider.getFerryTiming()));
+      ferryTimings =
+          ObservableList<TravelTiming>.of((await DataService.getFerryTiming()));
     }
     return ferryTimings;
   }

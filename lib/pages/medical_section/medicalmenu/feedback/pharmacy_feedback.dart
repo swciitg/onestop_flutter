@@ -6,7 +6,7 @@ import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/profile/custom_date_picker.dart';
@@ -36,8 +36,10 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
   @override
   void initState() {
     super.initState();
-    patientName.text = LoginStore.isGuest?"": LoginStore.userData['name'] ?? "";
-    mobilenumber.text = LoginStore.isGuest?"": LoginStore.userData['phoneNumber'].toString();
+    patientName.text =
+        LoginStore.isGuest ? "" : LoginStore.userData['name'] ?? "";
+    mobilenumber.text =
+        LoginStore.isGuest ? "" : LoginStore.userData['phoneNumber'].toString();
     _datecontroller.text = DateFormat('dd-MMM-yyyy')
         .format(DateTime.parse(DateTime.now().toIso8601String()));
     selecteddate = DateTime.now();
@@ -453,7 +455,7 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                               data['remarks'] = remarks.text;
                               data['patientEmail'] = patientEmail;
                               try {
-                                var response = await APIService()
+                                var response = await APIRepository()
                                     .postPharmacyFeedback(data);
                                 if (!mounted) return;
                                 if (response['success']) {

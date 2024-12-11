@@ -5,11 +5,12 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/medicalcontacts/dropdown_contact_model.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_kit/onestop_kit.dart';
-import '../../../../services/data_provider.dart';
+
+import '../../../../services/data_service.dart';
 import '../../../../widgets/upsp/file_tile.dart';
 import '../../../../widgets/upsp/upload_button.dart';
 
@@ -22,6 +23,7 @@ class DoctorFeedback extends StatefulWidget {
 
 class _DoctorFeedbackState extends State<DoctorFeedback> {
   List<String> files = [];
+
   //final TextEditingController doctorName = TextEditingController();
   final TextEditingController remarks = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -34,7 +36,7 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
   void initState() {
     super.initState();
     selecteddate = DateTime.now();
-    medicalContacts = DataProvider.getDropDownContacts();
+    medicalContacts = DataService.getDropDownContacts();
   }
 
   @override
@@ -139,16 +141,16 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                doctor
-                                                    .name!, // Display the doctor's name
+                                                doctor.name!,
+                                                // Display the doctor's name
                                                 style: OnestopFonts.w500
                                                     .size(16)
                                                     .setColor(kWhite),
                                               ),
                                               const SizedBox(height: 2),
                                               Text(
-                                                doctor
-                                                    .designation!, // Display doctor's designation or other data
+                                                doctor.designation!,
+                                                // Display doctor's designation or other data
                                                 style: OnestopFonts.w400
                                                     .size(12)
                                                     .setColor(kGrey8),
@@ -190,8 +192,8 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                                         hintStyle:
                                             const TextStyle(color: kGrey8),
                                       ),
-                                      dropdownColor:
-                                          kBackground, // Dropdown background color
+                                      dropdownColor: kBackground,
+                                      // Dropdown background color
                                       icon: const Icon(Icons.arrow_drop_down,
                                           color: kWhite),
                                       isExpanded: true,
@@ -298,8 +300,8 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                               data['rollNo'] = userData['rollNo'];
                               // print(data);
                               try {
-                                var response =
-                                    await APIService().postDoctorFeedback(data);
+                                var response = await APIRepository()
+                                    .postDoctorFeedback(data);
                                 if (!mounted) return;
                                 if (response['success']) {
                                   showSnackBar(

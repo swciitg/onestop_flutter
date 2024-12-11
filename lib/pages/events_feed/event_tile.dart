@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
-import 'package:onestop_dev/pages/events/widgets/save_button.dart';
+import 'package:onestop_dev/pages/events_feed/widgets/save_button.dart';
 
 import 'event_form_screen.dart';
 
@@ -14,12 +14,11 @@ class EventTile extends StatelessWidget {
   final VoidCallback? refresh;
 
   const EventTile(
-      {Key? key,
+      {super.key,
       required this.onTap,
       required this.model,
       this.isAdmin = false,
-      this.refresh})
-      : super(key: key);
+      this.refresh});
 
   @override
   Widget build(BuildContext context) {

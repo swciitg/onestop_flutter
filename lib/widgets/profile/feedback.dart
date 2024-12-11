@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/main.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -201,7 +201,7 @@ class _FeedBackState extends State<FeedBack> {
                               };
                               setState(() => enableSubmitButton = false);
                               bool success =
-                                  await APIService().postFeedbackData(data);
+                                  await APIRepository().postFeedbackData(data);
                               String snackBar =
                                   "There was an error while sending your feedback.\nPlease try again later or reach out to any member using the Contacts section.";
                               if (success) {

@@ -5,10 +5,10 @@ import 'package:logger/logger.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
-import 'package:onestop_dev/pages/events/event_description.dart';
-import 'package:onestop_dev/pages/events/event_tile.dart';
+import 'package:onestop_dev/pages/events_feed/event_description.dart';
+import 'package:onestop_dev/pages/events_feed/event_tile.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
-import 'package:onestop_dev/services/events_api_service.dart';
+import 'package:onestop_dev/repository/events_api_repository.dart';
 import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -71,11 +71,11 @@ class _EventsScreenState extends State<EventsScreen>
       String category, int pageKey) async {
     Logger().i("fetching the category of $category");
     try {
-      final newItems = await EventsApiService().getEventPage(category);
-      Logger().i("Loaded ${newItems.length} events for $category");
+      final newItems = await EventsAPIRepository().getEventPage(category);
+      Logger().i("Loaded ${newItems.length} events_feed for $category");
       controller.appendLastPage(newItems);
     } catch (error) {
-      Logger().i("Error fetching events: $error");
+      Logger().i("Error fetching events_feed: $error");
       controller.error = error;
     }
   }
@@ -237,7 +237,7 @@ class EventListView extends StatelessWidget {
           reloadCallback: () => pagingController.refresh(),
         ),
         noItemsFoundIndicatorBuilder: (context) => const PaginationText(
-          text: "No events found",
+          text: "No events_feed found",
         ),
         firstPageProgressIndicatorBuilder: (context) => ListShimmer(
           count: 5,

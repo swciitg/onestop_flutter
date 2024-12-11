@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_menu.dart';
 import 'package:onestop_dev/widgets/food/outlets_filter.dart';
 import 'package:onestop_dev/widgets/food/restaurant/restaurant_tile.dart';
@@ -41,7 +41,7 @@ class FoodTab extends StatelessWidget {
                   const OutletsFilter(),
                   const SizedBox(height: 10),
                   FutureBuilder<List<RestaurantModel>>(
-                      future: DataProvider.getRestaurants(),
+                      future: DataService.getRestaurants(),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<RestaurantModel>> snapshot) {
                         if (snapshot.hasData) {

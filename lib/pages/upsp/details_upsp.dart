@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/home/home.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
@@ -246,7 +246,8 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                             data['roll_number'] = rollNo.text;
                             data['email'] = email;
                             try {
-                              var response = await APIService().postUPSP(data);
+                              var response =
+                                  await APIRepository().postUPSP(data);
                               if (!mounted) return;
                               if (response['success']) {
                                 showSnackBar(

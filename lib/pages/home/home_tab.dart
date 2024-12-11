@@ -4,7 +4,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/home/date_course.dart';
@@ -53,7 +53,7 @@ class _HomeTabState extends State<HomeTab> {
         children: [
           const SizedBox(height: 10),
           FutureBuilder<List<HomeImageModel>>(
-              future: DataProvider.getHomeImageLinks(),
+              future: DataService.getHomeImageLinks(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Padding(
@@ -176,7 +176,7 @@ class _HomeTabState extends State<HomeTab> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: FutureBuilder<List<HomeTabTile>>(
-                future: DataProvider.getQuickLinks(),
+                future: DataService.getQuickLinks(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return HomeLinks(

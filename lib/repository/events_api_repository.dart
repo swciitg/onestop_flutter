@@ -4,15 +4,13 @@ import 'package:onestop_dev/models/event_scheduler/admin_model.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
-class EventsApiService extends OneStopApi {
-  EventsApiService()
-      // THE SUPER CONSTRUCTOR HANDLES THE API INTERCEPTORS TO ADD THE
-      // APPROPRIATE AUTHENTICATION HEADERS AND SECURITY KEY FOR EVERY REQUEST
-      // MADE USING 'serverDio' OBJECT
+class EventsAPIRepository extends OneStopApi {
+  EventsAPIRepository()
       : super(
-            onestopBaseUrl: Endpoints.baseUrl,
-            serverBaseUrl: Endpoints.eventsBaseUrl,
-            onestopSecurityKey: Endpoints.apiSecurityKey);
+          onestopBaseUrl: Endpoints.baseUrl,
+          serverBaseUrl: Endpoints.eventsBaseUrl,
+          onestopSecurityKey: Endpoints.apiSecurityKey,
+        );
 
   Future<Admin?> getAdmins() async {
     var response = await serverDio.get(Endpoints.getEventAdmin);
@@ -39,12 +37,8 @@ class EventsApiService extends OneStopApi {
 
   Future<Map<String, dynamic>> putEvent(
       String id, Map<String, dynamic> data) async {
-    // Make a PATCH request to the API with the updated event data
-    var res = await serverDio.put(
-      '/$id', // Replace with the actual endpoint
-      data: FormData.fromMap(data),
-    );
-    return res.data; // Return the response data
+    var res = await serverDio.put('/$id', data: FormData.fromMap(data));
+    return res.data;
   }
 
   Future<List<EventModel>> getEventPage(String category) async {
@@ -52,8 +46,9 @@ class EventsApiService extends OneStopApi {
     var json = response.data[category];
 
     if (json != null) {
-      List<EventModel> eventPage =
-          (json as List<dynamic>).map((e) => EventModel.fromJson(e)).toList();
+      List<EventModel> eventPage = (json as List<dynamic>).map((e) {
+        return EventModel.fromJson(e);
+      }).toList();
       return eventPage;
     } else {
       return [];

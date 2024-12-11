@@ -12,14 +12,14 @@ import 'package:onestop_dev/models/medicaltimetable/all_doctors.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 import '../models/home/home_image.dart';
 
-class DataProvider {
+class DataService {
   static Future<Map<String, dynamic>?> getLastUpdated() async {
     var cachedData =
         await LocalStorage.instance.getListRecord(DatabaseRecords.lastUpdated);
@@ -34,7 +34,7 @@ class DataProvider {
         await LocalStorage.instance.getListRecord(DatabaseRecords.busTimings);
     Map<String, dynamic> jsonData;
     if (cachedData == null) {
-      jsonData = await APIService().getBusTiming();
+      jsonData = await APIRepository().getBusTiming();
       await LocalStorage.instance
           .storeListRecord([jsonData], DatabaseRecords.busTimings);
     } else {
@@ -73,7 +73,7 @@ class DataProvider {
 
     if (cachedData == null) {
       List<Map<String, dynamic>> restaurantData =
-          await APIService().getRestaurantData();
+          await APIRepository().getRestaurantData();
       List<RestaurantModel> restaurants =
           restaurantData.map((e) => RestaurantModel.fromJson(e)).toList();
 
@@ -92,7 +92,7 @@ class DataProvider {
         .getListRecord(DatabaseRecords.timetable))?[0];
     if (cachedData == null) {
       RegisteredCourses timetableData =
-          await APIService().getTimeTable(roll: roll);
+          await APIRepository().getTimeTable(roll: roll);
       await LocalStorage.instance
           .storeListRecord([timetableData.toJson()], DatabaseRecords.timetable);
       return timetableData;
@@ -106,7 +106,7 @@ class DataProvider {
     List<HomeImageModel> res = [];
     List<Map<String, dynamic>> imageLinks;
     if (cachedData == null) {
-      final homePageUrls = await APIService().getHomePageUrls();
+      final homePageUrls = await APIRepository().getHomePageUrls();
       imageLinks =
           (homePageUrls['cardsDataList'] as List).cast<Map<String, dynamic>>();
       await LocalStorage.instance
@@ -129,7 +129,7 @@ class DataProvider {
     var quickLinks;
     if (cachedData == null) {
       try {
-        var homePageUrls = await APIService().getHomePageUrls();
+        var homePageUrls = await APIRepository().getHomePageUrls();
         quickLinks = homePageUrls['quickLinks'];
         await LocalStorage.instance
             .storeJsonRecord(homePageUrls, DatabaseRecords.homePage);
@@ -168,7 +168,7 @@ class DataProvider {
     Map<String, dynamic>? jsonData;
 
     if (cachedData == null) {
-      jsonData = await APIService().getMealData();
+      jsonData = await APIRepository().getMealData();
       LocalStorage.instance
           .storeListRecord([jsonData], DatabaseRecords.messMenu);
     } else {
@@ -206,7 +206,7 @@ class DataProvider {
     SplayTreeMap<String, ContactModel> people = SplayTreeMap();
     if (cachedData == null) {
       List<Map<String, dynamic>> contactData =
-          await APIService().getContactData();
+          await APIRepository().getContactData();
       for (var element in contactData) {
         people[element['sectionName']] = ContactModel.fromJson(element);
       }
@@ -224,7 +224,7 @@ class DataProvider {
 
   static Future<AllDoctors> getMedicalTimeTable() async {
     try {
-      return await APIService().getmedicalTimeTable();
+      return await APIRepository().getmedicalTimeTable();
     } catch (e) {
       debugPrint("Error Fetching Medical TT");
       rethrow;
@@ -235,7 +235,7 @@ class DataProvider {
     Allmedicalcontacts medicalContactData = Allmedicalcontacts(alldoctors: []);
     try {
       Allmedicalcontacts? medicalContactData =
-          await APIService().getMedicalContactData();
+          await APIRepository().getMedicalContactData();
       return medicalContactData;
     } catch (e) {
       print(e);
@@ -249,7 +249,7 @@ class DataProvider {
         .getListRecord(DatabaseRecords.dropdowncontacts);
     try {
       List<Map<String, dynamic>> DropDownData =
-          await APIService().getDropDownContacts();
+          await APIRepository().getDropDownContacts();
       await LocalStorage.instance
           .storeListRecord(DropDownData, DatabaseRecords.medicalcontacts);
       for (var element in DropDownData) {
@@ -272,7 +272,7 @@ class DataProvider {
   }
 
   static Future<Map<String, List<NotifsModel>>> getNotifications() async {
-    var response = await APIService().getNotifications();
+    var response = await APIRepository().getNotifications();
     Map<String, List<NotifsModel>> output = {
       "userPersonalNotifs": [],
       "allTopicNotifs": []
@@ -292,7 +292,7 @@ class DataProvider {
         await LocalStorage.instance.getListRecord(DatabaseRecords.ferryTimings);
     Map<String, dynamic> jsonData;
     if (cachedData == null) {
-      jsonData = await APIService().getFerryTiming();
+      jsonData = await APIRepository().getFerryTiming();
       await LocalStorage.instance
           .storeListRecord([jsonData], DatabaseRecords.ferryTimings);
     } else {

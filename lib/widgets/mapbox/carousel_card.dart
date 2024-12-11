@@ -6,7 +6,7 @@ import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +24,7 @@ class CarouselCard extends StatelessWidget {
       String today = getFormattedDay();
       if (context.read<MapBoxStore>().indexBusesorFerry == 0) {
         // List<TravelTiming> allBusTimes = await APIService().getBusTiming();
-        List<TravelTiming> allBusTimes = await DataProvider.getBusTiming();
+        List<TravelTiming> allBusTimes = await DataService.getBusTiming();
         List<DateTime> weekdaysTimes = [];
         List<DateTime> weekendTimes = [];
         for (var xyz in allBusTimes) {
@@ -52,7 +52,7 @@ class CarouselCard extends StatelessWidget {
         return 'Next Bus at: ${nextTime(weekdaysTimes)}';
       } else {
         // List<TravelTiming> ferryTimings = await APIService().getFerryTiming();
-        List<TravelTiming> ferryTimings = await DataProvider.getFerryTiming();
+        List<TravelTiming> ferryTimings = await DataService.getFerryTiming();
         List<DateTime> weekdaysTimes = [];
         List<DateTime> weekendTimes = [];
         TravelTiming requiredModel =

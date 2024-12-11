@@ -8,7 +8,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/pages/contact/contact_detail.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/widgets/contact/contact_dialog.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
@@ -25,7 +25,7 @@ class ContactSearchBar extends StatelessWidget {
     return SizedBox(
       height: 50,
       child: FutureBuilder<SplayTreeMap<String, ContactModel>>(
-        future: DataProvider.getContacts(),
+        future: DataService.getContacts(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var contactStore = context.read<ContactStore>();

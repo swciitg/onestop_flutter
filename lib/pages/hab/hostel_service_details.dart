@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
-import 'package:onestop_dev/functions/utility/validator.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
-import 'package:onestop_dev/pages/hab/hostel_service.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
@@ -54,6 +52,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
   TextEditingController roomNo = TextEditingController();
   List<Hostel> hostels = Hostel.values;
   DateTime? selectedDate;
+
   //final _formKey = GlobalKey<FormState>();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -163,7 +162,8 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                       ),
                                       TextSpan(
                                         text:
-                                            'File your complaint 72 hours after registering on the IPM portal.', // Rest of the text
+                                            'File your complaint 72 hours after registering on the IPM portal.',
+                                        // Rest of the text
                                         style: OnestopFonts.w600
                                             .size(11)
                                             .setColor(kGrey8),
@@ -691,7 +691,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                     print(data);
 
                                     var response =
-                                        await APIService().postHAB(data);
+                                        await APIRepository().postHAB(data);
                                     print(response);
                                     if (!mounted) return;
                                     if (response['success']) {

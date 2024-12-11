@@ -2,8 +2,8 @@
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/functions/food/get_day.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
-import 'package:onestop_dev/services/data_provider.dart';
-import 'package:onestop_dev/services/irbs_api_service.dart';
+import 'package:onestop_dev/repository/irbs_api_repository.dart';
+import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -73,13 +73,13 @@ abstract class _MessStore with Store {
   void setupReactions() async {
     autorun((_) async {
       if (selectedMess.status == FutureStatus.fulfilled) {
-        MealType requiredModel = await DataProvider.getMealData(
+        MealType requiredModel = await DataService.getMealData(
             mess: selectedMess.value!,
             day: selectedDay,
             mealType: selectedMeal);
         setMealData(requiredModel);
       } else {
-        MealType requiredModel = await DataProvider.getMealData(
+        MealType requiredModel = await DataService.getMealData(
             mess: defaultMess, day: selectedDay, mealType: selectedMeal);
         setMealData(requiredModel);
       }
@@ -100,12 +100,12 @@ abstract class _MessStore with Store {
 
   Future<Map<String, dynamic>> postMessSubChange(
       Map<String, dynamic> data) async {
-    final res = await IRBSApiService().postMessSubChange(data);
+    final res = await IrbsApiRepository().postMessSubChange(data);
     return res;
   }
 
   Future<Map<String, dynamic>> postMessOpi(Map<String, dynamic> data) async {
-    final res = await IRBSApiService().postMessOpi(data);
+    final res = await IrbsApiRepository().postMessOpi(data);
     return res;
   }
 }

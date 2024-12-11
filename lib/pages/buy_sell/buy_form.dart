@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home/home.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/services/moderation_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/buy_sell/buy_sell_field.dart';
@@ -197,16 +197,16 @@ class _BuySellFormState extends State<BuySellForm> {
 
           try {
             if (widget.category == "Sell") {
-              res = await APIService().postSellData(data);
+              res = await APIRepository().postSellData(data);
             }
             if (widget.category == "Buy") {
-              res = await APIService().postBuyData(data);
+              res = await APIRepository().postBuyData(data);
             }
             if (widget.category == "Lost") {
-              res = await APIService().postLostData(data);
+              res = await APIRepository().postLostData(data);
             }
             if (widget.category == "Found") {
-              res = await APIService().postFoundData(data);
+              res = await APIRepository().postFoundData(data);
             }
             // ignore: empty_catches
           } catch (e) {

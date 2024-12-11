@@ -1,8 +1,8 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
-import 'package:onestop_dev/services/api.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
+import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 
 Map<String, List<String>> recordNames = {
@@ -21,10 +21,10 @@ Future<bool> checkLastUpdated() async {
     return true;
   }
 
-  Map<String, dynamic>? lastUpdated = await DataProvider.getLastUpdated();
+  Map<String, dynamic>? lastUpdated = await DataService.getLastUpdated();
 
   try {
-    Map<String, dynamic> last = await APIService().getLastUpdated();
+    Map<String, dynamic> last = await APIRepository().getLastUpdated();
 
     if (lastUpdated == null) {
       await LocalStorage.instance.deleteAllRecord();

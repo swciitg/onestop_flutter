@@ -3,13 +3,15 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
-import 'package:onestop_dev/pages/events/events_screen.dart';
-import 'package:onestop_dev/pages/events/your_event_list_view.dart';
-import 'package:onestop_dev/services/events_api_service.dart';
+import 'package:onestop_dev/pages/events_feed/events_screen.dart';
+import 'package:onestop_dev/pages/events_feed/your_event_list_view.dart';
+import 'package:onestop_dev/repository/events_api_repository.dart';
 import 'package:onestop_dev/stores/event_store.dart';
 import 'package:provider/provider.dart';
 
 class EventsScreen1 extends StatefulWidget {
+  const EventsScreen1({super.key});
+
   @override
   State<EventsScreen1> createState() => _EventsScreen1State();
 }
@@ -63,7 +65,7 @@ class _EventsScreen1State extends State<EventsScreen1>
   Future<void> _fetchPage(PagingController<int, EventModel> controller,
       String category, int pageKey) async {
     try {
-      final newItems = await EventsApiService().getEventPage(category);
+      final newItems = await EventsAPIRepository().getEventPage(category);
       final isLastPage = newItems.length < EventsStore().pageSize;
       if (isLastPage) {
         controller.appendLastPage(newItems);

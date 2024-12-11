@@ -8,7 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/pages/travel/data.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
 
 part 'mapbox_store.g.dart';
@@ -138,7 +138,7 @@ abstract class _MapBoxStore with Store {
 
   @action
   Future<void> getPolylines(int i, BuildContext context) async {
-    loadOperation = APIService()
+    loadOperation = APIRepository()
         .getPolyline(
             source: LatLng(userlat, userlong),
             dest: const LatLng(26.2027, 91.7004))
@@ -283,6 +283,7 @@ abstract class _MapBoxStore with Store {
   final pointIcon = 'assets/images/pointicon.png';
   final busIcon = 'assets/images/busicon.png';
   final restaurauntIcon = 'assets/images/restaurantIcon.png';
+
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),

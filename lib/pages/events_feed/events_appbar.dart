@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:onestop_dev/pages/events/events_screen.dart';
-import 'package:onestop_dev/pages/events/events_screen_admin.dart';
-import 'package:onestop_dev/services/events_api_service.dart';
+import 'package:onestop_dev/pages/events_feed/events_screen.dart';
+import 'package:onestop_dev/pages/events_feed/events_screen_admin.dart';
+import 'package:onestop_dev/repository/events_api_repository.dart';
 import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 class EventsScreenWrapper extends StatefulWidget {
   const EventsScreenWrapper({super.key});
 
-  static const id = "/events/home";
+  static const id = "/events_feed/home";
 
   @override
   State<EventsScreenWrapper> createState() => _EventsScreenWrapperState();
@@ -39,7 +39,7 @@ class _EventsScreenWrapperState extends State<EventsScreenWrapper> {
   Future<bool> _checkIfUserIsAdminLogic() async {
     try {
       final email = LoginStore.userData['outlookEmail'];
-      final admin = await EventsApiService().getAdmins();
+      final admin = await EventsAPIRepository().getAdmins();
       if (admin == null) return false;
       bool isAdmin = admin.getUserClubs(email).isNotEmpty;
       return isAdmin;

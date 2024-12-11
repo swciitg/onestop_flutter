@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
-import 'package:onestop_dev/pages/events/event_form_screen.dart';
-import 'package:onestop_dev/services/events_api_service.dart';
+import 'package:onestop_dev/pages/events_feed/event_form_screen.dart';
+import 'package:onestop_dev/repository/events_api_repository.dart';
 
 class EventDetailsScreen extends StatefulWidget {
   final EventModel event;
@@ -51,7 +51,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                 print('Event deleted');
                 var res;
                 try {
-                  res = EventsApiService().deleteEvent(widget.event.id);
+                  res = EventsAPIRepository().deleteEvent(widget.event.id);
                   if (widget.isAdmin) {
                     widget.refresh!();
                   }

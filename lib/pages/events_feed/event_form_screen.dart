@@ -8,7 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
-import 'package:onestop_dev/services/events_api_service.dart';
+import 'package:onestop_dev/repository/events_api_repository.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
@@ -595,7 +595,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
 
     try {
       Logger().i("Uploading to server");
-      res = await EventsApiService().postEvent(data);
+      res = await EventsAPIRepository().postEvent(data);
     } catch (e) {
       showSnackBar('Some unknown error occurred!');
     }
@@ -652,7 +652,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
     );
 
     try {
-      res = await EventsApiService().putEvent(widget.event!.id, data);
+      res = await EventsAPIRepository().putEvent(widget.event!.id, data);
       // Hide the loading dialog after the event is updated
       nav.pop();
       showSnackBar('Event updated successfully!');

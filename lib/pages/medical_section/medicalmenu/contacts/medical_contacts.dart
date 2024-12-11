@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/medicalcontacts/allmedicalcontacts.dart';
 import 'package:onestop_dev/models/medicalcontacts/medicalcontact_model.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/widgets/medicalsection/medical_contact_dialog.dart';
 import 'package:onestop_dev/widgets/medicalsection/medical_contactpagebutton.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+
 import '../../../../globals/my_fonts.dart';
 
 class MedicalContacts extends StatefulWidget {
@@ -25,7 +26,7 @@ class _MedicalContactsState extends State<MedicalContacts> {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
         child: FutureBuilder<Allmedicalcontacts?>(
-            future: DataProvider.getMedicalContacts(),
+            future: DataService.getMedicalContacts(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 Allmedicalcontacts medicalAPIContacts =
@@ -177,13 +178,17 @@ Widget _buildContactList(List<MedicalcontactModel> medList) {
       shrinkWrap: true,
       primary: false,
       itemBuilder: (context, index) {
-        bool isMisc = medList[index].miscellaneous_contact.toString().length != 0;
-        var name = isMisc ? medList[index].miscellaneous_contact : medList[index].name.name;
+        bool isMisc =
+            medList[index].miscellaneous_contact.toString().length != 0;
+        var name = isMisc
+            ? medList[index].miscellaneous_contact
+            : medList[index].name.name;
         return InkWell(
           onTap: () {
             showDialog(
                 context: context,
-                builder: (_) => MedicalContactDialog(contact: medList[index], isMisc: isMisc),
+                builder: (_) => MedicalContactDialog(
+                    contact: medList[index], isMisc: isMisc),
                 barrierDismissible: true);
           },
           child: Card(
@@ -199,11 +204,18 @@ Widget _buildContactList(List<MedicalcontactModel> medList) {
                 children: [
                   Text(
                     name!,
-                    style: MyFonts.w500.setColor(kWhite).size(16).copyWith(fontWeight: FontWeight.bold),
+                    style: MyFonts.w500
+                        .setColor(kWhite)
+                        .size(16)
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8,),
+                  SizedBox(
+                    height: 8,
+                  ),
                   isMisc
-                      ? const SizedBox(height: 0,)
+                      ? const SizedBox(
+                          height: 0,
+                        )
                       : Text(
                           medList[index].name.designation!,
                           style: MyFonts.w500.size(14).setColor(kGrey11),

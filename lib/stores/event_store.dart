@@ -7,7 +7,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/event_scheduler/admin_model.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
-import 'package:onestop_dev/pages/events/event_tile.dart';
+import 'package:onestop_dev/pages/events_feed/event_tile.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
@@ -128,7 +128,7 @@ abstract class _EventsStore with Store {
         Padding(
           padding: const EdgeInsets.only(left: 15),
           child: Text(
-            "You have no active saved events",
+            "You have no active saved events_feed",
             style: MyFonts.w400.setColor(kGrey8),
           ),
         )

@@ -1,12 +1,10 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:logger/logger.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/enums.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -23,7 +21,7 @@ class LoginStore {
     if (user.containsKey("userInfo")) {
       if (await hasInternetConnection()) {
         try {
-          userInfo = await APIService().getUserProfile();
+          userInfo = await APIRepository().getUserProfile();
         } catch (e) {
           if ((e as DioException).response == null) {
             return SplashResponse.authenticated;
@@ -55,7 +53,7 @@ class LoginStore {
   Future<void> signInAsGuest() async {
     isGuest = true;
     SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-    final response = await APIService().guestUserLogin();
+    final response = await APIRepository().guestUserLogin();
 
     await Future.wait([
       saveTokensToPrefs(sharedPrefs, response.data),
@@ -71,7 +69,7 @@ class LoginStore {
       instance.setString(
           BackendHelper.refreshtoken, data[BackendHelper.refreshtoken]),
     ]);
-    Map userInfo = await APIService().getUserProfile();
+    Map userInfo = await APIRepository().getUserProfile();
     await Future.wait([
       instance.setBool("isGuest", isGuest),
       instance.setString("userInfo", jsonEncode(userInfo)),

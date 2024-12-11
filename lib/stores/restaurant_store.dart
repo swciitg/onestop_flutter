@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/services/data_service.dart';
 
 part 'restaurant_store.g.dart';
 
@@ -31,7 +31,9 @@ abstract class _RestaurantStore with Store {
       ObservableFuture.value([]);
 
   RestaurantModel get getSelectedRestaurant => _selectedRestaurant;
+
   String get getSearchString => _searchString;
+
   String get getSearchHeader => _searchPageHeader;
 
   @action
@@ -52,7 +54,7 @@ abstract class _RestaurantStore with Store {
   }
 
   Future<List<RestaurantModel>> executeSearch() async {
-    List<RestaurantModel> allRestaurants = await DataProvider.getRestaurants();
+    List<RestaurantModel> allRestaurants = await DataService.getRestaurants();
     List<RestaurantModel> searchResults = [];
     for (var restaurant in allRestaurants) {
       if (restaurant.outletName

@@ -8,7 +8,7 @@ import 'package:onestop_dev/stores/login_store.dart';
 class SplashPage extends StatefulWidget {
   static String id = "/";
 
-  const SplashPage({Key? key}) : super(key: key);
+  const SplashPage({super.key});
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -18,16 +18,16 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    final nav = Navigator.of(context);
     LoginStore().isAlreadyAuthenticated().then((result) {
-      if (result == SplashResponse.authenticated //&&
-          /*LoginStore.isProfileComplete*/) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
+      if (result == SplashResponse.authenticated) {
+        nav.pushNamedAndRemoveUntil(
             HomePage.id, (Route<dynamic> route) => false);
       } else if (result == SplashResponse.blocked) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
+        nav.pushNamedAndRemoveUntil(
             BlockedPage.id, (Route<dynamic> route) => false);
       } else {
-        Navigator.of(context).pushNamedAndRemoveUntil(
+        nav.pushNamedAndRemoveUntil(
             LoginPage.id, (Route<dynamic> route) => false);
       }
     });

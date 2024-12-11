@@ -6,7 +6,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
-import 'package:onestop_dev/services/api.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/buy_sell/buy_tile.dart';
@@ -36,10 +36,10 @@ class _BuySellHomeState extends State<BuySellHome> {
   void initState() {
     super.initState();
     _sellController.addPageRequestListener((pageKey) async {
-      await listener(_sellController, APIService().getSellPage, pageKey);
+      await listener(_sellController, APIRepository().getSellPage, pageKey);
     });
     _buyController.addPageRequestListener((pageKey) async {
-      await listener(_buyController, APIService().getBuyPage, pageKey);
+      await listener(_buyController, APIRepository().getBuyPage, pageKey);
     });
   }
 
@@ -129,7 +129,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                   slivers: [
                     SliverToBoxAdapter(
                       child: FutureBuilder(
-                          future: APIService().getBnsMyItems(
+                          future: APIRepository().getBnsMyItems(
                               LoginStore.userData['outlookEmail']!,
                               commonStore.bnsIndex == "Sell"),
                           builder: (context, snapshot) {

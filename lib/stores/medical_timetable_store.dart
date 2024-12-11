@@ -4,7 +4,7 @@ import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/models/medicaltimetable/all_doctors.dart';
 import 'package:onestop_dev/models/medicaltimetable/doctor_model.dart';
 import 'package:onestop_dev/models/medicaltimetable/medical_timetable_day.dart';
-import 'package:onestop_dev/services/data_provider.dart';
+import 'package:onestop_dev/services/data_service.dart';
 
 part 'medical_timetable_store.g.dart';
 
@@ -90,8 +90,9 @@ abstract class _MedicalTimetableStore with Store {
     List<MedicalTimetableDay> medicalTimetableDay =
         List.generate(7, (index) => MedicalTimetableDay());
 
-    var doctorsList = await DataProvider.getMedicalTimeTable();
-    updateDateList(dates); // datematch is the list of translated dates of the week
+    var doctorsList = await DataService.getMedicalTimeTable();
+    updateDateList(
+        dates); // datematch is the list of translated dates of the week
     for (int i = 0; i < 7; i++) {
       final date = datematch[i];
       for (var doctor in doctorsList.alldoctors!) {
