@@ -36,7 +36,7 @@ class NotificationService {
         _androidChannel.name,
         importance: Importance.high,
         channelDescription: _androidChannel.description,
-        icon: '@drawable/ic_launcher',
+        icon: '@drawable/notification_icon',
       ),
       iOS: const DarwinNotificationDetails(
         presentAlert: true,
@@ -59,13 +59,13 @@ class NotificationService {
       requestBadgePermission: true,
       requestAlertPermission: true,
     );
-    const android = AndroidInitializationSettings('@drawable/ic_launcher');
+    const android = AndroidInitializationSettings('@drawable/notification_icon');
     const settings = InitializationSettings(android: android, iOS: iOS);
 
     await _localNotifications.initialize(settings);
 
-    final platform = _localNotifications.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    final platform = _localNotifications
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
 
     await platform?.createNotificationChannel(_androidChannel);
   }
@@ -95,8 +95,7 @@ class NotificationService {
     // Resave list of notifications in case it's initialized to null
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.reload();
-    List<String> notifications =
-        preferences.getStringList('notifications') ?? [];
+    List<String> notifications = preferences.getStringList('notifications') ?? [];
     preferences.setStringList('notifications', notifications);
   }
 }
