@@ -22,8 +22,7 @@ class TimetableStore = _TimetableStore with _$TimetableStore;
 
 abstract class _TimetableStore with Store {
   //List of time table of each day of the week
-  List<TimetableDay> allTimetableCourses =
-      List.generate(5, (index) => TimetableDay());
+  List<TimetableDay> allTimetableCourses = List.generate(5, (index) => TimetableDay());
 
   @observable
   bool isProcessed = false;
@@ -32,8 +31,7 @@ abstract class _TimetableStore with Store {
   RegisteredCourses? courses;
 
   Future<RegisteredCourses> getCourses() async {
-    courses ??=
-        await DataService.getTimeTable(roll: LoginStore.userData['rollNo']);
+    courses ??= await DataService.getTimeTable(roll: LoginStore.userData['rollNo']);
     return courses!;
   }
 
@@ -76,9 +74,8 @@ abstract class _TimetableStore with Store {
 
   //index of selected day
   @observable
-  int selectedDay = (DateTime.now().weekday == 6 || DateTime.now().weekday == 7)
-      ? 0
-      : DateTime.now().weekday - 1;
+  int selectedDay =
+      (DateTime.now().weekday == 6 || DateTime.now().weekday == 7) ? 0 : DateTime.now().weekday - 1;
 
   @action
   void setDay(int i) {
@@ -124,24 +121,20 @@ abstract class _TimetableStore with Store {
     List<Widget> l = [
       ...allTimetableCourses[current.weekday - 1]
           .morning
-          .where((e) =>
-              dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
+          .where((e) => dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
           .toList()
           .map((e) => TimetableTile(
                 course: e,
                 inHomePage: true,
-              ))
-          .toList(),
+              )),
       ...allTimetableCourses[current.weekday - 1]
           .afternoon
-          .where((e) =>
-              dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
+          .where((e) => dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
           .toList()
           .map((e) => TimetableTile(
                 course: e,
                 inHomePage: true,
               ))
-          .toList()
     ];
     if (l.isEmpty) {
       CourseModel noClass = CourseModel();
@@ -159,17 +152,11 @@ abstract class _TimetableStore with Store {
   List<Widget> get todayTimeTable {
     int timetableIndex = dates[selectedDate].weekday - 1;
     List<Widget> l = [
-      ...allTimetableCourses[timetableIndex]
-          .morning
-          .map((e) => TimetableTile(course: e))
-          .toList(),
+      ...allTimetableCourses[timetableIndex].morning.map((e) => TimetableTile(course: e)),
       const TextDivider(
         text: 'Lunch Break',
       ),
-      ...allTimetableCourses[timetableIndex]
-          .afternoon
-          .map((e) => TimetableTile(course: e))
-          .toList()
+      ...allTimetableCourses[timetableIndex].afternoon.map((e) => TimetableTile(course: e))
     ];
     if (l.length == 1) {
       l = [
@@ -186,8 +173,7 @@ abstract class _TimetableStore with Store {
 
   Future<void> processTimetable() async {
     //A list of timetable of each day, with index 0 to 4 signifying mon to fri
-    List<TimetableDay> timetableCourses =
-        List.generate(5, (index) => TimetableDay());
+    List<TimetableDay> timetableCourses = List.generate(5, (index) => TimetableDay());
 
     //Lets fill the above now
     var courseList = await getCourses();
