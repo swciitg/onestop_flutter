@@ -4,7 +4,7 @@ import GoogleMaps
 import flutter_local_notifications
 
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate {
 var field = UITextField()
   private var blurEffectView: UIVisualEffectView?
