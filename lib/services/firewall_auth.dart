@@ -75,10 +75,8 @@ class FirewallAuth {
 
     final data = {
       'magic': token,
-      'username': "r.hardik",
-      "password": "ROONGTa123#"
-      // 'username': credentials.username,
-      // 'password': credentials.password,
+      'username': credentials.username,
+      'password': credentials.password,
     };
 
     final headers = {
