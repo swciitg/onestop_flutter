@@ -5,7 +5,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
-import 'package:onestop_dev/repository/api_repository.dart';
+import 'package:onestop_dev/repository/lnf_repository.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
@@ -35,10 +35,10 @@ class _LostFoundHomeState extends State<LostFoundHome> {
   void initState() {
     super.initState();
     _lostController.addPageRequestListener((pageKey) async {
-      await listener(_lostController, APIRepository().getLostPage, pageKey);
+      await listener(_lostController, LnfRepository().getLostPage, pageKey);
     });
     _foundController.addPageRequestListener((pageKey) async {
-      await listener(_foundController, APIRepository().getFoundPage, pageKey);
+      await listener(_foundController, LnfRepository().getFoundPage, pageKey);
     });
   }
 
@@ -124,7 +124,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                 slivers: [
                   SliverToBoxAdapter(
                       child: FutureBuilder(
-                          future: APIRepository().getLnfMyItems(
+                          future: LnfRepository().getLnfMyItems(
                               LoginStore.userData['outlookEmail'] ?? "",
                               commonStore.lnfIndex == "Lost"),
                           builder: (context, snapshot) {

@@ -6,7 +6,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
-import 'package:onestop_dev/repository/api_repository.dart';
+import 'package:onestop_dev/repository/lnf_repository.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
@@ -51,7 +51,7 @@ class _ClaimCallButtonState extends State<ClaimCallButton> {
                               buttonPressed = true;
                               var name = LoginStore.userData['name'];
                               var email = LoginStore.userData['outlookEmail'];
-                              var body = await APIRepository().claimFoundItem(
+                              var body = await LnfRepository().claimFoundItem(
                                   name: name!,
                                   email: email!,
                                   id: widget.model.id);

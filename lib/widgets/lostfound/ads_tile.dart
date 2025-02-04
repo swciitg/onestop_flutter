@@ -6,7 +6,8 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
-import 'package:onestop_dev/repository/api_repository.dart';
+import 'package:onestop_dev/repository/bns_repository.dart';
+import 'package:onestop_dev/repository/lnf_repository.dart';
 import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
@@ -164,10 +165,10 @@ class _MyAdsTileState extends State<MyAdsTile> {
               ),
               onPressed: () async {
                 if (isLnf) {
-                  await APIRepository()
+                  await LnfRepository()
                       .deleteLnfMyAd(widget.model.id, widget.model.email);
                 } else {
-                  await APIRepository()
+                  await BnsRepository()
                       .deleteBnsMyAd(widget.model.id, widget.model.email);
                 }
 

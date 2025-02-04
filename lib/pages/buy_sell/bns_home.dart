@@ -6,7 +6,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
-import 'package:onestop_dev/repository/api_repository.dart';
+import 'package:onestop_dev/repository/bns_repository.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/buy_sell/buy_tile.dart';
@@ -20,7 +20,7 @@ import 'package:provider/provider.dart';
 class BuySellHome extends StatefulWidget {
   static const id = "/buySellHome";
 
-  const BuySellHome({Key? key}) : super(key: key);
+  const BuySellHome({super.key});
 
   @override
   State<BuySellHome> createState() => _BuySellHomeState();
@@ -36,10 +36,10 @@ class _BuySellHomeState extends State<BuySellHome> {
   void initState() {
     super.initState();
     _sellController.addPageRequestListener((pageKey) async {
-      await listener(_sellController, APIRepository().getSellPage, pageKey);
+      await listener(_sellController, BnsRepository().getSellPage, pageKey);
     });
     _buyController.addPageRequestListener((pageKey) async {
-      await listener(_buyController, APIRepository().getBuyPage, pageKey);
+      await listener(_buyController, BnsRepository().getBuyPage, pageKey);
     });
   }
 
@@ -129,7 +129,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                   slivers: [
                     SliverToBoxAdapter(
                       child: FutureBuilder(
-                          future: APIRepository().getBnsMyItems(
+                          future: BnsRepository().getBnsMyItems(
                               LoginStore.userData['outlookEmail']!,
                               commonStore.bnsIndex == "Sell"),
                           builder: (context, snapshot) {

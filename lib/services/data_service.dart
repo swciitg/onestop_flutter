@@ -13,6 +13,10 @@ import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/repository/api_repository.dart';
+import 'package:onestop_dev/repository/food_repository.dart';
+import 'package:onestop_dev/repository/medical_repository.dart';
+import 'package:onestop_dev/repository/notification_repository.dart';
+import 'package:onestop_dev/repository/travel_repository.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -34,7 +38,7 @@ class DataService {
         await LocalStorage.instance.getListRecord(DatabaseRecords.busTimings);
     Map<String, dynamic> jsonData;
     if (cachedData == null) {
-      jsonData = await APIRepository().getBusTiming();
+      jsonData = await TravelRepository().getBusTiming();
       await LocalStorage.instance
           .storeListRecord([jsonData], DatabaseRecords.busTimings);
     } else {
@@ -73,7 +77,7 @@ class DataService {
 
     if (cachedData == null) {
       List<Map<String, dynamic>> restaurantData =
-          await APIRepository().getRestaurantData();
+          await FoodRepository().getRestaurantData();
       List<RestaurantModel> restaurants =
           restaurantData.map((e) => RestaurantModel.fromJson(e)).toList();
 
@@ -168,7 +172,7 @@ class DataService {
     Map<String, dynamic>? jsonData;
 
     if (cachedData == null) {
-      jsonData = await APIRepository().getMealData();
+      jsonData = await FoodRepository().getMealData();
       LocalStorage.instance
           .storeListRecord([jsonData], DatabaseRecords.messMenu);
     } else {
@@ -224,7 +228,7 @@ class DataService {
 
   static Future<AllDoctors> getMedicalTimeTable() async {
     try {
-      return await APIRepository().getmedicalTimeTable();
+      return await MedicalRepository().getmedicalTimeTable();
     } catch (e) {
       debugPrint("Error Fetching Medical TT");
       rethrow;
@@ -235,7 +239,7 @@ class DataService {
     Allmedicalcontacts medicalContactData = Allmedicalcontacts(alldoctors: []);
     try {
       Allmedicalcontacts? medicalContactData =
-          await APIRepository().getMedicalContactData();
+          await MedicalRepository().getMedicalContactData();
       return medicalContactData;
     } catch (e) {
       print(e);
@@ -272,7 +276,7 @@ class DataService {
   }
 
   static Future<Map<String, List<NotifsModel>>> getNotifications() async {
-    var response = await APIRepository().getNotifications();
+    var response = await NotificationRepository().getNotifications();
     Map<String, List<NotifsModel>> output = {
       "userPersonalNotifs": [],
       "allTopicNotifs": []
@@ -292,7 +296,7 @@ class DataService {
         await LocalStorage.instance.getListRecord(DatabaseRecords.ferryTimings);
     Map<String, dynamic> jsonData;
     if (cachedData == null) {
-      jsonData = await APIRepository().getFerryTiming();
+      jsonData = await TravelRepository().getFerryTiming();
       await LocalStorage.instance
           .storeListRecord([jsonData], DatabaseRecords.ferryTimings);
     } else {

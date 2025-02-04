@@ -6,7 +6,7 @@ import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
-import 'package:onestop_dev/repository/api_repository.dart';
+import 'package:onestop_dev/repository/medical_repository.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/profile/custom_date_picker.dart';
@@ -455,7 +455,7 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
                               data['remarks'] = remarks.text;
                               data['patientEmail'] = patientEmail;
                               try {
-                                var response = await APIRepository()
+                                var response = await MedicalRepository()
                                     .postPharmacyFeedback(data);
                                 if (!mounted) return;
                                 if (response['success']) {

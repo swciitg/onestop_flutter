@@ -187,7 +187,9 @@ macos/
 linux/
 windows/
 .run/
-.env
+.env.prod
+.env.dev
+*.env
 *.ps1
 /appLoader.sh
 /buildIPA.sh

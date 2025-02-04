@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
-import 'package:onestop_dev/repository/api_repository.dart';
+import 'package:onestop_dev/repository/user_repository.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +20,7 @@ import '../../widgets/profile/custom_text_field.dart';
 class EditProfile extends StatefulWidget {
   final OneStopUser profileModel;
 
-  const EditProfile({Key? key, required this.profileModel}) : super(key: key);
+  const EditProfile({super.key, required this.profileModel});
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -107,7 +107,7 @@ class _EditProfileState extends State<EditProfile> {
           };
           print(data);
           try {
-            await APIRepository().updateUserProfile(data, null);
+            await UserRepository().updateUserProfile(data, null);
             await LocalStorage.instance.deleteRecord(DatabaseRecords.timetable);
           } catch (e) {
             setState(() {
@@ -116,7 +116,7 @@ class _EditProfileState extends State<EditProfile> {
             showSnackBar(e.toString());
             return;
           }
-          Map userInfo = await APIRepository().getUserProfile();
+          Map userInfo = await UserRepository().getUserProfile();
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString("userInfo", jsonEncode(userInfo));
           await LoginStore().saveToUserInfo(
@@ -197,108 +197,6 @@ class _EditProfileState extends State<EditProfile> {
                       const SizedBox(
                         height: 24,
                       ),
-                      // For now image will not be stored
-                      // Center(
-                      //     child: Stack(alignment: Alignment.bottomRight, children: [
-                      //
-                      //   ClipRRect(
-                      //       borderRadius: BorderRadius.circular(75.0),
-                      //
-                      //       child: Image(
-                      //         image: imageString==null?const ResizeImage(AssetImage('assets/images/profile_placeholder.png'),width: 150,height: 150): ResizeImage(
-                      //             MemoryImage(base64Decode(imageString!))
-                      //             ,width: 150,
-                      //         height: 150,),
-                      //         fit: BoxFit.fill,
-                      //       )
-                      //       ),
-                      //   Padding(
-                      //     padding: const EdgeInsets.all(8.0),
-                      //     child: GestureDetector(
-                      //       onTap: () async {
-                      //         XFile? xFile;
-                      //         await showDialog(
-                      //             context: context,
-                      //             builder: (BuildContext context) {
-                      //               return AlertDialog(
-                      //                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-                      //                 backgroundColor: kBlueGrey,
-                      //                   title:  Text(
-                      //                       "Do you want to change your profile photo?",style: OnestopFonts.w500.size(16).setColor(kWhite2),),
-                      //                   content: SingleChildScrollView(
-                      //                     child: ListBody(
-                      //                       children: <Widget>[
-                      //                          GestureDetector(
-                      //                           child:  Text("Take Photo",style: OnestopFonts.w500.size(14).setColor(kWhite),),
-                      //                           onTap: () async {
-                      //                             xFile = await ImagePicker().pickImage(
-                      //                                 source: ImageSource.camera);
-                      //                             if (!mounted) return;
-                      //                             Navigator.of(context).pop();
-                      //                           },
-                      //                         ),
-                      //                         const Padding(
-                      //                             padding: EdgeInsets.all(8.0)),
-                      //                             GestureDetector(
-                      //                           child:  Text("Choose Photo",style: OnestopFonts.w500.size(14).setColor(kWhite),),
-                      //                           onTap: () async {
-                      //                             xFile = await ImagePicker().pickImage(
-                      //                                 source: ImageSource.gallery);
-                      //                             if (!mounted) return;
-                      //                             Navigator.of(context).pop();
-                      //                           },
-                      //                         ),
-                      //                         const Padding(
-                      //                             padding: EdgeInsets.all(8.0)),
-                      //
-                      //                         GestureDetector(
-                      //                           child: Text("Remove Photo",style: OnestopFonts.w500.size(14).setColor(kRed),),
-                      //                           onTap: () async {
-                      //                             setState(() {
-                      //                               imageString=null;
-                      //                             });
-                      //                             return
-                      //                             Navigator.of(context).pop();
-                      //                           },
-                      //                         ),
-                      //                       ],
-                      //                     ),
-                      //                   ));
-                      //             });
-                      //
-                      //         if (!mounted) return;
-                      //         if (xFile != null) {
-                      //           var bytes = File(xFile!.path).readAsBytesSync();
-                      //           var imageSize = (bytes.lengthInBytes /
-                      //               (1048576)); // dividing by 1024*1024
-                      //           if (imageSize > 2.5) {
-                      //             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      //                 content: Text(
-                      //               "Maximum image size can be 2.5 MB",
-                      //               style: OnestopFonts.w500,
-                      //             )));
-                      //             return;
-                      //           }
-                      //           setState(() {
-                      //             imageString = base64Encode(bytes);
-                      //           });
-                      //           return;
-                      //         }
-                      //       },
-                      //       child: Container(
-                      //         height: 30,
-                      //         width: 30,
-                      //         decoration: const BoxDecoration(
-                      //             borderRadius: BorderRadius.all(Radius.circular(75)),
-                      //             color: kWhite),
-                      //         child: const Icon(Icons.edit_outlined),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ])),
-                      // const SizedBox(
-                      //   height: 24,
-                      // ),
                       Text('Basic Information',
                           style: OnestopFonts.w600.size(16).setColor(kWhite)),
                       const SizedBox(

@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/enums.dart';
-import 'package:onestop_dev/repository/api_repository.dart';
+import 'package:onestop_dev/repository/user_repository.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -21,7 +21,7 @@ class LoginStore {
     if (user.containsKey("userInfo")) {
       if (await hasInternetConnection()) {
         try {
-          userInfo = await APIRepository().getUserProfile();
+          userInfo = await UserRepository().getUserProfile();
         } catch (e) {
           if ((e as DioException).response == null) {
             return SplashResponse.authenticated;
@@ -53,7 +53,7 @@ class LoginStore {
   Future<void> signInAsGuest() async {
     isGuest = true;
     SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-    final response = await APIRepository().guestUserLogin();
+    final response = await UserRepository().guestUserLogin();
 
     await Future.wait([
       saveTokensToPrefs(sharedPrefs, response.data),
@@ -69,7 +69,7 @@ class LoginStore {
       instance.setString(
           BackendHelper.refreshtoken, data[BackendHelper.refreshtoken]),
     ]);
-    Map userInfo = await APIRepository().getUserProfile();
+    Map userInfo = await UserRepository().getUserProfile();
     await Future.wait([
       instance.setBool("isGuest", isGuest),
       instance.setString("userInfo", jsonEncode(userInfo)),
@@ -86,10 +86,10 @@ class LoginStore {
       // if (deviceToken == null) {
       //   instance.setString(
       //       "deviceToken", fcmToken!); // set the returned fcToken
-      //   await APIService().postUserDeviceToken(fcmToken);
+      //   await NotificationRepository().postFCMToken(fcmToken);
       // } else if (deviceToken != fcmToken) {
       //   // already some token was stored
-      //   await APIService().updateUserDeviceToken({
+      //   await NotificationRepository().updateFCMToken({
       //     "oldToken": deviceToken, // stored token
       //     "newToken": fcmToken
       //   });

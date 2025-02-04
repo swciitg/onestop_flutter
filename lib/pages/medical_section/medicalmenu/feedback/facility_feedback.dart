@@ -5,7 +5,7 @@ import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
-import 'package:onestop_dev/repository/api_repository.dart';
+import 'package:onestop_dev/repository/medical_repository.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/upsp/file_tile.dart';
@@ -182,7 +182,7 @@ class _FacilityFeedbackState extends State<FacilityFeedback> {
                               data['rollNo'] = userData['rollNo'];
                               // print(data);
                               try {
-                                var response = await APIRepository()
+                                var response = await MedicalRepository()
                                     .postFacilityFeedback(data);
                                 if (!mounted) return;
                                 if (response['success']) {

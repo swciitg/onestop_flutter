@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:onestop_dev/functions/utility/check_last_updated.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -22,6 +23,9 @@ import 'firebase_options.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
+  await dotenv.load(fileName: ".env.${const String.fromEnvironment("ENV")}");
+  print("Security key = ${dotenv.env["SECURITY_KEY"]}");
+
   WidgetsFlutterBinding.ensureInitialized();
 
   if (await hasInternetConnection()) {
@@ -83,7 +87,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
               scaffoldBackgroundColor: kBackground,
               splashColor: Colors.transparent),
-          title: 'OneStop 2.0',
+          title: 'OneStop IITG',
           routes: routes),
     );
   }

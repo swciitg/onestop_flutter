@@ -1,9 +1,12 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class Endpoints {
-  static const moderationBaseUrl =
-      String.fromEnvironment('MODERATION-SERVER-URL');
-  static const baseUrl = String.fromEnvironment('SERVER-URL');
-  static const eventsBaseUrl = String.fromEnvironment('EVENT-SERVER-URL');
-  static const irbsBaseUrl = String.fromEnvironment('IRBS-SERVER-URL');
+  static final apiSecurityKey = dotenv.env['SECURITY_KEY'] ?? "";
+  static final moderationBaseUrl = dotenv.env['MODERATION_SERVER_URL'] ?? "";
+  static final baseUrl = dotenv.env['SERVER_URL'] ?? "";
+  static final eventsBaseUrl = dotenv.env['EVENT_SERVER_URL'] ?? "";
+  static final irbsBaseUrl = dotenv.env['IRBS_SERVER_URL'] ?? "";
+
   static const String restaurantURL = "/getAllOutlets";
   static const String lastUpdatedURL = "/lastDataUpdate";
   static const String contactURL = "/getContacts";
@@ -39,7 +42,6 @@ class Endpoints {
   static const String eventCategories = "/categories";
   static const String githubIssueToken =
       String.fromEnvironment('GITHUB_ISSUE_TOKEN');
-  static const apiSecurityKey = String.fromEnvironment('SECURITY-KEY');
   static const feedback =
       'https://api.github.com/repos/swciitg/onestop_flutter/issues';
   static const String upspPost = '/upsp/submit-request';
