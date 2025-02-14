@@ -23,7 +23,6 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-// for App's security key
 
 def dartEnvironmentVariables = []
 if (project.hasProperty('dart-defines')) {
@@ -34,6 +33,14 @@ if (project.hasProperty('dart-defines')) {
                 [(pair.first()): pair.last()]
             }
 }
+def dotenv = new Properties()
+def dotenvFile = rootProject.file(".env." + dartEnvironmentVariables.ENV)
+if (dotenvFile.exists()) {
+    dotenvFile.withReader("UTF-8") { reader ->
+        dotenv.load(reader)
+    }
+}
+
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
@@ -67,7 +74,7 @@ android {
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        manifestPlaceholders['GMAP_KEY'] = dartEnvironmentVariables.GMAP_KEY
+        manifestPlaceholders['GMAP_KEY'] = dotenv["GMAP_KEY"] ?: ""
         multiDexEnabled true
     }
 

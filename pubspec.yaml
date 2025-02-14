@@ -54,7 +54,6 @@ dependencies:
       path: packages/gate_log
 
   intl: ^0.18.0
-  #  webview_cookie_manager: ^2.0.6
   dio_cookie_manager: ^3.1.1
   cookie_jar: ^4.0.8
   provider: ^6.0.2

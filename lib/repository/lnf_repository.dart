@@ -1,16 +1,9 @@
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 
-class LnfRepository extends OneStopApi {
-  LnfRepository()
-      : super(
-          onestopBaseUrl: Endpoints.baseUrl,
-          serverBaseUrl: Endpoints.baseUrl,
-          onestopSecurityKey: Endpoints.apiSecurityKey,
-        );
-
+class LnfRepository extends APIRepository {
   Future<dynamic> claimFoundItem(
       {required String name, required String email, required String id}) async {
     var res = await serverDio.post(Endpoints.claimItemURL,

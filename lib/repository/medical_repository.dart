@@ -3,16 +3,9 @@ import 'package:onestop_dev/models/medicalcontacts/allmedicalcontacts.dart';
 import 'package:onestop_dev/models/medicalcontacts/medicalcontact_model.dart';
 import 'package:onestop_dev/models/medicaltimetable/all_doctors.dart';
 import 'package:onestop_dev/models/medicaltimetable/doctor_model.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 
-class MedicalRepository extends OneStopApi {
-  MedicalRepository()
-      : super(
-          onestopSecurityKey: Endpoints.apiSecurityKey,
-          serverBaseUrl: Endpoints.baseUrl,
-          onestopBaseUrl: Endpoints.baseUrl,
-        );
-
+class MedicalRepository extends APIRepository {
   Future<Allmedicalcontacts?> getMedicalContactData() async {
     final response = await serverDio.get(
       Endpoints.medicalContactURL,

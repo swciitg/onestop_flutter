@@ -1,14 +1,7 @@
 import 'package:onestop_dev/globals/endpoints.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 
-class TravelRepository extends OneStopApi {
-  TravelRepository()
-      : super(
-          onestopBaseUrl: Endpoints.baseUrl,
-          serverBaseUrl: Endpoints.baseUrl,
-          onestopSecurityKey: Endpoints.apiSecurityKey,
-        );
-
+class TravelRepository extends APIRepository {
   Future<Map<String, dynamic>> getBusTiming() async {
     try {
       final res = await serverDio.get(Endpoints.busStops);

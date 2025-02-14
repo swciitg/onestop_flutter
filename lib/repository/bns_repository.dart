@@ -1,16 +1,9 @@
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 
-class BnsRepository extends OneStopApi {
-  BnsRepository()
-      : super(
-          onestopBaseUrl: Endpoints.baseUrl,
-          serverBaseUrl: Endpoints.baseUrl,
-          onestopSecurityKey: Endpoints.apiSecurityKey,
-        );
-
+class BnsRepository extends APIRepository {
   Future<void> deleteBnsMyAd(String id, String email) async {
     await serverDio
         .post(Endpoints.deleteBuyURL, data: {'id': id, 'email': email});

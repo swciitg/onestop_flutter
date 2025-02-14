@@ -23,10 +23,8 @@ import 'firebase_options.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-  await dotenv.load(fileName: ".env.${const String.fromEnvironment("ENV")}");
-  print("Security key = ${dotenv.env["SECURITY_KEY"]}");
-
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env.${const String.fromEnvironment("ENV")}");
 
   if (await hasInternetConnection()) {
     await Future.wait([

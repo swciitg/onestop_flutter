@@ -1,15 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_dev/repository/api_repository.dart';
 
-class NotificationRepository extends OneStopApi {
-  NotificationRepository()
-      : super(
-          onestopBaseUrl: Endpoints.baseUrl,
-          serverBaseUrl: Endpoints.baseUrl,
-          onestopSecurityKey: Endpoints.apiSecurityKey,
-        );
-
+class NotificationRepository extends APIRepository {
   Future<List<Response>> getNotifications() async {
     final results = await Future.wait([
       serverDio.get(Endpoints.generalNotifications),

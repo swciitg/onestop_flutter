@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class IrbsApiRepository extends OneStopApi {
@@ -10,6 +12,10 @@ class IrbsApiRepository extends OneStopApi {
           onestopBaseUrl: Endpoints.baseUrl,
           serverBaseUrl: Endpoints.irbsBaseUrl,
           onestopSecurityKey: Endpoints.apiSecurityKey,
+          onRefreshTokenExpired: () async {
+            await LoginStore().clearAppData();
+            showSnackBar("Your session has expired!! Login again.");
+          },
         );
 
   Future<Map<String, dynamic>> postMessOpi(Map<String, dynamic> data) async {

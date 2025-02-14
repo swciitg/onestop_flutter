@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class APIRepository extends OneStopApi {
@@ -17,6 +19,10 @@ class APIRepository extends OneStopApi {
           onestopBaseUrl: Endpoints.baseUrl,
           serverBaseUrl: Endpoints.baseUrl,
           onestopSecurityKey: Endpoints.apiSecurityKey,
+          onRefreshTokenExpired: () async {
+            await LoginStore().clearAppData();
+            showSnackBar("Your session has expired!! Login again.");
+          },
         );
 
   Future<bool> postFeedbackData(Map<String, String> data) async {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/enums.dart';
@@ -100,7 +101,12 @@ class LoginStore {
   }
 
   void logOut(Function navigationPopCallBack) async {
-    print("INSIDE LOGOUT");
+    Logger().i("INSIDE LOGOUT");
+    await clearAppData();
+    navigationPopCallBack();
+  }
+
+  Future<void> clearAppData() async {
     await cookieManager.clearCookies();
     SharedPreferences user = await SharedPreferences.getInstance();
     await user.clear();
@@ -108,6 +114,5 @@ class LoginStore {
     isGuest = false;
     isProfileComplete = false;
     await LocalStorage.instance.deleteRecordsLogOut();
-    navigationPopCallBack();
   }
 }
