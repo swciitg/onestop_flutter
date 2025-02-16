@@ -33,6 +33,8 @@ appLoader.sh
 /build/
 .vscode/
 /.vscode/
+/.buildAppBundle.sh
+.buildAppBundle.sh
 
 # Web related
 lib/generated_plugin_registrant.dart
@@ -188,7 +190,6 @@ linux/
 windows/
 .run/
 .env.prod
-.env.dev
 *.env
 *.ps1
 /appLoader.sh

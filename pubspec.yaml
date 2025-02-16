@@ -98,6 +98,7 @@ dependencies:
   flutter_background_service: ^5.0.10
   freezed_annotation: ^2.4.4
   flutter_dotenv: ^5.2.1
+  screen_brightness: ^2.1.1
 
 dev_dependencies:
   flutter_test:
