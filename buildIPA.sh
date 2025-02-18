@@ -1,0 +1,1 @@
+flutter build ipa --no-tree-shake-icons --dart-define-from-file=.env.prod
