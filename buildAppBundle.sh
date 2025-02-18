@@ -1,1 +1,0 @@
-flutter build appbundle --no-tree-shake-icons --dart-define ENV="prod"

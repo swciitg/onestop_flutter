@@ -1,11 +1,10 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 class Endpoints {
-  static final apiSecurityKey = dotenv.env['SECURITY_KEY'] ?? "";
-  static final moderationBaseUrl = dotenv.env['MODERATION_SERVER_URL'] ?? "";
-  static final baseUrl = dotenv.env['SERVER_URL'] ?? "";
-  static final eventsBaseUrl = dotenv.env['EVENT_SERVER_URL'] ?? "";
-  static final irbsBaseUrl = dotenv.env['IRBS_SERVER_URL'] ?? "";
+  static const apiSecurityKey = String.fromEnvironment('SECURITY_KEY');
+  static const moderationBaseUrl =
+      String.fromEnvironment('MODERATION_SERVER_URL');
+  static const baseUrl = String.fromEnvironment('SERVER_URL');
+  static const eventsBaseUrl = String.fromEnvironment('EVENT_SERVER_URL');
+  static const irbsBaseUrl = String.fromEnvironment('IRBS_SERVER_URL');
 
   static const String restaurantURL = "/getAllOutlets";
   static const String lastUpdatedURL = "/lastDataUpdate";

@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:onestop_dev/functions/utility/check_last_updated.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -24,7 +23,6 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env.${const String.fromEnvironment("ENV")}");
 
   if (await hasInternetConnection()) {
     await Future.wait([

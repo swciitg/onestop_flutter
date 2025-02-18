@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logger/logger.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:onestop_dev/globals/enums.dart';
+import 'package:onestop_dev/repository/notification_repository.dart';
 import 'package:onestop_dev/repository/user_repository.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -80,21 +82,21 @@ class LoginStore {
   Future<void> saveToUserInfo(SharedPreferences instance) async {
     // only called after saving jwt tokens in local storage
     userData = jsonDecode(instance.getString("userInfo")!);
-    // final fcmToken = await FirebaseMessaging.instance.getToken();
-    // Logger().i("FCM Token: $fcmToken");
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    Logger().i("FCM Token: $fcmToken");
     if (instance.getBool("isGuest") == false) {
-      // String? deviceToken = instance.getString("deviceToken");
-      // if (deviceToken == null) {
-      //   instance.setString(
-      //       "deviceToken", fcmToken!); // set the returned fcToken
-      //   await NotificationRepository().postFCMToken(fcmToken);
-      // } else if (deviceToken != fcmToken) {
-      //   // already some token was stored
-      //   await NotificationRepository().updateFCMToken({
-      //     "oldToken": deviceToken, // stored token
-      //     "newToken": fcmToken
-      //   });
-      // }
+      String? deviceToken = instance.getString("deviceToken");
+      if (deviceToken == null) {
+        instance.setString(
+            "deviceToken", fcmToken!); // set the returned fcToken
+        await NotificationRepository().postFCMToken(fcmToken);
+      } else if (deviceToken != fcmToken) {
+        // already some token was stored
+        await NotificationRepository().updateFCMToken({
+          "oldToken": deviceToken, // stored token
+          "newToken": fcmToken
+        });
+      }
     } else {
       isGuest = true;
     }

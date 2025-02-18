@@ -1,1 +1,1 @@
---dart-define ENV="dev"
+--dart-define-from-file=.env.dev

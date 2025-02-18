@@ -171,7 +171,7 @@ packages:
     description:
       path: "packages/cab_sharing"
       ref: HEAD
-      resolved-ref: ab07bf2f8e10378d52e5218a867b0238bb375099
+      resolved-ref: "4cc360510cce9ba06383546c2f405466f31c9eed"
       url: "https://github.com/swciitg/cab_sharing_onestop.git"
     source: git
     version: "1.0.1"
@@ -597,7 +597,7 @@ packages:
     source: hosted
     version: "3.4.1"
   flutter_dotenv:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_dotenv
       sha256: b7c7be5cd9f6ef7a78429cabd2774d3c4af50e79cb2b7593e3d5d763ef95c61b
@@ -755,7 +755,7 @@ packages:
     description:
       path: "packages/gate_log"
       ref: HEAD
-      resolved-ref: "0908d46469e2c3ad160e6bd8331660dcf001476e"
+      resolved-ref: "4ec57e38656a1c27577e5fb29ed03fc4848fe6e8"
       url: "https://github.com/swciitg/gatelog_onestop.git"
     source: git
     version: "0.0.1"
@@ -1012,7 +1012,7 @@ packages:
     description:
       path: "packages/irbs"
       ref: HEAD
-      resolved-ref: dc47a9a6419ce523d25c561aa0b3a13b6958bb5f
+      resolved-ref: "51c08801c0956315af705181bf282af7b40f9418"
       url: "https://github.com/swciitg/irbs.git"
     source: git
     version: "1.0.0"
@@ -1398,7 +1398,7 @@ packages:
     description:
       path: "packages/scoreboard"
       ref: HEAD
-      resolved-ref: ae94ad3b45d12946df68f5ef71de26ff42809b0b
+      resolved-ref: cf71740e2a110b48feeef0296df6a32aca9006fd
       url: "https://github.com/swciitg/gc_scoreboard.git"
     source: git
     version: "0.0.0"
