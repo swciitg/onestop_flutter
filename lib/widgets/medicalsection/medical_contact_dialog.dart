@@ -27,7 +27,7 @@ class _ContactDialogState extends State<MedicalContactDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var phoneNumber = "0361258${widget.contact.phone}";
+    var phoneNumber = "361258${widget.contact.phone}";
     var name = widget.isMisc
         ? widget.contact.miscellaneous_contact!
         : widget.contact.name.name!;
@@ -54,7 +54,7 @@ class _ContactDialogState extends State<MedicalContactDialog> {
                 ),
                 _buildInfoRow(Icons.work, widget.contact.name.designation!),
                 _buildInfoRow(Icons.school, widget.contact.name.degree!),
-                _buildInfoRow(Icons.phone, "0361258${widget.contact.phone}"),
+                _buildInfoRow(Icons.phone, "361258${widget.contact.phone}"),
                 _buildInfoRow(Icons.email, widget.contact.email!),
               ],
             ),
@@ -124,7 +124,7 @@ class _ContactDialogState extends State<MedicalContactDialog> {
                 const SizedBox(
                   height: 10,
                 ),
-                _buildInfoRow(Icons.phone, "0361258${widget.contact.phone}"),
+                _buildInfoRow(Icons.phone, "361258${widget.contact.phone}"),
                 _buildInfoRow(Icons.email, widget.contact.email!),
               ],
             ),
