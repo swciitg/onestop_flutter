@@ -4,7 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
+import 'package:onestop_dev/pages/login/login.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
@@ -22,13 +24,16 @@ class APIRepository extends OneStopApi {
           onRefreshTokenExpired: () async {
             await LoginStore().clearAppData();
             showSnackBar("Your session has expired!! Login again.");
+            navigatorKey.currentState?.pushNamedAndRemoveUntil(
+              LoginPage.id,
+              (route) => false,
+            );
           },
         );
 
   Future<bool> postFeedbackData(Map<String, String> data) async {
     String tag = data['type'] == 'Issue Report' ? 'bug' : 'enhancement';
-    String newBody =
-        "### Description :\n${data['body']}\n### Posted By :\n${data['user']}";
+    String newBody = "### Description :\n${data['body']}\n### Posted By :\n${data['user']}";
 
     var res = await dio2.post(Endpoints.feedback,
         data: {
@@ -113,8 +118,7 @@ class APIRepository extends OneStopApi {
     }
   }
 
-  Future<List<LatLng>> getPolyline(
-      {required LatLng source, required LatLng dest}) async {
+  Future<List<LatLng>> getPolyline({required LatLng source, required LatLng dest}) async {
     final response = await serverDio.get(
       'https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248b144cc92443247b7b9e0bd5df85012f2&start=8.681495,49.41461&end=8.687872,49.420318',
     );

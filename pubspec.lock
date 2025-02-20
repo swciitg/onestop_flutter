@@ -754,7 +754,7 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/gate_log"
-      ref: HEAD
+      ref: main
       resolved-ref: "4ec57e38656a1c27577e5fb29ed03fc4848fe6e8"
       url: "https://github.com/swciitg/gatelog_onestop.git"
     source: git

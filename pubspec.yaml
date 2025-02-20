@@ -52,6 +52,7 @@ dependencies:
     git:
       url: https://github.com/swciitg/gatelog_onestop.git
       path: packages/gate_log
+      ref: main
 
   intl: ^0.18.0
   dio_cookie_manager: ^3.1.1
@@ -153,8 +154,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - .env.dev
-    - .env.prod
     - lib/globals/
     - assets/images/
     - assets/images/food/
