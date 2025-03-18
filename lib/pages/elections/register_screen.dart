@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -91,14 +93,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    dio.options.headers['cookie'] =
-        widget.authCookie; // setting cookies for auth
+    dio.options.headers['cookie'] = widget.authCookie; // setting cookies for auth
     return SafeArea(
       child: Scaffold(
         appBar: appBar(context, displayIcon: false),
         body: FutureBuilder<Response>(
             future: dio.get("https://swc.iitg.ac.in/elections_api/sgc/profile"),
             builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                log("REGISTER SCREEN ERROR: ${snapshot.error}");
+                if (snapshot.error is DioException) {
+                  log("REGISTER SCREEN ERROR: ${(snapshot.error as DioException).message}");
+                }
+                return const Center(child: Text("Something went wrong!"));
+              }
               if (!snapshot.hasData || snapshot.hasError) {
                 return ListShimmer(
                   count: 1,
@@ -126,24 +134,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, top: 15, bottom: 10),
+                                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                                   child: Text(
                                     "Your Name",
-                                    style:
-                                        MyFonts.w600.size(16).setColor(kWhite),
+                                    style: MyFonts.w600.size(16).setColor(kWhite),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(3.0),
                                   child: Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 12),
+                                      margin: const EdgeInsets.symmetric(horizontal: 12),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: kGrey2),
                                           color: kBackground,
-                                          borderRadius:
-                                              BorderRadius.circular(24)),
+                                          borderRadius: BorderRadius.circular(24)),
                                       child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 20, vertical: 10),
@@ -157,38 +161,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             },
                                             keyboardType: TextInputType.text,
                                             enabled: false,
-                                            style: MyFonts.w500
-                                                .size(16)
-                                                .setColor(kWhite),
+                                            style: MyFonts.w500.size(16).setColor(kWhite),
                                             decoration: InputDecoration(
                                               errorStyle: MyFonts.w400,
                                               counterText: "",
                                               border: InputBorder.none,
                                               hintText: 'Your Answer',
-                                              hintStyle: const TextStyle(
-                                                  color: kGrey8),
+                                              hintStyle: const TextStyle(color: kGrey8),
                                             ),
                                           ))),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, top: 15, bottom: 10),
+                                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                                   child: Text(
                                     "Roll number",
-                                    style:
-                                        MyFonts.w600.size(16).setColor(kWhite),
+                                    style: MyFonts.w600.size(16).setColor(kWhite),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(3.0),
                                   child: Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 12),
+                                      margin: const EdgeInsets.symmetric(horizontal: 12),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: kGrey2),
                                           color: kBackground,
-                                          borderRadius:
-                                              BorderRadius.circular(24)),
+                                          borderRadius: BorderRadius.circular(24)),
                                       child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 20, vertical: 10),
@@ -206,34 +203,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             initialValue: roll,
                                             onChanged: (r) => roll = r,
                                             maxLength: 9,
-                                            style: MyFonts.w500
-                                                .size(16)
-                                                .setColor(kWhite),
+                                            style: MyFonts.w500.size(16).setColor(kWhite),
                                             decoration: InputDecoration(
                                               errorStyle: MyFonts.w400,
                                               counterText: "",
                                               border: InputBorder.none,
                                               hintText: 'Ex: 200101071',
-                                              hintStyle: const TextStyle(
-                                                  color: kGrey8),
+                                              hintStyle: const TextStyle(color: kGrey8),
                                             ),
                                           ))),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, top: 15, bottom: 10),
+                                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                                   child: Text(
                                     "Your Hostel",
-                                    style:
-                                        MyFonts.w600.size(16).setColor(kWhite),
+                                    style: MyFonts.w600.size(16).setColor(kWhite),
                                   ),
                                 ),
                                 Theme(
-                                  data: Theme.of(context)
-                                      .copyWith(canvasColor: kBlueGrey),
+                                  data: Theme.of(context).copyWith(canvasColor: kBlueGrey),
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 5),
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                                     child: DropdownButtonFormField<String>(
                                       validator: (val) {
                                         if (val == null) {
@@ -242,66 +233,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         return null;
                                       },
                                       hint: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15),
+                                        padding: const EdgeInsets.only(left: 15),
                                         child: Text("Select your hostel",
-                                            style: MyFonts.w500
-                                                .setColor(kGrey8)
-                                                .size(16)),
+                                            style: MyFonts.w500.setColor(kGrey8).size(16)),
                                       ),
                                       decoration: InputDecoration(
                                         errorStyle: MyFonts.w400,
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                       ),
                                       icon: const Icon(
                                         FluentIcons.chevron_down_24_regular,
                                         color: kWhite,
                                       ),
-                                      style: MyFonts.w600
-                                          .size(14)
-                                          .setColor(kWhite),
+                                      style: MyFonts.w600.size(14).setColor(kWhite),
                                       onChanged: (data) {
                                         setState(() {
                                           hostel = data!;
                                         });
                                       },
                                       menuMaxHeight: 250,
-                                      items: hostels
-                                          .map<DropdownMenuItem<String>>(
-                                              (String value) {
+                                      items: hostels.map<DropdownMenuItem<String>>((String value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 15),
+                                            padding: const EdgeInsets.only(left: 15),
                                             child: Text(
                                               value,
-                                              style: MyFonts.w600
-                                                  .size(14)
-                                                  .setColor(kWhite),
+                                              style: MyFonts.w600.size(14).setColor(kWhite),
                                             ),
                                           ),
                                         );
@@ -310,20 +283,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, top: 15, bottom: 10),
+                                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                                   child: Text(
                                     "Degree",
-                                    style:
-                                        MyFonts.w600.size(16).setColor(kWhite),
+                                    style: MyFonts.w600.size(16).setColor(kWhite),
                                   ),
                                 ),
                                 Theme(
-                                  data: Theme.of(context)
-                                      .copyWith(canvasColor: kBlueGrey),
+                                  data: Theme.of(context).copyWith(canvasColor: kBlueGrey),
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 5),
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                                     child: DropdownButtonFormField<String>(
                                       validator: (val) {
                                         if (val == null) {
@@ -332,47 +302,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         return null;
                                       },
                                       hint: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15),
+                                        padding: const EdgeInsets.only(left: 15),
                                         child: Text("Select your degree",
-                                            style: MyFonts.w500
-                                                .setColor(kGrey8)
-                                                .size(16)),
+                                            style: MyFonts.w500.setColor(kGrey8).size(16)),
                                       ),
                                       decoration: InputDecoration(
                                         errorStyle: MyFonts.w400,
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                       ),
                                       icon: const Icon(
                                         FluentIcons.chevron_down_24_regular,
                                         color: kWhite,
                                       ),
-                                      style: MyFonts.w600
-                                          .size(14)
-                                          .setColor(kWhite),
+                                      style: MyFonts.w600.size(14).setColor(kWhite),
                                       onChanged: (data) {
                                         setState(() {
                                           degree = data!;
@@ -380,18 +337,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       },
                                       menuMaxHeight: 250,
                                       items: degrees.keys
-                                          .map<DropdownMenuItem<String>>(
-                                              (String value) {
+                                          .map<DropdownMenuItem<String>>((String value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 15),
+                                            padding: const EdgeInsets.only(left: 15),
                                             child: Text(
                                               value,
-                                              style: MyFonts.w600
-                                                  .size(14)
-                                                  .setColor(kWhite),
+                                              style: MyFonts.w600.size(14).setColor(kWhite),
                                             ),
                                           ),
                                         );
@@ -400,20 +353,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, top: 15, bottom: 10),
+                                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                                   child: Text(
                                     "Gender",
-                                    style:
-                                        MyFonts.w600.size(16).setColor(kWhite),
+                                    style: MyFonts.w600.size(16).setColor(kWhite),
                                   ),
                                 ),
                                 Theme(
-                                  data: Theme.of(context)
-                                      .copyWith(canvasColor: kBlueGrey),
+                                  data: Theme.of(context).copyWith(canvasColor: kBlueGrey),
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 5),
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                                     child: DropdownButtonFormField<String>(
                                       validator: (val) {
                                         if (val == null) {
@@ -422,47 +372,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         return null;
                                       },
                                       hint: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15),
+                                        padding: const EdgeInsets.only(left: 15),
                                         child: Text("Select your degree",
-                                            style: MyFonts.w500
-                                                .setColor(kGrey8)
-                                                .size(16)),
+                                            style: MyFonts.w500.setColor(kGrey8).size(16)),
                                       ),
                                       decoration: InputDecoration(
                                         errorStyle: MyFonts.w400,
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                       ),
                                       icon: const Icon(
                                         FluentIcons.chevron_down_24_regular,
                                         color: kWhite,
                                       ),
-                                      style: MyFonts.w600
-                                          .size(14)
-                                          .setColor(kWhite),
+                                      style: MyFonts.w600.size(14).setColor(kWhite),
                                       onChanged: (data) {
                                         setState(() {
                                           gender = data!;
@@ -470,18 +407,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       },
                                       menuMaxHeight: 250,
                                       items: ["Male", "Female"]
-                                          .map<DropdownMenuItem<String>>(
-                                              (String value) {
+                                          .map<DropdownMenuItem<String>>((String value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 15),
+                                            padding: const EdgeInsets.only(left: 15),
                                             child: Text(
                                               value,
-                                              style: MyFonts.w600
-                                                  .size(14)
-                                                  .setColor(kWhite),
+                                              style: MyFonts.w600.size(14).setColor(kWhite),
                                             ),
                                           ),
                                         );
@@ -490,20 +423,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, top: 15, bottom: 10),
+                                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                                   child: Text(
                                     "Branch",
-                                    style:
-                                        MyFonts.w600.size(16).setColor(kWhite),
+                                    style: MyFonts.w600.size(16).setColor(kWhite),
                                   ),
                                 ),
                                 Theme(
-                                  data: Theme.of(context)
-                                      .copyWith(canvasColor: kBlueGrey),
+                                  data: Theme.of(context).copyWith(canvasColor: kBlueGrey),
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 5),
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                                     child: DropdownButtonFormField<String>(
                                       validator: (val) {
                                         if (val == null) {
@@ -512,47 +442,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         return null;
                                       },
                                       hint: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15),
+                                        padding: const EdgeInsets.only(left: 15),
                                         child: Text("Select your branch",
-                                            style: MyFonts.w500
-                                                .setColor(kGrey8)
-                                                .size(16)),
+                                            style: MyFonts.w500.setColor(kGrey8).size(16)),
                                       ),
                                       decoration: InputDecoration(
                                         errorStyle: MyFonts.w400,
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              const BorderSide(color: kGrey8),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          borderSide: const BorderSide(color: kGrey8),
+                                          borderRadius: BorderRadius.circular(24),
                                         ),
                                       ),
                                       icon: const Icon(
                                         FluentIcons.chevron_down_24_regular,
                                         color: kWhite,
                                       ),
-                                      style: MyFonts.w600
-                                          .size(14)
-                                          .setColor(kWhite),
+                                      style: MyFonts.w600.size(14).setColor(kWhite),
                                       onChanged: (data) {
                                         setState(() {
                                           branch = data!;
@@ -560,18 +477,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       },
                                       menuMaxHeight: 250,
                                       items: branches.keys
-                                          .map<DropdownMenuItem<String>>(
-                                              (String value) {
+                                          .map<DropdownMenuItem<String>>((String value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 15),
+                                            padding: const EdgeInsets.only(left: 15),
                                             child: Text(
                                               value,
-                                              style: MyFonts.w600
-                                                  .size(14)
-                                                  .setColor(kWhite),
+                                              style: MyFonts.w600.size(14).setColor(kWhite),
                                             ),
                                           ),
                                         );
@@ -607,8 +520,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         setState(() {
                                           submitted = false;
                                         });
-                                        showSnackBar(
-                                            'Please check your internet');
+                                        showSnackBar('Please check your internet');
                                       }
                                     }
                                   },

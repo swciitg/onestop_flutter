@@ -21,7 +21,7 @@ import '../../functions/food/rest_frame_builder.dart';
 import '../../models/home/home_image.dart';
 
 class HomeTab extends StatefulWidget {
-  const HomeTab({Key? key}) : super(key: key);
+  const HomeTab({super.key});
 
   @override
   State<HomeTab> createState() => _HomeTabState();

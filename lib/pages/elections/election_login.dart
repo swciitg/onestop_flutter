@@ -1,53 +1,64 @@
-// import 'package:flutter/material.dart';
-// import 'package:onestop_dev/pages/elections/register_screen.dart';
-// import 'package:webview_cookie_manager/webview_cookie_manager.dart';
-// import 'package:webview_flutter/webview_flutter.dart';
-//
-// class ElectionLoginWebView extends StatefulWidget {
-//   static const String id = "/electionView";
-//
-//   const ElectionLoginWebView({super.key});
-//
-//   @override
-//   State<ElectionLoginWebView> createState() => _ElectionLoginWebViewState();
-// }
-//
-// class _ElectionLoginWebViewState extends State<ElectionLoginWebView> {
-//   late WebViewController controller;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     controller = WebViewController()
-//       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-//       ..setNavigationDelegate(NavigationDelegate(
-//         onPageFinished: (url) async {
-//           final nav = Navigator.of(context);
-//           if (url.startsWith('https://swc.iitg.ac.in/election_portal')) {
-//             List cookies = await WebviewCookieManager().getCookies(
-//                 'https://swc.iitg.ac.in/elections_api/auth/login_success');
-//             nav.pushReplacement(MaterialPageRoute(
-//                 builder: (context) =>
-//                     RegisterScreen(authCookie: cookies.join("; "))));
-//           }
-//         },
-//       ))
-//       ..loadRequest(Uri.parse(
-//           "https://swc.iitg.ac.in/elections_api/auth/accounts/microsoft/login/"));
-//   }
-//
-//   @override
-//   void dispose() {
-//     WebviewCookieManager().clearCookies();
-//     super.dispose();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: WebViewWidget(
-//         controller: controller,
-//       ),
-//     );
-//   }
-// }
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:onestop_dev/pages/elections/register_screen.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
+class ElectionLoginWebView extends StatefulWidget {
+  static const String id = "/electionView";
+
+  const ElectionLoginWebView({super.key});
+
+  @override
+  State<ElectionLoginWebView> createState() => _ElectionLoginWebViewState();
+}
+
+class _ElectionLoginWebViewState extends State<ElectionLoginWebView> {
+  late InAppWebViewController controller;
+  final CookieManager cookieManager = CookieManager.instance();
+
+  @override
+  void dispose() {
+    // Clear cookies when the widget is disposed
+    cookieManager.deleteAllCookies();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: InAppWebView(
+          initialUrlRequest: URLRequest(
+            url: WebUri.uri(
+                Uri.parse("https://swc.iitg.ac.in/elections_api/auth/accounts/microsoft/login/")),
+          ),
+          initialSettings: InAppWebViewSettings(javaScriptEnabled: true),
+          onWebViewCreated: (InAppWebViewController webViewController) {
+            controller = webViewController;
+          },
+          onLoadStop: (InAppWebViewController controller, Uri? url) async {
+            if (url != null &&
+                url.toString().startsWith('https://swc.iitg.ac.in/election_portal')) {
+              // Get cookies
+              final cookies = (await cookieManager.getCookies(
+                      url: WebUri.uri(
+                          Uri.parse('https://swc.iitg.ac.in/elections_api/auth/login_success'))))
+                  .map((e) => "${e.name}=${e.value}")
+                  .toList();
+
+              // Navigate to the RegisterScreen with the cookies
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => RegisterScreen(
+                    authCookie: cookies.join('; '),
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+      ),
+    );
+  }
+}

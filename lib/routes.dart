@@ -1,6 +1,7 @@
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
+import 'package:onestop_dev/pages/elections/election_login.dart';
 import 'package:onestop_dev/pages/events_feed/events_appbar.dart';
 import 'package:onestop_dev/pages/food/mess_opi_form.dart';
 import 'package:onestop_dev/pages/food/mess_subscription_change_form.dart';
@@ -40,7 +41,7 @@ final routes = {
   MessSubscriptionPage.id: (context) => const MessSubscriptionPage(),
   MedicalSection.id: (context) => MedicalSection(),
   HostelService.id: (context) => const HostelService(),
-  // ElectionLoginWebView.id: (context) => const ElectionLoginWebView(),
+  ElectionLoginWebView.id: (context) => const ElectionLoginWebView(),
   GateLogPage.id: (context) => const GateLogPage(),
   EventsScreenWrapper.id: (context) => const EventsScreenWrapper(),
 };

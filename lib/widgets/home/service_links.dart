@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
+import 'package:onestop_dev/pages/elections/election_login.dart';
 import 'package:onestop_dev/pages/events_feed/events_appbar.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
@@ -29,6 +30,12 @@ List<HomeTabTile> serviceLinks = [
     routeId: ComplaintsPage.id,
   ),
   const HomeTabTile(
+    label: "Election Register",
+    icon: FluentIcons.person_arrow_right_16_regular,
+    routeId: ElectionLoginWebView.id,
+    newBadge: true,
+  ),
+  const HomeTabTile(
     label: "GateLog",
     icon: FluentIcons.door_20_regular,
     routeId: GateLogPage.id,
@@ -52,7 +59,7 @@ List<HomeTabTile> serviceLinks = [
     label: "Medical Section",
     icon: FluentIcons.doctor_24_regular,
     routeId: MedicalSection.id,
-    newBadge: true,
+    newBadge: false,
   ),
   const HomeTabTile(
     label: "Contacts",
