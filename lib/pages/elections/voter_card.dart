@@ -11,8 +11,7 @@ class VoterCard extends StatefulWidget {
   final String email;
   final String authCookie;
 
-  const VoterCard({Key? key, required this.email, required this.authCookie})
-      : super(key: key);
+  const VoterCard({Key? key, required this.email, required this.authCookie}) : super(key: key);
 
   @override
   State<VoterCard> createState() => _VoterCardState();
@@ -80,13 +79,11 @@ class _VoterCardState extends State<VoterCard> {
 
   @override
   Widget build(BuildContext context) {
-    dio.options.headers['cookie'] =
-        widget.authCookie; // setting cookies for auth
+    dio.options.headers['cookie'] = widget.authCookie; // setting cookies for auth
     dio.post("https://swc.iitg.ac.in/elections_api/sgc/voting/get_eprofile/",
         data: {"email": widget.email}).then((value) {});
     return FutureBuilder<Response>(
-        future: dio.post(
-            "https://swc.iitg.ac.in/elections_api/sgc/voting/get_eprofile/",
+        future: dio.post("https://swc.iitg.ac.in/elections_api/sgc/voting/get_eprofile/",
             data: {"email": widget.email}),
         builder: (context, snapshot) {
           if (!snapshot.hasData || snapshot.hasError) {
@@ -114,9 +111,8 @@ class _VoterCardState extends State<VoterCard> {
                               child: Container(
                                   alignment: Alignment.center,
                                   child: Text(
-                                    "IITG GYMKHANA ELECTIONS 2024",
-                                    style:
-                                        MyFonts.w700.setColor(kWhite).size(25),
+                                    "IITG GYMKHANA ELECTIONS 2025",
+                                    style: MyFonts.w700.setColor(kWhite).size(25),
                                     textAlign: TextAlign.center,
                                   ))),
                         ],
