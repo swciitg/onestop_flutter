@@ -4,8 +4,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 class ProgressBar extends StatelessWidget {
   final int blue;
   final int grey;
-  const ProgressBar({Key? key, required this.blue, required this.grey})
-      : super(key: key);
+  const ProgressBar({super.key, required this.blue, required this.grey});
 
   @override
   Widget build(BuildContext context) {

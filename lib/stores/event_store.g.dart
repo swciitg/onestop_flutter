@@ -16,6 +16,13 @@ mixin _$EventsStore on _EventsStore, Store {
           Computed<String>(() => super.currentEventCategory,
               name: '_EventsStore.currentEventCategory'))
       .value;
+  Computed<List<EventModel>>? _$activeSavedEventsComputed;
+
+  @override
+  List<EventModel> get activeSavedEvents => (_$activeSavedEventsComputed ??=
+          Computed<List<EventModel>>(() => super.activeSavedEvents,
+              name: '_EventsStore.activeSavedEvents'))
+      .value;
   Computed<List<Widget>>? _$savedScrollComputed;
 
   @override
@@ -142,6 +149,7 @@ isAdminView: ${isAdminView},
 admin: ${admin},
 savedEvents: ${savedEvents},
 currentEventCategory: ${currentEventCategory},
+activeSavedEvents: ${activeSavedEvents},
 savedScroll: ${savedScroll}
     ''';
   }

@@ -9,8 +9,7 @@ class DataTile extends StatelessWidget {
   final String title;
   final String? semiTitle;
 
-  const DataTile({Key? key, required this.title, required this.semiTitle})
-      : super(key: key);
+  const DataTile({super.key, required this.title, required this.semiTitle});
 
   @override
   Widget build(BuildContext context) {

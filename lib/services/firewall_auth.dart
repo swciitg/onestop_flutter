@@ -37,7 +37,6 @@ class FirewallAuth {
       'https://$_ipFirewall:$_firewallPort/logout?030403030f050d06';
 
   String _keepAliveUrl = '';
-  static const int _sessionTimeout = 30; // In seconds
 
   final Dio _dio = Dio(BaseOptions(
     followRedirects: false,

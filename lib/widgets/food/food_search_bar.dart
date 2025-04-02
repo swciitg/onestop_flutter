@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 
 class FoodSearchBar extends StatelessWidget {
   FoodSearchBar({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final TextEditingController searchStringController = TextEditingController();
 

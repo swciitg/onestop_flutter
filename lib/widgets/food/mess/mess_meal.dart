@@ -8,9 +8,9 @@ import 'package:provider/provider.dart';
 
 class MessMeal extends StatelessWidget {
   const MessMeal({
-    Key? key,
+    super.key,
     required this.mealName,
-  }) : super(key: key);
+  });
   final String mealName;
 
   @override

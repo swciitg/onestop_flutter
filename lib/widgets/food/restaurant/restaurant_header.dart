@@ -12,9 +12,9 @@ import 'call_map_button.dart';
 
 class RestaurantHeader extends StatelessWidget {
   const RestaurantHeader({
-    Key? key,
+    super.key,
     required this.restaurant,
-  }) : super(key: key);
+  });
   final RestaurantModel restaurant;
 
   @override
@@ -60,18 +60,16 @@ class RestaurantHeader extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(150),
-                    color: Colors.grey.withOpacity(0.2),
+                    color: Colors.grey.withValues(alpha: 0.2),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 5.0, vertical: 2.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Icon(FluentIcons.circle_12_filled,
-                              color: kWhite, size: 5),
+                          child: Icon(FluentIcons.circle_12_filled, color: kWhite, size: 5),
                         ),
                         const Icon(
                           FluentIcons.clock_24_regular,
@@ -121,8 +119,8 @@ class RestaurantHeader extends StatelessWidget {
                           callMap: 'Map',
                           icon: FluentIcons.location_24_regular,
                           callback: () {
-                            openMap(restaurant.latitude, restaurant.longitude,
-                                context, restaurant.outletName);
+                            openMap(restaurant.latitude, restaurant.longitude, context,
+                                restaurant.outletName);
                           },
                         ),
                       ),

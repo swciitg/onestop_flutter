@@ -10,7 +10,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class StopsBusDetails extends StatefulWidget {
-  const StopsBusDetails({Key? key}) : super(key: key);
+  const StopsBusDetails({super.key});
 
   @override
   State<StopsBusDetails> createState() => _StopsBusDetailsState();

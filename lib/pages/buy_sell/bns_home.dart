@@ -135,7 +135,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               List<BuyModel> models =
-                                  snapshot.data! as List<BuyModel>;
+                                  snapshot.data!;
                               List<MyAdsTile> tiles = models
                                   .map((e) => MyAdsTile(model: e))
                                   .toList();
@@ -269,8 +269,7 @@ class _BuySellHomeState extends State<BuySellHome> {
 
 class ItemType2 extends StatelessWidget {
   const ItemType2(
-      {Key? key, required this.commonStore, required this.title, this.label})
-      : super(key: key);
+      {super.key, required this.commonStore, required this.title, this.label});
 
   final CommonStore commonStore;
   final String title;

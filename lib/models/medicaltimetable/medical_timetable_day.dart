@@ -1,13 +1,12 @@
 import 'package:onestop_dev/models/medicaltimetable/doctor_model.dart';
-import 'package:onestop_dev/models/timetable/course_model.dart';
 
 class MedicalTimetableDay {
-  List<DoctorModel> institute_docs = [];
-  List<DoctorModel> visiting_docs = [];
+  List<DoctorModel> instituteDocs = [];
+  List<DoctorModel> visitingDocs = [];
 
-  void addInstitueDocs(DoctorModel c) => institute_docs.add(c);
+  void addInstitueDocs(DoctorModel c) => instituteDocs.add(c);
 
-  void addVisitingDocs(DoctorModel c) => visiting_docs.add(c);
+  void addVisitingDocs(DoctorModel c) => visitingDocs.add(c);
 
   // @override
   // String toString() {

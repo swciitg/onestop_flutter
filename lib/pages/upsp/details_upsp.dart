@@ -14,7 +14,7 @@ class DetailsUpsp extends StatefulWidget {
   static const id = '/DetailsUpspPage';
   final Map<String, dynamic> data;
 
-  const DetailsUpsp({Key? key, required this.data}) : super(key: key);
+  const DetailsUpsp({super.key, required this.data});
 
   @override
   State<DetailsUpsp> createState() => _DetailsUpspState();

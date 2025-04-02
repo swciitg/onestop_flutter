@@ -13,8 +13,7 @@ class TimetableTile extends StatelessWidget {
   final CourseModel course;
   final bool inHomePage;
 
-  const TimetableTile({Key? key, required this.course, this.inHomePage = false})
-      : super(key: key);
+  const TimetableTile({super.key, required this.course, this.inHomePage = false});
 
   @override
   Widget build(BuildContext context) {

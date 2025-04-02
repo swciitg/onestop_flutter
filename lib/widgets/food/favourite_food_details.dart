@@ -8,10 +8,10 @@ import 'package:provider/provider.dart';
 
 class FavouriteFoodDetails extends StatelessWidget {
   const FavouriteFoodDetails({
-    Key? key,
+    super.key,
     required this.foodName,
     required this.img,
-  }) : super(key: key);
+  });
 
   final String foodName;
   final Image img;

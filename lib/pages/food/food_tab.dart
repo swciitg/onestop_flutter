@@ -10,7 +10,7 @@ import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class FoodTab extends StatelessWidget {
-  const FoodTab({Key? key}) : super(key: key);
+  const FoodTab({super.key});
 
   @override
   Widget build(BuildContext context) {

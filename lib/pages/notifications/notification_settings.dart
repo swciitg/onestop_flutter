@@ -9,7 +9,7 @@ import 'package:onestop_dev/widgets/notifications/notif_toggle.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class NotificationSettings extends StatefulWidget {
-  const NotificationSettings({Key? key}) : super(key: key);
+  const NotificationSettings({super.key});
 
   @override
   State<NotificationSettings> createState() => _NotificationSettingsState();

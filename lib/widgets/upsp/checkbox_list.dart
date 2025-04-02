@@ -5,10 +5,10 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class RadioButtonList extends StatefulWidget {
   const RadioButtonList({
-    Key? key,
+    super.key,
     required this.values,
     required this.controller,
-  }) : super(key: key);
+  });
   final List<String> values;
   final RadioButtonListController controller;
 

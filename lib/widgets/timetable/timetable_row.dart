@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 
 class TimetableRow extends StatelessWidget {
   const TimetableRow({
-    Key? key,
+    super.key,
     required this.classes,
-  }) : super(key: key);
+  });
 
   final List<Widget> classes;
 

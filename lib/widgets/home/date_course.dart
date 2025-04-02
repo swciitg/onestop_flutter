@@ -12,8 +12,8 @@ import 'package:provider/provider.dart';
 
 class DateCourse extends StatefulWidget {
   const DateCourse({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<DateCourse> createState() => _DateCourseState();

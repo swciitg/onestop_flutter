@@ -15,7 +15,7 @@ class MyAdsTile extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
   final model;
 
-  const MyAdsTile({Key? key, this.model}) : super(key: key);
+  const MyAdsTile({super.key, this.model});
 
   @override
   State<MyAdsTile> createState() => _MyAdsTileState();
@@ -35,8 +35,7 @@ class _MyAdsTileState extends State<MyAdsTile> {
             detailsDialogBox(context, widget.model);
           },
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+            padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
             child: Container(
               height: 115,
               decoration: BoxDecoration(
@@ -93,8 +92,7 @@ class _MyAdsTileState extends State<MyAdsTile> {
                                             widget.model.location)
                                         : widget.model.description,
                                     overflow: TextOverflow.ellipsis,
-                                    style:
-                                        MyFonts.w500.size(12).setColor(kGrey6),
+                                    style: MyFonts.w500.size(12).setColor(kGrey6),
                                   ),
                                 ),
                                 isLnf
@@ -102,9 +100,7 @@ class _MyAdsTileState extends State<MyAdsTile> {
                                     : Expanded(
                                         child: Text(
                                           '\u{20B9}${widget.model.price}/-',
-                                          style: MyFonts.w600
-                                              .size(14)
-                                              .setColor(lBlue4),
+                                          style: MyFonts.w600.size(14).setColor(lBlue4),
                                         ),
                                       ),
                               ],
@@ -118,8 +114,7 @@ class _MyAdsTileState extends State<MyAdsTile> {
                     flex: 4,
                     child: ClipRRect(
                       borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(21),
-                          bottomRight: Radius.circular(21)),
+                          topRight: Radius.circular(21), bottomRight: Radius.circular(21)),
                       child: Image.network(widget.model.imageURL,
                           cacheWidth: 100,
                           fit: BoxFit.cover,
@@ -140,13 +135,12 @@ class _MyAdsTileState extends State<MyAdsTile> {
               });
             },
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+              padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
               child: Container(
                 height: 115,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(21),
-                  color: Colors.black.withOpacity(0.74),
+                  color: Colors.black.withValues(alpha: 0.74),
                 ),
               ),
             ),
@@ -165,11 +159,9 @@ class _MyAdsTileState extends State<MyAdsTile> {
               ),
               onPressed: () async {
                 if (isLnf) {
-                  await LnfRepository()
-                      .deleteLnfMyAd(widget.model.id, widget.model.email);
+                  await LnfRepository().deleteLnfMyAd(widget.model.id, widget.model.email);
                 } else {
-                  await BnsRepository()
-                      .deleteBnsMyAd(widget.model.id, widget.model.email);
+                  await BnsRepository().deleteBnsMyAd(widget.model.id, widget.model.email);
                 }
 
                 if (!mounted) return;

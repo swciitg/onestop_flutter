@@ -29,8 +29,7 @@ class _MedicalContactsState extends State<MedicalContacts> {
             future: DataService.getMedicalContacts(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                Allmedicalcontacts medicalAPIContacts =
-                    snapshot.data as Allmedicalcontacts;
+                Allmedicalcontacts medicalAPIContacts = snapshot.data as Allmedicalcontacts;
                 List<List<MedicalcontactModel>> medicalContacts = [[], [], []];
                 for (var element in medicalAPIContacts.alldoctors) {
                   if (element.category == 'Permanent Doctors') {
@@ -98,13 +97,8 @@ class _MedicalContactsState extends State<MedicalContacts> {
                         height: 10,
                       ),
                       Text("Institute Doctors",
-                          style: MyFonts.w700
-                              .setColor(kWhite)
-                              .size(14)
-                              .copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey,
-                                  fontSize: 16)),
+                          style: MyFonts.w700.setColor(kWhite).size(14).copyWith(
+                              fontWeight: FontWeight.w500, color: Colors.grey, fontSize: 16)),
                       const SizedBox(
                         height: 10,
                       ),
@@ -115,9 +109,7 @@ class _MedicalContactsState extends State<MedicalContacts> {
                       Text(
                         "Visiting Doctors",
                         style: MyFonts.w700.setColor(kWhite).size(14).copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey,
-                            fontSize: 16),
+                            fontWeight: FontWeight.w500, color: Colors.grey, fontSize: 16),
                       ),
                       const SizedBox(
                         height: 10,
@@ -127,13 +119,8 @@ class _MedicalContactsState extends State<MedicalContacts> {
                         height: 10,
                       ),
                       Text("Reception & Support Contacts",
-                          style: MyFonts.w700
-                              .setColor(kWhite)
-                              .size(14)
-                              .copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey,
-                                  fontSize: 16)),
+                          style: MyFonts.w700.setColor(kWhite).size(14).copyWith(
+                              fontWeight: FontWeight.w500, color: Colors.grey, fontSize: 16)),
                       const SizedBox(
                         height: 10,
                       ),
@@ -178,17 +165,13 @@ Widget _buildContactList(List<MedicalcontactModel> medList) {
       shrinkWrap: true,
       primary: false,
       itemBuilder: (context, index) {
-        bool isMisc =
-            medList[index].miscellaneous_contact.toString().length != 0;
-        var name = isMisc
-            ? medList[index].miscellaneous_contact
-            : medList[index].name.name;
+        bool isMisc = medList[index].miscellaneousContact.toString().isNotEmpty;
+        var name = isMisc ? medList[index].miscellaneousContact : medList[index].name.name;
         return InkWell(
           onTap: () {
             showDialog(
                 context: context,
-                builder: (_) => MedicalContactDialog(
-                    contact: medList[index], isMisc: isMisc),
+                builder: (_) => MedicalContactDialog(contact: medList[index], isMisc: isMisc),
                 barrierDismissible: true);
           },
           child: Card(

@@ -5,7 +5,7 @@ import 'package:onestop_dev/widgets/food/favourite_food_details.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class FavoriteDishes extends StatelessWidget {
-  const FavoriteDishes({Key? key}) : super(key: key);
+  const FavoriteDishes({super.key});
 
   @override
   Widget build(BuildContext context) {

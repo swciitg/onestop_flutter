@@ -11,7 +11,7 @@ class VoterCard extends StatefulWidget {
   final String email;
   final String authCookie;
 
-  const VoterCard({Key? key, required this.email, required this.authCookie}) : super(key: key);
+  const VoterCard({super.key, required this.email, required this.authCookie});
 
   @override
   State<VoterCard> createState() => _VoterCardState();

@@ -1,5 +1,3 @@
-import 'package:badges/badges.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:url_launcher/url_launcher.dart';

@@ -12,11 +12,11 @@ class HomeLinks extends StatefulWidget {
   final int rows; // Number of rows as an argument
 
   const HomeLinks({
-    Key? key,
+    super.key,
     required this.links,
     required this.title,
     this.rows = 2, // Default number of rows set to 2
-  }) : super(key: key);
+  });
 
   @override
   State<HomeLinks> createState() => _HomeLinksState();
@@ -88,7 +88,7 @@ class _HomeLinksState extends State<HomeLinks> {
                 ),
                 if (widget.links.length > itemsPerSlide)
                   DotsIndicator(
-                    position: activePageIndex,
+                    position: activePageIndex.toDouble(),
                     decorator: const DotsDecorator(
                       activeColor: OneStopColors.kWhite,
                       color: OneStopColors.cardColor,

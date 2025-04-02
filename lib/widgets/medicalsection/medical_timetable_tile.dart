@@ -8,8 +8,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 class MedicalTimetableTile extends StatelessWidget {
   final DoctorModel doctor;
 
-  const MedicalTimetableTile({Key? key, required this.doctor})
-      : super(key: key);
+  const MedicalTimetableTile({super.key, required this.doctor});
 
   @override
   Widget build(BuildContext context) {

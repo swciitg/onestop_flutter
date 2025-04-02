@@ -7,7 +7,7 @@ import 'package:onestop_dev/widgets/food/mess/mess_link_tile.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class MessLinks extends StatelessWidget {
-  const MessLinks({Key? key}) : super(key: key);
+  const MessLinks({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 class TimeTableTab extends StatefulWidget {
   static const String id = '/time';
 
-  const TimeTableTab({Key? key}) : super(key: key);
+  const TimeTableTab({super.key});
 
   @override
   State<TimeTableTab> createState() => _TimeTableTabState();

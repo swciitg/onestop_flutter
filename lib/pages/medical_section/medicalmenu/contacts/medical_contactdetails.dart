@@ -12,8 +12,7 @@ class MedicalContactdetails extends StatefulWidget {
   final String title;
   final List<MedicalcontactModel> contacts;
 
-  const MedicalContactdetails({Key? key, required this.contacts, required this.title})
-      : super(key: key);
+  const MedicalContactdetails({super.key, required this.contacts, required this.title});
 
   @override
   State<MedicalContactdetails> createState() => _MedicalContactdetailsState();
@@ -29,8 +28,7 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
           backgroundColor: kBlueGrey,
           leading: Container(),
           leadingWidth: 0,
-          title:
-              Text('Contacts', style: MyFonts.w500.size(20).setColor(kWhite)),
+          title: Text('Contacts', style: MyFonts.w500.size(20).setColor(kWhite)),
           actions: [
             IconButton(
               onPressed: () {
@@ -102,28 +100,21 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: widget.contacts.map((item) {
-                    var name = isMisc ? item.miscellaneous_contact : item.name.name;
+                    var name = isMisc ? item.miscellaneousContact : item.name.name;
                     return Padding(
-                      padding: const EdgeInsets.only(
-                          top: 4.0, bottom: 4.0, right: 10),
+                      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0, right: 10),
                       child: GestureDetector(
                         onTap: () {
                           showDialog(
                               context: context,
-                              builder: (_) => 
-                                    MedicalContactDialog(contact: item, isMisc: isMisc),
-                                  
+                              builder: (_) => MedicalContactDialog(contact: item, isMisc: isMisc),
                               barrierDismissible: true);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ContactText(
-                                text: name!,
-                                align: AlignmentDirectional.topStart),
-                            ContactText(
-                                text: item.email ?? "",
-                                align: AlignmentDirectional.center),
+                            ContactText(text: name!, align: AlignmentDirectional.topStart),
+                            ContactText(text: item.email ?? "", align: AlignmentDirectional.center),
                             ContactText(
                                 text: "361258${item.phone.toString()}",
                                 align: AlignmentDirectional.bottomEnd),

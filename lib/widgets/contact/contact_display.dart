@@ -7,8 +7,7 @@ class ContactText extends StatelessWidget {
   final String text;
   final AlignmentDirectional align;
 
-  const ContactText({Key? key, required this.text, required this.align})
-      : super(key: key);
+  const ContactText({super.key, required this.text, required this.align});
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +33,7 @@ class ContactTextHeader extends StatelessWidget {
   final AlignmentDirectional align;
 
   const ContactTextHeader(
-      {Key? key, required this.text, required this.width, required this.align})
-      : super(key: key);
+      {super.key, required this.text, required this.width, required this.align});
 
   @override
   Widget build(BuildContext context) {

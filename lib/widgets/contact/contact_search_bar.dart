@@ -17,8 +17,8 @@ import 'package:provider/provider.dart';
 
 class ContactSearchBar extends StatelessWidget {
   const ContactSearchBar({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

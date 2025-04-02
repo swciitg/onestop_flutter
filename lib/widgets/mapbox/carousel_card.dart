@@ -15,8 +15,7 @@ class CarouselCard extends StatelessWidget {
   final String name;
   final int index;
 
-  const CarouselCard({Key? key, required this.index, required this.name})
-      : super(key: key);
+  const CarouselCard({super.key, required this.index, required this.name});
 
   @override
   Widget build(BuildContext context) {

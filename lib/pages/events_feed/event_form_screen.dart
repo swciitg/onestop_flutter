@@ -610,7 +610,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
   }
 
   Future<void> _editForm() async {
-    var res = {};
     final nav = Navigator.of(context);
 
     Map<String, dynamic> data = {};
@@ -652,7 +651,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
     );
 
     try {
-      res = await EventsAPIRepository().putEvent(widget.event!.id, data);
+      await EventsAPIRepository().putEvent(widget.event!.id, data);
       // Hide the loading dialog after the event is updated
       nav.pop();
       showSnackBar('Event updated successfully!');

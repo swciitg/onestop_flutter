@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:onestop_dev/globals/database_strings.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
 class LocalStorage {

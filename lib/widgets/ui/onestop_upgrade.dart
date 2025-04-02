@@ -16,7 +16,7 @@ class OneStopUpgraderMessages extends UpgraderMessages {
 class OneStopUpgrader extends StatelessWidget {
   final Widget child;
 
-  const OneStopUpgrader({Key? key, required this.child}) : super(key: key);
+  const OneStopUpgrader({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

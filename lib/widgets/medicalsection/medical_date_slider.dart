@@ -10,7 +10,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class MedicalDateSlider extends StatefulWidget {
-  const MedicalDateSlider({Key? key}) : super(key: key);
+  const MedicalDateSlider({super.key});
 
   @override
   State<MedicalDateSlider> createState() => _MedicalDateSliderState();

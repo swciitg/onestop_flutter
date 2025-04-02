@@ -13,8 +13,7 @@ class ContactDetailsPage extends StatefulWidget {
   final String title;
   final ContactModel? contact;
 
-  const ContactDetailsPage({Key? key, this.contact, required this.title})
-      : super(key: key);
+  const ContactDetailsPage({super.key, this.contact, required this.title});
 
   @override
   State<ContactDetailsPage> createState() => _ContactDetailsPageState();

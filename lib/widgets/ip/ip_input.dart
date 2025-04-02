@@ -10,12 +10,11 @@ class IpField extends StatelessWidget {
   final String texta;
   final String textb;
   const IpField(
-      {Key? key,
+      {super.key,
       required this.control,
       required this.hostel,
       required this.texta,
-      required this.textb})
-      : super(key: key);
+      required this.textb});
 
   @override
   Widget build(BuildContext context) {

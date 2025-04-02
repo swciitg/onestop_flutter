@@ -8,10 +8,10 @@ import '../../globals/my_colors.dart';
 import '../../globals/my_fonts.dart';
 
 class ExamTile extends StatelessWidget {
-  bool isEndSem = false;
+  final bool isEndSem;
   final CourseModel course;
 
-  ExamTile({super.key, required this.course, this.isEndSem = false});
+  const ExamTile({super.key, required this.course, this.isEndSem = false});
 
   String formatTime(String time, String type) {
     DateTime examTime = DateTime.parse(time);

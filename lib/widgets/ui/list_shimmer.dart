@@ -9,10 +9,10 @@ class ListShimmer extends StatelessWidget {
   late final int count;
   // ignore: prefer_const_constructors_in_immutables
   ListShimmer({
-    Key? key,
+    super.key,
     this.height = 80,
     this.count = 3,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

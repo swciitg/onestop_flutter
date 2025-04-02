@@ -6,7 +6,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 class NextButton extends StatelessWidget {
   final String title;
 
-  const NextButton({Key? key, required this.title}) : super(key: key);
+  const NextButton({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {

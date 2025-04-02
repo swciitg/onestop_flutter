@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 class LostFoundHome extends StatefulWidget {
   static const id = "/lostFoundHome";
 
-  const LostFoundHome({Key? key}) : super(key: key);
+  const LostFoundHome({super.key});
 
   @override
   State<LostFoundHome> createState() => _LostFoundHomeState();
@@ -130,7 +130,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               List<dynamic> models =
-                                  snapshot.data! as List<dynamic>;
+                                  snapshot.data!;
                               List<MyAdsTile> tiles = models
                                   .map((e) => MyAdsTile(model: e))
                                   .toList();
@@ -258,7 +258,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
 class PaginationText extends StatelessWidget {
   final String text;
 
-  const PaginationText({Key? key, required this.text}) : super(key: key);
+  const PaginationText({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

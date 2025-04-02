@@ -8,7 +8,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class DateSlider extends StatefulWidget {
-  const DateSlider({Key? key}) : super(key: key);
+  const DateSlider({super.key});
 
   @override
   State<DateSlider> createState() => _DateSliderState();

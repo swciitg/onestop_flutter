@@ -25,7 +25,7 @@ bool fg = true;
 class RouterPage extends StatefulWidget {
   static const String id = "/ip";
 
-  const RouterPage({Key? key}) : super(key: key);
+  const RouterPage({super.key});
 
   @override
   State<RouterPage> createState() => _RouterPageState();

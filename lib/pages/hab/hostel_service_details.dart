@@ -1,3 +1,7 @@
+// ignore_for_file: constant_identifier_names
+
+import 'dart:developer';
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,8 +37,7 @@ const List<String> Services = [
 class HostelServiceDetails extends StatefulWidget {
   final String complaintType;
 
-  const HostelServiceDetails({Key? key, required this.complaintType})
-      : super(key: key);
+  const HostelServiceDetails({super.key, required this.complaintType});
 
   @override
   State<HostelServiceDetails> createState() => HostelServiceDetailsState();
@@ -44,7 +47,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
   List<String> files = [];
   TextEditingController problem = TextEditingController();
   RadioButtonListController servicesController = RadioButtonListController();
-  RadioButtonListController InfraController = RadioButtonListController();
+  RadioButtonListController infraController = RadioButtonListController();
   bool submitted = false;
   TextEditingController contact = TextEditingController();
   TextEditingController complaintID = TextEditingController();
@@ -92,16 +95,14 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
     String name = userData['name']!;
     roomNo.text = userData['roomNo']!.toString();
     Hostel selectedHostel =
-        userData['hostel']!.toString().getHostelFromDatabaseString() ??
-            Hostel.none;
+        userData['hostel']!.toString().getHostelFromDatabaseString() ?? Hostel.none;
     contact.text = userData['phoneNumber']!.toString();
 
     return Theme(
       data: Theme.of(context).copyWith(
           checkboxTheme: CheckboxThemeData(
               side: const BorderSide(color: kWhite),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(3)))),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)))),
       child: Scaffold(
         backgroundColor: kBackground,
         appBar: AppBar(
@@ -127,8 +128,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                     Container(
                       color: kBlueGrey,
                       child: Container(
-                        margin: const EdgeInsets.only(
-                            top: 10, bottom: 15, left: 15),
+                        margin: const EdgeInsets.only(top: 10, bottom: 15, left: 15),
                         width: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,24 +149,20 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                             ),
                             if (widget.complaintType == "Infra") ...[
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 0, top: 10, bottom: 0),
+                                padding: const EdgeInsets.only(left: 0, top: 10, bottom: 0),
                                 child: RichText(
                                   text: TextSpan(
                                     children: [
                                       TextSpan(
                                         text: '* ', // The asterisk in red color
-                                        style: OnestopFonts.w600
-                                            .size(11)
-                                            .copyWith(color: Colors.red),
+                                        style:
+                                            OnestopFonts.w600.size(11).copyWith(color: Colors.red),
                                       ),
                                       TextSpan(
                                         text:
                                             'File your complaint 72 hours after registering on the IPM portal.',
                                         // Rest of the text
-                                        style: OnestopFonts.w600
-                                            .size(11)
-                                            .setColor(kGrey8),
+                                        style: OnestopFonts.w600.size(11).setColor(kGrey8),
                                       ),
                                     ],
                                   ),
@@ -184,13 +180,10 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                           children: [
                             if (widget.complaintType == "Infra") ...[
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15, top: 15, bottom: 10),
+                                padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                                 child: Text(
                                   "Complaint ID",
-                                  style: OnestopFonts.w600
-                                      .size(16)
-                                      .setColor(kWhite),
+                                  style: OnestopFonts.w600.size(16).setColor(kWhite),
                                 ),
                               ),
                               RichText(
@@ -199,9 +192,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                     WidgetSpan(
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 15,
-                                            bottom:
-                                                1.5), // Adjust this value as needed
+                                            left: 15, bottom: 1.5), // Adjust this value as needed
                                         child: Text(
                                           '*',
                                           style: OnestopFonts.w600
@@ -213,11 +204,8 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                           .middle, // Aligns the asterisk vertically in the center
                                     ),
                                     TextSpan(
-                                      text:
-                                          'Complaint ID registered on complaint portal',
-                                      style: OnestopFonts.w600
-                                          .size(10)
-                                          .setColor(kGrey8),
+                                      text: 'Complaint ID registered on complaint portal',
+                                      style: OnestopFonts.w600.size(10).setColor(kGrey8),
                                     ),
                                   ],
                                 ),
@@ -225,13 +213,11 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                               Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 12),
+                                    margin: const EdgeInsets.symmetric(horizontal: 12),
                                     decoration: BoxDecoration(
                                         border: Border.all(color: kGrey2),
                                         color: kBackground,
-                                        borderRadius:
-                                            BorderRadius.circular(24)),
+                                        borderRadius: BorderRadius.circular(24)),
                                     child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 20, vertical: 10),
@@ -244,29 +230,23 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                             return null;
                                           },
                                           inputFormatters: [
-                                            FilteringTextInputFormatter.allow(
-                                                RegExp('[A-Z0-9!-]')),
+                                            FilteringTextInputFormatter.allow(RegExp('[A-Z0-9!-]')),
                                           ],
                                           // keyboardType: TextInputType.number,
-                                          style: OnestopFonts.w500
-                                              .size(16)
-                                              .setColor(kWhite),
+                                          style: OnestopFonts.w500.size(16).setColor(kWhite),
                                           decoration: InputDecoration(
                                             errorStyle: OnestopFonts.w400,
                                             counterText: "",
                                             border: InputBorder.none,
-                                            hintText:
-                                                'Complaint ID of complaint on IPM Section',
-                                            hintStyle:
-                                                const TextStyle(color: kGrey8),
+                                            hintText: 'Complaint ID of complaint on IPM Section',
+                                            hintStyle: const TextStyle(color: kGrey8),
                                           ),
                                         ))),
                               ),
                             ],
                             if (widget.complaintType == "Infra") ...[
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15, top: 15, bottom: 10),
+                                padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                                 child: Text(
                                   "Complaint Date",
                                   style: MyFonts.w600.size(16).setColor(kWhite),
@@ -278,9 +258,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                     WidgetSpan(
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 15,
-                                            bottom:
-                                                1.5), // Adjust this value as needed
+                                            left: 15, bottom: 1.5), // Adjust this value as needed
                                         child: Text(
                                           '*',
                                           style: OnestopFonts.w600
@@ -292,11 +270,8 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                           .middle, // Aligns the asterisk vertically in the center
                                     ),
                                     TextSpan(
-                                      text:
-                                          'Complaint registration date on the portal.',
-                                      style: OnestopFonts.w600
-                                          .size(10)
-                                          .setColor(kGrey8),
+                                      text: 'Complaint registration date on the portal.',
+                                      style: OnestopFonts.w600.size(10).setColor(kGrey8),
                                     ),
                                   ],
                                 ),
@@ -304,31 +279,25 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                               Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 12),
+                                  margin: const EdgeInsets.symmetric(horizontal: 12),
                                   decoration: BoxDecoration(
                                     border: Border.all(color: kGrey2),
                                     color: kBackground,
                                     borderRadius: BorderRadius.circular(24),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                     child: TextFormField(
                                       controller: dateController,
                                       readOnly: true,
-                                      style: MyFonts.w500
-                                          .size(16)
-                                          .setColor(kWhite),
+                                      style: MyFonts.w500.size(16).setColor(kWhite),
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: 'Select Date',
-                                        hintStyle:
-                                            const TextStyle(color: kGrey8),
+                                        hintStyle: const TextStyle(color: kGrey8),
                                         suffixIcon: IconButton(
-                                          icon: const Icon(
-                                              FluentIcons
-                                                  .calendar_ltr_24_regular,
+                                          icon: const Icon(FluentIcons.calendar_ltr_24_regular,
                                               color: kWhite),
                                           onPressed: () => _selectDate(context),
                                         ),
@@ -340,20 +309,16 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                               ),
                             ],
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 15, bottom: 10),
+                              padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                               child: Text(
                                 "Your Hostel",
-                                style:
-                                    OnestopFonts.w600.size(16).setColor(kWhite),
+                                style: OnestopFonts.w600.size(16).setColor(kWhite),
                               ),
                             ),
                             Theme(
-                              data: Theme.of(context)
-                                  .copyWith(canvasColor: kBlueGrey),
+                              data: Theme.of(context).copyWith(canvasColor: kBlueGrey),
                               child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 5),
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                                 child: DropdownButtonFormField<Hostel>(
                                   value: selectedHostel,
                                   validator: (val) {
@@ -365,30 +330,24 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                   hint: Padding(
                                     padding: const EdgeInsets.only(left: 15),
                                     child: Text("Select your hostel",
-                                        style: OnestopFonts.w500
-                                            .setColor(kGrey8)
-                                            .size(16)),
+                                        style: OnestopFonts.w500.setColor(kGrey8).size(16)),
                                   ),
                                   decoration: InputDecoration(
                                     errorStyle: OnestopFonts.w400,
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          const BorderSide(color: kGrey8),
+                                      borderSide: const BorderSide(color: kGrey8),
                                       borderRadius: BorderRadius.circular(24),
                                     ),
                                     errorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          const BorderSide(color: kGrey8),
+                                      borderSide: const BorderSide(color: kGrey8),
                                       borderRadius: BorderRadius.circular(24),
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          const BorderSide(color: kGrey8),
+                                      borderSide: const BorderSide(color: kGrey8),
                                       borderRadius: BorderRadius.circular(24),
                                     ),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          const BorderSide(color: kGrey8),
+                                      borderSide: const BorderSide(color: kGrey8),
                                       borderRadius: BorderRadius.circular(24),
                                     ),
                                   ),
@@ -396,26 +355,20 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                     FluentIcons.chevron_down_24_regular,
                                     color: kWhite,
                                   ),
-                                  style: OnestopFonts.w600
-                                      .size(14)
-                                      .setColor(kWhite),
+                                  style: OnestopFonts.w600.size(14).setColor(kWhite),
                                   onChanged: (data) {
                                     setState(() {
                                       selectedHostel = data!;
                                     });
                                   },
-                                  items: hostels
-                                      .map<DropdownMenuItem<Hostel>>((value) {
+                                  items: hostels.map<DropdownMenuItem<Hostel>>((value) {
                                     return DropdownMenuItem<Hostel>(
                                       value: value,
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15),
+                                        padding: const EdgeInsets.only(left: 15),
                                         child: Text(
                                           value.displayString,
-                                          style: OnestopFonts.w600
-                                              .size(14)
-                                              .setColor(kWhite),
+                                          style: OnestopFonts.w600.size(14).setColor(kWhite),
                                         ),
                                       ),
                                     );
@@ -424,26 +377,23 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 15, bottom: 10),
+                              padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                               child: Text(
                                 "Your Room Number",
-                                style:
-                                    OnestopFonts.w600.size(16).setColor(kWhite),
+                                style: OnestopFonts.w600.size(16).setColor(kWhite),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(3.0),
                               child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 12),
+                                  margin: const EdgeInsets.symmetric(horizontal: 12),
                                   decoration: BoxDecoration(
                                       border: Border.all(color: kGrey2),
                                       color: kBackground,
                                       borderRadius: BorderRadius.circular(24)),
                                   child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
+                                      padding:
+                                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                       child: TextFormField(
                                         controller: roomNo,
                                         validator: (val) {
@@ -453,27 +403,22 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                           return null;
                                         },
                                         inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp('[A-Z0-9!-]')),
+                                          FilteringTextInputFormatter.allow(RegExp('[A-Z0-9!-]')),
                                         ],
                                         // keyboardType: TextInputType.number,
-                                        style: OnestopFonts.w500
-                                            .size(16)
-                                            .setColor(kWhite),
+                                        style: OnestopFonts.w500.size(16).setColor(kWhite),
                                         decoration: InputDecoration(
                                           errorStyle: OnestopFonts.w400,
                                           counterText: "",
                                           border: InputBorder.none,
                                           hintText: 'Your Answer',
-                                          hintStyle:
-                                              const TextStyle(color: kGrey8),
+                                          hintStyle: const TextStyle(color: kGrey8),
                                         ),
                                       ))),
                             ),
                             if (widget.complaintType == "Infra") ...[
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15, top: 15, bottom: 10),
+                                padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                                 child: Text(
                                   "On which service would you like to give to feedback or register complaint?",
                                   style: MyFonts.w600.size(16).setColor(kWhite),
@@ -481,13 +426,12 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                               ),
                               RadioButtonList(
                                 values: Infra,
-                                controller: InfraController,
+                                controller: infraController,
                               ),
                             ],
                             if (widget.complaintType == "Services") ...[
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15, top: 15, bottom: 10),
+                                padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                                 child: Text(
                                   "On which service would you like to give to feedback or register complaint?",
                                   style: MyFonts.w600.size(16).setColor(kWhite),
@@ -499,8 +443,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                               ),
                             ],
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 15, bottom: 10),
+                              padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                               child: Text(
                                 "FEEDBACK",
                                 style: MyFonts.w600.size(16).setColor(kWhite),
@@ -510,21 +453,18 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                               padding: const EdgeInsets.all(3.0),
                               child: Container(
                                   height: 120,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 12),
+                                  margin: const EdgeInsets.symmetric(horizontal: 12),
                                   decoration: BoxDecoration(
                                       border: Border.all(color: kGrey2),
                                       color: kBackground,
                                       borderRadius: BorderRadius.circular(24)),
                                   child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
+                                      padding:
+                                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                       child: TextFormField(
                                         maxLines: 4,
                                         controller: problem,
-                                        style: MyFonts.w500
-                                            .size(16)
-                                            .setColor(kWhite),
+                                        style: MyFonts.w500.size(16).setColor(kWhite),
                                         decoration: const InputDecoration(
                                           border: InputBorder.none,
                                           hintText: 'Enter your answer',
@@ -533,26 +473,23 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                       ))),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 15, bottom: 10),
+                              padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                               child: Text(
                                 "Contact Number",
-                                style:
-                                    OnestopFonts.w600.size(16).setColor(kWhite),
+                                style: OnestopFonts.w600.size(16).setColor(kWhite),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(3.0),
                               child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 12),
+                                  margin: const EdgeInsets.symmetric(horizontal: 12),
                                   decoration: BoxDecoration(
                                       border: Border.all(color: kGrey2),
                                       color: kBackground,
                                       borderRadius: BorderRadius.circular(24)),
                                   child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
+                                      padding:
+                                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                       child: TextFormField(
                                         validator: (val) {
                                           if (val == null || val.isEmpty) {
@@ -564,27 +501,21 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                           return null;
                                         },
                                         keyboardType: TextInputType.number,
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.digitsOnly
-                                        ],
+                                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                         controller: contact,
                                         maxLength: 10,
-                                        style: OnestopFonts.w500
-                                            .size(16)
-                                            .setColor(kWhite),
+                                        style: OnestopFonts.w500.size(16).setColor(kWhite),
                                         decoration: InputDecoration(
                                           errorStyle: OnestopFonts.w400,
                                           counterText: "",
                                           border: InputBorder.none,
                                           hintText: 'Your Answer',
-                                          hintStyle:
-                                              const TextStyle(color: kGrey8),
+                                          hintStyle: const TextStyle(color: kGrey8),
                                         ),
                                       ))),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 15, bottom: 10),
+                              padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
                               child: Text(
                                 "Upload any related screenshot/video/pdf attachment proof",
                                 style: MyFonts.w600.size(16).setColor(kWhite),
@@ -608,24 +539,20 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                             GestureDetector(
                               onTap: () async {
                                 if (problem.value.text.isEmpty) {
-                                  showSnackBar(
-                                      "Problem description cannot be empty");
+                                  showSnackBar("Problem description cannot be empty");
                                   return;
                                 }
-                                if (widget.complaintType == "Infra" &&
-                                    complaintID.text.isEmpty) {
+                                if (widget.complaintType == "Infra" && complaintID.text.isEmpty) {
                                   showSnackBar("Complaint ID cannot be empty");
                                   return;
                                 }
                                 if (widget.complaintType == "Infra") {
                                   if (selectedDate == null) {
-                                    showSnackBar(
-                                        "Please select a complaint date");
+                                    showSnackBar("Please select a complaint date");
                                     return;
                                   }
-                                  if (InfraController.selectedItem == null) {
-                                    showSnackBar(
-                                        "Please select an infrastructure service");
+                                  if (infraController.selectedItem == null) {
+                                    showSnackBar("Please select an infrastructure service");
                                     return;
                                   }
                                 }
@@ -636,10 +563,8 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                   return;
                                 }
 
-                                if (contact.text.isEmpty ||
-                                    contact.text.length < 10) {
-                                  showSnackBar(
-                                      "Please enter a valid contact number");
+                                if (contact.text.isEmpty || contact.text.length < 10) {
+                                  showSnackBar("Please enter a valid contact number");
                                   return;
                                 }
 
@@ -654,7 +579,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                 }
                                 String temp = "";
                                 if (widget.complaintType == "Infra") {
-                                  temp = InfraController.selectedItem!;
+                                  temp = infraController.selectedItem!;
                                 } else if (widget.complaintType == "Services") {
                                   temp = servicesController.selectedItem!;
                                 } else {
@@ -669,13 +594,11 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                   'email': email,
                                   'room_number': roomNo.text,
                                   'hostel': selectedHostel.databaseString,
-                                  'complaintID': widget.complaintType == "Infra"
-                                      ? complaintID.text
+                                  'complaintID':
+                                      widget.complaintType == "Infra" ? complaintID.text : null,
+                                  'complaintDate': widget.complaintType == "Infra"
+                                      ? selectedDate?.toIso8601String()
                                       : null,
-                                  'complaintDate':
-                                      widget.complaintType == "Infra"
-                                          ? selectedDate?.toIso8601String()
-                                          : null,
                                   'complaintType': widget.complaintType,
                                 };
                                 //print(data);
@@ -688,28 +611,21 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                                   });
 
                                   try {
-                                    print(data);
-
-                                    var response =
-                                        await APIRepository().postHAB(data);
-                                    print(response);
+                                    var response = await APIRepository().postHAB(data);
                                     if (!mounted) return;
                                     if (response['success']) {
                                       showSnackBar(
                                           "Your problem has been successfully sent to respective au1thorities.");
                                       Navigator.popUntil(
-                                          context,
-                                          ModalRoute.withName(
-                                              ComplaintsPage.id));
+                                          context, ModalRoute.withName(ComplaintsPage.id));
                                     } else {
-                                      showSnackBar(
-                                          "Some error occurred. Try again later");
+                                      showSnackBar("Some error occurred. Try again later");
                                       setState(() {
                                         submitted = false;
                                       });
                                     }
                                   } catch (err) {
-                                    print(err);
+                                    log("Error: $err");
                                     showSnackBar(
                                         "Please check you internet connection and try again");
 

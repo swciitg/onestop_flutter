@@ -67,7 +67,7 @@ class _GmisState extends State<Gmis> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         const SizedBox(height: 5,),
-                                        _CarsoulWidgets[i-1],
+                                        _carsoulWidgets[i-1],
 
                                       ],
                                     ),
@@ -140,7 +140,7 @@ class _GmisState extends State<Gmis> {
 }
 
 
-List<Widget> _CarsoulWidgets=[widg1, widg2, widg3];
+List<Widget> _carsoulWidgets=[widg1, widg2, widg3];
 
 Widget widg1 = Column(
   crossAxisAlignment: CrossAxisAlignment.start,

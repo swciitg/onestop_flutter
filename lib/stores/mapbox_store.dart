@@ -122,7 +122,7 @@ abstract class _MapBoxStore with Store {
         List<Marker> l = [];
         l.add(Marker(
             infoWindow: InfoWindow(title: allLocationData[i]['name']),
-            icon: BitmapDescriptor.fromBytes(d),
+            icon: BitmapDescriptor.bytes(d),
             markerId: MarkerId('bus$i'),
             position:
                 LatLng(allLocationData[i]['lat'], allLocationData[i]['long'])));

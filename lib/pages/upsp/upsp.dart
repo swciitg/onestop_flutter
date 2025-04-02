@@ -37,7 +37,7 @@ const List<String> subcommittees = [
 class Upsp extends StatefulWidget {
   static const String id = "/upsp";
 
-  const Upsp({Key? key}) : super(key: key);
+  const Upsp({super.key});
 
   @override
   State<Upsp> createState() => _UpspState();

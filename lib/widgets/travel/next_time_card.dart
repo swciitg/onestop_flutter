@@ -14,7 +14,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class NextTimeCard extends StatefulWidget {
-  const NextTimeCard({Key? key}) : super(key: key);
+  const NextTimeCard({super.key});
 
   @override
   State<NextTimeCard> createState() => _NextTimeCardState();

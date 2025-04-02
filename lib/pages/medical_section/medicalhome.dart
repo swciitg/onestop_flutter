@@ -17,7 +17,7 @@ import '../../globals/my_fonts.dart';
 class MedicalSection extends StatelessWidget {
   static const id = "/medicalsection";
 
-  MedicalSection({Key? key}) : super(key: key);
+  MedicalSection({super.key});
 
   final List<String> options = [
     "Doctors Timetable",

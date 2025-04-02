@@ -12,9 +12,9 @@ import 'package:onestop_dev/stores/login_store.dart';
 
 class AddItemButton extends StatefulWidget {
   const AddItemButton({
-    Key? key,
+    super.key,
     required this.type,
-  }) : super(key: key);
+  });
 
   final String type;
 

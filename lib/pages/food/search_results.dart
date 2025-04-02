@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 import '../../widgets/ui/list_shimmer.dart';
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  const SearchPage({super.key});
   static String id = "/foodSearchResults";
 
   @override

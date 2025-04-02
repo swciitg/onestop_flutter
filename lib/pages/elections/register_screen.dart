@@ -15,9 +15,9 @@ import '../../widgets/ui/appbar.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const id = "/electionRegister";
-  String authCookie;
+  final String authCookie;
 
-  RegisterScreen({Key? key, required this.authCookie}) : super(key: key);
+  const RegisterScreen({super.key, required this.authCookie});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();

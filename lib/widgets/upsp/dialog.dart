@@ -7,8 +7,8 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class UPSPDialog extends StatelessWidget {
   const UPSPDialog({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

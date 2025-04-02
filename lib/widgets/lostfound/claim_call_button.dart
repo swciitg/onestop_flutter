@@ -15,8 +15,7 @@ class ClaimCallButton extends StatefulWidget {
   final BuildContext parentContext;
 
   const ClaimCallButton(
-      {Key? key, required this.model, required this.parentContext})
-      : super(key: key);
+      {super.key, required this.model, required this.parentContext});
 
   @override
   State<ClaimCallButton> createState() => _ClaimCallButtonState();

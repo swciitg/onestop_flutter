@@ -7,8 +7,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 // First Class: UploadButton
 class UploadButton extends StatefulWidget {
-  const UploadButton({Key? key, required this.callBack, required this.endpoint})
-      : super(key: key);
+  const UploadButton({super.key, required this.callBack, required this.endpoint});
   final Function callBack;
   final String endpoint;
 
@@ -73,7 +72,7 @@ class _UploadButtonState extends State<UploadButton> {
 
 // Second Class: UploadButton2
 class UploadButton2 extends StatefulWidget {
-  const UploadButton2({Key? key, required this.callBack}) : super(key: key);
+  const UploadButton2({super.key, required this.callBack});
   final Function callBack;
 
   @override

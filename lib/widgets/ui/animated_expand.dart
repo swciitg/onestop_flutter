@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class AnimatedExpand extends StatefulWidget {
   final Widget child;
   final bool expand;
-  const AnimatedExpand({Key? key, this.expand = false, required this.child})
-      : super(key: key);
+  const AnimatedExpand({super.key, this.expand = false, required this.child});
 
   @override
   State<AnimatedExpand> createState() => _AnimatedExpandState();

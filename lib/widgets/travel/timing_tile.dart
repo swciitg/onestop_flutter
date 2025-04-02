@@ -9,8 +9,7 @@ class TimingTile extends StatelessWidget {
   final IconData icon;
 
   const TimingTile(
-      {Key? key, required this.time, required this.isLeft, required this.icon})
-      : super(key: key);
+      {super.key, required this.time, required this.isLeft, required this.icon});
 
   @override
   Widget build(BuildContext context) {

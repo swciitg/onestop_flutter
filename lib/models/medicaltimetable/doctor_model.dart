@@ -18,8 +18,6 @@ class DoctorModel /*implements Comparable<DoctorModel> */ {
     category = json['category'];
     date = json['date'].toString().substring(0,10);
     startTime1 = json['startTime1'] ?? "";
-    print("StartTime : $startTime1");
-    print("Date: $date");
     endTime1 = json['endTime1'] ?? "";
     startTime2 = json['startTime2'] ?? "";
     endTime2 = json['endTime2'] ?? "";

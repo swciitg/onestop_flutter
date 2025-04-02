@@ -6,8 +6,8 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class WelcomeHeader extends StatelessWidget {
   const WelcomeHeader({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

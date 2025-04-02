@@ -15,7 +15,7 @@ class BusDetails extends StatefulWidget {
   late final int index;
 
   // ignore: prefer_const_constructors_in_immutables
-  BusDetails({Key? key, required this.index}) : super(key: key);
+  BusDetails({super.key, required this.index});
 
   @override
   State<BusDetails> createState() => _BusDetailsState();

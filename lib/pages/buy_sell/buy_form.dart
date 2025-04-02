@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +23,7 @@ class BuySellForm extends StatefulWidget {
   final String? submittedAt;
 
   const BuySellForm(
-      {Key? key,
-      required this.category,
-      required this.imageString,
-      this.submittedAt})
-      : super(key: key);
+      {super.key, required this.category, required this.imageString, this.submittedAt});
 
   @override
   State<BuySellForm> createState() => _BuySellFormState();
@@ -76,8 +73,7 @@ class _BuySellFormState extends State<BuySellForm> {
                       ? const ProgressBar(blue: 3, grey: 0)
                       : const ProgressBar(blue: 2, grey: 0),
               Container(
-                margin: const EdgeInsets.only(
-                    top: 40, left: 15, right: 5, bottom: 15),
+                margin: const EdgeInsets.only(top: 40, left: 15, right: 5, bottom: 15),
                 child: Text(
                   "Fill in the details of ${widget.category == "Buy" ? "Requested Item" : widget.category == "Sell" ? "Selling Item" : widget.category == "Lost" ? "lost object" : "found object"}",
                   style: MyFonts.w400.size(16).setColor(kWhite),
@@ -155,8 +151,7 @@ class _BuySellFormState extends State<BuySellForm> {
           var res = {};
           Map<String, String> data = {};
           data['title'] = _title.text.trim();
-          data['submittedAt'] =
-              (widget.submittedAt == null) ? "" : widget.submittedAt!;
+          data['submittedAt'] = (widget.submittedAt == null) ? "" : widget.submittedAt!;
           data['description'] = _description.text.trim();
           data['price'] = _price.text.trim();
           data['location'] = _price.text.trim();
@@ -167,12 +162,11 @@ class _BuySellFormState extends State<BuySellForm> {
           data['total_price'] = "${_price.text}-${_price2.text}";
 
           try {
-            final isTitleValid =
-                await ModerationService().validateBuyOrSell(_title.text.trim());
+            final isTitleValid = await ModerationService().validateBuyOrSell(_title.text.trim());
             if (!isTitleValid) {
               Fluttertoast.showToast(
                   msg: 'Please Enter an appropriate title!',
-                  backgroundColor: OneStopColors.cardColor2.withOpacity(0.7));
+                  backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7));
               dbSavingController.sink.add(false);
               savingToDB = false;
               setState(() {
@@ -181,12 +175,12 @@ class _BuySellFormState extends State<BuySellForm> {
               return;
             }
 
-            final isDescValid = await ModerationService()
-                .validateBuyOrSell(_description.text.trim());
+            final isDescValid =
+                await ModerationService().validateBuyOrSell(_description.text.trim());
             if (!isDescValid) {
               Fluttertoast.showToast(
                   msg: 'Please Enter an appropriate description!',
-                  backgroundColor: OneStopColors.cardColor2.withOpacity(0.7));
+                  backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7));
               dbSavingController.sink.add(false);
               savingToDB = false;
               setState(() {
@@ -194,7 +188,9 @@ class _BuySellFormState extends State<BuySellForm> {
               });
               return;
             }
-          } catch (e) {}
+          } catch (e) {
+            log("ERROR validating BuyOrSell details");
+          }
 
           try {
             if (widget.category == "Sell") {
@@ -220,7 +216,7 @@ class _BuySellFormState extends State<BuySellForm> {
           if (responseBody["saved_successfully"] == true) {
             Fluttertoast.showToast(
               msg: "Request posted successfully!",
-              backgroundColor: OneStopColors.cardColor2.withOpacity(0.7),
+              backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7),
             );
             Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
           } else {
@@ -232,7 +228,7 @@ class _BuySellFormState extends State<BuySellForm> {
             if (responseBody["image_safe"] == false) {
               Fluttertoast.showToast(
                 msg: "The chosen image is NSFW!",
-                backgroundColor: OneStopColors.cardColor2.withOpacity(0.7),
+                backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7),
               );
               return;
             }
@@ -241,7 +237,7 @@ class _BuySellFormState extends State<BuySellForm> {
             });
             Fluttertoast.showToast(
               msg: "Some error occurred! Please try again.",
-              backgroundColor: OneStopColors.cardColor2.withOpacity(0.7),
+              backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7),
             );
           }
         },

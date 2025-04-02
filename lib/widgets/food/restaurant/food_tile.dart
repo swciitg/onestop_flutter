@@ -8,9 +8,9 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class FoodTile extends StatelessWidget {
   const FoodTile({
-    Key? key,
+    super.key,
     required this.dish,
-  }) : super(key: key);
+  });
 
   final DishModel dish;
 

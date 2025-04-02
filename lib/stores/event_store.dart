@@ -33,7 +33,7 @@ abstract class _EventsStore with Store {
   }
 
   @observable
-  Admin? admin = null;
+  Admin? admin;
 
   @action
   void setAdmin(Admin updated) {
@@ -97,14 +97,11 @@ abstract class _EventsStore with Store {
   ObservableList<EventModel> savedEvents = ObservableList<EventModel>.of([]);
 
   Future<List<EventModel>> getAllSavedEvents() async {
-    var saved =
-        await LocalStorage.instance.getListRecord(DatabaseRecords.savedEvents);
+    var saved = await LocalStorage.instance.getListRecord(DatabaseRecords.savedEvents);
     if (saved == null) {
       return [];
     }
-    var savedEvents = saved
-        .map((e) => EventModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    var savedEvents = saved.map((e) => EventModel.fromJson(e as Map<String, dynamic>)).toList();
     return savedEvents;
   }
 
@@ -116,9 +113,7 @@ abstract class _EventsStore with Store {
   @computed
   List<EventModel> get activeSavedEvents {
     final currentTime = DateTime.now();
-    return savedEvents
-        .where((event) => event.endDateTime.isAfter(currentTime))
-        .toList();
+    return savedEvents.where((event) => event.endDateTime.isAfter(currentTime)).toList();
   }
 
   @computed

@@ -18,8 +18,8 @@ import 'package:shimmer/shimmer.dart';
 
 class MapBox extends StatefulWidget {
   const MapBox({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<MapBox> createState() => _MapBoxState();

@@ -4,7 +4,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class TextDivider extends StatelessWidget {
-  const TextDivider({Key? key, required this.text}) : super(key: key);
+  const TextDivider({super.key, required this.text});
   final String text;
 
   @override

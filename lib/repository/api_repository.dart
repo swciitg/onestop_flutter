@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -158,7 +159,7 @@ class APIRepository extends OneStopApi {
       }
       return null;
     } catch (e) {
-      print("Upload" + e.toString());
+      log("Error uploading file to server $e");
       return null;
     }
   }

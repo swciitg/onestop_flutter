@@ -2,21 +2,25 @@ import 'package:onestop_dev/models/medicalcontacts/dropdown_contact_model.dart';
 
 class MedicalcontactModel {
   late DropdownContactModel name;
-  String? miscellaneous_contact;
+  String? miscellaneousContact;
   String? category;
   String? email;
   String? phone;
   String? designation;
   String? degree;
 
-  MedicalcontactModel({
-    required this.name,this.miscellaneous_contact,this.category,this.email,this.phone,this.designation,this.degree
-  });
+  MedicalcontactModel(
+      {required this.name,
+      this.miscellaneousContact,
+      this.category,
+      this.email,
+      this.phone,
+      this.designation,
+      this.degree});
 
   MedicalcontactModel.fromJson(Map<String, dynamic> json) {
-
     name = DropdownContactModel.fromJson(json['name'] as Map<String, dynamic>? ?? {});
-    miscellaneous_contact = json['miscellaneous_contact'] ?? "";
+    miscellaneousContact = json['miscellaneous_contact'] ?? "";
     category = json['category'];
     email = json['email'];
     phone = json['phone'] ?? "";
@@ -27,7 +31,7 @@ class MedicalcontactModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
-    data['miscellaneous_contact'] = miscellaneous_contact;
+    data['miscellaneous_contact'] = miscellaneousContact;
     data['category'] = category;
     data['email'] = email;
     data['phone'] = phone;

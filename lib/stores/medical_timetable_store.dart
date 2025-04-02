@@ -8,8 +8,7 @@ import 'package:onestop_dev/services/data_service.dart';
 
 part 'medical_timetable_store.g.dart';
 
-class MedicalTimetableStore = _MedicalTimetableStore
-    with _$MedicalTimetableStore;
+class MedicalTimetableStore = _MedicalTimetableStore with _$MedicalTimetableStore;
 
 abstract class _MedicalTimetableStore with Store {
   List<MedicalTimetableDay> allmedicalTimetable =
@@ -69,19 +68,17 @@ abstract class _MedicalTimetableStore with Store {
   }
 
   @computed
-  bool get institutionDoctorsPresent =>
-      allmedicalTimetable[selectedDate].institute_docs.isNotEmpty;
+  bool get institutionDoctorsPresent => allmedicalTimetable[selectedDate].instituteDocs.isNotEmpty;
 
   @computed
-  bool get visitingDoctorsPresent =>
-      allmedicalTimetable[selectedDate].visiting_docs.isNotEmpty;
+  bool get visitingDoctorsPresent => allmedicalTimetable[selectedDate].visitingDocs.isNotEmpty;
 
   @computed
   List<DoctorModel> get todayMedicalTimeTable {
     int timetableIndex = selectedDate;
     List<DoctorModel> list = [
-      ...allmedicalTimetable[timetableIndex].institute_docs,
-      ...allmedicalTimetable[timetableIndex].visiting_docs
+      ...allmedicalTimetable[timetableIndex].instituteDocs,
+      ...allmedicalTimetable[timetableIndex].visitingDocs
     ];
     return list;
   }
@@ -91,8 +88,7 @@ abstract class _MedicalTimetableStore with Store {
         List.generate(7, (index) => MedicalTimetableDay());
 
     var doctorsList = await DataService.getMedicalTimeTable();
-    updateDateList(
-        dates); // datematch is the list of translated dates of the week
+    updateDateList(dates); // datematch is the list of translated dates of the week
     for (int i = 0; i < 7; i++) {
       final date = datematch[i];
       for (var doctor in doctorsList.alldoctors!) {
@@ -101,18 +97,18 @@ abstract class _MedicalTimetableStore with Store {
         final docCategory = copyDoctor.category;
         if (date == docdate) {
           if (docCategory == "Institute_Docs") {
-            medicalTimetableDay[i].institute_docs.add(copyDoctor);
+            medicalTimetableDay[i].instituteDocs.add(copyDoctor);
           } else {
-            medicalTimetableDay[i].visiting_docs.add(copyDoctor);
+            medicalTimetableDay[i].visitingDocs.add(copyDoctor);
           }
         }
       }
-      medicalTimetableDay[i].institute_docs.sort((a, b) {
+      medicalTimetableDay[i].instituteDocs.sort((a, b) {
         int t1 = int.parse(b.startTime1.toString().split(':')[0]);
         int t2 = int.parse(b.startTime1.toString().split(':')[0]);
         return t1.compareTo(t2);
       });
-      medicalTimetableDay[i].visiting_docs.sort((a, b) {
+      medicalTimetableDay[i].visitingDocs.sort((a, b) {
         int t1 = int.parse(a.startTime1.toString().split(':')[0]);
         int t2 = int.parse(b.startTime1.toString().split(':')[0]);
         return t1.compareTo(t2);

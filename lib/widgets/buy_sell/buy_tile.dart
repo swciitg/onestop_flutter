@@ -8,9 +8,9 @@ import 'details_dialog.dart';
 
 class BuyTile extends StatelessWidget {
   const BuyTile({
-    Key? key,
+    super.key,
     required this.model,
-  }) : super(key: key);
+  });
 
   final dynamic model;
 

@@ -21,7 +21,7 @@ import 'contact_detail.dart';
 class ContactPage extends StatefulWidget {
   static const String id = "/contacto";
 
-  const ContactPage({Key? key}) : super(key: key);
+  const ContactPage({super.key});
 
   @override
   State<ContactPage> createState() => _ContactPageState();

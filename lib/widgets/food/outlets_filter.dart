@@ -5,8 +5,8 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class OutletsFilter extends StatelessWidget {
   const OutletsFilter({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

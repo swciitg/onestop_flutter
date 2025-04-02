@@ -14,7 +14,7 @@ const List<String> complaintType = ['Services', 'Infra', 'General'];
 class HostelService extends StatefulWidget {
   static const String id = "/hostelService";
 
-  const HostelService({Key? key}) : super(key: key);
+  const HostelService({super.key});
 
   @override
   State<HostelService> createState() => _HostelServiceState();

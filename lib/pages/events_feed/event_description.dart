@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -11,9 +13,7 @@ class EventDetailsScreen extends StatefulWidget {
   final bool isAdmin;
   final VoidCallback? refresh;
 
-  const EventDetailsScreen(
-      {Key? key, required this.event, required this.isAdmin, this.refresh})
-      : super(key: key);
+  const EventDetailsScreen({super.key, required this.event, required this.isAdmin, this.refresh});
 
   @override
   State<EventDetailsScreen> createState() => _EventDetailsScreenState();
@@ -23,14 +23,13 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   void _handleEditOption() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-          builder: (context) => EventFormScreen(event: widget.event)),
+      MaterialPageRoute(builder: (context) => EventFormScreen(event: widget.event)),
     );
-    print('Edit option selected');
+    log('Edit option selected');
   }
 
   void _handleDeleteOption() {
-    print('Delete option selected');
+    log('Delete option selected');
 
     showDialog(
       context: context,
@@ -47,16 +46,14 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             ),
             TextButton(
               child: const Text('Delete'),
-              onPressed: () {
-                print('Event deleted');
-                var res;
+              onPressed: ()async {
                 try {
-                  res = EventsAPIRepository().deleteEvent(widget.event.id);
+                  await EventsAPIRepository().deleteEvent(widget.event.id);
                   if (widget.isAdmin) {
                     widget.refresh!();
                   }
                 } catch (e) {
-                  print(e.toString());
+                  log("ERROR deleting event: $e");
                 }
 
                 Navigator.of(context).pop();
@@ -141,8 +138,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                             _handleDeleteOption();
                           }
                         },
-                        itemBuilder: (BuildContext context) =>
-                            <PopupMenuEntry<String>>[
+                        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                           const PopupMenuItem<String>(
                             value: 'edit',
                             child: Text('Edit'),
@@ -174,8 +170,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                             width: 4,
                           ),
                           Text(
-                            DateFormat('dd/MM/yyyy')
-                                .format(widget.event.startDateTime),
+                            DateFormat('dd/MM/yyyy').format(widget.event.startDateTime),
                             style: MyFonts.w500.copyWith(color: kWhite),
                           )
                         ],
@@ -258,8 +253,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               const SizedBox(height: 10.0),
               // Event Description
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(
                   widget.event.description,
                   style: MyFonts.w500.copyWith(color: kWhite, fontSize: 15),
@@ -269,33 +263,6 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildEventDetail(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            "$label:",
-            style: const TextStyle(
-              color: Color(0xFFA2ACC0),
-              fontSize: 13,
-              fontFamily: 'Montserrat',
-            ),
-          ),
-          const SizedBox(width: 3),
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
       ),
     );
   }

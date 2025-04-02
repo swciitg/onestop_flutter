@@ -6,7 +6,7 @@ import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:provider/provider.dart';
 
 class ArrowButton extends StatelessWidget {
-  const ArrowButton({Key? key, this.showArrow = false}) : super(key: key);
+  const ArrowButton({super.key, this.showArrow = false});
   final bool showArrow;
   @override
   Widget build(BuildContext context) {

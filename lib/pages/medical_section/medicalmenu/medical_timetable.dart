@@ -9,10 +9,9 @@ import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MedicalTimetable extends StatefulWidget {
-  const MedicalTimetable({Key? key}) : super(key: key);
+  const MedicalTimetable({super.key});
 
   @override
   State<MedicalTimetable> createState() => _MedicalTimetableState();
@@ -238,16 +237,6 @@ AppBar _buildAppBar(BuildContext context) {
       ),
     ],
   );
-}
-
-Future<void> _launchURL(String url) async {
-  final Uri uri = Uri.parse(url);
-  if (!await launchUrl(
-    uri,
-    mode: LaunchMode.externalApplication,
-  )) {
-    throw "Cannot launch URL";
-  }
 }
 
 class EventDataSource extends CalendarDataSource {

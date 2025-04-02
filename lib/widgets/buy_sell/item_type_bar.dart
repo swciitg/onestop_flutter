@@ -6,12 +6,11 @@ class ItemTypeBar extends StatelessWidget {
   final Color backgroundColor;
   final EdgeInsets margin;
   const ItemTypeBar(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.textStyle,
       required this.backgroundColor,
-      required this.margin})
-      : super(key: key);
+      required this.margin});
 
   @override
   Widget build(BuildContext context) {

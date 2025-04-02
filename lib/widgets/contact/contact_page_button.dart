@@ -16,8 +16,7 @@ class ContactPageButton extends StatefulWidget {
   final String label;
   final ContactStore store;
 
-  const ContactPageButton({Key? key, required this.label, required this.store})
-      : super(key: key);
+  const ContactPageButton({super.key, required this.label, required this.store});
 
   @override
   State<ContactPageButton> createState() => _ContactPageButtonState();

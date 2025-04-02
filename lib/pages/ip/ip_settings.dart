@@ -7,7 +7,7 @@ import 'package:onestop_dev/widgets/ip/ip_values.dart';
 
 class IpPage extends StatefulWidget {
   final HostelDetails argso;
-  const IpPage({Key? key, required this.argso}) : super(key: key);
+  const IpPage({super.key, required this.argso});
 
   @override
   State<IpPage> createState() => _IpPageState();

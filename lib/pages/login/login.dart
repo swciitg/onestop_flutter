@@ -6,7 +6,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 class LoginPage extends StatefulWidget {
   static String id = "/login";
 
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();

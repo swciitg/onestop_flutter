@@ -177,7 +177,9 @@ class _EventsScreen1State extends State<EventsScreen1>
   @override
   void dispose() {
     _tabController.dispose();
-    _pagingControllers.values.forEach((controller) => controller.dispose());
+    for (var controller in _pagingControllers.values) {
+      controller.dispose();
+    }
     super.dispose();
   }
 }

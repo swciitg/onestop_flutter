@@ -5,12 +5,11 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class CallMapButton extends StatelessWidget {
   const CallMapButton(
-      {Key? key,
+      {super.key,
       required this.callMap,
       required this.icon,
       required this.callback,
-      this.fontSize = 11})
-      : super(key: key);
+      this.fontSize = 11});
 
   final String callMap;
   final IconData icon;

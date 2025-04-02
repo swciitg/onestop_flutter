@@ -6,7 +6,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class TrackingDailog extends StatefulWidget {
-  const TrackingDailog({Key? key}) : super(key: key);
+  const TrackingDailog({super.key});
 
   @override
   State<TrackingDailog> createState() => _TrackingDailogState();

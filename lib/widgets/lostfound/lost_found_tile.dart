@@ -12,8 +12,7 @@ class LostFoundTile extends StatefulWidget {
   final BuildContext? parentContext;
 
   const LostFoundTile(
-      {Key? key, required this.currentModel, this.parentContext})
-      : super(key: key);
+      {super.key, required this.currentModel, this.parentContext});
 
   @override
   State<LostFoundTile> createState() => _LostFoundTileState();

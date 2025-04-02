@@ -8,11 +8,10 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class LostFoundButton extends StatelessWidget {
   const LostFoundButton(
-      {Key? key,
+      {super.key,
       required this.store,
       required this.label,
-      required this.category})
-      : super(key: key);
+      required this.category});
 
   final CommonStore store;
   final String label;

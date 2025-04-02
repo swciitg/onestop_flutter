@@ -3,7 +3,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeTimetableShimmer extends StatelessWidget {
-  const HomeTimetableShimmer({Key? key}) : super(key: key);
+  const HomeTimetableShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

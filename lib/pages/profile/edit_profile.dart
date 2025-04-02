@@ -105,7 +105,6 @@ class _EditProfileState extends State<EditProfile> {
             'linkedin': _linkedinController.text,
             'subscribedMess': mess.databaseString
           };
-          print(data);
           try {
             await UserRepository().updateUserProfile(data, null);
             await LocalStorage.instance.deleteRecord(DatabaseRecords.timetable);

@@ -76,13 +76,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isAdmin;
 
   const CustomAppBar({
-    Key? key,
+    super.key,
     required this.title,
     required this.onBackPressed,
     required this.onViewToggled,
     required this.isAdminView,
     required this.isAdmin,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

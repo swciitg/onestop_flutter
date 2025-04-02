@@ -8,9 +8,9 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({
-    Key? key,
+    super.key,
     required this.setLoading,
-  }) : super(key: key);
+  });
 
   final Function setLoading;
 

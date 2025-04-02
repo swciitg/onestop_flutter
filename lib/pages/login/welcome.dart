@@ -8,7 +8,7 @@ class WelcomePage extends StatelessWidget {
   static String id = "/login2";
   final Function setLoading;
 
-  const WelcomePage({Key? key, required this.setLoading}) : super(key: key);
+  const WelcomePage({super.key, required this.setLoading});
 
   @override
   Widget build(BuildContext context) {

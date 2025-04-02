@@ -134,7 +134,7 @@ class _HomeTabState extends State<HomeTab> {
                     snapshot.data!.length <= 1
                         ? const SizedBox.shrink()
                         : DotsIndicator(
-                            position: activePageIndex,
+                            position: activePageIndex.toDouble(),
                             decorator: const DotsDecorator(
                               activeColor: OneStopColors.kWhite,
                               color: OneStopColors.cardColor,

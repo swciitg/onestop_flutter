@@ -15,7 +15,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class BusStopList extends StatelessWidget {
-  const BusStopList({Key? key}) : super(key: key);
+  const BusStopList({super.key});
 
   @override
   Widget build(BuildContext context) {

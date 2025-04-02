@@ -8,7 +8,7 @@ import 'package:onestop_dev/widgets/travel/stops_bus_details.dart';
 import 'package:provider/provider.dart';
 
 class TravelPage extends StatefulWidget {
-  const TravelPage({Key? key}) : super(key: key);
+  const TravelPage({super.key});
 
   @override
   State<TravelPage> createState() => _TravelPageState();

@@ -9,8 +9,7 @@ class MedicalContactDisplay extends StatelessWidget {
   final String text;
   final AlignmentDirectional align;
 
-  const MedicalContactDisplay({Key? key, required this.text, required this.align})
-      : super(key: key);
+  const MedicalContactDisplay({super.key, required this.text, required this.align});
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +35,7 @@ class MedicalContactDisplayHeader extends StatelessWidget {
   final AlignmentDirectional align;
 
   const MedicalContactDisplayHeader(
-      {Key? key, required this.text, required this.width, required this.align})
-      : super(key: key);
+      {super.key, required this.text, required this.width, required this.align});
 
   @override
   Widget build(BuildContext context) {

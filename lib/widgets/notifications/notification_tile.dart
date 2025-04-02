@@ -7,8 +7,7 @@ import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class NotificationTile extends StatelessWidget {
-  const NotificationTile({Key? key, required this.notifModel})
-      : super(key: key);
+  const NotificationTile({super.key, required this.notifModel});
 
   final NotifsModel notifModel;
 

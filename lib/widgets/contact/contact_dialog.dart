@@ -9,7 +9,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 class ContactDialog extends StatefulWidget {
   final ContactDetailsModel details;
 
-  const ContactDialog({Key? key, required this.details}) : super(key: key);
+  const ContactDialog({super.key, required this.details});
 
   @override
   State<ContactDialog> createState() => _ContactDialogState();

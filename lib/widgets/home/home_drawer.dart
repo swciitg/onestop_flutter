@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
@@ -27,10 +29,7 @@ class HomeDrawer extends StatelessWidget {
                 text: TextSpan(children: [
               TextSpan(
                 text: "Onestop",
-                style: OnestopFonts.w600
-                    .size(23)
-                    .letterSpace(1.0)
-                    .setColor(lBlue2),
+                style: OnestopFonts.w600.size(23).letterSpace(1.0).setColor(lBlue2),
               ),
               TextSpan(
                 text: ".",
@@ -71,14 +70,12 @@ class HomeDrawer extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (buildContext) => ProfilePage(
-                                  profileModel:
-                                      OneStopUser.fromJson(LoginStore.userData),
+                                  profileModel: OneStopUser.fromJson(LoginStore.userData),
                                 )));
                     scaffoldKey.currentState!.closeDrawer();
                   },
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     child: Text(
                       "View Profile",
                       style: OnestopFonts.w400.size(14).setColor(kWhite),
@@ -102,8 +99,7 @@ class HomeDrawer extends StatelessWidget {
                           });
                     },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                       child: Text(
                         "Bug/Feature Request",
                         textAlign: TextAlign.center,
@@ -114,12 +110,13 @@ class HomeDrawer extends StatelessWidget {
                 GestureDetector(
                   onTap: () async {
                     try {
-                      await launchURL("swc.iitg.ac.in");
-                    } catch (e) {}
+                      await launchURL("https://swc.iitg.ac.in");
+                    } catch (e) {
+                      log("ERROR launching URL: https://swc.iitg.ac.in");
+                    }
                   },
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     child: Text(
                       "About Us",
                       textAlign: TextAlign.center,
@@ -157,8 +154,7 @@ class HomeDrawer extends StatelessWidget {
                   onPressed: () {
                     {
                       LoginStore().logOut(() => Navigator.of(context)
-                          .pushNamedAndRemoveUntil(
-                              '/', (Route<dynamic> route) => false));
+                          .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false));
                     }
                   },
                 ),

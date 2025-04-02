@@ -5,7 +5,7 @@ import 'package:scoreboard/scoreboard.dart';
 class Scoreboard extends StatelessWidget {
   static const String id = "/gc_score_board";
 
-  const Scoreboard({Key? key}) : super(key: key);
+  const Scoreboard({super.key});
 
   @override
   Widget build(BuildContext context) {

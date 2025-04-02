@@ -5,8 +5,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class FileTile extends StatelessWidget {
-  const FileTile({Key? key, required this.filename, required this.onDelete})
-      : super(key: key);
+  const FileTile({super.key, required this.filename, required this.onDelete});
   final Function onDelete;
   final String filename;
 

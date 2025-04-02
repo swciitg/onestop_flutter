@@ -9,8 +9,7 @@ class Menuoption extends StatelessWidget {
   final Widget? navigationwidget;
   final String? link;
 
-  const Menuoption({Key? key, required this.name, this.navigationwidget, this.link})
-      : super(key: key);
+  const Menuoption({super.key, required this.name, this.navigationwidget, this.link});
 
   Future<void> launchURL(String url) async {
     final Uri uri = Uri.parse(url);

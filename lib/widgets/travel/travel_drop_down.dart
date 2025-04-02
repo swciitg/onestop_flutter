@@ -10,11 +10,10 @@ class TravelDropDown extends StatelessWidget {
   final List<String> items;
 
   const TravelDropDown(
-      {Key? key,
+      {super.key,
       required this.value,
       required this.onChange,
-      required this.items})
-      : super(key: key);
+      required this.items});
 
   @override
   Widget build(BuildContext context) {

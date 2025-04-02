@@ -12,8 +12,7 @@ class ContactButton extends StatelessWidget {
   final ContactType type;
   final String data;
 
-  const ContactButton({Key? key, required this.type, required this.data})
-      : super(key: key);
+  const ContactButton({super.key, required this.type, required this.data});
 
   @override
   Widget build(BuildContext context) {

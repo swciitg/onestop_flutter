@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 class StarButton extends StatefulWidget {
   final ContactDetailsModel contact;
-  const StarButton({Key? key, required this.contact}) : super(key: key);
+  const StarButton({super.key, required this.contact});
 
   @override
   State<StarButton> createState() => _StarButtonState();

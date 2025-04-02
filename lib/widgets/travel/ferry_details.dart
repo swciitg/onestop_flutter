@@ -17,7 +17,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 class FerryDetails extends StatefulWidget {
-  const FerryDetails({Key? key}) : super(key: key);
+  const FerryDetails({super.key});
 
   @override
   State<FerryDetails> createState() => _FerryDetailsState();

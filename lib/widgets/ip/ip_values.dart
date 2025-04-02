@@ -6,7 +6,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 class IpValues extends StatelessWidget {
   final String text;
 
-  const IpValues({Key? key, required this.text}) : super(key: key);
+  const IpValues({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@ import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class FeedBack extends StatefulWidget {
-  const FeedBack({Key? key}) : super(key: key);
+  const FeedBack({super.key});
 
   @override
   State<FeedBack> createState() => _FeedBackState();
@@ -26,8 +26,7 @@ class _FeedBackState extends State<FeedBack> {
     if (currentLength == 0) {
       return null;
     }
-    return Text("$currentLength/$maxLength",
-        style: MyFonts.w500.size(12).setColor(kWhite));
+    return Text("$currentLength/$maxLength", style: MyFonts.w500.size(12).setColor(kWhite));
   }
 
   @override
@@ -48,8 +47,7 @@ class _FeedBackState extends State<FeedBack> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 15),
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
                       child: Text(
                         'Type',
                         style: MyFonts.w500.setColor(kWhite).size(15),
@@ -70,17 +68,16 @@ class _FeedBackState extends State<FeedBack> {
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(150),
-                                color: (selected == "Issue Report")
-                                    ? lBlue2
-                                    : kGrey9,
+                                color: (selected == "Issue Report") ? lBlue2 : kGrey9,
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 'Issue Report',
                                 style: (selected == "Issue Report")
                                     ? MyFonts.w500.size(13).setColor(kBlueGrey)
-                                    : MyFonts.w500.size(13).setColor(
-                                        const Color.fromRGBO(91, 146, 227, 1)),
+                                    : MyFonts.w500
+                                        .size(13)
+                                        .setColor(const Color.fromRGBO(91, 146, 227, 1)),
                               ),
                             ),
                           ),
@@ -100,17 +97,16 @@ class _FeedBackState extends State<FeedBack> {
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(150),
-                                color: (selected == "Feature Request")
-                                    ? lBlue2
-                                    : kGrey9,
+                                color: (selected == "Feature Request") ? lBlue2 : kGrey9,
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 'Feature Request',
                                 style: (selected == "Feature Request")
                                     ? MyFonts.w500.size(13).setColor(kBlueGrey)
-                                    : MyFonts.w500.size(13).setColor(
-                                        const Color.fromRGBO(91, 146, 227, 1)),
+                                    : MyFonts.w500
+                                        .size(13)
+                                        .setColor(const Color.fromRGBO(91, 146, 227, 1)),
                               ),
                             ),
                           ),
@@ -134,8 +130,7 @@ class _FeedBackState extends State<FeedBack> {
                         buildCounter: counterBuilder,
                         decoration: InputDecoration(
                           errorStyle: MyFonts.w400.size(12).setColor(kRed),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8)),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                           fillColor: kAppBarGrey,
                           filled: true,
                           hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
@@ -165,8 +160,7 @@ class _FeedBackState extends State<FeedBack> {
                         buildCounter: counterBuilder,
                         decoration: InputDecoration(
                           errorStyle: MyFonts.w400.size(12).setColor(kRed),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8)),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                           fillColor: kAppBarGrey,
                           filled: true,
                           hintStyle: MyFonts.w500.size(15).setColor(kGrey10),
@@ -194,14 +188,11 @@ class _FeedBackState extends State<FeedBack> {
                                 'title': title.text,
                                 'body': body.text,
                                 'type': selected,
-                                'user': LoginStore.userData['outlookEmail'] +
-                                        " - " +
-                                        LoginStore.userData["rollNo"] ??
-                                    "Unknown"
+                                'user':
+                                    "${LoginStore.userData['outlookEmail']} - ${LoginStore.userData["rollNo"] ?? "Unknown"}"
                               };
                               setState(() => enableSubmitButton = false);
-                              bool success =
-                                  await APIRepository().postFeedbackData(data);
+                              bool success = await APIRepository().postFeedbackData(data);
                               String snackBar =
                                   "There was an error while sending your feedback.\nPlease try again later or reach out to any member using the Contacts section.";
                               if (success) {
@@ -209,16 +200,14 @@ class _FeedBackState extends State<FeedBack> {
                                     "Your feedback was successfully shared to SWC.\nKeep an eye for updates as developers will start working on this shortly.";
                               }
                               if (mounted) {
-                                Navigator.of(context, rootNavigator: true)
-                                    .pop();
+                                Navigator.of(context, rootNavigator: true).pop();
                               }
-                              rootScaffoldMessengerKey.currentState
-                                  ?.showSnackBar(SnackBar(
-                                      duration: const Duration(seconds: 8),
-                                      content: Text(
-                                        snackBar,
-                                        style: MyFonts.w500,
-                                      )));
+                              rootScaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
+                                  duration: const Duration(seconds: 8),
+                                  content: Text(
+                                    snackBar,
+                                    style: MyFonts.w500,
+                                  )));
                             },
                       child: const NextButton(
                         title: 'Submit',
