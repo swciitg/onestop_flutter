@@ -5,7 +5,6 @@ import 'package:onestop_dev/widgets/login/welcome_header.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class WelcomePage extends StatelessWidget {
-  static String id = "/login2";
   final Function setLoading;
 
   const WelcomePage({super.key, required this.setLoading});
