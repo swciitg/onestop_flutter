@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/database_strings.dart' as db;
@@ -41,6 +40,33 @@ class _LoginWebViewState extends State<LoginWebView> {
     return newString.replaceAll('\\', '');
   }
 
+  Future<void> handleLogin() async {
+    final userTokensString =
+        (await getElementById(controller, 'userTokens')).replaceAll("\\", '"');
+
+    if (userTokensString == "ERROR OCCURED") {
+      moveBackToWelcomePage();
+      return;
+    }
+    SharedPreferences user = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    Map userTokens = {
+      db.BackendHelper.accesstoken: userTokensString.split('/')[0],
+      db.BackendHelper.refreshtoken: userTokensString.split('/')[1]
+    };
+    await LoginStore().saveTokensToPrefs(user, userTokens);
+    await LoginStore().saveToUserInfo(user);
+    await WebViewCookieManager().clearCookies();
+    navigatorKey.currentState!.pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => EditProfile(
+          profileModel: OneStopUser.fromJson(LoginStore.userData),
+        ),
+      ),
+      (route) => false,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -51,43 +77,20 @@ class _LoginWebViewState extends State<LoginWebView> {
           try {
             if (url.startsWith(
                 "${Endpoints.baseUrl}/auth/microsoft/redirect?code")) {
-              final userTokensString =
-                  (await getElementById(controller, 'userTokens'))
-                      .replaceAll("\\", '"');
-
-              if (userTokensString == "ERROR OCCURED") {
-                moveBackToWelcomePage();
-                return;
-              }
-              SharedPreferences user = await SharedPreferences.getInstance();
-              if (!mounted) return;
-              Map userTokens = {
-                db.BackendHelper.accesstoken: userTokensString.split('/')[0],
-                db.BackendHelper.refreshtoken: userTokensString.split('/')[1]
-              };
-              await LoginStore().saveTokensToPrefs(user, userTokens);
-              await LoginStore().saveToUserInfo(user);
-              await WebViewCookieManager().clearCookies();
-              navigatorKey.currentState!.pushAndRemoveUntil(
-                  MaterialPageRoute(
-                      builder: (context) => EditProfile(
-                            profileModel:
-                                OneStopUser.fromJson(LoginStore.userData),
-                          )),
-                  (route) => false);
+              await handleLogin();
             }
           } catch (e) {
             showSnackBar("Some error occurred!");
           }
         },
-      ))
-      ..loadRequest(Uri.parse('${Endpoints.baseUrl}/auth/microsoft'));
+      ));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.loadRequest(Uri.parse('${Endpoints.baseUrl}/auth/microsoft'));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return WebViewWidget(
-      controller: controller,
-    );
+    return WebViewWidget(controller: controller);
   }
 }
