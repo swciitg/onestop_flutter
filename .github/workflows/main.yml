@@ -35,10 +35,9 @@ jobs:
         run: flutter pub upgrade
 
       - name: Build Debug APK
-        run: flutter build apk \
-          --no-tree-shake-icons \
-          --flavor prod
-          --dart-define ENV=prod
+        run: flutter build apk --no-tree-shake-icons \
+          --flavor prod \
+          --dart-define ENV=prod \
           --dart-define SERVER_URL=${{ secrets.SERVER_URL }} \
           --dart-define IRBS_SERVER_URL=${{ secrets.IRBS_SERVER_URL }} \
           --dart-define SECURITY_KEY=${{ secrets.SECURITY_KEY }} \
