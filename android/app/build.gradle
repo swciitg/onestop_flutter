@@ -83,6 +83,21 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    flavorDimensions 'default'
+
+    productFlavors {
+        dev {
+            dimension 'default'
+            applicationIdSuffix '.dev'
+            manifestPlaceholders['appName'] = "[DEV] OneStop"
+        }
+        prod {
+            dimension 'default'
+            applicationIdSuffix ''
+            manifestPlaceholders['appName'] = "OneStop" 
+        }
+    }
 }
 
 flutter {

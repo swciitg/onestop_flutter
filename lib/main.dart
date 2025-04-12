@@ -23,10 +23,13 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  const env = String.fromEnvironment('ENV');
   if (await hasInternetConnection()) {
     await Future.wait([
-      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+      Firebase.initializeApp(
+        name: "OneStop $env",
+        options: DefaultFirebaseOptions.currentPlatform,
+      ),
       checkLastUpdated(),
     ]);
     await NotificationService().initNotifications();
@@ -80,9 +83,7 @@ class MyApp extends StatelessWidget {
           scaffoldMessengerKey: rootScaffoldMessengerKey,
           debugShowCheckedModeBanner: false,
           initialRoute: SplashPage.id,
-          theme: ThemeData(
-              scaffoldBackgroundColor: kBackground,
-              splashColor: Colors.transparent),
+          theme: ThemeData(scaffoldBackgroundColor: kBackground, splashColor: Colors.transparent),
           title: 'OneStop IITG',
           routes: routes),
     );

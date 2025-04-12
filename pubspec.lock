@@ -78,22 +78,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-  barcode:
-    dependency: transitive
-    description:
-      name: barcode
-      sha256: "7b6729c37e3b7f34233e2318d866e8c48ddb46c1f7ad01ff7bb2a8de1da2b9f4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.9"
-  barcode_widget:
-    dependency: "direct main"
-    description:
-      name: barcode_widget
-      sha256: "6f2c5b08659b1a5f4d88d183e6007133ea2f96e50e7b8bb628f03266c3931427"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.4"
   boolean_selector:
     dependency: transitive
     description:
@@ -295,14 +279,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-  cookie_jar:
-    dependency: "direct main"
-    description:
-      name: cookie_jar
-      sha256: a6ac027d3ed6ed756bfce8f3ff60cb479e266f3b0fdabd6242b804b6765e52de
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.8"
   cross_file:
     dependency: transitive
     description:
@@ -391,14 +367,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.8.0+1"
-  dio_cookie_manager:
-    dependency: "direct main"
-    description:
-      name: dio_cookie_manager
-      sha256: "47cacbf6a783c263bfa7cd7d08101e93127d87760ddb003ba289162f7be0f679"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
   dio_web_adapter:
     dependency: transitive
     description:
@@ -791,7 +759,7 @@ packages:
     source: hosted
     version: "2.5.7"
   freezed_annotation:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: freezed_annotation
       sha256: c2e2d632dd9b8a2b7751117abcfc2b4888ecfe181bd9fca7170d9ef02e595fe2
@@ -952,7 +920,7 @@ packages:
     source: hosted
     version: "0.15.5"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       sha256: fe7ab022b76f3034adc518fb6ea04a82387620e19977665ea18d30a1cf43442f
@@ -976,7 +944,7 @@ packages:
     source: hosted
     version: "4.1.2"
   image:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: image
       sha256: f31d52537dc417fdcde36088fdf11d191026fd5e4fae742491ebd40e5a8bea7d
@@ -1467,7 +1435,7 @@ packages:
     source: git
     version: "0.0.0"
   screen_brightness:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: screen_brightness
       sha256: eca7bd9d2c3c688bcad14855361cab7097839400b6b4a56f62b7ae511c709958

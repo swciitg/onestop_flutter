@@ -55,14 +55,10 @@ dependencies:
       ref: main
 
   intl: ^0.18.0
-  dio_cookie_manager: ^3.1.1
-  cookie_jar: ^4.0.8
   provider: ^6.0.2
-  http: ^1.0.0
   dio: ^5.0.3
   file_picker: ^10.0.0
   shared_preferences: ^2.0.12
-  barcode_widget: ^2.0.3
   url_launcher: ^6.0.20
   alphabet_scroll_view: ^0.3.1
   cached_network_image: ^3.3.1
@@ -84,7 +80,6 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
   upgrader: ^11.3.1
   badges: ^3.1.2
-  image: ^4.0.15
   firebase_messaging: ^15.1.0
   flutter_local_notifications: ^18.0.1
   firebase_core: ^3.4.0
@@ -97,8 +92,6 @@ dependencies:
   map_launcher: ^3.4.0
   logger: ^2.4.0
   flutter_background_service: ^5.0.10
-  freezed_annotation: ^2.4.4
-  screen_brightness: ^2.1.1
   flutter_inappwebview: ^6.1.5
   syncfusion_flutter_calendar: any
   
