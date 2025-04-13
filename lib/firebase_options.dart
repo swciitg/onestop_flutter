@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:755380116666:android:93baf948818388bfe2f683',
     messagingSenderId: '755380116666',
     projectId: 'onestopiitg-2',
-    storageBucket: 'onestopiitg-2.appspot.com',
+    storageBucket: 'onestopiitg-2.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -62,9 +62,8 @@ class DefaultFirebaseOptions {
     appId: '1:755380116666:ios:2fde1264d6300380e2f683',
     messagingSenderId: '755380116666',
     projectId: 'onestopiitg-2',
-    storageBucket: 'onestopiitg-2.appspot.com',
-    iosClientId:
-        '755380116666-if5jvrpuk5hja4qtlqoaa5eil2nlhmaa.apps.googleusercontent.com',
+    storageBucket: 'onestopiitg-2.firebasestorage.app',
     iosBundleId: 'com.swciitg.onestop2swc2022',
   );
+
 }

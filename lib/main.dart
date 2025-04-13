@@ -23,11 +23,9 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  const env = String.fromEnvironment('ENV');
   if (await hasInternetConnection()) {
     await Future.wait([
       Firebase.initializeApp(
-        name: "OneStop $env",
         options: DefaultFirebaseOptions.currentPlatform,
       ),
       checkLastUpdated(),
