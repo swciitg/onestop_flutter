@@ -98,28 +98,46 @@ class _MilliTrackState extends State<MilliTrack> {
             await Future.delayed(Duration(milliseconds: 500));
             await controller.runJavaScript('''
               (function() {
-                function setNativeValue(element, value) {
-                  const lastValue = element.value;
-                  element.value = value;
-                  const event = new Event('input', { bubbles: true });
-                  event.simulated = true;
-                  const tracker = element._valueTracker;
-                  if (tracker) {
-                    tracker.setValue(lastValue);
+                  function setNativeValue(element, value) {
+                    const lastValue = element.value;
+                    element.value = value;
+                    const event = new Event('input', { bubbles: true });
+                    event.simulated = true;
+                    const tracker = element._valueTracker;
+                    if (tracker) {
+                      tracker.setValue(lastValue);
+                    }
+                    element.dispatchEvent(event);
                   }
-                  element.dispatchEvent(event);
-                }
 
-                const inputs = document.querySelectorAll('input');
-                if (inputs.length >= 2) {
-                  setNativeValue(inputs[0], "$username");
-                  setNativeValue(inputs[1], "$password");
-                }
+                  const inputs = document.querySelectorAll('input');
+                  if (inputs.length >= 2) {
+                    setNativeValue(inputs[0], "$username");
+                    setNativeValue(inputs[1], "$password");
+                  }
 
-                const loginBtn = document.querySelector('button[type="submit"]');
-                if (loginBtn) loginBtn.click();
-              })();
+                  const loginBtn = document.querySelector('button[type="submit"]');
+                  if (loginBtn) loginBtn.click();
+                })();
             ''');
+          }
+
+          if (url == 'http://track4.millitrack.com/modern/#/') {
+            // Hide drawer anytime dashboard loads
+            await controller.runJavaScript('''
+                (function() {
+                  setTimeout(() => {
+                    const drawer = document.querySelector('.MuiDrawer-paperAnchorRight');
+                    const dock = document.querySelector('.MuiDrawer-paperAnchorDockedLeft');
+                    if (dock) {
+                      dock.style.display = 'none';
+                    }
+                    if (drawer) {
+                      drawer.style.display = 'none';
+                    }
+                  }, 2000);
+                })();
+          ''');
           }
         },
       ));
