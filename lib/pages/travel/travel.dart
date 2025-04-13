@@ -26,13 +26,9 @@ class _TravelPageState extends State<TravelPage> {
       child: Column(
         children: [
           const MapBox(),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           const NextTimeCard(),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           Observer(
             builder: (context) {
               return (mapStore.indexBusesorFerry == 0)

@@ -30,3 +30,5 @@ To run the App on your machine, Follow these Steps Carefully
     ]
 }
 ```
+
+**Don't use "--flavor dev" for IOS builds, flavors for IOS is yet to be implemented.**
