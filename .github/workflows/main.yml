@@ -31,12 +31,12 @@ jobs:
       - name: Get Dependencies
         run: flutter pub get
 
-      - name: Build Release APK
-        run: flutter build apk --no-tree-shake-icons --flavor prod --dart-define ENV=prod --dart-define SERVER_URL=${{ secrets.SERVER_URL }} --dart-define IRBS_SERVER_URL=${{ secrets.IRBS_SERVER_URL }} --dart-define SECURITY_KEY=${{ secrets.SECURITY_KEY }} --dart-define GMAP_KEY=${{ secrets.GMAP_KEY }} --dart-define GITHUB_ISSUE_TOKEN=${{ secrets.GIT_TOKEN }} --dart-define GATELOG_WEBSOCKET_URL=${{ secrets.GATELOG_WEBSOCKET_URL }} --dart-define GATELOG_SERVER_URL=${{ secrets.GATELOG_SERVER_URL }} --dart-define MODERATION_SERVER_URL=${{ secrets.MODERATION_SERVER_URL }} --dart-define EVENT_SERVER_URL=${{ secrets.EVENT_SERVER_URL }}
+      - name: Build Release APK [DEV]
+        run: flutter build apk --no-tree-shake-icons --flavor dev --dart-define ENV=dev --dart-define SERVER_URL=${{ secrets.SERVER_URL }} --dart-define IRBS_SERVER_URL=${{ secrets.IRBS_SERVER_URL }} --dart-define SECURITY_KEY=${{ secrets.SECURITY_KEY }} --dart-define GMAP_KEY=${{ secrets.GMAP_KEY }} --dart-define GITHUB_ISSUE_TOKEN=${{ secrets.GIT_TOKEN }} --dart-define GATELOG_WEBSOCKET_URL=${{ secrets.GATELOG_WEBSOCKET_URL }} --dart-define GATELOG_SERVER_URL=${{ secrets.GATELOG_SERVER_URL }} --dart-define MODERATION_SERVER_URL=${{ secrets.MODERATION_SERVER_URL }} --dart-define EVENT_SERVER_URL=${{ secrets.EVENT_SERVER_URL }}
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/flutter-apk/app-prod-debug.apk"
-          tag: v1.0.${{ github.run_number }}
+          artifacts: "build/app/outputs/flutter-apk/app-dev-debug.apk"
+          tag: v1.0.${{ github.run_number }}-dev
           token: ${{ secrets.GIT_TOKEN }}

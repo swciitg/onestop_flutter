@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -94,6 +96,7 @@ class _MilliTrackState extends State<MilliTrack> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(NavigationDelegate(
         onPageFinished: (url) async {
+          log("URL: $url");
           if (url.contains('http://track4.millitrack.com/modern/#/login')) {
             await Future.delayed(Duration(milliseconds: 500));
             await controller.runJavaScript('''
@@ -119,6 +122,18 @@ class _MilliTrackState extends State<MilliTrack> {
                   const loginBtn = document.querySelector('button[type="submit"]');
                   if (loginBtn) loginBtn.click();
                 })();
+              (function() {
+                  setTimeout(() => {
+                    const drawer = document.querySelector('.MuiDrawer-paperAnchorRight');
+                    const dock = document.querySelector('.MuiDrawer-paperAnchorDockedLeft');
+                    if (dock) {
+                      dock.style.display = 'none';
+                    }
+                    if (drawer) {
+                      drawer.style.display = 'none';
+                    }
+                  }, 2000);
+                })();
             ''');
           }
 
@@ -138,6 +153,7 @@ class _MilliTrackState extends State<MilliTrack> {
                   }, 2000);
                 })();
           ''');
+            log("Done");
           }
         },
       ));
