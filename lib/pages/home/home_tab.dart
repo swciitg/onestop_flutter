@@ -16,7 +16,7 @@ import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:onestop_dev/stores/mapbox_store.dart';
 import '../../functions/food/rest_frame_builder.dart';
 import '../../models/home/home_image.dart';
 
@@ -46,6 +46,8 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
+    var mapStore = context.read<MapBoxStore>();
+    mapStore.checkTravelPage(false);
     final imageWidth = 0.92 * MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Column(
