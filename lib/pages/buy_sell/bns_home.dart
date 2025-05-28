@@ -27,52 +27,31 @@ class BuySellHome extends StatefulWidget {
 }
 
 class _BuySellHomeState extends State<BuySellHome> {
-  final PagingController<int, BuyModel> _sellController =
-      PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
-  final PagingController<int, SellModel> _buyController =
-      PagingController(firstPageKey: 1, invisibleItemsThreshold: 1);
-
-  @override
-  void initState() {
-    super.initState();
-    _sellController.addPageRequestListener((pageKey) async {
-      await listener(_sellController, BnsRepository().getSellPage, pageKey);
-    });
-    _buyController.addPageRequestListener((pageKey) async {
-      await listener(_buyController, BnsRepository().getBuyPage, pageKey);
-    });
-  }
-
-  Future<void> listener(
-      PagingController controller, Function apiCall, int pageKey) async {
-    try {
-      var result = await apiCall(pageKey);
-      bool isLastPage = false;
-      if (result.length < CommonStore().pageSize) {
-        isLastPage = true;
+  final PagingController<int, BuyModel> _sellController = PagingController(
+    fetchPage: (pageKey) {
+      return BnsRepository().getSellPage(pageKey);
+    },
+    getNextPageKey: (state) {
+      final list = state.pages?.last ?? [];
+      if (list.length < CommonStore().pageSize) {
+        return null;
       }
-      if (mounted) {
-        if (isLastPage) {
-          controller.appendLastPage(result);
-        } else {
-          controller.appendPage(result, pageKey + 1);
-        }
+      return state.keys?.last ?? 0 + 1;
+    },
+  );
+
+  final PagingController<int, SellModel> _buyController = PagingController(
+    fetchPage: (pageKey) {
+      return BnsRepository().getBuyPage(pageKey);
+    },
+    getNextPageKey: (state) {
+      final list = state.pages?.last ?? [];
+      if (list.length < CommonStore().pageSize) {
+        return null;
       }
-    } catch (e) {
-      controller.error = "An error occurred";
-    }
-  }
-
-  void refresh() {
-    _sellController.refresh();
-    _buyController.refresh();
-  }
-
-  void retryLastFailedRequest() {
-    _sellController.retryLastFailedRequest();
-    _buyController.retryLastFailedRequest();
-  }
-
+      return state.keys?.last ?? 0 + 1;
+    },
+  );
   void callSetState() {
     setState(() {});
   }
@@ -86,10 +65,7 @@ class _BuySellHomeState extends State<BuySellHome> {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: kBlueGrey,
-            title: Text(
-              "Buy and Sell",
-              style: OnestopFonts.w500.size(20).setColor(kWhite),
-            ),
+            title: Text("Buy and Sell", style: OnestopFonts.w500.size(20).setColor(kWhite)),
             elevation: 0,
             automaticallyImplyLeading: false,
             leadingWidth: 18,
@@ -98,11 +74,8 @@ class _BuySellHomeState extends State<BuySellHome> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: const Icon(
-                  FluentIcons.dismiss_24_filled,
-                  color: kWhite2,
-                ),
-              )
+                icon: const Icon(FluentIcons.dismiss_24_filled, color: kWhite2),
+              ),
             ],
           ),
           body: Column(
@@ -111,16 +84,8 @@ class _BuySellHomeState extends State<BuySellHome> {
                 padding: const EdgeInsets.only(left: 10.0, top: 15.0),
                 child: Row(
                   children: [
-                    ItemType2(
-                      commonStore: commonStore,
-                      title: "Sell",
-                      label: "For Sale",
-                    ),
-                    ItemType2(
-                      commonStore: commonStore,
-                      title: "Buy",
-                      label: "Requested Item",
-                    ),
+                    ItemType2(commonStore: commonStore, title: "Sell", label: "For Sale"),
+                    ItemType2(commonStore: commonStore, title: "Buy", label: "Requested Item"),
                   ],
                 ),
               ),
@@ -129,131 +94,136 @@ class _BuySellHomeState extends State<BuySellHome> {
                   slivers: [
                     SliverToBoxAdapter(
                       child: FutureBuilder(
-                          future: BnsRepository().getBnsMyItems(
-                              LoginStore.userData['outlookEmail']!,
-                              commonStore.bnsIndex == "Sell"),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              List<BuyModel> models =
-                                  snapshot.data!;
-                              List<MyAdsTile> tiles = models
-                                  .map((e) => MyAdsTile(model: e))
-                                  .toList();
+                        future: BnsRepository().getBnsMyItems(
+                          LoginStore.userData['outlookEmail']!,
+                          commonStore.bnsIndex == "Sell",
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            List<BuyModel> models = snapshot.data!;
+                            List<MyAdsTile> tiles = models.map((e) => MyAdsTile(model: e)).toList();
 
-                              if (tiles.isEmpty || LoginStore().isGuestUser) {
-                                return const SizedBox();
-                              }
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0),
-                                child: Column(children: [
+                            if (tiles.isEmpty || LoginStore().isGuestUser) {
+                              return const SizedBox();
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Column(
+                                children: [
                                   Align(
                                     alignment: Alignment.centerLeft,
                                     child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 18.0),
-                                      child: Text("My Ads",
-                                          style: OneStopStyles.basicFontStyle
-                                              .setColor(kWhite)),
+                                      padding: const EdgeInsets.only(left: 18.0),
+                                      child: Text(
+                                        "My Ads",
+                                        style: OneStopStyles.basicFontStyle.setColor(kWhite),
+                                      ),
                                     ),
                                   ),
                                   ListView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
-                                    itemBuilder: (context, index) =>
-                                        tiles[index],
+                                    itemBuilder: (context, index) => tiles[index],
                                     itemCount: tiles.length,
-                                  )
-                                ]),
-                              );
-                            }
-                            if (snapshot.hasError) {
-                              return ErrorReloadScreen(
-                                  reloadCallback: callSetState);
-                            }
-                            return ListShimmer(
-                              count: 5,
-                              height: 120,
+                                  ),
+                                ],
+                              ),
                             );
-                          }),
+                          }
+                          if (snapshot.hasError) {
+                            return ErrorReloadScreen(reloadCallback: callSetState);
+                          }
+                          return ListShimmer(count: 5, height: 120);
+                        },
+                      ),
                     ),
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 18.0),
-                        child: Text("All Ads",
-                            style:
-                                OneStopStyles.basicFontStyle.setColor(kWhite)),
+                        child: Text(
+                          "All Ads",
+                          style: OneStopStyles.basicFontStyle.setColor(kWhite),
+                        ),
                       ),
                     ),
                     if (commonStore.bnsIndex == "Sell")
-                      PagedSliverList<int, BuyModel>(
-                          pagingController: _sellController,
-                          builderDelegate: PagedChildBuilderDelegate(
-                            itemBuilder: (context, sellItem, index) =>
-                                BuyTile(model: sellItem),
-                            firstPageErrorIndicatorBuilder: (context) =>
-                                ErrorReloadScreen(reloadCallback: refresh),
-                            noItemsFoundIndicatorBuilder: (context) =>
-                                const PaginationText(text: "No items found"),
-                            newPageErrorIndicatorBuilder: (context) => Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: ErrorReloadButton(
-                                  reloadCallback: retryLastFailedRequest),
+                      PagingListener(
+                        controller: _sellController,
+                        builder: (context, state, fetchNextPage) {
+                          return PagedSliverList<int, BuyModel>(
+                            state: state,
+                            fetchNextPage: fetchNextPage,
+                            builderDelegate: PagedChildBuilderDelegate(
+                              itemBuilder: (context, sellItem, index) => BuyTile(model: sellItem),
+                              firstPageErrorIndicatorBuilder:
+                                  (context) => ErrorReloadScreen(
+                                    reloadCallback: () => _sellController.refresh(),
+                                  ),
+                              noItemsFoundIndicatorBuilder:
+                                  (context) => const PaginationText(text: "No items found"),
+                              newPageErrorIndicatorBuilder:
+                                  (context) => Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: ErrorReloadButton(
+                                      reloadCallback: () => _sellController.refresh(),
+                                    ),
+                                  ),
+                              newPageProgressIndicatorBuilder:
+                                  (context) => const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Center(child: CircularProgressIndicator()),
+                                  ),
+                              firstPageProgressIndicatorBuilder:
+                                  (context) => ListShimmer(count: 5, height: 120),
+                              noMoreItemsIndicatorBuilder:
+                                  (context) => const PaginationText(text: "You've reached the end"),
                             ),
-                            newPageProgressIndicatorBuilder: (context) =>
-                                const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Center(child: CircularProgressIndicator()),
-                            ),
-                            firstPageProgressIndicatorBuilder: (context) =>
-                                ListShimmer(
-                              count: 5,
-                              height: 120,
-                            ),
-                            noMoreItemsIndicatorBuilder: (context) =>
-                                const PaginationText(
-                                    text: "You've reached the end"),
-                          ))
+                          );
+                        },
+                      )
                     else if (commonStore.bnsIndex == "Buy")
-                      PagedSliverList<int, SellModel>(
-                          pagingController: _buyController,
-                          builderDelegate: PagedChildBuilderDelegate(
-                            itemBuilder: (context, buyItem, index) =>
-                                BuyTile(model: buyItem),
-                            firstPageErrorIndicatorBuilder: (context) =>
-                                ErrorReloadScreen(reloadCallback: refresh),
-                            noItemsFoundIndicatorBuilder: (context) =>
-                                const PaginationText(text: "No items found"),
-                            newPageErrorIndicatorBuilder: (context) => Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: ErrorReloadButton(
-                                  reloadCallback: retryLastFailedRequest),
+                      PagingListener(
+                        controller: _buyController,
+                        builder: (context, state, fetchNextPage) {
+                          return PagedSliverList<int, SellModel>(
+                            state: state,
+                            fetchNextPage: fetchNextPage,
+                            builderDelegate: PagedChildBuilderDelegate(
+                              itemBuilder: (context, buyItem, index) => BuyTile(model: buyItem),
+                              firstPageErrorIndicatorBuilder:
+                                  (context) => ErrorReloadScreen(
+                                    reloadCallback: () => _buyController.refresh(),
+                                  ),
+                              noItemsFoundIndicatorBuilder:
+                                  (context) => const PaginationText(text: "No items found"),
+                              newPageErrorIndicatorBuilder:
+                                  (context) => Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: ErrorReloadButton(
+                                      reloadCallback: () => _buyController.refresh(),
+                                    ),
+                                  ),
+                              newPageProgressIndicatorBuilder:
+                                  (context) => const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Center(child: CircularProgressIndicator()),
+                                  ),
+                              firstPageProgressIndicatorBuilder:
+                                  (context) => ListShimmer(count: 5, height: 120),
+                              noMoreItemsIndicatorBuilder:
+                                  (context) => const PaginationText(text: "You've reached the end"),
                             ),
-                            newPageProgressIndicatorBuilder: (context) =>
-                                const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Center(child: CircularProgressIndicator()),
-                            ),
-                            firstPageProgressIndicatorBuilder: (context) =>
-                                ListShimmer(
-                              count: 5,
-                              height: 120,
-                            ),
-                            noMoreItemsIndicatorBuilder: (context) =>
-                                const PaginationText(
-                                    text: "You've reached the end"),
-                          ))
+                          );
+                        },
+                      ),
                   ],
                 ),
               ),
             ],
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          floatingActionButton: LoginStore().isGuestUser
-              ? Container()
-              : AddItemButton(
-                  type: commonStore.bnsIndex,
-                ),
+          floatingActionButton:
+              LoginStore().isGuestUser ? Container() : AddItemButton(type: commonStore.bnsIndex),
         );
       },
     );
@@ -268,8 +238,7 @@ class _BuySellHomeState extends State<BuySellHome> {
 }
 
 class ItemType2 extends StatelessWidget {
-  const ItemType2(
-      {super.key, required this.commonStore, required this.title, this.label});
+  const ItemType2({super.key, required this.commonStore, required this.title, this.label});
 
   final CommonStore commonStore;
   final String title;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:logger/logger.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
@@ -21,21 +20,82 @@ class EventsScreen extends StatefulWidget {
   State<EventsScreen> createState() => _EventsScreenState();
 }
 
-class _EventsScreenState extends State<EventsScreen>
-    with TickerProviderStateMixin {
+class _EventsScreenState extends State<EventsScreen> with TickerProviderStateMixin {
   late TabController _tabController; // Added TabController
 
   final Map<String, PagingController<int, EventModel>> _pagingControllers = {
-    'Saved': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
-    'Sports': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
-    'All': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
-    'Technical': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
-    'Cultural': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
-    'Academic': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
-    'Welfare': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
-    'SWC': PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
-    'Miscellaneous':
-        PagingController(firstPageKey: 1, invisibleItemsThreshold: 1),
+    'Saved': PagingController(
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Saved'),
+      getNextPageKey: (state) {
+        final list = state.pages?.last ?? [];
+        if (list.isEmpty) return null;
+        return state.keys?.last ?? 0 + 1;
+      },
+    ),
+    'Sports': PagingController(
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Sports'),
+      getNextPageKey: (state) {
+        final list = state.pages?.last ?? [];
+        if (list.isEmpty) return null;
+        return state.keys?.last ?? 0 + 1;
+      },
+    ),
+    'All': PagingController(
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('All'),
+      getNextPageKey: (state) {
+        final list = state.pages?.last ?? [];
+        if (list.isEmpty) return null;
+        return state.keys?.last ?? 0 + 1;
+      },
+    ),
+    'Technical': PagingController(
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Technical'),
+      getNextPageKey: (state) {
+        final list = state.pages?.last ?? [];
+        if (list.isEmpty) return null;
+        return state.keys?.last ?? 0 + 1;
+      },
+    ),
+    'Cultural': PagingController(
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Cultural'),
+      getNextPageKey: (state) {
+        final list = state.pages?.last ?? [];
+        if (list.isEmpty) return null;
+        return state.keys?.last ?? 0 + 1;
+      },
+    ),
+    'Academic': PagingController(
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Academic'),
+      getNextPageKey: (state) {
+        final list = state.pages?.last ?? [];
+        if (list.isEmpty) return null;
+        return state.keys?.last ?? 0 + 1;
+      },
+    ),
+    'Welfare': PagingController(
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Welfare'),
+      getNextPageKey: (state) {
+        final list = state.pages?.last ?? [];
+        if (list.isEmpty) return null;
+        return state.keys?.last ?? 0 + 1;
+      },
+    ),
+    'SWC': PagingController(
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('SWC'),
+      getNextPageKey: (state) {
+        final list = state.pages?.last ?? [];
+        if (list.isEmpty) return null;
+        return state.keys?.last ?? 0 + 1;
+      },
+    ),
+    'Miscellaneous': PagingController(
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Miscellaneous'),
+      getNextPageKey: (state) {
+        final list = state.pages?.last ?? [];
+        if (list.isEmpty) return null;
+        return state.keys?.last ?? 0 + 1;
+      },
+    ),
   };
 
   @override
@@ -54,30 +114,10 @@ class _EventsScreenState extends State<EventsScreen>
     // Update the tab selection when swiping between tabs
     _tabController.animation?.addListener(() {
       final newIndex = _tabController.animation?.value.round();
-      if (newIndex != null &&
-          newIndex != context.read<EventsStore>().selectedEventTab) {
+      if (newIndex != null && newIndex != context.read<EventsStore>().selectedEventTab) {
         context.read<EventsStore>().setSelectedEventTab(newIndex);
       }
     });
-
-    _pagingControllers.forEach((key, controller) {
-      controller.addPageRequestListener((pageKey) async {
-        await _fetchPage(controller, key, pageKey);
-      });
-    });
-  }
-
-  Future<void> _fetchPage(PagingController<int, EventModel> controller,
-      String category, int pageKey) async {
-    Logger().i("fetching the category of $category");
-    try {
-      final newItems = await EventsAPIRepository().getEventPage(category);
-      Logger().i("Loaded ${newItems.length} events_feed for $category");
-      controller.appendLastPage(newItems);
-    } catch (error) {
-      Logger().i("Error fetching events_feed: $error");
-      controller.error = error;
-    }
   }
 
   @override
@@ -85,91 +125,80 @@ class _EventsScreenState extends State<EventsScreen>
     final eventsStore = context.read<EventsStore>();
 
     return Observer(
-      builder: (context) => DefaultTabController(
-        length: 9,
-        child: Column(
-          children: [
-            Container(
-              color: const Color(0xFF1b1b1d),
-              child: TabBar(
-                controller: _tabController,
-                onTap: (index) {
-                  eventsStore.setSelectedEventTab(index);
-                },
-                indicator: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Colors.transparent),
+      builder:
+          (context) => DefaultTabController(
+            length: 9,
+            child: Column(
+              children: [
+                Container(
+                  color: const Color(0xFF1b1b1d),
+                  child: TabBar(
+                    controller: _tabController,
+                    onTap: (index) {
+                      eventsStore.setSelectedEventTab(index);
+                    },
+                    indicator: const BoxDecoration(
+                      border: Border(bottom: BorderSide(color: Colors.transparent)),
+                    ),
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 3.5),
+                    labelColor: Colors.black,
+                    unselectedLabelColor: Colors.white,
+                    isScrollable: true,
+                    tabs: [
+                      _buildTab('Saved', 0, eventsStore),
+                      _buildTab('All Events', 1, eventsStore),
+                      _buildTab('Academic', 2, eventsStore),
+                      _buildTab('Sports', 3, eventsStore),
+                      _buildTab('Technical', 4, eventsStore),
+                      _buildTab('Cultural', 5, eventsStore),
+                      _buildTab('Welfare', 6, eventsStore),
+                      _buildTab('SWC', 7, eventsStore),
+                      _buildTab('Miscellaneous', 8, eventsStore),
+                    ],
                   ),
                 ),
-                labelPadding: const EdgeInsets.symmetric(horizontal: 3.5),
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.white,
-                isScrollable: true,
-                tabs: [
-                  _buildTab('Saved', 0, eventsStore),
-                  _buildTab('All Events', 1, eventsStore),
-                  _buildTab('Academic', 2, eventsStore),
-                  _buildTab('Sports', 3, eventsStore),
-                  _buildTab('Technical', 4, eventsStore),
-                  _buildTab('Cultural', 5, eventsStore),
-                  _buildTab('Welfare', 6, eventsStore),
-                  _buildTab('SWC', 7, eventsStore),
-                  _buildTab('Miscellaneous', 8, eventsStore),
-                ],
-              ),
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                // Added TabController to TabBarView
-                children: [
-                  FutureBuilder(
-                    future: context.read<EventsStore>().getAllSavedEvents(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        List<EventModel> events =
-                            snapshot.data as List<EventModel>;
-                        context.read<EventsStore>().setSavedEvents(events);
-                        return SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: Observer(
-                            builder: (context) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children:
-                                    context.read<EventsStore>().savedScroll,
-                              );
-                            },
-                          ),
-                        );
-                      }
-                      // Add a loading indicator while fetching data
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    // Added TabController to TabBarView
+                    children: [
+                      FutureBuilder(
+                        future: context.read<EventsStore>().getAllSavedEvents(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            List<EventModel> events = snapshot.data as List<EventModel>;
+                            context.read<EventsStore>().setSavedEvents(events);
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Observer(
+                                builder: (context) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: context.read<EventsStore>().savedScroll,
+                                  );
+                                },
+                              ),
+                            );
+                          }
+                          // Add a loading indicator while fetching data
+                          return const Center(child: CircularProgressIndicator());
+                        },
+                      ),
+                      EventListView(pagingController: _pagingControllers['All']!),
+                      EventListView(pagingController: _pagingControllers['Academic']!),
+                      EventListView(pagingController: _pagingControllers['Sports']!),
+                      EventListView(pagingController: _pagingControllers['Technical']!),
+                      EventListView(pagingController: _pagingControllers['Cultural']!),
+                      EventListView(pagingController: _pagingControllers['Welfare']!),
+                      EventListView(pagingController: _pagingControllers['SWC']!),
+                      EventListView(pagingController: _pagingControllers['Miscellaneous']!),
+                    ],
                   ),
-                  EventListView(pagingController: _pagingControllers['All']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Academic']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Sports']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Technical']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Cultural']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Welfare']!),
-                  EventListView(pagingController: _pagingControllers['SWC']!),
-                  EventListView(
-                      pagingController: _pagingControllers['Miscellaneous']!),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
@@ -185,9 +214,10 @@ class _EventsScreenState extends State<EventsScreen>
           label,
           style: MyFonts.w700.copyWith(
             fontSize: 12,
-            color: eventsStore.selectedEventTab == index
-                ? const Color(0xFF001B3E)
-                : const Color(0xFFDAE3F9),
+            color:
+                eventsStore.selectedEventTab == index
+                    ? const Color(0xFF001B3E)
+                    : const Color(0xFFDAE3F9),
           ),
         ),
       ),
@@ -210,58 +240,55 @@ class EventListView extends StatelessWidget {
 
   const EventListView({super.key, required this.pagingController});
 
-  @override
-  Widget build(BuildContext context) {
-    return PagedListView<int, EventModel>(
-      pagingController: pagingController,
-      builderDelegate: PagedChildBuilderDelegate<EventModel>(
-        itemBuilder: (context, event, index) {
-          final currentTime = DateTime.now().toLocal();
-          final eventEndDateTime = event.endDateTime.toUtc();
-
-          // Compare hours and minutes
-          final isEventUpcomingbyhr =
-              eventEndDateTime.hour > currentTime.hour ||
-                  (eventEndDateTime.hour == currentTime.hour &&
-                      eventEndDateTime.minute > currentTime.minute);
-          final isEventUpcomingByDate = eventEndDateTime.day >= currentTime.day;
-          if (isEventUpcomingbyhr && isEventUpcomingByDate) {
-            return EventTile(
-              onTap: () => _navigateToEventDetails(context, event),
-              model: event,
-            );
-          }
-          return const SizedBox.shrink();
-        },
-        firstPageErrorIndicatorBuilder: (context) => ErrorReloadScreen(
-          reloadCallback: () => pagingController.refresh(),
-        ),
-        noItemsFoundIndicatorBuilder: (context) => const PaginationText(
-          text: "No events_feed found",
-        ),
-        firstPageProgressIndicatorBuilder: (context) => ListShimmer(
-          count: 5,
-          height: 120,
-        ),
-        newPageProgressIndicatorBuilder: (context) => const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Center(child: CircularProgressIndicator()),
-        ),
-        noMoreItemsIndicatorBuilder: (context) => const PaginationText(
-          text: "You've reached the end",
-        ),
-      ),
-    );
-  }
-
   void _navigateToEventDetails(BuildContext context, EventModel event) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-          builder: (context) => EventDetailsScreen(
-                event: event,
-                isAdmin: false,
-              )),
+      MaterialPageRoute(builder: (context) => EventDetailsScreen(event: event, isAdmin: false)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PagingListener(
+      controller: pagingController,
+      builder: (context, state, fetchNextPage) {
+        return PagedListView<int, EventModel>(
+          state: state,
+          fetchNextPage: fetchNextPage,
+          builderDelegate: PagedChildBuilderDelegate<EventModel>(
+            itemBuilder: (context, event, index) {
+              final currentTime = DateTime.now().toLocal();
+              final eventEndDateTime = event.endDateTime.toUtc();
+
+              // Compare hours and minutes
+              final isEventUpcomingbyhr =
+                  eventEndDateTime.hour > currentTime.hour ||
+                  (eventEndDateTime.hour == currentTime.hour &&
+                      eventEndDateTime.minute > currentTime.minute);
+              final isEventUpcomingByDate = eventEndDateTime.day >= currentTime.day;
+              if (isEventUpcomingbyhr && isEventUpcomingByDate) {
+                return EventTile(
+                  onTap: () => _navigateToEventDetails(context, event),
+                  model: event,
+                );
+              }
+              return const SizedBox.shrink();
+            },
+            firstPageErrorIndicatorBuilder:
+                (context) => ErrorReloadScreen(reloadCallback: () => pagingController.refresh()),
+            noItemsFoundIndicatorBuilder:
+                (context) => const PaginationText(text: "No events_feed found"),
+            firstPageProgressIndicatorBuilder: (context) => ListShimmer(count: 5, height: 120),
+            newPageProgressIndicatorBuilder:
+                (context) => const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+            noMoreItemsIndicatorBuilder:
+                (context) => const PaginationText(text: "You've reached the end"),
+          ),
+        );
+      },
     );
   }
 }

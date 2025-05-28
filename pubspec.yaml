@@ -18,7 +18,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 3.0.15+77
 
 environment:
-  sdk: ^3.6.0
+  sdk: ^3.7.2
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -37,14 +37,17 @@ dependencies:
     git:
       url: https://github.com/swciitg/gc_scoreboard.git
       path: packages/scoreboard
+      ref: dev
   cab_sharing:
     git:
       url: https://github.com/swciitg/cab_sharing_onestop.git
       path: packages/cab_sharing
+      ref: dev
   irbs:
     git:
       url: https://github.com/swciitg/irbs.git
       path: packages/irbs
+      ref: dev
   onestop_kit:
     git:
       url: https://github.com/swciitg/onestop_kit.git
@@ -52,9 +55,9 @@ dependencies:
     git:
       url: https://github.com/swciitg/gatelog_onestop.git
       path: packages/gate_log
-      ref: main
+      ref: dev
 
-  intl: ^0.18.0
+  intl: ^0.20.2
   provider: ^6.0.2
   dio: ^5.0.3
   file_picker: ^10.0.0
@@ -71,17 +74,17 @@ dependencies:
   flutter_switch: ^0.3.2
   json_annotation: ^4.8.1
   sembast: ^3.2.0
-  shimmer: ^2.0.0
+  shimmer: ^3.0.0
   google_maps_flutter: ^2.1.10
   fluentui_system_icons: ^1.1.177
-  geolocator: ^13.0.4
+  geolocator: ^14.0.1
   path_provider: ^2.0.11
   path: ^1.8.0
-  infinite_scroll_pagination: ^4.0.0
+  infinite_scroll_pagination: ^5.0.0
   upgrader: ^11.3.1
   badges: ^3.1.2
   firebase_messaging: ^15.1.0
-  flutter_local_notifications: ^18.0.1
+  flutter_local_notifications: ^19.2.1
   firebase_core: ^3.4.0
   flutter_svg: ^2.0.10+1
   flutter_cache_manager: ^3.3.1
@@ -93,7 +96,7 @@ dependencies:
   logger: ^2.4.0
   flutter_background_service: ^5.0.10
   flutter_inappwebview: ^6.1.5
-  syncfusion_flutter_calendar: any
+  syncfusion_flutter_calendar: 29.2.5
   
 dev_dependencies:
   flutter_test:
