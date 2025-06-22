@@ -261,12 +261,6 @@ class MessMenu extends StatelessWidget {
               _buildMealContainer('Lunch', messStore),
               _buildMealContainer('Dinner', messStore),
             ],
-            // ["Breakfast", "Lunch", "Dinner"].map((meal) {
-            //   return Padding(
-            //     padding: const EdgeInsets.only(right: 16),
-            //     child: _buildMealContainer(meal, messStore),
-            //   );
-            // }).toList(),
           ),
         ),
       ),
