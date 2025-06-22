@@ -25,39 +25,30 @@ class RestaurantPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          RestaurantHeader(
-            restaurant: restaurantModel,
-          ),
+          RestaurantHeader(restaurant: restaurantModel),
           Expanded(
             child: FutureBuilder<List<DishModel>>(
-                future: getMenu(restaurantModel),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<DishModel>> snapshot) {
-                  if (snapshot.hasData) {
-                    // print(snapshot.data);
-                    List<Widget> foodList = snapshot.data!
-                        .map(
-                          (e) => FoodTile(
-                            dish: e,
-                          ),
-                        )
-                        .toList();
-                    return ListView(
-                      children: foodList,
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                        child: Text(
+              future: getMenu(restaurantModel),
+              builder: (
+                BuildContext context,
+                AsyncSnapshot<List<DishModel>> snapshot,
+              ) {
+                if (snapshot.hasData) {
+                  // print(snapshot.data);
+                  List<Widget> foodList =
+                      snapshot.data!.map((e) => FoodTile(dish: e)).toList();
+                  return ListView(children: foodList);
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
                       "An error occurred",
                       style: MyFonts.w500.size(18).setColor(kWhite),
-                    ));
-                  }
-                  return Center(
-                    child: ListShimmer(
-                      height: 130,
                     ),
                   );
-                }),
+                }
+                return Center(child: ListShimmer(height: 130));
+              },
+            ),
           ),
         ],
       ),
