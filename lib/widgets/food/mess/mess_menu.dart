@@ -250,7 +250,7 @@ class MessMenu extends StatelessWidget {
   Widget _buildMealSection(MessStore messStore) {
     return Container(
       color: Colors.transparent,
-      height: 300,
+      height: 290,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Padding(
@@ -281,11 +281,10 @@ class MessMenu extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Shimmer.fromColors(
-                baseColor: kBlueGrey!,
-                highlightColor: kBlueGrey!,
+                baseColor: kBlueGrey,
+                highlightColor: kBlueGrey,
                 child: Container(
                   width: 305,
-                  height: 310,
                   decoration: BoxDecoration(
                     color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(16),

@@ -35,6 +35,13 @@ class _HomePageState extends State<HomePage> {
     // const EventsScreenWrapper(),
     const TimeTableTab(),
   ];
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {}); // Trigger a rebuild to apply the correct theme
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

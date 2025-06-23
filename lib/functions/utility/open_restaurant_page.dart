@@ -1,5 +1,4 @@
 import 'package:onestop_dev/functions/utility/phone_email.dart';
-import 'package:onestop_kit/onestop_kit.dart';
 import 'package:onestop_ui/buttons/secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_ui/components/text.dart';
@@ -99,6 +98,7 @@ void openRestaurantPage(
                             ),
                             IconButton(
                               icon: Container(
+                                padding: const EdgeInsets.all(4.0),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: OColor.gray100,
@@ -112,6 +112,7 @@ void openRestaurantPage(
                               onPressed: () {
                                 Navigator.pop(context);
                               },
+                              padding: const EdgeInsets.only(left: 40.0),
                             ),
                           ],
                         ),
