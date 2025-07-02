@@ -20,10 +20,7 @@ class MessLinks extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Mess Links',
-            style: MyFonts.w600.size(14).setColor(kWhite),
-          ),
+          Text('Mess Links', style: MyFonts.w600.size(14).setColor(kWhite)),
           const SizedBox(height: 10),
           GridView.count(
             crossAxisCount: 2,
