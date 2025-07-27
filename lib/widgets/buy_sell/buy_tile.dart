@@ -88,7 +88,7 @@ class BuyTile extends StatelessWidget {
                     fit: BoxFit.cover,
                     cacheWidth: 100,
                     frameBuilder: restaurantTileFrameBuilder,
-                    errorBuilder: (_, __, ___) => Container(),
+                    errorBuilder: (_, _, _) => Container(),
                   ),
                 ),
               ),

@@ -12,13 +12,17 @@ mixin _$ContactStore on _ContactStore, Store {
   Computed<List<Widget>>? _$starContactScrollComputed;
 
   @override
-  List<Widget> get starContactScroll => (_$starContactScrollComputed ??=
-          Computed<List<Widget>>(() => super.starContactScroll,
-              name: '_ContactStore.starContactScroll'))
-      .value;
+  List<Widget> get starContactScroll =>
+      (_$starContactScrollComputed ??= Computed<List<Widget>>(
+            () => super.starContactScroll,
+            name: '_ContactStore.starContactScroll',
+          ))
+          .value;
 
-  late final _$starredContactsAtom =
-      Atom(name: '_ContactStore.starredContacts', context: context);
+  late final _$starredContactsAtom = Atom(
+    name: '_ContactStore.starredContacts',
+    context: context,
+  );
 
   @override
   ObservableList<ContactDetailsModel> get starredContacts {
@@ -33,13 +37,16 @@ mixin _$ContactStore on _ContactStore, Store {
     });
   }
 
-  late final _$_ContactStoreActionController =
-      ActionController(name: '_ContactStore', context: context);
+  late final _$_ContactStoreActionController = ActionController(
+    name: '_ContactStore',
+    context: context,
+  );
 
   @override
   void setStarredContacts(List<ContactDetailsModel> l) {
     final _$actionInfo = _$_ContactStoreActionController.startAction(
-        name: '_ContactStore.setStarredContacts');
+      name: '_ContactStore.setStarredContacts',
+    );
     try {
       return super.setStarredContacts(l);
     } finally {

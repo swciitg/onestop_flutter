@@ -9,7 +9,7 @@ import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/widgets/lostfound/claim_call_button.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
-void detailsDialogBox(context, dynamic model, [parentContext]) {
+void detailsDialogBox(BuildContext context, dynamic model, [parentContext]) {
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
   parentContext ??= context;
@@ -103,7 +103,7 @@ void detailsDialogBox(context, dynamic model, [parentContext]) {
                           frameBuilder: restaurantTileFrameBuilder,
                           width: screenWidth - 30,
                           cacheWidth: (screenWidth - 30).round(),
-                          errorBuilder: (_, __, ___) => Container(),
+                          errorBuilder: (_, _, _) => Container(),
                         ),
                       ),
                     ),

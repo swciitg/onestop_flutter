@@ -7,13 +7,13 @@ part of 'contact_model.dart';
 // **************************************************************************
 
 ContactModel _$ContactModelFromJson(Map<String, dynamic> json) => ContactModel(
-      sectionName: json['sectionName'] as String? ?? 'Untitled',
-      contacts: (json['contacts'] as List<dynamic>?)
-              ?.map((e) =>
-                  ContactDetailsModel.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-    );
+  sectionName: json['sectionName'] as String? ?? 'Untitled',
+  contacts:
+      (json['contacts'] as List<dynamic>?)
+          ?.map((e) => ContactDetailsModel.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
 
 Map<String, dynamic> _$ContactModelToJson(ContactModel instance) =>
     <String, dynamic>{

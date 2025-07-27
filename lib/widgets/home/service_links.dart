@@ -29,17 +29,13 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.chat_help_24_regular,
     routeId: ComplaintsPage.id,
   ),
-  const HomeTabTile(
-    label: "Election Register",
-    icon: FluentIcons.person_arrow_right_16_regular,
-    routeId: ElectionLoginWebView.id,
-    newBadge: true,
-  ),
-  const HomeTabTile(
-    label: "GateLog",
-    icon: FluentIcons.door_20_regular,
-    routeId: GateLogPage.id,
-  ),
+  // const HomeTabTile(
+  //   label: "Election Register",
+  //   icon: FluentIcons.person_arrow_right_16_regular,
+  //   routeId: ElectionLoginWebView.id,
+  //   newBadge: true,
+  // ),
+  const HomeTabTile(label: "GateLog", icon: FluentIcons.door_20_regular, routeId: GateLogPage.id),
   const HomeTabTile(
     label: "Lost and Found",
     icon: FluentIcons.document_search_24_regular,
@@ -66,14 +62,10 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.contact_card_group_24_regular,
     routeId: ContactPage.id,
   ),
-  const HomeTabTile(
-    label: "LAN",
-    icon: FluentIcons.desktop_24_regular,
-    routeId: RouterPage.id,
-  ),
-  const HomeTabTile(
-    label: "Events",
-    icon: FluentIcons.bookmark_24_regular,
-    routeId: EventsScreenWrapper.id,
-  ),
+  const HomeTabTile(label: "LAN", icon: FluentIcons.desktop_24_regular, routeId: RouterPage.id),
+  // const HomeTabTile(
+  //   label: "Events",
+  //   icon: FluentIcons.bookmark_24_regular,
+  //   routeId: EventsScreenWrapper.id,
+  // ),
 ];

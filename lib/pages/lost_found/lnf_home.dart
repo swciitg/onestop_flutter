@@ -31,11 +31,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
       return LnfRepository().getLostPage(pageKey);
     },
     getNextPageKey: (state) {
-      final list = state.pages?.last ?? [];
-      if (list.length < CommonStore().pageSize) {
-        return null;
-      }
-      return state.keys?.last ?? 0 + 1;
+      return state.lastPageIsEmpty ? null : state.nextIntPageKey;
     },
   );
   final PagingController<int, FoundModel> _foundController = PagingController(
@@ -43,11 +39,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
       return LnfRepository().getFoundPage(pageKey);
     },
     getNextPageKey: (state) {
-      final list = state.pages?.last ?? [];
-      if (list.length < CommonStore().pageSize) {
-        return null;
-      }
-      return state.keys?.last ?? 0 + 1;
+      return state.lastPageIsEmpty ? null : state.nextIntPageKey;
     },
   );
 
@@ -151,8 +143,9 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                                   (context, lostItem, index) =>
                                       LostFoundTile(currentModel: lostItem),
                               firstPageErrorIndicatorBuilder:
-                                  (context) =>
-                                      ErrorReloadScreen(reloadCallback: () =>_lostController.refresh()),
+                                  (context) => ErrorReloadScreen(
+                                    reloadCallback: () => _lostController.refresh(),
+                                  ),
                               noItemsFoundIndicatorBuilder:
                                   (context) => const PaginationText(text: "No items found"),
                               newPageErrorIndicatorBuilder:
@@ -187,8 +180,9 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                                   (context, lostItem, index) =>
                                       LostFoundTile(currentModel: lostItem),
                               firstPageErrorIndicatorBuilder:
-                                  (context) =>
-                                      ErrorReloadScreen(reloadCallback: () => _foundController.refresh()),
+                                  (context) => ErrorReloadScreen(
+                                    reloadCallback: () => _foundController.refresh(),
+                                  ),
                               noItemsFoundIndicatorBuilder:
                                   (context) => const PaginationText(text: "No items found"),
                               newPageErrorIndicatorBuilder:

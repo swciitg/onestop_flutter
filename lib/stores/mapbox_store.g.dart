@@ -14,40 +14,51 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   @override
   List<Map<String, dynamic>> get allLocationData =>
       (_$allLocationDataComputed ??= Computed<List<Map<String, dynamic>>>(
-              () => super.allLocationData,
-              name: '_MapBoxStore.allLocationData'))
+            () => super.allLocationData,
+            name: '_MapBoxStore.allLocationData',
+          ))
           .value;
   Computed<LatLng>? _$selectedCarouselLatLngComputed;
 
   @override
-  LatLng get selectedCarouselLatLng => (_$selectedCarouselLatLngComputed ??=
-          Computed<LatLng>(() => super.selectedCarouselLatLng,
-              name: '_MapBoxStore.selectedCarouselLatLng'))
-      .value;
+  LatLng get selectedCarouselLatLng =>
+      (_$selectedCarouselLatLngComputed ??= Computed<LatLng>(
+            () => super.selectedCarouselLatLng,
+            name: '_MapBoxStore.selectedCarouselLatLng',
+          ))
+          .value;
   Computed<String>? _$selectedCarouselNameComputed;
 
   @override
-  String get selectedCarouselName => (_$selectedCarouselNameComputed ??=
-          Computed<String>(() => super.selectedCarouselName,
-              name: '_MapBoxStore.selectedCarouselName'))
-      .value;
+  String get selectedCarouselName =>
+      (_$selectedCarouselNameComputed ??= Computed<String>(
+            () => super.selectedCarouselName,
+            name: '_MapBoxStore.selectedCarouselName',
+          ))
+          .value;
   Computed<LatLng>? _$userLatLngComputed;
 
   @override
   LatLng get userLatLng =>
-      (_$userLatLngComputed ??= Computed<LatLng>(() => super.userLatLng,
-              name: '_MapBoxStore.userLatLng'))
+      (_$userLatLngComputed ??= Computed<LatLng>(
+            () => super.userLatLng,
+            name: '_MapBoxStore.userLatLng',
+          ))
           .value;
   Computed<List<Widget>>? _$carouselCardsComputed;
 
   @override
-  List<Widget> get carouselCards => (_$carouselCardsComputed ??=
-          Computed<List<Widget>>(() => super.carouselCards,
-              name: '_MapBoxStore.carouselCards'))
-      .value;
+  List<Widget> get carouselCards =>
+      (_$carouselCardsComputed ??= Computed<List<Widget>>(
+            () => super.carouselCards,
+            name: '_MapBoxStore.carouselCards',
+          ))
+          .value;
 
-  late final _$indexBusesorFerryAtom =
-      Atom(name: '_MapBoxStore.indexBusesorFerry', context: context);
+  late final _$indexBusesorFerryAtom = Atom(
+    name: '_MapBoxStore.indexBusesorFerry',
+    context: context,
+  );
 
   @override
   int get indexBusesorFerry {
@@ -62,8 +73,10 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
     });
   }
 
-  late final _$userlatAtom =
-      Atom(name: '_MapBoxStore.userlat', context: context);
+  late final _$userlatAtom = Atom(
+    name: '_MapBoxStore.userlat',
+    context: context,
+  );
 
   @override
   double get userlat {
@@ -78,8 +91,10 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
     });
   }
 
-  late final _$userlongAtom =
-      Atom(name: '_MapBoxStore.userlong', context: context);
+  late final _$userlongAtom = Atom(
+    name: '_MapBoxStore.userlong',
+    context: context,
+  );
 
   @override
   double get userlong {
@@ -94,8 +109,10 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
     });
   }
 
-  late final _$selectedCarouselIndexAtom =
-      Atom(name: '_MapBoxStore.selectedCarouselIndex', context: context);
+  late final _$selectedCarouselIndexAtom = Atom(
+    name: '_MapBoxStore.selectedCarouselIndex',
+    context: context,
+  );
 
   @override
   int get selectedCarouselIndex {
@@ -105,14 +122,19 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
 
   @override
   set selectedCarouselIndex(int value) {
-    _$selectedCarouselIndexAtom.reportWrite(value, super.selectedCarouselIndex,
-        () {
-      super.selectedCarouselIndex = value;
-    });
+    _$selectedCarouselIndexAtom.reportWrite(
+      value,
+      super.selectedCarouselIndex,
+      () {
+        super.selectedCarouselIndex = value;
+      },
+    );
   }
 
-  late final _$isTravelPageAtom =
-      Atom(name: '_MapBoxStore.isTravelPage', context: context);
+  late final _$isTravelPageAtom = Atom(
+    name: '_MapBoxStore.isTravelPage',
+    context: context,
+  );
 
   @override
   bool get isTravelPage {
@@ -142,8 +164,10 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
     });
   }
 
-  late final _$busStopPolylinesAtom =
-      Atom(name: '_MapBoxStore.busStopPolylines', context: context);
+  late final _$busStopPolylinesAtom = Atom(
+    name: '_MapBoxStore.busStopPolylines',
+    context: context,
+  );
 
   @override
   List<Polyline> get busStopPolylines {
@@ -156,15 +180,19 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   @override
   set busStopPolylines(List<Polyline> value) {
     _$busStopPolylinesAtom.reportWrite(
-        value, _busStopPolylinesIsInitialized ? super.busStopPolylines : null,
-        () {
-      super.busStopPolylines = value;
-      _busStopPolylinesIsInitialized = true;
-    });
+      value,
+      _busStopPolylinesIsInitialized ? super.busStopPolylines : null,
+      () {
+        super.busStopPolylines = value;
+        _busStopPolylinesIsInitialized = true;
+      },
+    );
   }
 
-  late final _$loadOperationAtom =
-      Atom(name: '_MapBoxStore.loadOperation', context: context);
+  late final _$loadOperationAtom = Atom(
+    name: '_MapBoxStore.loadOperation',
+    context: context,
+  );
 
   @override
   ObservableFuture<List<LatLng>?> get loadOperation {
@@ -179,8 +207,10 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
     });
   }
 
-  late final _$markersAtom =
-      Atom(name: '_MapBoxStore.markers', context: context);
+  late final _$markersAtom = Atom(
+    name: '_MapBoxStore.markers',
+    context: context,
+  );
 
   @override
   ObservableList<Marker> get markers {
@@ -195,21 +225,26 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
     });
   }
 
-  late final _$getPolylinesAsyncAction =
-      AsyncAction('_MapBoxStore.getPolylines', context: context);
+  late final _$getPolylinesAsyncAction = AsyncAction(
+    '_MapBoxStore.getPolylines',
+    context: context,
+  );
 
   @override
   Future<void> getPolylines(int i, BuildContext context) {
     return _$getPolylinesAsyncAction.run(() => super.getPolylines(i, context));
   }
 
-  late final _$_MapBoxStoreActionController =
-      ActionController(name: '_MapBoxStore', context: context);
+  late final _$_MapBoxStoreActionController = ActionController(
+    name: '_MapBoxStore',
+    context: context,
+  );
 
   @override
   void setMarkers(List<Marker> m) {
     final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.setMarkers');
+      name: '_MapBoxStore.setMarkers',
+    );
     try {
       return super.setMarkers(m);
     } finally {
@@ -220,7 +255,8 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   @override
   void setIndexMapBox(int i) {
     final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.setIndexMapBox');
+      name: '_MapBoxStore.setIndexMapBox',
+    );
     try {
       return super.setIndexMapBox(i);
     } finally {
@@ -231,7 +267,8 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   @override
   void generateAllMarkers() {
     final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.generateAllMarkers');
+      name: '_MapBoxStore.generateAllMarkers',
+    );
     try {
       return super.generateAllMarkers();
     } finally {
@@ -242,7 +279,8 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   @override
   void changeCenterZoom(double lat, double long) {
     final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.changeCenterZoom');
+      name: '_MapBoxStore.changeCenterZoom',
+    );
     try {
       return super.changeCenterZoom(lat, long);
     } finally {
@@ -253,7 +291,8 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   @override
   void setUserLatLng(double lat, double long) {
     final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.setUserLatLng');
+      name: '_MapBoxStore.setUserLatLng',
+    );
     try {
       return super.setUserLatLng(lat, long);
     } finally {
@@ -264,7 +303,8 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   @override
   void selectedCarousel(int i) {
     final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.selectedCarousel');
+      name: '_MapBoxStore.selectedCarousel',
+    );
     try {
       return super.selectedCarousel(i);
     } finally {
@@ -275,7 +315,8 @@ mixin _$MapBoxStore on _MapBoxStore, Store {
   @override
   void checkTravelPage(bool i) {
     final _$actionInfo = _$_MapBoxStoreActionController.startAction(
-        name: '_MapBoxStore.checkTravelPage');
+      name: '_MapBoxStore.checkTravelPage',
+    );
     try {
       return super.checkTravelPage(i);
     } finally {

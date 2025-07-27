@@ -59,8 +59,7 @@ abstract class _MapBoxStore with Store {
     if (indexBusesorFerry != i) {
       indexBusesorFerry = i;
       generateAllMarkers();
-      mapController?.animateCamera(
-          CameraUpdate.newLatLngBounds(_bounds(markers.toSet()), 120));
+      mapController?.animateCamera(CameraUpdate.newLatLngBounds(_bounds(markers.toSet()), 120));
     }
   }
 
@@ -69,19 +68,22 @@ abstract class _MapBoxStore with Store {
   }
 
   LatLngBounds _createBounds(List<LatLng> positions) {
-    final southwestLat = positions.map((p) => p.latitude).reduce(
-        (value, element) => value < element ? value : element); // smallest
+    final southwestLat = positions
+        .map((p) => p.latitude)
+        .reduce((value, element) => value < element ? value : element); // smallest
     final southwestLon = positions
         .map((p) => p.longitude)
         .reduce((value, element) => value < element ? value : element);
-    final northeastLat = positions.map((p) => p.latitude).reduce(
-        (value, element) => value > element ? value : element); // biggest
+    final northeastLat = positions
+        .map((p) => p.latitude)
+        .reduce((value, element) => value > element ? value : element); // biggest
     final northeastLon = positions
         .map((p) => p.longitude)
         .reduce((value, element) => value > element ? value : element);
     return LatLngBounds(
-        southwest: LatLng(southwestLat, southwestLon),
-        northeast: LatLng(northeastLat, northeastLon));
+      southwest: LatLng(southwestLat, southwestLon),
+      northeast: LatLng(northeastLat, northeastLon),
+    );
   }
 
   @action
@@ -89,10 +91,10 @@ abstract class _MapBoxStore with Store {
     List<Marker> l = List.generate(
       allLocationData.length,
       (index) => Marker(
-          infoWindow: InfoWindow(title: allLocationData[index]['name']),
-          markerId: MarkerId('bus$index'),
-          position: LatLng(
-              allLocationData[index]['lat'], allLocationData[index]['long'])),
+        infoWindow: InfoWindow(title: allLocationData[index]['name']),
+        markerId: MarkerId('bus$index'),
+        position: LatLng(allLocationData[index]['lat'], allLocationData[index]['long']),
+      ),
     );
     markers = ObservableList<Marker>.of(l);
   }
@@ -118,14 +120,16 @@ abstract class _MapBoxStore with Store {
       if (indexBusesorFerry == 1) {
         name = 'ferry_marker';
       }
-      getBytesFromAsset('assets/images/$name.png', 100).then((d) {
+      getBytesFromAsset('assets/images/$name.png', 35).then((d) {
         List<Marker> l = [];
-        l.add(Marker(
+        l.add(
+          Marker(
             infoWindow: InfoWindow(title: allLocationData[i]['name']),
             icon: BitmapDescriptor.bytes(d),
             markerId: MarkerId('bus$i'),
-            position:
-                LatLng(allLocationData[i]['lat'], allLocationData[i]['long'])));
+            position: LatLng(allLocationData[i]['lat'], allLocationData[i]['long']),
+          ),
+        );
         markers = ObservableList<Marker>.of(l);
       });
     }
@@ -138,11 +142,10 @@ abstract class _MapBoxStore with Store {
 
   @action
   Future<void> getPolylines(int i, BuildContext context) async {
-    loadOperation = APIRepository()
-        .getPolyline(
-            source: LatLng(userlat, userlong),
-            dest: const LatLng(26.2027, 91.7004))
-        .asObservable();
+    loadOperation =
+        APIRepository()
+            .getPolyline(source: LatLng(userlat, userlong), dest: const LatLng(26.2027, 91.7004))
+            .asObservable();
   }
 
   @computed
@@ -164,13 +167,11 @@ abstract class _MapBoxStore with Store {
   @computed
   LatLng get selectedCarouselLatLng {
     var dataMap = allLocationData;
-    return LatLng(dataMap[selectedCarouselIndex]['lat'],
-        dataMap[selectedCarouselIndex]['long']);
+    return LatLng(dataMap[selectedCarouselIndex]['lat'], dataMap[selectedCarouselIndex]['long']);
   }
 
   @computed
-  String get selectedCarouselName =>
-      allLocationData[selectedCarouselIndex]['name'];
+  String get selectedCarouselName => allLocationData[selectedCarouselIndex]['name'];
 
   @computed
   LatLng get userLatLng {
@@ -196,10 +197,7 @@ abstract class _MapBoxStore with Store {
     }
     List<Widget> l = List<Widget>.generate(
       carouselLength,
-      (index) => CarouselCard(
-        name: dataMap[index]['name'],
-        index: index,
-      ),
+      (index) => CarouselCard(name: dataMap[index]['name'], index: index),
     );
     return l;
   }
@@ -210,18 +208,10 @@ abstract class _MapBoxStore with Store {
 
     double destinationLatitude = ans.latitude;
     double destinationLongitude = ans.longitude;
-    double miny = (startLatitude <= destinationLatitude)
-        ? startLatitude
-        : destinationLatitude;
-    double minx = (startLongitude <= destinationLongitude)
-        ? startLongitude
-        : destinationLongitude;
-    double maxy = (startLatitude <= destinationLatitude)
-        ? destinationLatitude
-        : startLatitude;
-    double maxx = (startLongitude <= destinationLongitude)
-        ? destinationLongitude
-        : startLongitude;
+    double miny = (startLatitude <= destinationLatitude) ? startLatitude : destinationLatitude;
+    double minx = (startLongitude <= destinationLongitude) ? startLongitude : destinationLongitude;
+    double maxy = (startLatitude <= destinationLatitude) ? destinationLatitude : startLatitude;
+    double maxx = (startLongitude <= destinationLongitude) ? destinationLongitude : startLongitude;
 
     double southWestLatitude = miny;
     double southWestLongitude = minx;
@@ -269,7 +259,8 @@ abstract class _MapBoxStore with Store {
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
       return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+        'Location permissions are permanently denied, we cannot request permissions.',
+      );
     }
 
     // When we reach here, permissions are granted and we can
@@ -286,11 +277,8 @@ abstract class _MapBoxStore with Store {
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
 }

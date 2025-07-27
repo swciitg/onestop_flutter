@@ -21,7 +21,7 @@ class _FeedBackState extends State<FeedBack> {
   String selected = 'Issue Report';
   bool enableSubmitButton = true;
 
-  Widget? counterBuilder(context,
+  Widget? counterBuilder(BuildContext context,
       {required currentLength, required isFocused, required maxLength}) {
     if (currentLength == 0) {
       return null;

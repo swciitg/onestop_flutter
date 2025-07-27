@@ -97,7 +97,7 @@ class _LostFoundTileState extends State<LostFoundTile> {
                   cacheWidth: (screenWidth * 0.35).round(),
                   fit: BoxFit.cover,
                   frameBuilder: restaurantTileFrameBuilder,
-                  errorBuilder: (_, __, ___) => Container(),
+                  errorBuilder: (_, _, _) => Container(),
                 ),
               ),
             )

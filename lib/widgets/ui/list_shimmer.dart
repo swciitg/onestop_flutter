@@ -29,7 +29,7 @@ class ListShimmer extends StatelessWidget {
             height: max(400, count * height),
             child: ListView.builder(
                 itemCount: count,
-                itemBuilder: (_, __) => Padding(
+                itemBuilder: (_, _) => Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: sample,
                     ))));

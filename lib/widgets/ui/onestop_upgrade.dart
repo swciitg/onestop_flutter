@@ -22,7 +22,7 @@ class OneStopUpgrader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-          dialogTheme: DialogTheme(
+          dialogTheme: DialogThemeData(
             backgroundColor: kBackground,
             titleTextStyle: MyFonts.w600.setColor(lBlue).size(20),
             contentTextStyle: MyFonts.w400.setColor(lBlue),

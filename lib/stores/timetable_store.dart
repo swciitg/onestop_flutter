@@ -35,7 +35,7 @@ abstract class _TimetableStore with Store {
     return courses!;
   }
 
-  initialiseTT() async {
+  Future<String> initialiseTT() async {
     if (!isProcessed) {
       initialiseDates();
       await processTimetable();

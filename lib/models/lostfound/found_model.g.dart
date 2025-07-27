@@ -7,19 +7,19 @@ part of 'found_model.dart';
 // **************************************************************************
 
 FoundModel _$FoundModelFromJson(Map<String, dynamic> json) => FoundModel(
-      title: json['title'] as String,
-      description: json['description'] as String,
-      location: json['location'] as String,
-      imageURL: json['imageURL'] as String,
-      email: json['email'] as String,
-      compressedImageURL: json['compressedImageURL'] as String,
-      date: DateTime.parse(json['date'] as String),
-      submittedat: json['submittedat'] as String,
-      claimed: json['claimed'] as bool,
-      claimerEmail: json['claimerEmail'] as String,
-      claimerName: json['claimerName'] as String,
-      id: json['_id'] as String,
-    );
+  title: json['title'] as String,
+  description: json['description'] as String,
+  location: json['location'] as String,
+  imageURL: json['imageURL'] as String,
+  email: json['email'] as String,
+  compressedImageURL: json['compressedImageURL'] as String,
+  date: DateTime.parse(json['date'] as String),
+  submittedat: json['submittedat'] as String,
+  claimed: json['claimed'] as bool,
+  claimerEmail: json['claimerEmail'] as String,
+  claimerName: json['claimerName'] as String,
+  id: json['_id'] as String,
+);
 
 Map<String, dynamic> _$FoundModelToJson(FoundModel instance) =>
     <String, dynamic>{
