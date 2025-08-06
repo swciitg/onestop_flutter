@@ -37,35 +37,35 @@ dependencies:
     git:
       url: https://github.com/swciitg/gc_scoreboard.git
       path: packages/scoreboard
-      ref: main
+      ref: dev
     # path: ../gc_scoreboard/packages/scoreboard
   cab_sharing:
     git:
       url: https://github.com/swciitg/cab_sharing_onestop.git
       path: packages/cab_sharing
-      ref: main
+      ref: dev
     # path: ../cab_sharing_onestop/packages/cab_sharing
   irbs:
     git:
       url: https://github.com/swciitg/irbs.git
       path: packages/irbs
-      ref: main
+      ref: dev
     # path: ../irbs/packages/irbs
   onestop_kit:
     git:
       url: https://github.com/swciitg/onestop_kit.git
-      ref: main
+      ref: dev
   gate_log:
     git:
       url: https://github.com/swciitg/gatelog_onestop.git
       path: packages/gate_log
-      ref: main
+      ref: dev
     # path: ../gatelog_onestop/packages/gate_log
   onestop_ui:
     git:
       url: https://github.com/swciitg/onestop_ui.git
       path: packages/onestop_ui
-      ref: main
+      ref: dev
     # path: ../onestop_ui/packages/onestop_ui
 
   intl: ^0.20.2
@@ -108,6 +108,7 @@ dependencies:
   flutter_background_service: ^5.0.10
   flutter_inappwebview: ^6.1.5
   syncfusion_flutter_calendar: ^30.1.41
+  quick_actions: ^1.0.7
 
   # onestop_wifi:
   #   path: ../onestop_wifi

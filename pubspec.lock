@@ -157,8 +157,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/cab_sharing"
-      ref: main
-      resolved-ref: d3600d624a7dc1e0b946cfb96ae001628ab227c5
+      ref: dev
+      resolved-ref: "08ead6b5c36ce64e6d317c39a55e06b062e427b5"
       url: "https://github.com/swciitg/cab_sharing_onestop.git"
     source: git
     version: "0.0.1"
@@ -802,8 +802,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/gate_log"
-      ref: main
-      resolved-ref: "953f60670f3e3e0ec1321e6b08b2cd83fdb0ac57"
+      ref: dev
+      resolved-ref: be5cc1daef834d5ed1e4dffd1911ea67680ab919
       url: "https://github.com/swciitg/gatelog_onestop.git"
     source: git
     version: "0.0.1"
@@ -1091,8 +1091,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/irbs"
-      ref: main
-      resolved-ref: "8e52516dbf381a1919eae146b4eae0989a84605b"
+      ref: dev
+      resolved-ref: "7c067b42385e4258d39ddb44346581a0a6254377"
       url: "https://github.com/swciitg/irbs.git"
     source: git
     version: "1.0.0"
@@ -1260,7 +1260,7 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: main
+      ref: dev
       resolved-ref: "51f7dee9a9044322045bfea8ed0878bf237b63c1"
       url: "https://github.com/swciitg/onestop_kit.git"
     source: git
@@ -1269,7 +1269,7 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/onestop_ui"
-      ref: main
+      ref: dev
       resolved-ref: d1ae47d0f2c3ff7355b80ba5a6dd30140cf5dc20
       url: "https://github.com/swciitg/onestop_ui.git"
     source: git
@@ -1450,6 +1450,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
+  quick_actions:
+    dependency: "direct main"
+    description:
+      name: quick_actions
+      sha256: "7e35dd6a21f5bbd21acf6899039eaf85001a5ac26d52cbd6a8a2814505b90798"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
+  quick_actions_android:
+    dependency: transitive
+    description:
+      name: quick_actions_android
+      sha256: "8d88e90a236ffe92f1026ecc3b85acfefedffccb0c1be1c94c1c0298e8483ad8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.21"
+  quick_actions_ios:
+    dependency: transitive
+    description:
+      name: quick_actions_ios
+      sha256: "837b7e6b5973784d3da56b8c959b446b215914f20405d88cd7d22a2fb94e4e4c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
+  quick_actions_platform_interface:
+    dependency: transitive
+    description:
+      name: quick_actions_platform_interface
+      sha256: "1fec7068db5122cd019e9340d3d7be5d36eab099695ef3402c7059ee058329a4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   riverpod:
     dependency: transitive
     description:
@@ -1478,8 +1510,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/scoreboard"
-      ref: main
-      resolved-ref: "24451014b6a45d5ff1c8dd4e1078e48f5bbd18d8"
+      ref: dev
+      resolved-ref: "0571d7891918b87487aecea223c7ec851017fa7f"
       url: "https://github.com/swciitg/gc_scoreboard.git"
     source: git
     version: "0.0.0"

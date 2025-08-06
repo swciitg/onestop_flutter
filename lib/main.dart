@@ -7,6 +7,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/services/notifications_service.dart';
+import 'package:onestop_dev/services/app_shortcuts_service.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -38,6 +39,9 @@ void main() async {
     SystemUiMode.manual,
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
   );
+
+  // Initialize app shortcuts
+  await AppShortcutsService.initialize();
 
   runApp(const MyApp());
 }
