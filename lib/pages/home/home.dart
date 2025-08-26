@@ -6,6 +6,7 @@ import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/pages/home/home_tab.dart';
 import 'package:onestop_dev/pages/timetable/timetable.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
+//import 'package:onestop_dev/services/app_shortcuts_service.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/ui/onestop_upgrade.dart';
@@ -26,7 +27,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   int index = 0;
   final tabs = [
     const HomeTab(),
@@ -44,6 +45,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   super.didChangeAppLifecycleState(state);
+  //   if (state == AppLifecycleState.resumed) {
+  //     actOnPendingShortcut();
+  //   }
+  // }
+
+  // void actOnPendingShortcut() {
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     AppShortcutsService.handlePendingShortcutAction((index) {
+  //       setState(() {
+  //         this.index = index;
+  //         context.read<MapBoxStore>().mapController = null;
+  //       });
+  //     });
+  //   });
+  // }
+
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return OneStopUpgrader(
@@ -56,12 +76,8 @@ class _HomePageState extends State<HomePage> {
         bottomNavigationBar: NavigationBarTheme(
           data: NavigationBarThemeData(
             indicatorColor: lGrey,
-            labelTextStyle: WidgetStateProperty.all(
-              MyFonts.w500.setColor(kTabText),
-            ),
-            iconTheme: WidgetStateProperty.all(
-              const IconThemeData(color: kTabText),
-            ),
+            labelTextStyle: WidgetStateProperty.all(MyFonts.w500.setColor(kTabText)),
+            iconTheme: WidgetStateProperty.all(const IconThemeData(color: kTabText)),
           ),
           child: NavigationBar(
             backgroundColor: kTabBar,
@@ -76,21 +92,10 @@ class _HomePageState extends State<HomePage> {
         ),
         body: SafeArea(
           child:
-              (index == 0) // Check if index is 0
-                  ? tabs[index] // No padding if index is 0
-                  : (index == 1) // Check if index is 1
-                  ? Padding(
-                    padding: const EdgeInsets.only(
-                      left: 15,
-                    ), // Left padding only
-                    child: tabs[index],
-                  )
-                  : Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                    ), // Default padding
-                    child: tabs[index],
-                  ),
+              index !=
+                      0 // Check if index is not 0
+                  ? Padding(padding: const EdgeInsets.symmetric(horizontal: 15), child: tabs[index])
+                  : tabs[index], // No padding if index is 0
         ),
       ),
     );
