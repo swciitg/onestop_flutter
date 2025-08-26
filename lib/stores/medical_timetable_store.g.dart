@@ -12,28 +12,35 @@ mixin _$MedicalTimetableStore on _MedicalTimetableStore, Store {
   Computed<bool>? _$institutionDoctorsPresentComputed;
 
   @override
-  bool get institutionDoctorsPresent => (_$institutionDoctorsPresentComputed ??=
-          Computed<bool>(() => super.institutionDoctorsPresent,
-              name: '_MedicalTimetableStore.institutionDoctorsPresent'))
-      .value;
+  bool get institutionDoctorsPresent =>
+      (_$institutionDoctorsPresentComputed ??= Computed<bool>(
+            () => super.institutionDoctorsPresent,
+            name: '_MedicalTimetableStore.institutionDoctorsPresent',
+          ))
+          .value;
   Computed<bool>? _$visitingDoctorsPresentComputed;
 
   @override
-  bool get visitingDoctorsPresent => (_$visitingDoctorsPresentComputed ??=
-          Computed<bool>(() => super.visitingDoctorsPresent,
-              name: '_MedicalTimetableStore.visitingDoctorsPresent'))
-      .value;
+  bool get visitingDoctorsPresent =>
+      (_$visitingDoctorsPresentComputed ??= Computed<bool>(
+            () => super.visitingDoctorsPresent,
+            name: '_MedicalTimetableStore.visitingDoctorsPresent',
+          ))
+          .value;
   Computed<List<DoctorModel>>? _$todayMedicalTimeTableComputed;
 
   @override
   List<DoctorModel> get todayMedicalTimeTable =>
       (_$todayMedicalTimeTableComputed ??= Computed<List<DoctorModel>>(
-              () => super.todayMedicalTimeTable,
-              name: '_MedicalTimetableStore.todayMedicalTimeTable'))
+            () => super.todayMedicalTimeTable,
+            name: '_MedicalTimetableStore.todayMedicalTimeTable',
+          ))
           .value;
 
-  late final _$isProcessedAtom =
-      Atom(name: '_MedicalTimetableStore.isProcessed', context: context);
+  late final _$isProcessedAtom = Atom(
+    name: '_MedicalTimetableStore.isProcessed',
+    context: context,
+  );
 
   @override
   bool get isProcessed {
@@ -48,8 +55,10 @@ mixin _$MedicalTimetableStore on _MedicalTimetableStore, Store {
     });
   }
 
-  late final _$doctorsAtom =
-      Atom(name: '_MedicalTimetableStore.doctors', context: context);
+  late final _$doctorsAtom = Atom(
+    name: '_MedicalTimetableStore.doctors',
+    context: context,
+  );
 
   @override
   AllDoctors? get doctors {
@@ -64,8 +73,10 @@ mixin _$MedicalTimetableStore on _MedicalTimetableStore, Store {
     });
   }
 
-  late final _$selectedDateAtom =
-      Atom(name: '_MedicalTimetableStore.selectedDate', context: context);
+  late final _$selectedDateAtom = Atom(
+    name: '_MedicalTimetableStore.selectedDate',
+    context: context,
+  );
 
   @override
   int get selectedDate {
@@ -80,8 +91,10 @@ mixin _$MedicalTimetableStore on _MedicalTimetableStore, Store {
     });
   }
 
-  late final _$selectedDayAtom =
-      Atom(name: '_MedicalTimetableStore.selectedDay', context: context);
+  late final _$selectedDayAtom = Atom(
+    name: '_MedicalTimetableStore.selectedDay',
+    context: context,
+  );
 
   @override
   int get selectedDay {
@@ -96,13 +109,16 @@ mixin _$MedicalTimetableStore on _MedicalTimetableStore, Store {
     });
   }
 
-  late final _$_MedicalTimetableStoreActionController =
-      ActionController(name: '_MedicalTimetableStore', context: context);
+  late final _$_MedicalTimetableStoreActionController = ActionController(
+    name: '_MedicalTimetableStore',
+    context: context,
+  );
 
   @override
   void setDate(int i) {
     final _$actionInfo = _$_MedicalTimetableStoreActionController.startAction(
-        name: '_MedicalTimetableStore.setDate');
+      name: '_MedicalTimetableStore.setDate',
+    );
     try {
       return super.setDate(i);
     } finally {
@@ -113,7 +129,8 @@ mixin _$MedicalTimetableStore on _MedicalTimetableStore, Store {
   @override
   void setDay(int i) {
     final _$actionInfo = _$_MedicalTimetableStoreActionController.startAction(
-        name: '_MedicalTimetableStore.setDay');
+      name: '_MedicalTimetableStore.setDay',
+    );
     try {
       return super.setDay(i);
     } finally {

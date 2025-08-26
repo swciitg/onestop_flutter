@@ -6,14 +6,13 @@ import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/pages/home/home_tab.dart';
 import 'package:onestop_dev/pages/timetable/timetable.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
-//import 'package:onestop_dev/services/app_shortcuts_service.dart';
+import 'package:onestop_dev/services/app_shortcuts_service.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/ui/onestop_upgrade.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:onestop_ui/utils/colors.dart';
 import 'package:provider/provider.dart';
-
 import '../../widgets/home/home_drawer.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -37,12 +36,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     const TimeTableTab(),
   ];
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {}); // Trigger a rebuild to apply the correct theme
-    });
-  }
+  
 
   @override
   // void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -62,6 +56,32 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   //     });
   //   });
   // }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    actOnPendingShortcut();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      actOnPendingShortcut();
+    }
+  }
+
+  void actOnPendingShortcut() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      AppShortcutsService.handlePendingShortcutAction((index) {
+        setState(() {
+          this.index = index;
+          context.read<MapBoxStore>().mapController = null;
+        });
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

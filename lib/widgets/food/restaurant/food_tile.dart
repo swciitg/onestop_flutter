@@ -14,7 +14,7 @@ class FoodTile extends StatelessWidget {
 
   final DishModel dish;
 
-  Color getIconColor(veg) {
+  Color getIconColor(bool veg) {
     if (veg) {
       return Colors.green;
     } else {
@@ -22,7 +22,7 @@ class FoodTile extends StatelessWidget {
     }
   }
 
-  String getIngredients(ingredientsList) {
+  String getIngredients(String ingredientsList) {
     return ingredientsList.substring(1, ingredientsList.length - 1);
   }
 

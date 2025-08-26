@@ -12,19 +12,26 @@ mixin _$MessStore on _MessStore, Store {
   Computed<bool>? _$messLoadedComputed;
 
   @override
-  bool get messLoaded => (_$messLoadedComputed ??=
-          Computed<bool>(() => super.messLoaded, name: '_MessStore.messLoaded'))
-      .value;
+  bool get messLoaded =>
+      (_$messLoadedComputed ??= Computed<bool>(
+            () => super.messLoaded,
+            name: '_MessStore.messLoaded',
+          ))
+          .value;
   Computed<Mess>? _$defaultUserMessComputed;
 
   @override
   Mess get defaultUserMess =>
-      (_$defaultUserMessComputed ??= Computed<Mess>(() => super.defaultUserMess,
-              name: '_MessStore.defaultUserMess'))
+      (_$defaultUserMessComputed ??= Computed<Mess>(
+            () => super.defaultUserMess,
+            name: '_MessStore.defaultUserMess',
+          ))
           .value;
 
-  late final _$selectedDayAtom =
-      Atom(name: '_MessStore.selectedDay', context: context);
+  late final _$selectedDayAtom = Atom(
+    name: '_MessStore.selectedDay',
+    context: context,
+  );
 
   @override
   String get selectedDay {
@@ -39,8 +46,10 @@ mixin _$MessStore on _MessStore, Store {
     });
   }
 
-  late final _$selectedMealAtom =
-      Atom(name: '_MessStore.selectedMeal', context: context);
+  late final _$selectedMealAtom = Atom(
+    name: '_MessStore.selectedMeal',
+    context: context,
+  );
 
   @override
   String get selectedMeal {
@@ -55,8 +64,10 @@ mixin _$MessStore on _MessStore, Store {
     });
   }
 
-  late final _$selectedMessAtom =
-      Atom(name: '_MessStore.selectedMess', context: context);
+  late final _$selectedMessAtom = Atom(
+    name: '_MessStore.selectedMess',
+    context: context,
+  );
 
   @override
   ObservableFuture<Mess> get selectedMess {
@@ -71,8 +82,10 @@ mixin _$MessStore on _MessStore, Store {
     });
   }
 
-  late final _$mealDataAtom =
-      Atom(name: '_MessStore.mealData', context: context);
+  late final _$mealDataAtom = Atom(
+    name: '_MessStore.mealData',
+    context: context,
+  );
 
   @override
   MealType get mealData {
@@ -87,13 +100,16 @@ mixin _$MessStore on _MessStore, Store {
     });
   }
 
-  late final _$_MessStoreActionController =
-      ActionController(name: '_MessStore', context: context);
+  late final _$_MessStoreActionController = ActionController(
+    name: '_MessStore',
+    context: context,
+  );
 
   @override
   void setDay(String s) {
-    final _$actionInfo =
-        _$_MessStoreActionController.startAction(name: '_MessStore.setDay');
+    final _$actionInfo = _$_MessStoreActionController.startAction(
+      name: '_MessStore.setDay',
+    );
     try {
       return super.setDay(s);
     } finally {
@@ -103,8 +119,9 @@ mixin _$MessStore on _MessStore, Store {
 
   @override
   void setMeal(String s) {
-    final _$actionInfo =
-        _$_MessStoreActionController.startAction(name: '_MessStore.setMeal');
+    final _$actionInfo = _$_MessStoreActionController.startAction(
+      name: '_MessStore.setMeal',
+    );
     try {
       return super.setMeal(s);
     } finally {
@@ -114,8 +131,9 @@ mixin _$MessStore on _MessStore, Store {
 
   @override
   void setMess(Mess m) {
-    final _$actionInfo =
-        _$_MessStoreActionController.startAction(name: '_MessStore.setMess');
+    final _$actionInfo = _$_MessStoreActionController.startAction(
+      name: '_MessStore.setMess',
+    );
     try {
       return super.setMess(m);
     } finally {
@@ -126,7 +144,8 @@ mixin _$MessStore on _MessStore, Store {
   @override
   void setMealData(MealType m) {
     final _$actionInfo = _$_MessStoreActionController.startAction(
-        name: '_MessStore.setMealData');
+      name: '_MessStore.setMealData',
+    );
     try {
       return super.setMealData(m);
     } finally {

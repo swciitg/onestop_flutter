@@ -13,7 +13,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class MyAdsTile extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
-  final model;
+  final dynamic model;
 
   const MyAdsTile({super.key, this.model});
 
@@ -38,10 +38,7 @@ class _MyAdsTileState extends State<MyAdsTile> {
             padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
             child: Container(
               height: 115,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(21),
-                color: kBlueGrey,
-              ),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(21), color: kBlueGrey),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -58,12 +55,13 @@ class _MyAdsTileState extends State<MyAdsTile> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text(
-                                  widget.model.title,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: MyFonts.w600.size(16).setColor(kWhite),
+                                Expanded(
+                                  child: Text(
+                                    widget.model.title,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: MyFonts.w600.size(16).setColor(kWhite),
+                                  ),
                                 ),
-                                const Spacer(),
                                 IconButton(
                                   onPressed: () {
                                     setState(() {
@@ -98,11 +96,11 @@ class _MyAdsTileState extends State<MyAdsTile> {
                                 isLnf
                                     ? Container()
                                     : Expanded(
-                                        child: Text(
-                                          '\u{20B9}${widget.model.price}/-',
-                                          style: MyFonts.w600.size(14).setColor(lBlue4),
-                                        ),
+                                      child: Text(
+                                        '\u{20B9}${widget.model.price}/-',
+                                        style: MyFonts.w600.size(14).setColor(lBlue4),
                                       ),
+                                    ),
                               ],
                             ),
                           ),
@@ -114,12 +112,16 @@ class _MyAdsTileState extends State<MyAdsTile> {
                     flex: 4,
                     child: ClipRRect(
                       borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(21), bottomRight: Radius.circular(21)),
-                      child: Image.network(widget.model.imageURL,
-                          cacheWidth: 100,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(),
-                          frameBuilder: restaurantTileFrameBuilder),
+                        topRight: Radius.circular(21),
+                        bottomRight: Radius.circular(21),
+                      ),
+                      child: Image.network(
+                        widget.model.imageURL,
+                        cacheWidth: 100,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => Container(),
+                        frameBuilder: restaurantTileFrameBuilder,
+                      ),
                     ),
                   ),
                 ],
@@ -148,15 +150,9 @@ class _MyAdsTileState extends State<MyAdsTile> {
         if (isOverlay)
           Container(
             height: 33,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: lBlue2,
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: lBlue2),
             child: TextButton(
-              child: Text(
-                "Delete",
-                style: MyFonts.w400.size(14).setColor(kBlack),
-              ),
+              child: Text("Delete", style: MyFonts.w400.size(14).setColor(kBlack)),
               onPressed: () async {
                 if (isLnf) {
                   await LnfRepository().deleteLnfMyAd(widget.model.id, widget.model.email);

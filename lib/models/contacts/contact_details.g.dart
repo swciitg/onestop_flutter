@@ -14,9 +14,9 @@ ContactDetailsModel _$ContactDetailsModelFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$ContactDetailsModelToJson(
-        ContactDetailsModel instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'email': instance.email,
-      'contact': instance.contact,
-    };
+  ContactDetailsModel instance,
+) => <String, dynamic>{
+  'name': instance.name,
+  'email': instance.email,
+  'contact': instance.contact,
+};

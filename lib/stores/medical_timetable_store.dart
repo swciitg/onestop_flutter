@@ -20,7 +20,7 @@ abstract class _MedicalTimetableStore with Store {
   @observable
   AllDoctors? doctors;
 
-  initialiseMedicalTT() async {
+  Future<String> initialiseMedicalTT() async {
     if (!isProcessed) {
       initialiseMedicalDates();
       await processMedicalTimetable();

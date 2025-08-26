@@ -12,27 +12,35 @@ mixin _$EventsStore on _EventsStore, Store {
   Computed<String>? _$currentEventCategoryComputed;
 
   @override
-  String get currentEventCategory => (_$currentEventCategoryComputed ??=
-          Computed<String>(() => super.currentEventCategory,
-              name: '_EventsStore.currentEventCategory'))
-      .value;
+  String get currentEventCategory =>
+      (_$currentEventCategoryComputed ??= Computed<String>(
+            () => super.currentEventCategory,
+            name: '_EventsStore.currentEventCategory',
+          ))
+          .value;
   Computed<List<EventModel>>? _$activeSavedEventsComputed;
 
   @override
-  List<EventModel> get activeSavedEvents => (_$activeSavedEventsComputed ??=
-          Computed<List<EventModel>>(() => super.activeSavedEvents,
-              name: '_EventsStore.activeSavedEvents'))
-      .value;
+  List<EventModel> get activeSavedEvents =>
+      (_$activeSavedEventsComputed ??= Computed<List<EventModel>>(
+            () => super.activeSavedEvents,
+            name: '_EventsStore.activeSavedEvents',
+          ))
+          .value;
   Computed<List<Widget>>? _$savedScrollComputed;
 
   @override
   List<Widget> get savedScroll =>
-      (_$savedScrollComputed ??= Computed<List<Widget>>(() => super.savedScroll,
-              name: '_EventsStore.savedScroll'))
+      (_$savedScrollComputed ??= Computed<List<Widget>>(
+            () => super.savedScroll,
+            name: '_EventsStore.savedScroll',
+          ))
           .value;
 
-  late final _$selectedEventTabAtom =
-      Atom(name: '_EventsStore.selectedEventTab', context: context);
+  late final _$selectedEventTabAtom = Atom(
+    name: '_EventsStore.selectedEventTab',
+    context: context,
+  );
 
   @override
   int get selectedEventTab {
@@ -47,8 +55,10 @@ mixin _$EventsStore on _EventsStore, Store {
     });
   }
 
-  late final _$isAdminViewAtom =
-      Atom(name: '_EventsStore.isAdminView', context: context);
+  late final _$isAdminViewAtom = Atom(
+    name: '_EventsStore.isAdminView',
+    context: context,
+  );
 
   @override
   bool get isAdminView {
@@ -78,8 +88,10 @@ mixin _$EventsStore on _EventsStore, Store {
     });
   }
 
-  late final _$savedEventsAtom =
-      Atom(name: '_EventsStore.savedEvents', context: context);
+  late final _$savedEventsAtom = Atom(
+    name: '_EventsStore.savedEvents',
+    context: context,
+  );
 
   @override
   ObservableList<EventModel> get savedEvents {
@@ -94,13 +106,16 @@ mixin _$EventsStore on _EventsStore, Store {
     });
   }
 
-  late final _$_EventsStoreActionController =
-      ActionController(name: '_EventsStore', context: context);
+  late final _$_EventsStoreActionController = ActionController(
+    name: '_EventsStore',
+    context: context,
+  );
 
   @override
   void setSelectedEventTab(int newIndex) {
     final _$actionInfo = _$_EventsStoreActionController.startAction(
-        name: '_EventsStore.setSelectedEventTab');
+      name: '_EventsStore.setSelectedEventTab',
+    );
     try {
       return super.setSelectedEventTab(newIndex);
     } finally {
@@ -111,7 +126,8 @@ mixin _$EventsStore on _EventsStore, Store {
   @override
   void toggleAdminView() {
     final _$actionInfo = _$_EventsStoreActionController.startAction(
-        name: '_EventsStore.toggleAdminView');
+      name: '_EventsStore.toggleAdminView',
+    );
     try {
       return super.toggleAdminView();
     } finally {
@@ -122,7 +138,8 @@ mixin _$EventsStore on _EventsStore, Store {
   @override
   void setAdmin(Admin updated) {
     final _$actionInfo = _$_EventsStoreActionController.startAction(
-        name: '_EventsStore.setAdmin');
+      name: '_EventsStore.setAdmin',
+    );
     try {
       return super.setAdmin(updated);
     } finally {
@@ -133,7 +150,8 @@ mixin _$EventsStore on _EventsStore, Store {
   @override
   void setSavedEvents(List<EventModel> l) {
     final _$actionInfo = _$_EventsStoreActionController.startAction(
-        name: '_EventsStore.setSavedEvents');
+      name: '_EventsStore.setSavedEvents',
+    );
     try {
       return super.setSavedEvents(l);
     } finally {

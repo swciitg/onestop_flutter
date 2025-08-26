@@ -13,19 +13,25 @@ mixin _$TravelStore on _TravelStore, Store {
 
   @override
   int get busDayTypeIndex =>
-      (_$busDayTypeIndexComputed ??= Computed<int>(() => super.busDayTypeIndex,
-              name: '_TravelStore.busDayTypeIndex'))
+      (_$busDayTypeIndexComputed ??= Computed<int>(
+            () => super.busDayTypeIndex,
+            name: '_TravelStore.busDayTypeIndex',
+          ))
           .value;
   Computed<bool>? _$isBusSelectedComputed;
 
   @override
   bool get isBusSelected =>
-      (_$isBusSelectedComputed ??= Computed<bool>(() => super.isBusSelected,
-              name: '_TravelStore.isBusSelected'))
+      (_$isBusSelectedComputed ??= Computed<bool>(
+            () => super.isBusSelected,
+            name: '_TravelStore.isBusSelected',
+          ))
           .value;
 
-  late final _$selectBusesorStopsAtom =
-      Atom(name: '_TravelStore.selectBusesorStops', context: context);
+  late final _$selectBusesorStopsAtom = Atom(
+    name: '_TravelStore.selectBusesorStops',
+    context: context,
+  );
 
   @override
   int get selectBusesorStops {
@@ -40,8 +46,10 @@ mixin _$TravelStore on _TravelStore, Store {
     });
   }
 
-  late final _$busDayTypeAtom =
-      Atom(name: '_TravelStore.busDayType', context: context);
+  late final _$busDayTypeAtom = Atom(
+    name: '_TravelStore.busDayType',
+    context: context,
+  );
 
   @override
   String get busDayType {
@@ -56,8 +64,10 @@ mixin _$TravelStore on _TravelStore, Store {
     });
   }
 
-  late final _$ferryDirectionAtom =
-      Atom(name: '_TravelStore.ferryDirection', context: context);
+  late final _$ferryDirectionAtom = Atom(
+    name: '_TravelStore.ferryDirection',
+    context: context,
+  );
 
   @override
   String get ferryDirection {
@@ -72,8 +82,10 @@ mixin _$TravelStore on _TravelStore, Store {
     });
   }
 
-  late final _$ferryDayTypeAtom =
-      Atom(name: '_TravelStore.ferryDayType', context: context);
+  late final _$ferryDayTypeAtom = Atom(
+    name: '_TravelStore.ferryDayType',
+    context: context,
+  );
 
   @override
   String get ferryDayType {
@@ -88,8 +100,10 @@ mixin _$TravelStore on _TravelStore, Store {
     });
   }
 
-  late final _$selectedFerryGhatAtom =
-      Atom(name: '_TravelStore.selectedFerryGhat', context: context);
+  late final _$selectedFerryGhatAtom = Atom(
+    name: '_TravelStore.selectedFerryGhat',
+    context: context,
+  );
 
   @override
   String get selectedFerryGhat {
@@ -104,8 +118,10 @@ mixin _$TravelStore on _TravelStore, Store {
     });
   }
 
-  late final _$ferryTimingsAtom =
-      Atom(name: '_TravelStore.ferryTimings', context: context);
+  late final _$ferryTimingsAtom = Atom(
+    name: '_TravelStore.ferryTimings',
+    context: context,
+  );
 
   @override
   ObservableList<TravelTiming> get ferryTimings {
@@ -120,8 +136,10 @@ mixin _$TravelStore on _TravelStore, Store {
     });
   }
 
-  late final _$busTimingsAtom =
-      Atom(name: '_TravelStore.busTimings', context: context);
+  late final _$busTimingsAtom = Atom(
+    name: '_TravelStore.busTimings',
+    context: context,
+  );
 
   @override
   ObservableList<TravelTiming> get busTimings {
@@ -136,29 +154,36 @@ mixin _$TravelStore on _TravelStore, Store {
     });
   }
 
-  late final _$getBusTimingsAsyncAction =
-      AsyncAction('_TravelStore.getBusTimings', context: context);
+  late final _$getBusTimingsAsyncAction = AsyncAction(
+    '_TravelStore.getBusTimings',
+    context: context,
+  );
 
   @override
   Future<List<TravelTiming>> getBusTimings() {
     return _$getBusTimingsAsyncAction.run(() => super.getBusTimings());
   }
 
-  late final _$getFerryTimingsAsyncAction =
-      AsyncAction('_TravelStore.getFerryTimings', context: context);
+  late final _$getFerryTimingsAsyncAction = AsyncAction(
+    '_TravelStore.getFerryTimings',
+    context: context,
+  );
 
   @override
   Future<List<TravelTiming>> getFerryTimings() {
     return _$getFerryTimingsAsyncAction.run(() => super.getFerryTimings());
   }
 
-  late final _$_TravelStoreActionController =
-      ActionController(name: '_TravelStore', context: context);
+  late final _$_TravelStoreActionController = ActionController(
+    name: '_TravelStore',
+    context: context,
+  );
 
   @override
   void setFerryDayType(String s) {
     final _$actionInfo = _$_TravelStoreActionController.startAction(
-        name: '_TravelStore.setFerryDayType');
+      name: '_TravelStore.setFerryDayType',
+    );
     try {
       return super.setFerryDayType(s);
     } finally {
@@ -169,7 +194,8 @@ mixin _$TravelStore on _TravelStore, Store {
   @override
   void setFerryToCity() {
     final _$actionInfo = _$_TravelStoreActionController.startAction(
-        name: '_TravelStore.setFerryToCity');
+      name: '_TravelStore.setFerryToCity',
+    );
     try {
       return super.setFerryToCity();
     } finally {
@@ -180,7 +206,8 @@ mixin _$TravelStore on _TravelStore, Store {
   @override
   void setFerryToCampus() {
     final _$actionInfo = _$_TravelStoreActionController.startAction(
-        name: '_TravelStore.setFerryToCampus');
+      name: '_TravelStore.setFerryToCampus',
+    );
     try {
       return super.setFerryToCampus();
     } finally {
@@ -191,7 +218,8 @@ mixin _$TravelStore on _TravelStore, Store {
   @override
   void setFerryDirection(String s) {
     final _$actionInfo = _$_TravelStoreActionController.startAction(
-        name: '_TravelStore.setFerryDirection');
+      name: '_TravelStore.setFerryDirection',
+    );
     try {
       return super.setFerryDirection(s);
     } finally {
@@ -202,7 +230,8 @@ mixin _$TravelStore on _TravelStore, Store {
   @override
   void selectBusButton() {
     final _$actionInfo = _$_TravelStoreActionController.startAction(
-        name: '_TravelStore.selectBusButton');
+      name: '_TravelStore.selectBusButton',
+    );
     try {
       return super.selectBusButton();
     } finally {
@@ -213,7 +242,8 @@ mixin _$TravelStore on _TravelStore, Store {
   @override
   void selectStopButton() {
     final _$actionInfo = _$_TravelStoreActionController.startAction(
-        name: '_TravelStore.selectStopButton');
+      name: '_TravelStore.selectStopButton',
+    );
     try {
       return super.selectStopButton();
     } finally {
@@ -224,7 +254,8 @@ mixin _$TravelStore on _TravelStore, Store {
   @override
   void setBusDayString(String s) {
     final _$actionInfo = _$_TravelStoreActionController.startAction(
-        name: '_TravelStore.setBusDayString');
+      name: '_TravelStore.setBusDayString',
+    );
     try {
       return super.setBusDayString(s);
     } finally {
@@ -235,7 +266,8 @@ mixin _$TravelStore on _TravelStore, Store {
   @override
   void setFerryGhat(String s) {
     final _$actionInfo = _$_TravelStoreActionController.startAction(
-        name: '_TravelStore.setFerryGhat');
+      name: '_TravelStore.setFerryGhat',
+    );
     try {
       return super.setFerryGhat(s);
     } finally {

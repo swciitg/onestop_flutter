@@ -9,8 +9,10 @@ part of 'common_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$CommonStore on _CommonStore, Store {
-  late final _$lnfIndexAtom =
-      Atom(name: '_CommonStore.lnfIndex', context: context);
+  late final _$lnfIndexAtom = Atom(
+    name: '_CommonStore.lnfIndex',
+    context: context,
+  );
 
   @override
   String get lnfIndex {
@@ -25,8 +27,10 @@ mixin _$CommonStore on _CommonStore, Store {
     });
   }
 
-  late final _$bnsIndexAtom =
-      Atom(name: '_CommonStore.bnsIndex', context: context);
+  late final _$bnsIndexAtom = Atom(
+    name: '_CommonStore.bnsIndex',
+    context: context,
+  );
 
   @override
   String get bnsIndex {
@@ -41,8 +45,10 @@ mixin _$CommonStore on _CommonStore, Store {
     });
   }
 
-  late final _$isPersonalNotifAtom =
-      Atom(name: '_CommonStore.isPersonalNotif', context: context);
+  late final _$isPersonalNotifAtom = Atom(
+    name: '_CommonStore.isPersonalNotif',
+    context: context,
+  );
 
   @override
   bool get isPersonalNotif {
@@ -57,13 +63,16 @@ mixin _$CommonStore on _CommonStore, Store {
     });
   }
 
-  late final _$_CommonStoreActionController =
-      ActionController(name: '_CommonStore', context: context);
+  late final _$_CommonStoreActionController = ActionController(
+    name: '_CommonStore',
+    context: context,
+  );
 
   @override
   void setLnfIndex(String newIndex) {
     final _$actionInfo = _$_CommonStoreActionController.startAction(
-        name: '_CommonStore.setLnfIndex');
+      name: '_CommonStore.setLnfIndex',
+    );
     try {
       return super.setLnfIndex(newIndex);
     } finally {
@@ -74,7 +83,8 @@ mixin _$CommonStore on _CommonStore, Store {
   @override
   void setBnsIndex(String newIndex) {
     final _$actionInfo = _$_CommonStoreActionController.startAction(
-        name: '_CommonStore.setBnsIndex');
+      name: '_CommonStore.setBnsIndex',
+    );
     try {
       return super.setBnsIndex(newIndex);
     } finally {
@@ -85,7 +95,8 @@ mixin _$CommonStore on _CommonStore, Store {
   @override
   void setNotif() {
     final _$actionInfo = _$_CommonStoreActionController.startAction(
-        name: '_CommonStore.setNotif');
+      name: '_CommonStore.setNotif',
+    );
     try {
       return super.setNotif();
     } finally {

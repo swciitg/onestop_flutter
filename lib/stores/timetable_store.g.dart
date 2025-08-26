@@ -12,13 +12,17 @@ mixin _$TimetableStore on _TimetableStore, Store {
   Computed<List<Widget>>? _$todayTimeTableComputed;
 
   @override
-  List<Widget> get todayTimeTable => (_$todayTimeTableComputed ??=
-          Computed<List<Widget>>(() => super.todayTimeTable,
-              name: '_TimetableStore.todayTimeTable'))
-      .value;
+  List<Widget> get todayTimeTable =>
+      (_$todayTimeTableComputed ??= Computed<List<Widget>>(
+            () => super.todayTimeTable,
+            name: '_TimetableStore.todayTimeTable',
+          ))
+          .value;
 
-  late final _$isProcessedAtom =
-      Atom(name: '_TimetableStore.isProcessed', context: context);
+  late final _$isProcessedAtom = Atom(
+    name: '_TimetableStore.isProcessed',
+    context: context,
+  );
 
   @override
   bool get isProcessed {
@@ -33,8 +37,10 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
-  late final _$coursesAtom =
-      Atom(name: '_TimetableStore.courses', context: context);
+  late final _$coursesAtom = Atom(
+    name: '_TimetableStore.courses',
+    context: context,
+  );
 
   @override
   RegisteredCourses? get courses {
@@ -49,8 +55,10 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
-  late final _$selectedDateAtom =
-      Atom(name: '_TimetableStore.selectedDate', context: context);
+  late final _$selectedDateAtom = Atom(
+    name: '_TimetableStore.selectedDate',
+    context: context,
+  );
 
   @override
   int get selectedDate {
@@ -65,8 +73,10 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
-  late final _$selectedDayAtom =
-      Atom(name: '_TimetableStore.selectedDay', context: context);
+  late final _$selectedDayAtom = Atom(
+    name: '_TimetableStore.selectedDay',
+    context: context,
+  );
 
   @override
   int get selectedDay {
@@ -81,8 +91,10 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
-  late final _$showDropDownAtom =
-      Atom(name: '_TimetableStore.showDropDown', context: context);
+  late final _$showDropDownAtom = Atom(
+    name: '_TimetableStore.showDropDown',
+    context: context,
+  );
 
   @override
   bool get showDropDown {
@@ -97,8 +109,10 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
-  late final _$isTimetableAtom =
-      Atom(name: '_TimetableStore.isTimetable', context: context);
+  late final _$isTimetableAtom = Atom(
+    name: '_TimetableStore.isTimetable',
+    context: context,
+  );
 
   @override
   bool get isTimetable {
@@ -113,13 +127,16 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
-  late final _$_TimetableStoreActionController =
-      ActionController(name: '_TimetableStore', context: context);
+  late final _$_TimetableStoreActionController = ActionController(
+    name: '_TimetableStore',
+    context: context,
+  );
 
   @override
   void setDate(int i) {
     final _$actionInfo = _$_TimetableStoreActionController.startAction(
-        name: '_TimetableStore.setDate');
+      name: '_TimetableStore.setDate',
+    );
     try {
       return super.setDate(i);
     } finally {
@@ -130,7 +147,8 @@ mixin _$TimetableStore on _TimetableStore, Store {
   @override
   void setDay(int i) {
     final _$actionInfo = _$_TimetableStoreActionController.startAction(
-        name: '_TimetableStore.setDay');
+      name: '_TimetableStore.setDay',
+    );
     try {
       return super.setDay(i);
     } finally {
@@ -141,7 +159,8 @@ mixin _$TimetableStore on _TimetableStore, Store {
   @override
   void toggleDropDown() {
     final _$actionInfo = _$_TimetableStoreActionController.startAction(
-        name: '_TimetableStore.toggleDropDown');
+      name: '_TimetableStore.toggleDropDown',
+    );
     try {
       return super.toggleDropDown();
     } finally {
@@ -152,7 +171,8 @@ mixin _$TimetableStore on _TimetableStore, Store {
   @override
   void setDropDown(bool b) {
     final _$actionInfo = _$_TimetableStoreActionController.startAction(
-        name: '_TimetableStore.setDropDown');
+      name: '_TimetableStore.setDropDown',
+    );
     try {
       return super.setDropDown(b);
     } finally {
@@ -163,7 +183,8 @@ mixin _$TimetableStore on _TimetableStore, Store {
   @override
   void setTT() {
     final _$actionInfo = _$_TimetableStoreActionController.startAction(
-        name: '_TimetableStore.setTT');
+      name: '_TimetableStore.setTT',
+    );
     try {
       return super.setTT();
     } finally {

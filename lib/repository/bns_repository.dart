@@ -40,17 +40,22 @@ class BnsRepository extends APIRepository {
   }
 
   Future<List<BuyModel>> getSellPage(int pageNumber) async {
-    final queryParameters = {
-      'page': pageNumber.toString(),
-    };
-    var response = await serverDio.get(Endpoints.sellPath,
-        queryParameters: queryParameters);
-    var json = response.data;
-    List<BuyModel> sellPage = (json['details'] as List<dynamic>)
-        .map((e) => BuyModel.fromJson(e))
-        .toList();
-    //await Future.delayed(const Duration(milliseconds: 300), () => null);
-    return sellPage;
+    try {
+      final queryParameters = {
+        'page': pageNumber.toString(),
+      };
+      var response = await serverDio.get(Endpoints.sellPath,
+          queryParameters: queryParameters);
+      var json = response.data;
+      List<BuyModel> sellPage = (json['details'] as List<dynamic>)
+          .map((e) => BuyModel.fromJson(e))
+          .toList();
+      //await Future.delayed(const Duration(milliseconds: 300), () => null);
+      return sellPage;
+    } catch (e) {
+      print('Error in getSellPage: $e');
+      rethrow;
+    }
   }
 
   Future<List<SellModel>> getBuyPage(int pageNumber) async {

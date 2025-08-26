@@ -22,27 +22,24 @@ class _LoginWebViewState extends State<LoginWebView> {
   late WebViewController controller;
 
   Future<void> moveBackToWelcomePage() async {
-    navigatorKey.currentState!
-        .pushNamedAndRemoveUntil(LoginPage.id, (_) => false);
+    navigatorKey.currentState!.pushNamedAndRemoveUntil(LoginPage.id, (_) => false);
     await Future.delayed(const Duration(seconds: 1));
     showSnackBar("Error occurred: INCORRECT USER TOKENS");
   }
 
-  Future<String> getElementById(
-      WebViewController controller, String elementId) async {
+  Future<String> getElementById(WebViewController controller, String elementId) async {
     var element = await controller.runJavaScriptReturningResult(
-        "document.querySelector('#$elementId').innerText");
+      "document.querySelector('#$elementId').innerText",
+    );
     String newString = element.toString();
     if (element.toString().startsWith('"')) {
-      newString =
-          element.toString().substring(1, element.toString().length - 1);
+      newString = element.toString().substring(1, element.toString().length - 1);
     }
     return newString.replaceAll('\\', '');
   }
 
   Future<void> handleLogin() async {
-    final userTokensString =
-        (await getElementById(controller, 'userTokens')).replaceAll("\\", '"');
+    final userTokensString = (await getElementById(controller, 'userTokens')).replaceAll("\\", '"');
 
     if (userTokensString == "ERROR OCCURED") {
       moveBackToWelcomePage();
@@ -50,18 +47,20 @@ class _LoginWebViewState extends State<LoginWebView> {
     }
     SharedPreferences user = await SharedPreferences.getInstance();
     if (!mounted) return;
+
+    LoginStore.isGuest = false;
+    await user.setBool('isGuest', false);
+
     Map userTokens = {
       db.BackendHelper.accesstoken: userTokensString.split('/')[0],
-      db.BackendHelper.refreshtoken: userTokensString.split('/')[1]
+      db.BackendHelper.refreshtoken: userTokensString.split('/')[1],
     };
     await LoginStore().saveTokensToPrefs(user, userTokens);
     await LoginStore().saveToUserInfo(user);
     await WebViewCookieManager().clearCookies();
     navigatorKey.currentState!.pushAndRemoveUntil(
       MaterialPageRoute(
-        builder: (context) => EditProfile(
-          profileModel: OneStopUser.fromJson(LoginStore.userData),
-        ),
+        builder: (context) => EditProfile(profileModel: OneStopUser.fromJson(LoginStore.userData)),
       ),
       (route) => false,
     );
@@ -70,20 +69,22 @@ class _LoginWebViewState extends State<LoginWebView> {
   @override
   void initState() {
     super.initState();
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(NavigationDelegate(
-        onPageFinished: (url) async {
-          try {
-            if (url.startsWith(
-                "${Endpoints.baseUrl}/auth/microsoft/redirect?code")) {
-              await handleLogin();
-            }
-          } catch (e) {
-            showSnackBar("Some error occurred!");
-          }
-        },
-      ));
+    controller =
+        WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onPageFinished: (url) async {
+                try {
+                  if (url.startsWith("${Endpoints.baseUrl}/auth/microsoft/redirect?code")) {
+                    await handleLogin();
+                  }
+                } catch (e) {
+                  showSnackBar("Some error occurred!");
+                }
+              },
+            ),
+          );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.loadRequest(Uri.parse('${Endpoints.baseUrl}/auth/microsoft'));
     });

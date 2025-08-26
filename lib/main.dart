@@ -7,6 +7,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/services/notifications_service.dart';
+import 'package:onestop_dev/services/app_shortcuts_service.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -25,17 +26,22 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (await hasInternetConnection()) {
     await Future.wait([
-      Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      ),
+      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
       checkLastUpdated(),
     ]);
     await NotificationService().initNotifications();
   }
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]);
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+  );
+
+  // Initialize app shortcuts
+  await AppShortcutsService.initialize();
 
   runApp(const MyApp());
 }
@@ -51,39 +57,24 @@ class MyApp extends StatelessWidget {
     debugInvertOversizedImages = true;
     return MultiProvider(
       providers: [
-        Provider<LoginStore>(
-          create: (_) => LoginStore(),
-        ),
-        Provider<RestaurantStore>(
-          create: (_) => RestaurantStore(),
-        ),
-        Provider<MapBoxStore>(
-          create: (_) => MapBoxStore(),
-        ),
-        Provider<CommonStore>(
-          create: (_) => CommonStore(),
-        ),
-        Provider<TravelStore>(
-          create: (_) => TravelStore(),
-        ),
-        Provider<EventsStore>(
-          create: (_) => EventsStore(),
-        ),
-        Provider<TimetableStore>(
-          create: (_) => TimetableStore(),
-        ),
-        Provider<MedicalTimetableStore>(
-          create: (_) => MedicalTimetableStore(),
-        )
+        Provider<LoginStore>(create: (_) => LoginStore()),
+        Provider<RestaurantStore>(create: (_) => RestaurantStore()),
+        Provider<MapBoxStore>(create: (_) => MapBoxStore()),
+        Provider<CommonStore>(create: (_) => CommonStore()),
+        Provider<TravelStore>(create: (_) => TravelStore()),
+        Provider<EventsStore>(create: (_) => EventsStore()),
+        Provider<TimetableStore>(create: (_) => TimetableStore()),
+        Provider<MedicalTimetableStore>(create: (_) => MedicalTimetableStore()),
       ],
       child: MaterialApp(
-          navigatorKey: navigatorKey,
-          scaffoldMessengerKey: rootScaffoldMessengerKey,
-          debugShowCheckedModeBanner: false,
-          initialRoute: SplashPage.id,
-          theme: ThemeData(scaffoldBackgroundColor: kBackground, splashColor: Colors.transparent),
-          title: 'OneStop IITG',
-          routes: routes),
+        navigatorKey: navigatorKey,
+        scaffoldMessengerKey: rootScaffoldMessengerKey,
+        debugShowCheckedModeBanner: false,
+        initialRoute: SplashPage.id,
+        theme: ThemeData(scaffoldBackgroundColor: kBackground, splashColor: Colors.transparent),
+        title: 'OneStop IITG',
+        routes: routes,
+      ),
     );
   }
 }

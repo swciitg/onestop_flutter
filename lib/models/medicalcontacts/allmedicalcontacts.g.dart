@@ -8,14 +8,14 @@ part of 'allmedicalcontacts.dart';
 
 Allmedicalcontacts _$AllmedicalcontactsFromJson(Map<String, dynamic> json) =>
     Allmedicalcontacts(
-      alldoctors: (json['alldoctors'] as List<dynamic>?)
-              ?.map((e) =>
-                  MedicalcontactModel.fromJson(e as Map<String, dynamic>))
+      alldoctors:
+          (json['alldoctors'] as List<dynamic>?)
+              ?.map(
+                (e) => MedicalcontactModel.fromJson(e as Map<String, dynamic>),
+              )
               .toList() ??
           [],
     );
 
 Map<String, dynamic> _$AllmedicalcontactsToJson(Allmedicalcontacts instance) =>
-    <String, dynamic>{
-      'alldoctors': instance.alldoctors,
-    };
+    <String, dynamic>{'alldoctors': instance.alldoctors};
