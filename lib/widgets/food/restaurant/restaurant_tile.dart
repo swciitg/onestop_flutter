@@ -24,7 +24,6 @@ class _RestaurantTileState extends State<RestaurantTile> {
       subLabelText2: 'Closes at ${widget.restaurantModel.closingTime}',
       isEnabled: true,
       onArrowPressed: () {
-        // Optional: Keep this if you want the arrow button to also open the bottom sheet
         final List<String> images =
             widget.restaurantModel.menu
                 .map((menuItem) => menuItem.imageURL)

@@ -20,7 +20,7 @@ class FoodTab extends StatelessWidget {
         children: [
           const SizedBox(height: 8),
           // FoodSearchBar(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 13),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -31,6 +31,7 @@ class FoodTab extends StatelessWidget {
                   // const SizedBox(height: 16),
                   // const FavoriteDishes(),
                   const OutletsFilter(),
+                  const SizedBox(height: 7),
                   FutureBuilder<List<RestaurantModel>>(
                     future: DataService.getRestaurants(),
                     builder: (
@@ -42,7 +43,13 @@ class FoodTab extends StatelessWidget {
                             snapshot.data!
                                 .map((e) => RestaurantTile(restaurantModel: e))
                                 .toList();
-                        return Column(children: foodList);
+                        return Transform.translate(
+                          offset: Offset(
+                            -6.0,
+                            0.0,
+                          ), // Shift 15 pixels to the left and 0 pixels vertically
+                          child: Column(children: foodList),
+                        );
                       } else if (snapshot.hasError) {
                         return Center(
                           child: Text(

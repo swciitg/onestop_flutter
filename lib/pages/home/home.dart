@@ -76,13 +76,21 @@ class _HomePageState extends State<HomePage> {
         ),
         body: SafeArea(
           child:
-              index !=
-                      0 // Check if index is not 0
+              (index == 0) // Check if index is 0
+                  ? tabs[index] // No padding if index is 0
+                  : (index == 1) // Check if index is 1
                   ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    padding: const EdgeInsets.only(
+                      left: 15,
+                    ), // Left padding only
                     child: tabs[index],
                   )
-                  : tabs[index], // No padding if index is 0
+                  : Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                    ), // Default padding
+                    child: tabs[index],
+                  ),
         ),
       ),
     );

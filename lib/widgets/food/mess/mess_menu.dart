@@ -45,8 +45,10 @@ class MessMenu extends StatelessWidget {
         );
 
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildHeader(screenWidth, messStore),
+            SizedBox(height: 8),
             _buildDaySelector(screenWidth, messStore),
             _buildMealSection(messStore),
           ],
@@ -67,7 +69,7 @@ class MessMenu extends StatelessWidget {
           OText(
             text: 'Mess Menu',
             style: OTextStyle.headingMedium.copyWith(
-              fontSize: screenWidth <= 390 ? 16 : 20,
+              fontSize: screenWidth <= 390 ? 20 : 24,
               color: OColor.gray800,
             ),
           ),
@@ -152,6 +154,7 @@ class MessMenu extends StatelessWidget {
                           text: messStore.selectedMess.value!.displayString,
                           style: OTextStyle.bodySmall.copyWith(
                             color: OColor.green600,
+                            fontSize: screenWidth <= 390 ? 14 : 16,
                           ),
                         ),
                   ),
@@ -224,6 +227,7 @@ class MessMenu extends StatelessWidget {
                     return Row(
                       children: [
                         SecondaryButton(
+                          height: 40,
                           label: day,
                           onPressed: () => messStore.setDay(day),
                           enabled: true,
@@ -254,11 +258,13 @@ class MessMenu extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(vertical: 19),
           child: Row(
             children: [
               _buildMealContainer('Breakfast', messStore),
+              SizedBox(width: 8),
               _buildMealContainer('Lunch', messStore),
+              SizedBox(width: 8),
               _buildMealContainer('Dinner', messStore),
             ],
           ),

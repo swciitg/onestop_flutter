@@ -17,7 +17,7 @@ class OutletsFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          padding: const EdgeInsets.symmetric(horizontal: 0.0),
           child: Container(
             alignment: Alignment.bottomLeft,
             child: OText(
