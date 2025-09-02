@@ -21,6 +21,7 @@ class DateCourse extends StatefulWidget {
 
 class _DateCourseState extends State<DateCourse> {
   bool showArrow = false;
+  bool expanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +60,13 @@ class _DateCourseState extends State<DateCourse> {
                       showArrow: showArrow,
                       toggle: () {
                         setState(() {
-                          showArrow = !showArrow;
+                          expanded = !expanded;
                         });
                       },
                     ),
                   ],
                 ),
-                TimetableRow(classes: classes.skip(1).toList()),
+                TimetableRow(classes: classes.skip(1).toList(), expanded: expanded),
               ],
             );
           },
