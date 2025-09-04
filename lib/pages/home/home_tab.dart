@@ -94,7 +94,7 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                 ),
               ),
-              HomeQuickAccess(links: serviceLinks),
+              HomeQuickAccess(),
               const SizedBox(height: 10),
               FutureBuilder<List<HomeServiceTile>>(
                 future: DataService.getQuickLinks(),

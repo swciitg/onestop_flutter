@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
+import 'package:onestop_dev/widgets/home/service_links.dart';
 import 'package:onestop_ui/index.dart';
 
 class HomeQuickAccess extends StatefulWidget {
-  final List<HomeServiceTile> links;
-
-  const HomeQuickAccess({super.key, required this.links});
+  const HomeQuickAccess({super.key});
 
   @override
   State<HomeQuickAccess> createState() => _HomeQuickAccessState();
@@ -16,6 +15,12 @@ class _HomeQuickAccessState extends State<HomeQuickAccess> with TickerProviderSt
   bool isExpanded = false;
   late AnimationController _animationController;
   late Animation<double> _expandAnimation;
+
+  List<HomeServiceTile> serviceLinks =
+      serviceLinksData.map((e) {
+        final data = HomeServiceTileData.fromMap(e);
+        return HomeServiceTile(label: data.label, icon: data.icon, routeId: data.routeId);
+      }).toList();
 
   @override
   void initState() {
@@ -46,12 +51,12 @@ class _HomeQuickAccessState extends State<HomeQuickAccess> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    if (widget.links.isEmpty) return const SizedBox();
+    if (serviceLinks.isEmpty) return const SizedBox();
 
     const int maxItemsToShow = 8;
-    final bool shouldShowMoreButton = widget.links.length > maxItemsToShow;
+    final bool shouldShowMoreButton = serviceLinks.length > maxItemsToShow;
     final List<HomeServiceTile> visibleItems =
-        isExpanded ? widget.links : widget.links.take(maxItemsToShow).toList();
+        isExpanded ? serviceLinks : serviceLinks.take(maxItemsToShow).toList();
 
     return Padding(
       padding: const EdgeInsets.only(top: 5, bottom: 10),
