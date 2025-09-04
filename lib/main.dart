@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/check_last_updated.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/services/notifications_service.dart';
@@ -16,6 +15,7 @@ import 'package:onestop_dev/stores/medical_timetable_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
+import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -40,8 +40,9 @@ void main() async {
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
   );
 
-  // Initialize app shortcuts
   await AppShortcutsService.initialize();
+  await OTheme.init();
+  OTheme.setTheme(Brightness.dark);
 
   runApp(const MyApp());
 }
@@ -71,7 +72,36 @@ class MyApp extends StatelessWidget {
         scaffoldMessengerKey: rootScaffoldMessengerKey,
         debugShowCheckedModeBanner: false,
         initialRoute: SplashPage.id,
-        theme: ThemeData(scaffoldBackgroundColor: kBackground, splashColor: Colors.transparent),
+        theme: ThemeData(
+          scaffoldBackgroundColor: OColor.gray100,
+          appBarTheme: AppBarTheme(
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: OColor.gray100,
+              statusBarIconBrightness:
+                  OTheme.currentTheme == Brightness.dark ? Brightness.light : Brightness.dark,
+              statusBarBrightness:
+                  OTheme.currentTheme == Brightness.light ? Brightness.light : Brightness.dark,
+              systemNavigationBarColor: OColor.white,
+              systemNavigationBarIconBrightness:
+                  OTheme.currentTheme == Brightness.dark ? Brightness.light : Brightness.dark,
+            ),
+          ),
+          textTheme: const TextTheme(
+            bodyLarge: OTextStyle.bodyLarge,
+            bodyMedium: OTextStyle.bodyMedium,
+            bodySmall: OTextStyle.bodySmall,
+            displayLarge: OTextStyle.displayLarge,
+            displayMedium: OTextStyle.displayMedium,
+            displaySmall: OTextStyle.displaySmall,
+            headlineLarge: OTextStyle.headingLarge,
+            headlineMedium: OTextStyle.headingMedium,
+            headlineSmall: OTextStyle.headingSmall,
+            labelLarge: OTextStyle.labelLarge,
+            labelMedium: OTextStyle.labelMedium,
+            labelSmall: OTextStyle.labelSmall,
+          ),
+          fontFamily: OTextStyle.fontFamily,
+        ),
         title: 'OneStop IITG',
         routes: routes,
       ),

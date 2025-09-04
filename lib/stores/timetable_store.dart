@@ -104,7 +104,7 @@ abstract class _TimetableStore with Store {
     isTimetable = !isTimetable;
   }
 
-  List<Widget> get homeTimeTable {
+  List<CourseModel> get homeTimeTable {
     DateTime current = DateTime.now();
     String day = DateFormat.EEEE().format(DateTime.now());
     if (current.weekday == 6 || current.weekday == 7) {
@@ -112,28 +112,28 @@ abstract class _TimetableStore with Store {
       noClass.instructor = '';
       noClass.course = 'Happy Weekend !';
       noClass.timings = {day: ""};
-      return List.filled(1, TimetableTile(course: noClass));
+      return [noClass];
     }
     current = dates[0];
     DateFormat dateFormat = DateFormat("hh:00 - hh:55 a");
-    List<Widget> l = [
+    List<CourseModel> upcomingClasses = [
       ...allTimetableCourses[current.weekday - 1].morning
           .where((e) => dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
           .toList()
-          .map((e) => TimetableTile(course: e, inHomePage: true)),
+          .map((e) => e),
       ...allTimetableCourses[current.weekday - 1].afternoon
           .where((e) => dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
           .toList()
-          .map((e) => TimetableTile(course: e, inHomePage: true)),
+          .map((e) => e),
     ];
-    if (l.isEmpty) {
+    if (upcomingClasses.isEmpty) {
       CourseModel noClass = CourseModel();
       noClass.instructor = '';
       noClass.course = 'No upcoming classes';
       noClass.timings = {day: ""};
-      l.add(TimetableTile(course: noClass));
+      upcomingClasses.add(noClass);
     }
-    return l;
+    return upcomingClasses;
   }
 
   @computed

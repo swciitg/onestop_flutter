@@ -1,95 +1,74 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/stores/common_store.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 
-AppBar appBar(
-  BuildContext context, {
-  bool displayIcon = true,
-}) {
+AppBar appBar(BuildContext context, {bool displayIcon = true}) {
   return AppBar(
-    backgroundColor: kBackground,
-    iconTheme: const IconThemeData(color: kAppBarGrey),
+    backgroundColor: Colors.transparent,
     automaticallyImplyLeading: false,
     scrolledUnderElevation: 0,
+    elevation: 0.0,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        displayIcon
-            ? CircleAvatar(
-                backgroundColor: kAppBarGrey,
-                child: IconButton(
-                  icon: const Icon(
-                    // FluentIcons.person_24_filled,
-                    Icons.menu,
-                    color: lBlue2,
+        Row(
+          children: [
+            displayIcon
+                ? CircleAvatar(
+                  backgroundColor: OColor.green100,
+                  child: IconButton(
+                    icon: Icon(Icons.menu, color: OColor.green600),
+                    onPressed: () {
+                      scaffoldKey.currentState!.openDrawer();
+                    },
                   ),
-                  // onPressed: () {
-                  //   // Navigator.pushNamed(context, ProfilePage.id);
-                  //   // print(ProfileModel.fromJson(LoginStore.userData));
-                  //   // print(LoginStore.userData);
-                  //   // Navigator.push(context, MaterialPageRoute(builder: (buildContext) => ProfilePage(profileModel: ProfileModel.fromJson(LoginStore.userData),)));
-                  // },
-                  onPressed: () {
-                    scaffoldKey.currentState!.openDrawer();
-                  },
-                ),
-              )
-            : CircleAvatar(
-                backgroundColor: kAppBarGrey,
-                child: IconButton(
-                  icon: const Icon(
-                    FluentIcons.arrow_left_24_regular,
-                    color: lBlue2,
+                )
+                : CircleAvatar(
+                  backgroundColor: OColor.green100,
+                  child: IconButton(
+                    icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.green600),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
                 ),
-              ),
-        RichText(
-          text: TextSpan(children: [
-            WidgetSpan(
-              child: Row(
+            SizedBox(width: displayIcon ? 8 : 0),
+            RichText(
+              text: TextSpan(
                 children: [
-                  Text(
-                    "One",
-                    textAlign: TextAlign.center,
-                    style:
-                        MyFonts.w600.size(23).letterSpace(1.0).setColor(lBlue2),
-                  ),
-                  Text(
-                    ".",
-                    textAlign: TextAlign.center,
-                    style: MyFonts.w500.size(23).setColor(kYellow),
+                  WidgetSpan(
+                    child: Row(
+                      children: [
+                        OText(
+                          text: 'One',
+                          style: OTextStyle.headingLarge.copyWith(color: OColor.gray800),
+                        ),
+                        OText(
+                          text: '.',
+                          style: OTextStyle.headingLarge.copyWith(color: OColor.green600),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
+              // textAlign: TextAlign.start,
             ),
-          ]),
-          // textAlign: TextAlign.start,
+          ],
         ),
-        CircleAvatar(
-            backgroundColor: kAppBarGrey,
-            child: IconButton(
-              onPressed: () {
-                context.read<CommonStore>().isPersonalNotif = true;
-                Navigator.pushNamed(context, NotificationPage.id);
-              },
-              icon: const Icon(
-                FluentIcons.alert_24_filled,
-                color: lBlue2,
-              ),
-              color: lBlue2,
-            ))
+        IconButton(
+          onPressed: () {
+            context.read<CommonStore>().isPersonalNotif = true;
+            Navigator.pushNamed(context, NotificationPage.id);
+          },
+          icon: Icon(FluentIcons.alert_32_regular, color: OColor.green600),
+        ),
       ],
     ),
-    elevation: 0.0,
   );
 }

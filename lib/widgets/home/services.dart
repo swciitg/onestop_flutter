@@ -11,10 +11,7 @@ class Services extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 140,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: kHomeTile,
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: kHomeTile),
       child: Container(
         height: 160,
         padding: const EdgeInsets.all(4),
@@ -26,10 +23,7 @@ class Services extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.all(5),
-                  child: Text(
-                    'Services',
-                    style: MyFonts.w500.size(10).setColor(kWhite),
-                  ),
+                  child: Text('Services', style: MyFonts.w500.size(10).setColor(kWhite)),
                 ),
               ),
             ),
@@ -39,32 +33,18 @@ class Services extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  SizedBox(
-                    width: 5,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  HomeTabTile(
-                      label: "Rent and Sell", icon: Icons.local_atm_outlined),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  HomeTabTile(
-                      label: "Shops", icon: Icons.shopping_cart_outlined),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  HomeTabTile(label: "Intranet", icon: Icons.language_outlined),
-                  SizedBox(
-                    width: 5,
-                  ),
+                  SizedBox(width: 5),
+                  SizedBox(width: 5),
+                  HomeServiceTile(label: "Rent and Sell", icon: Icons.local_atm_outlined),
+                  SizedBox(width: 5),
+                  HomeServiceTile(label: "Shops", icon: Icons.shopping_cart_outlined),
+                  SizedBox(width: 5),
+                  HomeServiceTile(label: "Intranet", icon: Icons.language_outlined),
+                  SizedBox(width: 5),
                 ],
               ),
             ),
-            const SizedBox(
-              height: 5,
-            )
+            const SizedBox(height: 5),
           ],
         ),
       ),

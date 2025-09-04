@@ -1,105 +1,128 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
-class HomeLinks extends StatefulWidget {
-  final List<HomeTabTile> links;
-  final String title;
-  final int rows; // Number of rows as an argument
+class HomeQuickAccess extends StatefulWidget {
+  final List<HomeServiceTile> links;
 
-  const HomeLinks({
-    super.key,
-    required this.links,
-    required this.title,
-    this.rows = 2, // Default number of rows set to 2
-  });
+  const HomeQuickAccess({super.key, required this.links});
 
   @override
-  State<HomeLinks> createState() => _HomeLinksState();
+  State<HomeQuickAccess> createState() => _HomeQuickAccessState();
 }
 
-class _HomeLinksState extends State<HomeLinks> {
+class _HomeQuickAccessState extends State<HomeQuickAccess> with TickerProviderStateMixin {
   int activePageIndex = 0;
+  bool isExpanded = false;
+  late AnimationController _animationController;
+  late Animation<double> _expandAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    _expandAnimation = CurvedAnimation(parent: _animationController, curve: Curves.easeInOut);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void _toggleExpansion() {
+    setState(() {
+      isExpanded = !isExpanded;
+      if (isExpanded) {
+        _animationController.forward();
+      } else {
+        _animationController.reverse();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Calculate the number of items per page (rows * columns)
-    int itemsPerSlide = widget.rows * 4;
+    if (widget.links.isEmpty) return const SizedBox();
 
-    return widget.links.isEmpty
-        ? const SizedBox()
-        : Container(
-            padding: const EdgeInsets.only(top: 5, bottom: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: kHomeTile,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  child: Text(
-                    widget.title,
-                    style: MyFonts.w500.size(16).setColor(kWhite),
-                  ),
-                ),
-                CarouselSlider(
-                  items: [
-                    for (int i = 0; i < widget.links.length; i += itemsPerSlide)
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 15),
-                        child: GridView.count(
-                          crossAxisCount: 4,
-                          childAspectRatio: 1,
-                          shrinkWrap: true,
-                          mainAxisSpacing: 4,
-                          crossAxisSpacing: 4,
-                          physics: const NeverScrollableScrollPhysics(),
-                          // Display a slice of the links based on current page
-                          children: widget.links.sublist(
-                            i,
-                            (i + itemsPerSlide) > widget.links.length
-                                ? widget.links.length
-                                : (i + itemsPerSlide),
-                          ),
-                        ),
-                      ),
-                  ],
-                  options: CarouselOptions(
-                    viewportFraction: 1,
-                    pageSnapping: true,
-                    aspectRatio: (4 / widget.rows),
-                    autoPlay: false,
-                    animateToClosest: false,
-                    enableInfiniteScroll: false,
-                    padEnds: false,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        activePageIndex = index;
-                      });
-                    },
-                  ),
-                ),
-                if (widget.links.length > itemsPerSlide)
-                  DotsIndicator(
-                    position: activePageIndex.toDouble(),
-                    decorator: const DotsDecorator(
-                      activeColor: OneStopColors.kWhite,
-                      color: OneStopColors.cardColor,
-                      spacing: EdgeInsets.symmetric(horizontal: 3),
-                      size: Size(5, 5),
-                      activeSize: Size(5, 5),
+    const int maxItemsToShow = 8;
+    final bool shouldShowMoreButton = widget.links.length > maxItemsToShow;
+    final List<HomeServiceTile> visibleItems =
+        isExpanded ? widget.links : widget.links.take(maxItemsToShow).toList();
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 5, bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          OText(text: "Quick Access", style: OTextStyle.headingMedium),
+          const SizedBox(height: 16),
+          AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            child: _buildGrid(visibleItems),
+          ),
+          if (shouldShowMoreButton) ...[const SizedBox(height: 12), _buildShowMoreButton()],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGrid(List<HomeServiceTile> items) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 0.85,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return items[index];
+      },
+    );
+  }
+
+  Widget _buildShowMoreButton() {
+    return Center(
+      child: AnimatedBuilder(
+        animation: _expandAnimation,
+        builder: (context, child) {
+          return GestureDetector(
+            onTap: _toggleExpansion,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: OColor.gray300),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  OText(
+                    text: isExpanded ? "Hide" : "Show More",
+                    style: OTextStyle.bodyMedium.copyWith(
+                      color: OColor.green600,
+                      fontWeight: FontWeight.w500,
                     ),
-                    dotsCount: (widget.links.length / itemsPerSlide).ceil(),
                   ),
-              ],
+                  const SizedBox(width: 4),
+                  AnimatedRotation(
+                    turns: isExpanded ? 0.5 : 0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Icon(Icons.keyboard_arrow_down, color: OColor.green600, size: 20),
+                  ),
+                ],
+              ),
             ),
           );
+        },
+      ),
+    );
   }
 }

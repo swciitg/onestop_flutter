@@ -13,18 +13,18 @@ import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/services/irbs.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
-List<HomeTabTile> serviceLinks = [
-  const HomeTabTile(
+List<HomeServiceTile> serviceLinks = [
+  const HomeServiceTile(
     label: "Cab Sharing",
     icon: FluentIcons.vehicle_bus_24_regular,
     routeId: CabShare.id,
   ),
-  const HomeTabTile(
+  const HomeServiceTile(
     label: 'IRBS',
     icon: FluentIcons.calendar_edit_24_regular,
     routeId: IRBSPage.id,
   ),
-  const HomeTabTile(
+  const HomeServiceTile(
     label: "Complaints",
     icon: FluentIcons.chat_help_24_regular,
     routeId: ComplaintsPage.id,
@@ -35,34 +35,38 @@ List<HomeTabTile> serviceLinks = [
   //   routeId: ElectionLoginWebView.id,
   //   newBadge: true,
   // ),
-  const HomeTabTile(label: "GateLog", icon: FluentIcons.door_20_regular, routeId: GateLogPage.id),
-  const HomeTabTile(
+  const HomeServiceTile(
+    label: "GateLog",
+    icon: FluentIcons.door_20_regular,
+    routeId: GateLogPage.id,
+  ),
+  const HomeServiceTile(
     label: "Lost and Found",
     icon: FluentIcons.document_search_24_regular,
     routeId: LostFoundHome.id,
   ),
-  const HomeTabTile(
+  const HomeServiceTile(
     label: "Buy and Sell",
     icon: FluentIcons.money_24_regular,
     routeId: BuySellHome.id,
   ),
-  const HomeTabTile(
+  const HomeServiceTile(
     label: "GC Score Board",
     icon: FluentIcons.trophy_24_regular,
     routeId: Scoreboard.id,
   ),
-  const HomeTabTile(
+  const HomeServiceTile(
     label: "Medical Section",
     icon: FluentIcons.doctor_24_regular,
     routeId: MedicalSection.id,
     newBadge: false,
   ),
-  const HomeTabTile(
+  const HomeServiceTile(
     label: "Contacts",
     icon: FluentIcons.contact_card_group_24_regular,
     routeId: ContactPage.id,
   ),
-  const HomeTabTile(label: "LAN", icon: FluentIcons.desktop_24_regular, routeId: RouterPage.id),
+  const HomeServiceTile(label: "LAN", icon: FluentIcons.desktop_24_regular, routeId: RouterPage.id),
   // const HomeTabTile(
   //   label: "Events",
   //   icon: FluentIcons.bookmark_24_regular,
