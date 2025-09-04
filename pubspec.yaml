@@ -62,11 +62,11 @@ dependencies:
       ref: dev
     # path: ../gatelog_onestop/packages/gate_log
   onestop_ui:
-    # git:
-    #   url: https://github.com/swciitg/onestop_ui.git
-    #   path: packages/onestop_ui
-    #   ref: dev
-    path: ../onestop_ui/packages/onestop_ui
+    git:
+      url: https://github.com/swciitg/onestop_ui.git
+      path: packages/onestop_ui
+      ref: dev
+    # path: ../onestop_ui/packages/onestop_ui
 
   intl: ^0.20.2
   provider: ^6.0.2

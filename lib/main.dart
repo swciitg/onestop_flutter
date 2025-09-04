@@ -13,12 +13,10 @@ import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/medical_timetable_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
-import 'package:onestop_dev/stores/theme_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
-
 import 'firebase_options.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -42,7 +40,7 @@ void main() async {
   );
 
   await AppShortcutsService.initialize();
-  await OTheme.init();
+  await ThemeStore.instance.initTheme();
 
   runApp(const MyApp());
 }
@@ -106,14 +104,13 @@ class MyApp extends StatelessWidget {
             ),
             darkTheme: ThemeData(
               brightness: Brightness.dark,
-              scaffoldBackgroundColor: const Color(0xFF1C1C1E),
+              scaffoldBackgroundColor: OColor.gray100,
               appBarTheme: AppBarTheme(
-                backgroundColor: const Color(0xFF1C1C1E),
                 systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarColor: const Color(0xFF1C1C1E),
+                  statusBarColor: OColor.gray100,
                   statusBarIconBrightness: Brightness.light,
                   statusBarBrightness: Brightness.dark,
-                  systemNavigationBarColor: const Color(0xFF1C1C1E),
+                  systemNavigationBarColor: OColor.white,
                   systemNavigationBarIconBrightness: Brightness.light,
                 ),
               ),

@@ -1308,9 +1308,11 @@ packages:
   onestop_ui:
     dependency: "direct main"
     description:
-      path: "../onestop_ui/packages/onestop_ui"
-      relative: true
-    source: path
+      path: "packages/onestop_ui"
+      ref: dev
+      resolved-ref: c647b65cc1967a50bce9a165d82d705c0e94f603
+      url: "https://github.com/swciitg/onestop_ui.git"
+    source: git
     version: "0.0.1"
   os_detect:
     dependency: transitive
