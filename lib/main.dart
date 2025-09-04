@@ -13,6 +13,7 @@ import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/medical_timetable_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
+import 'package:onestop_dev/stores/theme_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_ui/index.dart';
@@ -42,7 +43,6 @@ void main() async {
 
   await AppShortcutsService.initialize();
   await OTheme.init();
-  OTheme.setTheme(Brightness.dark);
 
   runApp(const MyApp());
 }
@@ -58,6 +58,7 @@ class MyApp extends StatelessWidget {
     debugInvertOversizedImages = true;
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<ThemeStore>(create: (_) => ThemeStore()),
         Provider<LoginStore>(create: (_) => LoginStore()),
         Provider<RestaurantStore>(create: (_) => RestaurantStore()),
         Provider<MapBoxStore>(create: (_) => MapBoxStore()),
@@ -67,43 +68,76 @@ class MyApp extends StatelessWidget {
         Provider<TimetableStore>(create: (_) => TimetableStore()),
         Provider<MedicalTimetableStore>(create: (_) => MedicalTimetableStore()),
       ],
-      child: MaterialApp(
-        navigatorKey: navigatorKey,
-        scaffoldMessengerKey: rootScaffoldMessengerKey,
-        debugShowCheckedModeBanner: false,
-        initialRoute: SplashPage.id,
-        theme: ThemeData(
-          scaffoldBackgroundColor: OColor.gray100,
-          appBarTheme: AppBarTheme(
-            systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: OColor.gray100,
-              statusBarIconBrightness:
-                  OTheme.currentTheme == Brightness.dark ? Brightness.light : Brightness.dark,
-              statusBarBrightness:
-                  OTheme.currentTheme == Brightness.light ? Brightness.light : Brightness.dark,
-              systemNavigationBarColor: OColor.white,
-              systemNavigationBarIconBrightness:
-                  OTheme.currentTheme == Brightness.dark ? Brightness.light : Brightness.dark,
+      child: Consumer<ThemeStore>(
+        builder: (context, themeStore, child) {
+          return MaterialApp(
+            key: ValueKey(themeStore.currentTheme),
+            navigatorKey: navigatorKey,
+            scaffoldMessengerKey: rootScaffoldMessengerKey,
+            debugShowCheckedModeBanner: false,
+            initialRoute: SplashPage.id,
+            theme: ThemeData(
+              brightness: Brightness.light,
+              scaffoldBackgroundColor: OColor.gray100,
+              appBarTheme: AppBarTheme(
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: OColor.gray100,
+                  statusBarIconBrightness: Brightness.dark,
+                  statusBarBrightness: Brightness.light,
+                  systemNavigationBarColor: OColor.white,
+                  systemNavigationBarIconBrightness: Brightness.dark,
+                ),
+              ),
+              textTheme: const TextTheme(
+                bodyLarge: OTextStyle.bodyLarge,
+                bodyMedium: OTextStyle.bodyMedium,
+                bodySmall: OTextStyle.bodySmall,
+                displayLarge: OTextStyle.displayLarge,
+                displayMedium: OTextStyle.displayMedium,
+                displaySmall: OTextStyle.displaySmall,
+                headlineLarge: OTextStyle.headingLarge,
+                headlineMedium: OTextStyle.headingMedium,
+                headlineSmall: OTextStyle.headingSmall,
+                labelLarge: OTextStyle.labelLarge,
+                labelMedium: OTextStyle.labelMedium,
+                labelSmall: OTextStyle.labelSmall,
+              ),
+              fontFamily: OTextStyle.fontFamily,
             ),
-          ),
-          textTheme: const TextTheme(
-            bodyLarge: OTextStyle.bodyLarge,
-            bodyMedium: OTextStyle.bodyMedium,
-            bodySmall: OTextStyle.bodySmall,
-            displayLarge: OTextStyle.displayLarge,
-            displayMedium: OTextStyle.displayMedium,
-            displaySmall: OTextStyle.displaySmall,
-            headlineLarge: OTextStyle.headingLarge,
-            headlineMedium: OTextStyle.headingMedium,
-            headlineSmall: OTextStyle.headingSmall,
-            labelLarge: OTextStyle.labelLarge,
-            labelMedium: OTextStyle.labelMedium,
-            labelSmall: OTextStyle.labelSmall,
-          ),
-          fontFamily: OTextStyle.fontFamily,
-        ),
-        title: 'OneStop IITG',
-        routes: routes,
+            darkTheme: ThemeData(
+              brightness: Brightness.dark,
+              scaffoldBackgroundColor: const Color(0xFF1C1C1E),
+              appBarTheme: AppBarTheme(
+                backgroundColor: const Color(0xFF1C1C1E),
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: const Color(0xFF1C1C1E),
+                  statusBarIconBrightness: Brightness.light,
+                  statusBarBrightness: Brightness.dark,
+                  systemNavigationBarColor: const Color(0xFF1C1C1E),
+                  systemNavigationBarIconBrightness: Brightness.light,
+                ),
+              ),
+              textTheme: const TextTheme(
+                bodyLarge: OTextStyle.bodyLarge,
+                bodyMedium: OTextStyle.bodyMedium,
+                bodySmall: OTextStyle.bodySmall,
+                displayLarge: OTextStyle.displayLarge,
+                displayMedium: OTextStyle.displayMedium,
+                displaySmall: OTextStyle.displaySmall,
+                headlineLarge: OTextStyle.headingLarge,
+                headlineMedium: OTextStyle.headingMedium,
+                headlineSmall: OTextStyle.headingSmall,
+                labelLarge: OTextStyle.labelLarge,
+                labelMedium: OTextStyle.labelMedium,
+                labelSmall: OTextStyle.labelSmall,
+              ),
+              fontFamily: OTextStyle.fontFamily,
+            ),
+            themeMode: themeStore.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            title: 'OneStop IITG',
+            routes: routes,
+          );
+        },
       ),
     );
   }

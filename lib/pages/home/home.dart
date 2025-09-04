@@ -134,9 +134,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         borderRadius: BorderRadius.circular(OCornerRadius.m),
         boxShadow: [
           BoxShadow(
-            color: OColor.black.withValues(alpha: 0.08),
-            blurRadius: 10,
-            offset: const Offset(0, 8),
+            color: OColor.black.withValues(alpha: 0.03),
+            blurRadius: 16,
+            offset: const Offset(0, 16),
           ),
         ],
       ),

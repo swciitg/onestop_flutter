@@ -219,9 +219,9 @@ class _EditProfileState extends State<EditProfile> {
                                 label: 'Roll Number',
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Field cannot be empty';
-                                  } else if (value.length != 9) {
-                                    return 'Enter valid roll number';
+                                  return 'Field cannot be empty';
+                                  } else if (value.length != 9 && value.length != 11) {
+                                  return 'Enter valid roll number';
                                   }
                                   return null;
                                 },
@@ -230,7 +230,7 @@ class _EditProfileState extends State<EditProfile> {
                                 ],
                                 isNecessary: true,
                                 controller: _rollController,
-                                maxLength: 9,
+                                maxLength: 11,
                                 maxLines: 1,
                                 counter: true,
                               ),

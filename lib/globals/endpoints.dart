@@ -65,7 +65,7 @@ class Endpoints {
   static const String messOpi = "/api/opi";
   static const String homePageUrls = '/homepage';
 
-  static getHeader() {
+  static Map<String, dynamic> getHeader() {
     return {
       'Content-Type': 'application/json',
       'security-key': Endpoints.apiSecurityKey

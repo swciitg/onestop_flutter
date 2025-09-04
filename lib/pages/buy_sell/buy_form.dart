@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/repository/bns_repository.dart';
 import 'package:onestop_dev/repository/lnf_repository.dart';
@@ -218,7 +219,7 @@ class _BuySellFormState extends State<BuySellForm> {
               msg: "Request posted successfully!",
               backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7),
             );
-            Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
+            navigatorKey.currentState?.popUntil(ModalRoute.withName(HomePage.id));
           } else {
             dbSavingController.sink.add(false);
             savingToDB = false;

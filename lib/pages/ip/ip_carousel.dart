@@ -65,7 +65,7 @@ class _RouterPageState extends State<RouterPage> {
     });
   }
 
-  function(argso) {
+  void function(HostelDetails argso) {
     setState(() {
       seven = IpPage(argso: argso);
     });

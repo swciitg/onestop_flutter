@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/stores/common_store.dart';
+import 'package:onestop_dev/stores/theme_store.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 
@@ -61,12 +62,33 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
             ),
           ],
         ),
-        IconButton(
-          onPressed: () {
-            context.read<CommonStore>().isPersonalNotif = true;
-            Navigator.pushNamed(context, NotificationPage.id);
-          },
-          icon: Icon(FluentIcons.alert_32_regular, color: OColor.green600),
+        Row(
+          children: [
+            // Theme toggle button
+            Consumer<ThemeStore>(
+              builder: (context, themeStore, child) {
+                return IconButton(
+                  onPressed: () async {
+                    await themeStore.toggleTheme();
+                  },
+                  icon: Icon(
+                    themeStore.isLightMode
+                        ? FluentIcons.weather_moon_24_regular
+                        : FluentIcons.weather_sunny_24_regular,
+                    color: OColor.green600,
+                  ),
+                );
+              },
+            ),
+            // Notification button
+            IconButton(
+              onPressed: () {
+                context.read<CommonStore>().isPersonalNotif = true;
+                Navigator.pushNamed(context, NotificationPage.id);
+              },
+              icon: Icon(FluentIcons.alert_32_regular, color: OColor.green600),
+            ),
+          ],
         ),
       ],
     ),
