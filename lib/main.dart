@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugInvertOversizedImages = true;
+    debugInvertOversizedImages = false;
     return MultiProvider(
       providers: [
         Provider<LoginStore>(create: (_) => LoginStore()),

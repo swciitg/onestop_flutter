@@ -2,9 +2,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
-import 'package:onestop_dev/pages/elections/election_login.dart';
-import 'package:onestop_dev/pages/events_feed/events_appbar.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
+import 'package:onestop_dev/pages/lib_token/lib_token.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
@@ -35,6 +34,13 @@ List<HomeTabTile> serviceLinks = [
   //   routeId: ElectionLoginWebView.id,
   //   newBadge: true,
   // ),
+  
+  const HomeTabTile(
+    label: "Library Token",
+    icon: FluentIcons.library_16_filled,
+    routeId: Library.id,
+    newBadge: true,
+  ),
   const HomeTabTile(label: "GateLog", icon: FluentIcons.door_20_regular, routeId: GateLogPage.id),
   const HomeTabTile(
     label: "Lost and Found",
