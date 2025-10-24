@@ -46,7 +46,6 @@ class SlotInfo {
   }
 }
 
-const roll = "230121021";
 Future<SlotInfo> getSlots(String rollNo) async {
   try {
     Dio dio = Dio();
@@ -61,9 +60,7 @@ Future<SlotInfo> getSlots(String rollNo) async {
         return SlotInfo();
       }
     } else {
-      throw Exception(
-        "status code - ${response.statusCode} body - ${response.data}",
-      );
+      throw Exception("status code - ${response.statusCode} body - ${response.data}");
     }
   } on DioException catch (e) {
     log("Dio error fetching slots: $e");
@@ -93,9 +90,7 @@ class _LibraryState extends State<Library> {
   late IOWebSocketChannel channel;
 
   void handleSocket() async {
-    channel = IOWebSocketChannel.connect(
-      Uri.parse('$wsUrl?roll_no=${user.rollNo}'),
-    );
+    channel = IOWebSocketChannel.connect(Uri.parse('$wsUrl?roll_no=${user.rollNo}'));
 
     channel.stream.listen(
       (data) {
@@ -117,19 +112,21 @@ class _LibraryState extends State<Library> {
           log("SLOT DECODING ERROR: $e");
         }
       },
-      onError: (error) {
+      onError: (error) async {
         log("SOCKET ERROR: $error");
         // Attempt to reconnect after error
-        // Future.delayed(Duration(seconds: 5), () {
-        //   if (mounted) handleSocket();
-        // });
+        await channel.sink.close();
+        Future.delayed(Duration(seconds: 2), () {
+          if (mounted) initLibToken();
+        });
       },
-      onDone: () {
+      onDone: () async {
         log("SOCKET CONNECTION CLOSED");
         // Attempt to reconnect when connection closes
-        // Future.delayed(Duration(seconds: 5), () {
-        //   if (mounted) handleSocket();
-        // });
+        await channel.sink.close();
+        Future.delayed(Duration(seconds: 2), () {
+          if (mounted) initLibToken();
+        });
       },
     );
   }
@@ -137,12 +134,12 @@ class _LibraryState extends State<Library> {
   @override
   void initState() {
     super.initState();
-    _getSlot();
+    initLibToken();
   }
 
-  void _getSlot() async {
+  void initLibToken() async {
     log("connecting to web Socket");
-    final initialSlotFuture = await getSlots(roll);
+    final initialSlotFuture = await getSlots(user.rollNo);
     setState(() {
       _currentSlot = initialSlotFuture;
     });
@@ -178,10 +175,7 @@ class _LibraryState extends State<Library> {
             children: [
               SizedBox(height: 8),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 24,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                 decoration: ShapeDecoration(
                   color: const Color(0xFF252525),
                   /* White */
@@ -208,9 +202,7 @@ class _LibraryState extends State<Library> {
                               child: SizedBox(
                                 width: 40,
                                 height: 40,
-                                child: Image.asset(
-                                  'assets/images/iitg_logo.png',
-                                ),
+                                child: Image.asset('assets/images/iitg_logo.png'),
                               ),
                             ),
                             WidgetSpan(child: SizedBox(width: 16)),
@@ -232,13 +224,11 @@ class _LibraryState extends State<Library> {
                     Divider(color: const Color(0x50E9E9EA)),
                     SizedBox(height: 8),
                     SizedBox(
-                      height: 100,
+                      height: 180,
                       child: Center(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
-                          child: CachedNetworkImage(
-                            imageUrl: getUserProfileUrlByRoll(user.rollNo),
-                          ),
+                          child: CachedNetworkImage(imageUrl: getUserProfileUrlByRoll(user.rollNo)),
                         ),
                       ),
                     ),
@@ -308,10 +298,7 @@ class _LibraryState extends State<Library> {
         color: const Color(0xFF252525),
         /* White */
         shape: RoundedRectangleBorder(
-          side: BorderSide(
-            width: 1,
-            color: const Color(0x50E9E9EA) /* Colors-Green-600 */,
-          ),
+          side: BorderSide(width: 1, color: const Color(0x50E9E9EA) /* Colors-Green-600 */),
           borderRadius: BorderRadius.circular(16),
         ),
       ),
@@ -346,9 +333,9 @@ class _LibraryState extends State<Library> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                DateFormat('MMM dd, hh:mm a').format(
-                  DateTime.parse("${_currentSlot!.date} ${_currentSlot!.time}"),
-                ),
+                DateFormat(
+                  'MMM dd, hh:mm a',
+                ).format(DateTime.parse("${_currentSlot!.date} ${_currentSlot!.time}")),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,
