@@ -142,10 +142,10 @@ class _LibraryState extends State<Library> {
 
   void _getSlot() async {
     log("connecting to web Socket");
-    // final initialSlotFuture = await getSlots(roll);
-    // setState(() {
-    //   _currentSlot = initialSlotFuture;
-    // });
+    final initialSlotFuture = await getSlots(roll);
+    setState(() {
+      _currentSlot = initialSlotFuture;
+    });
     handleSocket();
     log("connecting to web Socket");
   }
