@@ -3,7 +3,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
-decorationFUnction(String x) {
+InputDecoration decorationFunction(String x) {
   return InputDecoration(
     labelText: x,
     labelStyle: MyFonts.w500.setColor(kGrey7),
@@ -13,10 +13,7 @@ decorationFUnction(String x) {
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30.0),
-      borderSide: const BorderSide(
-        color: kGrey7,
-        width: 1,
-      ),
+      borderSide: const BorderSide(color: kGrey7, width: 1),
     ),
   );
 }

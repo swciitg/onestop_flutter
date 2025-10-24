@@ -15,8 +15,7 @@ class IpPage extends StatefulWidget {
 
 class _IpPageState extends State<IpPage> {
   List _items = [];
-  // ignore: prefer_typing_uninitialized_variables
-  var hostel;
+  Map<String, dynamic>? hostel;
   late HostelDetails args;
   // Fetch content from the json file
   Future<void> readJson() async {
@@ -46,9 +45,9 @@ class _IpPageState extends State<IpPage> {
       ipAdress = "No Data";
       gateway = "No Data";
     } else {
-      gateway = hostel["Default Gateway"];
-      subnet = hostel["Subnet mask"];
-      ipAdress = hostel["IP Adress Range"];
+      gateway = hostel!["Default Gateway"];
+      subnet = hostel!["Subnet mask"];
+      ipAdress = hostel!["IP Adress Range"];
       int k = 0;
       for (int i = 0; i < ipAdress.length; i++) {
         if (ipAdress[i] == '.') {

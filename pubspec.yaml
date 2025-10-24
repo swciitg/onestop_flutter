@@ -74,6 +74,7 @@ dependencies:
   file_picker: ^10.2.0
   shared_preferences: ^2.0.12
   url_launcher: ^6.0.20
+  app_links: ^6.4.1
   alphabet_scroll_view: ^0.3.1
   cached_network_image: ^3.3.1
   image_picker: ^1.1.2

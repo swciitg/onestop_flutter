@@ -1,11 +1,15 @@
 import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
 import 'package:onestop_dev/globals/database_strings.dart';
-import 'package:onestop_dev/globals/enums.dart';
-import 'package:onestop_dev/repository/notification_repository.dart';
+import 'package:onestop_dev/main.dart';
+import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_dev/pages/login/blocked.dart';
+import 'package:onestop_dev/pages/login/login.dart';
 import 'package:onestop_dev/repository/user_repository.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,35 +21,55 @@ class LoginStore {
   static bool isGuest = false;
   static bool isProfileComplete = false;
 
-  Future<SplashResponse> isAlreadyAuthenticated() async {
-    SharedPreferences user = await SharedPreferences.getInstance();
-    Map userInfo = {};
-    if (user.containsKey("userInfo")) {
-      if (await hasInternetConnection()) {
-        try {
-          userInfo = await UserRepository().getUserProfile();
-        } catch (e) {
-          if ((e as DioException).response == null) {
-            return SplashResponse.authenticated;
-          }
-          if (e.response!.statusCode == 418) {
-            return SplashResponse.blocked;
-          } else {
-            return SplashResponse.authenticated;
-          }
-        }
-        await user.setString('userInfo', jsonEncode(userInfo));
-
-        await saveToUserInfo(user);
-      } else {
-        userData = jsonDecode(user.getString('userInfo') ?? "");
-      }
-      if (user.containsKey("isProfileComplete")) {
-        isProfileComplete = true;
-      }
-      return SplashResponse.authenticated;
+  Future<void> checkAuthenticationStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey("userInfo")) {
+      navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        LoginPage.id,
+        (Route<dynamic> route) => false,
+      );
+      return;
     }
-    return SplashResponse.notAuthenticated;
+    final data = prefs.getString('userInfo') ?? '';
+    userData = jsonDecode(data);
+    navigatorKey.currentState?.pushNamedAndRemoveUntil(
+      HomePage.id,
+      (Route<dynamic> route) => false,
+    );
+    await Future.delayed(Duration(seconds: 1));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await checkBlockedStatus();
+    });
+  }
+
+  Future<void> checkBlockedStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map userInfo = {};
+    if (await hasInternetConnection()) {
+      try {
+        userInfo = await UserRepository().getUserProfile();
+      } catch (e) {
+        if ((e as DioException).response == null) {
+          log("Authenticated: ${e.toString()}");
+        }
+        if (e.response?.statusCode == 418) {
+          navigatorKey.currentState?.pushNamedAndRemoveUntil(
+            BlockedPage.id,
+            (Route<dynamic> route) => false,
+          );
+        } else {
+          log("Authenticated: ${e.response.toString()}");
+        }
+      }
+      await prefs.setString('userInfo', jsonEncode(userInfo));
+
+      await saveToUserInfo(prefs);
+    } else {
+      userData = jsonDecode(prefs.getString('userInfo') ?? "");
+    }
+    if (prefs.containsKey("isProfileComplete")) {
+      isProfileComplete = true;
+    }
   }
 
   bool get isGuestUser {
@@ -60,7 +84,7 @@ class LoginStore {
     await Future.wait([
       saveTokensToPrefs(sharedPrefs, response.data),
       saveToUserInfo(sharedPrefs),
-      sharedPrefs.setBool("isProfileComplete", true)
+      sharedPrefs.setBool("isProfileComplete", true),
     ]);
   }
 

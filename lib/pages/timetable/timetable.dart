@@ -29,7 +29,8 @@ class _TimeTableTabState extends State<TimeTableTab> {
     return LoginStore.isGuest
         ? const GuestRestrictAccess()
         : SingleChildScrollView(
-            child: Observer(builder: (context) {
+          child: Observer(
+            builder: (context) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -45,17 +46,18 @@ class _TimeTableTabState extends State<TimeTableTab> {
                             }
                           },
                           child: ClipRRect(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(40),
-                            ),
+                            borderRadius: const BorderRadius.all(Radius.circular(40)),
                             child: Container(
                               height: 32,
                               color: (store.isTimetable) ? lBlue2 : kGrey2,
                               child: Center(
-                                child: Text("Timetable",
-                                    style: (store.isTimetable)
-                                        ? OnestopFonts.w500.setColor(kBlueGrey)
-                                        : OnestopFonts.w500.setColor(kWhite)),
+                                child: Text(
+                                  "Timetable",
+                                  style:
+                                      (store.isTimetable)
+                                          ? OnestopFonts.w500.setColor(kBlueGrey)
+                                          : OnestopFonts.w500.setColor(kWhite),
+                                ),
                               ),
                             ),
                           ),
@@ -69,18 +71,17 @@ class _TimeTableTabState extends State<TimeTableTab> {
                             }
                           },
                           child: ClipRRect(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(40),
-                            ),
+                            borderRadius: const BorderRadius.all(Radius.circular(40)),
                             child: Container(
                               height: 32,
                               color: !(store.isTimetable) ? lBlue2 : kGrey2,
                               child: Center(
                                 child: Text(
                                   "Schedule",
-                                  style: !(store.isTimetable)
-                                      ? OnestopFonts.w500.setColor(kBlueGrey)
-                                      : OnestopFonts.w500.setColor(kWhite),
+                                  style:
+                                      !(store.isTimetable)
+                                          ? OnestopFonts.w500.setColor(kBlueGrey)
+                                          : OnestopFonts.w500.setColor(kWhite),
                                 ),
                               ),
                             ),
@@ -93,53 +94,60 @@ class _TimeTableTabState extends State<TimeTableTab> {
                   // Timetable column
                   (store.isTimetable)
                       ? Column(
-                          children: [
-                            //Day selector
-                            const SizedBox(
-                              height: 130,
-                              child: DateSlider(),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            FutureBuilder(
-                                future: store.initialiseTT(),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    return ListShimmer();
-                                  }
-                                  return Observer(builder: (context) {
+                        children: [
+                          //Day selector
+                          const SizedBox(height: 130, child: DateSlider()),
+                          const SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: FutureBuilder(
+                              future: store.initialiseTT(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return ListShimmer();
+                                }
+                                return Observer(
+                                  builder: (context) {
                                     return ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: const ClampingScrollPhysics(),
-                                        itemCount: store.todayTimeTable.length,
-                                        itemBuilder: (context, index) =>
-                                            store.todayTimeTable[index]);
-                                  });
-                                }),
-                          ],
-                        )
+                                      shrinkWrap: true,
+                                      physics: const ClampingScrollPhysics(),
+                                      itemCount: store.todayTimeTable.length,
+                                      itemBuilder: (context, index) => store.todayTimeTable[index],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: 160),
+                        ],
+                      )
                       // Exam schedule column
-                      : Column(
+                      : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             FutureBuilder<RegisteredCourses>(
-                                future: store.getCourses(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    return ListShimmer();
-                                  } else if (!snapshot.hasData) {
-                                    return ListShimmer();
-                                  }
-                                  return ScheduleList(
-                                      data: snapshot.requireData);
-                                })
+                              future: store.getCourses(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  return ListShimmer();
+                                } else if (!snapshot.hasData) {
+                                  return ListShimmer();
+                                }
+                                return ScheduleList(data: snapshot.requireData);
+                              },
+                            ),
+                            const SizedBox(height: 160),
                           ],
                         ),
+                      ),
                 ],
               );
-            }),
-          );
+            },
+          ),
+        );
   }
 }
 
@@ -160,37 +168,22 @@ class _ScheduleListState extends State<ScheduleList> {
   // Sort the courses according to date and time
   List<CourseModel> _sort(List<CourseModel> input, {String type = "midsem"}) {
     if (type == "midsem") {
-      input.removeWhere(
-          (element) => element.midsem == null || element.midsem == "");
-      input.sort((a, b) =>
-          DateTime.parse(a.midsem!).isAfter(DateTime.parse(b.midsem!))
-              ? 1
-              : -1);
+      input.removeWhere((element) => element.midsem == null || element.midsem == "");
+      input.sort((a, b) => DateTime.parse(a.midsem!).isAfter(DateTime.parse(b.midsem!)) ? 1 : -1);
       if (DateTime.parse(input.last.midsem!).isBefore(DateTime.now())) {
         isMidsDone = true;
       }
     } else {
-      input.removeWhere(
-          (element) => element.endsem == null || element.endsem == "");
-      input.sort((a, b) =>
-          DateTime.parse(a.endsem!).isAfter(DateTime.parse(b.endsem!))
-              ? 1
-              : -1);
+      input.removeWhere((element) => element.endsem == null || element.endsem == "");
+      input.sort((a, b) => DateTime.parse(a.endsem!).isAfter(DateTime.parse(b.endsem!)) ? 1 : -1);
     }
     return input;
   }
 
   final Widget _noData = Column(
     children: [
-      const SizedBox(
-        height: 25,
-      ),
-      Center(
-        child: Text(
-          'No data found',
-          style: OnestopFonts.w500.size(14).setColor(kGrey8),
-        ),
-      ),
+      const SizedBox(height: 25),
+      Center(child: Text('No data found', style: OnestopFonts.w500.size(14).setColor(kGrey8))),
     ],
   );
 
@@ -215,18 +208,14 @@ class _ScheduleListState extends State<ScheduleList> {
           children: [
             midsem.isNotEmpty
                 ? Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(
-                      "Midsem Schedule",
-                      style: OnestopFonts.w500.size(20).setColor(kWhite),
-                    ),
-                  )
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    "Midsem Schedule",
+                    style: OnestopFonts.w500.size(20).setColor(kWhite),
+                  ),
+                )
                 : Container(),
-            for (var course in midsem)
-              ExamTile(
-                course: course,
-                isEndSem: false,
-              ),
+            for (var course in midsem) ExamTile(course: course, isEndSem: false),
           ],
         ),
         Column(
@@ -234,18 +223,14 @@ class _ScheduleListState extends State<ScheduleList> {
           children: [
             endsem.isNotEmpty
                 ? Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(
-                      "Endsem Schedule",
-                      style: OnestopFonts.w500.size(20).setColor(kWhite),
-                    ),
-                  )
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    "Endsem Schedule",
+                    style: OnestopFonts.w500.size(20).setColor(kWhite),
+                  ),
+                )
                 : Container(),
-            for (var course in endsem)
-              ExamTile(
-                course: course,
-                isEndSem: true,
-              ),
+            for (var course in endsem) ExamTile(course: course, isEndSem: true),
           ],
         ),
       ];
@@ -254,13 +239,10 @@ class _ScheduleListState extends State<ScheduleList> {
         examColumn = examColumn.reversed.map((e) => e).toList();
       }
 
-      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        midsem.isEmpty && endsem.isEmpty
-            ? _noData
-            : Column(
-                children: examColumn,
-              ),
-      ]);
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [midsem.isEmpty && endsem.isEmpty ? _noData : Column(children: examColumn)],
+      );
     } else {
       return _noData;
     }
