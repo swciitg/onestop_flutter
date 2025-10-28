@@ -11,10 +11,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 import 'call_map_button.dart';
 
 class RestaurantHeader extends StatelessWidget {
-  const RestaurantHeader({
-    super.key,
-    required this.restaurant,
-  });
+  const RestaurantHeader({super.key, required this.restaurant});
   final RestaurantModel restaurant;
 
   @override
@@ -63,22 +60,27 @@ class RestaurantHeader extends StatelessWidget {
                     color: Colors.grey.withValues(alpha: 0.2),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5.0,
+                      vertical: 2.0,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Icon(FluentIcons.circle_12_filled, color: kWhite, size: 5),
+                          child: Icon(
+                            FluentIcons.circle_12_filled,
+                            color: kWhite,
+                            size: 5,
+                          ),
                         ),
                         const Icon(
                           FluentIcons.clock_24_regular,
                           color: lRed2,
                           size: 12,
                         ),
-                        const SizedBox(
-                          width: 4,
-                        ),
+                        const SizedBox(width: 4),
                         Text(
                           'Closing time: ${restaurant.closingTime}',
                           style: MyFonts.w300.size(12).setColor(lRed2),
@@ -110,17 +112,19 @@ class RestaurantHeader extends StatelessWidget {
                           },
                         ),
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: CallMapButton(
                           fontSize: 14,
                           callMap: 'Map',
                           icon: FluentIcons.location_24_regular,
                           callback: () {
-                            openMap(restaurant.latitude, restaurant.longitude, context,
-                                restaurant.outletName);
+                            openMap(
+                              restaurant.latitude,
+                              restaurant.longitude,
+                              context,
+                              restaurant.outletName,
+                            );
                           },
                         ),
                       ),
@@ -129,13 +133,8 @@ class RestaurantHeader extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 3.0,
-                ),
-                child: Container(
-                  height: 3,
-                  color: kBlueGrey,
-                ),
+                padding: const EdgeInsets.symmetric(vertical: 3.0),
+                child: Container(height: 3, color: kBlueGrey),
               ),
               // Padding(
               //   padding: const EdgeInsets.symmetric(
@@ -157,15 +156,14 @@ class RestaurantHeader extends StatelessWidget {
               //   // ),
               // ),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                ),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Container(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      "Starters",
-                      style: MyFonts.w600.size(16).setColor(kWhite),
-                    )),
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    "Starters",
+                    style: MyFonts.w600.size(16).setColor(kWhite),
+                  ),
+                ),
               ),
             ],
           ),
