@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/widgets/food/mess/mess_menu.dart';
@@ -41,7 +40,10 @@ class FoodTab extends StatelessWidget {
                       if (snapshot.hasData) {
                         List<Widget> foodList =
                             snapshot.data!
-                                .map((e) => RestaurantTile(restaurantModel: e))
+                                .map((e) => Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                  child: RestaurantTile(restaurantModel: e),
+                                ))
                                 .toList();
                         return Transform.translate(
                           offset: Offset(
@@ -67,8 +69,8 @@ class FoodTab extends StatelessWidget {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
