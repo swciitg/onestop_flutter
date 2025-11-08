@@ -101,5 +101,16 @@
 		</dict>
 	</dict>
 	</dict>
+	<key>CFURLTypes</key>
+	<array>
+		<dict>
+			<key>CFURLName</key>
+			<string>onestopiitg.auth</string>
+			<key>CFURLSchemes</key>
+			<array>
+				<string>onestopiitg</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

@@ -104,48 +104,36 @@ abstract class _TimetableStore with Store {
     isTimetable = !isTimetable;
   }
 
-  List<Widget> get homeTimeTable {
+  List<CourseModel> get homeTimeTable {
     DateTime current = DateTime.now();
     String day = DateFormat.EEEE().format(DateTime.now());
     if (current.weekday == 6 || current.weekday == 7) {
       CourseModel noClass = CourseModel();
       noClass.instructor = '';
       noClass.course = 'Happy Weekend !';
-      noClass.timings = {
-        day: "",
-      };
-      return List.filled(1, TimetableTile(course: noClass));
+      noClass.timings = {day: ""};
+      return [noClass];
     }
     current = dates[0];
     DateFormat dateFormat = DateFormat("hh:00 - hh:55 a");
-    List<Widget> l = [
-      ...allTimetableCourses[current.weekday - 1]
-          .morning
+    List<CourseModel> upcomingClasses = [
+      ...allTimetableCourses[current.weekday - 1].morning
           .where((e) => dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
           .toList()
-          .map((e) => TimetableTile(
-                course: e,
-                inHomePage: true,
-              )),
-      ...allTimetableCourses[current.weekday - 1]
-          .afternoon
+          .map((e) => e),
+      ...allTimetableCourses[current.weekday - 1].afternoon
           .where((e) => dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
           .toList()
-          .map((e) => TimetableTile(
-                course: e,
-                inHomePage: true,
-              ))
+          .map((e) => e),
     ];
-    if (l.isEmpty) {
+    if (upcomingClasses.isEmpty) {
       CourseModel noClass = CourseModel();
       noClass.instructor = '';
       noClass.course = 'No upcoming classes';
-      noClass.timings = {
-        day: "",
-      };
-      l.add(TimetableTile(course: noClass));
+      noClass.timings = {day: ""};
+      upcomingClasses.add(noClass);
     }
-    return l;
+    return upcomingClasses;
   }
 
   @computed
@@ -153,20 +141,11 @@ abstract class _TimetableStore with Store {
     int timetableIndex = dates[selectedDate].weekday - 1;
     List<Widget> l = [
       ...allTimetableCourses[timetableIndex].morning.map((e) => TimetableTile(course: e)),
-      const TextDivider(
-        text: 'Lunch Break',
-      ),
-      ...allTimetableCourses[timetableIndex].afternoon.map((e) => TimetableTile(course: e))
+      const TextDivider(text: 'Lunch Break'),
+      ...allTimetableCourses[timetableIndex].afternoon.map((e) => TimetableTile(course: e)),
     ];
     if (l.length == 1) {
-      l = [
-        Center(
-          child: Text(
-            'No data found',
-            style: MyFonts.w500.size(14).setColor(kGrey8),
-          ),
-        )
-      ];
+      l = [Center(child: Text('No data found', style: MyFonts.w500.size(14).setColor(kGrey8)))];
     }
     return l;
   }

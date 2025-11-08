@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/check_last_updated.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/services/notifications_service.dart';
+import 'package:onestop_dev/services/app_shortcuts_service.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -15,8 +15,8 @@ import 'package:onestop_dev/stores/medical_timetable_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
+import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
-
 import 'firebase_options.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -39,6 +39,9 @@ void main() async {
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
   );
 
+  await AppShortcutsService.initialize();
+  await ThemeStore.instance.initTheme();
+
   runApp(const MyApp());
 }
 
@@ -53,6 +56,7 @@ class MyApp extends StatelessWidget {
     debugInvertOversizedImages = true;
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<ThemeStore>(create: (_) => ThemeStore()),
         Provider<LoginStore>(create: (_) => LoginStore()),
         Provider<RestaurantStore>(create: (_) => RestaurantStore()),
         Provider<MapBoxStore>(create: (_) => MapBoxStore()),
@@ -62,14 +66,75 @@ class MyApp extends StatelessWidget {
         Provider<TimetableStore>(create: (_) => TimetableStore()),
         Provider<MedicalTimetableStore>(create: (_) => MedicalTimetableStore()),
       ],
-      child: MaterialApp(
-        navigatorKey: navigatorKey,
-        scaffoldMessengerKey: rootScaffoldMessengerKey,
-        debugShowCheckedModeBanner: false,
-        initialRoute: SplashPage.id,
-        theme: ThemeData(scaffoldBackgroundColor: kBackground, splashColor: Colors.transparent),
-        title: 'OneStop IITG',
-        routes: routes,
+      child: Consumer<ThemeStore>(
+        builder: (context, themeStore, child) {
+          return MaterialApp(
+            key: ValueKey(themeStore.currentTheme),
+            navigatorKey: navigatorKey,
+            scaffoldMessengerKey: rootScaffoldMessengerKey,
+            debugShowCheckedModeBanner: false,
+            initialRoute: SplashPage.id,
+            theme: ThemeData(
+              brightness: Brightness.light,
+              scaffoldBackgroundColor: OColor.gray100,
+              appBarTheme: AppBarTheme(
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: OColor.gray100,
+                  statusBarIconBrightness: Brightness.dark,
+                  statusBarBrightness: Brightness.light,
+                  systemNavigationBarColor: OColor.white,
+                  systemNavigationBarIconBrightness: Brightness.dark,
+                ),
+              ),
+              textTheme: const TextTheme(
+                bodyLarge: OTextStyle.bodyLarge,
+                bodyMedium: OTextStyle.bodyMedium,
+                bodySmall: OTextStyle.bodySmall,
+                displayLarge: OTextStyle.displayLarge,
+                displayMedium: OTextStyle.displayMedium,
+                displaySmall: OTextStyle.displaySmall,
+                headlineLarge: OTextStyle.headingLarge,
+                headlineMedium: OTextStyle.headingMedium,
+                headlineSmall: OTextStyle.headingSmall,
+                labelLarge: OTextStyle.labelLarge,
+                labelMedium: OTextStyle.labelMedium,
+                labelSmall: OTextStyle.labelSmall,
+              ),
+              fontFamily: OTextStyle.fontFamily,
+            ),
+            darkTheme: ThemeData(
+              brightness: Brightness.dark,
+              scaffoldBackgroundColor: OColor.gray100,
+              appBarTheme: AppBarTheme(
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: OColor.gray100,
+                  statusBarIconBrightness: Brightness.light,
+                  statusBarBrightness: Brightness.dark,
+                  systemNavigationBarColor: OColor.white,
+                  systemNavigationBarIconBrightness: Brightness.light,
+                ),
+              ),
+              textTheme: const TextTheme(
+                bodyLarge: OTextStyle.bodyLarge,
+                bodyMedium: OTextStyle.bodyMedium,
+                bodySmall: OTextStyle.bodySmall,
+                displayLarge: OTextStyle.displayLarge,
+                displayMedium: OTextStyle.displayMedium,
+                displaySmall: OTextStyle.displaySmall,
+                headlineLarge: OTextStyle.headingLarge,
+                headlineMedium: OTextStyle.headingMedium,
+                headlineSmall: OTextStyle.headingSmall,
+                labelLarge: OTextStyle.labelLarge,
+                labelMedium: OTextStyle.labelMedium,
+                labelSmall: OTextStyle.labelSmall,
+              ),
+              fontFamily: OTextStyle.fontFamily,
+            ),
+            themeMode: themeStore.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            title: 'OneStop IITG',
+            routes: routes,
+          );
+        },
       ),
     );
   }
