@@ -53,6 +53,7 @@ var field = UITextField()
   }
 
   private func addSecureView(){
+    guard let window = window else { return }
     if(!window.subviews.contains(field)){
         window.addSubview(field)
         field.centerYAnchor.constraint(equalTo: window.centerYAnchor).isActive = true
