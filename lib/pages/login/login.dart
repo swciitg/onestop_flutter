@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/pages/login/welcome.dart';
 import 'package:onestop_dev/widgets/login/login_webview.dart';
@@ -15,7 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool loading = false;
-  bool useExternalBrowserLogin = true;
+  bool useExternalBrowserLogin = Platform.isAndroid;
 
   @override
   void initState() {
