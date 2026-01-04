@@ -95,9 +95,9 @@ class _MapBoxState extends State<MapBox> {
                             Factory<OneSequenceGestureRecognizer>(
                                 () => EagerGestureRecognizer())
                           },
+                          style: mapString,
                           onMapCreated: (mapcontroller) {
                             controller = mapcontroller;
-                            controller.setMapStyle(mapString);
                             mapStore.mapController = mapcontroller;
                           },
                           initialCameraPosition: CameraPosition(

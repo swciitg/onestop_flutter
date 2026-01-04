@@ -166,7 +166,7 @@ class _DetailsUpspState extends State<DetailsUpsp> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 5),
                           child: DropdownButtonFormField<Hostel>(
-                            value: selectedHostel,
+                            initialValue: selectedHostel,
                             validator: (val) {
                               if (val == null || val == Hostel.none) {
                                 return "Hostel can not be empty";

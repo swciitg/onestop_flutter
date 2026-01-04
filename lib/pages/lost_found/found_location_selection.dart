@@ -93,7 +93,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: DropdownButtonFormField<String>(
-                  value: selectedDropdown == "Library" ? selectedLocation : "Library",
+                  initialValue: selectedDropdown == "Library" ? selectedLocation : "Library",
                   icon: const Icon(
                     FluentIcons.chevron_down_24_regular,
                     color: kWhite,
@@ -126,7 +126,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: DropdownButtonFormField<String>(
-                  value: selectedDropdown == "Hostel" ? selectedLocation : "Hostel",
+                  initialValue: selectedDropdown == "Hostel" ? selectedLocation : "Hostel",
                   icon: const Icon(
                     FluentIcons.chevron_down_24_regular,
                     color: kWhite,
@@ -159,7 +159,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: DropdownButtonFormField<String>(
-                  value: selectedDropdown == "SAC" ? selectedLocation : "SAC",
+                  initialValue: selectedDropdown == "SAC" ? selectedLocation : "SAC",
                   icon: const Icon(
                     FluentIcons.chevron_down_24_regular,
                     color: kWhite,
@@ -192,7 +192,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: DropdownButtonFormField<String>(
-                  value: selectedDropdown == "Core" ? selectedLocation : "Core",
+                  initialValue: selectedDropdown == "Core" ? selectedLocation : "Core",
                   icon: const Icon(
                     FluentIcons.chevron_down_24_regular,
                     color: kWhite,
@@ -258,7 +258,7 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
   }
 }
 
-decfunction(String x) {
+InputDecoration decfunction(String x) {
   return InputDecoration(
     labelText: x,
     labelStyle: OnestopFonts.w500.setColor(kGrey7),

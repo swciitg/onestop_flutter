@@ -66,7 +66,7 @@ class _RouterPageState extends State<RouterPage> {
     });
   }
 
-  function(argso) {
+  void function(HostelDetails argso) {
     setState(() {
       seven = IpPage(argso: argso);
     });
@@ -179,7 +179,7 @@ class _RouterPageState extends State<RouterPage> {
                                                     child:
                                                         DropdownButtonFormField<
                                                             String>(
-                                                      value: dropdownValue,
+                                                      initialValue: dropdownValue,
                                                       icon: const Icon(Icons
                                                           .arrow_drop_down),
                                                       style: MyFonts.w500

@@ -3,7 +3,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
-decorationFUnction(String x) {
+InputDecoration decorationFUnction(String x) {
   return InputDecoration(
     labelText: x,
     labelStyle: MyFonts.w500.setColor(kGrey7),

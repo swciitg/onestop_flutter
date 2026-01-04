@@ -31,49 +31,52 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
   @override
   Widget build(BuildContext context) {
     var travelStore = context.read<TravelStore>();
-    return Observer(builder: (context) {
-      return Column(
-        children: [
-          Row(
-            children: [
-              TextButton(
-                onPressed: () {
-                  // showDialog(context: context, builder: (_) => const TrackingDailog());
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MilliTrack(),
-                    ),
-                  );
-                },
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(40),
+    return Observer(
+      builder: (context) {
+        return Column(
+          children: [
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // showDialog(context: context, builder: (_) => const TrackingDailog());
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MilliTrack()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: lBlue2,
+                    foregroundColor: kBlueGrey,
+                    elevation: 2,
+                    shadowColor: lBlue2.withValues(alpha: 0.4),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                   ),
-                  child: Container(
-                    height: 32,
-                    width: 83,
-                    color: lBlue2,
-                    child: Center(
-                      child: Text(" Track Bus ", style: MyFonts.w500.setColor(kBlueGrey)),
-                    ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.location_on_outlined, size: 18),
+                      const SizedBox(width: 6),
+                      Text("Track Bus", style: MyFonts.w600.size(13).setColor(kBlueGrey)),
+                      const SizedBox(width: 4),
+                      const Icon(Icons.arrow_forward_ios, size: 12),
+                    ],
                   ),
                 ),
-              ),
-              Expanded(
-                child: Container(),
-              ),
-              TravelDropDown(
-                value: travelStore.busDayType,
-                onChange: travelStore.setBusDayString,
-                items: const ['Weekdays', 'Weekends'],
-              )
-            ],
-          ),
-          BusDetails(index: travelStore.busDayTypeIndex)
-        ],
-      );
-    });
+                Expanded(child: Container()),
+                TravelDropDown(
+                  value: travelStore.busDayType,
+                  onChange: travelStore.setBusDayString,
+                  items: const ['Weekdays', 'Weekends'],
+                ),
+              ],
+            ),
+            BusDetails(index: travelStore.busDayTypeIndex),
+          ],
+        );
+      },
+    );
   }
 }
 
@@ -92,14 +95,16 @@ class _MilliTrackState extends State<MilliTrack> {
   @override
   void initState() {
     super.initState();
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(NavigationDelegate(
-        onPageFinished: (url) async {
-          log("URL: $url");
-          if (url.contains('http://track4.millitrack.com/modern/#/login')) {
-            await Future.delayed(Duration(milliseconds: 500));
-            await controller.runJavaScript('''
+    controller =
+        WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onPageFinished: (url) async {
+                log("URL: $url");
+                if (url.contains('http://track4.millitrack.com/modern/#/login')) {
+                  await Future.delayed(Duration(milliseconds: 500));
+                  await controller.runJavaScript('''
               (function() {
                   function setNativeValue(element, value) {
                     const lastValue = element.value;
@@ -135,11 +140,11 @@ class _MilliTrackState extends State<MilliTrack> {
                   }, 2000);
                 })();
             ''');
-          }
+                }
 
-          if (url == 'http://track4.millitrack.com/modern/#/') {
-            // Hide drawer anytime dashboard loads
-            await controller.runJavaScript('''
+                if (url == 'http://track4.millitrack.com/modern/#/') {
+                  // Hide drawer anytime dashboard loads
+                  await controller.runJavaScript('''
                 (function() {
                   setTimeout(() => {
                     const drawer = document.querySelector('.MuiDrawer-paperAnchorRight');
@@ -153,10 +158,11 @@ class _MilliTrackState extends State<MilliTrack> {
                   }, 2000);
                 })();
           ''');
-            log("Done");
-          }
-        },
-      ));
+                  log("Done");
+                }
+              },
+            ),
+          );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.loadRequest(Uri.parse('http://track4.millitrack.com/modern/#/login'));
     });
@@ -187,10 +193,7 @@ class _MilliTrackState extends State<MilliTrack> {
                   builder: (_) => const TrackingDailog(),
                 );
               },
-              icon: Icon(
-                Icons.open_in_new_rounded,
-                color: OneStopColors.primaryColor,
-              ),
+              icon: Icon(Icons.open_in_new_rounded, color: OneStopColors.primaryColor),
             ),
           ),
         ],

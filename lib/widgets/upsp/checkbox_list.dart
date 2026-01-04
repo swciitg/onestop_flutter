@@ -4,11 +4,7 @@ import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 class RadioButtonList extends StatefulWidget {
-  const RadioButtonList({
-    super.key,
-    required this.values,
-    required this.controller,
-  });
+  const RadioButtonList({super.key, required this.values, required this.controller});
   final List<String> values;
   final RadioButtonListController controller;
 
@@ -34,21 +30,20 @@ class _RadioButtonListState extends State<RadioButtonList> {
       itemBuilder: (context, i) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-          child: RadioListTile<String>(
-            controlAffinity: ListTileControlAffinity.leading,
-            value: widget.values[i],
+          child: RadioGroup<String>(
             groupValue: widget.controller.selectedItem,
-            activeColor: lBlue2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24.0),
-              side: const BorderSide(color: kGrey2),
-            ),
             onChanged: (v) {
               widget.controller.selectItem(v!);
             },
-            title: Text(
-              widget.values[i],
-              style: MyFonts.w600.size(14).setColor(kWhite),
+            child: RadioListTile<String>(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: widget.values[i],
+              activeColor: lBlue2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.0),
+                side: const BorderSide(color: kGrey2),
+              ),
+              title: Text(widget.values[i], style: MyFonts.w600.size(14).setColor(kWhite)),
             ),
           ),
         );
