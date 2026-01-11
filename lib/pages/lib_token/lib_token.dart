@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'package:barcode_widget/barcode_widget.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/profile_url.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/pages/lib_token/redis.dart';
+
 import 'package:onestop_dev/pages/lib_token/token_genrate.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -26,17 +27,11 @@ const wsUrl = String.fromEnvironment("LIB_TOKEN_SOCKET_URL");
 class SlotInfo {
   final int? slotId;
   final bool? isEmpty;
-  final int? time;           
+  final int? time;
   final String? date;
   final String? timeString;
 
-  SlotInfo({
-    this.slotId,
-    this.isEmpty,
-    this.time,
-    this.date,
-    this.timeString,
-  });
+  SlotInfo({this.slotId, this.isEmpty, this.time, this.date, this.timeString});
 
   factory SlotInfo.fromJson(Map<String, dynamic> json) {
     return SlotInfo(
@@ -46,13 +41,17 @@ class SlotInfo {
       date: json['date'] as String?,
       timeString: json['timeString'] as String?,
     );
-
-    
   }
   bool get isAssigned => slotId != null && isEmpty != null && isEmpty == false;
 
   Map<String, dynamic> toJson() {
-    return {'slotId': slotId, 'isEmpty': isEmpty, 'time': time, 'date': date, 'timeString': timeString  };
+    return {
+      'slotId': slotId,
+      'isEmpty': isEmpty,
+      'time': time,
+      'date': date,
+      'timeString': timeString,
+    };
   }
 
   DateTime? get dateTime {
@@ -68,7 +67,6 @@ class SlotInfo {
   }
 }
 
-
 final Dio _dio = Dio(
   BaseOptions(
     connectTimeout: const Duration(seconds: 10),
@@ -77,7 +75,6 @@ final Dio _dio = Dio(
 );
 
 Future<SlotInfo> getSlots(String rollNo) async {
-  // log("calling get slots api");
   try {
     // Dio _dio = Dio();
     final response = await _dio.get("$baseUrl/slot/$rollNo");
@@ -116,40 +113,43 @@ class Library extends StatefulWidget {
 class _LibraryState extends State<Library> {
   final OneStopUser user = OneStopUser.fromJson(LoginStore.userData);
 
-
   late String token;
   SlotInfo? _currentSlot;
   late IOWebSocketChannel channel;
   bool showQr = false;
+  bool isTokenExpired = false;
+  Timer? _timer;
 
+  void startTokenCycle() {
+    _timer?.cancel();
+    try {
+      channel.sink.close();
+    } catch (e) {
+      // Channel might not be initialized or already closed
+    }
 
-
-Future<void> generateAndStoreToken() async {
-  final redis = RedisService();
-
-  await redis.connect();
-
-  final generatedToken = token;
-  final success = await redis.storeToken(
-    generatedToken,
-  );
-
-  if (success) {
     setState(() {
-      token = generatedToken;
+      token = generateToken(8);
       showQr = true;
+      isTokenExpired = false;
     });
-  } else {
-    setState(() {
-      showQr = false;
+
+    handleSocket();
+
+    _timer = Timer(const Duration(seconds: 15), () {
+      if (mounted) {
+        setState(() {
+          showQr = false;
+          isTokenExpired = true;
+        });
+        channel.sink.close();
+      }
     });
   }
-}
 
   void handleSocket() async {
-
     log("connecting to web Socket");
-    channel = IOWebSocketChannel.connect(Uri.parse('$wsUrl?roll_no=${user.rollNo}'));
+    channel = IOWebSocketChannel.connect(Uri.parse('$wsUrl?roll_no=${user.rollNo}&token=$token'));
 
     channel.stream.listen(
       (data) {
@@ -193,10 +193,8 @@ Future<void> generateAndStoreToken() async {
   @override
   void initState() {
     super.initState();
-    token = generateToken(8);
-    generateAndStoreToken();
+    startTokenCycle();
     initLibToken();
-    handleSocket();
   }
 
   void initLibToken() async {
@@ -208,6 +206,7 @@ Future<void> generateAndStoreToken() async {
 
   @override
   void dispose() {
+    _timer?.cancel();
     channel.sink.close();
     super.dispose();
   }
@@ -304,7 +303,7 @@ Future<void> generateAndStoreToken() async {
                     ),
                     Text(
                       token,
-                      //user.rollNo,                      
+                      //user.rollNo,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: kWhite,
@@ -333,11 +332,23 @@ Future<void> generateAndStoreToken() async {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child:showQr? BarcodeWidget(
-                          drawText: false,
-                          barcode: Barcode.code128(),
-                          data: token,//user.rollNo,D
-                        ):CircularProgressIndicator(),
+                        child:
+                            showQr
+                                ? BarcodeWidget(
+                                  drawText: false,
+                                  barcode: Barcode.code128(),
+                                  data: token, //user.rollNo,D
+                                )
+                                : isTokenExpired
+                                ? IconButton(
+                                  onPressed: startTokenCycle,
+                                  icon: const Icon(
+                                    Icons.refresh,
+                                    color: OneStopColors.primaryColor,
+                                    size: 40,
+                                  ),
+                                )
+                                : const CircularProgressIndicator(),
                       ),
                     ),
                   ],
@@ -393,10 +404,9 @@ Future<void> generateAndStoreToken() async {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                 _currentSlot?.dateTime != null
-      ? DateFormat('MMM dd, hh:mm a')
-          .format(_currentSlot!.dateTime!)
-      : '--',
+                _currentSlot?.dateTime != null
+                    ? DateFormat('MMM dd, hh:mm a').format(_currentSlot!.dateTime!)
+                    : '--',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,
