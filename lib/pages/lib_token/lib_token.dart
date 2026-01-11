@@ -1,18 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
-import 'package:barcode_widget/barcode_widget.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/profile_url.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 
+import 'dart:ui';
 import 'package:onestop_dev/pages/lib_token/token_genrate.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
-
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:web_socket_channel/io.dart';
 
 // --- Data Model and Constants ---
@@ -21,7 +22,6 @@ void log(String message) {
   dev.log(message, name: "LibToken");
 }
 
-const baseUrl = String.fromEnvironment("LIB_TOKEN_BASE_URL");
 const wsUrl = String.fromEnvironment("LIB_TOKEN_SOCKET_URL");
 
 class SlotInfo {
@@ -67,39 +67,6 @@ class SlotInfo {
   }
 }
 
-final Dio _dio = Dio(
-  BaseOptions(
-    connectTimeout: const Duration(seconds: 10),
-    receiveTimeout: const Duration(seconds: 10),
-  ),
-);
-
-Future<SlotInfo> getSlots(String rollNo) async {
-  try {
-    // Dio _dio = Dio();
-    final response = await _dio.get("$baseUrl/slot/$rollNo");
-    // log("$baseUrl/slot/$rollNo");
-    // log(response.data.toString());
-
-    if (response.statusCode == 200) {
-      if (response.data != null && response.data["slotId"] != null) {
-        return SlotInfo.fromJson(Map<String, dynamic>.from(response.data));
-      } else {
-        return SlotInfo();
-      }
-    } else {
-      throw Exception("status code - ${response.statusCode} body - ${response.data}");
-    }
-  } on DioException catch (e) {
-    log("Dio error fetching slots: $e");
-    return SlotInfo();
-  } catch (e) {
-    // log()
-    log("General error fetching slots: $e");
-    rethrow;
-  }
-}
-
 // --- Flutter Widget ---
 
 class Library extends StatefulWidget {
@@ -121,52 +88,71 @@ class _LibraryState extends State<Library> {
   Timer? _timer;
 
   void startTokenCycle() {
+    int timerCount = 25;
     _timer?.cancel();
-    try {
-      channel.sink.close();
-    } catch (e) {
-      // Channel might not be initialized or already closed
-    }
 
     setState(() {
-      token = generateToken(8);
+      token = generateToken();
       showQr = true;
       isTokenExpired = false;
     });
 
-    handleSocket();
+    try {
+      if (channel.closeCode != null) {
+        handleSocket();
+      } else {
+        sendToken();
+      }
+    } catch (e) {
+      handleSocket();
+    }
 
-    _timer = Timer(const Duration(seconds: 15), () {
+    _timer = Timer(Duration(seconds: timerCount), () {
       if (mounted) {
         setState(() {
-          showQr = false;
           isTokenExpired = true;
         });
-        channel.sink.close();
       }
     });
   }
 
+  void sendToken() {
+    channel.sink.add(
+      jsonEncode({
+        "type": "store_token",
+        "data": {"token": token, "roll_no": user.rollNo},
+      }),
+    );
+    log("Token: $token");
+  }
+
   void handleSocket() async {
-    log("connecting to web Socket");
-    channel = IOWebSocketChannel.connect(Uri.parse('$wsUrl?roll_no=${user.rollNo}&token=$token'));
+    final url = Uri.parse('$wsUrl?roll_no=${user.rollNo}');
+    log("Connecting to web socket: $url");
+    log(url.toString());
+    channel = IOWebSocketChannel.connect(url);
+
+    log("CONNECTOIN ESTABLISHED");
+
+    sendToken();
 
     channel.stream.listen(
       (data) {
-        log("slot received");
         log(data.toString());
 
         try {
-          final slotData = Map<String, dynamic>.from(
-            data is String ? Map<String, dynamic>.from(jsonDecode(data))['data'] : data,
-          );
-          final SlotInfo newSlot = SlotInfo.fromJson(slotData);
+          final payload = jsonDecode(data.toString());
+          if (payload['type'] == "slot_info") {
+            final slotData = Map<String, dynamic>.from(payload['data']);
+            final SlotInfo newSlot = SlotInfo.fromJson(slotData);
 
-          log("Decoded Slot: ${newSlot.toJson()}");
-          if (!mounted) return;
-          setState(() {
-            _currentSlot = newSlot;
-          });
+            log("Decoded Slot: ${newSlot.toJson()}");
+            if (mounted) {
+              setState(() {
+                _currentSlot = newSlot;
+              });
+            }
+          }
         } catch (e) {
           log("SLOT DECODING ERROR: $e");
         }
@@ -176,7 +162,7 @@ class _LibraryState extends State<Library> {
         // Attempt to reconnect after error
         await channel.sink.close();
         Future.delayed(Duration(seconds: 2), () {
-          if (mounted) initLibToken();
+          // if (mounted) initLibToken();
         });
       },
       onDone: () async {
@@ -184,7 +170,7 @@ class _LibraryState extends State<Library> {
         // Attempt to reconnect when connection closes
         await channel.sink.close();
         Future.delayed(Duration(seconds: 2), () {
-          if (mounted) initLibToken();
+          // if (mounted) initLibToken();
         });
       },
     );
@@ -194,14 +180,6 @@ class _LibraryState extends State<Library> {
   void initState() {
     super.initState();
     startTokenCycle();
-    initLibToken();
-  }
-
-  void initLibToken() async {
-    final initialSlotFuture = await getSlots(user.rollNo);
-    setState(() {
-      _currentSlot = initialSlotFuture;
-    });
   }
 
   @override
@@ -284,9 +262,36 @@ class _LibraryState extends State<Library> {
                     SizedBox(
                       height: 180,
                       child: Center(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: CachedNetworkImage(imageUrl: getUserProfileUrlByRoll(user.rollNo)),
+                        child: CachedNetworkImage(
+                          imageUrl: getUserProfileUrlByRoll(user.rollNo),
+                          imageBuilder:
+                              (context, imageProvider) => Container(
+                                width: 150,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                ),
+                              ),
+                          placeholder:
+                              (context, url) => Container(
+                                width: 150,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey[300],
+                                ),
+                              ),
+                          errorWidget:
+                              (context, url, error) => Container(
+                                width: 150,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey[300],
+                                ),
+                                child: Icon(Icons.person, color: Colors.grey[600], size: 60),
+                              ),
                         ),
                       ),
                     ),
@@ -301,17 +306,17 @@ class _LibraryState extends State<Library> {
                         height: 1.40,
                       ),
                     ),
-                    Text(
-                      token,
-                      //user.rollNo,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: kWhite,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        height: 1.43,
-                      ),
-                    ),
+                    // Text(
+                    //   token,
+                    //   //user.rollNo,
+                    //   textAlign: TextAlign.center,
+                    //   style: TextStyle(
+                    //     color: kWhite,
+                    //     fontSize: 24,
+                    //     fontWeight: FontWeight.w600,
+                    //     height: 1.43,
+                    //   ),
+                    // ),
                     Text(
                       user.outlookEmail,
                       textAlign: TextAlign.center,
@@ -327,28 +332,52 @@ class _LibraryState extends State<Library> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
                         padding: EdgeInsets.all(4),
-                        height: 80,
+                        height: 200,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child:
-                            showQr
-                                ? BarcodeWidget(
-                                  drawText: false,
-                                  barcode: Barcode.code128(),
-                                  data: token, //user.rollNo,D
-                                )
-                                : isTokenExpired
-                                ? IconButton(
-                                  onPressed: startTokenCycle,
-                                  icon: const Icon(
-                                    Icons.refresh,
-                                    color: OneStopColors.primaryColor,
-                                    size: 40,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            QrImageView(
+                              data: token,
+                              version: QrVersions.auto,
+                              // size: 150,
+                              gapless: true,
+                              embeddedImageStyle: const QrEmbeddedImageStyle(color: Colors.white),
+                              eyeStyle: const QrEyeStyle(
+                                color: Colors.black,
+                                eyeShape: QrEyeShape.square,
+                              ),
+                              dataModuleStyle: const QrDataModuleStyle(
+                                color: Colors.black,
+                                dataModuleShape: QrDataModuleShape.square,
+                              ),
+                            ),
+                            if (isTokenExpired)
+                              ClipRect(
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                                  child: Container(
+                                    width: 200,
+                                    height: 200,
+                                    decoration: BoxDecoration(color: Colors.transparent),
+                                    child: Center(
+                                      child: IconButton(
+                                        onPressed: startTokenCycle,
+                                        icon: const Icon(
+                                          Icons.refresh,
+                                          color: OneStopColors.kYellow,
+                                          size: 40,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                )
-                                : const CircularProgressIndicator(),
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

@@ -1,13 +1,13 @@
 import 'dart:math';
 
-String generateToken([int length = 8]) {
+String generateToken() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   final random = Random();
   final buffer = StringBuffer();
 
-  for (int i = 0; i < length; i++) {
+  for (int i = 0; i < 5; i++) {
     buffer.write(chars[random.nextInt(chars.length)]);
   }
 
-  return buffer.toString();
+  return "#${buffer.toString()}#";
 }
