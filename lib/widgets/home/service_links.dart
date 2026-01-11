@@ -25,25 +25,25 @@ List<HomeTabTile> serviceLinks = [
     icon: FluentIcons.calendar_edit_24_regular,
     routeId: IRBSPage.id,
   ),
-  const HomeTabTile(
-    label: "Complaints",
-    icon: FluentIcons.chat_help_24_regular,
-    routeId: ComplaintsPage.id,
-  ),
+
   // const HomeTabTile(
   //   label: "Election Register",
   //   icon: FluentIcons.person_arrow_right_16_regular,
   //   routeId: ElectionLoginWebView.id,
   //   newBadge: true,
   // ),
-  
+  const HomeTabTile(label: "GateLog", icon: FluentIcons.door_20_regular, routeId: GateLogPage.id),
   const HomeTabTile(
     label: "Library Token",
     icon: FluentIcons.library_16_filled,
     routeId: Library.id,
     newBadge: true,
   ),
-  const HomeTabTile(label: "GateLog", icon: FluentIcons.door_20_regular, routeId: GateLogPage.id),
+  const HomeTabTile(
+    label: "Complaints",
+    icon: FluentIcons.chat_help_24_regular,
+    routeId: ComplaintsPage.id,
+  ),
   const HomeTabTile(
     label: "Lost and Found",
     icon: FluentIcons.document_search_24_regular,

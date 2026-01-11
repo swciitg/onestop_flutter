@@ -15,8 +15,8 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.2.2+81
-version: 3.2.2+81
+
+version: 3.3.0+82
 
 environment:
   sdk: ^3.7.2
@@ -113,11 +113,7 @@ dependencies:
   quick_actions: ^1.0.7
 
   qr_flutter: ^4.1.0
-  barcode_widget: ^2.0.4
-  socket_io_client: ^3.1.2
-  dart_jsonwebtoken: ^3.3.1
   web_socket_channel: ^3.0.1
-  redis: ^4.0.0
 
   # onestop_wifi:
   #   path: ../onestop_wifi
