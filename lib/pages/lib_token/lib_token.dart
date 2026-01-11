@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/profile_url.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
+import 'package:onestop_dev/pages/lib_token/redis.dart';
+import 'package:onestop_dev/pages/lib_token/token_genrate.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
@@ -21,37 +23,66 @@ void log(String message) {
 const baseUrl = String.fromEnvironment("LIB_TOKEN_BASE_URL");
 const wsUrl = String.fromEnvironment("LIB_TOKEN_SOCKET_URL");
 
-// Data model for the slot information
 class SlotInfo {
   final int? slotId;
   final bool? isEmpty;
-  final String? time;
+  final int? time;           
   final String? date;
+  final String? timeString;
 
-  SlotInfo({this.slotId, this.isEmpty, this.time, this.date});
+  SlotInfo({
+    this.slotId,
+    this.isEmpty,
+    this.time,
+    this.date,
+    this.timeString,
+  });
 
   factory SlotInfo.fromJson(Map<String, dynamic> json) {
     return SlotInfo(
       slotId: json['slotId'] as int?,
-      isEmpty: json['isEmpty'] ?? false,
-      time: json['time'] as String?,
+      isEmpty: json['isEmpty'] as bool? ?? false,
+      time: json['time'] as int?,
       date: json['date'] as String?,
+      timeString: json['timeString'] as String?,
     );
-  }
 
+    
+  }
   bool get isAssigned => slotId != null && isEmpty != null && isEmpty == false;
 
   Map<String, dynamic> toJson() {
-    return {'slotId': slotId, 'isEmpty': isEmpty, 'time': time, 'date': date};
+    return {'slotId': slotId, 'isEmpty': isEmpty, 'time': time, 'date': date, 'timeString': timeString  };
+  }
+
+  DateTime? get dateTime {
+    if (time != null) {
+      return DateTime.fromMillisecondsSinceEpoch(time!);
+    }
+
+    if (date != null && timeString != null) {
+      return DateTime.tryParse("$date $timeString");
+    }
+
+    return null;
   }
 }
 
+
+final Dio _dio = Dio(
+  BaseOptions(
+    connectTimeout: const Duration(seconds: 10),
+    receiveTimeout: const Duration(seconds: 10),
+  ),
+);
+
 Future<SlotInfo> getSlots(String rollNo) async {
+  // log("calling get slots api");
   try {
-    Dio dio = Dio();
-    final response = await dio.get("$baseUrl/slot/$rollNo");
-    log("$baseUrl/slot/$rollNo");
-    log(response.data.toString());
+    // Dio _dio = Dio();
+    final response = await _dio.get("$baseUrl/slot/$rollNo");
+    // log("$baseUrl/slot/$rollNo");
+    // log(response.data.toString());
 
     if (response.statusCode == 200) {
       if (response.data != null && response.data["slotId"] != null) {
@@ -85,11 +116,39 @@ class Library extends StatefulWidget {
 class _LibraryState extends State<Library> {
   final OneStopUser user = OneStopUser.fromJson(LoginStore.userData);
 
-  SlotInfo? _currentSlot;
 
+  late String token;
+  SlotInfo? _currentSlot;
   late IOWebSocketChannel channel;
+  bool showQr = false;
+
+
+
+Future<void> generateAndStoreToken() async {
+  final redis = RedisService();
+
+  await redis.connect();
+
+  final generatedToken = token;
+  final success = await redis.storeToken(
+    generatedToken,
+  );
+
+  if (success) {
+    setState(() {
+      token = generatedToken;
+      showQr = true;
+    });
+  } else {
+    setState(() {
+      showQr = false;
+    });
+  }
+}
 
   void handleSocket() async {
+
+    log("connecting to web Socket");
     channel = IOWebSocketChannel.connect(Uri.parse('$wsUrl?roll_no=${user.rollNo}'));
 
     channel.stream.listen(
@@ -134,17 +193,17 @@ class _LibraryState extends State<Library> {
   @override
   void initState() {
     super.initState();
+    token = generateToken(8);
+    generateAndStoreToken();
     initLibToken();
+    handleSocket();
   }
 
   void initLibToken() async {
-    log("connecting to web Socket");
     final initialSlotFuture = await getSlots(user.rollNo);
     setState(() {
       _currentSlot = initialSlotFuture;
     });
-    handleSocket();
-    log("connecting to web Socket");
   }
 
   @override
@@ -244,7 +303,8 @@ class _LibraryState extends State<Library> {
                       ),
                     ),
                     Text(
-                      user.rollNo,
+                      token,
+                      //user.rollNo,                      
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: kWhite,
@@ -273,11 +333,11 @@ class _LibraryState extends State<Library> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: BarcodeWidget(
+                        child:showQr? BarcodeWidget(
                           drawText: false,
                           barcode: Barcode.code128(),
-                          data: user.rollNo,
-                        ),
+                          data: token,//user.rollNo,D
+                        ):CircularProgressIndicator(),
                       ),
                     ),
                   ],
@@ -333,9 +393,10 @@ class _LibraryState extends State<Library> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                DateFormat(
-                  'MMM dd, hh:mm a',
-                ).format(DateTime.parse("${_currentSlot!.date} ${_currentSlot!.time}")),
+                 _currentSlot?.dateTime != null
+      ? DateFormat('MMM dd, hh:mm a')
+          .format(_currentSlot!.dateTime!)
+      : '--',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,

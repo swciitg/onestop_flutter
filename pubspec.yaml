@@ -114,6 +114,7 @@ dependencies:
   socket_io_client: ^3.1.2
   dart_jsonwebtoken: ^3.3.1
   web_socket_channel: ^3.0.1
+  redis: ^4.0.0
 
   # onestop_wifi:
   #   path: ../onestop_wifi
