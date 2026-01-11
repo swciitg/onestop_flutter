@@ -26,7 +26,7 @@ class MedicalSection extends StatelessWidget {
     "Download GMIS Card",
     "Medical Reimbursement",
     "Contacts",
-    "Medical Rules"
+    "Medical Rules",
   ];
 
   final ruleslink = "https://www.iitg.ac.in/medical/Medical%20Rules.pdf";
@@ -76,77 +76,94 @@ class MedicalSection extends StatelessWidget {
               Menuoption(name: options[6], link: ruleslink),
               const Spacer(),
               Row(
-                  children: [
-                    const Icon(Icons.info_outline_rounded, color: Colors.grey),
-                    const SizedBox(width: 3),
-                    Text.rich(
-                      TextSpan(
-                        text: "For more details:",
-                        style: MyFonts.w700.setColor(kWhite).size(14).copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                        children: [
-                          TextSpan(
-                            text: " click here",
-                            style: MyFonts.w700.setColor(kWhite).size(14).copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.blueAccent,
-                                  fontSize: 16,
-                                  decoration: TextDecoration.underline,
-                                ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                try {
-                                  _launchURL("https://www.iitg.ac.in/medical/");
-                                } catch (e) {
-                                  showSnackBar(e.toString());
-                                }
-                              },
-                          )
-                        ],
-                      ),
+                children: [
+                  const Icon(Icons.info_outline_rounded, color: Colors.grey),
+                  const SizedBox(width: 3),
+                  Text.rich(
+                    TextSpan(
+                      text: "For more details:",
+                      style: MyFonts.w700
+                          .setColor(kWhite)
+                          .size(14)
+                          .copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                      children: [
+                        TextSpan(
+                          text: " click here",
+                          style: MyFonts.w700
+                              .setColor(kWhite)
+                              .size(14)
+                              .copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.blueAccent,
+                                fontSize: 16,
+                                decoration: TextDecoration.underline,
+                              ),
+                          recognizer:
+                              TapGestureRecognizer()
+                                ..onTap = () {
+                                  try {
+                                    _launchURL(
+                                      "https://www.iitg.ac.in/medical/",
+                                    );
+                                  } catch (e) {
+                                    showSnackBar(e.toString());
+                                  }
+                                },
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              const SizedBox(height: 15,),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
               Row(
-                  children: [
-                    const Icon(Icons.info_outline_rounded, color: Colors.grey),
-                    const SizedBox(width: 3),
-                    Text.rich(
-                      TextSpan(
-                        text: "For Complete TimeTable:",
-                        style: MyFonts.w700.setColor(kWhite).size(14).copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                        children: [
-                          TextSpan(
-                            text: " click here",
-                            style: MyFonts.w700.setColor(kWhite).size(14).copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.blueAccent,
-                                  fontSize: 16,
-                                  decoration: TextDecoration.underline,
-                                ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                try {
-                                  _launchURL("https://www.iitg.ac.in/medical/live_timetable.pdf");
-                                } catch (e) {
-                                  showSnackBar(e.toString());
-                                }
-                              },
-                          )
-                        ],
-                      ),
+                children: [
+                  const Icon(Icons.info_outline_rounded, color: Colors.grey),
+                  const SizedBox(width: 3),
+                  Text.rich(
+                    TextSpan(
+                      text: "For Complete TimeTable:",
+                      style: MyFonts.w700
+                          .setColor(kWhite)
+                          .size(14)
+                          .copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                      children: [
+                        TextSpan(
+                          text: " click here",
+                          style: MyFonts.w700
+                              .setColor(kWhite)
+                              .size(14)
+                              .copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.blueAccent,
+                                fontSize: 16,
+                                decoration: TextDecoration.underline,
+                              ),
+                          recognizer:
+                              TapGestureRecognizer()
+                                ..onTap = () {
+                                  try {
+                                    _launchURL(
+                                      "https://www.iitg.ac.in/medical/live_timetable.pdf",
+                                    );
+                                  } catch (e) {
+                                    showSnackBar(e.toString());
+                                  }
+                                },
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -156,11 +173,8 @@ class MedicalSection extends StatelessWidget {
 }
 
 Future<void> _launchURL(String url) async {
-  final Uri uri = Uri.parse(url);  // Use Uri.parse to handle the full URL
-  if (!await launchUrl(
-    uri,
-    mode: LaunchMode.externalApplication,
-  )) {
+  final Uri uri = Uri.parse(url); // Use Uri.parse to handle the full URL
+  if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
     throw "Cannot launch URL";
   }
 }
