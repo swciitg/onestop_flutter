@@ -7,6 +7,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/services/notifications_service.dart';
+import 'package:onestop_dev/services/app_shortcuts_service.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -34,10 +35,24 @@ void main() async {
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
   ]);
-  SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.manual,
-    overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+
+  // Enable edge-to-edge mode for modern Android experience
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+  // Set transparent system UI overlay style to prevent white flashes
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.light,
+      systemNavigationBarContrastEnforced: true,
+    ),
   );
+
+  // Initialize app shortcuts
+  await AppShortcutsService.initialize();
 
   runApp(const MyApp());
 }
@@ -67,7 +82,17 @@ class MyApp extends StatelessWidget {
         scaffoldMessengerKey: rootScaffoldMessengerKey,
         debugShowCheckedModeBanner: false,
         initialRoute: SplashPage.id,
-        theme: ThemeData(scaffoldBackgroundColor: kBackground, splashColor: Colors.transparent),
+        theme: ThemeData(
+          scaffoldBackgroundColor: kBackground,
+          splashColor: Colors.transparent,
+          canvasColor: kBackground,
+          pageTransitionsTheme: const PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            },
+          ),
+        ),
         title: 'OneStop IITG',
         routes: routes,
       ),

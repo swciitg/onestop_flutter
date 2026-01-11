@@ -111,38 +111,26 @@ abstract class _TimetableStore with Store {
       CourseModel noClass = CourseModel();
       noClass.instructor = '';
       noClass.course = 'Happy Weekend !';
-      noClass.timings = {
-        day: "",
-      };
+      noClass.timings = {day: ""};
       return List.filled(1, TimetableTile(course: noClass));
     }
     current = dates[0];
     DateFormat dateFormat = DateFormat("hh:00 - hh:55 a");
     List<Widget> l = [
-      ...allTimetableCourses[current.weekday - 1]
-          .morning
+      ...allTimetableCourses[current.weekday - 1].morning
           .where((e) => dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
           .toList()
-          .map((e) => TimetableTile(
-                course: e,
-                inHomePage: true,
-              )),
-      ...allTimetableCourses[current.weekday - 1]
-          .afternoon
+          .map((e) => TimetableTile(course: e, inHomePage: true)),
+      ...allTimetableCourses[current.weekday - 1].afternoon
           .where((e) => dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
           .toList()
-          .map((e) => TimetableTile(
-                course: e,
-                inHomePage: true,
-              ))
+          .map((e) => TimetableTile(course: e, inHomePage: true)),
     ];
     if (l.isEmpty) {
       CourseModel noClass = CourseModel();
       noClass.instructor = '';
       noClass.course = 'No upcoming classes';
-      noClass.timings = {
-        day: "",
-      };
+      noClass.timings = {day: ""};
       l.add(TimetableTile(course: noClass));
     }
     return l;
@@ -153,20 +141,11 @@ abstract class _TimetableStore with Store {
     int timetableIndex = dates[selectedDate].weekday - 1;
     List<Widget> l = [
       ...allTimetableCourses[timetableIndex].morning.map((e) => TimetableTile(course: e)),
-      const TextDivider(
-        text: 'Lunch Break',
-      ),
-      ...allTimetableCourses[timetableIndex].afternoon.map((e) => TimetableTile(course: e))
+      const TextDivider(text: 'Lunch Break'),
+      ...allTimetableCourses[timetableIndex].afternoon.map((e) => TimetableTile(course: e)),
     ];
     if (l.length == 1) {
-      l = [
-        Center(
-          child: Text(
-            'No data found',
-            style: MyFonts.w500.size(14).setColor(kGrey8),
-          ),
-        )
-      ];
+      l = [Center(child: Text('No data found', style: MyFonts.w500.size(14).setColor(kGrey8)))];
     }
     return l;
   }

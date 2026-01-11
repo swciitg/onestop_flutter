@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <!-- Background -->
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M0,0h48v48h-48z"/>
+  <!-- Icon (scaled up for 48x48) -->
+  <path
+      android:fillColor="#001B3E"
+      android:pathData="M20.18,31.18L23,34l10,-10 -10,-10 -2.82,2.82L25.34,22H6v4h19.34l-5.16,5.18zM38,6H10c-2.22,0 -4,1.8 -4,4v8h4V10h28v28H10v-8H6v8c0,2.2 1.78,4 4,4h28c2.2,0 4,-1.8 4,-4V10c0,-2.2 -1.8,-4 -4,-4z"/>
+</vector>

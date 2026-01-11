@@ -10,7 +10,7 @@ class CabShare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("USERDATA: ${LoginStore.userData}");
+    log("USERDATA: ${LoginStore.userData}", name: "CabShare");
     return CabSharingSplashScreen();
   }
 }

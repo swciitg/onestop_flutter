@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/repository/bns_repository.dart';
 import 'package:onestop_dev/repository/lnf_repository.dart';
@@ -22,8 +23,12 @@ class BuySellForm extends StatefulWidget {
   final String imageString;
   final String? submittedAt;
 
-  const BuySellForm(
-      {super.key, required this.category, required this.imageString, this.submittedAt});
+  const BuySellForm({
+    super.key,
+    required this.category,
+    required this.imageString,
+    this.submittedAt,
+  });
 
   @override
   State<BuySellForm> createState() => _BuySellFormState();
@@ -51,9 +56,7 @@ class _BuySellFormState extends State<BuySellForm> {
               Navigator.of(context).pop();
             }
           },
-          icon: const Icon(
-            FluentIcons.chevron_left_24_regular,
-          ),
+          icon: const Icon(FluentIcons.chevron_left_24_regular),
         ),
         backgroundColor: kBlueGrey,
         title: Text(
@@ -70,56 +73,48 @@ class _BuySellFormState extends State<BuySellForm> {
               isLoading
                   ? const LinearProgressIndicator()
                   : widget.category == "Found"
-                      ? const ProgressBar(blue: 3, grey: 0)
-                      : const ProgressBar(blue: 2, grey: 0),
+                  ? const ProgressBar(blue: 3, grey: 0)
+                  : const ProgressBar(blue: 2, grey: 0),
               Container(
                 margin: const EdgeInsets.only(top: 40, left: 15, right: 5, bottom: 15),
                 child: Text(
-                  "Fill in the details of ${widget.category == "Buy" ? "Requested Item" : widget.category == "Sell" ? "Selling Item" : widget.category == "Lost" ? "lost object" : "found object"}",
+                  "Fill in the details of ${widget.category == "Buy"
+                      ? "Requested Item"
+                      : widget.category == "Sell"
+                      ? "Selling Item"
+                      : widget.category == "Lost"
+                      ? "lost object"
+                      : "found object"}",
                   style: MyFonts.w400.size(16).setColor(kWhite),
                 ),
               ),
-              InputField(
-                controller: _title,
-                type: 'Title',
-              ),
+              InputField(controller: _title, type: 'Title'),
               Row(
                 children: [
                   Expanded(
-                      flex: 1,
-                      child: InputField(
-                        controller: _price,
-                        type: (widget.category == "Buy")
-                            ? 'Min Price'
-                            : (widget.category == "Sell")
-                                ? 'Price'
-                                : (widget.category == "Lost")
-                                    ? "Location Lost"
-                                    : "Location Found",
-                      )),
+                    flex: 1,
+                    child: InputField(
+                      controller: _price,
+                      type:
+                          (widget.category == "Buy")
+                              ? 'Min Price'
+                              : (widget.category == "Sell")
+                              ? 'Price'
+                              : (widget.category == "Lost")
+                              ? "Location Lost"
+                              : "Location Found",
+                    ),
+                  ),
                   (widget.category == "Buy")
-                      ? Expanded(
-                          flex: 1,
-                          child: InputField(
-                            controller: _price2,
-                            type: 'Max Price',
-                          ))
+                      ? Expanded(flex: 1, child: InputField(controller: _price2, type: 'Max Price'))
                       : Container(),
                 ],
               ),
               (widget.category != 'Found')
-                  ? InputField(
-                      controller: _contactNumber,
-                      type: "Contact Number",
-                    )
+                  ? InputField(controller: _contactNumber, type: "Contact Number")
                   : Container(),
-              InputField(
-                controller: _description,
-                type: "Description",
-              ),
-              const SizedBox(
-                height: 30,
-              )
+              InputField(controller: _description, type: "Description"),
+              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -133,11 +128,11 @@ class _BuySellFormState extends State<BuySellForm> {
           }
           if (widget.category == "Buy") {
             if ((int.parse(_price2.text) - int.parse(_price.text)) < 0) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                "Min price should be smaller than max price",
-                style: MyFonts.w500,
-              )));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Min price should be smaller than max price", style: MyFonts.w500),
+                ),
+              );
               return;
             }
           }
@@ -165,8 +160,9 @@ class _BuySellFormState extends State<BuySellForm> {
             final isTitleValid = await ModerationService().validateBuyOrSell(_title.text.trim());
             if (!isTitleValid) {
               Fluttertoast.showToast(
-                  msg: 'Please Enter an appropriate title!',
-                  backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7));
+                msg: 'Please Enter an appropriate title!',
+                backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7),
+              );
               dbSavingController.sink.add(false);
               savingToDB = false;
               setState(() {
@@ -175,12 +171,14 @@ class _BuySellFormState extends State<BuySellForm> {
               return;
             }
 
-            final isDescValid =
-                await ModerationService().validateBuyOrSell(_description.text.trim());
+            final isDescValid = await ModerationService().validateBuyOrSell(
+              _description.text.trim(),
+            );
             if (!isDescValid) {
               Fluttertoast.showToast(
-                  msg: 'Please Enter an appropriate description!',
-                  backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7));
+                msg: 'Please Enter an appropriate description!',
+                backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7),
+              );
               dbSavingController.sink.add(false);
               savingToDB = false;
               setState(() {
@@ -218,7 +216,9 @@ class _BuySellFormState extends State<BuySellForm> {
               msg: "Request posted successfully!",
               backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7),
             );
-            Navigator.popUntil(context, ModalRoute.withName(HomePage.id));
+            if (navigatorKey.currentState != null) {
+              Navigator.popUntil(navigatorKey.currentContext!, ModalRoute.withName(HomePage.id));
+            }
           } else {
             dbSavingController.sink.add(false);
             savingToDB = false;

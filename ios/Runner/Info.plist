@@ -4,6 +4,8 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>FlutterDeepLinkingEnabled</key>
+	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -101,5 +103,16 @@
 		</dict>
 	</dict>
 	</dict>
+	<key>CFURLTypes</key>
+	<array>
+		<dict>
+			<key>CFURLName</key>
+			<string>onestopiitg.auth</string>
+			<key>CFURLSchemes</key>
+			<array>
+				<string>onestopiitg</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

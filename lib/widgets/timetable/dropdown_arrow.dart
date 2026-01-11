@@ -6,17 +6,19 @@ import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:provider/provider.dart';
 
 class ArrowButton extends StatelessWidget {
-  const ArrowButton({super.key, this.showArrow = false});
+  const ArrowButton({super.key, required this.showArrow, required this.toggle});
   final bool showArrow;
+  final VoidCallback toggle;
   @override
   Widget build(BuildContext context) {
     if (showArrow) {
-      return Observer(builder: (context) {
-        return Expanded(
+      return Observer(
+        builder: (context) {
+          return Expanded(
             flex: 7,
             child: GestureDetector(
               onTap: () {
-                context.read<TimetableStore>().toggleDropDown();
+                toggle();
               },
               child: Container(
                 height: 85,
@@ -31,8 +33,10 @@ class ArrowButton extends StatelessWidget {
                   color: Colors.green.shade800,
                 ),
               ),
-            ));
-      });
+            ),
+          );
+        },
+      );
     }
     return const SizedBox();
   }

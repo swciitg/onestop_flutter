@@ -1,41 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/ui/animated_expand.dart';
-import 'package:provider/provider.dart';
 
 class TimetableRow extends StatelessWidget {
-  const TimetableRow({
-    super.key,
-    required this.classes,
-  });
+  final bool expanded;
+  const TimetableRow({super.key, required this.classes, required this.expanded});
 
   final List<Widget> classes;
 
   @override
   Widget build(BuildContext context) {
-    return Observer(builder: (context) {
-      return AnimatedExpand(
-        expand: context.read<TimetableStore>().showDropDown,
-        child: Column(
-          children: classes
-              .map((e) => Row(
+    return AnimatedExpand(
+      expand: expanded,
+      child: Column(
+        children:
+            classes
+                .map(
+                  (e) => Row(
                     children: [
-                      const Expanded(
-                        flex: 10,
-                        child: SizedBox(),
-                      ),
+                      const Expanded(flex: 10, child: SizedBox()),
                       Expanded(flex: 36, child: e),
-                      const SizedBox(
-                        width: 8,
-                      ),
+                      const SizedBox(width: 8),
                       const Expanded(flex: 7, child: SizedBox()),
                     ],
-                  ))
-              .toList(),
-        ),
-      );
-      //return SizedBox();
-    });
+                  ),
+                )
+                .toList(),
+      ),
+    );
   }
 }
