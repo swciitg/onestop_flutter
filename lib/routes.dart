@@ -8,8 +8,8 @@ import 'package:onestop_dev/pages/food/mess_subscription_change_form.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/pages/hab/hostel_service.dart';
 import 'package:onestop_dev/pages/home/home.dart';
+import 'package:lib_token/lib_token.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
-import 'package:onestop_dev/pages/lib_token/lib_token.dart';
 import 'package:onestop_dev/pages/login/blocked.dart';
 import 'package:onestop_dev/pages/login/login.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
@@ -46,5 +46,5 @@ final routes = {
   ElectionLoginWebView.id: (context) => const ElectionLoginWebView(),
   GateLogPage.id: (context) => const GateLogPage(),
   EventsScreenWrapper.id: (context) => const EventsScreenWrapper(),
-  Library.id : (context) => const Library()
+  LibraryTokenScreen.id: (context) => const LibraryTokenScreen(),
 };

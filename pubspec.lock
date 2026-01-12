@@ -835,7 +835,7 @@ packages:
     description:
       path: "packages/gate_log"
       ref: dev
-      resolved-ref: dd4571aab187c2874e14f4310a97661287e6c394
+      resolved-ref: "340368e53c22363d7388d009970ed67279c1eba6"
       url: "https://github.com/swciitg/gatelog_onestop.git"
     source: git
     version: "0.0.1"
@@ -1184,6 +1184,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  lib_token:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: dev
+      resolved-ref: e74d753fc3ceea1cc493fdaa9d33a16ace3c4ba3
+      url: "https://github.com/swciitg/lib_token.git"
+    source: git
+    version: "0.0.1"
   lints:
     dependency: transitive
     description:
@@ -1483,7 +1492,7 @@ packages:
     source: hosted
     version: "3.0.2"
   qr_flutter:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: qr_flutter
       sha256: "5095f0fc6e3f71d08adef8feccc8cea4f12eec18a2e31c2e8d82cb6019f4b097"
@@ -2073,7 +2082,7 @@ packages:
     source: hosted
     version: "1.0.1"
   web_socket_channel:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: web_socket_channel
       sha256: d645757fb0f4773d602444000a8131ff5d48c9e47adfe9772652dd1a4f2d45c8

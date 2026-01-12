@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 
-version: 3.3.0+82
+version: 3.3.1+83
 
 environment:
   sdk: ^3.7.2
@@ -69,6 +69,12 @@ dependencies:
       ref: dev
     # path: ../onestop_ui/packages/onestop_ui
 
+  lib_token:
+    git:
+      url: https://github.com/swciitg/lib_token.git
+      ref: dev
+    # path: ../lib_token
+
   intl: ^0.20.2
   provider: ^6.0.2
   dio: ^5.0.3
@@ -111,9 +117,6 @@ dependencies:
   flutter_inappwebview: ^6.1.5
   syncfusion_flutter_calendar: ^30.1.41
   quick_actions: ^1.0.7
-
-  qr_flutter: ^4.1.0
-  web_socket_channel: ^3.0.1
 
   # onestop_wifi:
   #   path: ../onestop_wifi
