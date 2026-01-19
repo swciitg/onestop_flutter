@@ -244,7 +244,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
 
                 // Text field for Club
                 DropdownButtonFormField<String>(
-                  value: selectedClub,
+                  initialValue: selectedClub,
                   decoration: InputDecoration(
                     fillColor: const Color(0xFF273141),
                     filled: true,

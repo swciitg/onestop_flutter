@@ -15,6 +15,7 @@ import 'package:onestop_dev/widgets/mapbox/carousel_card.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:onestop_dev/widgets/travel/travel_guide.dart';
 
 class MapBox extends StatefulWidget {
   const MapBox({
@@ -310,6 +311,24 @@ class _MapBoxState extends State<MapBox> {
                             mini: true,
                             child: const Icon(
                               FluentIcons.my_location_24_regular,
+                              color: lBlue2,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8, right: 4),
+                          child: FloatingActionButton(
+                            heroTag: null,
+                            backgroundColor: kAppBarGrey,
+                            onPressed: () {
+                            Navigator.push(
+                                  context,
+                             MaterialPageRoute(builder: (context) => TravelGuide()),
+                              );
+                            },
+                            mini: true,
+                            child: const Icon(
+                              FluentIcons.tap_double_20_filled,
                               color: lBlue2,
                             ),
                           ),
