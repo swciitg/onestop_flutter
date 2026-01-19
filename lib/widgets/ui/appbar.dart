@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
 import 'package:onestop_dev/stores/common_store.dart';
-import 'package:onestop_dev/stores/theme_store.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 
