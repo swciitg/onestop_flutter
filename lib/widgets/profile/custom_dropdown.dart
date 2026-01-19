@@ -35,7 +35,7 @@ class CustomDropDown extends StatelessWidget {
     return DropdownButtonFormField(
       validator: validator,
       menuMaxHeight: 400,
-      value: value,
+      initialValue: value,
       isExpanded: true,
       decoration: InputDecoration(
         hintText: hintText,

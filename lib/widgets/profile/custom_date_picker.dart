@@ -30,14 +30,13 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
           primary: lBlue4,
           surface: kdatePickerSurfaceColor,
         ),
-        dialogBackgroundColor: kdatePickerSurfaceColor,
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
               backgroundColor: kdatePickerSurfaceColor, // button
               foregroundColor: lBlue2,
               elevation: 0,
               textStyle: MyFonts.w500),
-        ),
+        ), dialogTheme: DialogThemeData(backgroundColor: kdatePickerSurfaceColor),
       ),
       child: widget.child!,
     );

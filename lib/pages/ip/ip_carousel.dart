@@ -159,7 +159,7 @@ class _RouterPageState extends State<RouterPage> {
                                                     height: 58,
                                                     child: Center(
                                                       child: DropdownButtonFormField<String>(
-                                                        value: dropdownValue,
+                                                        initialValue: dropdownValue,
                                                         icon: const Icon(Icons.arrow_drop_down),
                                                         style: MyFonts.w500
                                                             .size(16)

@@ -130,7 +130,7 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
                                         horizontal: 20, vertical: 10),
                                     child: DropdownButtonFormField<
                                         DropdownContactModel>(
-                                      value: selectedDoctor,
+                                      initialValue: selectedDoctor,
                                       items: doctors
                                           .map((DropdownContactModel doctor) {
                                         return DropdownMenuItem<

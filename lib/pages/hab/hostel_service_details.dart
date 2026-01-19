@@ -72,8 +72,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
               onPrimary: kWhite,
               surface: kBlueGrey,
               onSurface: kWhite,
-            ),
-            dialogBackgroundColor: kBlueGrey,
+            ), dialogTheme: DialogThemeData(backgroundColor: kBlueGrey),
           ),
           child: child!,
         );
@@ -320,7 +319,7 @@ class HostelServiceDetailsState extends State<HostelServiceDetails> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                                 child: DropdownButtonFormField<Hostel>(
-                                  value: selectedHostel,
+                                  initialValue: selectedHostel,
                                   validator: (val) {
                                     if (val == null || val == Hostel.none) {
                                       return "Hostel can not be empty";

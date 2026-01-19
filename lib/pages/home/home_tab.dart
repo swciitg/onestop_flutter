@@ -14,7 +14,6 @@ import 'package:onestop_dev/widgets/home/home_gatelog_tile.dart';
 import 'package:onestop_dev/widgets/home/home_links.dart';
 import 'package:onestop_dev/widgets/home/home_quick_links.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
-import 'package:onestop_dev/widgets/home/service_links.dart';
 import 'package:onestop_dev/widgets/mapbox/map_box.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_kit/onestop_kit.dart';

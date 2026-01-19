@@ -315,7 +315,7 @@ class MessMenu extends StatelessWidget {
             return SingleChildScrollView(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: Container(
+                child: SizedBox(
                   width: 305,
                   height: 310,
                   child: OMessMenuCard(

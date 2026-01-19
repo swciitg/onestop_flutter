@@ -171,6 +171,7 @@ flutter:
     - lib/globals/
     - assets/images/
     - assets/images/food/
+    - assets/images/map/
     - assets/fonts/
     - assets/json/
 

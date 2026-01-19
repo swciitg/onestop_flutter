@@ -113,7 +113,7 @@ class PeopleSearch extends SearchDelegate<String> {
         titleLarge: MyFonts.w600.setColor(kWhite).size(13),
       ),
       appBarTheme: const AppBarTheme(
-        color: kBlueGrey,
+        backgroundColor: kBlueGrey,
       ),
     );
   }

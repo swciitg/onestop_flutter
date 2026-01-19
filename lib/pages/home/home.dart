@@ -10,7 +10,6 @@ import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/ui/onestop_upgrade.dart';
 import 'package:onestop_kit/onestop_kit.dart';
-import 'package:onestop_ui/utils/colors.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/home/home_drawer.dart';
