@@ -17,12 +17,15 @@ class OutletsFilter extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 0.0),
           child: Container(
             alignment: Alignment.bottomLeft,
-            child: OText(
-              text: "Food Outlets",
-              selectable: false,
-              style: OTextStyle.headingMedium.copyWith(
-                fontSize: screenWidth < 600 ? 20 : 24,
-                color: OColor.gray800,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: OText(
+                text: "Food Outlets",
+                selectable: false,
+                style: OTextStyle.headingMedium.copyWith(
+                  fontSize: screenWidth < 600 ? 20 : 24,
+                  color: OColor.gray800,
+                ),
               ),
             ),
           ),

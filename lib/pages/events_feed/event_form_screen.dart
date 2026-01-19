@@ -652,7 +652,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
 
     try {
       await EventsAPIRepository().putEvent(widget.event!.id, data);
-      // Hide the loading dialog after the event is updated
       nav.pop();
       showSnackBar('Event updated successfully!');
       nav.pop();

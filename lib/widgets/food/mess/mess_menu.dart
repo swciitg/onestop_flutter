@@ -66,11 +66,14 @@ class MessMenu extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          OText(
-            text: 'Mess Menu',
-            style: OTextStyle.headingMedium.copyWith(
-              fontSize: screenWidth <= 390 ? 20 : 24,
-              color: OColor.gray800,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: OText(
+              text: 'Mess Menu',
+              style: OTextStyle.headingMedium.copyWith(
+                fontSize: screenWidth <= 390 ? 20 : 24,
+                color: OColor.gray800,
+              ),
             ),
           ),
           PopupMenuButton<String>(
