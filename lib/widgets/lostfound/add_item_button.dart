@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
+import 'package:onestop_dev/pages/buy_sell/sell_form.dart';
 import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 
@@ -83,9 +83,9 @@ class _AddItemButtonState extends State<AddItemButton> {
           var imageString = base64Encode(bytes);
           if (widget.type == "Lost") {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BuySellForm(
-                      category: "Lost",
-                      imageString: imageString,
+                builder: (context) => SellItemForm(
+                      // category: "Lost",
+                      // imageString: imageString,
                     )));
             return;
           } else if (widget.type == "Found") {
@@ -96,16 +96,16 @@ class _AddItemButtonState extends State<AddItemButton> {
           } else {
             if (widget.type == "Sell") {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => BuySellForm(
-                        category: "Sell",
-                        imageString: imageString,
+                  builder: (context) => SellItemForm(
+                        // category: "Sell",
+                        // imageString: imageString,
                       )));
               return;
             } else if (widget.type == "Buy") {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => BuySellForm(
-                        category: "Buy",
-                        imageString: imageString,
+                  builder: (context) => SellItemForm(
+                        // category: "Buy",
+                        // imageString: imageString,
                       )));
               return;
             }

@@ -71,19 +71,38 @@ class BnsRepository extends APIRepository {
     //await Future.delayed(const Duration(milliseconds: 300), () => null);
     return buyPage;
   }
-
-  Future<Map<String, dynamic>> postSellData(Map<String, String> data) async {
-    var res = await serverDio.post(Endpoints.sellURL, data: {
+  
+  Future<Map<String, dynamic>> postSellData(
+    Map<String, String> data) async {
+  final res = await serverDio.post(
+    Endpoints.sellURL,
+    data: {
       'title': data['title'],
       'description': data['description'],
       'price': data['price'],
       'imageString': data['image'],
-      'phonenumber': data['contact'],
+      'phonenumber': data['phonenumber'], // ✅ FIXED
       'email': data['email'],
-      'username': data['name']
-    });
-    return res.data;
-  }
+      'username': data['name'],
+      'isNew': data['isNew'], // ✅ OPTIONAL BUT CORRECT
+    },
+  );
+  return Map<String, dynamic>.from(res.data);
+}
+
+
+  // Future<Map<String, dynamic>> postSellData(Map<String, String> data) async {
+  //   var res = await serverDio.post(Endpoints.sellURL, data: {
+  //     'title': data['title'],
+  //     'description': data['description'],
+  //     'price': data['price'],
+  //     'imageString': data['image'],
+  //     'phonenumber': data['phonenumber'],
+  //     'email': data['email'],
+  //     'username': data['name']
+  //   });
+  //   return res.data;
+  // }
 
   Future<Map<String, dynamic>> postBuyData(Map<String, String> data) async {
     var res = await serverDio.post(Endpoints.buyURL, data: {

@@ -1,7 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/pages/buy_sell/buy_form.dart';
+import 'package:onestop_dev/pages/buy_sell/sell_form.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -243,10 +243,10 @@ class _LostFoundLocationFormState extends State<LostFoundLocationForm> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder:
-                  (context) => BuySellForm(
-                    category: "Found",
-                    imageString: widget.imageString,
-                    submittedAt: selectedLocation,
+                  (context) => SellItemForm(
+                    // category: "Found",
+                    // imageString: widget.imageString,
+                    // submittedAt: selectedLocation,
                   ),
             ),
           );

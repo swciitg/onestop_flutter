@@ -109,7 +109,9 @@ dependencies:
   flutter_background_service: ^5.0.10
   flutter_inappwebview: ^6.1.5
   syncfusion_flutter_calendar: ^30.1.41
+  barcode_widget: ^2.0.0
   quick_actions: ^1.0.7
+  image: ^4.0.0  
 
   # onestop_wifi:
   #   path: ../onestop_wifi

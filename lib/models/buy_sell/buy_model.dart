@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 
 part 'buy_model.g.dart';
 
@@ -15,8 +16,10 @@ class BuyModel {
   final DateTime date;
   final String username;
   final String email;
+  final OneStopUser? user;
   @JsonKey(name: '_id')
   final String id;
+  final bool isNew;
 
   const BuyModel(
       {Key? key,
@@ -29,7 +32,9 @@ class BuyModel {
       required this.price,
       required this.email,
       required this.id,
-      required this.username});
+      required this.username,
+      required this.isNew,
+      required this.user});
 
   factory BuyModel.fromJson(Map<String, dynamic> json) =>
       _$BuyModelFromJson(json);
