@@ -1162,9 +1162,11 @@ packages:
   irbs:
     dependency: "direct main"
     description:
-      path: "../irbs/packages/irbs"
-      relative: true
-    source: path
+      path: "packages/irbs"
+      ref: redesign
+      resolved-ref: d47234c689ddf0586e4d8795ad7e26970a39fc03
+      url: "https://github.com/swciitg/irbs.git"
+    source: git
     version: "1.0.0"
   js:
     dependency: transitive
