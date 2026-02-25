@@ -253,7 +253,7 @@ class _RouterPageState extends State<RouterPage> {
           children: [
             const SizedBox(height: OSpacing.m),
             DropdownButtonFormField<String>(
-              value: dropdownValue,
+              initialValue: dropdownValue,
               icon: Icon(Icons.arrow_drop_down, color: OColor.gray500),
               dropdownColor: OColor.white,
               style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),

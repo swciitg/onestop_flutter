@@ -49,7 +49,7 @@ dependencies:
     git:
       url: https://github.com/swciitg/irbs.git
       path: packages/irbs
-      ref: dev
+      ref: redesign
     # path: ../irbs/packages/irbs
   onestop_kit:
     git:

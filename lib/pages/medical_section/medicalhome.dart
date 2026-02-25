@@ -16,7 +16,7 @@ import '../../functions/utility/show_snackbar.dart';
 class MedicalSection extends StatelessWidget {
   static const id = "/medicalsection";
 
-  MedicalSection({super.key});
+  const MedicalSection({super.key});
 
   final ruleslink = "https://www.iitg.ac.in/medical/Medical%20Rules.pdf";
 

@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/services/data_service.dart';
@@ -205,37 +204,37 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  Widget _buildSearchBar() {
-    return GestureDetector(
-      onTap: () {
-        // TODO: Navigate to search screen
-        print('Search bar tapped!');
-      },
-      child: Container(
-        height: 48,
-        decoration: BoxDecoration(
-          color: OColor.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: OColor.gray200),
-          boxShadow: [
-            BoxShadow(
-              color: OColor.gray300.withValues(alpha: 0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              OText(text: 'Search', style: OTextStyle.bodyMedium.copyWith(color: OColor.gray500)),
-              const Spacer(),
-              Icon(FluentIcons.search_24_regular, color: OColor.gray400, size: 20),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildSearchBar() {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       // TODO: Navigate to search screen
+  //       print('Search bar tapped!');
+  //     },
+  //     child: Container(
+  //       height: 48,
+  //       decoration: BoxDecoration(
+  //         color: OColor.white,
+  //         borderRadius: BorderRadius.circular(16),
+  //         border: Border.all(color: OColor.gray200),
+  //         boxShadow: [
+  //           BoxShadow(
+  //             color: OColor.gray300.withValues(alpha: 0.1),
+  //             blurRadius: 8,
+  //             offset: const Offset(0, 2),
+  //           ),
+  //         ],
+  //       ),
+  //       child: Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 16),
+  //         child: Row(
+  //           children: [
+  //             OText(text: 'Search', style: OTextStyle.bodyMedium.copyWith(color: OColor.gray500)),
+  //             const Spacer(),
+  //             Icon(FluentIcons.search_24_regular, color: OColor.gray400, size: 20),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

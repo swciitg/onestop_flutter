@@ -326,7 +326,7 @@ class _TimeMarkerRow extends StatelessWidget {
 
   String get _label {
     if (hour == 0) return '12:00 AM';
-    if (hour < 12) return '${hour}:00 AM';
+    if (hour < 12) return '$hour:00 AM';
     if (hour == 12) return '12:00 PM';
     return '${hour - 12}:00 PM';
   }
@@ -396,8 +396,12 @@ class _ScheduleListState extends State<ScheduleList> {
 
     List<CourseModel> endsem = _sort(List.from(widget.data.courses!), type: 'endsem');
     List<CourseModel> midsem = _sort(List.from(widget.data.courses!));
-    for (var c in midsem) c.venue = c.midsemVenue;
-    for (var c in endsem) c.venue = c.endsemVenue;
+    for (var c in midsem) {
+      c.venue = c.midsemVenue;
+    }
+    for (var c in endsem) {
+      c.venue = c.endsemVenue;
+    }
 
     // Auto-select endsems if mids are done
     if (isMidsDone && !showEndsem) {

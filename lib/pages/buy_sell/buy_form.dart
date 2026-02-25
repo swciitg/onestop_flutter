@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/pages/home/home.dart';
+import 'package:onestop_dev/pages/lost_found/found_location_selection.dart';
 import 'package:onestop_dev/repository/bns_repository.dart';
 import 'package:onestop_dev/repository/lnf_repository.dart';
 import 'package:onestop_dev/services/moderation_service.dart';
@@ -366,9 +367,18 @@ class _BuySellFormState extends State<BuySellForm> {
               onTap:
                   hasImage
                       ? () {
-                        setState(() {
-                          _currentStep = 2;
-                        });
+                        if (widget.category == "Found") {
+                          // Found items need location selection before details
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (_) => LostFoundLocationForm(imageString: _imageString!),
+                            ),
+                          );
+                        } else {
+                          setState(() {
+                            _currentStep = 2;
+                          });
+                        }
                       }
                       : null,
               child: Container(

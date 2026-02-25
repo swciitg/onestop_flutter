@@ -182,18 +182,9 @@ void detailsDialogBox(BuildContext context, dynamic model, [parentContext]) {
                       ),
                       const SizedBox(width: OSpacing.xs),
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              model.username ?? '',
-                              style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
-                            ),
-                            Text(
-                              model.email,
-                              style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
-                            ),
-                          ],
+                        child: Text(
+                          model.email,
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
                         ),
                       ),
                     ],
