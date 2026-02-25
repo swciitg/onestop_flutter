@@ -97,7 +97,7 @@ class _ContactPageState extends State<ContactPage> {
                           vertical: OSpacing.xs,
                         ),
                         itemCount: categories.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: OSpacing.xs),
+                        separatorBuilder: (_, _) => const SizedBox(height: OSpacing.xs),
                         itemBuilder: (context, index) {
                           String categoryName = categories[index];
                           ContactModel contactModel = people[categoryName]!;

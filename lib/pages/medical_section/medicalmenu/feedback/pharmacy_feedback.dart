@@ -1,10 +1,9 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
 import 'package:onestop_dev/repository/medical_repository.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -12,7 +11,7 @@ import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
 import 'package:onestop_dev/widgets/profile/custom_date_picker.dart';
 import 'package:onestop_dev/widgets/upsp/file_tile.dart';
 import 'package:onestop_dev/widgets/upsp/upload_button.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 class PharmacyFeedback extends StatefulWidget {
   const PharmacyFeedback({super.key});
@@ -36,14 +35,29 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
   @override
   void initState() {
     super.initState();
-    patientName.text =
-        LoginStore.isGuest ? "" : LoginStore.userData['name'] ?? "";
-    mobilenumber.text =
-        LoginStore.isGuest ? "" : LoginStore.userData['phoneNumber'].toString();
-    _datecontroller.text = DateFormat('dd-MMM-yyyy')
-        .format(DateTime.parse(DateTime.now().toIso8601String()));
+    patientName.text = LoginStore.isGuest ? "" : LoginStore.userData['name'] ?? "";
+    mobilenumber.text = LoginStore.isGuest ? "" : LoginStore.userData['phoneNumber'].toString();
+    _datecontroller.text = DateFormat(
+      'dd-MMM-yyyy',
+    ).format(DateTime.parse(DateTime.now().toIso8601String()));
     selecteddate = DateTime.now();
   }
+
+  InputDecoration _fieldDecoration(String hint) {
+    return InputDecoration(
+      errorStyle: OTextStyle.bodySmall,
+      counterText: "",
+      border: InputBorder.none,
+      hintText: hint,
+      hintStyle: OTextStyle.bodyMedium.copyWith(color: OColor.gray400),
+    );
+  }
+
+  BoxDecoration get _fieldBoxDecoration => BoxDecoration(
+    border: Border.all(color: OColor.gray200),
+    color: OColor.white,
+    borderRadius: BorderRadius.circular(OCornerRadius.m),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -51,444 +65,356 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
     String patientEmail = userData['outlookEmail'];
     String? hostel = userData['hostel'];
 
-    return Theme(
-      data: Theme.of(context).copyWith(
-          checkboxTheme: CheckboxThemeData(
-              side: const BorderSide(color: kWhite),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(3)))),
-      child: Scaffold(
-        backgroundColor: kBackground,
-        appBar: _buildAppBar(context),
-        body: Form(
-          key: _formKey,
-          child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).requestFocus(FocusNode());
-            },
-            child: Column(
-              children: [
-                Container(
-                  color: kBlueGrey,
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                        top: 10, left: 16, right: 16, bottom: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        !LoginStore.isGuest
-                            ? Text(
-                                "Filling this form as $patientEmail",
-                                style: MyFonts.w500.size(11).setColor(kGrey10),
-                              )
-                            : const SizedBox(
-                                height: 0,
-                              ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "Fill this One stop form to submit Pharmacy Feedback directly to the respective authorities.",
-                          style: MyFonts.w400.size(14).setColor(kWhite),
-                        ),
-                      ],
-                    ),
-                  ),
+    return Scaffold(
+      backgroundColor: OColor.gray100,
+      appBar: AppBar(
+        backgroundColor: OColor.gray100,
+        surfaceTintColor: Colors.transparent,
+        centerTitle: true,
+        scrolledUnderElevation: 0,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'Pharmacy Feedback',
+          style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
+        ),
+      ),
+      body: Form(
+        key: _formKey,
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: Column(
+            children: [
+              // Info banner
+              Container(
+                width: double.infinity,
+                margin: const EdgeInsets.symmetric(horizontal: OSpacing.m),
+                padding: const EdgeInsets.all(OSpacing.m),
+                decoration: BoxDecoration(
+                  color: OColor.blue100,
+                  borderRadius: BorderRadius.circular(OCornerRadius.m),
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Please attach a photo or PDF of the prescription (compulsory)",
-                            style: MyFonts.w600.size(16).setColor(kWhite),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (!LoginStore.isGuest)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: OSpacing.xs),
+                        child: Text(
+                          "Filling this form as $patientEmail",
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
+                        ),
+                      ),
+                    Text(
+                      "Fill this One stop form to submit Pharmacy Feedback directly to the respective authorities.",
+                      style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: OSpacing.m),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Prescription upload
+                      Text(
+                        "Please attach a photo or PDF of the prescription (compulsory)",
+                        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                      ),
+                      const SizedBox(height: OSpacing.s),
+                      for (int index = 0; index < files.length; index++)
+                        FileTile(
+                          filename: files[index],
+                          onDelete:
+                              () => setState(() {
+                                files.removeAt(index);
+                              }),
+                        ),
+                      if (files.length < 5)
+                        UploadButton(
+                          callBack: (fName) {
+                            if (fName != null) files.add(fName);
+                            setState(() {});
+                          },
+                          endpoint: Endpoints.pharmacyFileUpload,
+                        ),
+
+                      // Patient Name
+                      const SizedBox(height: OSpacing.m),
+                      Text(
+                        "Patient Name",
+                        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                      ),
+                      const SizedBox(height: OSpacing.xs),
+                      Container(
+                        decoration: _fieldBoxDecoration,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: OSpacing.m,
+                            vertical: OSpacing.xs,
+                          ),
+                          child: TextFormField(
+                            controller: patientName,
+                            validator: (val) {
+                              if (val == null || val.isEmpty) {
+                                return "Please fill the Patient Name";
+                              }
+                              return null;
+                            },
+                            style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
+                            decoration: _fieldDecoration('Your Answer'),
                           ),
                         ),
-                        for (int index = 0; index < files.length; index++)
-                          FileTile(
-                              filename: files[index],
-                              onDelete: () => setState(() {
-                                    files.removeAt(index);
-                                  })),
-                        files.length < 5
-                            ? UploadButton(
-                                callBack: (fName) {
-                                  if (fName != null) files.add(fName);
-                                  setState(() {});
-                                },
-                                endpoint: Endpoints.pharmacyFileUpload,
-                              )
-                            : Container(),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Patient Name",
-                            style: OnestopFonts.w600.size(16).setColor(kWhite),
+                      ),
+
+                      // Contact Number
+                      const SizedBox(height: OSpacing.m),
+                      Text(
+                        "Contact Number",
+                        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                      ),
+                      const SizedBox(height: OSpacing.xs),
+                      Container(
+                        decoration: _fieldBoxDecoration,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: OSpacing.m,
+                            vertical: OSpacing.xs,
+                          ),
+                          child: TextFormField(
+                            validator: (val) {
+                              if (val == null || val.isEmpty) {
+                                return "Please fill your contact number";
+                              }
+                              if (val.length < 10) {
+                                return "Enter a valid contact number";
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            controller: mobilenumber,
+                            maxLength: 10,
+                            style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
+                            decoration: _fieldDecoration('Enter your contact number'),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 12),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: kGrey2),
-                                color: kBackground,
-                                borderRadius: BorderRadius.circular(24)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              child: TextFormField(
-                                controller: patientName,
-                                validator: (val) {
-                                  if (val == null || val.isEmpty) {
-                                    return "Please fill the Patient Name";
-                                  }
-                                  return null;
-                                },
-                                style:
-                                    OnestopFonts.w500.size(16).setColor(kWhite),
-                                decoration: InputDecoration(
-                                  errorStyle: OnestopFonts.w400,
-                                  counterText: "",
-                                  border: InputBorder.none,
-                                  hintText: 'Your Answer',
-                                  hintStyle: const TextStyle(color: kGrey8),
-                                ),
-                              ),
-                            ),
+                      ),
+
+                      // Date of Prescription
+                      const SizedBox(height: OSpacing.m),
+                      Text(
+                        "Date of Prescription",
+                        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                      ),
+                      const SizedBox(height: OSpacing.xs),
+                      Container(
+                        decoration: _fieldBoxDecoration,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: OSpacing.m,
+                            vertical: OSpacing.xs,
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Contact Number",
-                            style: OnestopFonts.w600.size(16).setColor(kWhite),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 12),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: kGrey2),
-                                color: kBackground,
-                                borderRadius: BorderRadius.circular(24)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              child: TextFormField(
-                                validator: (val) {
-                                  if (val == null || val.isEmpty) {
-                                    return "Please fill your contact number";
-                                  }
-                                  if (val.length < 10) {
-                                    return "Enter a valid contact number";
-                                  }
-                                  return null;
-                                },
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                controller: mobilenumber,
-                                maxLength: 10,
-                                style:
-                                    OnestopFonts.w500.size(16).setColor(kWhite),
-                                decoration: InputDecoration(
-                                  errorStyle: OnestopFonts.w400,
-                                  counterText: "",
-                                  border: InputBorder.none,
-                                  hintText: 'Enter your contact number',
-                                  hintStyle: const TextStyle(color: kGrey8),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Date of Prescription",
-                            style: OnestopFonts.w600.size(16).setColor(kWhite),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 12),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: kGrey2),
-                                color: kBackground,
-                                borderRadius: BorderRadius.circular(24)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              child: TextFormField(
-                                onTap: () async {
-                                  FocusScope.of(context)
-                                      .requestFocus(FocusNode());
-                                  DateTime? pickedDate = await showDatePicker(
-                                      context: context,
-                                      initialDate:
-                                          selecteddate ?? DateTime.now(),
-                                      firstDate: DateTime(1920),
-                                      //DateTime.now() - not to allow to choose before today.
-                                      lastDate: DateTime(2101),
-                                      builder: (context, child) =>
-                                          CustomDatePicker(
-                                            child: child,
-                                          ));
-                                  if (pickedDate != null) {
-                                    if (!mounted) return;
-                                    selecteddate = pickedDate;
-                                    String formattedDate =
-                                        DateFormat('dd-MMM-yyyy')
-                                            .format(pickedDate);
-                                    setState(() {
-                                      _datecontroller.text =
-                                          formattedDate; //set output date to TextField value.
-                                    });
-                                  }
-                                },
-                                controller: _datecontroller,
-                                validator: (val) {
-                                  if (val == null || val.isEmpty) {
-                                    return "Please fill the required details";
-                                  }
-                                  return null;
-                                },
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                maxLength: 10,
-                                style:
-                                    OnestopFonts.w500.size(16).setColor(kWhite),
-                                decoration: InputDecoration(
-                                  errorStyle: OnestopFonts.w400,
-                                  counterText: "",
-                                  border: InputBorder.none,
-                                  hintText: 'Enter your contact number',
-                                  hintStyle: const TextStyle(color: kGrey8),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "No of Prescribed Medications Not Available at the Pharmacy",
-                            style: OnestopFonts.w600.size(16).setColor(kWhite),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 12),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: kGrey2),
-                                color: kBackground,
-                                borderRadius: BorderRadius.circular(24)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              child: TextFormField(
-                                validator: (val) {
-                                  if (val == null || val.isEmpty) {
-                                    return "Please fill the required details";
-                                  }
-                                  return null;
-                                },
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                controller: notAvailableNumber,
-                                maxLength: 10,
-                                style:
-                                    OnestopFonts.w500.size(16).setColor(kWhite),
-                                decoration: InputDecoration(
-                                  errorStyle: OnestopFonts.w400,
-                                  counterText: "",
-                                  border: InputBorder.none,
-                                  hintText: 'Must be a number',
-                                  hintStyle: const TextStyle(color: kGrey8),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Names of Prescribed Medications Not Available at the Pharmacy",
-                            style: MyFonts.w600.size(16).setColor(kWhite),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Container(
-                              height: 120,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: kGrey2),
-                                  color: kBackground,
-                                  borderRadius: BorderRadius.circular(24)),
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  child: TextFormField(
-                                    maxLines: 4,
-                                    controller: notAvailableNames,
-                                    style:
-                                        MyFonts.w500.size(16).setColor(kWhite),
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Your answer',
-                                      hintStyle: TextStyle(color: kGrey8),
-                                    ),
-                                  ))),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Remarks, if any",
-                            style: MyFonts.w600.size(16).setColor(kWhite),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Container(
-                              height: 120,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: kGrey2),
-                                  color: kBackground,
-                                  borderRadius: BorderRadius.circular(24)),
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  child: TextFormField(
-                                    maxLines: 4,
-                                    controller: remarks,
-                                    style:
-                                        MyFonts.w500.size(16).setColor(kWhite),
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Your answer',
-                                      hintStyle: TextStyle(color: kGrey8),
-                                    ),
-                                  ))),
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.info_outline_rounded,
-                                color: Colors.grey,
-                                size: 24,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                    "Note: As per the MOU signed by the pharmacy, all medications must be made available within 24 hours.",
-                                    style: OnestopFonts.w400
-                                        .size(16)
-                                        .setColor(kWhite),
-                                    softWrap: true,
-                                    overflow: TextOverflow.visible),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            if (!_formKey.currentState!.validate()) {
-                              return;
-                            }
-                            // if (files.isEmpty) {
-                            //   showSnackBar(
-                            //       "Please attach photo or pdf of prescription");
-                            //   return;
-                            // }
-                            if (!submitted) {
-                              DateTime date = DateTime(selecteddate!.year,
-                                  selecteddate!.month, selecteddate!.day);
-                              setState(() {
-                                submitted = true;
-                              });
-                              Map<String, dynamic> data = {};
-                              data['files'] = files;
-                              data['prescDate'] =
-                                  date.toIso8601String().substring(0, 10);
-                              data['patientName'] = patientName.text;
-                              data['mobile'] = mobilenumber.text;
-                              data['numNotAvailableMedicines'] =
-                                  notAvailableNumber.text;
-                              data['notAvailableMedicines'] =
-                                  notAvailableNames.text;
-                              data['rollNo'] = userData['rollNo'];
-                              data['patientHostel'] = hostel ?? "";
-                              data['remarks'] = remarks.text;
-                              data['patientEmail'] = patientEmail;
-                              try {
-                                var response = await MedicalRepository()
-                                    .postPharmacyFeedback(data);
+                          child: TextFormField(
+                            onTap: () async {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: selecteddate ?? DateTime.now(),
+                                firstDate: DateTime(1920),
+                                lastDate: DateTime(2101),
+                                builder: (context, child) => CustomDatePicker(child: child),
+                              );
+                              if (pickedDate != null) {
                                 if (!mounted) return;
-                                if (response['success']) {
-                                  showSnackBar(
-                                      "Your Feedback has been successfully sent to respective authorities.");
-                                  Navigator.popUntil(context,
-                                      ModalRoute.withName(MedicalSection.id));
-                                } else {
-                                  showSnackBar(
-                                      "Some error occurred. Try again later");
-                                  setState(() {
-                                    submitted = false;
-                                  });
-                                }
-                              } catch (err) {
-                                showSnackBar(
-                                    "Please check you internet connection and try again");
+                                selecteddate = pickedDate;
+                                String formattedDate = DateFormat('dd-MMM-yyyy').format(pickedDate);
                                 setState(() {
-                                  submitted = false;
+                                  _datecontroller.text = formattedDate;
                                 });
                               }
-                            }
-                          },
-                          child: const NextButton(
-                            title: "Submit",
+                            },
+                            controller: _datecontroller,
+                            validator: (val) {
+                              if (val == null || val.isEmpty) {
+                                return "Please fill the required details";
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            maxLength: 10,
+                            style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
+                            decoration: _fieldDecoration('Select date'),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+
+                      // Not available count
+                      const SizedBox(height: OSpacing.m),
+                      Text(
+                        "No of Prescribed Medications Not Available at the Pharmacy",
+                        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                      ),
+                      const SizedBox(height: OSpacing.xs),
+                      Container(
+                        decoration: _fieldBoxDecoration,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: OSpacing.m,
+                            vertical: OSpacing.xs,
+                          ),
+                          child: TextFormField(
+                            validator: (val) {
+                              if (val == null || val.isEmpty) {
+                                return "Please fill the required details";
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            controller: notAvailableNumber,
+                            maxLength: 10,
+                            style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
+                            decoration: _fieldDecoration('Must be a number'),
+                          ),
+                        ),
+                      ),
+
+                      // Not available names
+                      const SizedBox(height: OSpacing.m),
+                      Text(
+                        "Names of Prescribed Medications Not Available at the Pharmacy",
+                        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                      ),
+                      const SizedBox(height: OSpacing.xs),
+                      Container(
+                        height: 120,
+                        decoration: _fieldBoxDecoration,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: OSpacing.m,
+                            vertical: OSpacing.s,
+                          ),
+                          child: TextFormField(
+                            maxLines: 4,
+                            controller: notAvailableNames,
+                            style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Your answer',
+                              hintStyle: OTextStyle.bodyMedium.copyWith(color: OColor.gray400),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Remarks
+                      const SizedBox(height: OSpacing.m),
+                      Text(
+                        "Remarks, if any",
+                        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                      ),
+                      const SizedBox(height: OSpacing.xs),
+                      Container(
+                        height: 120,
+                        decoration: _fieldBoxDecoration,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: OSpacing.m,
+                            vertical: OSpacing.s,
+                          ),
+                          child: TextFormField(
+                            maxLines: 4,
+                            controller: remarks,
+                            style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Your answer',
+                              hintStyle: OTextStyle.bodyMedium.copyWith(color: OColor.gray400),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Note
+                      const SizedBox(height: OSpacing.l),
+                      Container(
+                        padding: const EdgeInsets.all(OSpacing.m),
+                        decoration: BoxDecoration(
+                          color: OColor.yellow100,
+                          borderRadius: BorderRadius.circular(OCornerRadius.m),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.info_outline_rounded, color: OColor.gray600, size: 20),
+                            const SizedBox(width: OSpacing.xs),
+                            Expanded(
+                              child: Text(
+                                "Note: As per the MOU signed by the pharmacy, all medications must be made available within 24 hours.",
+                                style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Submit
+                      const SizedBox(height: OSpacing.l),
+                      GestureDetector(
+                        onTap: () async {
+                          if (!_formKey.currentState!.validate()) return;
+                          if (!submitted) {
+                            DateTime date = DateTime(
+                              selecteddate!.year,
+                              selecteddate!.month,
+                              selecteddate!.day,
+                            );
+                            setState(() => submitted = true);
+                            Map<String, dynamic> data = {};
+                            data['files'] = files;
+                            data['prescDate'] = date.toIso8601String().substring(0, 10);
+                            data['patientName'] = patientName.text;
+                            data['mobile'] = mobilenumber.text;
+                            data['numNotAvailableMedicines'] = notAvailableNumber.text;
+                            data['notAvailableMedicines'] = notAvailableNames.text;
+                            data['rollNo'] = userData['rollNo'];
+                            data['patientHostel'] = hostel ?? "";
+                            data['remarks'] = remarks.text;
+                            data['patientEmail'] = patientEmail;
+                            try {
+                              var response = await MedicalRepository().postPharmacyFeedback(data);
+                              if (!mounted) return;
+                              if (response['success']) {
+                                showSnackBar(
+                                  "Your Feedback has been successfully sent to respective authorities.",
+                                );
+                                Navigator.popUntil(context, ModalRoute.withName(MedicalSection.id));
+                              } else {
+                                showSnackBar("Some error occurred. Try again later");
+                                setState(() => submitted = false);
+                              }
+                            } catch (err) {
+                              showSnackBar("Please check you internet connection and try again");
+                              setState(() => submitted = false);
+                            }
+                          }
+                        },
+                        child: const NextButton(title: "Submit"),
+                      ),
+                      const SizedBox(height: OSpacing.l),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -505,27 +431,4 @@ class _PharmacyFeedbackState extends State<PharmacyFeedback> {
     _datecontroller.dispose();
     super.dispose();
   }
-}
-
-AppBar _buildAppBar(BuildContext context) {
-  return AppBar(
-    backgroundColor: kAppBarGrey,
-    iconTheme: const IconThemeData(color: kAppBarGrey),
-    automaticallyImplyLeading: false,
-    centerTitle: true,
-    title: Text(
-      "Pharmacy Feedback",
-      textAlign: TextAlign.center,
-      style: OnestopFonts.w500.size(20).setColor(kWhite),
-    ),
-    actions: [
-      IconButton(
-        onPressed: () => Navigator.of(context).pop(),
-        icon: const Icon(
-          Icons.clear,
-          color: kWhite,
-        ),
-      ),
-    ],
-  );
 }

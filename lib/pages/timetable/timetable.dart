@@ -438,7 +438,7 @@ class _ScheduleListState extends State<ScheduleList> {
                   ? _noData
                   : ListView.separated(
                     itemCount: courses.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: OSpacing.xs),
+                    separatorBuilder: (_, _) => const SizedBox(height: OSpacing.xs),
                     itemBuilder:
                         (context, index) => ExamTile(course: courses[index], isEndSem: showEndsem),
                   ),

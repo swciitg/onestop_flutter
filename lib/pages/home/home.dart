@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/home/bottom_nav_item.dart';
@@ -142,16 +144,26 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Widget _bottomNavBar(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 31, vertical: 24),
-      padding: const EdgeInsets.all(4),
+      margin: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
         color: OColor.white,
-        borderRadius: BorderRadius.circular(OCornerRadius.m),
+        borderRadius: BorderRadius.circular(Platform.isIOS ? 40 : OCornerRadius.l),
         boxShadow: [
           BoxShadow(
+            color: OColor.black.withValues(alpha: 0.06),
+            blurRadius: 9,
+            offset: const Offset(0, 6),
+          ),
+          BoxShadow(
             color: OColor.black.withValues(alpha: 0.03),
-            blurRadius: 16,
+            blurRadius: 17,
             offset: const Offset(0, 16),
+          ),
+          BoxShadow(
+            color: OColor.black.withValues(alpha: 0.02),
+            blurRadius: 23,
+            offset: const Offset(0, 12),
           ),
         ],
       ),
@@ -170,10 +182,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     });
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: index == itemIndex ? OColor.green100 : null,
-                      borderRadius: BorderRadius.circular(OCornerRadius.s),
+                      borderRadius: BorderRadius.circular(Platform.isIOS ? 40 : OCornerRadius.m),
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -188,6 +200,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                           text: item.name,
                           style: OTextStyle.bodyXSmall.copyWith(
                             color: index == itemIndex ? OColor.green600 : OColor.gray800,
+                            letterSpacing: 0.48,
                           ),
                         ),
                       ],

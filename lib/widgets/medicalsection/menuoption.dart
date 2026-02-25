@@ -1,22 +1,21 @@
-
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/utils/colors.dart';
+import 'package:onestop_ui/utils/styles.dart';
+import 'package:onestop_ui/constants/corner_radius.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Menuoption extends StatelessWidget {
   final String name;
   final Widget? navigationwidget;
   final String? link;
+  final IconData? icon;
 
-  const Menuoption({super.key, required this.name, this.navigationwidget, this.link});
+  const Menuoption({super.key, required this.name, this.navigationwidget, this.link, this.icon});
 
   Future<void> launchURL(String url) async {
     final Uri uri = Uri.parse(url);
-    if (!await launchUrl(
-      uri,
-      mode: LaunchMode.externalApplication,
-    )) {
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       throw "Can not launch url";
     }
   }
@@ -24,29 +23,41 @@ class Menuoption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          height: 50,
-          decoration: const BoxDecoration(
-              color: Color.fromRGBO(39, 49, 65, 1),
-              borderRadius: BorderRadius.all(Radius.circular(4))
-          ),
-          child: Center(
-              child: Text(
-                name,
-                textAlign: TextAlign.center,
-                style: OnestopFonts.w400.size(16).setColor(kWhite),
-              )
-          ),
-        ),
-        onTap: () {
-          if (link != null) {
-            launchURL(link!);
-          } else {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => navigationwidget!));
-          }
+      borderRadius: BorderRadius.circular(OCornerRadius.m),
+      onTap: () {
+        if (link != null) {
+          launchURL(link!);
+        } else if (navigationwidget != null) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => navigationwidget!));
         }
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        decoration: BoxDecoration(
+          color: OColor.white,
+          borderRadius: BorderRadius.circular(OCornerRadius.m),
+          border: Border.all(color: OColor.gray200),
+        ),
+        child: Row(
+          children: [
+            if (icon != null) ...[
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: OColor.green100,
+                  borderRadius: BorderRadius.circular(OCornerRadius.s),
+                ),
+                child: Icon(icon, color: OColor.green600, size: 20),
+              ),
+              const SizedBox(width: 12),
+            ],
+            Expanded(
+              child: Text(name, style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
+            ),
+            Icon(FluentIcons.chevron_right_24_regular, color: OColor.gray400, size: 20),
+          ],
+        ),
+      ),
     );
   }
 }

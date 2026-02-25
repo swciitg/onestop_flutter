@@ -92,7 +92,7 @@ class _CategorySheetContent extends StatelessWidget {
                   controller: scrollController,
                   padding: const EdgeInsets.symmetric(vertical: OSpacing.xs),
                   itemCount: contactModel.contacts.length,
-                  separatorBuilder: (_, __) => Divider(height: 1, color: OColor.gray100),
+                  separatorBuilder: (_, _) => Divider(height: 1, color: OColor.gray100),
                   itemBuilder: (context, index) {
                     final contact = contactModel.contacts[index];
                     return InkWell(

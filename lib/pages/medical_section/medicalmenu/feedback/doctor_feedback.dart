@@ -1,14 +1,13 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/medicalcontacts/dropdown_contact_model.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
 import 'package:onestop_dev/repository/medical_repository.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 import '../../../../services/data_service.dart';
 import '../../../../widgets/upsp/file_tile.dart';
@@ -43,297 +42,259 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
   Widget build(BuildContext context) {
     var userData = LoginStore.userData;
     String patientEmail = userData['outlookEmail'];
-    return Theme(
-      data: Theme.of(context).copyWith(
-          checkboxTheme: CheckboxThemeData(
-              side: const BorderSide(color: kWhite),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(3)))),
-      child: Scaffold(
-        backgroundColor: kBackground,
-        appBar: _buildAppBar(context),
-        body: Form(
-          key: _formKey,
-          child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).requestFocus(FocusNode());
-            },
-            child: Column(
-              children: [
-                Container(
-                  color: kBlueGrey,
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                        top: 10, left: 16, right: 16, bottom: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        !LoginStore.isGuest
-                            ? Text(
-                                "Filling this form as $patientEmail",
-                                style: MyFonts.w500.size(11).setColor(kGrey10),
-                              )
-                            : const SizedBox(
-                                height: 0,
-                              ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "Fill this One stop form to submit Pharmacy Feedback directly to the respective authorities.",
-                          style: MyFonts.w400.size(14).setColor(kWhite),
-                        ),
-                      ],
-                    ),
-                  ),
+    return Scaffold(
+      backgroundColor: OColor.gray100,
+      appBar: AppBar(
+        backgroundColor: OColor.gray100,
+        surfaceTintColor: Colors.transparent,
+        centerTitle: true,
+        scrolledUnderElevation: 0,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'Doctors Feedback',
+          style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
+        ),
+      ),
+      body: Form(
+        key: _formKey,
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: Column(
+            children: [
+              // Info banner
+              Container(
+                width: double.infinity,
+                margin: const EdgeInsets.symmetric(horizontal: OSpacing.m),
+                padding: const EdgeInsets.all(OSpacing.m),
+                decoration: BoxDecoration(
+                  color: OColor.blue100,
+                  borderRadius: BorderRadius.circular(OCornerRadius.m),
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Doctor's Name",
-                            style: OnestopFonts.w600.size(16).setColor(kWhite),
-                          ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (!LoginStore.isGuest)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: OSpacing.xs),
+                        child: Text(
+                          "Filling this form as $patientEmail",
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
                         ),
-                        FutureBuilder(
-                          future: medicalContacts,
-                          builder: (BuildContext context,
-                              AsyncSnapshot<List<DropdownContactModel>>
-                                  snapshot) {
-                            if (snapshot.hasData) {
-                              List<DropdownContactModel> doctors =
-                                  snapshot.data as List<DropdownContactModel>;
+                      ),
+                    Text(
+                      "Fill this One stop form to submit Pharmacy Feedback directly to the respective authorities.",
+                      style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: OSpacing.m),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Doctor's Name",
+                        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                      ),
+                      const SizedBox(height: OSpacing.xs),
+                      FutureBuilder(
+                        future: medicalContacts,
+                        builder: (
+                          BuildContext context,
+                          AsyncSnapshot<List<DropdownContactModel>> snapshot,
+                        ) {
+                          if (snapshot.hasData) {
+                            List<DropdownContactModel> doctors =
+                                snapshot.data as List<DropdownContactModel>;
+                            doctors.sort((a, b) => a.name!.compareTo(b.name!));
 
-                              doctors.sort((a, b) =>
-                                  a.name!.compareTo(b.name!)); // Sort by name
-
-                              return Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: kGrey2),
-                                    color: kBackground,
-                                    borderRadius: BorderRadius.circular(24),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    child: DropdownButtonFormField<
-                                        DropdownContactModel>(
-                                      initialValue: selectedDoctor,
-                                      items: doctors
-                                          .map((DropdownContactModel doctor) {
-                                        return DropdownMenuItem<
-                                            DropdownContactModel>(
+                            return Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: OColor.gray200),
+                                color: OColor.white,
+                                borderRadius: BorderRadius.circular(OCornerRadius.m),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: OSpacing.m,
+                                  vertical: OSpacing.xs,
+                                ),
+                                child: DropdownButtonFormField<DropdownContactModel>(
+                                  initialValue: selectedDoctor,
+                                  items:
+                                      doctors.map((DropdownContactModel doctor) {
+                                        return DropdownMenuItem<DropdownContactModel>(
                                           value: doctor,
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 doctor.name!,
-                                                // Display the doctor's name
-                                                style: OnestopFonts.w500
-                                                    .size(16)
-                                                    .setColor(kWhite),
+                                                style: OTextStyle.bodyMedium.copyWith(
+                                                  color: OColor.gray800,
+                                                ),
                                               ),
                                               const SizedBox(height: 2),
                                               Text(
                                                 doctor.designation!,
-                                                // Display doctor's designation or other data
-                                                style: OnestopFonts.w400
-                                                    .size(12)
-                                                    .setColor(kGrey8),
+                                                style: OTextStyle.bodySmall.copyWith(
+                                                  color: OColor.gray500,
+                                                ),
                                               ),
-                                              const SizedBox(height: 8),
+                                              const SizedBox(height: OSpacing.xs),
                                             ],
                                           ),
                                         );
                                       }).toList(),
-                                      selectedItemBuilder:
-                                          (BuildContext context) {
-                                        return doctors.map<Widget>(
-                                            (DropdownContactModel doctor) {
-                                          return Text(
-                                            doctor.name!,
-                                            style: OnestopFonts.w500
-                                                .size(16)
-                                                .setColor(kWhite),
-                                          );
-                                        }).toList();
-                                      },
-                                      onChanged:
-                                          (DropdownContactModel? newValue) {
-                                        setState(() {
-                                          selectedDoctor =
-                                              newValue; // Set selected doctor
-                                        });
-                                      },
-                                      validator: (val) {
-                                        if (val == null) {
-                                          return "Select any Doctor name to proceed";
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        errorStyle: OnestopFonts.w400,
-                                        border: InputBorder.none,
-                                        hintText: 'Select Doctor',
-                                        hintStyle:
-                                            const TextStyle(color: kGrey8),
-                                      ),
-                                      dropdownColor: kBackground,
-                                      // Dropdown background color
-                                      icon: const Icon(Icons.arrow_drop_down,
-                                          color: kWhite),
-                                      isExpanded: true,
-                                      elevation: 16,
-                                      style: OnestopFonts.w500
-                                          .size(16)
-                                          .setColor(kWhite),
-                                      menuMaxHeight: 250,
-                                      borderRadius: BorderRadius.circular(16),
+                                  selectedItemBuilder: (BuildContext context) {
+                                    return doctors.map<Widget>((DropdownContactModel doctor) {
+                                      return Text(
+                                        doctor.name!,
+                                        style: OTextStyle.bodyMedium.copyWith(
+                                          color: OColor.gray800,
+                                        ),
+                                      );
+                                    }).toList();
+                                  },
+                                  onChanged: (DropdownContactModel? newValue) {
+                                    setState(() {
+                                      selectedDoctor = newValue;
+                                    });
+                                  },
+                                  validator: (val) {
+                                    if (val == null) {
+                                      return "Select any Doctor name to proceed";
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    errorStyle: OTextStyle.bodySmall,
+                                    border: InputBorder.none,
+                                    hintText: 'Select Doctor',
+                                    hintStyle: OTextStyle.bodyMedium.copyWith(
+                                      color: OColor.gray400,
                                     ),
                                   ),
+                                  dropdownColor: OColor.white,
+                                  icon: Icon(Icons.arrow_drop_down, color: OColor.gray800),
+                                  isExpanded: true,
+                                  elevation: 4,
+                                  style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
+                                  menuMaxHeight: 250,
+                                  borderRadius: BorderRadius.circular(OCornerRadius.m),
                                 ),
-                              );
-                            }
-                            return Container();
-                          },
+                              ),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                      const SizedBox(height: OSpacing.m),
+                      Text(
+                        "Brief Description about your feedback or suggestions.",
+                        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                      ),
+                      const SizedBox(height: OSpacing.xs),
+                      Container(
+                        height: 120,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: OColor.gray200),
+                          color: OColor.white,
+                          borderRadius: BorderRadius.circular(OCornerRadius.m),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Brief Description about your feedback or suggestions.",
-                            style: MyFonts.w600.size(16).setColor(kWhite),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: OSpacing.m,
+                            vertical: OSpacing.s,
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Container(
-                              height: 120,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: kGrey2),
-                                  color: kBackground,
-                                  borderRadius: BorderRadius.circular(24)),
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  child: TextFormField(
-                                    validator: (val) {
-                                      if (val == null || val.isEmpty) {
-                                        return "Please fill the required details";
-                                      }
-                                      return null;
-                                    },
-                                    maxLines: 4,
-                                    controller: remarks,
-                                    style:
-                                        MyFonts.w500.size(16).setColor(kWhite),
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Your answer',
-                                      hintStyle: TextStyle(color: kGrey8),
-                                    ),
-                                  ))),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 15, bottom: 10),
-                          child: Text(
-                            "Please upload any relevant screenshots, videos, or PDF attachments, if available.",
-                            style: MyFonts.w600.size(16).setColor(kWhite),
-                          ),
-                        ),
-                        for (int index = 0; index < files.length; index++)
-                          FileTile(
-                              filename: files[index],
-                              onDelete: () => setState(() {
-                                    files.removeAt(index);
-                                  })),
-                        files.length < 5
-                            ? UploadButton(
-                                callBack: (fName) {
-                                  if (fName != null) files.add(fName);
-                                  setState(() {});
-                                },
-                                endpoint: Endpoints.doctorFileUpload,
-                              )
-                            : Container(),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            if (!_formKey.currentState!.validate()) {
-                              return;
-                            }
-                            if (!submitted) {
-                              // DateTime date = DateTime(selecteddate!.year,
-                              //     selecteddate!.month, selecteddate!.day);
-                              setState(() {
-                                submitted = true;
-                              });
-                              Map<String, dynamic> data = {};
-                              data['files'] = files;
-                              data['doctorName'] = selectedDoctor!.name;
-                              data['doctorDegree'] = selectedDoctor!.degree;
-                              data['patientEmail'] = userData['outlookEmail'];
-                              data['patientName'] = userData['name'] ?? "";
-                              data['mobile'] =
-                                  userData['phoneNumber'].toString();
-                              data['patientHostel'] = userData['hostel'];
-                              data['remarks'] = remarks.text;
-                              data['rollNo'] = userData['rollNo'];
-                              // print(data);
-                              try {
-                                var response = await MedicalRepository()
-                                    .postDoctorFeedback(data);
-                                if (!mounted) return;
-                                if (response['success']) {
-                                  showSnackBar(
-                                      "Your Feedback has been successfully sent to respective authorities.");
-                                  Navigator.popUntil(context,
-                                      ModalRoute.withName(MedicalSection.id));
-                                } else {
-                                  showSnackBar(
-                                      "Some error occurred. Try again later");
-                                  setState(() {
-                                    submitted = false;
-                                  });
-                                }
-                              } catch (err) {
-                                showSnackBar(
-                                    "Please check you internet connection and try again");
-                                setState(() {
-                                  submitted = false;
-                                });
+                          child: TextFormField(
+                            validator: (val) {
+                              if (val == null || val.isEmpty) {
+                                return "Please fill the required details";
                               }
-                            }
-                          },
-                          child: const NextButton(
-                            title: "Submit",
+                              return null;
+                            },
+                            maxLines: 4,
+                            controller: remarks,
+                            style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Your answer',
+                              hintStyle: OTextStyle.bodyMedium.copyWith(color: OColor.gray400),
+                            ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: OSpacing.m),
+                      Text(
+                        "Please upload any relevant screenshots, videos, or PDF attachments, if available.",
+                        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                      ),
+                      const SizedBox(height: OSpacing.s),
+                      for (int index = 0; index < files.length; index++)
+                        FileTile(
+                          filename: files[index],
+                          onDelete:
+                              () => setState(() {
+                                files.removeAt(index);
+                              }),
+                        ),
+                      if (files.length < 5)
+                        UploadButton(
+                          callBack: (fName) {
+                            if (fName != null) files.add(fName);
+                            setState(() {});
+                          },
+                          endpoint: Endpoints.doctorFileUpload,
+                        ),
+                      const SizedBox(height: OSpacing.l),
+                      GestureDetector(
+                        onTap: () async {
+                          if (!_formKey.currentState!.validate()) return;
+                          if (!submitted) {
+                            setState(() => submitted = true);
+                            Map<String, dynamic> data = {};
+                            data['files'] = files;
+                            data['doctorName'] = selectedDoctor!.name;
+                            data['doctorDegree'] = selectedDoctor!.degree;
+                            data['patientEmail'] = userData['outlookEmail'];
+                            data['patientName'] = userData['name'] ?? "";
+                            data['mobile'] = userData['phoneNumber'].toString();
+                            data['patientHostel'] = userData['hostel'];
+                            data['remarks'] = remarks.text;
+                            data['rollNo'] = userData['rollNo'];
+                            try {
+                              var response = await MedicalRepository().postDoctorFeedback(data);
+                              if (!mounted) return;
+                              if (response['success']) {
+                                showSnackBar(
+                                  "Your Feedback has been successfully sent to respective authorities.",
+                                );
+                                Navigator.popUntil(context, ModalRoute.withName(MedicalSection.id));
+                              } else {
+                                showSnackBar("Some error occurred. Try again later");
+                                setState(() => submitted = false);
+                              }
+                            } catch (err) {
+                              showSnackBar("Please check you internet connection and try again");
+                              setState(() => submitted = false);
+                            }
+                          }
+                        },
+                        child: const NextButton(title: "Submit"),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -346,27 +307,4 @@ class _DoctorFeedbackState extends State<DoctorFeedback> {
     remarks.dispose();
     super.dispose();
   }
-}
-
-AppBar _buildAppBar(BuildContext context) {
-  return AppBar(
-    backgroundColor: kAppBarGrey,
-    iconTheme: const IconThemeData(color: kAppBarGrey),
-    automaticallyImplyLeading: false,
-    centerTitle: true,
-    title: Text(
-      "Doctors Feedback",
-      textAlign: TextAlign.center,
-      style: OnestopFonts.w500.size(20).setColor(kWhite),
-    ),
-    actions: [
-      IconButton(
-        onPressed: () => Navigator.of(context).pop(),
-        icon: const Icon(
-          Icons.clear,
-          color: kWhite,
-        ),
-      ),
-    ],
-  );
 }

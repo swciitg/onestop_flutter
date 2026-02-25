@@ -8,48 +8,10 @@ class OutletsFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0.0),
-          child: Container(
-            alignment: Alignment.bottomLeft,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: OText(
-                text: "Food Outlets",
-                selectable: false,
-                style: OTextStyle.headingMedium.copyWith(
-                  fontSize: screenWidth < 600 ? 20 : 24,
-                  color: OColor.gray800,
-                ),
-              ),
-            ),
-          ),
-        ),
-        // SizedBox(
-        //   height: 5,
-        // ),
-        // Expanded(
-        //   child: ListView(
-        //     scrollDirection: Axis.horizontal,
-        //     children: [
-        //       OutletsFilterTile(
-        //         filterText: "All",
-        //         selected: true,
-        //       ),
-        //       OutletsFilterTile(filterText: "Snacks"),
-        //       OutletsFilterTile(filterText: "Cakes"),
-        //       OutletsFilterTile(filterText: "South Indian"),
-        //       OutletsFilterTile(filterText: "North Indian"),
-        //       OutletsFilterTile(filterText: "Non Veg")
-        //     ],
-        //   ),
-        // )
-      ],
+    return OText(
+      text: "Food Outlets",
+      selectable: false,
+      style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mess_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -25,10 +24,7 @@ class MessMenu extends StatelessWidget {
     "Saturday",
   ];
   final List<String> hostels =
-      Mess.values
-          .displayStrings()
-          .where((e) => e != Mess.none.displayString)
-          .toList();
+      Mess.values.displayStrings().where((e) => e != Mess.none.displayString).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +34,7 @@ class MessMenu extends StatelessWidget {
       builder: (context, _) {
         final messStore = context.read<MessStore>();
         messStore.setMess(
-          OneStopUser.fromJson(
-                LoginStore.userData,
-              ).subscribedMess?.getMessFromDatabaseString() ??
+          OneStopUser.fromJson(LoginStore.userData).subscribedMess?.getMessFromDatabaseString() ??
               messStore.defaultUserMess,
         );
 
@@ -59,10 +53,7 @@ class MessMenu extends StatelessWidget {
 
   Widget _buildHeader(double screenWidth, MessStore messStore) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        color: OColor.gray100,
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(24), color: OColor.gray100),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -112,11 +103,7 @@ class MessMenu extends StatelessWidget {
                                 shape: BoxShape.circle,
                                 color: OColor.gray100,
                               ),
-                              child: Icon(
-                                Icons.close,
-                                color: OColor.gray600,
-                                size: 20,
-                              ),
+                              child: Icon(Icons.close, color: OColor.gray600, size: 20),
                             ),
                             onPressed: () {
                               Navigator.pop(context);
@@ -141,13 +128,8 @@ class MessMenu extends StatelessWidget {
                 ],
             offset: const Offset(0, 40),
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 6.0,
-                horizontal: 12.0,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -162,11 +144,7 @@ class MessMenu extends StatelessWidget {
                         ),
                   ),
                   const SizedBox(width: 4),
-                  Icon(
-                    FluentIcons.chevron_down_24_regular,
-                    color: OColor.green600,
-                    size: 16,
-                  ),
+                  Icon(FluentIcons.chevron_down_24_regular, color: OColor.green600, size: 16),
                 ],
               ),
             ),
@@ -214,10 +192,7 @@ class MessMenu extends StatelessWidget {
 
   Widget _buildDaySelector(double screenWidth, MessStore messStore) {
     final currentDayIndex = DateTime.now().weekday % 7;
-    final reorderedDays = [
-      ...days.sublist(currentDayIndex),
-      ...days.sublist(0, currentDayIndex),
-    ];
+    final reorderedDays = [...days.sublist(currentDayIndex), ...days.sublist(0, currentDayIndex)];
 
     return Observer(
       builder:
@@ -234,15 +209,11 @@ class MessMenu extends StatelessWidget {
                           label: day,
                           onPressed: () => messStore.setDay(day),
                           enabled: true,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           labelStyle: OTextStyle.bodySmall.copyWith(
                             color: isSelected ? OColor.white : OColor.gray600,
                           ),
-                          bgColor:
-                              isSelected ? OColor.green600 : OColor.gray200,
+                          bgColor: isSelected ? OColor.green600 : OColor.gray200,
                           diabledBgColor: OColor.gray300,
                         ),
                         const SizedBox(width: 8),
@@ -290,21 +261,19 @@ class MessMenu extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Shimmer.fromColors(
-                baseColor: kBlueGrey,
-                highlightColor: kBlueGrey,
+                baseColor: OColor.gray200,
+                highlightColor: OColor.gray100,
                 child: Container(
                   width: 305,
                   decoration: BoxDecoration(
-                    color: Colors.grey[300],
+                    color: OColor.gray200,
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
               );
             }
 
-            if (snapshot.hasError ||
-                !snapshot.hasData ||
-                snapshot.data!.id.isEmpty) {
+            if (snapshot.hasError || !snapshot.hasData || snapshot.data!.id.isEmpty) {
               return OText(
                 text: "No data available for $mealName",
                 style: OTextStyle.bodySmall.copyWith(color: OColor.gray500),

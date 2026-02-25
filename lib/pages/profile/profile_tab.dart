@@ -228,7 +228,7 @@ class _ProfileTabState extends State<ProfileTab> {
             radius: 45,
             backgroundColor: OColor.gray200,
             backgroundImage: NetworkImage(profileUrl),
-            onBackgroundImageError: (_, __) {},
+            onBackgroundImageError: (_, _) {},
             child: ClipOval(
               child: Image.network(
                 profileUrl,
@@ -236,7 +236,7 @@ class _ProfileTabState extends State<ProfileTab> {
                 height: 90,
                 fit: BoxFit.cover,
                 errorBuilder:
-                    (_, __, ___) => Image.asset(
+                    (_, _, _) => Image.asset(
                       'assets/images/profile_placeholder.jpg',
                       width: 90,
                       height: 90,
@@ -607,7 +607,7 @@ class _InfoTile extends StatelessWidget {
                 child: ListView.separated(
                   shrinkWrap: true,
                   itemCount: dropdownOptions!.length,
-                  separatorBuilder: (_, __) => Divider(color: OColor.gray200, thickness: 1),
+                  separatorBuilder: (_, _) => Divider(color: OColor.gray200, thickness: 1),
                   itemBuilder: (_, i) {
                     final option = dropdownOptions![i];
                     final isSelected = option == value;

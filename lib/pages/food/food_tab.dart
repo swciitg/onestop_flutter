@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/food/restaurant_model.dart';
 import 'package:onestop_dev/services/data_service.dart';
@@ -7,68 +8,146 @@ import 'package:onestop_dev/widgets/food/restaurant/restaurant_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_ui/index.dart';
 
-class FoodTab extends StatelessWidget {
+class FoodTab extends StatefulWidget {
   const FoodTab({super.key});
+
+  @override
+  State<FoodTab> createState() => _FoodTabState();
+}
+
+class _FoodTabState extends State<FoodTab> {
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  List<RestaurantModel> _filterRestaurants(List<RestaurantModel> restaurants) {
+    if (_searchQuery.isEmpty) return restaurants;
+    final query = _searchQuery.toLowerCase();
+    return restaurants.where((r) {
+      return r.outletName.toLowerCase().contains(query) ||
+          r.caption.toLowerCase().contains(query) ||
+          r.location.toLowerCase().contains(query);
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // provide a tap handler (even if empty) and a behavior to avoid implicit errors
-      onTap: () {},
+      onTap: () => FocusScope.of(context).unfocus(),
       behavior: HitTestBehavior.opaque,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-        
           const SizedBox(height: 8),
-          // FoodSearchBar(),
-          const SizedBox(height: 13),
-          // Expanded must be inside a Flex (Column) with bounded height; here it's correct
           Expanded(
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  MessMenu(),
-                  // const MessOpiFormPage(),
-                  // const MessLinks(),
-                  // const SizedBox(height: 16),
-                  // const FavoriteDishes(),
-                  const OutletsFilter(),
-                  const SizedBox(height: 7),
-                  FutureBuilder<List<RestaurantModel>>(
-                    future: DataService.getRestaurants(),
-                    builder: (
-                      BuildContext context,
-                      AsyncSnapshot<List<RestaurantModel>> snapshot,
-                    ) {
-                      if (snapshot.hasData) {
-                        List<Widget> foodList = snapshot.data!
-                            .map((e) => RestaurantTile(restaurantModel: e))
-                            .toList();
-                        return Transform.translate(
-                          offset: const Offset(-6.0, 0.0),
-                          // Shift slightly to the left and keep the list in a Column
-                          child: Column(children: foodList),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Center(
-                          child: Text(
-                            "An error occurred",
-                            style: OTextStyle.headingMedium.copyWith(
-                              fontSize: 25,
-                              color: OColor.gray800,
-                            ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MessMenu(),
+                    const SizedBox(height: 24),
+                    const OutletsFilter(),
+                    const SizedBox(height: 12),
+                    // Search bar
+                    Container(
+                      decoration: BoxDecoration(
+                        color: OColor.white,
+                        borderRadius: BorderRadius.circular(OCornerRadius.m),
+                        border: Border.all(color: OColor.gray200),
+                      ),
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: (value) {
+                          setState(() => _searchQuery = value);
+                        },
+                        style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                        decoration: InputDecoration(
+                          hintText: 'Search food outlets...',
+                          hintStyle: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
+                          prefixIcon: Icon(
+                            FluentIcons.search_24_regular,
+                            color: OColor.gray400,
+                            size: 20,
                           ),
-                        );
-                      }
-                      return Center(child: ListShimmer(height: 168));
-                    },
-                  ),
-                ],
+                          suffixIcon:
+                              _searchQuery.isNotEmpty
+                                  ? GestureDetector(
+                                    onTap: () {
+                                      _searchController.clear();
+                                      setState(() => _searchQuery = '');
+                                    },
+                                    child: Icon(
+                                      FluentIcons.dismiss_24_regular,
+                                      color: OColor.gray400,
+                                      size: 20,
+                                    ),
+                                  )
+                                  : null,
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          isDense: true,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    FutureBuilder<List<RestaurantModel>>(
+                      future: DataService.getRestaurants(),
+                      builder: (
+                        BuildContext context,
+                        AsyncSnapshot<List<RestaurantModel>> snapshot,
+                      ) {
+                        if (snapshot.hasData) {
+                          final filtered = _filterRestaurants(snapshot.data!);
+                          if (filtered.isEmpty) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 32),
+                              child: Center(
+                                child: Text(
+                                  'No outlets found',
+                                  style: OTextStyle.bodyMedium.copyWith(color: OColor.gray400),
+                                ),
+                              ),
+                            );
+                          }
+                          return Column(
+                            children:
+                                filtered
+                                    .map(
+                                      (e) => Padding(
+                                        padding: const EdgeInsets.only(bottom: 16),
+                                        child: RestaurantTile(restaurantModel: e),
+                                      ),
+                                    )
+                                    .toList(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text(
+                              "An error occurred",
+                              style: OTextStyle.headingMedium.copyWith(
+                                fontSize: 25,
+                                color: OColor.gray800,
+                              ),
+                            ),
+                          );
+                        }
+                        return Center(child: ListShimmer(height: 168));
+                      },
+                    ),
+                    const SizedBox(height: 160),
+                  ],
+                ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

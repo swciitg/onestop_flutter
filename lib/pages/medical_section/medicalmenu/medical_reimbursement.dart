@@ -1,10 +1,9 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../functions/utility/show_snackbar.dart';
-import '../../../globals/my_colors.dart';
-import '../../../globals/my_fonts.dart';
 
 class MedicalReimbursement extends StatelessWidget {
   const MedicalReimbursement({super.key});
@@ -12,217 +11,186 @@ class MedicalReimbursement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
-      backgroundColor: OneStopColors.backgroundColor,
+      backgroundColor: OColor.gray100,
+      appBar: AppBar(
+        backgroundColor: OColor.gray100,
+        surfaceTintColor: Colors.transparent,
+        centerTitle: true,
+        scrolledUnderElevation: 0,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'Medical Reimbursement',
+          style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
+        ),
+      ),
       body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Text("1. Fill the Form", style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
-                          const SizedBox(height: 10,),
-                          Padding(
-                            padding: const EdgeInsets.only(left:15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("FORM 1",style: MyFonts.w500.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w600),),
-                                Padding(
-                                  padding: const EdgeInsets.only(left:10),
-                                  child: Text("Reimbursement Form for OPD Treatment by Institute Doctor.",style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),),
-                                ),
-                                const SizedBox(height: 4,),
-                                Text("FORM 2",style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
-                                Padding(
-                                  padding: const EdgeInsets.only(left:10),
-                                  child: Text("Reimbursement Form for OPD Treatment referred to Outside Doctor/Consultants of panel hospitals. ",style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w300),),
-                                ),
-                                const SizedBox(height: 6,),
-                                InkWell(
-                                    onTap: (){
-                                      try{
-                                        _launchURL("https://www.iitg.ac.in/medical/FORMS.html");
-                                      }catch(e){
-                                        showSnackBar(e.toString());
-                                      }
-                                    },
-                                    child: Text("Click here for form",style: MyFonts.w700.setColor(kWhite).size(13).copyWith(fontWeight: FontWeight.w500,color: Colors.blueAccent),))
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          )
-                        ]),
-                  ),
-                  const Divider(height: 1, color: kTabBar,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Text("2. Original bills for consultation fees/registration fees, medicines to be attached.", style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
-                          const SizedBox(
-                            height: 14,
-                          ),
-
-                        ]),
-                  ),
-                  const Divider(height: 1, color: kTabBar,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Text("3. Proof of referral from institute doctor to be attached.", style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          )
-                        ]),
-                  ),
-                  const Divider(height: 1, color: kTabBar,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Text("4. A copy of the medical record book to be attached.", style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          )
-                        ]),
-                  ),
-                  const Divider(height: 1, color: kTabBar,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Text("5. Proof of bank account (passbook front page/cheque book) to be attached.. ", style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          )
-                        ]),
-                  ),
-                  const Divider(height: 1, color: kTabBar,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Text("6. Drop it in the box near the reception counter on the ground floor.", style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w500),),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          )
-                        ]),
-                  ),
-                  const SizedBox(height: 30,),
-                  const Divider(),
-                  const SizedBox(height: 15,),
-                  
-                  Row(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: OSpacing.m),
+                // Step 1
+                _buildStepCard(
+                  number: "1",
+                  title: "Fill the Form",
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.info_outline_rounded, color: Colors.grey,size: 24,),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          "For any Hospitalization (not covered under insurance), please submit Form 3",
-                          style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w400,color: Colors.white),
-                          softWrap: true,
-                          overflow: TextOverflow.visible,
-                          //textAlign: BadgePosition.bottomStart(bottom: -8),
+                      const SizedBox(height: OSpacing.xs),
+                      Padding(
+                        padding: const EdgeInsets.only(left: OSpacing.s),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "FORM 1",
+                              style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: OSpacing.xs),
+                              child: Text(
+                                "Reimbursement Form for OPD Treatment by Institute Doctor.",
+                                style: OTextStyle.bodySmall.copyWith(color: OColor.gray700),
+                              ),
+                            ),
+                            const SizedBox(height: OSpacing.xxs),
+                            Text(
+                              "FORM 2",
+                              style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: OSpacing.xs),
+                              child: Text(
+                                "Reimbursement Form for OPD Treatment referred to Outside Doctor/Consultants of panel hospitals.",
+                                style: OTextStyle.bodySmall.copyWith(color: OColor.gray700),
+                              ),
+                            ),
+                            const SizedBox(height: OSpacing.xs),
+                            InkWell(
+                              onTap: () {
+                                try {
+                                  _launchURL("https://www.iitg.ac.in/medical/FORMS.html");
+                                } catch (e) {
+                                  showSnackBar(e.toString());
+                                }
+                              },
+                              child: Text(
+                                "Click here for form",
+                                style: OTextStyle.bodySmall.copyWith(color: OColor.blue500),
+                              ),
+                            ),
+                          ],
                         ),
-
                       ),
                     ],
                   ),
-                  const SizedBox(height: 15,),
-                  Text(
-                      "Kindly note that the Part B of Form 3 is to be duly signed with seal by theconcerned Hospital",
-                      style: MyFonts.w700.setColor(kWhite).size(14).copyWith(fontWeight: FontWeight.w400,color: Colors.white),
-                      softWrap: true,
-                      overflow: TextOverflow.visible
+                ),
+                const SizedBox(height: OSpacing.s),
+                // Step 2
+                _buildStepCard(
+                  number: "2",
+                  title:
+                      "Original bills for consultation fees/registration fees, medicines to be attached.",
+                ),
+                const SizedBox(height: OSpacing.s),
+                // Step 3
+                _buildStepCard(
+                  number: "3",
+                  title: "Proof of referral from institute doctor to be attached.",
+                ),
+                const SizedBox(height: OSpacing.s),
+                // Step 4
+                _buildStepCard(
+                  number: "4",
+                  title: "A copy of the medical record book to be attached.",
+                ),
+                const SizedBox(height: OSpacing.s),
+                // Step 5
+                _buildStepCard(
+                  number: "5",
+                  title: "Proof of bank account (passbook front page/cheque book) to be attached.",
+                ),
+                const SizedBox(height: OSpacing.s),
+                // Step 6
+                _buildStepCard(
+                  number: "6",
+                  title: "Drop it in the box near the reception counter on the ground floor.",
+                ),
+                const SizedBox(height: OSpacing.l),
+                // Info note
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(OSpacing.m),
+                  decoration: BoxDecoration(
+                    color: OColor.blue100,
+                    borderRadius: BorderRadius.circular(OCornerRadius.m),
                   ),
-                  const SizedBox(height: 30,),
-
-                ],
-              ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(Icons.info_outline_rounded, color: OColor.blue500, size: 24),
+                          const SizedBox(width: OSpacing.xs),
+                          Expanded(
+                            child: Text(
+                              "For any Hospitalization (not covered under insurance), please submit Form 3",
+                              style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: OSpacing.s),
+                      Text(
+                        "Kindly note that the Part B of Form 3 is to be duly signed with seal by the concerned Hospital",
+                        style: OTextStyle.bodySmall.copyWith(color: OColor.gray700),
+                        softWrap: true,
+                        overflow: TextOverflow.visible,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: OSpacing.xl),
+              ],
             ),
-          )),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStepCard({required String number, required String title, Widget? child}) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(OSpacing.m),
+      decoration: BoxDecoration(
+        color: OColor.white,
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+        border: Border.all(color: OColor.gray200),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("$number. $title", style: OTextStyle.labelSmall.copyWith(color: OColor.gray800)),
+          if (child != null) child,
+        ],
+      ),
     );
   }
 }
 
 Future<void> _launchURL(String url) async {
-  final Uri uri = Uri.parse(url);  // Use Uri.parse to handle the full URL
-  if (!await launchUrl(
-    uri,
-    mode: LaunchMode.externalApplication,
-  )) {
+  final Uri uri = Uri.parse(url);
+  if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
     throw "Cannot launch URL";
   }
-}
-
-AppBar _buildAppBar(BuildContext context) {
-  return AppBar(
-    backgroundColor: kAppBarGrey,
-    iconTheme: const IconThemeData(color: kAppBarGrey),
-    automaticallyImplyLeading: false,
-    centerTitle: true,
-    title: Text(
-      "Medical Reimbursement",
-      textAlign: TextAlign.center,
-      style: OnestopFonts.w500.size(20).setColor(kWhite),
-    ),
-    actions: [
-      IconButton(
-        onPressed: () => Navigator.of(context).pop(),
-        icon: const Icon(
-          Icons.clear,
-          color: kWhite,
-        ),
-      ),
-    ],
-  );
 }

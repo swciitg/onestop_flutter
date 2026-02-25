@@ -1,12 +1,8 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/medicalcontacts/medicalcontact_model.dart';
-import 'package:onestop_dev/widgets/contact/contact_display.dart';
 import 'package:onestop_dev/widgets/medicalsection/medical_contact_dialog.dart';
-import 'package:onestop_dev/widgets/medicalsection/medical_contact_display.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 class MedicalContactdetails extends StatefulWidget {
   final String title;
@@ -24,109 +20,125 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
     bool isMisc = widget.title == 'Reception & Support';
     return SafeArea(
       child: Scaffold(
+        backgroundColor: OColor.gray100,
         appBar: AppBar(
-          backgroundColor: kBlueGrey,
-          leading: Container(),
-          leadingWidth: 0,
-          title: Text('Contacts', style: MyFonts.w500.size(20).setColor(kWhite)),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(
-                FluentIcons.dismiss_24_filled,
-                color: kWhite2,
-              ),
-            )
-          ],
+          backgroundColor: OColor.gray100,
+          surfaceTintColor: Colors.transparent,
+          centerTitle: true,
+          scrolledUnderElevation: 0,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: Text('Contacts', style: OTextStyle.headingMedium.copyWith(color: OColor.gray800)),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    widget.title,
-                    style: MyFonts.w600.size(16).setColor(kWhite),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 2),
-                  child: Text(
-                    '${widget.contacts.length} contacts',
-                    style: MyFonts.w500.size(12).setColor(kGrey11),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                MedicalContactDisplayHeader(
-                    text: 'Name',
-                    width: MediaQuery.of(context).size.width / 3 - 10,
-                    align: AlignmentDirectional.topStart),
-                MedicalContactDisplayHeader(
-                    text: 'Email id',
-                    width: MediaQuery.of(context).size.width / 3 - 10,
-                    align: AlignmentDirectional.center),
-                MedicalContactDisplayHeader(
-                    text: 'Contact No ',
-                    width: MediaQuery.of(context).size.width / 3 - 15,
-                    align: AlignmentDirectional.bottomEnd),
-              ],
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.96,
-              child: const Divider(
-                color: Colors.blueGrey,
-                thickness: 1,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: OSpacing.l),
+              Text(widget.title, style: OTextStyle.labelLarge.copyWith(color: OColor.gray800)),
+              const SizedBox(height: OSpacing.xxs),
+              Text(
+                '${widget.contacts.length} contacts',
+                style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
               ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: widget.contacts.map((item) {
+              const SizedBox(height: OSpacing.m),
+              // Table header
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: OSpacing.xs, horizontal: OSpacing.s),
+                decoration: BoxDecoration(
+                  color: OColor.gray200,
+                  borderRadius: BorderRadius.circular(OCornerRadius.s),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        'Name',
+                        style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        'Email',
+                        style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        'Phone',
+                        style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: OSpacing.xs),
+              Expanded(
+                child: ListView.separated(
+                  itemCount: widget.contacts.length,
+                  separatorBuilder: (_, _) => Divider(color: OColor.gray200, height: 1),
+                  itemBuilder: (context, index) {
+                    final item = widget.contacts[index];
                     var name = isMisc ? item.miscellaneousContact : item.name.name;
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0, right: 10),
-                      child: GestureDetector(
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (_) => MedicalContactDialog(contact: item, isMisc: isMisc),
-                              barrierDismissible: true);
-                        },
+                    return InkWell(
+                      borderRadius: BorderRadius.circular(OCornerRadius.s),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => MedicalContactDialog(contact: item, isMisc: isMisc),
+                          barrierDismissible: true,
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: OSpacing.s,
+                          horizontal: OSpacing.s,
+                        ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ContactText(text: name!, align: AlignmentDirectional.topStart),
-                            ContactText(text: item.email ?? "", align: AlignmentDirectional.center),
-                            ContactText(
-                                text: "361258${item.phone.toString()}",
-                                align: AlignmentDirectional.bottomEnd),
+                            Expanded(
+                              flex: 3,
+                              child: Text(
+                                name ?? '',
+                                style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Text(
+                                item.email ?? '',
+                                style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Text(
+                                "361258${item.phone.toString()}",
+                                style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                                textAlign: TextAlign.end,
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     );
-                  }).toList(),
+                  },
                 ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -77,8 +77,8 @@ AppBar appBar(BuildContext context, {bool displayIcon = true, bool displayDrawer
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder:
-                            (_, __, ___) => ThemeTransitionScreen(toLight: themeStore.isDarkMode),
-                        transitionsBuilder: (_, animation, __, child) {
+                            (_, _, _) => ThemeTransitionScreen(toLight: themeStore.isDarkMode),
+                        transitionsBuilder: (_, animation, _, child) {
                           return FadeTransition(opacity: animation, child: child);
                         },
                         transitionDuration: const Duration(milliseconds: 400),
