@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:onestop_ui/index.dart';
 
 class RadioButtonList extends StatefulWidget {
-  const RadioButtonList({super.key, required this.values, required this.controller});
+  const RadioButtonList({
+    super.key,
+    required this.values,
+    required this.controller,
+    this.labels,
+    this.descriptions,
+  });
   final List<String> values;
+  final List<String>? labels;
+  final List<String>? descriptions;
   final RadioButtonListController controller;
 
   @override
@@ -40,9 +48,23 @@ class _RadioButtonListState extends State<RadioButtonList> {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(
-                    widget.values[i],
-                    style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.labels?[i] ?? widget.values[i],
+                        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                      ),
+                      if (widget.descriptions != null &&
+                          i < widget.descriptions!.length &&
+                          widget.descriptions![i].isNotEmpty) ...[
+                        const SizedBox(height: OSpacing.xxs),
+                        Text(
+                          widget.descriptions![i],
+                          style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray600),
+                        ),
+                      ],
+                    ],
                   ),
                 ),
                 _ToggleBox(isSelected: isSelected),
