@@ -1,11 +1,8 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
-import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/widgets/contact/contact_dialog.dart';
-import 'package:onestop_kit/onestop_kit.dart';
-import 'package:provider/provider.dart';
+import 'package:onestop_ui/index.dart';
 
 class StarContactNameTile extends StatelessWidget {
   final ContactDetailsModel contact;
@@ -14,39 +11,34 @@ class StarContactNameTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var contactStore = Provider.of<ContactStore>(context, listen: false);
-    return TextButton(
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(40),
-        ),
-        child: Container(
-          height: 32,
-          color: kGrey9,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+    return GestureDetector(
+      onTap: () {
+        showContactProfileSheet(context, details: contact);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(right: OSpacing.m),
+        child: SizedBox(
+          width: 56,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 12.5, right: 12.5),
-                child: Text(
-                  contact.name,
-                  style: MyFonts.w400.setColor(kWhite),
-                ),
+              CircleAvatar(
+                radius: 24,
+                backgroundColor: OColor.gray100,
+                child: Icon(FluentIcons.person_24_regular, color: OColor.green600, size: 22),
+              ),
+              const SizedBox(height: OSpacing.xxs),
+              Text(
+                contact.name.split(' ').first,
+                style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray600),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
               ),
             ],
           ),
         ),
       ),
-      onPressed: () {
-        showDialog(
-            context: context,
-            builder: (_) => Provider<ContactStore>.value(
-                  value: contactStore,
-                  child: ContactDialog(details: contact),
-                ),
-            barrierDismissible: true);
-      },
     );
   }
 }

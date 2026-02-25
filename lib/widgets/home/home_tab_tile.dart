@@ -1,8 +1,5 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_kit/onestop_kit.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -40,11 +37,14 @@ class HomeServiceTile extends StatelessWidget {
     return Badge(
       position: BadgePosition.topEnd(top: 3),
       badgeStyle: BadgeStyle(
-        badgeColor: kBadgeColor,
+        badgeColor: OColor.green600,
         shape: BadgeShape.square,
         borderRadius: BorderRadius.circular(8),
       ),
-      badgeContent: Text('New', style: MyFonts.w600.setColor(kGrey9).size(10)),
+      badgeContent: Text(
+        'New',
+        style: OTextStyle.bodyXSmall.copyWith(color: OColor.white, fontWeight: FontWeight.w600),
+      ),
       child: buildTile(context),
     );
   }

@@ -1,151 +1,174 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/widgets/contact/contact_dialog.dart';
-import 'package:onestop_dev/widgets/contact/contact_display.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 
-class ContactDetailsPage extends StatefulWidget {
-  final String title;
-  final ContactModel? contact;
-
-  const ContactDetailsPage({super.key, this.contact, required this.title});
-
-  @override
-  State<ContactDetailsPage> createState() => _ContactDetailsPageState();
+/// Shows a bottom sheet listing all contacts in a category.
+void showContactCategorySheet(
+  BuildContext context, {
+  required ContactModel contactModel,
+  required ContactStore contactStore,
+}) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (_) {
+      return Provider<ContactStore>.value(
+        value: contactStore,
+        child: _CategorySheetContent(contactModel: contactModel),
+      );
+    },
+  );
 }
 
-class _ContactDetailsPageState extends State<ContactDetailsPage> {
+class _CategorySheetContent extends StatelessWidget {
+  final ContactModel contactModel;
+
+  const _CategorySheetContent({required this.contactModel});
+
   @override
   Widget build(BuildContext context) {
-    var contactStore = context.read<ContactStore>();
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: kBlueGrey,
-          leading: Container(),
-          leadingWidth: 0,
-          title:
-              Text('Contacts', style: MyFonts.w500.size(20).setColor(kWhite)),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(
-                FluentIcons.dismiss_24_filled,
-                color: kWhite2,
-              ),
-            )
-          ],
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    widget.contact!.sectionName,
-                    style: MyFonts.w600.size(16).setColor(kWhite),
-                  ),
+    return DraggableScrollableSheet(
+      initialChildSize: 0.7,
+      minChildSize: 0.4,
+      maxChildSize: 0.9,
+      builder: (context, scrollController) {
+        return Container(
+          decoration: BoxDecoration(
+            color: OColor.white,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(OCornerRadius.l)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Drag handle
+              Container(
+                margin: const EdgeInsets.only(top: OSpacing.xs),
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: OColor.gray300,
+                  borderRadius: BorderRadius.circular(2),
                 ),
-                // const Expanded(child: SizedBox()),
-                // Padding(
-                //   padding: const EdgeInsets.only(right: 8.0),
-                //   child: Text(
-                //     widget.contact!.group,
-                //     style: MyFonts.w400.size(14).setColor(kGrey2),
-                //   ),
-                // )
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 2),
-                  child: Text(
-                    '${widget.contact!.contacts.length} contacts',
-                    style: MyFonts.w500.size(12).setColor(kGrey11),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                ContactTextHeader(
-                    text: 'Name',
-                    width: MediaQuery.of(context).size.width / 3 - 10,
-                    align: AlignmentDirectional.topStart),
-                ContactTextHeader(
-                    text: 'Email id',
-                    width: MediaQuery.of(context).size.width / 3 - 10,
-                    align: AlignmentDirectional.center),
-                ContactTextHeader(
-                    text: 'Contact No ',
-                    width: MediaQuery.of(context).size.width / 3 - 15,
-                    align: AlignmentDirectional.bottomEnd),
-              ],
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.96,
-              child: const Divider(
-                color: Colors.blueGrey,
-                thickness: 1,
               ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: widget.contact!.contacts.map((item) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          top: 4.0, bottom: 4.0, right: 10),
-                      child: GestureDetector(
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (_) => Provider<ContactStore>.value(
-                                    value: contactStore,
-                                    child: ContactDialog(details: item),
-                                  ),
-                              barrierDismissible: true);
-                        },
+
+              // Header row
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.s),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        contactModel.sectionName,
+                        style: OTextStyle.labelLarge.copyWith(color: OColor.gray800),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(color: OColor.gray100, shape: BoxShape.circle),
+                        child: Icon(
+                          FluentIcons.dismiss_24_regular,
+                          size: 18,
+                          color: OColor.gray600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Divider(height: 1, color: OColor.gray200),
+
+              // Contacts list
+              Expanded(
+                child: ListView.separated(
+                  controller: scrollController,
+                  padding: const EdgeInsets.symmetric(vertical: OSpacing.xs),
+                  itemCount: contactModel.contacts.length,
+                  separatorBuilder: (_, __) => Divider(height: 1, color: OColor.gray100),
+                  itemBuilder: (context, index) {
+                    final contact = contactModel.contacts[index];
+                    return InkWell(
+                      onTap: () {
+                        showContactProfileSheet(context, details: contact);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: OSpacing.m,
+                          vertical: OSpacing.s,
+                        ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ContactText(
-                                text: item.name,
-                                align: AlignmentDirectional.topStart),
-                            ContactText(
-                                text: item.email,
-                                align: AlignmentDirectional.center),
-                            ContactText(
-                                text: item.contact.toString(),
-                                align: AlignmentDirectional.bottomEnd),
+                            // Avatar
+                            CircleAvatar(
+                              radius: 24,
+                              backgroundColor: OColor.gray100,
+                              child: Icon(
+                                FluentIcons.person_24_regular,
+                                color: OColor.green600,
+                                size: 24,
+                              ),
+                            ),
+                            const SizedBox(width: OSpacing.m),
+                            // Name + description
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    contact.name,
+                                    style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  if (contact.email.isNotEmpty && contact.email != 'Unknown')
+                                    Text(
+                                      contact.email,
+                                      style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray600),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                ],
+                              ),
+                            ),
+                            // Phone icon button
+                            if (contact.contact.isNotEmpty && contact.contact != '123456789')
+                              GestureDetector(
+                                onTap: () {
+                                  showContactProfileSheet(context, details: contact);
+                                },
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: OColor.gray100,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    FluentIcons.call_24_regular,
+                                    color: OColor.green600,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                       ),
                     );
-                  }).toList(),
+                  },
                 ),
               ),
-            )
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -122,7 +121,7 @@ class _HomeTabState extends State<HomeTab> {
               borderRadius: BorderRadius.circular(25),
               child: Container(
                 height: imageWidth,
-                color: kTimetableDisabled,
+                color: OColor.gray200,
                 child: Center(child: ErrorReloadButton(reloadCallback: callSetState)),
               ),
             ),
@@ -162,7 +161,7 @@ class _HomeTabState extends State<HomeTab> {
                           fit: BoxFit.cover,
                           errorWidget:
                               (context, url, error) => Container(
-                                color: kTimetableDisabled,
+                                color: OColor.gray200,
                                 child: Center(
                                   child: ErrorReloadButton(reloadCallback: callSetState),
                                 ),
@@ -191,9 +190,9 @@ class _HomeTabState extends State<HomeTab> {
                 ? const SizedBox.shrink()
                 : DotsIndicator(
                   position: activePageIndex.toDouble(),
-                  decorator: const DotsDecorator(
-                    activeColor: OneStopColors.kWhite,
-                    color: OneStopColors.cardColor,
+                  decorator: DotsDecorator(
+                    activeColor: OColor.green600,
+                    color: OColor.gray300,
                     spacing: EdgeInsets.symmetric(horizontal: 3),
                     size: Size(5, 5),
                     activeSize: Size(5, 5),

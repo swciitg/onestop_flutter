@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
+import 'package:onestop_dev/pages/theme/theme_transition_screen.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
@@ -72,8 +73,17 @@ AppBar appBar(BuildContext context, {bool displayIcon = true, bool displayDrawer
             Consumer<ThemeStore>(
               builder: (context, themeStore, child) {
                 return IconButton(
-                  onPressed: () async {
-                    await themeStore.toggleTheme();
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder:
+                            (_, __, ___) => ThemeTransitionScreen(toLight: themeStore.isDarkMode),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return FadeTransition(opacity: animation, child: child);
+                        },
+                        transitionDuration: const Duration(milliseconds: 400),
+                      ),
+                    );
                   },
                   icon: Icon(
                     themeStore.isLightMode

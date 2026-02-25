@@ -17,12 +17,14 @@ import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
+import 'package:terminate_restart/terminate_restart.dart';
 import 'firebase_options.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  TerminateRestart.instance.initialize();
   if (await hasInternetConnection()) {
     await Future.wait([
       Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
@@ -69,7 +71,6 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeStore>(
         builder: (context, themeStore, child) {
           return MaterialApp(
-            key: ValueKey(themeStore.currentTheme),
             navigatorKey: navigatorKey,
             scaffoldMessengerKey: rootScaffoldMessengerKey,
             debugShowCheckedModeBanner: false,
