@@ -6,7 +6,7 @@ import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 
-AppBar appBar(BuildContext context, {bool displayIcon = true}) {
+AppBar appBar(BuildContext context, {bool displayIcon = true, bool displayDrawer = true}) {
   return AppBar(
     backgroundColor: Colors.transparent,
     automaticallyImplyLeading: false,
@@ -18,7 +18,7 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
       children: [
         Row(
           children: [
-            displayIcon
+            displayDrawer
                 ? CircleAvatar(
                   backgroundColor: OColor.green100,
                   child: IconButton(
@@ -28,7 +28,8 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
                     },
                   ),
                 )
-                : CircleAvatar(
+                : displayIcon
+                ? CircleAvatar(
                   backgroundColor: OColor.green100,
                   child: IconButton(
                     icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.green600),
@@ -36,7 +37,8 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
                       Navigator.pop(context);
                     },
                   ),
-                ),
+                )
+                : SizedBox.shrink(),
             SizedBox(width: displayIcon ? 8 : 0),
             RichText(
               text: TextSpan(
@@ -46,7 +48,10 @@ AppBar appBar(BuildContext context, {bool displayIcon = true}) {
                       children: [
                         OText(
                           text: 'One',
-                          style: OTextStyle.headingLarge.copyWith(color: OColor.gray800),
+                          style: OTextStyle.headingLarge.copyWith(
+                            color: OColor.gray800,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         OText(
                           text: '.',

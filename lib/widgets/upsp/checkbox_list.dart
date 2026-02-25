@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 class RadioButtonList extends StatefulWidget {
-  const RadioButtonList({
-    super.key,
-    required this.values,
-    required this.controller,
-  });
+  const RadioButtonList({super.key, required this.values, required this.controller});
   final List<String> values;
   final RadioButtonListController controller;
 
@@ -27,32 +21,65 @@ class _RadioButtonListState extends State<RadioButtonList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: widget.values.length,
+      separatorBuilder: (_, _) => const SizedBox(height: OSpacing.xs),
       itemBuilder: (context, i) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-          child: RadioListTile<String>(
-            controlAffinity: ListTileControlAffinity.leading,
-            value: widget.values[i],
-            groupValue: widget.controller.selectedItem,
-            activeColor: lBlue2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24.0),
-              side: const BorderSide(color: kGrey2),
+        final isSelected = widget.controller.selectedItem == widget.values[i];
+        return GestureDetector(
+          onTap: () => widget.controller.selectItem(widget.values[i]),
+          child: Container(
+            padding: const EdgeInsets.all(OSpacing.m),
+            decoration: BoxDecoration(
+              color: OColor.white,
+              borderRadius: BorderRadius.circular(OCornerRadius.l),
+              border: Border.all(color: OColor.gray200),
             ),
-            onChanged: (v) {
-              widget.controller.selectItem(v!);
-            },
-            title: Text(
-              widget.values[i],
-              style: MyFonts.w600.size(14).setColor(kWhite),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    widget.values[i],
+                    style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                  ),
+                ),
+                _ToggleBox(isSelected: isSelected),
+              ],
             ),
           ),
         );
       },
+    );
+  }
+}
+
+/// Custom toggle checkbox matching Figma design:
+/// 24×24 rounded-8 box, gray500 border when off, green600 fill when on.
+class _ToggleBox extends StatelessWidget {
+  final bool isSelected;
+  const _ToggleBox({required this.isSelected});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 24,
+      height: 24,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(OCornerRadius.s),
+        border: Border.all(color: OColor.gray500),
+      ),
+      padding: const EdgeInsets.all(2),
+      child:
+          isSelected
+              ? Container(
+                decoration: BoxDecoration(
+                  color: OColor.green600,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+              )
+              : null,
     );
   }
 }

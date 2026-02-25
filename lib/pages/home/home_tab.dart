@@ -69,9 +69,8 @@ class _HomeTabState extends State<HomeTab> {
             children: [
               const SizedBox(height: 10),
               // Search bar
-              _buildSearchBar(),
-              const SizedBox(height: 16),
-
+              // _buildSearchBar(),
+              // const SizedBox(height: 16),
               _imageCarousel(imageWidth),
               const SizedBox(height: 10),
               LoginStore.isGuest

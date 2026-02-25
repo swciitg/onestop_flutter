@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         backgroundColor: OColor.gray100,
 
         key: scaffoldKey,
-        appBar: appBar(context),
+        appBar: appBar(context, displayDrawer: false, displayIcon: false),
         body: LayoutBuilder(
           builder: (context, constraints) {
             final height = constraints.maxHeight;
