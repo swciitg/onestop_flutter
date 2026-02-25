@@ -1,14 +1,15 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/timetable/time_range.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/working_days.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 
+/// Event Card for timetable — matches Figma design.
+///
+/// White card with gray border, green accent bar on the left,
+/// course name, instructor, and code/venue info.
 class TimetableTile extends StatelessWidget {
   final CourseModel course;
   final bool inHomePage;
@@ -17,135 +18,120 @@ class TimetableTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var tileIcon = FluentIcons.book_24_filled;
-    if (course.course!.toLowerCase().contains("lab")) {
-      tileIcon = FluentIcons.beaker_24_filled;
-    }
-    String currentTimeString = findTimeRange();
     TimetableStore ttStore = context.read<TimetableStore>();
-    var dayIndex = ttStore.selectedDay;
-    DateTime selectedDateTime = ttStore.dates[ttStore.selectedDate];
-    bool showHighlight = currentTimeString ==
-            course.timings![kworkingDays[dayIndex]].toString() &&
-        selectedDateTime.weekday == DateTime.now().weekday;
-    if (inHomePage) {
-      showHighlight = currentTimeString ==
-          course.timings![kworkingDays[dayIndex]].toString();
-    }
-    Color bg = showHighlight ? kTimetableGreen : kTimetableDisabled;
-    if (inHomePage) bg = kTimetableGreen;
-    String timing = course.timings![kworkingDays[dayIndex]] != null
-        ? course.timings![kworkingDays[dayIndex]].toString()
-        : "";
+    final dayIndex = ttStore.selectedDay;
+    final DateTime selectedDateTime = ttStore.dates[ttStore.selectedDate];
+
+    final String currentTimeString = findTimeRange();
+    final String? dayTiming = course.timings?[kworkingDays[dayIndex]]?.toString();
+
+    final bool isNow =
+        dayTiming != null &&
+        currentTimeString == dayTiming &&
+        (inHomePage || selectedDateTime.weekday == DateTime.now().weekday);
+
+    final String timing = dayTiming ?? '';
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 85),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            color: bg,
-            border: showHighlight
-                ? Border.all(color: Colors.blueAccent)
-                : Border.all(color: Colors.transparent),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10.0, bottom: 10, right: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      padding: const EdgeInsets.symmetric(vertical: OSpacing.xxs),
+      child: Container(
+        decoration: BoxDecoration(
+          color: OColor.white,
+          borderRadius: BorderRadius.circular(OCornerRadius.m),
+          border: Border.all(color: isNow ? OColor.green600 : OColor.gray200),
+        ),
+        padding: const EdgeInsets.all(OSpacing.s),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Green accent bar
+            Container(
+              width: 3,
+              height: 48,
+              margin: const EdgeInsets.only(right: OSpacing.s),
+              decoration: BoxDecoration(
+                color: isNow ? OColor.green600 : OColor.gray400,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            // Content
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Course name
+                  Text(
+                    course.course ?? '',
+                    style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+                  ),
+                  const SizedBox(height: OSpacing.xxs),
+                  // Instructor and code
+                  Row(
                     children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: kGreen,
+                      if (course.instructor != null && course.instructor!.isNotEmpty)
+                        Flexible(
+                          child: Text(
+                            course.instructor!,
+                            style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                        child: Icon(
-                          tileIcon,
-                          color: kAppBarGrey,
-                          size: 25,
+                      if (course.code != null && course.code!.isNotEmpty) ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: OSpacing.xs),
+                          child: Container(
+                            width: 4,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: OColor.gray400,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
                         ),
-                      ),
+                        Text(
+                          course.code!,
+                          style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
+                        ),
+                      ],
                     ],
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        timing,
-                        style: MyFonts.w300.size(12).setColor(kWhite),
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                        course.course!,
-                        style: MyFonts.w500.size(15).setColor(kWhite),
-                      ),
-                      const SizedBox(
-                        height: 3.0,
-                      ),
-                      Text(
-                        course.instructor!,
-                        style: MyFonts.w400.size(13).setColor(lBlue),
-                      ),
-                      const SizedBox(
-                        height: 3.0,
-                      ),
-                      if (course.code != null)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              constraints: const BoxConstraints(minWidth: 70),
-                              child: Text(
-                                course.code!,
-                                style: MyFonts.w400.size(13).setColor(lBlue),
+                  // Timing and venue row
+                  if (timing.isNotEmpty || (course.venue != null && course.venue!.isNotEmpty)) ...[
+                    const SizedBox(height: OSpacing.xxs),
+                    Row(
+                      children: [
+                        if (timing.isNotEmpty)
+                          Text(
+                            timing,
+                            style: OTextStyle.labelXSmall.copyWith(color: OColor.gray400),
+                          ),
+                        if (timing.isNotEmpty && course.venue != null && course.venue!.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: OSpacing.xs),
+                            child: Container(
+                              width: 4,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: OColor.gray400,
+                                shape: BoxShape.circle,
                               ),
                             ),
-                            if (course.venue != null &&
-                                course.venue!.isNotEmpty)
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Icon(
-                                      FluentIcons.location_12_filled,
-                                      color: lBlue,
-                                      size: 13,
-                                    ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        course.venue!,
-                                        style: MyFonts.w400
-                                            .size(13)
-                                            .setColor(lBlue),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                          ],
-                        ),
-                    ],
-                  ),
-                ),
-              ],
+                          ),
+                        if (course.venue != null && course.venue!.isNotEmpty)
+                          Flexible(
+                            child: Text(
+                              course.venue!,
+                              style: OTextStyle.labelXSmall.copyWith(color: OColor.gray400),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

@@ -8,6 +8,8 @@ class GateLogPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GateLog();
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final destination = args?['destination'] as String?;
+    return GateLog(initialDestination: destination);
   }
 }

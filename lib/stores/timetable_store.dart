@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/globals/class_timings.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/working_days.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
@@ -14,7 +12,7 @@ import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/timetable/timetable_tile.dart';
 import 'package:onestop_dev/widgets/ui/text_divider.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 part 'timetable_store.g.dart';
 
@@ -145,7 +143,14 @@ abstract class _TimetableStore with Store {
       ...allTimetableCourses[timetableIndex].afternoon.map((e) => TimetableTile(course: e)),
     ];
     if (l.length == 1) {
-      l = [Center(child: Text('No data found', style: MyFonts.w500.size(14).setColor(kGrey8)))];
+      l = [
+        Center(
+          child: Text(
+            'No data found',
+            style: OTextStyle.labelSmall.copyWith(color: OColor.gray500),
+          ),
+        ),
+      ];
     }
     return l;
   }

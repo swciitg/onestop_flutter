@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/home/bottom_nav_item.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/pages/home/home_tab.dart';
-import 'package:onestop_dev/pages/timetable/timetable.dart';
+import 'package:onestop_dev/pages/profile/profile_tab.dart';
+import 'package:onestop_dev/pages/timetable/timetable_page.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
 import 'package:onestop_dev/services/app_shortcuts_service.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
@@ -12,7 +13,6 @@ import 'package:onestop_dev/widgets/ui/onestop_upgrade.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/home/home_drawer.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -46,14 +46,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       unselectedIcon: FluentIcons.vehicle_bus_24_regular,
     ),
     BottomNavItem(
-      name: 'Timetable',
-      selectedIcon: FluentIcons.calendar_ltr_24_filled,
-      unselectedIcon: FluentIcons.calendar_ltr_24_regular,
+      name: 'Profile',
+      selectedIcon: FluentIcons.person_24_filled,
+      unselectedIcon: FluentIcons.person_24_regular,
     ),
   ];
   @override
-  
-
   @override
   // void didChangeAppLifecycleState(AppLifecycleState state) {
   //   super.didChangeAppLifecycleState(state);
@@ -61,7 +59,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   //     actOnPendingShortcut();
   //   }
   // }
-
   // void actOnPendingShortcut() {
   //   WidgetsBinding.instance.addPostFrameCallback((_) {
   //     AppShortcutsService.handlePendingShortcutAction((index) {
@@ -72,16 +69,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   //     });
   //   });
   // }
-
   @override
   void initState() {
     super.initState();
     tabs = [
       HomeTab(
         moveToTimeTableView: () {
-          setState(() {
-            index = 3;
-          });
+          Navigator.pushNamed(context, TimetablePage.id);
         },
         moveToFoodMenuSection: () {
           setState(() {
@@ -92,7 +86,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       const FoodTab(),
       const TravelPage(),
       // const EventsScreenWrapper(),
-      const TimeTableTab(),
+      const ProfileTab(),
     ];
     WidgetsBinding.instance.addObserver(this);
     actOnPendingShortcut();
@@ -125,7 +119,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         backgroundColor: OColor.gray100,
 
         key: scaffoldKey,
-        drawer: const HomeDrawer(),
         appBar: appBar(context),
         body: LayoutBuilder(
           builder: (context, constraints) {

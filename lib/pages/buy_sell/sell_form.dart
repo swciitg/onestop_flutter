@@ -18,8 +18,8 @@ import 'package:path_provider/path_provider.dart';
 
 class SellItemForm extends StatefulWidget {
   static const String id = "/sellItemForm";
-  final String? type; 
-  final dynamic existingItem; 
+  final String? type;
+  final dynamic existingItem;
 
   const SellItemForm({super.key, this.type, this.existingItem});
 
@@ -76,25 +76,22 @@ class _SellItemFormState extends State<SellItemForm> {
     super.dispose();
   }
 
-  
   Future<File> _compressImage(File file) async {
     try {
       final bytes = await file.readAsBytes();
-      
-     
+
       if (bytes.length < 2 * 1024 * 1024) {
         print('Image already small enough: ${bytes.length} bytes');
         return file;
       }
-      
+
       img.Image? image = img.decodeImage(bytes);
-      
+
       if (image == null) {
         print('Could not decode image for compression');
         return file;
       }
-      
-      
+
       if (image.width > 1500 || image.height > 1500) {
         print('Resizing image from ${image.width}x${image.height}');
         if (image.width > image.height) {
@@ -104,14 +101,15 @@ class _SellItemFormState extends State<SellItemForm> {
         }
         print('Resized to ${image.width}x${image.height}');
       }
-      
-     
+
       final compressedBytes = img.encodeJpg(image, quality: 95);
-      
+
       final tempDir = await getTemporaryDirectory();
-      final compressedFile = File('${tempDir.path}/compressed_${DateTime.now().millisecondsSinceEpoch}.jpg');
+      final compressedFile = File(
+        '${tempDir.path}/compressed_${DateTime.now().millisecondsSinceEpoch}.jpg',
+      );
       await compressedFile.writeAsBytes(compressedBytes);
-      
+
       print('Image compressed: ${file.lengthSync()} -> ${compressedFile.lengthSync()} bytes');
       return compressedFile;
     } catch (e) {
@@ -129,12 +127,10 @@ class _SellItemFormState extends State<SellItemForm> {
 
     if (original == null) return originalFile;
 
-   
     final double scale = matrix.storage[0];
     final double translateX = matrix.storage[12];
     final double translateY = matrix.storage[13];
 
-   
     const double viewportSize = 300;
 
     final double cropSize = viewportSize / scale;
@@ -153,21 +149,15 @@ class _SellItemFormState extends State<SellItemForm> {
       height: cropSize.toInt(),
     );
 
-    img.Image resized = img.copyResize(
-      cropped,
-      width: 1000,
-      height: 1000,
-    );
+    img.Image resized = img.copyResize(cropped, width: 1000, height: 1000);
 
     final tempDir = await getTemporaryDirectory();
-    final file = File(
-        '${tempDir.path}/final_${DateTime.now().millisecondsSinceEpoch}.jpg');
+    final file = File('${tempDir.path}/final_${DateTime.now().millisecondsSinceEpoch}.jpg');
 
     await file.writeAsBytes(img.encodeJpg(resized, quality: 92));
     return file;
   }
 
- 
   Future<void> _pickPhoto() async {
     if (_photos.length >= _maxPhotos) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -180,13 +170,10 @@ class _SellItemFormState extends State<SellItemForm> {
     }
 
     try {
-      final XFile? picked = await _picker.pickImage(
-        source: ImageSource.gallery,
-      );
+      final XFile? picked = await _picker.pickImage(source: ImageSource.gallery);
 
       if (picked == null) return;
 
-     
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -227,25 +214,18 @@ class _SellItemFormState extends State<SellItemForm> {
       debugPrint('Error picking image: $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error loading image: $e'),
-            backgroundColor: OColor.red600,
-          ),
+          SnackBar(content: Text('Error loading image: $e'), backgroundColor: OColor.red600),
         );
       }
     }
   }
 
- 
   Future<void> _replacePhoto() async {
     try {
-      final XFile? picked = await _picker.pickImage(
-        source: ImageSource.gallery,
-      );
+      final XFile? picked = await _picker.pickImage(source: ImageSource.gallery);
 
       if (picked == null) return;
 
-     
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -284,16 +264,12 @@ class _SellItemFormState extends State<SellItemForm> {
       debugPrint('Error replacing image: $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error loading image: $e'),
-            backgroundColor: OColor.red600,
-          ),
+          SnackBar(content: Text('Error loading image: $e'), backgroundColor: OColor.red600),
         );
       }
     }
   }
 
- 
   void _removePhoto(int index) {
     setState(() {
       _photos.removeAt(index);
@@ -305,7 +281,6 @@ class _SellItemFormState extends State<SellItemForm> {
     });
   }
 
- 
   void _goToNextStep() {
     setState(() => _currentStep = 1);
   }
@@ -330,35 +305,24 @@ class _SellItemFormState extends State<SellItemForm> {
     }
   }
 
-  
   Future<void> _submitForm() async {
-   
     if (_productNameController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please enter product name'),
-          backgroundColor: OColor.red600,
-        ),
+        SnackBar(content: Text('Please enter product name'), backgroundColor: OColor.red600),
       );
       return;
     }
 
     if (_productPriceController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please enter product price'),
-          backgroundColor: OColor.red600,
-        ),
+        SnackBar(content: Text('Please enter product price'), backgroundColor: OColor.red600),
       );
       return;
     }
 
     if (_photos.isEmpty && !isEditMode) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please upload at least one photo'),
-          backgroundColor: OColor.red600,
-        ),
+        SnackBar(content: Text('Please upload at least one photo'), backgroundColor: OColor.red600),
       );
       return;
     }
@@ -368,10 +332,9 @@ class _SellItemFormState extends State<SellItemForm> {
     });
 
     try {
-     
-      
-      
-      final isTitleValid = await ModerationService().validateBuyOrSell(_productNameController.text.trim());
+      final isTitleValid = await ModerationService().validateBuyOrSell(
+        _productNameController.text.trim(),
+      );
       if (!isTitleValid) {
         Fluttertoast.showToast(
           msg: 'Please enter an appropriate title!',
@@ -383,9 +346,10 @@ class _SellItemFormState extends State<SellItemForm> {
         return;
       }
 
-      
       if (isSellMode && _descriptionController.text.trim().isNotEmpty) {
-        final isDescValid = await ModerationService().validateBuyOrSell(_descriptionController.text.trim());
+        final isDescValid = await ModerationService().validateBuyOrSell(
+          _descriptionController.text.trim(),
+        );
         if (!isDescValid) {
           Fluttertoast.showToast(
             msg: 'Please enter an appropriate description!',
@@ -398,7 +362,6 @@ class _SellItemFormState extends State<SellItemForm> {
         }
       }
 
-     
       String imageString = '';
       if (_photos.isNotEmpty) {
         print('Capturing transformed image...');
@@ -406,13 +369,11 @@ class _SellItemFormState extends State<SellItemForm> {
         imageString = await _convertImageToBase64(transformedImage);
       }
 
-      
       String phone = '';
       if (LoginStore.userData.containsKey("phoneNumber")) {
         phone = LoginStore.userData["phoneNumber"]?.toString() ?? '';
       }
 
-      
       Map<String, String> data = {
         'title': _productNameController.text.trim(),
         'description': isSellMode ? _descriptionController.text.trim() : '',
@@ -430,7 +391,6 @@ class _SellItemFormState extends State<SellItemForm> {
       // print('Contact: ${data['contact']}');
       // print('Image length: ${imageString.length}');
 
-    
       var res = {};
       if (isSellMode) {
         res = await BnsRepository().postSellData(data);
@@ -450,7 +410,7 @@ class _SellItemFormState extends State<SellItemForm> {
         Navigator.pop(context, true);
       } else {
         String errorMsg = "Some error occurred! Please try again.";
-        
+
         if (res["image_safe"] == false) {
           errorMsg = "The chosen image is NSFW!";
         } else if (res["error"] != null) {
@@ -458,15 +418,15 @@ class _SellItemFormState extends State<SellItemForm> {
         } else if (res["message"] != null) {
           errorMsg = res["message"].toString();
         }
-        
+
         print('Error message: $errorMsg');
-        
+
         Fluttertoast.showToast(
           msg: errorMsg,
           backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7),
           toastLength: Toast.LENGTH_LONG,
         );
-        
+
         setState(() {
           _isSubmitting = false;
         });
@@ -475,13 +435,13 @@ class _SellItemFormState extends State<SellItemForm> {
       if (!mounted) return;
       print('Error submitting form: $e');
       print('Stack trace: $stackTrace');
-      
+
       Fluttertoast.showToast(
         msg: "Error: ${e.toString()}",
         backgroundColor: OneStopColors.cardColor2.withValues(alpha: 0.7),
         toastLength: Toast.LENGTH_LONG,
       );
-      
+
       setState(() {
         _isSubmitting = false;
       });
@@ -490,9 +450,10 @@ class _SellItemFormState extends State<SellItemForm> {
 
   @override
   Widget build(BuildContext context) {
-    final String title = isEditMode
-        ? (isSellMode ? "Edit item" : "Edit request")
-        : (isSellMode ? "Sell an item" : "Request an item");
+    final String title =
+        isEditMode
+            ? (isSellMode ? "Edit item" : "Edit request")
+            : (isSellMode ? "Sell an item" : "Request an item");
 
     return Scaffold(
       backgroundColor: OColor.gray100,
@@ -501,10 +462,7 @@ class _SellItemFormState extends State<SellItemForm> {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(
-            FluentIcons.arrow_left_24_regular,
-            color: OColor.gray800,
-          ),
+          icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -516,61 +474,56 @@ class _SellItemFormState extends State<SellItemForm> {
         ),
       ),
       body: ListenableBuilder(
-        listenable: Listenable.merge([
-          _productNameController,
-          _productPriceController,
-        ]),
+        listenable: Listenable.merge([_productNameController, _productPriceController]),
         builder: (context, child) {
           return Column(
             children: [
-              
               if (!isEditMode) _StepIndicator(currentStep: _currentStep),
 
-              
               if (_isSubmitting)
                 LinearProgressIndicator(
                   backgroundColor: OColor.gray200,
                   valueColor: AlwaysStoppedAnimation<Color>(OColor.green600),
                 ),
 
-              
               Expanded(
-                child: _currentStep == 0 && !isEditMode
-                    ? _UploadPhotoBody(
-                        photos: _photos,
-                        selectedPhotoIndex: _selectedPhotoIndex,
-                        maxPhotos: _maxPhotos,
-                        transformationControllers: _transformationControllers,
-                        repaintKeys: _repaintKeys,
-                        onAddPhoto: _pickPhoto,
-                        onReplacePhoto: _replacePhoto,
-                        onRemovePhoto: _removePhoto,
-                        onSelectPhoto: (index) {
-                          setState(() => _selectedPhotoIndex = index);
-                        },
-                      )
-                    : _AddDetailsBody(
-                        productNameController: _productNameController,
-                        productPriceController: _productPriceController,
-                        descriptionController: _descriptionController,
-                        isBrandNew: _isBrandNew,
-                        isSellMode: isSellMode,
-                        isSubmitting: _isSubmitting,
-                        onBrandNewChanged: (value) {
-                          setState(() {
-                            _isBrandNew = value;
-                          });
-                        },
-                      ),
+                child:
+                    _currentStep == 0 && !isEditMode
+                        ? _UploadPhotoBody(
+                          photos: _photos,
+                          selectedPhotoIndex: _selectedPhotoIndex,
+                          maxPhotos: _maxPhotos,
+                          transformationControllers: _transformationControllers,
+                          repaintKeys: _repaintKeys,
+                          onAddPhoto: _pickPhoto,
+                          onReplacePhoto: _replacePhoto,
+                          onRemovePhoto: _removePhoto,
+                          onSelectPhoto: (index) {
+                            setState(() => _selectedPhotoIndex = index);
+                          },
+                        )
+                        : _AddDetailsBody(
+                          productNameController: _productNameController,
+                          productPriceController: _productPriceController,
+                          descriptionController: _descriptionController,
+                          isBrandNew: _isBrandNew,
+                          isSellMode: isSellMode,
+                          isSubmitting: _isSubmitting,
+                          onBrandNewChanged: (value) {
+                            setState(() {
+                              _isBrandNew = value;
+                            });
+                          },
+                        ),
               ),
 
-              
               _BottomActions(
                 currentStep: _currentStep,
-                canProceed: _currentStep == 0
-                    ? _photos.isNotEmpty
-                    : _productNameController.text.isNotEmpty &&
-                        _productPriceController.text.isNotEmpty,
+                canProceed:
+                    _currentStep == 0
+                        ? _photos.isNotEmpty
+                        : _productNameController.text.isNotEmpty &&
+                            _productPriceController.text.isNotEmpty,
                 isSubmitting: _isSubmitting,
                 isEditMode: isEditMode,
                 onBack: _goToPreviousStep,
@@ -594,27 +547,17 @@ class _StepIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: OColor.white,
-      padding: const EdgeInsets.symmetric(
-        horizontal: OSpacing.xl,
-        vertical: OSpacing.m,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: OSpacing.xl, vertical: OSpacing.m),
       child: Stack(
         alignment: Alignment.center,
         children: [
-          
           Positioned(
             top: 14,
             left: 28,
             right: 20,
-            child: Container(
-              height: 2,
-              color: currentStep > 0
-                  ? OColor.green600
-                  : OColor.gray200,
-            ),
+            child: Container(height: 2, color: currentStep > 0 ? OColor.green600 : OColor.gray200),
           ),
 
-          
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -663,19 +606,13 @@ class _StepItem extends StatelessWidget {
       bgColor = OColor.green600;
       child = Text(
         '$index',
-        style: OTextStyle.bodySmall.copyWith(
-          color: OColor.white,
-          fontWeight: FontWeight.w700,
-        ),
+        style: OTextStyle.bodySmall.copyWith(color: OColor.white, fontWeight: FontWeight.w700),
       );
     } else {
       bgColor = OColor.gray200;
       child = Text(
         '$index',
-        style: OTextStyle.bodySmall.copyWith(
-          color: OColor.gray600,
-          fontWeight: FontWeight.w700,
-        ),
+        style: OTextStyle.bodySmall.copyWith(color: OColor.gray600, fontWeight: FontWeight.w700),
       );
     }
 
@@ -684,10 +621,7 @@ class _StepItem extends StatelessWidget {
         Container(
           width: 28,
           height: 28,
-          decoration: BoxDecoration(
-            color: bgColor,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
           child: Center(child: child),
         ),
         const SizedBox(height: 4),
@@ -695,8 +629,7 @@ class _StepItem extends StatelessWidget {
           label,
           textAlign: TextAlign.center,
           style: OTextStyle.bodySmall.copyWith(
-            color:
-                isActive || isCompleted ? OColor.green600 : OColor.gray600,
+            color: isActive || isCompleted ? OColor.green600 : OColor.gray600,
             fontWeight: FontWeight.w600,
             fontSize: 10,
             height: 1.2,
@@ -739,7 +672,6 @@ class _UploadPhotoBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          
           Text(
             "Upload photo(s) of the product",
             style: OTextStyle.headingSmall.copyWith(
@@ -750,31 +682,21 @@ class _UploadPhotoBody extends StatelessWidget {
           const SizedBox(height: OSpacing.xs),
           Text(
             "You can upload upto $maxPhotos photos of the product",
-            style: OTextStyle.bodySmall.copyWith(
-              color: OColor.gray600,
-            ),
+            style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
           ),
           const SizedBox(height: OSpacing.m),
 
-          
           if (hasPhotos) ...[
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: OSpacing.m,
-                vertical: OSpacing.s,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.s),
               decoration: BoxDecoration(
-                color: OColor.blue600.withOpacity(0.3),
+                color: OColor.blue600.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(OCornerRadius.s),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    FluentIcons.info_24_regular,
-                    color: OColor.blue400,
-                    size: 20,
-                  ),
+                  Icon(FluentIcons.info_24_regular, color: OColor.blue400, size: 20),
                   const SizedBox(width: OSpacing.s),
                   Expanded(
                     child: Text(
@@ -792,7 +714,6 @@ class _UploadPhotoBody extends StatelessWidget {
             const SizedBox(height: OSpacing.m),
           ],
 
-          
           if (hasPhotos)
             _PhotoPreview(
               photos: photos,
@@ -807,9 +728,7 @@ class _UploadPhotoBody extends StatelessWidget {
 
           const SizedBox(height: OSpacing.m),
 
-         
           if (hasPhotos) ...[
-            
             _OutlinedActionButton(
               icon: FluentIcons.arrow_sync_24_regular,
               label: "Replace Selected",
@@ -817,13 +736,8 @@ class _UploadPhotoBody extends StatelessWidget {
             ),
             const SizedBox(height: OSpacing.s),
 
-           
             if (photos.length < maxPhotos)
-              _OutlinedActionButton(
-                icon: Icons.add,
-                label: "Add more photos",
-                onTap: onAddPhoto,
-              ),
+              _OutlinedActionButton(icon: Icons.add, label: "Add more photos", onTap: onAddPhoto),
           ],
         ],
       ),
@@ -852,7 +766,6 @@ class _PhotoPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-       
         ClipRRect(
           borderRadius: BorderRadius.circular(OCornerRadius.l),
           child: Stack(
@@ -890,14 +803,10 @@ class _PhotoPreview extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: OColor.white.withOpacity(0.9),
+                      color: OColor.white.withValues(alpha: 0.9),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
-                      Icons.close,
-                      color: OColor.gray800,
-                      size: 16,
-                    ),
+                    child: Icon(Icons.close, color: OColor.gray800, size: 16),
                   ),
                 ),
               ),
@@ -907,7 +816,6 @@ class _PhotoPreview extends StatelessWidget {
 
         const SizedBox(height: OSpacing.m),
 
-        
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -929,11 +837,7 @@ class _PhotoPreview extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(OCornerRadius.s - 2),
-                      child: Image.file(
-                        photos[index],
-                        fit: BoxFit.cover,
-                        cacheWidth: 180,
-                      ),
+                      child: Image.file(photos[index], fit: BoxFit.cover, cacheWidth: 180),
                     ),
                   ),
                 ),
@@ -969,11 +873,7 @@ class _AddPhotoButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.add,
-                color: OColor.green600,
-                size: 18,
-              ),
+              Icon(Icons.add, color: OColor.green600, size: 18),
               const SizedBox(width: OSpacing.xs),
               Text(
                 "Add Photo",
@@ -995,11 +895,7 @@ class _OutlinedActionButton extends StatelessWidget {
   final String label;
   final Future<void> Function() onTap;
 
-  const _OutlinedActionButton({
-    this.icon,
-    required this.label,
-    required this.onTap,
-  });
+  const _OutlinedActionButton({this.icon, required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -1064,7 +960,6 @@ class _AddDetailsBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-         
           Text(
             "Enter Details",
             style: OTextStyle.headingSmall.copyWith(
@@ -1075,15 +970,11 @@ class _AddDetailsBody extends StatelessWidget {
           const SizedBox(height: OSpacing.xs),
           Text(
             "Your personal details like mail ID and phone number will be visible to others once you post the ad.",
-            style: OTextStyle.bodySmall.copyWith(
-              color: OColor.gray600,
-              height: 1.4,
-            ),
+            style: OTextStyle.bodySmall.copyWith(color: OColor.gray600, height: 1.4),
           ),
 
           const SizedBox(height: OSpacing.l),
 
-         
           Text(
             "Product Name",
             style: OTextStyle.bodyMedium.copyWith(
@@ -1101,7 +992,6 @@ class _AddDetailsBody extends StatelessWidget {
 
           const SizedBox(height: OSpacing.m),
 
-          
           Text(
             "Product Price",
             style: OTextStyle.bodyMedium.copyWith(
@@ -1114,17 +1004,13 @@ class _AddDetailsBody extends StatelessWidget {
             controller: productPriceController,
             hintText: "e.g. 100",
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[\d.]')),
-            ],
+            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[\d.]'))],
             enabled: !isSubmitting,
           ),
 
-         
           if (isSellMode) ...[
             const SizedBox(height: OSpacing.m),
 
-            
             Text(
               "Description",
               style: OTextStyle.bodyMedium.copyWith(
@@ -1135,7 +1021,8 @@ class _AddDetailsBody extends StatelessWidget {
             const SizedBox(height: OSpacing.xs),
             _InputField(
               controller: descriptionController,
-              hintText: "Add a brief description, original price, condition, and any other details about your item.",
+              hintText:
+                  "Add a brief description, original price, condition, and any other details about your item.",
               keyboardType: TextInputType.multiline,
               maxLines: 5,
               enabled: !isSubmitting,
@@ -1143,7 +1030,6 @@ class _AddDetailsBody extends StatelessWidget {
 
             const SizedBox(height: OSpacing.l),
 
-           
             Container(
               padding: const EdgeInsets.all(OSpacing.m),
               decoration: BoxDecoration(
@@ -1167,9 +1053,7 @@ class _AddDetailsBody extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           "Toggle on if your item is completely new and unused.",
-                          style: OTextStyle.bodySmall.copyWith(
-                            color: OColor.gray600,
-                          ),
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
                         ),
                       ],
                     ),
@@ -1215,20 +1099,13 @@ class _InputField extends StatelessWidget {
       inputFormatters: inputFormatters,
       maxLines: maxLines,
       enabled: enabled,
-      style: OTextStyle.bodyMedium.copyWith(
-        color: OColor.gray800,
-      ),
+      style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: OTextStyle.bodyMedium.copyWith(
-          color: OColor.gray400,
-        ),
+        hintStyle: OTextStyle.bodyMedium.copyWith(color: OColor.gray400),
         filled: true,
         fillColor: OColor.white,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: OSpacing.m,
-          vertical: OSpacing.s,
-        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.s),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(OCornerRadius.m),
           borderSide: BorderSide(color: OColor.gray200, width: 1),
@@ -1275,13 +1152,9 @@ class _BottomActions extends StatelessWidget {
 
     return Container(
       color: OColor.white,
-      padding: const EdgeInsets.symmetric(
-        horizontal: OSpacing.l,
-        vertical: OSpacing.m,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: OSpacing.l, vertical: OSpacing.m),
       child: Row(
         children: [
-          
           Expanded(
             child: _LeftButton(
               isStep0: isStep0,
@@ -1293,7 +1166,6 @@ class _BottomActions extends StatelessWidget {
 
           const SizedBox(width: OSpacing.m),
 
-         
           Expanded(
             child: _RightButton(
               isStep0: isStep0,
@@ -1382,11 +1254,8 @@ class _RightButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color bgColor = canProceed 
-        ? OColor.green600 
-        : OColor.green600.withOpacity(0.4);
+    final Color bgColor = canProceed ? OColor.green600 : OColor.green600.withValues(alpha: 0.4);
 
-   
     String buttonText;
     if (isEditMode) {
       buttonText = "Update";
@@ -1400,45 +1269,44 @@ class _RightButton extends StatelessWidget {
       color: bgColor,
       borderRadius: BorderRadius.circular(OCornerRadius.m),
       child: InkWell(
-        onTap: (canProceed && !isSubmitting) 
-            ? (isStep0 && !isEditMode ? onNext : onPost) 
-            : null,
+        onTap: (canProceed && !isSubmitting) ? (isStep0 && !isEditMode ? onNext : onPost) : null,
         borderRadius: BorderRadius.circular(OCornerRadius.m),
         child: Container(
           height: 48,
-          child: isSubmitting
-              ? Center(
-                  child: SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(OColor.white),
-                    ),
-                  ),
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      buttonText,
-                      style: OTextStyle.bodyMedium.copyWith(
-                        color: OColor.white,
-                        fontWeight: FontWeight.w600,
+          child:
+              isSubmitting
+                  ? Center(
+                    child: SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(OColor.white),
                       ),
                     ),
-                    const SizedBox(width: OSpacing.xs),
-                    Icon(
-                      isEditMode
-                          ? FluentIcons.checkmark_24_regular
-                          : (isStep0
-                              ? FluentIcons.arrow_right_24_regular
-                              : FluentIcons.checkmark_24_regular),
-                      color: OColor.white,
-                      size: 18,
-                    ),
-                  ],
-                ),
+                  )
+                  : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        buttonText,
+                        style: OTextStyle.bodyMedium.copyWith(
+                          color: OColor.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(width: OSpacing.xs),
+                      Icon(
+                        isEditMode
+                            ? FluentIcons.checkmark_24_regular
+                            : (isStep0
+                                ? FluentIcons.arrow_right_24_regular
+                                : FluentIcons.checkmark_24_regular),
+                        color: OColor.white,
+                        size: 18,
+                      ),
+                    ],
+                  ),
         ),
       ),
     );

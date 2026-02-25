@@ -19,6 +19,7 @@ import 'package:onestop_dev/pages/services/cab_share.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/services/irbs.dart';
+import 'package:onestop_dev/pages/timetable/timetable_page.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
 
 final routes = {
@@ -43,5 +44,6 @@ final routes = {
   HostelService.id: (context) => const HostelService(),
   ElectionLoginWebView.id: (context) => const ElectionLoginWebView(),
   GateLogPage.id: (context) => const GateLogPage(),
+  TimetablePage.id: (context) => const TimetablePage(),
   EventsScreenWrapper.id: (context) => const EventsScreenWrapper(),
 };

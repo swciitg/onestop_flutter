@@ -858,8 +858,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/gate_log"
-      ref: dev
-      resolved-ref: "340368e53c22363d7388d009970ed67279c1eba6"
+      ref: redesign
+      resolved-ref: "34ade7a9327fb9a3106e79c78f74bf4ebc99cafc"
       url: "https://github.com/swciitg/gatelog_onestop.git"
     source: git
     version: "0.0.1"
@@ -1358,7 +1358,7 @@ packages:
     description:
       path: "packages/onestop_ui"
       ref: dev
-      resolved-ref: "409103b0ed131e90da12a39384f9fde7b16e0ce6"
+      resolved-ref: ee66d594e40013807d481ef82f76e0b8e33d8178
       url: "https://github.com/swciitg/onestop_ui.git"
     source: git
     version: "0.0.1"
