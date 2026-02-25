@@ -108,7 +108,7 @@ class _ThemeTransitionScreenState extends State<ThemeTransitionScreen>
     // Toggle the theme, then fully restart the app
     if (mounted) {
       final themeStore = context.read<ThemeStore>();
-      await themeStore.toggleTheme();
+      await themeStore.toggleTheme(notify: false);
       await TerminateRestart.instance.restartApp(
         options: const TerminateRestartOptions(terminate: true),
       );
@@ -125,11 +125,8 @@ class _ThemeTransitionScreenState extends State<ThemeTransitionScreen>
 
   @override
   Widget build(BuildContext context) {
-    // Background colors for the transition
-    final bgColor =
-        widget.toLight
-            ? const Color(0xFF1C1C2E) // dark bg  (we're leaving dark)
-            : const Color(0xFFF4F5F5); // light bg (we're leaving light)
+    // Background = the theme we're transitioning TO
+    final bgColor = widget.toLight ? Colors.white : Colors.black;
 
     final iconColor =
         widget.toLight
@@ -138,8 +135,8 @@ class _ThemeTransitionScreenState extends State<ThemeTransitionScreen>
 
     final quoteColor =
         widget.toLight
-            ? const Color(0xFFCDCDD1) // light text on dark bg
-            : const Color(0xFF34343D); // dark text on light bg
+            ? const Color(0xFF34343D) // dark text on white bg
+            : const Color(0xFFCDCDD1); // light text on black bg
 
     return Scaffold(
       backgroundColor: bgColor,

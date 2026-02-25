@@ -121,18 +121,6 @@ class _ProfileTabState extends State<ProfileTab> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── title row ──────────────────────────────────────────
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  OText(
-                    text: 'Profile',
-                    style: OTextStyle.headingLarge.copyWith(color: OColor.gray800),
-                  ),
-                ],
-              ),
-              const SizedBox(height: OSpacing.m),
-
               // ── ID card ────────────────────────────────────────────
               _buildIdCard(),
               const SizedBox(height: 28),

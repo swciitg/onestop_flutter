@@ -2,19 +2,18 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
+import 'package:onestop_dev/pages/buy_sell/post_ad_choice.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/repository/bns_repository.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/buy_sell/buy_tile.dart';
-import 'package:onestop_dev/widgets/buy_sell/item_type_bar.dart';
-import 'package:onestop_dev/widgets/lostfound/add_item_button.dart';
 import 'package:onestop_dev/widgets/lostfound/ads_tile.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 
 class BuySellHome extends StatefulWidget {
@@ -44,6 +43,9 @@ class _BuySellHomeState extends State<BuySellHome> {
       return state.lastPageIsEmpty ? null : state.nextIntPageKey;
     },
   );
+
+  bool _showMyAds = false;
+
   void callSetState() {
     setState(() {});
   }
@@ -55,166 +57,270 @@ class _BuySellHomeState extends State<BuySellHome> {
     return Observer(
       builder: (BuildContext context) {
         return Scaffold(
+          backgroundColor: OColor.gray100,
           appBar: AppBar(
-            backgroundColor: kBlueGrey,
-            title: Text("Buy and Sell", style: OnestopFonts.w500.size(20).setColor(kWhite)),
+            backgroundColor: OColor.gray100,
+            surfaceTintColor: Colors.transparent,
+            centerTitle: true,
+            scrolledUnderElevation: 0,
             elevation: 0,
-            automaticallyImplyLeading: false,
-            leadingWidth: 18,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(FluentIcons.dismiss_24_filled, color: kWhite2),
-              ),
-            ],
+            leading: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
+            ),
+            title: Text(
+              _showMyAds ? "My Ads" : "Buy and Sell",
+              style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
+            ),
           ),
           body: Column(
             children: [
+              Divider(height: 1, color: OColor.gray200),
+              // Tab pills
               Padding(
-                padding: const EdgeInsets.only(left: 10.0, top: 15.0),
+                padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
                 child: Row(
                   children: [
-                    ItemType2(commonStore: commonStore, title: "Sell", label: "For Sale"),
-                    ItemType2(commonStore: commonStore, title: "Buy", label: "Requested Item"),
+                    _TabPill(
+                      label: "For sale",
+                      isActive: commonStore.bnsIndex == "Sell",
+                      onTap: () => commonStore.setBnsIndex("Sell"),
+                    ),
+                    const SizedBox(width: OSpacing.xs),
+                    _TabPill(
+                      label: "Requested Item",
+                      isActive: commonStore.bnsIndex == "Buy",
+                      onTap: () => commonStore.setBnsIndex("Buy"),
+                    ),
                   ],
                 ),
               ),
+              // Content
               Expanded(
-                child: CustomScrollView(
-                  slivers: [
-                    _listMyAds(commonStore),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 18.0),
-                        child: Text(
-                          "All Ads",
-                          style: OneStopStyles.basicFontStyle.setColor(kWhite),
-                        ),
-                      ),
-                    ),
-                    if (commonStore.bnsIndex == "Sell")
-                      _listSellItems()
-                    else if (commonStore.bnsIndex == "Buy")
-                      _listBuyItems(),
-                  ],
-                ),
+                child: _showMyAds ? _buildMyAdsGrid(commonStore) : _buildAllAdsGrid(commonStore),
               ),
             ],
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           floatingActionButton:
-              LoginStore().isGuestUser ? Container() : AddItemButton(type: commonStore.bnsIndex),
+              LoginStore().isGuestUser
+                  ? null
+                  : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      // Post an Ad FAB
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(
+                            context,
+                          ).push(MaterialPageRoute(builder: (_) => const PostAdChoice()));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: OSpacing.m,
+                            vertical: OSpacing.s,
+                          ),
+                          decoration: BoxDecoration(
+                            color: OColor.green600,
+                            borderRadius: BorderRadius.circular(OCornerRadius.m),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.15),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(FluentIcons.edit_24_regular, size: 20, color: OColor.white),
+                              const SizedBox(width: OSpacing.xs),
+                              Text(
+                                'Post an Ad',
+                                style: OTextStyle.labelMedium.copyWith(color: OColor.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: OSpacing.xs),
+                      // My Ads FAB
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _showMyAds = !_showMyAds;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: OSpacing.m,
+                            vertical: OSpacing.s,
+                          ),
+                          decoration: BoxDecoration(
+                            color: OColor.white,
+                            borderRadius: BorderRadius.circular(OCornerRadius.m),
+                            border: Border.all(color: OColor.gray300),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.1),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(FluentIcons.person_24_regular, size: 20, color: OColor.green600),
+                              const SizedBox(width: OSpacing.xs),
+                              Text(
+                                _showMyAds ? 'All Ads' : 'My Ads',
+                                style: OTextStyle.labelMedium.copyWith(color: OColor.green600),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
         );
       },
     );
   }
 
-  SliverToBoxAdapter _listMyAds(CommonStore commonStore) {
-    return SliverToBoxAdapter(
-      child: FutureBuilder(
-        future: BnsRepository().getBnsMyItems(
-          LoginStore.userData['outlookEmail']!,
-          commonStore.bnsIndex == "Sell",
-        ),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<BuyModel> models = snapshot.data!;
-            List<MyAdsTile> tiles = models.map((e) => MyAdsTile(model: e)).toList();
+  // All Ads grid
+  Widget _buildAllAdsGrid(CommonStore commonStore) {
+    if (commonStore.bnsIndex == "Sell") {
+      return PagingListener(
+        controller: _sellController,
+        builder: (context, state, fetchNextPage) {
+          return CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.all(OSpacing.m),
+                sliver: PagedSliverGrid<int, BuyModel>(
+                  state: state,
+                  fetchNextPage: fetchNextPage,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: OSpacing.m,
+                    mainAxisSpacing: OSpacing.m,
+                    childAspectRatio: 0.68,
+                  ),
+                  builderDelegate: _buildSellDelegate(),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      return PagingListener(
+        controller: _buyController,
+        builder: (context, state, fetchNextPage) {
+          return CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.all(OSpacing.m),
+                sliver: PagedSliverGrid<int, SellModel>(
+                  state: state,
+                  fetchNextPage: fetchNextPage,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: OSpacing.m,
+                    mainAxisSpacing: OSpacing.m,
+                    childAspectRatio: 0.68,
+                  ),
+                  builderDelegate: _buildBuyDelegate(),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
-            if (tiles.isEmpty || LoginStore().isGuestUser) {
-              return const SizedBox();
-            }
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 18.0),
-                      child: Text("My Ads", style: OneStopStyles.basicFontStyle.setColor(kWhite)),
-                    ),
-                  ),
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => tiles[index],
-                    itemCount: tiles.length,
-                  ),
-                ],
+  // My Ads grid
+  Widget _buildMyAdsGrid(CommonStore commonStore) {
+    return FutureBuilder(
+      future: BnsRepository().getBnsMyItems(
+        LoginStore.userData['outlookEmail']!,
+        commonStore.bnsIndex == "Sell",
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<BuyModel> models = snapshot.data!;
+          if (models.isEmpty) {
+            return Center(
+              child: Text(
+                "No ads posted yet",
+                style: OTextStyle.labelMedium.copyWith(color: OColor.gray600),
               ),
             );
           }
-          if (snapshot.hasError) {
-            return ErrorReloadScreen(reloadCallback: callSetState);
-          }
-          return ListShimmer(count: 5, height: 120);
-        },
-      ),
-    );
-  }
-
-  PagingListener<int, SellModel> _listBuyItems() {
-    return PagingListener(
-      controller: _buyController,
-      builder: (context, state, fetchNextPage) {
-        return PagedSliverList<int, SellModel>(
-          state: state,
-          fetchNextPage: fetchNextPage,
-          builderDelegate: PagedChildBuilderDelegate(
-            itemBuilder: (context, buyItem, index) => BuyTile(model: buyItem),
-            firstPageErrorIndicatorBuilder:
-                (context) => ErrorReloadScreen(reloadCallback: () => _buyController.refresh()),
-            noItemsFoundIndicatorBuilder: (context) => const PaginationText(text: "No items found"),
-            newPageErrorIndicatorBuilder:
-                (context) => Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: ErrorReloadButton(reloadCallback: () => _buyController.refresh()),
-                ),
-            newPageProgressIndicatorBuilder:
-                (context) => const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-            firstPageProgressIndicatorBuilder: (context) => ListShimmer(count: 5, height: 120),
-            noMoreItemsIndicatorBuilder:
-                (context) => const PaginationText(text: "You've reached the end"),
-          ),
-        );
+          return GridView.builder(
+            padding: const EdgeInsets.all(OSpacing.m),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: OSpacing.m,
+              mainAxisSpacing: OSpacing.m,
+              childAspectRatio: 0.55,
+            ),
+            itemBuilder: (context, index) => MyAdsTile(model: models[index]),
+            itemCount: models.length,
+          );
+        }
+        if (snapshot.hasError) {
+          return ErrorReloadScreen(reloadCallback: callSetState);
+        }
+        return ListShimmer(count: 5, height: 120);
       },
     );
   }
 
-  PagingListener<int, BuyModel> _listSellItems() {
-    return PagingListener(
-      controller: _sellController,
-      builder: (context, state, fetchNextPage) {
-        return PagedSliverList<int, BuyModel>(
-          state: state,
-          fetchNextPage: fetchNextPage,
-          builderDelegate: PagedChildBuilderDelegate(
-            itemBuilder: (context, sellItem, index) => BuyTile(model: sellItem),
-            firstPageErrorIndicatorBuilder:
-                (context) => ErrorReloadScreen(reloadCallback: () => _sellController.refresh()),
-            noItemsFoundIndicatorBuilder: (context) => const PaginationText(text: "No items found"),
-            newPageErrorIndicatorBuilder:
-                (context) => Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: ErrorReloadButton(reloadCallback: () => _sellController.refresh()),
-                ),
-            newPageProgressIndicatorBuilder:
-                (context) => const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-            firstPageProgressIndicatorBuilder: (context) => ListShimmer(count: 5, height: 120),
-            noMoreItemsIndicatorBuilder:
-                (context) => const PaginationText(text: "You've reached the end"),
+  PagedChildBuilderDelegate<BuyModel> _buildSellDelegate() {
+    return PagedChildBuilderDelegate(
+      itemBuilder: (context, item, index) => BuyTile(model: item),
+      firstPageErrorIndicatorBuilder:
+          (context) => ErrorReloadScreen(reloadCallback: () => _sellController.refresh()),
+      noItemsFoundIndicatorBuilder: (context) => const PaginationText(text: "No items found"),
+      newPageErrorIndicatorBuilder:
+          (context) => Padding(
+            padding: const EdgeInsets.all(10),
+            child: ErrorReloadButton(reloadCallback: () => _sellController.refresh()),
           ),
-        );
-      },
+      newPageProgressIndicatorBuilder:
+          (context) => const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Center(child: CircularProgressIndicator()),
+          ),
+      firstPageProgressIndicatorBuilder: (context) => ListShimmer(count: 5, height: 120),
+      noMoreItemsIndicatorBuilder:
+          (context) => const PaginationText(text: "You've reached the end"),
+    );
+  }
+
+  PagedChildBuilderDelegate<SellModel> _buildBuyDelegate() {
+    return PagedChildBuilderDelegate(
+      itemBuilder: (context, item, index) => BuyTile(model: item),
+      firstPageErrorIndicatorBuilder:
+          (context) => ErrorReloadScreen(reloadCallback: () => _buyController.refresh()),
+      noItemsFoundIndicatorBuilder: (context) => const PaginationText(text: "No items found"),
+      newPageErrorIndicatorBuilder:
+          (context) => Padding(
+            padding: const EdgeInsets.all(10),
+            child: ErrorReloadButton(reloadCallback: () => _buyController.refresh()),
+          ),
+      newPageProgressIndicatorBuilder:
+          (context) => const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Center(child: CircularProgressIndicator()),
+          ),
+      firstPageProgressIndicatorBuilder: (context) => ListShimmer(count: 5, height: 120),
+      noMoreItemsIndicatorBuilder:
+          (context) => const PaginationText(text: "You've reached the end"),
     );
   }
 
@@ -226,26 +332,27 @@ class _BuySellHomeState extends State<BuySellHome> {
   }
 }
 
-class ItemType2 extends StatelessWidget {
-  const ItemType2({super.key, required this.commonStore, required this.title, this.label});
+class _TabPill extends StatelessWidget {
+  const _TabPill({required this.label, required this.isActive, required this.onTap});
 
-  final CommonStore commonStore;
-  final String title;
-  final String? label;
+  final String label;
+  final bool isActive;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        commonStore.setBnsIndex(title);
-      },
-      child: ItemTypeBar(
-        text: label ?? title,
-        margin: const EdgeInsets.only(left: 8, bottom: 10),
-        textStyle: OnestopFonts.w500
-            .size(14)
-            .setColor(commonStore.bnsIndex == title ? kBlack : kWhite),
-        backgroundColor: commonStore.bnsIndex == title ? lBlue2 : kBlueGrey,
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
+        decoration: BoxDecoration(
+          color: isActive ? OColor.gray200 : Colors.transparent,
+          borderRadius: BorderRadius.circular(OCornerRadius.xl),
+        ),
+        child: Text(
+          label,
+          style: OTextStyle.labelSmall.copyWith(color: isActive ? OColor.green600 : OColor.gray600),
+        ),
       ),
     );
   }

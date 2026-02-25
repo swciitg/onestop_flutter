@@ -1358,7 +1358,7 @@ packages:
     description:
       path: "packages/onestop_ui"
       ref: dev
-      resolved-ref: ee66d594e40013807d481ef82f76e0b8e33d8178
+      resolved-ref: "1284f54f369996371e820fba5d07f559e989ce05"
       url: "https://github.com/swciitg/onestop_ui.git"
     source: git
     version: "0.0.1"
