@@ -17,7 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool loading = false;
-  bool useExternalBrowserLogin = Platform.isAndroid;
+  bool useExternalBrowserLogin = false;//Platform.isAndroid;
 
   @override
   void initState() {

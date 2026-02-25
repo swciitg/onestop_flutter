@@ -87,24 +87,30 @@ class _LibraryState extends State<Library> {
   bool isTokenExpired = false;
   Timer? _timer;
 
-  void startTokenCycle() {
+  void startTokenCycle() async {
     int timerCount = 25;
     _timer?.cancel();
 
     setState(() {
       token = generateToken();
-      showQr = true;
+      showQr = false;
       isTokenExpired = false;
     });
 
     try {
       if (channel.closeCode != null) {
-        handleSocket();
+        await handleSocket();
       } else {
+        await channel.ready;
         sendToken();
+        if (mounted) {
+          setState(() {
+            showQr = true;
+          });
+        }
       }
     } catch (e) {
-      handleSocket();
+      await handleSocket();
     }
 
     _timer = Timer(Duration(seconds: timerCount), () {
@@ -126,15 +132,25 @@ class _LibraryState extends State<Library> {
     log("Token: $token");
   }
 
-  void handleSocket() async {
+  Future<void> handleSocket() async {
     final url = Uri.parse('$wsUrl?roll_no=${user.rollNo}');
     log("Connecting to web socket: $url");
     log(url.toString());
     channel = IOWebSocketChannel.connect(url);
 
-    log("CONNECTOIN ESTABLISHED");
+    try {
+      await channel.ready;
+      log("CONNECTOIN ESTABLISHED");
 
-    sendToken();
+      sendToken();
+      if (mounted) {
+        setState(() {
+          showQr = true;
+        });
+      }
+    } catch (e) {
+      log("Socket Connection Error: $e");
+    }
 
     channel.stream.listen(
       (data) {
@@ -211,7 +227,10 @@ class _LibraryState extends State<Library> {
             children: [
               SizedBox(height: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 24,
+                ),
                 decoration: ShapeDecoration(
                   color: const Color(0xFF252525),
                   /* White */
@@ -238,7 +257,9 @@ class _LibraryState extends State<Library> {
                               child: SizedBox(
                                 width: 40,
                                 height: 40,
-                                child: Image.asset('assets/images/iitg_logo.png'),
+                                child: Image.asset(
+                                  'assets/images/iitg_logo.png',
+                                ),
                               ),
                             ),
                             WidgetSpan(child: SizedBox(width: 16)),
@@ -270,7 +291,10 @@ class _LibraryState extends State<Library> {
                                 height: 150,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                           placeholder:
@@ -290,7 +314,11 @@ class _LibraryState extends State<Library> {
                                   shape: BoxShape.circle,
                                   color: Colors.grey[300],
                                 ),
-                                child: Icon(Icons.person, color: Colors.grey[600], size: 60),
+                                child: Icon(
+                                  Icons.person,
+                                  color: Colors.grey[600],
+                                  size: 60,
+                                ),
                               ),
                         ),
                       ),
@@ -337,47 +365,63 @@ class _LibraryState extends State<Library> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            QrImageView(
-                              data: token,
-                              version: QrVersions.auto,
-                              // size: 150,
-                              gapless: true,
-                              embeddedImageStyle: const QrEmbeddedImageStyle(color: Colors.white),
-                              eyeStyle: const QrEyeStyle(
-                                color: Colors.black,
-                                eyeShape: QrEyeShape.square,
-                              ),
-                              dataModuleStyle: const QrDataModuleStyle(
-                                color: Colors.black,
-                                dataModuleShape: QrDataModuleShape.square,
-                              ),
-                            ),
-                            if (isTokenExpired)
-                              ClipRect(
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                                  child: Container(
-                                    width: 200,
-                                    height: 200,
-                                    decoration: BoxDecoration(color: Colors.transparent),
-                                    child: Center(
-                                      child: IconButton(
-                                        onPressed: startTokenCycle,
-                                        icon: const Icon(
-                                          Icons.refresh,
-                                          color: OneStopColors.kYellow,
-                                          size: 40,
-                                        ),
+                        child:
+                            !showQr
+                                ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: OneStopColors.primaryColor,
+                                  ),
+                                )
+                                : Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    QrImageView(
+                                      data: token,
+                                      version: QrVersions.auto,
+                                      // size: 150,
+                                      gapless: true,
+                                      embeddedImageStyle:
+                                          const QrEmbeddedImageStyle(
+                                            color: Colors.white,
+                                          ),
+                                      eyeStyle: const QrEyeStyle(
+                                        color: Colors.black,
+                                        eyeShape: QrEyeShape.square,
+                                      ),
+                                      dataModuleStyle: const QrDataModuleStyle(
+                                        color: Colors.black,
+                                        dataModuleShape:
+                                            QrDataModuleShape.square,
                                       ),
                                     ),
-                                  ),
+                                    if (isTokenExpired)
+                                      ClipRect(
+                                        child: BackdropFilter(
+                                          filter: ImageFilter.blur(
+                                            sigmaX: 10.0,
+                                            sigmaY: 10.0,
+                                          ),
+                                          child: Container(
+                                            width: 200,
+                                            height: 200,
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                            ),
+                                            child: Center(
+                                              child: IconButton(
+                                                onPressed: startTokenCycle,
+                                                icon: const Icon(
+                                                  Icons.refresh,
+                                                  color: OneStopColors.kYellow,
+                                                  size: 40,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
                                 ),
-                              ),
-                          ],
-                        ),
                       ),
                     ),
                   ],
@@ -398,7 +442,10 @@ class _LibraryState extends State<Library> {
         color: const Color(0xFF252525),
         /* White */
         shape: RoundedRectangleBorder(
-          side: BorderSide(width: 1, color: const Color(0x50E9E9EA) /* Colors-Green-600 */),
+          side: BorderSide(
+            width: 1,
+            color: const Color(0x50E9E9EA) /* Colors-Green-600 */,
+          ),
           borderRadius: BorderRadius.circular(16),
         ),
       ),
@@ -434,7 +481,9 @@ class _LibraryState extends State<Library> {
             children: [
               Text(
                 _currentSlot?.dateTime != null
-                    ? DateFormat('MMM dd, hh:mm a').format(_currentSlot!.dateTime!)
+                    ? DateFormat(
+                      'MMM dd, hh:mm a',
+                    ).format(_currentSlot!.dateTime!)
                     : '--',
                 style: const TextStyle(
                   color: Colors.white,

@@ -1,19 +1,24 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/pages/services/gate_log_page.dart';
+import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeTabTile extends StatelessWidget {
-  const HomeTabTile(
-      {super.key,
-      required this.label,
-      this.iconCode,
-      this.icon,
-      this.routeId,
-      this.link,
-      this.newBadge = false});
+  const HomeTabTile({
+    super.key,
+    required this.label,
+    this.iconCode,
+    this.icon,
+    this.routeId,
+    this.link,
+    this.newBadge = false,
+  });
 
   final String label;
   final String? link;
@@ -24,10 +29,7 @@ class HomeTabTile extends StatelessWidget {
 
   Future<void> launchURL(String url) async {
     final Uri uri = Uri.parse(url);
-    if (!await launchUrl(
-      uri,
-      mode: LaunchMode.externalApplication,
-    )) {
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       throw "Can not launch url";
     }
   }
@@ -45,10 +47,7 @@ class HomeTabTile extends StatelessWidget {
         shape: BadgeShape.square,
         borderRadius: BorderRadius.circular(8),
       ),
-      badgeContent: Text(
-        'New',
-        style: MyFonts.w600.setColor(kGrey9).size(10),
-      ),
+      badgeContent: Text('New', style: MyFonts.w600.setColor(kGrey9).size(10)),
       child: buildTile(context),
     );
   }
@@ -57,6 +56,15 @@ class HomeTabTile extends StatelessWidget {
     return FittedBox(
       child: GestureDetector(
         onTap: () {
+          if (routeId == GateLogPage.id) {
+            final isBagInLib = context.read<CommonStore>().isBagInLibrary;
+            if (isBagInLib) {
+              showSnackBar(
+                "Please retrieve your bag in order to checkout or checkin",
+              );
+              return;
+            }
+          }
           if (link != null) {
             launchURL(link!);
           } else {
@@ -68,15 +76,15 @@ class HomeTabTile extends StatelessWidget {
           height: 150,
           width: 150,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50), color: lGrey),
+            borderRadius: BorderRadius.circular(50),
+            color: lGrey,
+          ),
           padding: const EdgeInsets.all(4.0),
           child: Column(
             // Replace with a Row for horizontal icon + text
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              const SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               Expanded(
                 child: Icon(
                   icon ?? IconData(iconCode!, fontFamily: 'MaterialIcons'),
@@ -85,9 +93,11 @@ class HomeTabTile extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Text(label,
-                    style: MyFonts.w500.size(23).setColor(lBlue),
-                    textAlign: TextAlign.center),
+                child: Text(
+                  label,
+                  style: MyFonts.w500.size(23).setColor(lBlue),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ],
           ),

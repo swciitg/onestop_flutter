@@ -30,5 +30,13 @@ abstract class _CommonStore with Store {
     isPersonalNotif = !isPersonalNotif;
   }
 
+  @observable
+  bool isBagInLibrary = false;
+
+  @action
+  void setBagInLibrary(bool value) {
+    isBagInLibrary = value;
+  }
+
   int get pageSize => 5;
 }
