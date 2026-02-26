@@ -50,6 +50,9 @@ class _TravelGuideState extends State<TravelGuide> {
         centerTitle: true,
         leadingWidth: 60,
         scrolledUnderElevation: 0,
+        systemOverlayStyle: Theme.of(
+          context,
+        ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: OColor.green600),
           onPressed: () => Navigator.of(context).pop(),

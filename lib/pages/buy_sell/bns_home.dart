@@ -59,11 +59,14 @@ class _BuySellHomeState extends State<BuySellHome> {
         return Scaffold(
           backgroundColor: OColor.gray100,
           appBar: AppBar(
-            backgroundColor: OColor.gray100,
+            backgroundColor: OColor.white,
             surfaceTintColor: Colors.transparent,
             centerTitle: true,
             scrolledUnderElevation: 0,
             elevation: 0,
+            systemOverlayStyle: Theme.of(
+              context,
+            ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
             leading: IconButton(
               onPressed: () => Navigator.of(context).pop(),
               icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
@@ -198,14 +201,14 @@ class _BuySellHomeState extends State<BuySellHome> {
           return CustomScrollView(
             slivers: [
               SliverPadding(
-                padding: const EdgeInsets.all(OSpacing.m),
+                padding: const EdgeInsets.all(OSpacing.s),
                 sliver: PagedSliverGrid<int, BuyModel>(
                   state: state,
                   fetchNextPage: fetchNextPage,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: OSpacing.m,
-                    mainAxisSpacing: OSpacing.m,
+                    crossAxisSpacing: OSpacing.xs,
+                    mainAxisSpacing: OSpacing.xs,
                     childAspectRatio: 0.68,
                   ),
                   builderDelegate: _buildSellDelegate(),
@@ -222,14 +225,14 @@ class _BuySellHomeState extends State<BuySellHome> {
           return CustomScrollView(
             slivers: [
               SliverPadding(
-                padding: const EdgeInsets.all(OSpacing.m),
+                padding: const EdgeInsets.all(OSpacing.s),
                 sliver: PagedSliverGrid<int, SellModel>(
                   state: state,
                   fetchNextPage: fetchNextPage,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: OSpacing.m,
-                    mainAxisSpacing: OSpacing.m,
+                    crossAxisSpacing: OSpacing.xs,
+                    mainAxisSpacing: OSpacing.xs,
                     childAspectRatio: 0.68,
                   ),
                   builderDelegate: _buildBuyDelegate(),
@@ -261,11 +264,11 @@ class _BuySellHomeState extends State<BuySellHome> {
             );
           }
           return GridView.builder(
-            padding: const EdgeInsets.all(OSpacing.m),
+            padding: const EdgeInsets.all(OSpacing.s),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              crossAxisSpacing: OSpacing.m,
-              mainAxisSpacing: OSpacing.m,
+              crossAxisSpacing: OSpacing.xs,
+              mainAxisSpacing: OSpacing.xs,
               childAspectRatio: 0.55,
             ),
             itemBuilder: (context, index) => MyAdsTile(model: models[index]),

@@ -131,11 +131,7 @@ Widget _buildContactList(List<MedicalcontactModel> medList) {
       var name = isMisc ? medList[index].miscellaneousContact : medList[index].name.name;
       return InkWell(
         onTap: () {
-          showDialog(
-            context: context,
-            builder: (_) => MedicalContactDialog(contact: medList[index], isMisc: isMisc),
-            barrierDismissible: true,
-          );
+          showMedicalContactSheet(context, contact: medList[index], isMisc: isMisc);
         },
         child: Container(
           margin: const EdgeInsets.only(bottom: OSpacing.xs),

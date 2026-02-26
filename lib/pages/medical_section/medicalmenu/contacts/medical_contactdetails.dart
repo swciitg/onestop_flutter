@@ -92,11 +92,7 @@ class _MedicalContactdetailsState extends State<MedicalContactdetails> {
                     return InkWell(
                       borderRadius: BorderRadius.circular(OCornerRadius.s),
                       onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) => MedicalContactDialog(contact: item, isMisc: isMisc),
-                          barrierDismissible: true,
-                        );
+                        showMedicalContactSheet(context, contact: item, isMisc: isMisc);
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(

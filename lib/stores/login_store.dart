@@ -102,10 +102,10 @@ class LoginStore {
 
   Future<void> saveToUserInfo(SharedPreferences instance) async {
     // only called after saving jwt tokens in local storage
-    userData = jsonDecode(instance.getString("userInfo")!);
     // final fcmToken = await FirebaseMessaging.instance.getToken();
     // Logger().i("FCM Token: $fcmToken");
     if (instance.getBool("isGuest") == false) {
+      userData = jsonDecode(instance.getString("userInfo")!);
       String? deviceToken = instance.getString("deviceToken");
       if (deviceToken == null) {
         instance.setString("deviceToken", ""); // set the returned fcToken

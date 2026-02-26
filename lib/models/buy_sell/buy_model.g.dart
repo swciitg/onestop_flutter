@@ -17,7 +17,7 @@ BuyModel _$BuyModelFromJson(Map<String, dynamic> json) => BuyModel(
   email: json['email'] as String,
   id: json['_id'] as String,
   username: json['username'] as String,
-  isNew: json['isNew'] as bool,
+  isNew: json['isNew'] as bool? ?? false,
   user:
       json['user'] == null
           ? null

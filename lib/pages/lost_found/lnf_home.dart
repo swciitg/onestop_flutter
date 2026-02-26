@@ -57,11 +57,14 @@ class _LostFoundHomeState extends State<LostFoundHome> {
         return Scaffold(
           backgroundColor: OColor.gray100,
           appBar: AppBar(
-            backgroundColor: OColor.gray100,
+            backgroundColor: OColor.white,
             surfaceTintColor: Colors.transparent,
             centerTitle: true,
             scrolledUnderElevation: 0,
             elevation: 0,
+            systemOverlayStyle: Theme.of(
+              context,
+            ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
             leading: IconButton(
               onPressed: () => Navigator.pop(context),
               icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
@@ -205,8 +208,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
           return PagedListView<int, LostModel>.separated(
             state: state,
             fetchNextPage: fetchNextPage,
-            padding: const EdgeInsets.all(OSpacing.m),
-            separatorBuilder: (_, _) => const SizedBox(height: OSpacing.m),
+            padding: const EdgeInsets.all(OSpacing.s),
+            separatorBuilder: (_, _) => const SizedBox(height: OSpacing.xs),
             builderDelegate: PagedChildBuilderDelegate(
               itemBuilder: (context, item, index) => LostFoundTile(currentModel: item),
               firstPageErrorIndicatorBuilder:
@@ -237,8 +240,8 @@ class _LostFoundHomeState extends State<LostFoundHome> {
           return PagedListView<int, FoundModel>.separated(
             state: state,
             fetchNextPage: fetchNextPage,
-            padding: const EdgeInsets.all(OSpacing.m),
-            separatorBuilder: (_, _) => const SizedBox(height: OSpacing.m),
+            padding: const EdgeInsets.all(OSpacing.s),
+            separatorBuilder: (_, _) => const SizedBox(height: OSpacing.xs),
             builderDelegate: PagedChildBuilderDelegate(
               itemBuilder: (context, item, index) => LostFoundTile(currentModel: item),
               firstPageErrorIndicatorBuilder:
@@ -283,9 +286,9 @@ class _LostFoundHomeState extends State<LostFoundHome> {
             );
           }
           return ListView.separated(
-            padding: const EdgeInsets.all(OSpacing.m),
+            padding: const EdgeInsets.all(OSpacing.s),
             itemBuilder: (context, index) => MyAdsTile(model: models[index]),
-            separatorBuilder: (_, _) => const SizedBox(height: OSpacing.m),
+            separatorBuilder: (_, _) => const SizedBox(height: OSpacing.xs),
             itemCount: models.length,
           );
         }

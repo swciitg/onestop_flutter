@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:onestop_dev/models/contacts/contact_details.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/pages/contact/contact_detail.dart';
 import 'package:onestop_dev/services/data_service.dart';
@@ -26,11 +25,14 @@ class _ContactPageState extends State<ContactPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: OColor.white,
+      backgroundColor: OColor.gray100,
       appBar: AppBar(
         backgroundColor: OColor.white,
         elevation: 0,
         scrolledUnderElevation: 0,
+        systemOverlayStyle: Theme.of(
+          context,
+        ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
         leading: IconButton(
           icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
           onPressed: () => Navigator.of(context).pop(),
@@ -39,7 +41,11 @@ class _ContactPageState extends State<ContactPage> {
         title: Text('Contacts', style: OTextStyle.labelLarge.copyWith(color: OColor.gray800)),
       ),
       body: Provider<ContactStore>(
-        create: (context) => ContactStore(),
+        create: (context) {
+          final store = ContactStore();
+          store.loadStarredContacts();
+          return store;
+        },
         builder: (context, _) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,27 +65,17 @@ class _ContactPageState extends State<ContactPage> {
                 ),
               ),
               const SizedBox(height: OSpacing.xs),
-              FutureBuilder(
-                future: context.read<ContactStore>().getAllStarredContacts(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    List<ContactDetailsModel> stars = snapshot.data as List<ContactDetailsModel>;
-                    context.read<ContactStore>().setStarredContacts(stars);
-                    return SizedBox(
-                      height: 80,
-                      child: Observer(
-                        builder: (context) {
-                          return SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
-                            child: Row(children: context.read<ContactStore>().starContactScroll),
-                          );
-                        },
-                      ),
+              SizedBox(
+                height: 80,
+                child: Observer(
+                  builder: (context) {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
+                      child: Row(children: context.read<ContactStore>().starContactScroll),
                     );
-                  }
-                  return const SizedBox(height: 80);
-                },
+                  },
+                ),
               ),
               const SizedBox(height: OSpacing.xs),
 

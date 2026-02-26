@@ -118,27 +118,26 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     SizeConfig().init(context);
     return OneStopUpgrader(
       child: Scaffold(
-        backgroundColor: OColor.gray100,
-
-        key: scaffoldKey,
-        appBar: appBar(context, displayDrawer: false, displayIcon: false),
-        body: LayoutBuilder(
-          builder: (context, constraints) {
-            final height = constraints.maxHeight;
-            final width = constraints.maxWidth;
-            return SizedBox(
-              height: height,
-              width: width,
-              child: Stack(
-                children: [
-                  tabs[index],
-                  Positioned(bottom: 0, left: 0, right: 0, child: _bottomNavBar(context)),
-                ],
-              ),
-            );
-          },
+          backgroundColor: OColor.gray100,
+          key: scaffoldKey,
+          appBar: appBar(context, displayDrawer: false, displayIcon: false),
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              final height = constraints.maxHeight;
+              final width = constraints.maxWidth;
+              return SizedBox(
+                height: height,
+                width: width,
+                child: Stack(
+                  children: [
+                    tabs[index],
+                    Positioned(bottom: 0, left: 0, right: 0, child: _bottomNavBar(context)),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
-      ),
     );
   }
 

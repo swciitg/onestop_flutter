@@ -41,6 +41,9 @@ class _BusTimingsPageState extends State<BusTimingsPage> {
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
         leadingWidth: 60,
+        systemOverlayStyle: Theme.of(
+          context,
+        ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: OColor.green600),
           onPressed: () => Navigator.of(context).pop(),
@@ -57,7 +60,7 @@ class _BusTimingsPageState extends State<BusTimingsPage> {
               }
               final timings = snapshot.data!;
               return SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+                padding: const EdgeInsets.fromLTRB(8, 8, 8, 100),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -108,9 +111,9 @@ class _BusTimingsPageState extends State<BusTimingsPage> {
 
           // Sticky Track Bus button
           Positioned(
-            left: 16,
-            right: 16,
-            bottom: 24,
+            left: 8,
+            right: 8,
+            bottom: 16,
             child: SizedBox(
               width: double.infinity,
               height: 48,
@@ -341,7 +344,7 @@ class _DirectionSwitch extends StatelessWidget {
     final toSub = fromCampus ? leftSub : rightSub;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
       decoration: BoxDecoration(
         color: OColor.white,
         borderRadius: BorderRadius.circular(OCornerRadius.m),

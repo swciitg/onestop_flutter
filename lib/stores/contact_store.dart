@@ -16,6 +16,22 @@ abstract class _ContactStore with Store {
   @observable
   ObservableList<ContactDetailsModel> starredContacts = ObservableList<ContactDetailsModel>.of([]);
 
+  @observable
+  bool starredLoaded = false;
+
+  @action
+  Future<void> loadStarredContacts() async {
+    var starred = await LocalStorage.instance.getListRecord(DatabaseRecords.starredContacts);
+    if (starred == null) {
+      starredContacts = ObservableList<ContactDetailsModel>.of([]);
+    } else {
+      starredContacts = ObservableList<ContactDetailsModel>.of(
+        starred.map((e) => ContactDetailsModel.fromJson(e as Map<String, dynamic>)).toList(),
+      );
+    }
+    starredLoaded = true;
+  }
+
   Future<List<ContactDetailsModel>> getAllStarredContacts() async {
     var starred = await LocalStorage.instance.getListRecord(DatabaseRecords.starredContacts);
     if (starred == null) {

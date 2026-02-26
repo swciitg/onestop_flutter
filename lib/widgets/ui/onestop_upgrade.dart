@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 import 'package:upgrader/upgrader.dart';
 
 class OneStopUpgraderMessages extends UpgraderMessages {
@@ -22,22 +20,27 @@ class OneStopUpgrader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-          dialogTheme: DialogThemeData(
-            backgroundColor: kBackground,
-            titleTextStyle: MyFonts.w600.setColor(lBlue).size(20),
-            contentTextStyle: MyFonts.w400.setColor(lBlue),
+        dialogTheme: DialogThemeData(
+          backgroundColor: OColor.white,
+          titleTextStyle: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+          contentTextStyle: OTextStyle.bodyMedium.copyWith(color: OColor.gray600),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: OColor.green600,
+            textStyle: OTextStyle.labelMedium,
           ),
-          textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                  foregroundColor: lBlue2, textStyle: MyFonts.w600))),
+        ),
+      ),
       child: UpgradeAlert(
-          upgrader: Upgrader(
-            countryCode: 'IN',
-            durationUntilAlertAgain: const Duration(hours: 1),
-            messages: OneStopUpgraderMessages(),
-          ),
-          showIgnore: false,
-          child: child),
+        upgrader: Upgrader(
+          countryCode: 'IN',
+          durationUntilAlertAgain: const Duration(hours: 1),
+          messages: OneStopUpgraderMessages(),
+        ),
+        showIgnore: false,
+        child: child,
+      ),
     );
   }
 }

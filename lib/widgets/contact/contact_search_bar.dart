@@ -36,7 +36,7 @@ class ContactSearchBar extends StatelessWidget {
                 height: 48,
                 padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
                 decoration: BoxDecoration(
-                  color: OColor.gray100,
+                  color: OColor.white,
                   borderRadius: BorderRadius.circular(OCornerRadius.xl),
                 ),
                 child: Row(

@@ -147,6 +147,18 @@ class _ThemeTransitionScreenState extends State<ThemeTransitionScreen>
 
     return Scaffold(
       backgroundColor: bgColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        systemOverlayStyle: Theme.of(context).appBarTheme.systemOverlayStyle?.copyWith(
+          statusBarColor: bgColor,
+          systemNavigationBarColor: bgColor,
+        ),
+        leading: SizedBox.shrink(),
+      ),
+      extendBody: true,
+      extendBodyBehindAppBar: true,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

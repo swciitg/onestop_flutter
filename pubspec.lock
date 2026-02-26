@@ -857,11 +857,9 @@ packages:
   gate_log:
     dependency: "direct main"
     description:
-      path: "packages/gate_log"
-      ref: redesign
-      resolved-ref: "34ade7a9327fb9a3106e79c78f74bf4ebc99cafc"
-      url: "https://github.com/swciitg/gatelog_onestop.git"
-    source: git
+      path: "../gatelog_onestop/packages/gate_log"
+      relative: true
+    source: path
     version: "0.0.1"
   geoclue:
     dependency: transitive
@@ -1221,7 +1219,7 @@ packages:
     description:
       path: "."
       ref: redesign
-      resolved-ref: "7b708bde1273d44d1a06d8228d45d85012ebfc04"
+      resolved-ref: "548745d4f5ff45790cefda79ab692f602a945ab7"
       url: "https://github.com/swciitg/lib_token.git"
     source: git
     version: "0.0.1"
@@ -1367,7 +1365,7 @@ packages:
     description:
       path: "packages/onestop_ui"
       ref: dev
-      resolved-ref: "1284f54f369996371e820fba5d07f559e989ce05"
+      resolved-ref: eda88cd5dedeea8f9080752a4cf9af7fc46ffb71
       url: "https://github.com/swciitg/onestop_ui.git"
     source: git
     version: "0.0.1"
@@ -1688,10 +1686,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: cbc40be9be1c5af4dab4d6e0de4d5d3729e6f3d65b89d21e1815d57705644a6f
+      sha256: "8374d6200ab33ac99031a852eba4c8eb2170c4bf20778b3e2c9eccb45384fb41"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.20"
+    version: "2.4.21"
   shared_preferences_foundation:
     dependency: transitive
     description:

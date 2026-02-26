@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_ui/index.dart';
-import 'package:onestop_ui/index.dart';
 
 class CustomTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;

@@ -18,6 +18,9 @@ class TimetablePage extends StatelessWidget {
         backgroundColor: OColor.white,
         surfaceTintColor: OColor.white,
         elevation: 0,
+        systemOverlayStyle: Theme.of(
+          context,
+        ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
         iconTheme: IconThemeData(color: OColor.gray800),
         centerTitle: true,
         title: Text('Timetable', style: OTextStyle.headingMedium.copyWith(color: OColor.gray800)),

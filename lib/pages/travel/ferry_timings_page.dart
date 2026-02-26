@@ -45,6 +45,9 @@ class _FerryTimingsPageState extends State<FerryTimingsPage> {
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
         leadingWidth: 60,
+        systemOverlayStyle: Theme.of(
+          context,
+        ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: OColor.green600),
           onPressed: () => Navigator.of(context).pop(),
@@ -62,7 +65,7 @@ class _FerryTimingsPageState extends State<FerryTimingsPage> {
           }
           final timings = snapshot.data!;
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -236,11 +239,7 @@ class _FerryGuideHintState extends State<_FerryGuideHint> {
                     color: OColor.green100,
                     borderRadius: BorderRadius.circular(OCornerRadius.s),
                   ),
-                  child: Icon(
-                    FluentIcons.vehicle_ship_24_filled,
-                    color: OColor.green600,
-                    size: 20,
-                  ),
+                  child: Icon(FluentIcons.vehicle_ship_24_filled, color: OColor.green600, size: 20),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -365,11 +364,7 @@ class _DirectionSwitch extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(color: OColor.green100, shape: BoxShape.circle),
-              child: Icon(
-                FluentIcons.arrow_swap_24_regular,
-                size: 20,
-                color: OColor.green600,
-              ),
+              child: Icon(FluentIcons.arrow_swap_24_regular, size: 20, color: OColor.green600),
             ),
           ),
           Expanded(

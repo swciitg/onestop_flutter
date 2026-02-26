@@ -131,6 +131,9 @@ class ComplaintsPage extends StatelessWidget {
         elevation: 0,
         iconTheme: IconThemeData(color: OColor.gray800),
         centerTitle: true,
+        systemOverlayStyle: Theme.of(
+          context,
+        ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
         title: Text(
           'Complaints Portal',
           style: OTextStyle.headingMedium.copyWith(color: OColor.gray600),
@@ -138,7 +141,7 @@ class ComplaintsPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
+          padding: const EdgeInsets.symmetric(horizontal: OSpacing.xs),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

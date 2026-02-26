@@ -73,11 +73,14 @@ class _RouterPageState extends State<RouterPage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: OColor.white,
+      backgroundColor: OColor.gray100,
       appBar: AppBar(
         backgroundColor: OColor.white,
         elevation: 0,
         scrolledUnderElevation: 0,
+        systemOverlayStyle: Theme.of(
+          context,
+        ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
         leading: IconButton(
           icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
           onPressed: () => Navigator.of(context).pop(),

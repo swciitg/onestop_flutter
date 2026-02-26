@@ -63,7 +63,7 @@ android {
     defaultConfig {
         applicationId "com.swciitg.onestop2"
         minSdkVersion 24
-        targetSdkVersion 36
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         manifestPlaceholders['GMAP_KEY'] = dartEnvironmentVariables["GMAP_KEY"] ?: ""
@@ -108,4 +108,3 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
     implementation "com.android.support:multidex:1.0.3"
 }
-

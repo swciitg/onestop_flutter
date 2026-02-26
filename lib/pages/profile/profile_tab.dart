@@ -106,15 +106,26 @@ class _ProfileTabState extends State<ProfileTab> {
   @override
   Widget build(BuildContext context) {
     if (LoginStore.isGuest) {
-      return const GuestRestrictAccess();
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        child: Column(
+          children: [
+            const Spacer(),
+            _buildLogoutButton(),
+            const SizedBox(height: OSpacing.l),
+            _swcLogo(),
+            const Spacer(),
+          ],
+        ),
+      );
     }
 
     return Stack(
       children: [
         SingleChildScrollView(
           padding: const EdgeInsets.only(
-            left: 16,
-            right: 16,
+            left: 8,
+            right: 8,
             top: 8,
             bottom: 160, // room for bottom nav
           ),
@@ -405,10 +416,7 @@ class _ProfileTabState extends State<ProfileTab> {
             onPressed: () {
               showModalBottomSheet(
                 context: context,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                ),
-                clipBehavior: Clip.antiAliasWithSaveLayer,
+                backgroundColor: Colors.transparent,
                 isScrollControlled: true,
                 builder: (BuildContext ctx) => const FeedBack(),
               );

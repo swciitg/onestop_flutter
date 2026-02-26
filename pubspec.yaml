@@ -57,11 +57,11 @@ dependencies:
       url: https://github.com/swciitg/onestop_kit.git
       ref: dev
   gate_log:
-    git:
-      url: https://github.com/swciitg/gatelog_onestop.git
-      path: packages/gate_log
-      ref: redesign
-    # path: ../gatelog_onestop/packages/gate_log
+    # git:
+    #   url: https://github.com/swciitg/gatelog_onestop.git
+    #   path: packages/gate_log
+    #   ref: redesign
+    path: ../gatelog_onestop/packages/gate_log
   onestop_ui:
     git:
       url: https://github.com/swciitg/onestop_ui.git

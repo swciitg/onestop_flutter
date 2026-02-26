@@ -56,9 +56,9 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     var mapStore = context.read<MapBoxStore>();
     mapStore.checkTravelPage(false);
-    final imageWidth = 0.92 * MediaQuery.of(context).size.width;
+    final imageWidth = MediaQuery.of(context).size.width - 16;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: SingleChildScrollView(

@@ -19,25 +19,26 @@ class BuyModel {
   final OneStopUser? user;
   @JsonKey(name: '_id')
   final String id;
+  @JsonKey(defaultValue: false)
   final bool isNew;
 
-  const BuyModel(
-      {Key? key,
-      required this.title,
-      required this.description,
-      required this.imageURL,
-      required this.compressedImageURL,
-      required this.date,
-      required this.phonenumber,
-      required this.price,
-      required this.email,
-      required this.id,
-      required this.username,
-      required this.isNew,
-      required this.user});
+  const BuyModel({
+    Key? key,
+    required this.title,
+    required this.description,
+    required this.imageURL,
+    required this.compressedImageURL,
+    required this.date,
+    required this.phonenumber,
+    required this.price,
+    required this.email,
+    required this.id,
+    required this.username,
+    required this.isNew,
+    required this.user,
+  });
 
-  factory BuyModel.fromJson(Map<String, dynamic> json) =>
-      _$BuyModelFromJson(json);
+  factory BuyModel.fromJson(Map<String, dynamic> json) => _$BuyModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$BuyModelToJson(this);
 }

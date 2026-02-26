@@ -42,7 +42,7 @@ class _TravelPageState extends State<TravelPage> {
     final dateString = '$dayName, $dayNum$suffix $month';
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -50,9 +50,9 @@ class _TravelPageState extends State<TravelPage> {
           // Header row
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Travel', style: OTextStyle.headingLarge.copyWith(color: OColor.gray800)),
-              const SizedBox(width: 16),
               Padding(
                 padding: const EdgeInsets.only(bottom: 2),
                 child: Text(
