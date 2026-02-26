@@ -34,4 +34,13 @@ class TravelRepository extends APIRepository {
       throw Exception("Ferry Data could not be fetched");
     }
   }
+
+  Future<Map<String, dynamic>> getTravelGuides() async {
+    try {
+      final res = await serverDio.get(Endpoints.travelGuideURL);
+      return res.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

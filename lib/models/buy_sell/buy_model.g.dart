@@ -17,10 +17,11 @@ BuyModel _$BuyModelFromJson(Map<String, dynamic> json) => BuyModel(
   email: json['email'] as String,
   id: json['_id'] as String,
   username: json['username'] as String,
-  isNew: json['isNew'] ?? false,
- user: json['user'] != null
-        ? OneStopUser.fromJson(json['user'])
-        : null,
+  isNew: json['isNew'] as bool,
+  user:
+      json['user'] == null
+          ? null
+          : OneStopUser.fromJson(json['user'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$BuyModelToJson(BuyModel instance) => <String, dynamic>{
@@ -33,7 +34,7 @@ Map<String, dynamic> _$BuyModelToJson(BuyModel instance) => <String, dynamic>{
   'date': instance.date.toIso8601String(),
   'username': instance.username,
   'email': instance.email,
+  'user': instance.user?.toJson(),
   '_id': instance.id,
-  "isNew": instance.isNew,
-  "user": instance.user,
+  'isNew': instance.isNew,
 };

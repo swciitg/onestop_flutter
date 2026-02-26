@@ -1,214 +1,181 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/models/travel/travel_guide_model.dart';
 import 'package:onestop_ui/index.dart';
 
 class SpotButton extends StatelessWidget {
-  
-  final String text ;
-  final IconData icon ;
+  final TravelGuideModel guide;
+  final IconData icon;
 
-  const SpotButton({super.key, required this.text, required this.icon});
+  const SpotButton({super.key, required this.guide, required this.icon});
 
-
-@override
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-       onTap: () { 
+      onTap: () {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
+          backgroundColor: Colors.transparent,
           builder: (context) {
-            return Container(
-              height: MediaQuery.of(context).size.height * 1,
-              decoration: BoxDecoration(
-                color: OColor.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-              ),
-              child: SingleChildScrollView(
-              child:  Padding(
+            return DraggableScrollableSheet(
+              initialChildSize: 0.85,
+              minChildSize: 0.5,
+              maxChildSize: 0.95,
+              builder: (context, scrollController) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: OColor.white,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                  ),
+                  child: SingleChildScrollView(
+                    controller: scrollController,
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 24),
-                    Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          icon ,
-                            color: OColor.green600,
-                          size: 24,
+                        // Drag handle
+                        Center(
+                          child: Container(
+                            width: 40,
+                            height: 4,
+                            margin: const EdgeInsets.only(top: 8, bottom: 16),
+                            decoration: BoxDecoration(
+                              color: OColor.gray200,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
                           ),
-                          
-                      const SizedBox(width: 12),
-                      Expanded(
-                          child: OText(
-                            text: text,
-                            style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
-                          ),
-                          ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.close,
-                            color: OColor.gray600,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
                         ),
+                        // Header row
+                        Row(
+                          children: [
+                            Icon(icon, color: OColor.green600, size: 24),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                guide.place,
+                                style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.close, color: OColor.gray600),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Description
+                        if (guide.description.isNotEmpty) ...[
+                          Text(
+                            guide.description,
+                            style: OTextStyle.bodySmall.copyWith(
+                              color: OColor.gray600,
+                              height: 1.5,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+
+                        // Transport methods
+                        ...guide.transportMethods.asMap().entries.map((entry) {
+                          final i = entry.key;
+                          final method = entry.value;
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (i > 0) ...[const Divider(height: 32)],
+                              Text(
+                                method.method,
+                                style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+                              ),
+                              if (method.recommendation.isNotEmpty) ...[
+                                const SizedBox(height: 4),
+                                Text(
+                                  method.recommendation,
+                                  style: OTextStyle.bodySmall.copyWith(
+                                    color: OColor.gray600,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ],
+                              if (method.details.isNotEmpty) ...[
+                                const SizedBox(height: 8),
+                                Text(
+                                  method.details,
+                                  style: OTextStyle.bodySmall.copyWith(
+                                    color: OColor.gray800,
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ],
+                              if (method.hasCabSharing) ...[
+                                const SizedBox(height: 8),
+                                GestureDetector(
+                                  onTap: () {
+                                    // Navigate to cab sharing
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: OColor.white,
+                                      borderRadius: BorderRadius.circular(OCornerRadius.xl),
+                                      border: Border.all(color: OColor.gray200),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          'Cab Sharing',
+                                          style: OTextStyle.labelSmall.copyWith(
+                                            color: OColor.green600,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Icon(Icons.arrow_outward, size: 14, color: OColor.green600),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          );
+                        }),
+                        const SizedBox(height: 32),
                       ],
                     ),
-                    const SizedBox(height: 24),
-                    Container(
-                     margin: const EdgeInsets.symmetric(vertical: 2),
-                       padding: const EdgeInsets.all(8),
-                       decoration: BoxDecoration(
-                        color: OColor.white,
-                         borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: OColor.gray200),
-                        ),
-                     child: Image.asset(
-                        'assets/images/map/travel_map.png',
-                     ),
-                    ),
-                    const SizedBox(height: 24),
-                    OText(
-                      text:
-                        "This travel guide covers the most commonly visited destinations, along with recommended routes and transport options to help you plan your journey smoothly.",
-                    style: TextStyle(
-                      fontSize: 14,
-                        color: OColor.gray600,
-                      height: 1.4,
-                      ),
-                        maxLines: 6,
-                        overflow: TextOverflow.fade,
-                    ),
-                    const SizedBox(height: 18),
-                    const Divider(thickness: 1),
-                    const SizedBox(height: 18),
-                    
-                    OText(
-                      text: "Cab By",
-                      textAlign: TextAlign.start,
-                         style: OTextStyle.headingSmall.copyWith(color: OColor.black),
-                      ),
-                    const SizedBox(height: 4),
-                    OText(
-                      text: "Recommended for 4-7 people going together.",
-                      textAlign: TextAlign.start,
-                         style: TextStyle(
-                      fontSize: 14,
-                        color:OColor.gray600,
-                      height: 1.4,
-                      ),
-                      ),
-                    const SizedBox(height: 4),
-                    OText(
-                      text: "Go to this.\nGo to that\nNostrud eiusmod aliquip qui nulla ut anim sit laborum officia excepteur. Nostrud ad veniam id commodo cillum. Nisi ipsum anim deserunt culpa adipisicing proident consequat laboris enim nisi. Cillum veniam deserunt duis commodo.",
-                    style: TextStyle(
-                      fontSize: 14,
-                        color:OColor.black,
-                      height: 1.4,
-                      ),
-                        maxLines: 8,
-                        overflow: TextOverflow.fade,
-                    ),
-                    const SizedBox(height: 4),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                     margin: const EdgeInsets.symmetric(vertical: 2),
-                       padding: const EdgeInsets.all(8),
-                       decoration: BoxDecoration(
-                        color: OColor.white,
-                         borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: OColor.gray200),
-                        ),
-                        child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                        OText(
-                            text: "Cab Sharing",
-                            style: OTextStyle.headingSmall.copyWith(color: OColor.green600),
-                            ),
-                        const SizedBox(width: 8),
-                        Icon(
-                          Icons.arrow_upward, 
-                          color: OColor.green600),
-                        ],
-                          ),
-                    ),
-                    ),
-                    const SizedBox(height: 18),
-                    const Divider(thickness: 1),
-                    const SizedBox(height: 18),
-                    OText(
-                      text: "Cab By",
-                      textAlign: TextAlign.start,
-                         style: OTextStyle.headingSmall.copyWith(color: OColor.black),
-                      ),
-                    const SizedBox(height: 4),
-                    OText(
-                      text: "Recommended for 4-7 people going together.",
-                         style: TextStyle(
-                      fontSize: 14,
-                        color:OColor.gray600,
-                      height: 1.4,
-                      ),
-                      ),
-                    const SizedBox(height: 4),
-                     OText(
-                      text: "Go to this.\nGo to that\nNostrud eiusmod aliquip qui nulla ut anim sit laborum officia excepteur. Nostrud ad veniam id commodo cillum. Nisi ipsum anim deserunt culpa adipisicing proident consequat laboris enim nisi. Cillum veniam deserunt duis commodo.",
-                    style: TextStyle(
-                      fontSize: 14,
-                        color:OColor.black,
-                      height: 1.4,
-                      ),
-                        maxLines: 8,
-                        overflow: TextOverflow.fade,
-                    ),
-                ],
                   ),
-              ),
-              ),
+                );
+              },
             );
           },
         );
       },
       child: Container(
-      margin: const EdgeInsets.symmetric(vertical: 2),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: OColor.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: OColor.gray200),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                icon ,
-                color: OColor.green600,
-                size: 24,
+        margin: const EdgeInsets.symmetric(vertical: 2),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: OColor.white,
+          borderRadius: BorderRadius.circular(OCornerRadius.m),
+          border: Border.all(color: OColor.gray200),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: OColor.green600, size: 24),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                guide.place,
+                style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: OText(
-                  text: text,
-                  style: OTextStyle.headingSmall.copyWith(color: OColor.black),
-                  ),
-              ),
-              Icon(
-                  FluentIcons.chevron_right_12_filled,
-                  color: OColor.gray600,
-                  size: 24,
-                ) 
-            ],
-          ),
-        ],
+            ),
+            Icon(FluentIcons.chevron_right_12_filled, color: OColor.gray600, size: 24),
+          ],
+        ),
       ),
-    ),
     );
   }
 }

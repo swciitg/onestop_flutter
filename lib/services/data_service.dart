@@ -12,6 +12,7 @@ import 'package:onestop_dev/models/medicalcontacts/dropdown_contact_model.dart';
 import 'package:onestop_dev/models/medicaltimetable/all_doctors.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
+import 'package:onestop_dev/models/travel/travel_guide_model.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/repository/food_repository.dart';
@@ -284,5 +285,18 @@ class DataService {
       }
     }
     return ferryTimings;
+  }
+
+  static Future<List<TravelGuideModel>> getTravelGuides() async {
+    var cachedData = await LocalStorage.instance.getListRecord(DatabaseRecords.travelGuides);
+    Map<String, dynamic> jsonData;
+    if (cachedData == null) {
+      jsonData = await TravelRepository().getTravelGuides();
+      await LocalStorage.instance.storeListRecord([jsonData], DatabaseRecords.travelGuides);
+    } else {
+      jsonData = cachedData[0] as Map<String, dynamic>;
+    }
+    List<dynamic> guidesData = jsonData['data'] ?? [];
+    return guidesData.map((e) => TravelGuideModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 }

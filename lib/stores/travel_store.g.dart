@@ -154,6 +154,24 @@ mixin _$TravelStore on _TravelStore, Store {
     });
   }
 
+  late final _$travelGuidesAtom = Atom(
+    name: '_TravelStore.travelGuides',
+    context: context,
+  );
+
+  @override
+  ObservableList<TravelGuideModel> get travelGuides {
+    _$travelGuidesAtom.reportRead();
+    return super.travelGuides;
+  }
+
+  @override
+  set travelGuides(ObservableList<TravelGuideModel> value) {
+    _$travelGuidesAtom.reportWrite(value, super.travelGuides, () {
+      super.travelGuides = value;
+    });
+  }
+
   late final _$getBusTimingsAsyncAction = AsyncAction(
     '_TravelStore.getBusTimings',
     context: context,
@@ -172,6 +190,16 @@ mixin _$TravelStore on _TravelStore, Store {
   @override
   Future<List<TravelTiming>> getFerryTimings() {
     return _$getFerryTimingsAsyncAction.run(() => super.getFerryTimings());
+  }
+
+  late final _$getTravelGuidesAsyncAction = AsyncAction(
+    '_TravelStore.getTravelGuides',
+    context: context,
+  );
+
+  @override
+  Future<List<TravelGuideModel>> getTravelGuides() {
+    return _$getTravelGuidesAsyncAction.run(() => super.getTravelGuides());
   }
 
   late final _$_TravelStoreActionController = ActionController(
@@ -285,6 +313,7 @@ ferryDayType: ${ferryDayType},
 selectedFerryGhat: ${selectedFerryGhat},
 ferryTimings: ${ferryTimings},
 busTimings: ${busTimings},
+travelGuides: ${travelGuides},
 busDayTypeIndex: ${busDayTypeIndex},
 isBusSelected: ${isBusSelected}
     ''';

@@ -30,7 +30,7 @@ List<Map<String, dynamic>> serviceLinksData = [
   {"label": "Complaints", "icon": FluentIcons.chat_help_24_regular, "routeId": ComplaintsPage.id},
   {
     "label": "Library Token",
-    "icon": FluentIcons.library_16_filled,
+    "icon": FluentIcons.library_16_regular,
     "routeId": LibraryTokenScreen.id,
   },
   {"label": "GateLog", "icon": FluentIcons.door_20_regular, "routeId": GateLogPage.id},

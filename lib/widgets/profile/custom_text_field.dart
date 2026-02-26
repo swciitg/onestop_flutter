@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:onestop_kit/onestop_kit.dart';
-
-import '../../globals/my_colors.dart';
-import '../../globals/my_fonts.dart';
+import 'package:onestop_ui/index.dart';
+import 'package:onestop_ui/index.dart';
 
 class CustomTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
@@ -48,24 +46,30 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
-    Widget? counterBuilder(context,
-        {required currentLength, required isFocused, required maxLength}) {
-      if (currentLength == 0) {
-        return null;
-      }
-      return Text("$currentLength/$maxLength",
-          style: MyFonts.w500.size(12).setColor(kWhite));
+    final bool enabled = widget.isEnabled ?? true;
+
+    Widget? counterBuilder(
+      context, {
+      required currentLength,
+      required isFocused,
+      required maxLength,
+    }) {
+      if (currentLength == 0) return null;
+      return Text(
+        "$currentLength/$maxLength",
+        style: OTextStyle.labelXSmall.copyWith(color: OColor.gray400),
+      );
     }
 
     return TextFormField(
       inputFormatters: widget.inputFormatters,
-      enabled: widget.isEnabled ?? true,
+      enabled: enabled,
       readOnly: widget.onTap != null,
-      style: MyFonts.w500.size(14).copyWith(color: Colors.white),
+      style: OTextStyle.bodyMedium.copyWith(color: enabled ? OColor.gray800 : OColor.gray400),
       validator: widget.validator,
       controller: widget.controller,
       focusNode: widget.focusNode,
-      cursorColor: lBlue2,
+      cursorColor: OColor.green600,
       onTap: widget.onTap,
       onChanged: widget.onChanged,
       buildCounter: widget.counter == true ? counterBuilder : null,
@@ -74,58 +78,50 @@ class _CustomTextFieldState extends State<CustomTextField> {
       maxLength: widget.maxLength,
       maxLines: widget.maxLines,
       decoration: InputDecoration(
-        errorStyle: MyFonts.w500,
+        filled: true,
+        fillColor: enabled ? OColor.white : OColor.gray100,
+        errorStyle: OTextStyle.labelXSmall.copyWith(color: Colors.red),
         hintText: widget.hintText,
-        label: widget.hintText == null
-            ? RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: widget.label,
-                      style: MyFonts.w500.size(14).setColor(kTabText),
-                    ),
-                    if (widget.isNecessary)
+        label:
+            widget.hintText == null
+                ? RichText(
+                  text: TextSpan(
+                    children: [
                       TextSpan(
-                        text: ' * ',
-                        style: MyFonts.w500.size(16).setColor(kRed),
+                        text: widget.label,
+                        style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
                       ),
-                  ],
-                ),
-              )
-            : null,
-        labelStyle: MyFonts.w500.size(14).setColor(kTabText),
-        hintStyle: MyFonts.w500.size(14).setColor(kTabText),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: kfocusColor, width: 1),
-          borderRadius: BorderRadius.all(
-            Radius.circular(4),
-          ),
+                      if (widget.isNecessary)
+                        TextSpan(
+                          text: ' *',
+                          style: OTextStyle.bodySmall.copyWith(color: Colors.red),
+                        ),
+                    ],
+                  ),
+                )
+                : null,
+        labelStyle: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
+        hintStyle: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: OColor.green600, width: 1.5),
+          borderRadius: BorderRadius.circular(OCornerRadius.m),
         ),
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: kfocusColor, width: 1),
-          borderRadius: BorderRadius.all(
-            Radius.circular(4),
-          ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: OColor.gray200, width: 1),
+          borderRadius: BorderRadius.circular(OCornerRadius.m),
         ),
-        disabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: kfocusColor, width: 1),
-          borderRadius: BorderRadius.all(
-            Radius.circular(4),
-          ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: OColor.gray200, width: 1),
+          borderRadius: BorderRadius.circular(OCornerRadius.m),
         ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red, width: 1),
-          borderRadius: BorderRadius.all(
-            Radius.circular(4),
-          ),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.red, width: 1),
+          borderRadius: BorderRadius.circular(OCornerRadius.m),
         ),
-        focusedErrorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red, width: 1),
-          borderRadius: BorderRadius.all(
-            Radius.circular(4),
-          ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.red, width: 1.5),
+          borderRadius: BorderRadius.circular(OCornerRadius.m),
         ),
       ),
     );

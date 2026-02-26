@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Widget _bottomNavBar(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8).copyWith(bottom: 16),
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
         color: OColor.white,

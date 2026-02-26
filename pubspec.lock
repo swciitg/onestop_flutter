@@ -1220,8 +1220,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: dev
-      resolved-ref: "3e3325ca0834690d73acbd3cd6a887bca673d071"
+      ref: redesign
+      resolved-ref: "7b708bde1273d44d1a06d8228d45d85012ebfc04"
       url: "https://github.com/swciitg/lib_token.git"
     source: git
     version: "0.0.1"
