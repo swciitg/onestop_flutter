@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io' show Platform;
 import 'package:quick_actions/quick_actions.dart';
 import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
@@ -9,31 +10,31 @@ class AppShortcutsService {
 
   /// Initialize app shortcuts
   static Future<void> initialize() async {
-    // Define the shortcuts
+    // Define the shortcuts with platform-specific icons
     await _quickActions.setShortcutItems([
-      const ShortcutItem(
+      ShortcutItem(
         type: 'gate_log',
         localizedTitle: 'GateLog',
         localizedSubtitle: "Digital Gate Logging",
-        icon: 'ic_gate_log',
+        icon: Platform.isIOS ? 'door.left.hand.open' : 'ic_gate_log',
       ),
-      const ShortcutItem(
+      ShortcutItem(
         type: 'mess_menu',
         localizedTitle: 'Mess Menu',
         localizedSubtitle: "Today's Mess Menu",
-        icon: 'ic_mess_menu',
+        icon: Platform.isIOS ? 'fork.knife' : 'ic_mess_menu',
       ),
-      const ShortcutItem(
+      ShortcutItem(
         type: 'time_table',
         localizedTitle: 'Time Table',
         localizedSubtitle: "Today's Time Table",
-        icon: 'ic_time_table',
+        icon: Platform.isIOS ? 'calendar' : 'ic_time_table',
       ),
-      // You can add more shortcuts here
-      // const ShortcutItem(
+      //
+      // ShortcutItem(
       //   type: 'restaurants',
       //   localizedTitle: 'Restaurants',
-      //   icon: 'ic_restaurant',
+      //   icon: Platform.isIOS ? 'RestaurantIcon' : 'ic_restaurant',
       // ),
     ]);
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
 import 'package:onestop_dev/models/buy_sell/sell_model.dart';
@@ -53,7 +55,7 @@ class BnsRepository extends APIRepository {
       //await Future.delayed(const Duration(milliseconds: 300), () => null);
       return sellPage;
     } catch (e) {
-      print('Error in getSellPage: $e');
+      log('Error in getSellPage: $e');
       rethrow;
     }
   }

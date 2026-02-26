@@ -211,7 +211,7 @@ class DataService {
       Allmedicalcontacts? medicalContactData = await MedicalRepository().getMedicalContactData();
       return medicalContactData;
     } catch (e) {
-      print(e);
+      log("Error Fetching Medical Contacts: $e", name: "DataService.getMedicalContacts");
     }
     return medicalContactData;
   }

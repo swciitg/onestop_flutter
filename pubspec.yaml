@@ -15,7 +15,8 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.1.0+78
+
+version: 3.3.1+83
 
 environment:
   sdk: ^3.7.2
@@ -68,6 +69,12 @@ dependencies:
       ref: dev
     # path: ../onestop_ui/packages/onestop_ui
 
+  lib_token:
+    git:
+      url: https://github.com/swciitg/lib_token.git
+      ref: dev
+    # path: ../lib_token
+
   intl: ^0.20.2
   provider: ^6.0.2
   dio: ^5.0.3
@@ -76,7 +83,7 @@ dependencies:
   url_launcher: ^6.0.20
   app_links: ^6.4.1
   alphabet_scroll_view: ^0.3.1
-  cached_network_image: ^3.3.1
+  cached_network_image: ^3.4.1
   image_picker: ^1.1.2
   fuzzy: ^0.5.1
   mobx: ^2.5.0

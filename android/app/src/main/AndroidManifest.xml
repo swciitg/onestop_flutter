@@ -68,6 +68,13 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
+        <!-- Trampoline activity for full-process restart (runs in separate process) -->
+        <activity
+            android:name=".RestartActivity"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:process=":restart"
+            android:exported="false" />
+
         <receiver
             android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver"
             android:exported="false" />

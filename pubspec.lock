@@ -1216,6 +1216,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  lib_token:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: dev
+      resolved-ref: "3e3325ca0834690d73acbd3cd6a887bca673d071"
+      url: "https://github.com/swciitg/lib_token.git"
+    source: git
+    version: "0.0.1"
   lints:
     dependency: transitive
     description:

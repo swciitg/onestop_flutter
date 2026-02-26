@@ -49,11 +49,13 @@ class _ElectionLoginWebViewState extends State<ElectionLoginWebView> {
                   )).map((e) => "${e.name}=${e.value}").toList();
 
               // Navigate to the RegisterScreen with the cookies
-              navigatorKey.currentState?.pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => RegisterScreen(authCookie: cookies.join('; ')),
-                ),
-              );
+              if (navigatorKey.currentState != null) {
+                navigatorKey.currentState!.pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => RegisterScreen(authCookie: cookies.join('; ')),
+                  ),
+                );
+              }
             }
           },
         ),

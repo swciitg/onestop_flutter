@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 import 'package:terminate_restart/terminate_restart.dart';
@@ -109,9 +111,14 @@ class _ThemeTransitionScreenState extends State<ThemeTransitionScreen>
     if (mounted) {
       final themeStore = context.read<ThemeStore>();
       await themeStore.toggleTheme(notify: false);
-      await TerminateRestart.instance.restartApp(
-        options: const TerminateRestartOptions(terminate: true),
-      );
+      if (Platform.isAndroid) {
+        const channel = MethodChannel('com.swciitg.onestop2/restart');
+        await channel.invokeMethod('restartApp');
+      } else {
+        await TerminateRestart.instance.restartApp(
+          options: const TerminateRestartOptions(terminate: true),
+        );
+      }
     }
   }
 
