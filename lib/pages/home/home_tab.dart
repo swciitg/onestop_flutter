@@ -7,6 +7,8 @@ import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/home/date_course.dart';
+import 'package:onestop_dev/widgets/home/date_exam.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/widgets/home/home_food_tile.dart';
 import 'package:onestop_dev/widgets/home/home_gatelog_tile.dart';
 import 'package:onestop_dev/widgets/home/home_links.dart';
@@ -73,9 +75,25 @@ class _HomeTabState extends State<HomeTab> {
               const SizedBox(height: 10),
               LoginStore.isGuest
                   ? const SizedBox()
-                  : Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [DateCourse(moveToTimeTableView: widget.moveToTimeTableView)],
+                  : Observer(
+                    builder: (context) {
+                      var store = context.read<TimetableStore>();
+                      // ExamMode mode = ExamMode.upcoming;
+                      ExamMode mode = store.examMode;
+
+                      List<Widget> widgets = [];
+                      if (mode == ExamMode.upcoming) {
+                        widgets.add(DateExam(moveToTimeTableView: widget.moveToTimeTableView));
+                        widgets.add(const SizedBox(height: 10));
+                        widgets.add(DateCourse(moveToTimeTableView: widget.moveToTimeTableView));
+                      } else if (mode == ExamMode.during) {
+                        widgets.add(DateExam(moveToTimeTableView: widget.moveToTimeTableView));
+                      } else {
+                        widgets.add(DateCourse(moveToTimeTableView: widget.moveToTimeTableView));
+                      }
+
+                      return Column(mainAxisSize: MainAxisSize.min, children: widgets);
+                    },
                   ),
               // Food and Gatelog tiles
               Padding(

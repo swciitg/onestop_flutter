@@ -55,8 +55,9 @@ class _HomeQuickAccessState extends State<HomeQuickAccess> with TickerProviderSt
 
     const int maxItemsToShow = 8;
     final bool shouldShowMoreButton = serviceLinks.length > maxItemsToShow;
-    final List<HomeServiceTile> visibleItems =
-        isExpanded ? serviceLinks : serviceLinks.take(maxItemsToShow).toList();
+    final List<HomeServiceTile> allwaysVisible = serviceLinks.take(maxItemsToShow).toList();
+    final List<HomeServiceTile> remainingItems = serviceLinks.skip(maxItemsToShow).toList();
+    final List<HomeServiceTile> visibleItems = isExpanded ? remainingItems : [];
 
     return Padding(
       padding: const EdgeInsets.only(top: 5, bottom: 10),
@@ -65,6 +66,7 @@ class _HomeQuickAccessState extends State<HomeQuickAccess> with TickerProviderSt
         children: [
           OText(text: "Quick Access", style: OTextStyle.headingMedium),
           const SizedBox(height: 16),
+          _buildGrid(allwaysVisible),
           AnimatedSize(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
@@ -86,6 +88,7 @@ class _HomeQuickAccessState extends State<HomeQuickAccess> with TickerProviderSt
         mainAxisSpacing: 16,
         childAspectRatio: 0.85,
       ),
+      padding: EdgeInsets.zero,
       itemCount: items.length,
       itemBuilder: (context, index) {
         return items[index];

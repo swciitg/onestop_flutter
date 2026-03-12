@@ -61,8 +61,12 @@ class ExamTile extends StatelessWidget {
               children: [
                 // Course name
                 Text(
-                  course.course ?? '',
-                  style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+                  (course.code != null && course.code!.isNotEmpty)
+                      ? '${course.code} - ${course.course ?? ''}'
+                      : course.course ?? '',
+                  style: OTextStyle.headingSmall.copyWith(
+                    color: OColor.gray800,
+                  ),
                 ),
                 const SizedBox(height: OSpacing.xxs),
                 // Date row with calendar icon
@@ -86,23 +90,34 @@ class ExamTile extends StatelessWidget {
                 // Time + venue row
                 Row(
                   children: [
+                    Icon(
+                      FluentIcons.clock_16_regular,
+                      size: 14,
+                      color: OColor.gray600,
+                    ),
+                    const SizedBox(width: 4),
                     Text(
                       _formatTime(time),
-                      style: OTextStyle.labelSmall.copyWith(color: OColor.gray400),
+                      style: OTextStyle.labelMedium.copyWith(
+                        color: OColor.gray700,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     if (venue != null && venue.isNotEmpty) ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: OSpacing.xs),
-                        child: Container(
-                          width: 4,
-                          height: 4,
-                          decoration: BoxDecoration(color: OColor.gray400, shape: BoxShape.circle),
-                        ),
+                      const SizedBox(width: OSpacing.s),
+                      Icon(
+                        FluentIcons.location_16_regular,
+                        size: 14,
+                        color: OColor.gray600,
                       ),
+                      const SizedBox(width: 4),
                       Flexible(
                         child: Text(
                           venue,
-                          style: OTextStyle.labelSmall.copyWith(color: OColor.gray400),
+                          style: OTextStyle.labelMedium.copyWith(
+                            color: OColor.gray700,
+                            fontWeight: FontWeight.w500,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

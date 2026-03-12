@@ -127,6 +127,24 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
+  late final _$examModeAtom = Atom(
+    name: '_TimetableStore.examMode',
+    context: context,
+  );
+
+  @override
+  ExamMode get examMode {
+    _$examModeAtom.reportRead();
+    return super.examMode;
+  }
+
+  @override
+  set examMode(ExamMode value) {
+    _$examModeAtom.reportWrite(value, super.examMode, () {
+      super.examMode = value;
+    });
+  }
+
   late final _$_TimetableStoreActionController = ActionController(
     name: '_TimetableStore',
     context: context,
@@ -193,6 +211,18 @@ mixin _$TimetableStore on _TimetableStore, Store {
   }
 
   @override
+  void setExamMode(ExamMode mode) {
+    final _$actionInfo = _$_TimetableStoreActionController.startAction(
+      name: '_TimetableStore.setExamMode',
+    );
+    try {
+      return super.setExamMode(mode);
+    } finally {
+      _$_TimetableStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isProcessed: ${isProcessed},
@@ -201,6 +231,7 @@ selectedDate: ${selectedDate},
 selectedDay: ${selectedDay},
 showDropDown: ${showDropDown},
 isTimetable: ${isTimetable},
+examMode: ${examMode},
 todayTimeTable: ${todayTimeTable}
     ''';
   }

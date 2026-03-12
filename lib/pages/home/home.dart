@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/home/bottom_nav_item.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/pages/home/home_tab.dart';
-import 'package:onestop_dev/pages/profile/profile_tab.dart';
-import 'package:onestop_dev/pages/timetable/timetable_page.dart';
+import 'package:onestop_dev/pages/timetable/timetable.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
 import 'package:onestop_dev/services/app_shortcuts_service.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
@@ -48,9 +47,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       unselectedIcon: FluentIcons.vehicle_bus_24_regular,
     ),
     BottomNavItem(
-      name: 'Profile',
-      selectedIcon: FluentIcons.person_24_filled,
-      unselectedIcon: FluentIcons.person_24_regular,
+      name: 'Timetable',
+      selectedIcon: FluentIcons.calendar_ltr_24_filled,
+      unselectedIcon: FluentIcons.calendar_ltr_24_regular,
     ),
   ];
   @override
@@ -77,7 +76,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     tabs = [
       HomeTab(
         moveToTimeTableView: () {
-          Navigator.pushNamed(context, TimetablePage.id);
+          setState(() {
+            index = 3;
+          });
         },
         moveToFoodMenuSection: () {
           setState(() {
@@ -88,7 +89,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       const FoodTab(),
       const TravelPage(),
       // const EventsScreenWrapper(),
-      const ProfileTab(),
+      const TimeTableTab(),
     ];
     WidgetsBinding.instance.addObserver(this);
     actOnPendingShortcut();
@@ -118,32 +119,32 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     SizeConfig().init(context);
     return OneStopUpgrader(
       child: Scaffold(
-          backgroundColor: OColor.gray100,
-          key: scaffoldKey,
-          appBar: appBar(context, displayDrawer: false, displayIcon: false),
-          body: LayoutBuilder(
-            builder: (context, constraints) {
-              final height = constraints.maxHeight;
-              final width = constraints.maxWidth;
-              return SizedBox(
-                height: height,
-                width: width,
-                child: Stack(
-                  children: [
-                    tabs[index],
-                    Positioned(bottom: 0, left: 0, right: 0, child: _bottomNavBar(context)),
-                  ],
-                ),
-              );
-            },
-          ),
+        backgroundColor: OColor.gray100,
+        key: scaffoldKey,
+        appBar: appBar(context, displayDrawer: false, displayIcon: false),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final height = constraints.maxHeight;
+            final width = constraints.maxWidth;
+            return SizedBox(
+              height: height,
+              width: width,
+              child: Stack(
+                children: [
+                  tabs[index],
+                  Positioned(bottom: 0, left: 0, right: 0, child: _bottomNavBar(context)),
+                ],
+              ),
+            );
+          },
         ),
+      ),
     );
   }
 
   Widget _bottomNavBar(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8).copyWith(bottom: 16),
+      margin: const EdgeInsets.all(8).copyWith(bottom: 10),
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
         color: OColor.white,

@@ -37,7 +37,7 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
   SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.manual,
+    SystemUiMode.edgeToEdge,
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
   );
 

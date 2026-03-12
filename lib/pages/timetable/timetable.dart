@@ -366,6 +366,7 @@ class ScheduleList extends StatefulWidget {
 class _ScheduleListState extends State<ScheduleList> {
   bool isMidsDone = false;
   bool showEndsem = false; // toggle state for Midsems / Endsems
+  bool _initialAutoSelectDone = false;
 
   List<CourseModel> _sort(List<CourseModel> input, {String type = 'midsem'}) {
     if (type == 'midsem') {
@@ -403,11 +404,14 @@ class _ScheduleListState extends State<ScheduleList> {
       c.venue = c.endsemVenue;
     }
 
-    // Auto-select endsems if mids are done
-    if (isMidsDone && !showEndsem) {
+    // Auto-select endsems if mids are done (only on initial load)
+    if (isMidsDone && !showEndsem && !_initialAutoSelectDone) {
+      _initialAutoSelectDone = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) setState(() => showEndsem = true);
       });
+    } else if (!_initialAutoSelectDone) {
+      _initialAutoSelectDone = true;
     }
 
     final courses = showEndsem ? endsem : midsem;

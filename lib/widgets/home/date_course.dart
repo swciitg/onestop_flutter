@@ -80,156 +80,159 @@ class _DateCourseState extends State<DateCourse> {
             var nextClass = classes.first;
             var otherClasses = classes.skip(1).toList();
 
-            return DecoratedBox(
-              decoration: BoxDecoration(
-                color: OColor.white,
-                borderRadius: BorderRadius.circular(OCornerRadius.l),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header with calendar icon, title and date
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: OColor.green100,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Icon(
-                                FluentIcons.calendar_ltr_24_regular,
-                                color: OColor.green600,
-                                size: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  OText(
-                                    text: 'Time Table',
-                                    style: OTextStyle.headingSmall.copyWith(
-                                      color: OColor.black,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  OText(
-                                    text: '•',
-                                    style: OTextStyle.bodySmall.copyWith(color: OColor.gray500),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  OText(
-                                    text: _getFormattedDate(now),
-                                    style: OTextStyle.bodySmall.copyWith(color: OColor.gray500),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Transform.translate(
-                              offset: const Offset(16, 0),
-                              child: IconButton(
-                                onPressed: widget.moveToTimeTableView,
-                                icon: Icon(
-                                  FluentIcons.chevron_right_24_regular,
-                                  color: OColor.gray400,
-                                  size: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-
-                        // Next class section
-                        if (nextClass.course != 'No upcoming classes' &&
-                            nextClass.course != 'Happy Weekend !') ...[
+            return GestureDetector(
+              onTap: widget.moveToTimeTableView,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: OColor.white,
+                  borderRadius: BorderRadius.circular(OCornerRadius.l),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Header with calendar icon, title and date
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Row(
                             children: [
-                              OText(
-                                text: 'Class in ',
-                                style: OTextStyle.headingLarge.copyWith(
-                                  color: OColor.black,
-                                  fontWeight: FontWeight.w600,
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: OColor.green100,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Icon(
+                                  FluentIcons.calendar_ltr_24_regular,
+                                  color: OColor.green600,
+                                  size: 20,
                                 ),
                               ),
-                              OText(
-                                text: _getNextClassTime(nextClass),
-                                style: OTextStyle.headingLarge.copyWith(color: OColor.green600),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    OText(
+                                      text: 'Time Table',
+                                      style: OTextStyle.headingSmall.copyWith(
+                                        color: OColor.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    OText(
+                                      text: '•',
+                                      style: OTextStyle.bodySmall.copyWith(color: OColor.gray500),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    OText(
+                                      text: _getFormattedDate(now),
+                                      style: OTextStyle.bodySmall.copyWith(color: OColor.gray500),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Transform.translate(
+                                offset: const Offset(16, 0),
+                                child: IconButton(
+                                  onPressed: widget.moveToTimeTableView,
+                                  icon: Icon(
+                                    FluentIcons.chevron_right_24_regular,
+                                    color: OColor.gray400,
+                                    size: 16,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 8),
-                          OText(
-                            text: '${nextClass.code ?? ''} - ${nextClass.course ?? ''}',
-                            style: OTextStyle.bodyMedium.copyWith(color: OColor.gray600),
-                          ),
-                        ] else ...[
-                          // No classes or weekend message
-                          OText(
-                            text: nextClass.course ?? 'No upcoming classes',
-                            style: OTextStyle.headingLarge.copyWith(
-                              color:
-                                  nextClass.course == 'Happy Weekend !'
-                                      ? OColor.green500
-                                      : OColor.gray600,
-                              fontWeight: FontWeight.w600,
+
+                          // Next class section
+                          if (nextClass.course != 'No upcoming classes' &&
+                              nextClass.course != 'Happy Weekend !') ...[
+                            Row(
+                              children: [
+                                OText(
+                                  text: 'Class in ',
+                                  style: OTextStyle.headingLarge.copyWith(
+                                    color: OColor.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                OText(
+                                  text: _getNextClassTime(nextClass),
+                                  style: OTextStyle.headingLarge.copyWith(color: OColor.green600),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            OText(
+                              text: '${nextClass.code ?? ''} - ${nextClass.course ?? ''}',
+                              style: OTextStyle.bodyMedium.copyWith(color: OColor.gray600),
+                            ),
+                          ] else ...[
+                            // No classes or weekend message
+                            OText(
+                              text: nextClass.course ?? 'No upcoming classes',
+                              style: OTextStyle.headingLarge.copyWith(
+                                color:
+                                    nextClass.course == 'Happy Weekend !'
+                                        ? OColor.green500
+                                        : OColor.gray600,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+
+                    // Other classes in horizontal list
+                    if (otherClasses.isNotEmpty) ...[
+                      Stack(
+                        children: [
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: List.generate(otherClasses.length, (index) {
+                                final course = otherClasses[index];
+                                final first = index == 0;
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                  ).copyWith(right: first ? 0 : 12),
+                                  child: _buildClassCard(course),
+                                );
+                              }),
                             ),
                           ),
-                        ],
-                      ],
-                    ),
-                  ),
-
-                  // Other classes in horizontal list
-                  if (otherClasses.isNotEmpty) ...[
-                    Stack(
-                      children: [
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: List.generate(otherClasses.length, (index) {
-                              final course = otherClasses[index];
-                              final first = index == 0;
-                              return Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                ).copyWith(right: first ? 0 : 12),
-                                child: _buildClassCard(course),
-                              );
-                            }),
-                          ),
-                        ),
-                        // Fade gradient on the right
-                        Positioned(
-                          right: 0,
-                          top: 0,
-                          bottom: 0,
-                          child: Container(
-                            width: 40,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  OColor.white.withValues(alpha: 0.0),
-                                  OColor.white.withValues(alpha: 0.8),
-                                ],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
+                          // Fade gradient on the right
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: Container(
+                              width: 40,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    OColor.white.withValues(alpha: 0.0),
+                                    OColor.white.withValues(alpha: 0.8),
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                    ],
                   ],
-                ],
+                ),
               ),
             );
           },

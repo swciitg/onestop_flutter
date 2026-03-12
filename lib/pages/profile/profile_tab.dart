@@ -8,9 +8,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/repository/user_repository.dart';
 import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/pages/theme/theme_transition_screen.dart';
 import 'package:onestop_dev/widgets/profile/feedback.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:onestop_ui/index.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -111,6 +113,8 @@ class _ProfileTabState extends State<ProfileTab> {
         child: Column(
           children: [
             const Spacer(),
+            _buildThemeToggle(),
+            const SizedBox(height: OSpacing.s),
             _buildLogoutButton(),
             const SizedBox(height: OSpacing.l),
             _swcLogo(),
@@ -147,6 +151,10 @@ class _ProfileTabState extends State<ProfileTab> {
 
               // ── Bug/Feature Request + About Us + SWC logo ─────────
               _buildExtrasSection(),
+              const SizedBox(height: OSpacing.s),
+
+              // ── theme toggle ───────────────────────────────────────
+              _buildThemeToggle(),
               const SizedBox(height: OSpacing.s),
 
               // ── logout button ──────────────────────────────────────
@@ -461,6 +469,46 @@ class _ProfileTabState extends State<ProfileTab> {
           ),
         ),
       ],
+    );
+  }
+
+  // ── theme toggle ─────────────────────────────────────────────────────
+  Widget _buildThemeToggle() {
+    return Consumer<ThemeStore>(
+      builder: (context, themeStore, child) {
+        return SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () {
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (_, _, _) => ThemeTransitionScreen(toLight: themeStore.isDarkMode),
+                  transitionsBuilder: (_, animation, _, child) {
+                    return FadeTransition(opacity: animation, child: child);
+                  },
+                  transitionDuration: const Duration(milliseconds: 400),
+                ),
+              );
+            },
+            icon: Icon(
+              themeStore.isLightMode
+                  ? FluentIcons.weather_moon_24_regular
+                  : FluentIcons.weather_sunny_24_regular,
+              color: OColor.gray800,
+            ),
+            label: Text(
+              themeStore.isLightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode',
+              style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+            ),
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: OColor.gray200, width: 1),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(OCornerRadius.l)),
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              backgroundColor: OColor.white,
+            ),
+          ),
+        );
+      },
     );
   }
 

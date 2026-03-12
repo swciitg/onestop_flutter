@@ -16,6 +16,8 @@ import 'package:onestop_ui/index.dart';
 
 part 'timetable_store.g.dart';
 
+enum ExamMode { none, upcoming, during }
+
 class TimetableStore = _TimetableStore with _$TimetableStore;
 
 abstract class _TimetableStore with Store {
@@ -102,6 +104,115 @@ abstract class _TimetableStore with Store {
     isTimetable = !isTimetable;
   }
 
+  // 0: none, 1: upcoming (1 week before), 2: during exams
+  @observable
+  ExamMode examMode = ExamMode.none;
+
+  @action
+  void setExamMode(ExamMode mode) {
+    examMode = mode;
+  }
+
+  /// Calculates examMode based on dates and returns the upcoming exams.
+  void calculateExamMode() {
+    if (courses == null || courses!.courses == null || courses!.courses!.isEmpty) {
+      examMode = ExamMode.none;
+      return;
+    }
+
+    DateTime now = DateTime.now();
+    bool isMidsemDone = true;
+    bool isEndsemDone = true;
+
+    List<CourseModel> validMidsems = List.from(courses!.courses!);
+    validMidsems.removeWhere((e) => e.midsem == null || e.midsem == '');
+    if (validMidsems.isNotEmpty) {
+      validMidsems.sort((a, b) => DateTime.parse(a.midsem!).compareTo(DateTime.parse(b.midsem!)));
+      isMidsemDone = DateTime.parse(validMidsems.last.midsem!).isBefore(now);
+    }
+
+    List<CourseModel> validEndsems = List.from(courses!.courses!);
+    validEndsems.removeWhere((e) => e.endsem == null || e.endsem == '');
+    if (validEndsems.isNotEmpty) {
+      validEndsems.sort((a, b) => DateTime.parse(a.endsem!).compareTo(DateTime.parse(b.endsem!)));
+      isEndsemDone = DateTime.parse(validEndsems.last.endsem!).isBefore(now);
+    }
+
+    if (!isMidsemDone && validMidsems.isNotEmpty) {
+      DateTime firstMid = DateTime.parse(validMidsems.first.midsem!);
+      DateTime lastMid = DateTime.parse(validMidsems.last.midsem!);
+      if (now.isAfter(firstMid) && now.isBefore(lastMid.add(Duration(days: 1)))) {
+        examMode = ExamMode.during; // During exams
+      } else if (now.isBefore(firstMid) && firstMid.difference(now).inDays <= 7) {
+        examMode = ExamMode.upcoming; // Upcoming exams in 1 week
+      } else {
+        examMode = ExamMode.none;
+      }
+    } else if (!isEndsemDone && validEndsems.isNotEmpty) {
+      DateTime firstEnd = DateTime.parse(validEndsems.first.endsem!);
+      DateTime lastEnd = DateTime.parse(validEndsems.last.endsem!);
+      if (now.isAfter(firstEnd) && now.isBefore(lastEnd.add(Duration(days: 1)))) {
+        examMode = ExamMode.during; // During exams
+      } else if (now.isBefore(firstEnd) && firstEnd.difference(now).inDays <= 7) {
+        examMode = ExamMode.upcoming; // Upcoming exams in 1 week
+      } else {
+        examMode = ExamMode.none;
+      }
+    } else {
+      examMode = ExamMode.none;
+    }
+  }
+
+  String get upcomingExamType {
+    if (courses == null || courses!.courses == null) return 'Exams';
+    DateTime now = DateTime.now();
+    bool isMidsemDone = true;
+    List<CourseModel> validMidsems = List.from(courses!.courses!);
+    validMidsems.removeWhere((e) => e.midsem == null || e.midsem == '');
+    if (validMidsems.isNotEmpty) {
+      validMidsems.sort((a, b) => DateTime.parse(a.midsem!).compareTo(DateTime.parse(b.midsem!)));
+      if (DateTime.parse(validMidsems.last.midsem!).isAfter(now)) {
+        isMidsemDone = false;
+      }
+    }
+    return !isMidsemDone ? 'Midsem Exams' : 'Endsem Exams';
+  }
+
+  List<CourseModel> get homeUpcomingExams {
+    // If not calculated yet or user overridden via hardcoded var, we still return the list based on state
+    if (courses == null || courses!.courses == null) return [];
+
+    DateTime now = DateTime.now();
+    bool isMidsemDone = true;
+
+    List<CourseModel> validMidsems = List.from(courses!.courses!);
+    validMidsems.removeWhere((e) => e.midsem == null || e.midsem == '');
+    if (validMidsems.isNotEmpty) {
+      validMidsems.sort((a, b) => DateTime.parse(a.midsem!).compareTo(DateTime.parse(b.midsem!)));
+      if (DateTime.parse(validMidsems.last.midsem!).isAfter(now)) {
+        isMidsemDone = false;
+      }
+    }
+
+    List<CourseModel> validEndsems = List.from(courses!.courses!);
+    validEndsems.removeWhere((e) => e.endsem == null || e.endsem == '');
+    if (validEndsems.isNotEmpty) {
+      validEndsems.sort((a, b) => DateTime.parse(a.endsem!).compareTo(DateTime.parse(b.endsem!)));
+    }
+
+    List<CourseModel> activeExams = !isMidsemDone ? validMidsems : validEndsems;
+
+    // Only show exams that are upcoming or today
+    activeExams.removeWhere((e) {
+      String dateStr = !isMidsemDone ? e.midsem! : e.endsem!;
+      DateTime d = DateTime.parse(dateStr);
+      // Remove if it's already past (before today 00:00)
+      return d.isBefore(DateTime(now.year, now.month, now.day));
+    });
+
+    return activeExams;
+  }
+
   List<CourseModel> get homeTimeTable {
     DateTime current = DateTime.now();
     String day = DateFormat.EEEE().format(DateTime.now());
@@ -161,6 +272,7 @@ abstract class _TimetableStore with Store {
 
     //Lets fill the above now
     var courseList = await getCourses();
+    calculateExamMode();
 
     const workingDays = kworkingDays;
 
