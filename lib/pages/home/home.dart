@@ -117,8 +117,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
     return OneStopUpgrader(
       child: Scaffold(
+        extendBody: true,
         backgroundColor: OColor.gray100,
         key: scaffoldKey,
         appBar: appBar(context, displayDrawer: false, displayIcon: false),
@@ -132,7 +134,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               child: Stack(
                 children: [
                   tabs[index],
-                  Positioned(bottom: 0, left: 0, right: 0, child: _bottomNavBar(context)),
+                  Positioned(bottom: bottomInset, left: 0, right: 0, child: _bottomNavBar(context)),
                 ],
               ),
             );
@@ -144,7 +146,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Widget _bottomNavBar(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8).copyWith(bottom: 10),
+      margin: const EdgeInsets.all(8).copyWith(bottom: 0),
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
         color: OColor.white,

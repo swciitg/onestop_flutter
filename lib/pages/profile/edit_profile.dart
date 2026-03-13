@@ -152,6 +152,9 @@ class _EditProfileState extends State<EditProfile> {
             textAlign: TextAlign.left,
             style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
           ),
+          systemOverlayStyle: Theme.of(
+            context,
+          ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
         ),
         body: SafeArea(
           child: Column(

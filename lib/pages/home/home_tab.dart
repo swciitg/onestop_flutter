@@ -14,7 +14,7 @@ import 'package:onestop_dev/widgets/home/home_gatelog_tile.dart';
 import 'package:onestop_dev/widgets/home/home_links.dart';
 import 'package:onestop_dev/widgets/home/home_quick_links.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
-import 'package:onestop_dev/widgets/mapbox/map_box.dart';
+// import 'package:onestop_dev/widgets/mapbox/map_box.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:onestop_ui/index.dart';
@@ -72,7 +72,6 @@ class _HomeTabState extends State<HomeTab> {
               // _buildSearchBar(),
               // const SizedBox(height: 16),
               _imageCarousel(imageWidth),
-              const SizedBox(height: 10),
               LoginStore.isGuest
                   ? const SizedBox()
                   : Observer(
@@ -127,98 +126,102 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  FutureBuilder<List<HomeImageModel>> _imageCarousel(double imageWidth) {
-    return FutureBuilder<List<HomeImageModel>>(
-      future: DataService.getHomeImageLinks(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: Container(
-                height: imageWidth,
-                color: OColor.gray200,
-                child: Center(child: ErrorReloadButton(reloadCallback: callSetState)),
-              ),
-            ),
-          );
-        } else if (snapshot.hasData == false) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: cachedImagePlaceholder(context, ''),
-            ),
-          );
-        } else if (snapshot.data!.isEmpty) {
-          return const Padding(padding: EdgeInsets.symmetric(horizontal: 15), child: MapBox());
-        }
-        return Column(
-          children: [
-            CarouselSlider(
-              items:
-                  snapshot.data!.map((image) {
-                    return GestureDetector(
-                      onTap: () async {
-                        final homeImageUrl = image.redirectUrl;
-                        if (homeImageUrl.isNotEmpty) {
-                          await launchUrl(
-                            Uri.parse(homeImageUrl),
-                            mode: LaunchMode.externalApplication,
-                          );
-                        }
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: CachedNetworkImage(
-                          width: imageWidth,
-                          imageUrl: image.imageUrl,
-                          placeholder: cachedImagePlaceholder,
-                          fit: BoxFit.cover,
-                          errorWidget:
-                              (context, url, error) => Container(
-                                color: OColor.gray200,
-                                child: Center(
-                                  child: ErrorReloadButton(reloadCallback: callSetState),
-                                ),
-                              ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-              options: CarouselOptions(
-                height: imageWidth,
-                viewportFraction: 1,
-                animateToClosest: false,
-                enableInfiniteScroll: false,
-                padEnds: false,
-                aspectRatio: 1,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    activePageIndex = index;
-                  });
-                },
-                autoPlayInterval: const Duration(seconds: 3),
-              ),
-            ),
-            SizedBox(height: snapshot.data!.length > 1 ? 10 : 0),
-            snapshot.data!.length <= 1
-                ? const SizedBox.shrink()
-                : DotsIndicator(
-                  position: activePageIndex.toDouble(),
-                  decorator: DotsDecorator(
-                    activeColor: OColor.green600,
-                    color: OColor.gray300,
-                    spacing: EdgeInsets.symmetric(horizontal: 3),
-                    size: Size(5, 5),
-                    activeSize: Size(5, 5),
-                  ),
-                  dotsCount: snapshot.data!.length,
+  Widget _imageCarousel(double imageWidth) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: FutureBuilder<List<HomeImageModel>>(
+        future: DataService.getHomeImageLinks(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Container(
+                  height: imageWidth,
+                  color: OColor.gray200,
+                  child: Center(child: ErrorReloadButton(reloadCallback: callSetState)),
                 ),
-          ],
-        );
-      },
+              ),
+            );
+          } else if (snapshot.hasData == false) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: cachedImagePlaceholder(context, ''),
+              ),
+            );
+          } else if (snapshot.data!.isEmpty) {
+            return const SizedBox.shrink();
+            // return const Padding(padding: EdgeInsets.symmetric(horizontal: 15), child: MapBox());
+          }
+          return Column(
+            children: [
+              CarouselSlider(
+                items:
+                    snapshot.data!.map((image) {
+                      return GestureDetector(
+                        onTap: () async {
+                          final homeImageUrl = image.redirectUrl;
+                          if (homeImageUrl.isNotEmpty) {
+                            await launchUrl(
+                              Uri.parse(homeImageUrl),
+                              mode: LaunchMode.externalApplication,
+                            );
+                          }
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: CachedNetworkImage(
+                            width: imageWidth,
+                            imageUrl: image.imageUrl,
+                            placeholder: cachedImagePlaceholder,
+                            fit: BoxFit.cover,
+                            errorWidget:
+                                (context, url, error) => Container(
+                                  color: OColor.gray200,
+                                  child: Center(
+                                    child: ErrorReloadButton(reloadCallback: callSetState),
+                                  ),
+                                ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                options: CarouselOptions(
+                  height: imageWidth,
+                  viewportFraction: 1,
+                  animateToClosest: false,
+                  enableInfiniteScroll: false,
+                  padEnds: false,
+                  aspectRatio: 1,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      activePageIndex = index;
+                    });
+                  },
+                  autoPlayInterval: const Duration(seconds: 3),
+                ),
+              ),
+              SizedBox(height: snapshot.data!.length > 1 ? 10 : 0),
+              snapshot.data!.length <= 1
+                  ? const SizedBox.shrink()
+                  : DotsIndicator(
+                    position: activePageIndex.toDouble(),
+                    decorator: DotsDecorator(
+                      activeColor: OColor.green600,
+                      color: OColor.gray300,
+                      spacing: EdgeInsets.symmetric(horizontal: 3),
+                      size: Size(5, 5),
+                      activeSize: Size(5, 5),
+                    ),
+                    dotsCount: snapshot.data!.length,
+                  ),
+            ],
+          );
+        },
+      ),
     );
   }
 
