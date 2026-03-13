@@ -66,8 +66,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Future<void> _checkLibrarySlot() async {
     try {
       final user = OneStopUser.fromJson(LoginStore.userData);
-      const baseUrl =
-          "https://swc.iitg.ac.in/test/library/api"; //String.fromEnvironment("LIB_TOKEN_BASE_URL");
+      const baseUrl =String.fromEnvironment("LIB_TOKEN_BASE_URL");
 
       log('$baseUrl/check-status?rollNo=${user.rollNo}');
 
