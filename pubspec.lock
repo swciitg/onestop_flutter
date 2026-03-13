@@ -209,15 +209,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.12.4"
-  cab_sharing:
-    dependency: "direct main"
-    description:
-      path: "packages/cab_sharing"
-      ref: dev
-      resolved-ref: e911697f35a693f819a8eb2154e8f0960d74b215
-      url: "https://github.com/swciitg/cab_sharing_onestop.git"
-    source: git
-    version: "0.0.1"
   cached_network_image:
     dependency: "direct main"
     description:
@@ -394,14 +385,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
-  date_picker_plus:
-    dependency: transitive
-    description:
-      name: date_picker_plus
-      sha256: e2693c3514430cdc874d071dcb80a717385cb94206e8e458137c993b5c69d9a7
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.2.0"
   dbus:
     dependency: transitive
     description:

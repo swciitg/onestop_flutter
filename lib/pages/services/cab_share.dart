@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:cab_sharing/cab_sharing.dart';
+// import 'package:cab_sharing/cab_sharing.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 
@@ -11,6 +11,8 @@ class CabShare extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log("USERDATA: ${LoginStore.userData}", name: "CabShare");
-    return CabSharingSplashScreen();
+    //TODO 
+    // return CabSharingSplashScreen();
+    return Placeholder();
   }
 }

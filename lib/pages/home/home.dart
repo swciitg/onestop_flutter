@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 
 import '../../widgets/home/home_drawer.dart';
+import 'package:onestop_dev/pages/lib_token/lib_token.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -35,6 +36,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   int index = 0;
   bool _showBagReminder = false;
+  String _bagReminderMessage = "Reminder: You have your bag in the library";
+  bool _isBannedDialogShowing = false;
   final tabs = [
     const HomeTab(),
     const FoodTab(),
@@ -63,11 +66,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Future<void> _checkLibrarySlot() async {
     try {
       final user = OneStopUser.fromJson(LoginStore.userData);
-      const baseUrl = String.fromEnvironment("LIB_TOKEN_BASE_URL");
+      const baseUrl =
+          "https://swc.iitg.ac.in/test/library/api"; //String.fromEnvironment("LIB_TOKEN_BASE_URL");
 
-      log('$baseUrl/slot/${user.rollNo}');
+      log('$baseUrl/check-status?rollNo=${user.rollNo}');
+
       final response = await Dio().get(
-        '$baseUrl/slot/${user.rollNo}',
+        '$baseUrl/check-status?rollNo=${user.rollNo}',
         options: Options(
           headers: {
             "Authorization": "Bearer ${await AuthUserHelpers.getAccessToken()}",
@@ -82,12 +87,52 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       if (response.statusCode == 200) {
         final data = response.data;
         if (mounted) {
-          // TODO: Check if the user has a library slot after backend ready
-          final isBagPresent = true; //data['slotId'] != null;
+          final slotId = data['slotId'] ?? data['slotid'];
+          final isBanned = data['isBanned'] ?? data['banend'] ?? false;
+          final message = data['message'];
+
+          final isBagPresent = slotId != null;
           context.read<CommonStore>().setBagInLibrary(isBagPresent);
           setState(() {
-            _showBagReminder = isBagPresent;
+            _showBagReminder = isBagPresent && !isBanned && message != null;
+            if (message != null) {
+              _bagReminderMessage = message;
+            }
           });
+
+          if (isBanned) {
+            if (!_isBannedDialogShowing) {
+              _isBannedDialogShowing = true;
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) {
+                  return PopScope(
+                    canPop: false,
+                    child: AlertDialog(
+                      title: const Text("Alert"),
+                      content: Text(
+                        message ??
+                            "You are banned from using onestop. Please collect your bag from the library.",
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _isBannedDialogShowing = false;
+                            Navigator.pushNamed(context, Library.id).then((_) {
+                              _checkLibrarySlot();
+                            });
+                          },
+                          child: const Text("Go to Library Token"),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
+          }
         }
       }
     } catch (e) {
@@ -156,7 +201,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       children: [
                         Expanded(
                           child: Text(
-                            "Reminder: You have your bag in the library",
+                            _bagReminderMessage,
                             style: MyFonts.w500.setColor(kBlack),
                           ),
                         ),

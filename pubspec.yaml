@@ -39,11 +39,11 @@ dependencies:
       path: packages/scoreboard
       ref: dev
     # path: ../gc_scoreboard/packages/scoreboard
-  cab_sharing:
-    git:
-      url: https://github.com/swciitg/cab_sharing_onestop.git
-      path: packages/cab_sharing
-      ref: dev
+  # cab_sharing:
+  #   git:
+  #     url: https://github.com/swciitg/cab_sharing_onestop.git
+  #     path: packages/cab_sharing
+  #     ref: dev
     # path: ../cab_sharing_onestop/packages/cab_sharing
   irbs:
     git:

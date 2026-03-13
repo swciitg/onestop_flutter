@@ -60,7 +60,7 @@ class HomeTabTile extends StatelessWidget {
             final isBagInLib = context.read<CommonStore>().isBagInLibrary;
             if (isBagInLib) {
               showSnackBar(
-                "Please retrieve your bag in order to checkout or checkin",
+                "your bag is in libreary retrive the bag inorder to use gatelog",
               );
               return;
             }
