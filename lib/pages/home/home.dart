@@ -134,7 +134,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               child: Stack(
                 children: [
                   tabs[index],
-                  Positioned(bottom: bottomInset, left: 0, right: 0, child: _bottomNavBar(context)),
+                  Positioned(
+                    bottom: Platform.isIOS ? 8 : bottomInset,
+                    left: 0,
+                    right: 0,
+                    child: _bottomNavBar(context),
+                  ),
                 ],
               ),
             );

@@ -9,6 +9,7 @@ import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/timetable/timetable_day.dart';
 import 'package:onestop_dev/services/data_service.dart';
+import 'package:onestop_dev/services/home_timetable_widget_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/timetable/timetable_tile.dart';
 import 'package:onestop_dev/widgets/ui/text_divider.dart';
@@ -41,7 +42,16 @@ abstract class _TimetableStore with Store {
       await processTimetable();
       isProcessed = true;
     }
+    await _syncTimetableHomeWidget();
     return "Success";
+  }
+
+  Future<void> _syncTimetableHomeWidget() async {
+    try {
+      await HomeTimetableWidgetService.sync(homeTimeTable);
+    } catch (_) {
+      // Widget sync is best effort and should never block timetable rendering.
+    }
   }
 
   //List of dates to show in the date slider
