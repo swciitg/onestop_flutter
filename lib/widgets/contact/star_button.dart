@@ -24,7 +24,10 @@ class _StarButtonState extends State<StarButton> {
     var starredContacts =
         starred.map((e) => ContactDetailsModel.fromJson(e as Map<String, dynamic>)).toList();
     if (starredContacts
-        .where((element) => element.email == widget.contact.email)
+        .where((element) =>
+            element.name == widget.contact.name &&
+            element.email == widget.contact.email &&
+            element.contact == widget.contact.contact)
         .toList()
         .isNotEmpty) {
       return true;
@@ -52,7 +55,10 @@ class _StarButtonState extends State<StarButton> {
                     starred
                         .map((e) => ContactDetailsModel.fromJson(e as Map<String, dynamic>))
                         .toList();
-                starredContacts.removeWhere((element) => element.email == widget.contact.email);
+                starredContacts.removeWhere((element) =>
+                    element.name == widget.contact.name &&
+                    element.email == widget.contact.email &&
+                    element.contact == widget.contact.contact);
                 if (!mounted) return;
                 context.read<ContactStore>().setStarredContacts(starredContacts);
                 if (starredContacts.isEmpty) {

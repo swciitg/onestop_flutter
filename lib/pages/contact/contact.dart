@@ -8,6 +8,7 @@ import 'package:onestop_dev/pages/contact/contact_detail.dart';
 import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/widgets/contact/contact_search_bar.dart';
+import 'package:onestop_dev/widgets/contact/starred_contact.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
@@ -47,70 +48,88 @@ class _ContactPageState extends State<ContactPage> {
           return store;
         },
         builder: (context, _) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Search bar
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
-                child: ContactSearchBar(),
-              ),
+          return FutureBuilder<SplayTreeMap<String, ContactModel>>(
+            future: DataService.getContacts(),
+            builder: (context, snapshot) {
+              return CustomScrollView(
+                slivers: [
+                  // Search bar
+                  const SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
+                      child: ContactSearchBar(),
+                    ),
+                  ),
 
-              // Starred contacts section
-              Padding(
-                padding: const EdgeInsets.only(left: OSpacing.m, top: OSpacing.xs),
-                child: Text(
-                  'Starred',
-                  style: OTextStyle.labelSmall.copyWith(color: OColor.gray500),
-                ),
-              ),
-              const SizedBox(height: OSpacing.xs),
-              SizedBox(
-                height: 80,
-                child: Observer(
-                  builder: (context) {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
-                      child: Row(children: context.read<ContactStore>().starContactScroll),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: OSpacing.xs),
+                  // Starred header
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: OSpacing.m, top: OSpacing.xs),
+                      child: Text(
+                        'Starred',
+                        style: OTextStyle.labelSmall.copyWith(color: OColor.gray500),
+                      ),
+                    ),
+                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: OSpacing.xs)),
 
-              // Category cards list
-              Expanded(
-                child: FutureBuilder<SplayTreeMap<String, ContactModel>>(
-                  future: DataService.getContacts(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      SplayTreeMap<String, ContactModel> people = snapshot.data!;
-                      List<String> categories = people.keys.toList();
-                      return ListView.separated(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: OSpacing.m,
-                          vertical: OSpacing.xs,
+                  // Starred contacts
+                  Observer(
+                    builder: (context) {
+                      final starred = context.read<ContactStore>().starredContacts;
+                      if (starred.isEmpty) {
+                        return SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: OSpacing.m, bottom: OSpacing.xs),
+                            child: Text(
+                              "You have no starred contacts",
+                              style: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
+                            ),
+                          ),
+                        );
+                      }
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => StarContactNameTile(contact: starred[index]),
+                          childCount: starred.length,
                         ),
-                        itemCount: categories.length,
-                        separatorBuilder: (_, _) => const SizedBox(height: OSpacing.xs),
-                        itemBuilder: (context, index) {
-                          String categoryName = categories[index];
-                          ContactModel contactModel = people[categoryName]!;
-                          var contactStore = context.read<ContactStore>();
-                          return _ContactCategoryCard(
-                            categoryName: categoryName,
-                            contactModel: contactModel,
-                            contactStore: contactStore,
-                          );
-                        },
                       );
-                    }
-                    return ListShimmer(height: 60, count: 10);
-                  },
-                ),
-              ),
-            ],
+                    },
+                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: OSpacing.xs)),
+
+                  // Category cards
+                  if (snapshot.hasData) ...[
+                    Builder(
+                      builder: (context) {
+                        final categories = snapshot.data!.keys.toList();
+                        final contactStore = context.read<ContactStore>();
+                        return SliverPadding(
+                          padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
+                          sliver: SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                final i = index ~/ 2;
+                                if (index.isOdd) return const SizedBox(height: OSpacing.xs);
+                                String categoryName = categories[i];
+                                ContactModel contactModel = snapshot.data![categoryName]!;
+                                return _ContactCategoryCard(
+                                  categoryName: categoryName,
+                                  contactModel: contactModel,
+                                  contactStore: contactStore,
+                                );
+                              },
+                              childCount: categories.length * 2 - 1,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ] else
+                    SliverToBoxAdapter(child: ListShimmer(height: 60, count: 10)),
+                ],
+              );
+            },
           );
         },
       ),

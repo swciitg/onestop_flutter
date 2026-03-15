@@ -1,17 +1,23 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
+import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/widgets/contact/call_email_button.dart';
 import 'package:onestop_dev/widgets/contact/star_button.dart';
 import 'package:onestop_ui/index.dart' hide ContactActionType;
+import 'package:provider/provider.dart';
 
 /// Shows a bottom sheet with a single contact's profile details.
 void showContactProfileSheet(BuildContext context, {required ContactDetailsModel details}) {
+  final contactStore = context.read<ContactStore>();
   showModalBottomSheet(
     context: context,
     backgroundColor: Colors.transparent,
     builder: (_) {
-      return _ProfileSheetContent(details: details);
+      return Provider<ContactStore>.value(
+        value: contactStore,
+        child: _ProfileSheetContent(details: details),
+      );
     },
   );
 }

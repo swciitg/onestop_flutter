@@ -1,5 +1,8 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onestop_dev/functions/travel/has_left.dart';
 import 'package:onestop_dev/functions/travel/next_time.dart';
@@ -427,17 +430,51 @@ class _GhatTabs extends StatelessWidget {
 
 // ─── Ghat map ───────────────────────────────────────────────────────────
 
-class _GhatMap extends StatelessWidget {
+class _GhatMap extends StatefulWidget {
   final Map<String, dynamic> ghat;
   final MapBoxStore mapStore;
 
   const _GhatMap({required this.ghat, required this.mapStore});
 
   @override
+  State<_GhatMap> createState() => _GhatMapState();
+}
+
+class _GhatMapState extends State<_GhatMap> {
+  GoogleMapController? _controller;
+  String _mapStyle = '';
+
+  @override
+  void initState() {
+    super.initState();
+    rootBundle.loadString('assets/json/map_style.json').then((style) {
+      if (mounted) setState(() => _mapStyle = style);
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant _GhatMap oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.ghat['name'] != widget.ghat['name']) {
+      final lat = widget.ghat['lat'] as double;
+      final lng = widget.ghat['long'] as double;
+      _controller?.animateCamera(
+        CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final lat = ghat['lat'] as double;
-    final lng = ghat['long'] as double;
-    final name = ghat['name'] as String;
+    final lat = widget.ghat['lat'] as double;
+    final lng = widget.ghat['long'] as double;
+    final name = widget.ghat['name'] as String;
 
     return Container(
       height: 180,
@@ -449,6 +486,13 @@ class _GhatMap extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: GoogleMap(
         initialCameraPosition: CameraPosition(target: LatLng(lat, lng), zoom: 14),
+        style: _mapStyle,
+        onMapCreated: (controller) {
+          _controller = controller;
+        },
+        gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+          Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer()),
+        },
         markers: {
           Marker(
             markerId: MarkerId(name),
@@ -456,10 +500,11 @@ class _GhatMap extends StatelessWidget {
             infoWindow: InfoWindow(title: name),
           ),
         },
-        zoomControlsEnabled: false,
+        myLocationEnabled: true,
         myLocationButtonEnabled: false,
+        zoomControlsEnabled: false,
         mapToolbarEnabled: false,
-        liteModeEnabled: true,
+        compassEnabled: true,
       ),
     );
   }
@@ -486,7 +531,8 @@ class _FerryTimingList extends StatelessWidget {
 
     final dayType = isWeekday ? ferryModel.weekdays : ferryModel.weekend;
     final times = fromCampus ? dayType.fromCampus : dayType.toCampus;
-    final sortedTimes = List<DateTime>.from(times)..sort((a, b) => a.compareTo(b));
+    final sortedTimes = List<DateTime>.from(times)
+      ..sort((a, b) => (a.hour * 60 + a.minute).compareTo(b.hour * 60 + b.minute));
 
     if (sortedTimes.isEmpty) {
       return Padding(

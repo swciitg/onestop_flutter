@@ -35,16 +35,13 @@ class HomeServiceTile extends StatelessWidget {
 
   Badge buildBadge(BuildContext context) {
     return Badge(
-      position: BadgePosition.topEnd(top: 3),
+      position: BadgePosition.topEnd(top: 8, end: 8),
       badgeStyle: BadgeStyle(
-        badgeColor: OColor.green600,
-        shape: BadgeShape.square,
-        borderRadius: BorderRadius.circular(8),
+        badgeColor: OColor.black,
+        shape: BadgeShape.circle,
+        borderRadius: BorderRadius.circular(1),
       ),
-      badgeContent: Text(
-        'New',
-        style: OTextStyle.bodyXSmall.copyWith(color: OColor.white, fontWeight: FontWeight.w600),
-      ),
+      badgeContent: SizedBox(height: 2, width: 2),
       child: buildTile(context),
     );
   }

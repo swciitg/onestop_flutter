@@ -409,7 +409,7 @@ class _BusTimingList extends StatelessWidget {
         entries.add(_TimingEntry(time: time, stopName: t.stop, left: hasLeft(time)));
       }
     }
-    entries.sort((a, b) => a.time.compareTo(b.time));
+    entries.sort((a, b) => (a.time.hour * 60 + a.time.minute).compareTo(b.time.hour * 60 + b.time.minute));
 
     if (entries.isEmpty) {
       return Padding(

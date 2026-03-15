@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/pages/elections/register_screen.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:onestop_ui/index.dart';
 
 class ElectionLoginWebView extends StatefulWidget {
   static const String id = "/electionView";
@@ -18,7 +19,6 @@ class _ElectionLoginWebViewState extends State<ElectionLoginWebView> {
 
   @override
   void dispose() {
-    // Clear cookies when the widget is disposed
     cookieManager.deleteAllCookies();
     super.dispose();
   }
@@ -26,6 +26,20 @@ class _ElectionLoginWebViewState extends State<ElectionLoginWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: OColor.gray100,
+      appBar: AppBar(
+        backgroundColor: OColor.white,
+        surfaceTintColor: Colors.transparent,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: OColor.green600),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'Election Login',
+          style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+        ),
+      ),
       body: SafeArea(
         child: InAppWebView(
           initialUrlRequest: URLRequest(
@@ -40,7 +54,6 @@ class _ElectionLoginWebViewState extends State<ElectionLoginWebView> {
           onLoadStop: (InAppWebViewController controller, Uri? url) async {
             if (url != null &&
                 url.toString().startsWith('https://swc.iitg.ac.in/election_portal')) {
-              // Get cookies
               final cookies =
                   (await cookieManager.getCookies(
                     url: WebUri.uri(
@@ -48,7 +61,6 @@ class _ElectionLoginWebViewState extends State<ElectionLoginWebView> {
                     ),
                   )).map((e) => "${e.name}=${e.value}").toList();
 
-              // Navigate to the RegisterScreen with the cookies
               if (navigatorKey.currentState != null) {
                 navigatorKey.currentState!.pushReplacement(
                   MaterialPageRoute(

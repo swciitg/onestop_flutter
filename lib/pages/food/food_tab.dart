@@ -53,9 +53,9 @@ class _FoodTabState extends State<FoodTab> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MessMenu(),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
                     const OutletsFilter(),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 8),
                     // Search bar
                     Container(
                       decoration: BoxDecoration(
@@ -97,7 +97,7 @@ class _FoodTabState extends State<FoodTab> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 8),
                     FutureBuilder<List<RestaurantModel>>(
                       future: DataService.getRestaurants(),
                       builder: (
@@ -122,7 +122,7 @@ class _FoodTabState extends State<FoodTab> {
                                 filtered
                                     .map(
                                       (e) => Padding(
-                                        padding: const EdgeInsets.only(bottom: 16),
+                                        padding: const EdgeInsets.only(bottom: 8),
                                         child: RestaurantTile(restaurantModel: e),
                                       ),
                                     )

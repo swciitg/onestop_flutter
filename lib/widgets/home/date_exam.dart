@@ -39,20 +39,20 @@ class _DateExamState extends State<DateExam> {
     super.dispose();
   }
 
-  String _getFormattedDate(DateTime date) {
-    String day = date.day.toString();
-    String suffix = 'TH';
-    if (day.endsWith('1') && day != '11') {
-      suffix = 'ST';
-    } else if (day.endsWith('2') && day != '12') {
-      suffix = 'ND';
-    } else if (day.endsWith('3') && day != '13') {
-      suffix = 'RD';
-    }
+  // String _getFormattedDate(DateTime date) {
+  //   String day = date.day.toString();
+  //   String suffix = 'TH';
+  //   if (day.endsWith('1') && day != '11') {
+  //     suffix = 'ST';
+  //   } else if (day.endsWith('2') && day != '12') {
+  //     suffix = 'ND';
+  //   } else if (day.endsWith('3') && day != '13') {
+  //     suffix = 'RD';
+  //   }
 
-    String month = DateFormat('MMMM').format(date).toUpperCase();
-    return '$day$suffix $month';
-  }
+  //   String month = DateFormat('MMMM').format(date).toUpperCase();
+  //   return '$day$suffix $month';
+  // }
 
   DateTime? _getExamDate(CourseModel course, BuildContext context) {
     var store = context.read<TimetableStore>();

@@ -15,6 +15,7 @@ class ProfilePage extends StatelessWidget {
         automaticallyImplyLeading: false,
         scrolledUnderElevation: 0,
         elevation: 0.0,
+        centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(

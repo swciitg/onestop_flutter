@@ -447,8 +447,13 @@ class _ScheduleListState extends State<ScheduleList> {
                   : ListView.separated(
                     itemCount: courses.length,
                     separatorBuilder: (_, _) => const SizedBox(height: OSpacing.xs),
-                    itemBuilder:
-                        (context, index) => ExamTile(course: courses[index], isEndSem: showEndsem),
+                    itemBuilder: (context, index) {
+                      bool last = index == courses.length - 1;
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: last ? 100 : 0),
+                        child: ExamTile(course: courses[index], isEndSem: showEndsem),
+                      );
+                    },
                   ),
         ),
       ],

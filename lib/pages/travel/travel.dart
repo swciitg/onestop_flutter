@@ -258,7 +258,7 @@ class _BusSummaryRow extends StatelessWidget {
       allTimes.addAll(times);
       if (times.isNotEmpty) stopName = t.stop;
     }
-    allTimes.sort((a, b) => a.compareTo(b));
+    allTimes.sort((a, b) => (a.hour * 60 + a.minute).compareTo(b.hour * 60 + b.minute));
 
     String timeText = '';
     if (allTimes.isNotEmpty) {
@@ -295,7 +295,8 @@ class _FerrySummaryRows extends StatelessWidget {
 
             String timeText = '';
             if (times.isNotEmpty) {
-              final sortedTimes = List<DateTime>.from(times)..sort((a, b) => a.compareTo(b));
+              final sortedTimes = List<DateTime>.from(times)
+                ..sort((a, b) => (a.hour * 60 + a.minute).compareTo(b.hour * 60 + b.minute));
               final next = nextTime(sortedTimes);
               timeText = durationLeft(next);
             }

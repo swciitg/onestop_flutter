@@ -6,12 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/pages/elections/voter_card.dart';
 import 'package:onestop_dev/widgets/ui/list_shimmer.dart';
-import 'package:onestop_kit/onestop_kit.dart';
-
-import '../../globals/my_colors.dart';
-import '../../globals/my_fonts.dart';
-import '../../widgets/lostfound/new_page_button.dart';
-import '../../widgets/ui/appbar.dart';
+import 'package:onestop_ui/index.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const id = "/electionRegister";
@@ -91,458 +86,284 @@ class _RegisterScreenState extends State<RegisterScreen> {
     "Others": "Others"
   };
 
+  InputDecoration _dropdownDecoration(String hint) {
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
+      errorStyle: OTextStyle.labelXSmall.copyWith(color: OColor.red500),
+      filled: true,
+      fillColor: OColor.white,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: OColor.gray200),
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: OColor.green600),
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: OColor.red500),
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: OColor.red500),
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+      ),
+    );
+  }
+
+  InputDecoration _textFieldDecoration(String hint) {
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
+      errorStyle: OTextStyle.labelXSmall.copyWith(color: OColor.red500),
+      counterText: "",
+      filled: true,
+      fillColor: OColor.white,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: OColor.gray200),
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: OColor.gray200),
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: OColor.green600),
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: OColor.red500),
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: OColor.red500),
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: OColor.gray200),
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    dio.options.headers['cookie'] = widget.authCookie; // setting cookies for auth
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBar(context, displayIcon: false),
-        body: FutureBuilder<Response>(
-            future: dio.get("https://swc.iitg.ac.in/elections_api/sgc/profile"),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                log("REGISTER SCREEN ERROR: ${snapshot.error}");
-                if (snapshot.error is DioException) {
-                  log("REGISTER SCREEN ERROR: ${(snapshot.error as DioException).message}");
-                }
-                return const Center(child: Text("Something went wrong!"));
+    dio.options.headers['cookie'] = widget.authCookie;
+    return Scaffold(
+      backgroundColor: OColor.gray100,
+      appBar: AppBar(
+        backgroundColor: OColor.white,
+        surfaceTintColor: Colors.transparent,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: OColor.green600),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'Elections',
+          style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+        ),
+      ),
+      body: FutureBuilder<Response>(
+          future: dio.get("https://swc.iitg.ac.in/elections_api/sgc/profile"),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              log("REGISTER SCREEN ERROR: ${snapshot.error}");
+              if (snapshot.error is DioException) {
+                log("REGISTER SCREEN ERROR: ${(snapshot.error as DioException).message}");
               }
-              if (!snapshot.hasData || snapshot.hasError) {
-                return ListShimmer(
-                  count: 1,
-                  height: 750,
-                );
-              }
+              return Center(
+                child: Text(
+                  "Something went wrong!",
+                  style: OTextStyle.bodyMedium.copyWith(color: OColor.gray600),
+                ),
+              );
+            }
+            if (!snapshot.hasData || snapshot.hasError) {
+              return ListShimmer(count: 1, height: 750);
+            }
 
-              Response profResp = snapshot.data!;
-              if (profResp.data["euser"]["registration_complete"] == false) {
-                // show form and generate voter card
-                name = profResp.data["euser"]['name'];
-                roll = profResp.data['last_name']!;
-                email = profResp.data["euser"]['email'];
-                return Form(
-                  key: _formKey,
-                  child: GestureDetector(
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    },
+            Response profResp = snapshot.data!;
+            if (profResp.data["euser"]["registration_complete"] == false) {
+              name = profResp.data["euser"]['name'];
+              roll = profResp.data['last_name']!;
+              email = profResp.data["euser"]['email'];
+              return Form(
+                key: _formKey,
+                child: GestureDetector(
+                  onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(OSpacing.m),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
-                                  child: Text(
-                                    "Your Name",
-                                    style: MyFonts.w600.size(16).setColor(kWhite),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Container(
-                                      margin: const EdgeInsets.symmetric(horizontal: 12),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(color: kGrey2),
-                                          color: kBackground,
-                                          borderRadius: BorderRadius.circular(24)),
-                                      child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 10),
-                                          child: TextFormField(
-                                            initialValue: name,
-                                            validator: (val) {
-                                              if (val == null || val.isEmpty) {
-                                                return "Please fill your name";
-                                              }
-                                              return null;
-                                            },
-                                            keyboardType: TextInputType.text,
-                                            enabled: false,
-                                            style: MyFonts.w500.size(16).setColor(kWhite),
-                                            decoration: InputDecoration(
-                                              errorStyle: MyFonts.w400,
-                                              counterText: "",
-                                              border: InputBorder.none,
-                                              hintText: 'Your Answer',
-                                              hintStyle: const TextStyle(color: kGrey8),
-                                            ),
-                                          ))),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
-                                  child: Text(
-                                    "Roll number",
-                                    style: MyFonts.w600.size(16).setColor(kWhite),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Container(
-                                      margin: const EdgeInsets.symmetric(horizontal: 12),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(color: kGrey2),
-                                          color: kBackground,
-                                          borderRadius: BorderRadius.circular(24)),
-                                      child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 10),
-                                          child: TextFormField(
-                                            validator: (val) {
-                                              if (val == null || val.isEmpty) {
-                                                return "Please fill your roll number";
-                                              }
-                                              if (val.length < 9) {
-                                                return "Enter a valid roll number";
-                                              }
-                                              return null;
-                                            },
-                                            keyboardType: TextInputType.number,
-                                            initialValue: roll,
-                                            onChanged: (r) => roll = r,
-                                            maxLength: 9,
-                                            style: MyFonts.w500.size(16).setColor(kWhite),
-                                            decoration: InputDecoration(
-                                              errorStyle: MyFonts.w400,
-                                              counterText: "",
-                                              border: InputBorder.none,
-                                              hintText: 'Ex: 200101071',
-                                              hintStyle: const TextStyle(color: kGrey8),
-                                            ),
-                                          ))),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
-                                  child: Text(
-                                    "Your Hostel",
-                                    style: MyFonts.w600.size(16).setColor(kWhite),
-                                  ),
-                                ),
-                                Theme(
-                                  data: Theme.of(context).copyWith(canvasColor: kBlueGrey),
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                                    child: DropdownButtonFormField<String>(
-                                      validator: (val) {
-                                        if (val == null) {
-                                          return "Hostel can not be empty";
-                                        }
-                                        return null;
-                                      },
-                                      hint: Padding(
-                                        padding: const EdgeInsets.only(left: 15),
-                                        child: Text("Select your hostel",
-                                            style: MyFonts.w500.setColor(kGrey8).size(16)),
-                                      ),
-                                      decoration: InputDecoration(
-                                        errorStyle: MyFonts.w400,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                      ),
-                                      icon: const Icon(
-                                        FluentIcons.chevron_down_24_regular,
-                                        color: kWhite,
-                                      ),
-                                      style: MyFonts.w600.size(14).setColor(kWhite),
-                                      onChanged: (data) {
-                                        setState(() {
-                                          hostel = data!;
-                                        });
-                                      },
-                                      menuMaxHeight: 250,
-                                      items: hostels.map<DropdownMenuItem<String>>((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 15),
-                                            child: Text(
-                                              value,
-                                              style: MyFonts.w600.size(14).setColor(kWhite),
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
-                                  child: Text(
-                                    "Degree",
-                                    style: MyFonts.w600.size(16).setColor(kWhite),
-                                  ),
-                                ),
-                                Theme(
-                                  data: Theme.of(context).copyWith(canvasColor: kBlueGrey),
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                                    child: DropdownButtonFormField<String>(
-                                      validator: (val) {
-                                        if (val == null) {
-                                          return "Degree can not be empty";
-                                        }
-                                        return null;
-                                      },
-                                      hint: Padding(
-                                        padding: const EdgeInsets.only(left: 15),
-                                        child: Text("Select your degree",
-                                            style: MyFonts.w500.setColor(kGrey8).size(16)),
-                                      ),
-                                      decoration: InputDecoration(
-                                        errorStyle: MyFonts.w400,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                      ),
-                                      icon: const Icon(
-                                        FluentIcons.chevron_down_24_regular,
-                                        color: kWhite,
-                                      ),
-                                      style: MyFonts.w600.size(14).setColor(kWhite),
-                                      onChanged: (data) {
-                                        setState(() {
-                                          degree = data!;
-                                        });
-                                      },
-                                      menuMaxHeight: 250,
-                                      items: degrees.keys
-                                          .map<DropdownMenuItem<String>>((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 15),
-                                            child: Text(
-                                              value,
-                                              style: MyFonts.w600.size(14).setColor(kWhite),
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
-                                  child: Text(
-                                    "Gender",
-                                    style: MyFonts.w600.size(16).setColor(kWhite),
-                                  ),
-                                ),
-                                Theme(
-                                  data: Theme.of(context).copyWith(canvasColor: kBlueGrey),
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                                    child: DropdownButtonFormField<String>(
-                                      validator: (val) {
-                                        if (val == null) {
-                                          return "Gender can not be empty";
-                                        }
-                                        return null;
-                                      },
-                                      hint: Padding(
-                                        padding: const EdgeInsets.only(left: 15),
-                                        child: Text("Select your degree",
-                                            style: MyFonts.w500.setColor(kGrey8).size(16)),
-                                      ),
-                                      decoration: InputDecoration(
-                                        errorStyle: MyFonts.w400,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                      ),
-                                      icon: const Icon(
-                                        FluentIcons.chevron_down_24_regular,
-                                        color: kWhite,
-                                      ),
-                                      style: MyFonts.w600.size(14).setColor(kWhite),
-                                      onChanged: (data) {
-                                        setState(() {
-                                          gender = data!;
-                                        });
-                                      },
-                                      menuMaxHeight: 250,
-                                      items: ["Male", "Female"]
-                                          .map<DropdownMenuItem<String>>((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 15),
-                                            child: Text(
-                                              value,
-                                              style: MyFonts.w600.size(14).setColor(kWhite),
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
-                                  child: Text(
-                                    "Branch",
-                                    style: MyFonts.w600.size(16).setColor(kWhite),
-                                  ),
-                                ),
-                                Theme(
-                                  data: Theme.of(context).copyWith(canvasColor: kBlueGrey),
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                                    child: DropdownButtonFormField<String>(
-                                      validator: (val) {
-                                        if (val == null) {
-                                          return "Branch can not be empty";
-                                        }
-                                        return null;
-                                      },
-                                      hint: Padding(
-                                        padding: const EdgeInsets.only(left: 15),
-                                        child: Text("Select your branch",
-                                            style: MyFonts.w500.setColor(kGrey8).size(16)),
-                                      ),
-                                      decoration: InputDecoration(
-                                        errorStyle: MyFonts.w400,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(color: kGrey8),
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                      ),
-                                      icon: const Icon(
-                                        FluentIcons.chevron_down_24_regular,
-                                        color: kWhite,
-                                      ),
-                                      style: MyFonts.w600.size(14).setColor(kWhite),
-                                      onChanged: (data) {
-                                        setState(() {
-                                          branch = data!;
-                                        });
-                                      },
-                                      menuMaxHeight: 250,
-                                      items: branches.keys
-                                          .map<DropdownMenuItem<String>>((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 15),
-                                            child: Text(
-                                              value,
-                                              style: MyFonts.w600.size(14).setColor(kWhite),
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 24,
-                                ),
-                                GestureDetector(
-                                  onTap: () async {
-                                    if (!_formKey.currentState!.validate()) {
-                                      return;
-                                    }
-                                    if (!submitted) {
-                                      setState(() {
-                                        submitted = true;
-                                      });
-                                      try {
-                                        var data = {
-                                          "name": name,
-                                          "roll_number": roll,
-                                          "degree": degrees[degree],
-                                          "branch": branches[branch],
-                                          "hostel": hostel.toLowerCase(),
-                                          "gender": gender
-                                        };
-                                        await dio.patch(
-                                            'https://swc.iitg.ac.in/elections_api/sgc/registration/complete/',
-                                            data: data);
-                                      } catch (e) {
-                                        setState(() {
-                                          submitted = false;
-                                        });
-                                        showSnackBar('Please check your internet');
-                                      }
+                        // Name
+                        _fieldLabel('Your Name'),
+                        TextFormField(
+                          initialValue: name,
+                          enabled: false,
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                          decoration: _textFieldDecoration('Your Name'),
+                          validator: (val) =>
+                              (val == null || val.isEmpty) ? "Please fill your name" : null,
+                        ),
+                        const SizedBox(height: OSpacing.m),
+
+                        // Roll number
+                        _fieldLabel('Roll Number'),
+                        TextFormField(
+                          initialValue: roll,
+                          keyboardType: TextInputType.number,
+                          maxLength: 9,
+                          onChanged: (r) => roll = r,
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                          decoration: _textFieldDecoration('Ex: 200101071'),
+                          validator: (val) {
+                            if (val == null || val.isEmpty) return "Please fill your roll number";
+                            if (val.length < 9) return "Enter a valid roll number";
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: OSpacing.m),
+
+                        // Hostel
+                        _fieldLabel('Your Hostel'),
+                        DropdownButtonFormField<String>(
+                          hint: Text("Select your hostel",
+                              style: OTextStyle.bodySmall.copyWith(color: OColor.gray400)),
+                          decoration: _dropdownDecoration('Select your hostel'),
+                          icon: Icon(FluentIcons.chevron_down_24_regular, color: OColor.gray600),
+                          dropdownColor: OColor.white,
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                          onChanged: (data) => setState(() => hostel = data!),
+                          menuMaxHeight: 250,
+                          validator: (val) => val == null ? "Hostel can not be empty" : null,
+                          items: hostels.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(value: value, child: Text(value));
+                          }).toList(),
+                        ),
+                        const SizedBox(height: OSpacing.m),
+
+                        // Degree
+                        _fieldLabel('Degree'),
+                        DropdownButtonFormField<String>(
+                          hint: Text("Select your degree",
+                              style: OTextStyle.bodySmall.copyWith(color: OColor.gray400)),
+                          decoration: _dropdownDecoration('Select your degree'),
+                          icon: Icon(FluentIcons.chevron_down_24_regular, color: OColor.gray600),
+                          dropdownColor: OColor.white,
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                          onChanged: (data) => setState(() => degree = data!),
+                          menuMaxHeight: 250,
+                          validator: (val) => val == null ? "Degree can not be empty" : null,
+                          items: degrees.keys.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(value: value, child: Text(value));
+                          }).toList(),
+                        ),
+                        const SizedBox(height: OSpacing.m),
+
+                        // Gender
+                        _fieldLabel('Gender'),
+                        DropdownButtonFormField<String>(
+                          hint: Text("Select your gender",
+                              style: OTextStyle.bodySmall.copyWith(color: OColor.gray400)),
+                          decoration: _dropdownDecoration('Select your gender'),
+                          icon: Icon(FluentIcons.chevron_down_24_regular, color: OColor.gray600),
+                          dropdownColor: OColor.white,
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                          onChanged: (data) => setState(() => gender = data!),
+                          menuMaxHeight: 250,
+                          validator: (val) => val == null ? "Gender can not be empty" : null,
+                          items: ["Male", "Female"].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(value: value, child: Text(value));
+                          }).toList(),
+                        ),
+                        const SizedBox(height: OSpacing.m),
+
+                        // Branch
+                        _fieldLabel('Branch'),
+                        DropdownButtonFormField<String>(
+                          hint: Text("Select your branch",
+                              style: OTextStyle.bodySmall.copyWith(color: OColor.gray400)),
+                          decoration: _dropdownDecoration('Select your branch'),
+                          icon: Icon(FluentIcons.chevron_down_24_regular, color: OColor.gray600),
+                          dropdownColor: OColor.white,
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                          onChanged: (data) => setState(() => branch = data!),
+                          menuMaxHeight: 250,
+                          validator: (val) => val == null ? "Branch can not be empty" : null,
+                          items: branches.keys.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(value: value, child: Text(value));
+                          }).toList(),
+                        ),
+                        const SizedBox(height: OSpacing.l),
+
+                        // Submit button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: submitted
+                                ? null
+                                : () async {
+                                    if (!_formKey.currentState!.validate()) return;
+                                    setState(() => submitted = true);
+                                    try {
+                                      var data = {
+                                        "name": name,
+                                        "roll_number": roll,
+                                        "degree": degrees[degree],
+                                        "branch": branches[branch],
+                                        "hostel": hostel.toLowerCase(),
+                                        "gender": gender
+                                      };
+                                      await dio.patch(
+                                          'https://swc.iitg.ac.in/elections_api/sgc/registration/complete/',
+                                          data: data);
+                                    } catch (e) {
+                                      setState(() => submitted = false);
+                                      showSnackBar('Please check your internet');
                                     }
                                   },
-                                  child: const NextButton(
-                                    title: "Submit",
-                                  ),
-                                ),
-                              ],
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: OColor.green600,
+                              foregroundColor: OColor.white,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(OCornerRadius.m),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Text(
+                              submitted ? 'Submitting...' : 'Submit',
+                              style: OTextStyle.labelMedium.copyWith(color: OColor.white),
                             ),
                           ),
                         ),
+                        const SizedBox(height: OSpacing.m),
                       ],
                     ),
                   ),
-                );
-              } else {
-                return VoterCard(
-                  email: profResp.data["euser"]["email"],
-                  authCookie: widget.authCookie,
-                );
-              }
-            }),
+                ),
+              );
+            } else {
+              return VoterCard(
+                email: profResp.data["euser"]["email"],
+                authCookie: widget.authCookie,
+              );
+            }
+          }),
+    );
+  }
+
+  Widget _fieldLabel(String label) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: OSpacing.xs),
+      child: Text(
+        label,
+        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
       ),
     );
   }

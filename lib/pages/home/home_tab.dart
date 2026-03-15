@@ -67,7 +67,6 @@ class _HomeTabState extends State<HomeTab> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const SizedBox(height: 10),
               // Search bar
               // _buildSearchBar(),
               // const SizedBox(height: 16),
@@ -83,7 +82,7 @@ class _HomeTabState extends State<HomeTab> {
                       List<Widget> widgets = [];
                       if (mode == ExamMode.upcoming) {
                         widgets.add(DateExam(moveToTimeTableView: widget.moveToTimeTableView));
-                        widgets.add(const SizedBox(height: 10));
+                        widgets.add(const SizedBox(height: 8));
                         widgets.add(DateCourse(moveToTimeTableView: widget.moveToTimeTableView));
                       } else if (mode == ExamMode.during) {
                         widgets.add(DateExam(moveToTimeTableView: widget.moveToTimeTableView));
@@ -96,12 +95,12 @@ class _HomeTabState extends State<HomeTab> {
                   ),
               // Food and Gatelog tiles
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: IntrinsicHeight(
                   child: Row(
                     children: [
                       Expanded(child: HomeFoodTile(moveToFoodMenu: widget.moveToFoodMenuSection)),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 8),
                       Expanded(child: HomeGateLogTile()),
                     ],
                   ),

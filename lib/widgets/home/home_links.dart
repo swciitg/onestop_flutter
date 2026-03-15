@@ -19,7 +19,12 @@ class _HomeQuickAccessState extends State<HomeQuickAccess> with TickerProviderSt
   List<HomeServiceTile> serviceLinks =
       serviceLinksData.map((e) {
         final data = HomeServiceTileData.fromMap(e);
-        return HomeServiceTile(label: data.label, icon: data.icon, routeId: data.routeId);
+        return HomeServiceTile(
+          label: data.label,
+          icon: data.icon,
+          routeId: data.routeId,
+          newBadge: data.newBadge,
+        );
       }).toList();
 
   @override
@@ -53,7 +58,7 @@ class _HomeQuickAccessState extends State<HomeQuickAccess> with TickerProviderSt
   Widget build(BuildContext context) {
     if (serviceLinks.isEmpty) return const SizedBox();
 
-    const int maxItemsToShow = 8;
+    const int maxItemsToShow = 12;
     final bool shouldShowMoreButton = serviceLinks.length > maxItemsToShow;
     final List<HomeServiceTile> allwaysVisible = serviceLinks.take(maxItemsToShow).toList();
     final List<HomeServiceTile> remainingItems = serviceLinks.skip(maxItemsToShow).toList();

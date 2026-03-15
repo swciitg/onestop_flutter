@@ -1614,7 +1614,7 @@ packages:
     description:
       path: "packages/scoreboard"
       ref: dev
-      resolved-ref: "0571d7891918b87487aecea223c7ec851017fa7f"
+      resolved-ref: ec9fd2295a9ba463aef91e965cc69404aabcd6da
       url: "https://github.com/swciitg/gc_scoreboard.git"
     source: git
     version: "0.0.0"

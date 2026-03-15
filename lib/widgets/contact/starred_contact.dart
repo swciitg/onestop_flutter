@@ -11,32 +11,43 @@ class StarContactNameTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         showContactProfileSheet(context, details: contact);
       },
       child: Padding(
-        padding: const EdgeInsets.only(right: OSpacing.m),
-        child: SizedBox(
-          width: 56,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircleAvatar(
-                radius: 24,
-                backgroundColor: OColor.gray100,
-                child: Icon(FluentIcons.person_24_regular, color: OColor.green600, size: 22),
+        padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 20,
+              backgroundColor: OColor.gray100,
+              child: Icon(FluentIcons.person_24_regular, color: OColor.green600, size: 20),
+            ),
+            const SizedBox(width: OSpacing.s),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    contact.name,
+                    style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (contact.email.isNotEmpty && contact.email != 'Unknown')
+                    Text(
+                      contact.email,
+                      style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray500),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                ],
               ),
-              const SizedBox(height: OSpacing.xxs),
-              Text(
-                contact.name.split(' ').first,
-                style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray600),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
+            ),
+            if (contact.contact.isNotEmpty && contact.contact != '123456789')
+              Icon(FluentIcons.call_24_regular, color: OColor.green600, size: 20),
+          ],
         ),
       ),
     );
