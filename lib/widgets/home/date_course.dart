@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
@@ -98,17 +99,10 @@ class _DateCourseState extends State<DateCourse> {
                         children: [
                           Row(
                             children: [
-                              Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: OColor.green100,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Icon(
-                                  FluentIcons.calendar_ltr_24_regular,
-                                  color: OColor.green600,
-                                  size: 20,
-                                ),
+                              SvgPicture.asset(
+                                "assets/images/timetable.svg",
+                                width: 20,
+                                height: 20,
                               ),
                               const SizedBox(width: 12),
                               Expanded(

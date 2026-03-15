@@ -56,7 +56,7 @@ class _ContactPageState extends State<ContactPage> {
                   // Search bar
                   const SliverToBoxAdapter(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
+                      padding: EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.s),
                       child: ContactSearchBar(),
                     ),
                   ),
@@ -64,7 +64,7 @@ class _ContactPageState extends State<ContactPage> {
                   // Starred header
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: OSpacing.m, top: OSpacing.xs),
+                      padding: const EdgeInsets.only(left: OSpacing.m),
                       child: Text(
                         'Starred',
                         style: OTextStyle.labelSmall.copyWith(color: OColor.gray500),
@@ -105,22 +105,22 @@ class _ContactPageState extends State<ContactPage> {
                         final categories = snapshot.data!.keys.toList();
                         final contactStore = context.read<ContactStore>();
                         return SliverPadding(
-                          padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: OSpacing.m,
+                            vertical: OSpacing.xs,
+                          ),
                           sliver: SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              (context, index) {
-                                final i = index ~/ 2;
-                                if (index.isOdd) return const SizedBox(height: OSpacing.xs);
-                                String categoryName = categories[i];
-                                ContactModel contactModel = snapshot.data![categoryName]!;
-                                return _ContactCategoryCard(
-                                  categoryName: categoryName,
-                                  contactModel: contactModel,
-                                  contactStore: contactStore,
-                                );
-                              },
-                              childCount: categories.length * 2 - 1,
-                            ),
+                            delegate: SliverChildBuilderDelegate((context, index) {
+                              final i = index ~/ 2;
+                              if (index.isOdd) return const SizedBox(height: OSpacing.xs);
+                              String categoryName = categories[i];
+                              ContactModel contactModel = snapshot.data![categoryName]!;
+                              return _ContactCategoryCard(
+                                categoryName: categoryName,
+                                contactModel: contactModel,
+                                contactStore: contactStore,
+                              );
+                            }, childCount: categories.length * 2 - 1),
                           ),
                         );
                       },

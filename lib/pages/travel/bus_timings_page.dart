@@ -111,27 +111,32 @@ class _BusTimingsPageState extends State<BusTimingsPage> {
 
           // Sticky Track Bus button
           Positioned(
-            left: 8,
-            right: 8,
+            right: 16,
             bottom: 16,
-            child: SizedBox(
-              width: double.infinity,
-              height: 48,
-              child: ElevatedButton.icon(
-                onPressed: () {
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(OCornerRadius.xl),
+                onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (_) => const MilliTrack()));
                 },
-                icon: Icon(FluentIcons.vehicle_bus_24_filled, color: OColor.white, size: 20),
-                label: Text(
-                  'Track Bus',
-                  style: OTextStyle.labelMedium.copyWith(color: OColor.white),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: OColor.green600,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(OCornerRadius.xl),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: OColor.green600,
+                    borderRadius: BorderRadius.circular(OCornerRadius.l),
                   ),
-                  elevation: 0,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(FluentIcons.vehicle_bus_24_filled, color: OColor.white, size: 20),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Track Bus',
+                        style: OTextStyle.labelMedium.copyWith(color: OColor.white),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -409,7 +414,9 @@ class _BusTimingList extends StatelessWidget {
         entries.add(_TimingEntry(time: time, stopName: t.stop, left: hasLeft(time)));
       }
     }
-    entries.sort((a, b) => (a.time.hour * 60 + a.time.minute).compareTo(b.time.hour * 60 + b.time.minute));
+    entries.sort(
+      (a, b) => (a.time.hour * 60 + a.time.minute).compareTo(b.time.hour * 60 + b.time.minute),
+    );
 
     if (entries.isEmpty) {
       return Padding(

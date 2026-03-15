@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_ui/index.dart';
 
@@ -36,14 +37,7 @@ class HomeGateLogTile extends StatelessWidget {
           children: [
             Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: OColor.green100,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(FluentIcons.building_24_regular, color: OColor.green600, size: 20),
-                ),
+                SvgPicture.asset("assets/images/gate_log.svg", width: 20, height: 20),
                 const SizedBox(width: 12),
                 Expanded(
                   child: OText(

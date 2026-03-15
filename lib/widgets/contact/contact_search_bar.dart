@@ -41,12 +41,14 @@ class ContactSearchBar extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Icon(FluentIcons.search_12_regular, color: OColor.gray500, size: 16),
-                    const SizedBox(width: OSpacing.xs),
-                    Text(
-                      'Search keyword (name, position etc)',
-                      style: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
+                    Expanded(
+                      child: Text(
+                        'Search Contacts (name, position etc)',
+                        style: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
+                      ),
                     ),
+                    const SizedBox(width: OSpacing.xs),
+                    Icon(FluentIcons.search_12_regular, color: OColor.gray500, size: 16),
                   ],
                 ),
               ),
@@ -153,7 +155,7 @@ class PeopleSearch extends SearchDelegate<String> {
               contactStore: contactStore,
             );
           } else {
-            showContactProfileSheet(context, details: peopleMap[query]);
+            showContactProfileSheet(context, details: peopleMap[query], contactStore: contactStore);
           }
         },
         leading: Icon(FluentIcons.people_20_regular, color: OColor.gray500),

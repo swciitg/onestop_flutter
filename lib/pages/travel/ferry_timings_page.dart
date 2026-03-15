@@ -400,25 +400,23 @@ class _GhatTabs extends StatelessWidget {
       children: List.generate(ferryGhats.length, (i) {
         final name = ferryGhats[i]['name'] as String;
         final selected = i == selectedIndex;
-        return Expanded(
-          child: GestureDetector(
-            onTap: () => onSelected(i),
-            child: Container(
-              margin: EdgeInsets.only(right: i < ferryGhats.length - 1 ? 8 : 0),
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                color: selected ? OColor.green600 : OColor.white,
-                borderRadius: BorderRadius.circular(OCornerRadius.xl),
-                border: Border.all(color: selected ? OColor.green600 : OColor.gray200),
-              ),
-              child: Center(
-                child: Text(
-                  name,
-                  style: OTextStyle.labelSmall.copyWith(
-                    color: selected ? OColor.white : OColor.gray600,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+        return GestureDetector(
+          onTap: () => onSelected(i),
+          child: Container(
+            margin: EdgeInsets.only(right: i < ferryGhats.length - 1 ? 8 : 0),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            decoration: BoxDecoration(
+              color: selected ? OColor.green600 : OColor.white,
+              borderRadius: BorderRadius.circular(OCornerRadius.xl),
+              border: Border.all(color: selected ? OColor.green600 : OColor.gray200),
+            ),
+            child: Center(
+              child: Text(
+                name,
+                style: OTextStyle.labelSmall.copyWith(
+                  color: selected ? OColor.white : OColor.gray600,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
@@ -458,9 +456,7 @@ class _GhatMapState extends State<_GhatMap> {
     if (oldWidget.ghat['name'] != widget.ghat['name']) {
       final lat = widget.ghat['lat'] as double;
       final lng = widget.ghat['long'] as double;
-      _controller?.animateCamera(
-        CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14),
-      );
+      _controller?.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14));
     }
   }
 

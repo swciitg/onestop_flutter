@@ -1,18 +1,19 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/notifications/notifications.dart';
-import 'package:onestop_dev/pages/profile/profile_page.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 
-AppBar appBar(BuildContext context, {bool displayIcon = true, bool displayDrawer = true}) {
+AppBar appBar(BuildContext context, {bool displayIcon = true, bool displayDrawer = true, SystemUiOverlayStyle? systemUiOverlayStyle}) {
   return AppBar(
     backgroundColor: Colors.transparent,
     automaticallyImplyLeading: false,
     scrolledUnderElevation: 0,
     elevation: 0.0,
+    systemOverlayStyle: systemUiOverlayStyle,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,12 +71,12 @@ AppBar appBar(BuildContext context, {bool displayIcon = true, bool displayDrawer
         Row(
           children: [
             // Profile icon button
-            IconButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (ctx) => ProfilePage()));
-              },
-              icon: Icon(FluentIcons.person_24_regular, color: OColor.green600),
-            ),
+            // IconButton(
+            //   onPressed: () {
+            //     Navigator.push(context, MaterialPageRoute(builder: (ctx) => ProfilePage()));
+            //   },
+            //   icon: Icon(FluentIcons.person_24_regular, color: OColor.green600),
+            // ),
             // Notification button
             IconButton(
               onPressed: () {

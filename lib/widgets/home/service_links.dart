@@ -1,5 +1,3 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/material.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
@@ -15,13 +13,13 @@ import 'package:onestop_dev/pages/services/irbs.dart';
 
 class HomeServiceTileData {
   final String label;
-  final IconData icon;
+  final String iconPath;
   final String routeId;
   final bool newBadge;
 
   HomeServiceTileData({
     required this.label,
-    required this.icon,
+    required this.iconPath,
     required this.routeId,
     this.newBadge = false,
   });
@@ -29,7 +27,7 @@ class HomeServiceTileData {
   factory HomeServiceTileData.fromMap(Map<String, dynamic> map) {
     return HomeServiceTileData(
       label: map['label'],
-      icon: map['icon'],
+      iconPath: map['iconPath'],
       routeId: map['routeId'],
       newBadge: map['newBadge'] ?? false,
     );
@@ -37,39 +35,31 @@ class HomeServiceTileData {
 }
 
 List<Map<String, dynamic>> serviceLinksData = [
-  {"label": "GateLog", "icon": FluentIcons.door_20_regular, "routeId": GateLogPage.id},
+  {"label": "GateLog", "iconPath": "assets/images/gate_log.svg", "routeId": GateLogPage.id},
   {
     "label": "Library Token",
-    "icon": FluentIcons.library_16_regular,
+    "iconPath": "assets/images/timetable.svg",
     "routeId": LibraryTokenScreen.id,
     "newBadge": true,
   },
   {
     "label": "Election",
-    "icon": FluentIcons.person_passkey_24_regular,
+    "iconPath": "assets/images/timetable.svg",
     "routeId": ElectionLoginWebView.id,
     "newBadge": true,
   },
-  {
-    "label": "Contacts",
-    "icon": FluentIcons.contact_card_group_24_regular,
-    "routeId": ContactPage.id,
-  },
-  {"label": "Cab Sharing", "icon": FluentIcons.vehicle_bus_24_regular, "routeId": CabShare.id},
-  {"label": "IRBS", "icon": FluentIcons.calendar_edit_24_regular, "routeId": IRBSPage.id},
-  {"label": "Complaints", "icon": FluentIcons.chat_help_24_regular, "routeId": ComplaintsPage.id},
-  {
-    "label": "Lost and Found",
-    "icon": FluentIcons.document_search_24_regular,
-    "routeId": LostFoundHome.id,
-  },
-  {"label": "Buy and Sell", "icon": FluentIcons.money_24_regular, "routeId": BuySellHome.id},
-  {"label": "GC Score Board", "icon": FluentIcons.trophy_24_regular, "routeId": Scoreboard.id},
+  {"label": "Contacts", "iconPath": "assets/images/timetable.svg", "routeId": ContactPage.id},
+  {"label": "Cab Sharing", "iconPath": "assets/images/cab_sharing.svg", "routeId": CabShare.id},
+  {"label": "IRBS", "iconPath": "assets/images/irbs.svg", "routeId": IRBSPage.id},
+  {"label": "Complaints", "iconPath": "assets/images/complaints.svg", "routeId": ComplaintsPage.id},
+  {"label": "Lost and Found", "iconPath": "assets/images/lnf.svg", "routeId": LostFoundHome.id},
+  {"label": "Buy and Sell", "iconPath": "assets/images/bns.svg", "routeId": BuySellHome.id},
+  {"label": "GC Score Board", "iconPath": "assets/images/gc.svg", "routeId": Scoreboard.id},
   {
     "label": "Medical Section",
-    "icon": FluentIcons.doctor_24_regular,
+    "iconPath": "assets/images/medical.svg",
     "routeId": MedicalSection.id,
     "newBadge": false,
   },
-  {"label": "LAN", "icon": FluentIcons.desktop_24_regular, "routeId": RouterPage.id},
+  {"label": "LAN", "iconPath": "assets/images/timetable.svg", "routeId": RouterPage.id},
 ];

@@ -128,7 +128,7 @@ class DataService {
     }
     for (var link in quickLinks) {
       if (link['name'] == "election_id") continue;
-      res.add(HomeServiceTile(label: link['name'], iconCode: link['icon'], link: link['link']));
+      res.add(HomeServiceTile(label: link['name'], iconPath: "", link: link['link']));
     }
     return res;
   }

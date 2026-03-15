@@ -2,14 +2,14 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/contacts/contact_details.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
+import 'package:onestop_dev/globals/database_strings.dart';
+import 'package:onestop_dev/services/local_storage.dart';
 import 'package:onestop_dev/widgets/contact/call_email_button.dart';
-import 'package:onestop_dev/widgets/contact/star_button.dart';
 import 'package:onestop_ui/index.dart' hide ContactActionType;
 import 'package:provider/provider.dart';
 
 /// Shows a bottom sheet with a single contact's profile details.
-void showContactProfileSheet(BuildContext context, {required ContactDetailsModel details}) {
-  final contactStore = context.read<ContactStore>();
+void showContactProfileSheet(BuildContext context, {required ContactDetailsModel details, required ContactStore contactStore}) {
   showModalBottomSheet(
     context: context,
     backgroundColor: Colors.transparent,
@@ -68,7 +68,7 @@ class _ProfileSheetContent extends StatelessWidget {
           ),
           const SizedBox(height: OSpacing.l),
 
-          // Profile: avatar + name + designation
+          // Profile: avatar + name
           Row(
             children: [
               CircleAvatar(
@@ -90,7 +90,6 @@ class _ProfileSheetContent extends StatelessWidget {
                   ],
                 ),
               ),
-              StarButton(contact: details),
             ],
           ),
           const SizedBox(height: OSpacing.l),
@@ -148,8 +147,103 @@ class _ProfileSheetContent extends StatelessWidget {
               ],
             ],
           ),
+          const SizedBox(height: OSpacing.xs),
+
+          // Add to Favourite button
+          _FavouriteButton(contact: details),
         ],
       ),
+    );
+  }
+}
+
+class _FavouriteButton extends StatefulWidget {
+  final ContactDetailsModel contact;
+  const _FavouriteButton({required this.contact});
+
+  @override
+  State<_FavouriteButton> createState() => _FavouriteButtonState();
+}
+
+class _FavouriteButtonState extends State<_FavouriteButton> {
+  Future<bool> _isStarred() async {
+    var starred = await LocalStorage.instance.getListRecord(DatabaseRecords.starredContacts);
+    if (starred == null) return false;
+    var starredContacts =
+        starred.map((e) => ContactDetailsModel.fromJson(e as Map<String, dynamic>)).toList();
+    return starredContacts.any((e) =>
+        e.name == widget.contact.name &&
+        e.email == widget.contact.email &&
+        e.contact == widget.contact.contact);
+  }
+
+  Future<void> _toggle(bool isAlreadyStarred) async {
+    var starred = await LocalStorage.instance.getListRecord(DatabaseRecords.starredContacts);
+    if (isAlreadyStarred) {
+      if (starred == null) return;
+      var starredContacts =
+          starred.map((e) => ContactDetailsModel.fromJson(e as Map<String, dynamic>)).toList();
+      starredContacts.removeWhere((e) =>
+          e.name == widget.contact.name &&
+          e.email == widget.contact.email &&
+          e.contact == widget.contact.contact);
+      if (!mounted) return;
+      context.read<ContactStore>().setStarredContacts(starredContacts);
+      if (starredContacts.isEmpty) {
+        await LocalStorage.instance.deleteRecord(DatabaseRecords.starredContacts);
+      } else {
+        await LocalStorage.instance.storeListRecord(
+          starredContacts.map((e) => e.toJson()).toList(),
+          DatabaseRecords.starredContacts,
+        );
+      }
+    } else {
+      List<Map<String, dynamic>> starList = [];
+      if (starred != null) {
+        starList = starred.map((e) => e as Map<String, dynamic>).toList();
+      }
+      starList.add(widget.contact.toJson());
+      await LocalStorage.instance.storeListRecord(starList, DatabaseRecords.starredContacts);
+      if (!mounted) return;
+      context.read<ContactStore>().setStarredContacts(
+        starList.map((e) => ContactDetailsModel.fromJson(e)).toList(),
+      );
+    }
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: _isStarred(),
+      builder: (context, snapshot) {
+        final isStarred = snapshot.data ?? false;
+        return GestureDetector(
+          onTap: () => _toggle(isStarred),
+          child: Container(
+            height: 48,
+            decoration: BoxDecoration(
+              border: Border.all(color: OColor.gray300),
+              borderRadius: BorderRadius.circular(OCornerRadius.l),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  isStarred ? FluentIcons.star_12_filled : FluentIcons.star_12_regular,
+                  size: 16,
+                  color: isStarred ? OColor.yellow500 : OColor.green600,
+                ),
+                const SizedBox(width: OSpacing.xs),
+                Text(
+                  isStarred ? 'Remove Favourite' : 'Add to Favourite',
+                  style: OTextStyle.labelSmall.copyWith(color: OColor.green600),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

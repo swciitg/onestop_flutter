@@ -204,11 +204,9 @@ packages:
   cab_sharing:
     dependency: "direct main"
     description:
-      path: "packages/cab_sharing"
-      ref: dev
-      resolved-ref: e911697f35a693f819a8eb2154e8f0960d74b215
-      url: "https://github.com/swciitg/cab_sharing_onestop.git"
-    source: git
+      path: "../cab_sharing_onestop/packages/cab_sharing"
+      relative: true
+    source: path
     version: "0.0.1"
   cached_network_image:
     dependency: "direct main"

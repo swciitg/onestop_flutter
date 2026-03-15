@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
+import 'package:flutter_svg/svg.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -7,8 +8,7 @@ class HomeServiceTile extends StatelessWidget {
   const HomeServiceTile({
     super.key,
     required this.label,
-    this.iconCode,
-    this.icon,
+    required this.iconPath,
     this.routeId,
     this.link,
     this.newBadge = false,
@@ -16,8 +16,7 @@ class HomeServiceTile extends StatelessWidget {
 
   final String label;
   final String? link;
-  final IconData? icon;
-  final int? iconCode;
+  final String iconPath;
   final String? routeId;
   final bool newBadge;
 
@@ -37,7 +36,7 @@ class HomeServiceTile extends StatelessWidget {
     return Badge(
       position: BadgePosition.topEnd(top: 8, end: 8),
       badgeStyle: BadgeStyle(
-        badgeColor: OColor.black,
+        badgeColor: OColor.blue500,
         shape: BadgeShape.circle,
         borderRadius: BorderRadius.circular(1),
       ),
@@ -63,13 +62,7 @@ class HomeServiceTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 8),
-            Expanded(
-              child: Icon(
-                icon ?? IconData(iconCode!, fontFamily: 'MaterialIcons'),
-                size: 32,
-                color: OColor.green600,
-              ),
-            ),
+            Expanded(child: SvgPicture.asset(iconPath, width: 30, height: 30, fit: BoxFit.contain)),
             Expanded(
               child: OText(
                 text: label,

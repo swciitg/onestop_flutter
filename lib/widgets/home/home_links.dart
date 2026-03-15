@@ -21,7 +21,7 @@ class _HomeQuickAccessState extends State<HomeQuickAccess> with TickerProviderSt
         final data = HomeServiceTileData.fromMap(e);
         return HomeServiceTile(
           label: data.label,
-          icon: data.icon,
+          iconPath: data.iconPath,
           routeId: data.routeId,
           newBadge: data.newBadge,
         );

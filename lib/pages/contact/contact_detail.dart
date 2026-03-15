@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/widgets/contact/contact_dialog.dart';
+import 'package:onestop_dev/widgets/contact/star_button.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 
@@ -97,7 +98,7 @@ class _CategorySheetContent extends StatelessWidget {
                     final contact = contactModel.contacts[index];
                     return InkWell(
                       onTap: () {
-                        showContactProfileSheet(context, details: contact);
+                        showContactProfileSheet(context, details: contact, contactStore: context.read<ContactStore>());
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -138,24 +139,17 @@ class _CategorySheetContent extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            // Phone icon button
+                            // Star + Phone icons
+                            StarButton(contact: contact),
                             if (contact.contact.isNotEmpty && contact.contact != '123456789')
                               GestureDetector(
                                 onTap: () {
-                                  showContactProfileSheet(context, details: contact);
+                                  showContactProfileSheet(context, details: contact, contactStore: context.read<ContactStore>());
                                 },
-                                child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: OColor.gray100,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    FluentIcons.call_24_regular,
-                                    color: OColor.green600,
-                                    size: 20,
-                                  ),
+                                child: Icon(
+                                  FluentIcons.call_24_regular,
+                                  color: OColor.green600,
+                                  size: 24,
                                 ),
                               ),
                           ],

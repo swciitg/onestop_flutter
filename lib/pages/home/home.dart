@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/home/bottom_nav_item.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/pages/home/home_tab.dart';
-import 'package:onestop_dev/pages/timetable/timetable.dart';
+import 'package:onestop_dev/pages/profile/profile_tab.dart';
+import 'package:onestop_dev/pages/timetable/timetable_page.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
 import 'package:onestop_dev/services/app_shortcuts_service.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
@@ -47,9 +49,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       unselectedIcon: FluentIcons.vehicle_bus_24_regular,
     ),
     BottomNavItem(
-      name: 'Timetable',
-      selectedIcon: FluentIcons.calendar_ltr_24_filled,
-      unselectedIcon: FluentIcons.calendar_ltr_24_regular,
+      name: 'Profile',
+      selectedIcon: FluentIcons.person_24_filled,
+      unselectedIcon: FluentIcons.person_24_regular,
     ),
   ];
   @override
@@ -76,9 +78,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     tabs = [
       HomeTab(
         moveToTimeTableView: () {
-          setState(() {
-            index = 3;
-          });
+          navigatorKey.currentState?.pushNamed(TimetablePage.id);
         },
         moveToFoodMenuSection: () {
           setState(() {
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       const FoodTab(),
       const TravelPage(),
       // const EventsScreenWrapper(),
-      const TimeTableTab(),
+      const ProfileTab(),
     ];
     WidgetsBinding.instance.addObserver(this);
     actOnPendingShortcut();
@@ -123,7 +123,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         extendBody: true,
         backgroundColor: OColor.gray100,
         key: scaffoldKey,
-        appBar: appBar(context, displayDrawer: false, displayIcon: false),
+        appBar: appBar(
+          context,
+          displayDrawer: false,
+          displayIcon: false,
+          systemUiOverlayStyle: Theme.of(
+            context,
+          ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: Colors.transparent),
+        ),
         body: LayoutBuilder(
           builder: (context, constraints) {
             final height = constraints.maxHeight;
