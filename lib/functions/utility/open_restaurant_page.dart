@@ -172,36 +172,61 @@ void openRestaurantPage(
                   style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
                 ),
                 const SizedBox(height: 8),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                  ),
-                  itemCount: menuImages.length,
-                  itemBuilder: (_, index) {
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        rootNavigator.push(
-                          MaterialPageRoute(
-                            builder:
-                                (_) => FullScreenImageCarousel(
-                                  imageUrls: menuImages,
-                                  initialIndex: index,
-                                ),
+                menuImages.length == 1
+                    ? GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          rootNavigator.push(
+                            MaterialPageRoute(
+                              builder:
+                                  (_) => FullScreenImageCarousel(
+                                    imageUrls: menuImages,
+                                    initialIndex: 0,
+                                  ),
+                            ),
+                          );
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            menuImages[0], 
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(sheetContext).size.width,
+                            height: 200,
                           ),
-                        );
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(menuImages[index], fit: BoxFit.cover),
+                        ),
+                      )
+                    : GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                          childAspectRatio: 1.0, 
+                        ),
+                        itemCount: menuImages.length,
+                        itemBuilder: (_, index) {
+                          return GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              rootNavigator.push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (_) => FullScreenImageCarousel(
+                                        imageUrls: menuImages,
+                                        initialIndex: index,
+                                      ),
+                                ),
+                              );
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(menuImages[index], fit: BoxFit.cover),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
               ],
             ),
           ),

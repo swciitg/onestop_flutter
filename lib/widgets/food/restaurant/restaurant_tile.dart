@@ -16,14 +16,10 @@ class RestaurantTile extends StatefulWidget {
 class _RestaurantTileState extends State<RestaurantTile> {
   @override
   Widget build(BuildContext context) {
-    return FoodOutletCard(
-      imageUrl: widget.restaurantModel.imageURL,
-      heading: widget.restaurantModel.outletName,
-      subHeading: widget.restaurantModel.caption,
-      subLabelText1: widget.restaurantModel.location,
-      subLabelText2: 'Closes at ${widget.restaurantModel.closingTime}',
-      isEnabled: true,
-      onArrowPressed: () {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        print('Herllo');
         final List<String> images =
             widget.restaurantModel.menu
                 .map((menuItem) => menuItem.imageURL)
@@ -47,6 +43,17 @@ class _RestaurantTileState extends State<RestaurantTile> {
             )
             : showSnackBar('No menu found');
       },
+      child: IgnorePointer(
+        child: FoodOutletCard(
+          imageUrl: widget.restaurantModel.imageURL,
+          heading: widget.restaurantModel.outletName,
+          subHeading: widget.restaurantModel.caption,
+          subLabelText1: widget.restaurantModel.location,
+          subLabelText2: 'Closes at ${widget.restaurantModel.closingTime}',
+          isEnabled: true,
+          onArrowPressed: () {},
+        ),
+      ),
     );
   }
 }
