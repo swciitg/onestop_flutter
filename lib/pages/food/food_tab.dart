@@ -53,7 +53,7 @@ class _FoodTabState extends State<FoodTab> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MessMenu(),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 8),
                     const OutletsFilter(),
                     const SizedBox(height: 8),
                     // Search bar

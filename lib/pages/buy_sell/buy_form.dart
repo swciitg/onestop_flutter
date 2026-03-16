@@ -116,20 +116,25 @@ class _BuySellFormState extends State<BuySellForm> {
     final bool step2Active = _currentStep == 2;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 60, vertical: OSpacing.s),
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: OSpacing.s),
       child: Row(
         children: [
           // Step 1 circle
           _StepCircle(number: 1, isActive: _currentStep == 1, isCompleted: step1Done),
           const SizedBox(width: OSpacing.xs),
           // Label 1
-          Text(
-            'UPLOAD PHOTO',
-            style: OTextStyle.bodySmall.copyWith(
-              color: OColor.gray800,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.5,
+          Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                'UPLOAD PHOTO',
+                style: OTextStyle.bodySmall.copyWith(
+                  color: OColor.gray800,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.5,
+                ),
+              ),
             ),
           ),
           // Connecting line
@@ -144,13 +149,18 @@ class _BuySellFormState extends State<BuySellForm> {
           _StepCircle(number: 2, isActive: step2Active, isCompleted: false),
           const SizedBox(width: OSpacing.xs),
           // Label 2
-          Text(
-            'ADD DETAILS',
-            style: OTextStyle.bodySmall.copyWith(
-              color: OColor.gray800,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.5,
+          Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                'ADD DETAILS',
+                style: OTextStyle.bodySmall.copyWith(
+                  color: OColor.gray800,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.5,
+                ),
+              ),
             ),
           ),
         ],
