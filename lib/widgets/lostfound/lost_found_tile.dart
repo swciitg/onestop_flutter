@@ -139,7 +139,10 @@ class LostFoundTile extends StatelessWidget {
               ),
             ),
             // Divider
-            Divider(height: 1, color: OColor.gray200),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: OSpacing.s),
+              child: Divider(height: 1, color: OColor.gray200),
+            ),
             // Footer: profile + action icons
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: OSpacing.s, vertical: OSpacing.xs),

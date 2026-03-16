@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/models/buy_sell/buy_model.dart';
@@ -100,14 +101,41 @@ void detailsDialogBox(BuildContext context, dynamic model, [parentContext]) {
                       style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
                     ),
                   ] else ...[
-                    Text(
-                      '${(model is FoundModel) ? "Found" : "Lost"} at',
-                      style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
-                    ),
-                    const SizedBox(height: OSpacing.xxs),
-                    Text(
-                      model.location,
-                      style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${(model is FoundModel) ? "Found" : "Lost"} at',
+                                style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
+                              ),
+                              const SizedBox(height: OSpacing.xxs),
+                              Text(
+                                model.location,
+                                style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Time',
+                                style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
+                              ),
+                              const SizedBox(height: OSpacing.xxs),
+                              Text(
+                                DateFormat('h:mm a').format(model.date),
+                                style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
 

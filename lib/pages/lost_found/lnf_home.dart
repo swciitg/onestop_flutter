@@ -48,6 +48,28 @@ class _LostFoundHomeState extends State<LostFoundHome> {
     setState(() {});
   }
 
+  String _formatDate(DateTime date) {
+    final day = date.day;
+    final month = _getMonthFormatter(date.month);
+    final suffix = _getDaySuffix(day);
+    return "$day$suffix $month ${date.year}";
+  }
+
+  String _getMonthFormatter(int month) {
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return months[month - 1];
+  }
+
+  String _getDaySuffix(int day) {
+    if (day >= 11 && day <= 13) return "th";
+    switch (day % 10) {
+      case 1: return "st";
+      case 2: return "nd";
+      case 3: return "rd";
+      default: return "th";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var commonStore = context.read<CommonStore>();
@@ -73,29 +95,40 @@ class _LostFoundHomeState extends State<LostFoundHome> {
               _showMyReports ? "My Reports" : "Lost and Found",
               style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
             ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(60.0),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
+                child: Container(
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: OColor.white,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _TabPill(
+                          label: "Lost Items",
+                          isActive: commonStore.lnfIndex == "Lost",
+                          onTap: () => commonStore.setLnfIndex("Lost"),
+                        ),
+                      ),
+                      Expanded(
+                        child: _TabPill(
+                          label: "Found Items",
+                          isActive: commonStore.lnfIndex == "Found",
+                          onTap: () => commonStore.setLnfIndex("Found"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
           body: Column(
             children: [
               Divider(height: 1, color: OColor.gray200),
-              // Tab pills
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
-                child: Row(
-                  children: [
-                    _TabPill(
-                      label: "Lost",
-                      isActive: commonStore.lnfIndex == "Lost",
-                      onTap: () => commonStore.setLnfIndex("Lost"),
-                    ),
-                    const SizedBox(width: OSpacing.xs),
-                    _TabPill(
-                      label: "Found",
-                      isActive: commonStore.lnfIndex == "Found",
-                      onTap: () => commonStore.setLnfIndex("Found"),
-                    ),
-                  ],
-                ),
-              ),
               // Content
               Expanded(
                 child: _showMyReports ? _buildMyReports(commonStore) : _buildAllItems(commonStore),
@@ -211,7 +244,38 @@ class _LostFoundHomeState extends State<LostFoundHome> {
             padding: const EdgeInsets.all(OSpacing.s),
             separatorBuilder: (_, _) => const SizedBox(height: OSpacing.xs),
             builderDelegate: PagedChildBuilderDelegate(
-              itemBuilder: (context, item, index) => LostFoundTile(currentModel: item),
+              itemBuilder: (context, item, index) {
+                bool showDate = false;
+                if (index == 0) {
+                  showDate = true;
+                } else {
+                  final prevItem = _lostController.value.items?[index - 1];
+                  if (prevItem != null) {
+                    final prevDate = prevItem.date.toLocal();
+                    final currDate = item.date.toLocal();
+                    if (prevDate.year != currDate.year || prevDate.month != currDate.month || prevDate.day != currDate.day) {
+                      showDate = true;
+                    }
+                  }
+                }
+
+                if (showDate) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: OSpacing.s, bottom: OSpacing.xs, left: OSpacing.xs),
+                        child: Text(
+                          _formatDate(item.date.toLocal()),
+                          style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                        ),
+                      ),
+                      LostFoundTile(currentModel: item),
+                    ],
+                  );
+                }
+                return LostFoundTile(currentModel: item);
+              },
               firstPageErrorIndicatorBuilder:
                   (context) => ErrorReloadScreen(reloadCallback: () => _lostController.refresh()),
               noItemsFoundIndicatorBuilder:
@@ -243,7 +307,38 @@ class _LostFoundHomeState extends State<LostFoundHome> {
             padding: const EdgeInsets.all(OSpacing.s),
             separatorBuilder: (_, _) => const SizedBox(height: OSpacing.xs),
             builderDelegate: PagedChildBuilderDelegate(
-              itemBuilder: (context, item, index) => LostFoundTile(currentModel: item),
+              itemBuilder: (context, item, index) {
+                bool showDate = false;
+                if (index == 0) {
+                  showDate = true;
+                } else {
+                  final prevItem = _foundController.value.items?[index - 1];
+                  if (prevItem != null) {
+                    final prevDate = prevItem.date.toLocal();
+                    final currDate = item.date.toLocal();
+                    if (prevDate.year != currDate.year || prevDate.month != currDate.month || prevDate.day != currDate.day) {
+                      showDate = true;
+                    }
+                  }
+                }
+
+                if (showDate) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: OSpacing.s, bottom: OSpacing.xs, left: OSpacing.xs),
+                        child: Text(
+                          _formatDate(item.date.toLocal()),
+                          style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                        ),
+                      ),
+                      LostFoundTile(currentModel: item),
+                    ],
+                  );
+                }
+                return LostFoundTile(currentModel: item);
+              },
               firstPageErrorIndicatorBuilder:
                   (context) => ErrorReloadScreen(reloadCallback: () => _foundController.refresh()),
               noItemsFoundIndicatorBuilder:
@@ -336,6 +431,8 @@ class _TabPill extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: double.infinity,
+        alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
         decoration: BoxDecoration(
           color: isActive ? OColor.gray200 : Colors.transparent,
