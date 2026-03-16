@@ -224,7 +224,7 @@ class MessMenu extends StatelessWidget {
                           labelStyle: OTextStyle.bodySmall.copyWith(
                             color: isSelected ? OColor.white : OColor.gray600,
                           ),
-                          bgColor: isSelected ? OColor.green600 : OColor.gray200,
+                          bgColor: isSelected ? OColor.green600 : OColor.gray100,
                           diabledBgColor: OColor.gray300,
                         ),
                         const SizedBox(width: 8),
