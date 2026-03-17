@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
+import 'package:onestop_dev/widgets/home/home_widget.dart';
 import 'package:onestop_ui/index.dart';
 
 class HomeGateLogTile extends StatelessWidget {
@@ -19,19 +20,7 @@ class HomeGateLogTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => _navigateToGateLog(context),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: OColor.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: OColor.gray300.withValues(alpha: 0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
+      child: HomeWidget(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

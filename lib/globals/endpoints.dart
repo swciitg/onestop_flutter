@@ -37,7 +37,7 @@ class Endpoints {
   static const String newsURL = "/news";
   static const String getEventAdmin = "/por";
   static const String eventCategories = "/categories";
-  static const String githubIssueToken = String.fromEnvironment('GITHUB_ISSUE_TOKEN');
+  static const String githubIssueToken = String.fromEnvironment('GIT_ISSUE_TOKEN');
   static const feedback = 'https://api.github.com/repos/swciitg/onestop_flutter/issues';
   static const String upspPost = '/upsp/submit-request';
   static const String pharmacyFeedback = "/feedback/pharmacyFeedback-submit";

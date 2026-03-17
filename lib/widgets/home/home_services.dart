@@ -3,14 +3,14 @@ import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 import 'package:onestop_dev/widgets/home/service_links.dart';
 import 'package:onestop_ui/index.dart';
 
-class HomeQuickAccess extends StatefulWidget {
-  const HomeQuickAccess({super.key});
+class HomeServices extends StatefulWidget {
+  const HomeServices({super.key});
 
   @override
-  State<HomeQuickAccess> createState() => _HomeQuickAccessState();
+  State<HomeServices> createState() => _HomeServicesState();
 }
 
-class _HomeQuickAccessState extends State<HomeQuickAccess> with TickerProviderStateMixin {
+class _HomeServicesState extends State<HomeServices> with TickerProviderStateMixin {
   int activePageIndex = 0;
   bool isExpanded = false;
   late AnimationController _animationController;
@@ -69,7 +69,7 @@ class _HomeQuickAccessState extends State<HomeQuickAccess> with TickerProviderSt
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          OText(text: "Quick Access", style: OTextStyle.headingMedium),
+          OText(text: "Services", style: OTextStyle.headingMedium),
           const SizedBox(height: 16),
           _buildGrid(allwaysVisible),
           AnimatedSize(

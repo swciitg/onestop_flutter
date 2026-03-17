@@ -11,7 +11,7 @@ import 'package:onestop_dev/widgets/home/date_exam.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/widgets/home/home_food_tile.dart';
 import 'package:onestop_dev/widgets/home/home_gatelog_tile.dart';
-import 'package:onestop_dev/widgets/home/home_links.dart';
+import 'package:onestop_dev/widgets/home/home_services.dart';
 import 'package:onestop_dev/widgets/home/home_quick_links.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 // import 'package:onestop_dev/widgets/mapbox/map_box.dart';
@@ -62,7 +62,7 @@ class _HomeTabState extends State<HomeTab> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(OCornerRadius.l),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -71,28 +71,7 @@ class _HomeTabState extends State<HomeTab> {
               // _buildSearchBar(),
               // const SizedBox(height: 16),
               _imageCarousel(imageWidth),
-              LoginStore.isGuest
-                  ? const SizedBox()
-                  : Observer(
-                    builder: (context) {
-                      var store = context.read<TimetableStore>();
-                      // ExamMode mode = ExamMode.upcoming;
-                      ExamMode mode = store.examMode;
-
-                      List<Widget> widgets = [];
-                      if (mode == ExamMode.upcoming) {
-                        widgets.add(DateExam(moveToTimeTableView: widget.moveToTimeTableView));
-                        widgets.add(const SizedBox(height: 8));
-                        widgets.add(DateCourse(moveToTimeTableView: widget.moveToTimeTableView));
-                      } else if (mode == ExamMode.during) {
-                        widgets.add(DateExam(moveToTimeTableView: widget.moveToTimeTableView));
-                      } else {
-                        widgets.add(DateCourse(moveToTimeTableView: widget.moveToTimeTableView));
-                      }
-
-                      return Column(mainAxisSize: MainAxisSize.min, children: widgets);
-                    },
-                  ),
+              _buildTimeTableWidgets(),
               // Food and Gatelog tiles
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -106,7 +85,7 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                 ),
               ),
-              HomeQuickAccess(),
+              HomeServices(),
               const SizedBox(height: 10),
               FutureBuilder<List<HomeServiceTile>>(
                 future: DataService.getQuickLinks(),
@@ -125,6 +104,32 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
+  Widget _buildTimeTableWidgets() {
+    if (LoginStore.isGuest) {
+      return const SizedBox();
+    }
+    return Observer(
+      builder: (context) {
+        var store = context.read<TimetableStore>();
+        // ExamMode mode = ExamMode.upcoming;
+        ExamMode mode = store.examMode;
+
+        List<Widget> widgets = [];
+        if (mode == ExamMode.upcoming) {
+          widgets.add(DateExam(moveToTimeTableView: widget.moveToTimeTableView));
+          widgets.add(const SizedBox(height: 8));
+          widgets.add(DateCourse(moveToTimeTableView: widget.moveToTimeTableView));
+        } else if (mode == ExamMode.during) {
+          widgets.add(DateExam(moveToTimeTableView: widget.moveToTimeTableView));
+        } else {
+          widgets.add(DateCourse(moveToTimeTableView: widget.moveToTimeTableView));
+        }
+
+        return Column(mainAxisSize: MainAxisSize.min, children: widgets);
+      },
+    );
+  }
+
   Widget _imageCarousel(double imageWidth) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
@@ -135,7 +140,7 @@ class _HomeTabState extends State<HomeTab> {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
+                borderRadius: BorderRadius.circular(OCornerRadius.l),
                 child: Container(
                   height: imageWidth,
                   color: OColor.gray200,

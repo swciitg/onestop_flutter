@@ -124,58 +124,62 @@ class _ProfileTabState extends State<ProfileTab> {
       );
     }
 
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          padding: const EdgeInsets.only(
-            left: 8,
-            right: 8,
-            top: 8,
-            bottom: 160, // room for bottom nav
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ── ID card ────────────────────────────────────────────
-              _buildIdCard(),
-              const SizedBox(height: 28),
-
-              // ── additional info ────────────────────────────────────
-              OText(
-                text: 'Additional Information',
-                style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(OCornerRadius.l),
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.only(
+                top: 8,
+                bottom: 160, // room for bottom nav
               ),
-              const SizedBox(height: OSpacing.m),
-              _buildInfoSection(),
-              const SizedBox(height: OSpacing.l),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ── ID card ────────────────────────────────────────────
+                  _buildIdCard(),
+                  const SizedBox(height: 28),
 
-              // ── Bug/Feature Request + About Us + SWC logo ─────────
-              _buildExtrasSection(),
-              const SizedBox(height: OSpacing.s),
+                  // ── additional info ────────────────────────────────────
+                  OText(
+                    text: 'Additional Information',
+                    style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+                  ),
+                  const SizedBox(height: OSpacing.m),
+                  _buildInfoSection(),
+                  const SizedBox(height: OSpacing.l),
 
-              // ── theme toggle ───────────────────────────────────────
-              _buildThemeToggle(),
-              const SizedBox(height: OSpacing.s),
+                  // ── Bug/Feature Request + About Us + SWC logo ─────────
+                  _buildExtrasSection(),
+                  const SizedBox(height: OSpacing.s),
 
-              // ── logout button ──────────────────────────────────────
-              _buildLogoutButton(),
-              const SizedBox(height: OSpacing.l),
-              // SWC logo
-              _swcLogo(),
-              const SizedBox(height: 50),
-            ],
-          ),
-        ),
+                  // ── theme toggle ───────────────────────────────────────
+                  _buildThemeToggle(),
+                  const SizedBox(height: OSpacing.s),
 
-        // saving indicator
-        if (_isSaving)
-          Positioned.fill(
-            child: Container(
-              color: Colors.black12,
-              child: Center(child: CircularProgressIndicator(color: OColor.green600)),
+                  // ── logout button ──────────────────────────────────────
+                  _buildLogoutButton(),
+                  const SizedBox(height: OSpacing.l),
+                  // SWC logo
+                  _swcLogo(),
+                  const SizedBox(height: 50),
+                ],
+              ),
             ),
-          ),
-      ],
+
+            // saving indicator
+            if (_isSaving)
+              Positioned.fill(
+                child: Container(
+                  color: Colors.black12,
+                  child: Center(child: CircularProgressIndicator(color: OColor.green600)),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -417,6 +421,31 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget _buildExtrasSection() {
     return Column(
       children: [
+        // About Us
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () async {
+              try {
+                await launchUrlString(
+                  'https://swc.iitg.ac.in',
+                  mode: LaunchMode.externalApplication,
+                );
+              } catch (e) {
+                log('ERROR launching URL: https://swc.iitg.ac.in');
+              }
+            },
+            icon: Icon(FluentIcons.info_24_regular, color: OColor.gray800),
+            label: Text('About Us', style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: OColor.gray200, width: 1),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(OCornerRadius.l)),
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              backgroundColor: OColor.white,
+            ),
+          ),
+        ),
+        const SizedBox(height: OSpacing.s),
         // Bug / Feature Request
         SizedBox(
           width: double.infinity,
@@ -434,32 +463,6 @@ class _ProfileTabState extends State<ProfileTab> {
               'Bug/Feature Request',
               style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
             ),
-            style: OutlinedButton.styleFrom(
-              side: BorderSide(color: OColor.gray200, width: 1),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(OCornerRadius.l)),
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              backgroundColor: OColor.white,
-            ),
-          ),
-        ),
-        const SizedBox(height: OSpacing.s),
-
-        // About Us
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton.icon(
-            onPressed: () async {
-              try {
-                await launchUrlString(
-                  'https://swc.iitg.ac.in',
-                  mode: LaunchMode.externalApplication,
-                );
-              } catch (e) {
-                log('ERROR launching URL: https://swc.iitg.ac.in');
-              }
-            },
-            icon: Icon(FluentIcons.info_24_regular, color: OColor.gray800),
-            label: Text('About Us', style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
             style: OutlinedButton.styleFrom(
               side: BorderSide(color: OColor.gray200, width: 1),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(OCornerRadius.l)),

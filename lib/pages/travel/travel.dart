@@ -7,7 +7,10 @@ import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/pages/travel/bus_timings_page.dart';
 import 'package:onestop_dev/pages/travel/ferry_timings_page.dart';
+import 'package:onestop_dev/pages/contact/contact_detail.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
+import 'package:onestop_dev/services/data_service.dart';
+import 'package:onestop_dev/stores/contact_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
 import 'package:onestop_dev/widgets/travel/travel_guide.dart';
@@ -22,6 +25,8 @@ class TravelPage extends StatefulWidget {
 }
 
 class _TravelPageState extends State<TravelPage> {
+  bool _loadingERickshaw = false;
+
   @override
   Widget build(BuildContext context) {
     var mapStore = context.read<MapBoxStore>();
@@ -97,12 +102,47 @@ class _TravelPageState extends State<TravelPage> {
           ),
           const SizedBox(height: 16),
 
+          // E-Rickshaw tile
+          _OptionTile(
+            icon: FluentIcons.vehicle_car_profile_ltr_24_filled,
+            title: 'E-Rickshaw',
+            subtitle: 'Contact e-rickshaw drivers for rides around campus.',
+            trailing: _loadingERickshaw
+                ? SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2, color: OColor.green600),
+                  )
+                : Icon(Icons.arrow_outward, color: OColor.gray600, size: 24),
+            onTap: _loadingERickshaw
+                ? () {}
+                : () async {
+                    setState(() => _loadingERickshaw = true);
+                    try {
+                      final contacts = await DataService.getContacts();
+                      if (!context.mounted) return;
+                      final eRikshaw = contacts['E-rikshaw'];
+                      if (eRikshaw != null) {
+                        final contactStore = ContactStore()..loadStarredContacts();
+                        showContactCategorySheet(
+                          context,
+                          contactModel: eRikshaw,
+                          contactStore: contactStore,
+                        );
+                      }
+                    } finally {
+                      if (mounted) setState(() => _loadingERickshaw = false);
+                    }
+                  },
+          ),
+          const SizedBox(height: 16),
+
           // Travel Guide tile
           _OptionTile(
             icon: FluentIcons.book_24_filled,
             title: 'Travel Guide',
             subtitle: 'A quick guide to common travel methods, fares, and essential info.',
-            trailing: Icon(Icons.chevron_right, color: OColor.gray600, size: 24),
+            trailing: Icon(Icons.arrow_outward, color: OColor.gray600, size: 24),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const TravelGuide()));
             },

@@ -117,51 +117,45 @@ class _BuySellFormState extends State<BuySellForm> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: OSpacing.s),
-      child: Row(
+      child: Column(
         children: [
-          // Step 1 circle
-          _StepCircle(number: 1, isActive: _currentStep == 1, isCompleted: step1Done),
-          const SizedBox(width: OSpacing.xs),
-          // Label 1
-          Flexible(
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Row(
+              children: [
+                _StepCircle(number: 1, isActive: _currentStep == 1, isCompleted: step1Done),
+                Expanded(
+                  child: Container(
+                    height: 2,
+                    margin: const EdgeInsets.symmetric(horizontal: OSpacing.xs),
+                    color: step1Done ? OColor.green600 : OColor.gray200,
+                  ),
+                ),
+                _StepCircle(number: 2, isActive: step2Active, isCompleted: false),
+              ],
+            ),
+          ),
+          const SizedBox(height: OSpacing.xs),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
                 'UPLOAD PHOTO',
                 style: OTextStyle.bodySmall.copyWith(
                   color: OColor.gray800,
-                  fontSize: 14,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0.5,
                 ),
               ),
-            ),
-          ),
-          // Connecting line
-          Expanded(
-            child: Container(
-              height: 2,
-              margin: const EdgeInsets.symmetric(horizontal: OSpacing.xs),
-              color: step1Done ? OColor.green600 : OColor.gray200,
-            ),
-          ),
-          // Step 2 circle
-          _StepCircle(number: 2, isActive: step2Active, isCompleted: false),
-          const SizedBox(width: OSpacing.xs),
-          // Label 2
-          Flexible(
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
+              Text(
                 'ADD DETAILS',
                 style: OTextStyle.bodySmall.copyWith(
                   color: OColor.gray800,
-                  fontSize: 13,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0.5,
                 ),
               ),
-            ),
+            ],
           ),
         ],
       ),
@@ -695,24 +689,24 @@ class _StepCircle extends StatelessWidget {
 
     if (isCompleted) {
       bgColor = OColor.green600;
-      child = Icon(Icons.check, size: 14, color: OColor.white);
+      child = Icon(Icons.check, size: 18, color: OColor.white);
     } else if (isActive) {
       bgColor = OColor.green600;
       child = Text(
         '$number',
-        style: OTextStyle.labelSmall.copyWith(color: OColor.white, fontSize: 14),
+        style: OTextStyle.labelSmall.copyWith(color: OColor.white, fontSize: 16),
       );
     } else {
       bgColor = OColor.gray200;
       child = Text(
         '$number',
-        style: OTextStyle.labelSmall.copyWith(color: OColor.gray800, fontSize: 14),
+        style: OTextStyle.labelSmall.copyWith(color: OColor.gray800, fontSize: 16),
       );
     }
 
     return Container(
-      width: 24,
-      height: 24,
+      width: 36,
+      height: 36,
       decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
       alignment: Alignment.center,
       child: child,

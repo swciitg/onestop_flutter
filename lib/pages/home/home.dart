@@ -170,11 +170,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             offset: const Offset(0, 6),
           ),
           BoxShadow(
-            color: OColor.black.withValues(alpha: 0.03),
-            blurRadius: 17,
-            offset: const Offset(0, 16),
-          ),
-          BoxShadow(
             color: OColor.black.withValues(alpha: 0.02),
             blurRadius: 23,
             offset: const Offset(0, 12),

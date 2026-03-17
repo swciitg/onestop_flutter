@@ -87,6 +87,7 @@ class _DateCourseState extends State<DateCourse> {
                 decoration: BoxDecoration(
                   color: OColor.white,
                   borderRadius: BorderRadius.circular(OCornerRadius.l),
+                  border: Border.all(color: OColor.gray200),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

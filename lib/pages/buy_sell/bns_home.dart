@@ -56,7 +56,16 @@ class _BuySellHomeState extends State<BuySellHome> {
 
     return Observer(
       builder: (BuildContext context) {
-        return Scaffold(
+        return PopScope(
+          canPop: !_showMyAds,
+          onPopInvokedWithResult: (didPop, _) {
+            if (!didPop) {
+              setState(() {
+                _showMyAds = false;
+              });
+            }
+          },
+          child: Scaffold(
           backgroundColor: OColor.gray100,
           appBar: AppBar(
             backgroundColor: OColor.white,
@@ -187,6 +196,7 @@ class _BuySellHomeState extends State<BuySellHome> {
                       ),
                     ],
                   ),
+        ),
         );
       },
     );

@@ -255,7 +255,7 @@ class MessMenu extends StatelessWidget {
     );
   }
 
-  static const double _cardHeight = 280.0;
+  static const double _cardHeight = 360;
   static const double _cardWidth = 305.0;
 
   Widget _buildMealContainer(String mealName, MessStore messStore) {

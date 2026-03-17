@@ -10,6 +10,7 @@ import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/pages/travel/data.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
+import 'package:onestop_dev/widgets/travel/direction_switch.dart';
 import 'package:onestop_dev/widgets/travel/travel_guide.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
@@ -68,9 +69,7 @@ class _FerryTimingsPageState extends State<FerryTimingsPage> {
           }
           final timings = snapshot.data!;
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(8),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Day type toggle
                 _DayToggle(
@@ -80,69 +79,81 @@ class _FerryTimingsPageState extends State<FerryTimingsPage> {
                   onChanged: (val) => setState(() => _isWeekday = val),
                 ),
                 const SizedBox(height: 16),
-
-                // Travel guide hint
-                if (_showGuideHint)
-                  _FerryGuideHint(
-                    onHide: () => setState(() => _showGuideHint = false),
-                    onNavigate: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const TravelGuide()),
-                      );
-                    },
-                  ),
-                if (_showGuideHint) const SizedBox(height: 16),
-
-                // Direction switch
-                _DirectionSwitch(
-                  fromCampus: _fromCampus,
-                  onSwap: () => setState(() => _fromCampus = !_fromCampus),
-                ),
-                const SizedBox(height: 16),
-
-                // Ghat tabs
-                _GhatTabs(
-                  selectedIndex: _selectedGhatIndex,
-                  onSelected:
-                      (i) => setState(() {
-                        _selectedGhatIndex = i;
-                        travelStore.setFerryGhat(ferryGhats[i]['name'] as String);
-                      }),
-                ),
-                const SizedBox(height: 16),
-
-                // Map
-                _GhatMap(ghat: ferryGhats[_selectedGhatIndex], mapStore: mapStore),
-                const SizedBox(height: 8),
-
-                // Directions link
-                GestureDetector(
-                  onTap: () {
-                    final lat = ferryGhats[_selectedGhatIndex]['lat'];
-                    final lng = ferryGhats[_selectedGhatIndex]['long'];
-                    final url = 'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng';
-                    launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-                  },
-                  child: Row(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Directions',
-                        style: OTextStyle.labelSmall.copyWith(color: OColor.green600),
+                      // Travel guide hint
+                      if (_showGuideHint)
+                        _FerryGuideHint(
+                          onHide: () => setState(() => _showGuideHint = false),
+                          onNavigate: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => const TravelGuide()),
+                            );
+                          },
+                        ),
+                      if (_showGuideHint) const SizedBox(height: 16),
+
+                      // Direction switch
+                      DirectionSwitch(
+                        fromCampus: _fromCampus,
+                        leftLabel: 'City',
+                        rightLabel: 'IIT',
+                        leftSub: 'Guwahati',
+                        rightSub: 'Campus',
+                        onSwap: () => setState(() => _fromCampus = !_fromCampus),
                       ),
-                      const SizedBox(width: 2),
-                      Icon(Icons.arrow_outward, size: 14, color: OColor.green600),
+                      const SizedBox(height: 16),
+
+                      // Ghat tabs
+                      _GhatTabs(
+                        selectedIndex: _selectedGhatIndex,
+                        onSelected:
+                            (i) => setState(() {
+                              _selectedGhatIndex = i;
+                              travelStore.setFerryGhat(ferryGhats[i]['name'] as String);
+                            }),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Map
+                      _GhatMap(ghat: ferryGhats[_selectedGhatIndex], mapStore: mapStore),
+                      const SizedBox(height: 8),
+
+                      // Directions link
+                      GestureDetector(
+                        onTap: () {
+                          final lat = ferryGhats[_selectedGhatIndex]['lat'];
+                          final lng = ferryGhats[_selectedGhatIndex]['long'];
+                          final url =
+                              'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng';
+                          launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              'Directions',
+                              style: OTextStyle.labelSmall.copyWith(color: OColor.green600),
+                            ),
+                            const SizedBox(width: 2),
+                            Icon(Icons.arrow_outward, size: 14, color: OColor.green600),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Timing list
+                      _FerryTimingList(
+                        timings: timings,
+                        ghatName: ferryGhats[_selectedGhatIndex]['name'] as String,
+                        isWeekday: _isWeekday,
+                        fromCampus: _fromCampus,
+                      ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 16),
-
-                // Timing list
-                _FerryTimingList(
-                  timings: timings,
-                  ghatName: ferryGhats[_selectedGhatIndex]['name'] as String,
-                  isWeekday: _isWeekday,
-                  fromCampus: _fromCampus,
                 ),
               ],
             ),
@@ -171,11 +182,8 @@ class _DayToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: OColor.white,
-        borderRadius: BorderRadius.circular(OCornerRadius.xl),
-        border: Border.all(color: OColor.gray200),
-      ),
+      padding: const EdgeInsets.all(OSpacing.s),
+      decoration: BoxDecoration(color: OColor.white),
       child: Row(
         children: [
           Expanded(child: _btn(firstLabel, isFirst, () => onChanged(true))),
@@ -191,13 +199,15 @@ class _DayToggle extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: selected ? OColor.green600 : Colors.transparent,
+          color: selected ? OColor.gray200 : Colors.transparent,
           borderRadius: BorderRadius.circular(OCornerRadius.xl),
         ),
         child: Center(
           child: Text(
             label,
-            style: OTextStyle.labelMedium.copyWith(color: selected ? OColor.white : OColor.gray600),
+            style: OTextStyle.labelMedium.copyWith(
+              color: selected ? OColor.green600 : OColor.gray600,
+            ),
           ),
         ),
       ),
@@ -328,64 +338,6 @@ class _FerryGuideHintState extends State<_FerryGuideHint> {
   }
 }
 
-// ─── Direction switch ───────────────────────────────────────────────────
-
-class _DirectionSwitch extends StatelessWidget {
-  final bool fromCampus;
-  final VoidCallback onSwap;
-
-  const _DirectionSwitch({required this.fromCampus, required this.onSwap});
-
-  @override
-  Widget build(BuildContext context) {
-    final from = fromCampus ? 'IIT' : 'City';
-    final to = fromCampus ? 'City' : 'IIT';
-    final fromSub = fromCampus ? 'Campus' : 'Guwahati';
-    final toSub = fromCampus ? 'Guwahati' : 'Campus';
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: OColor.white,
-        borderRadius: BorderRadius.circular(OCornerRadius.m),
-        border: Border.all(color: OColor.gray200),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(from, style: OTextStyle.headingSmall.copyWith(color: OColor.gray800)),
-                const SizedBox(height: 2),
-                Text(fromSub, style: OTextStyle.labelXSmall.copyWith(color: OColor.gray600)),
-              ],
-            ),
-          ),
-          GestureDetector(
-            onTap: onSwap,
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(color: OColor.green100, shape: BoxShape.circle),
-              child: Icon(FluentIcons.arrow_swap_24_regular, size: 20, color: OColor.green600),
-            ),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(to, style: OTextStyle.headingSmall.copyWith(color: OColor.gray800)),
-                const SizedBox(height: 2),
-                Text(toSub, style: OTextStyle.labelXSmall.copyWith(color: OColor.gray600)),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 // ─── Ghat tabs ──────────────────────────────────────────────────────────
 
 class _GhatTabs extends StatelessWidget {
@@ -443,11 +395,16 @@ class _GhatMapState extends State<_GhatMap> {
   String _mapStyle = '';
 
   @override
-  void initState() {
-    super.initState();
-    rootBundle.loadString('assets/json/map_style.json').then((style) {
-      if (mounted) setState(() => _mapStyle = style);
-    });
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    if (isDark) {
+      rootBundle.loadString('assets/json/map_style.json').then((style) {
+        if (mounted) setState(() => _mapStyle = style);
+      });
+    } else {
+      _mapStyle = '';
+    }
   }
 
   @override

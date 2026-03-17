@@ -21,7 +21,7 @@ To run the App on your machine, Follow these Steps Carefully
         "--dart-define","SERVER_URL=https://swc.iitg.ac.in/test/onestop/api/v3",
         "--dart-define","SECURITY_KEY=0ne5t0p-Test",
         "--dart-define","GMAP_KEY=gmapkey",
-        "--dart-define","GITHUB_ISSUE_TOKEN=X",
+        "--dart-define","GIT_ISSUE_TOKEN=X",
         "--dart-define","IRBS_SERVER_URL=https://swc.iitg.ac.in/test/irbs",
         "--dart-define","GATELOG_WEBSOCKET_URL=wss://swc.iitg.ac.in/test/khokhaEntry/api/v1/ws",
         "--dart-define","GATELOG_SERVER_URL=https://swc.iitg.ac.in/test/khokhaEntry/api/v1",
