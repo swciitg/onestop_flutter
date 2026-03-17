@@ -41,11 +41,21 @@ class BnsRepository extends APIRepository {
     }
   }
 
-  Future<List<BuyModel>> getSellPage(int pageNumber) async {
+  Future<List<BuyModel>> getSellPage(int pageNumber, [String query = ""]) async {
     try {
       final queryParameters = {
         'page': pageNumber.toString(),
       };
+      if (query.isNotEmpty) {
+        queryParameters['query'] = query;
+        var response = await serverDio.get(Endpoints.sellSearch,
+            queryParameters: queryParameters);
+        var json = response.data;
+        List<BuyModel> sellPage = (json['results'] as List<dynamic>)
+            .map((e) => BuyModel.fromJson(e))
+            .toList();
+        return sellPage;
+      }
       var response = await serverDio.get(Endpoints.sellPath,
           queryParameters: queryParameters);
       var json = response.data;
@@ -60,10 +70,20 @@ class BnsRepository extends APIRepository {
     }
   }
 
-  Future<List<SellModel>> getBuyPage(int pageNumber) async {
+  Future<List<SellModel>> getBuyPage(int pageNumber, [String query = ""]) async {
     final queryParameters = {
       'page': pageNumber.toString(),
     };
+    if (query.isNotEmpty) {
+      queryParameters['query'] = query;
+      var response = await serverDio.get(Endpoints.buySearch,
+          queryParameters: queryParameters);
+      var json = response.data;
+      List<SellModel> buyPage = (json['results'] as List<dynamic>)
+          .map((e) => SellModel.fromJson(e))
+          .toList();
+      return buyPage;
+    }
     var response = await serverDio.get(Endpoints.buyPath,
         queryParameters: queryParameters);
     var json = response.data;

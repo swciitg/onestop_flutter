@@ -42,10 +42,21 @@ class LnfRepository extends APIRepository {
     return lostItemsDetails["details"];
   }
 
-  Future<List<LostModel>> getLostPage(int pageNumber) async {
+  Future<List<LostModel>> getLostPage(int pageNumber, [String query = ""]) async {
     final queryParameters = {
       'page': pageNumber.toString(),
     };
+    if (query.isNotEmpty) {
+      queryParameters['query'] = query;
+      var response = await serverDio.get(Endpoints.lostSearch,
+          queryParameters: queryParameters);
+      var json = response.data;
+      List<LostModel> lostPage = (json['results'] as List<dynamic>)
+          .map((e) => LostModel.fromJson(e))
+          .toList();
+      return lostPage;
+    }
+
     var response = await serverDio.get(Endpoints.lostPath,
         queryParameters: queryParameters);
     var json = response.data;
@@ -56,10 +67,21 @@ class LnfRepository extends APIRepository {
     return lostPage;
   }
 
-  Future<List<FoundModel>> getFoundPage(int pageNumber) async {
+  Future<List<FoundModel>> getFoundPage(int pageNumber, [String query = ""]) async {
     final queryParameters = {
       'page': pageNumber.toString(),
     };
+    if (query.isNotEmpty) {
+      queryParameters['query'] = query;
+      var response = await serverDio.get(Endpoints.foundSearch,
+          queryParameters: queryParameters);
+      var json = response.data;
+      List<FoundModel> lostPage = (json['results'] as List<dynamic>)
+          .map((e) => FoundModel.fromJson(e))
+          .toList();
+      return lostPage;
+    }
+
     var response = await serverDio.get(Endpoints.foundPath,
         queryParameters: queryParameters);
     var json = response.data;

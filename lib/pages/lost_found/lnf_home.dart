@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -25,22 +27,27 @@ class LostFoundHome extends StatefulWidget {
 }
 
 class _LostFoundHomeState extends State<LostFoundHome> {
-  final PagingController<int, LostModel> _lostController = PagingController(
-    fetchPage: (pageKey) {
-      return LnfRepository().getLostPage(pageKey);
-    },
-    getNextPageKey: (state) {
-      return state.lastPageIsEmpty ? null : state.nextIntPageKey;
-    },
-  );
-  final PagingController<int, FoundModel> _foundController = PagingController(
-    fetchPage: (pageKey) {
-      return LnfRepository().getFoundPage(pageKey);
-    },
-    getNextPageKey: (state) {
-      return state.lastPageIsEmpty ? null : state.nextIntPageKey;
-    },
-  );
+  String _searchQuery = "";
+  Timer? _debounce;
+
+  late final PagingController<int, LostModel> _lostController =
+      PagingController(
+        fetchPage: (pageKey) {
+          return LnfRepository().getLostPage(pageKey, _searchQuery);
+        },
+        getNextPageKey: (state) {
+          return state.lastPageIsEmpty ? null : state.nextIntPageKey;
+        },
+      );
+  late final PagingController<int, FoundModel> _foundController =
+      PagingController(
+        fetchPage: (pageKey) {
+          return LnfRepository().getFoundPage(pageKey, _searchQuery);
+        },
+        getNextPageKey: (state) {
+          return state.lastPageIsEmpty ? null : state.nextIntPageKey;
+        },
+      );
 
   bool _showMyReports = false;
 
@@ -56,19 +63,38 @@ class _LostFoundHomeState extends State<LostFoundHome> {
   }
 
   String _getMonthFormatter(int month) {
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
     return months[month - 1];
   }
 
   String _getDaySuffix(int day) {
     if (day >= 11 && day <= 13) return "th";
     switch (day % 10) {
-      case 1: return "st";
-      case 2: return "nd";
-      case 3: return "rd";
-      default: return "th";
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
     }
   }
+
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -84,12 +110,14 @@ class _LostFoundHomeState extends State<LostFoundHome> {
             centerTitle: true,
             scrolledUnderElevation: 0,
             elevation: 0,
-            systemOverlayStyle: Theme.of(
-              context,
-            ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
+            systemOverlayStyle: Theme.of(context).appBarTheme.systemOverlayStyle
+                ?.copyWith(statusBarColor: OColor.white),
             leading: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
+              icon: Icon(
+                FluentIcons.arrow_left_24_regular,
+                color: OColor.gray800,
+              ),
             ),
             title: Text(
               _showMyReports ? "My Reports" : "Lost and Found",
@@ -98,12 +126,13 @@ class _LostFoundHomeState extends State<LostFoundHome> {
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(60.0),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: OSpacing.m,
+                  vertical: OSpacing.xs,
+                ),
                 child: Container(
                   height: 48,
-                  decoration: BoxDecoration(
-                    color: OColor.white,
-                  ),
+                  decoration: BoxDecoration(color: OColor.white),
                   child: Row(
                     children: [
                       Expanded(
@@ -130,8 +159,27 @@ class _LostFoundHomeState extends State<LostFoundHome> {
             children: [
               Divider(height: 1, color: OColor.gray200),
               // Content
+              OSearchBar(
+                content: "Search Lost Items ",
+                controller: _searchController,
+                onChanged: (value) {
+                  if (_debounce?.isActive ?? false) _debounce?.cancel();
+                  _debounce = Timer(const Duration(milliseconds: 500), () {
+                    if (_searchQuery != value) {
+                      setState(() {
+                        _searchQuery = value;
+                      });
+                      _lostController.refresh();
+                      _foundController.refresh();
+                    }
+                  });
+                },
+              ),
               Expanded(
-                child: _showMyReports ? _buildMyReports(commonStore) : _buildAllItems(commonStore),
+                child:
+                    _showMyReports
+                        ? _buildMyReports(commonStore)
+                        : _buildAllItems(commonStore),
               ),
             ],
           ),
@@ -147,7 +195,10 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => BuySellForm(category: commonStore.lnfIndex),
+                              builder:
+                                  (_) => BuySellForm(
+                                    category: commonStore.lnfIndex,
+                                  ),
                             ),
                           );
                         },
@@ -158,7 +209,9 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                           ),
                           decoration: BoxDecoration(
                             color: OColor.green600,
-                            borderRadius: BorderRadius.circular(OCornerRadius.m),
+                            borderRadius: BorderRadius.circular(
+                              OCornerRadius.m,
+                            ),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withValues(alpha: 0.15),
@@ -178,7 +231,9 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                               const SizedBox(width: OSpacing.xs),
                               Text(
                                 'Report Item',
-                                style: OTextStyle.labelMedium.copyWith(color: OColor.white),
+                                style: OTextStyle.labelMedium.copyWith(
+                                  color: OColor.white,
+                                ),
                               ),
                             ],
                           ),
@@ -199,7 +254,9 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                           ),
                           decoration: BoxDecoration(
                             color: OColor.white,
-                            borderRadius: BorderRadius.circular(OCornerRadius.m),
+                            borderRadius: BorderRadius.circular(
+                              OCornerRadius.m,
+                            ),
                             border: Border.all(color: OColor.gray300),
                             boxShadow: [
                               BoxShadow(
@@ -220,7 +277,9 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                               const SizedBox(width: OSpacing.xs),
                               Text(
                                 _showMyReports ? 'All Items' : 'My Reports',
-                                style: OTextStyle.labelMedium.copyWith(color: OColor.green600),
+                                style: OTextStyle.labelMedium.copyWith(
+                                  color: OColor.green600,
+                                ),
                               ),
                             ],
                           ),
@@ -253,7 +312,9 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                   if (prevItem != null) {
                     final prevDate = prevItem.date.toLocal();
                     final currDate = item.date.toLocal();
-                    if (prevDate.year != currDate.year || prevDate.month != currDate.month || prevDate.day != currDate.day) {
+                    if (prevDate.year != currDate.year ||
+                        prevDate.month != currDate.month ||
+                        prevDate.day != currDate.day) {
                       showDate = true;
                     }
                   }
@@ -264,10 +325,16 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: OSpacing.s, bottom: OSpacing.xs, left: OSpacing.xs),
+                        padding: const EdgeInsets.only(
+                          top: OSpacing.s,
+                          bottom: OSpacing.xs,
+                          left: OSpacing.xs,
+                        ),
                         child: Text(
                           _formatDate(item.date.toLocal()),
-                          style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                          style: OTextStyle.labelMedium.copyWith(
+                            color: OColor.gray800,
+                          ),
                         ),
                       ),
                       LostFoundTile(currentModel: item),
@@ -277,22 +344,28 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                 return LostFoundTile(currentModel: item);
               },
               firstPageErrorIndicatorBuilder:
-                  (context) => ErrorReloadScreen(reloadCallback: () => _lostController.refresh()),
+                  (context) => ErrorReloadScreen(
+                    reloadCallback: () => _lostController.refresh(),
+                  ),
               noItemsFoundIndicatorBuilder:
                   (context) => const PaginationText(text: "No items found"),
               newPageErrorIndicatorBuilder:
                   (context) => Padding(
                     padding: const EdgeInsets.all(10),
-                    child: ErrorReloadButton(reloadCallback: () => _lostController.refresh()),
+                    child: ErrorReloadButton(
+                      reloadCallback: () => _lostController.refresh(),
+                    ),
                   ),
               newPageProgressIndicatorBuilder:
                   (context) => const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Center(child: CircularProgressIndicator()),
                   ),
-              firstPageProgressIndicatorBuilder: (context) => ListShimmer(count: 5, height: 120),
+              firstPageProgressIndicatorBuilder:
+                  (context) => ListShimmer(count: 5, height: 120),
               noMoreItemsIndicatorBuilder:
-                  (context) => const PaginationText(text: "You've reached the end"),
+                  (context) =>
+                      const PaginationText(text: "You've reached the end"),
             ),
           );
         },
@@ -316,7 +389,9 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                   if (prevItem != null) {
                     final prevDate = prevItem.date.toLocal();
                     final currDate = item.date.toLocal();
-                    if (prevDate.year != currDate.year || prevDate.month != currDate.month || prevDate.day != currDate.day) {
+                    if (prevDate.year != currDate.year ||
+                        prevDate.month != currDate.month ||
+                        prevDate.day != currDate.day) {
                       showDate = true;
                     }
                   }
@@ -327,10 +402,16 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: OSpacing.s, bottom: OSpacing.xs, left: OSpacing.xs),
+                        padding: const EdgeInsets.only(
+                          top: OSpacing.s,
+                          bottom: OSpacing.xs,
+                          left: OSpacing.xs,
+                        ),
                         child: Text(
                           _formatDate(item.date.toLocal()),
-                          style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                          style: OTextStyle.labelMedium.copyWith(
+                            color: OColor.gray800,
+                          ),
                         ),
                       ),
                       LostFoundTile(currentModel: item),
@@ -340,22 +421,28 @@ class _LostFoundHomeState extends State<LostFoundHome> {
                 return LostFoundTile(currentModel: item);
               },
               firstPageErrorIndicatorBuilder:
-                  (context) => ErrorReloadScreen(reloadCallback: () => _foundController.refresh()),
+                  (context) => ErrorReloadScreen(
+                    reloadCallback: () => _foundController.refresh(),
+                  ),
               noItemsFoundIndicatorBuilder:
                   (context) => const PaginationText(text: "No items found"),
               newPageErrorIndicatorBuilder:
                   (context) => Padding(
                     padding: const EdgeInsets.all(10),
-                    child: ErrorReloadButton(reloadCallback: () => _foundController.refresh()),
+                    child: ErrorReloadButton(
+                      reloadCallback: () => _foundController.refresh(),
+                    ),
                   ),
               newPageProgressIndicatorBuilder:
                   (context) => const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Center(child: CircularProgressIndicator()),
                   ),
-              firstPageProgressIndicatorBuilder: (context) => ListShimmer(count: 5, height: 120),
+              firstPageProgressIndicatorBuilder:
+                  (context) => ListShimmer(count: 5, height: 120),
               noMoreItemsIndicatorBuilder:
-                  (context) => const PaginationText(text: "You've reached the end"),
+                  (context) =>
+                      const PaginationText(text: "You've reached the end"),
             ),
           );
         },
@@ -397,6 +484,7 @@ class _LostFoundHomeState extends State<LostFoundHome> {
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _lostController.dispose();
     _foundController.dispose();
     super.dispose();
@@ -413,14 +501,21 @@ class PaginationText extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(text, style: OTextStyle.labelSmall.copyWith(color: OColor.gray600)),
+        child: Text(
+          text,
+          style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
+        ),
       ),
     );
   }
 }
 
 class _TabPill extends StatelessWidget {
-  const _TabPill({required this.label, required this.isActive, required this.onTap});
+  const _TabPill({
+    required this.label,
+    required this.isActive,
+    required this.onTap,
+  });
 
   final String label;
   final bool isActive;
@@ -433,14 +528,19 @@ class _TabPill extends StatelessWidget {
       child: Container(
         height: double.infinity,
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
+        padding: const EdgeInsets.symmetric(
+          horizontal: OSpacing.m,
+          vertical: OSpacing.xs,
+        ),
         decoration: BoxDecoration(
           color: isActive ? OColor.gray200 : Colors.transparent,
           borderRadius: BorderRadius.circular(OCornerRadius.xl),
         ),
         child: Text(
           label,
-          style: OTextStyle.labelSmall.copyWith(color: isActive ? OColor.green600 : OColor.gray600),
+          style: OTextStyle.labelSmall.copyWith(
+            color: isActive ? OColor.green600 : OColor.gray600,
+          ),
         ),
       ),
     );
