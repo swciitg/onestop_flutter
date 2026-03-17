@@ -1,6 +1,7 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:onestop_ui/index.dart';
 
 import '../../widgets/ui/list_shimmer.dart';
@@ -218,9 +219,10 @@ class _VoterCardState extends State<VoterCard> {
               const SizedBox(height: OSpacing.l),
 
               // SWC Logo
-              SizedBox(
-                height: 55,
-                child: Image.asset('assets/images/logoo.png', cacheWidth: 451, cacheHeight: 75),
+              SvgPicture.asset(
+                'assets/images/logo.svg',
+                height: 40,
+                colorFilter: ColorFilter.mode(OColor.black, BlendMode.srcIn),
               ),
               const SizedBox(height: OSpacing.m),
             ],
