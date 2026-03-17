@@ -1241,10 +1241,10 @@ packages:
     dependency: "direct main"
     description:
       name: logger
-      sha256: a7967e31b703831a893bbc3c3dd11db08126fe5f369b5c648a36f821979f5be3
+      sha256: "25aee487596a6257655a1e091ec2ae66bc30e7af663592cc3a27e6591e05035c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.2"
+    version: "2.7.0"
   logging:
     dependency: transitive
     description:
@@ -1371,7 +1371,7 @@ packages:
     description:
       path: "packages/onestop_ui"
       ref: dev
-      resolved-ref: d7c940cd0c15c964030dffaf1536ca8cb328428a
+      resolved-ref: "2bc2c0ca2447bbcfde03d2688bbb0ac645116ca7"
       url: "https://github.com/swciitg/onestop_ui.git"
     source: git
     version: "0.0.1"
