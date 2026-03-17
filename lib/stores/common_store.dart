@@ -25,6 +25,14 @@ abstract class _CommonStore with Store {
   @observable
   bool isPersonalNotif = true;
 
+  @observable
+  bool isBagInLibrary = false;
+
+  @action
+  void setBagInLibrary(bool value) {
+    isBagInLibrary = value;
+  }
+
   @action
   void setNotif() {
     isPersonalNotif = !isPersonalNotif;

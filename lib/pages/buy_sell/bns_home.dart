@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -26,18 +28,22 @@ class BuySellHome extends StatefulWidget {
 }
 
 class _BuySellHomeState extends State<BuySellHome> {
-  final PagingController<int, BuyModel> _sellController = PagingController(
+  String _searchQuery = "";
+  Timer? _debounce;
+  final TextEditingController _searchController = TextEditingController();
+
+  late final PagingController<int, BuyModel> _sellController = PagingController(
     fetchPage: (pageKey) {
-      return BnsRepository().getSellPage(pageKey);
+      return BnsRepository().getSellPage(pageKey, _searchQuery);
     },
     getNextPageKey: (state) {
       return state.lastPageIsEmpty ? null : state.nextIntPageKey;
     },
   );
 
-  final PagingController<int, SellModel> _buyController = PagingController(
+  late final PagingController<int, SellModel> _buyController = PagingController(
     fetchPage: (pageKey) {
-      return BnsRepository().getBuyPage(pageKey);
+      return BnsRepository().getBuyPage(pageKey, _searchQuery);
     },
     getNextPageKey: (state) {
       return state.lastPageIsEmpty ? null : state.nextIntPageKey;
@@ -99,6 +105,22 @@ class _BuySellHomeState extends State<BuySellHome> {
                 ),
               ),
               // Content
+              OSearchBar(
+                content: "Search Items",
+                controller: _searchController,
+                onChanged: (value) {
+                  if (_debounce?.isActive ?? false) _debounce?.cancel();
+                  _debounce = Timer(const Duration(milliseconds: 500), () {
+                    if (_searchQuery != value) {
+                      setState(() {
+                        _searchQuery = value;
+                      });
+                      _sellController.refresh();
+                      _buyController.refresh();
+                    }
+                  });
+                },
+              ),
               Expanded(
                 child: _showMyAds ? _buildMyAdsGrid(commonStore) : _buildAllAdsGrid(commonStore),
               ),
@@ -329,6 +351,7 @@ class _BuySellHomeState extends State<BuySellHome> {
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _sellController.dispose();
     _buyController.dispose();
     super.dispose();
