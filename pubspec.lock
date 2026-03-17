@@ -206,7 +206,7 @@ packages:
     description:
       path: "packages/cab_sharing"
       ref: redesign
-      resolved-ref: f9e90cb0b31c866dcfb119de71612a12f6e5d32c
+      resolved-ref: "1b09464f71324c71620918ad0761d9c0aca4652f"
       url: "https://github.com/swciitg/cab_sharing_onestop.git"
     source: git
     version: "0.0.1"
@@ -1373,7 +1373,7 @@ packages:
     description:
       path: "packages/onestop_ui"
       ref: dev
-      resolved-ref: f5b066aa961385f7188ed39cb2ffbc03e27323a8
+      resolved-ref: "7e5117ea0e93e35cf6c6c16bb1811d3394b517e7"
       url: "https://github.com/swciitg/onestop_ui.git"
     source: git
     version: "0.0.1"
