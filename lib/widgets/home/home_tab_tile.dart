@@ -64,7 +64,7 @@ class HomeServiceTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: 8),
-          Expanded(child: SvgPicture.asset(iconPath, width: 30, height: 30, fit: BoxFit.contain)),
+          Expanded(child: SvgPicture.asset(iconPath, width: 60, height: 32, fit: BoxFit.contain)),
           Expanded(
             child: OText(
               text: label,

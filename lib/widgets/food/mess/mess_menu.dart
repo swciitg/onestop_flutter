@@ -11,9 +11,14 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../models/food/mess_menu_model.dart';
 
-class MessMenu extends StatelessWidget {
-  MessMenu({super.key});
+class MessMenu extends StatefulWidget {
+  const MessMenu({super.key});
 
+  @override
+  State<MessMenu> createState() => _MessMenuState();
+}
+
+class _MessMenuState extends State<MessMenu> {
   final List<String> days = [
     "Sunday",
     "Monday",
@@ -25,6 +30,42 @@ class MessMenu extends StatelessWidget {
   ];
   final List<String> hostels =
       Mess.values.displayStrings().where((e) => e != Mess.none.displayString).toList();
+
+  final ScrollController _mealScrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToCurrentMeal();
+    });
+  }
+
+  void _scrollToCurrentMeal() {
+    final hour = DateTime.now().hour;
+    int targetIndex;
+    if (hour < 10) {
+      targetIndex = 0; // Breakfast
+    } else if (hour < 15) {
+      targetIndex = 1; // Lunch
+    } else {
+      targetIndex = 2; // Dinner
+    }
+    final offset = targetIndex * (_cardWidth + 8);
+    if (_mealScrollController.hasClients) {
+      _mealScrollController.animateTo(
+        offset,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _mealScrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,6 +279,7 @@ class MessMenu extends StatelessWidget {
 
   Widget _buildMealSection(MessStore messStore) {
     return SingleChildScrollView(
+      controller: _mealScrollController,
       scrollDirection: Axis.horizontal,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),
@@ -255,7 +297,7 @@ class MessMenu extends StatelessWidget {
     );
   }
 
-  static const double _cardHeight = 360;
+  static const double _cardHeight = 240;
   static const double _cardWidth = 305.0;
 
   Widget _buildMealContainer(String mealName, MessStore messStore) {
@@ -308,7 +350,7 @@ class MessMenu extends StatelessWidget {
             return SizedBox(
               width: _cardWidth,
               height: _cardHeight,
-              child: Container(
+              child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: OColor.white,
                   borderRadius: BorderRadius.circular(OCornerRadius.l),
@@ -347,40 +389,40 @@ class MessMenu extends StatelessWidget {
                       ),
                     ),
                     // Sides & Drinks
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              left: OSpacing.xs,
-                              right: OSpacing.xs,
-                              top: OSpacing.xxs,
-                              bottom: OSpacing.s,
-                            ),
-                            child: OCardBlock(
-                              header: "Sides",
-                              blockItems: ['To Be Updated'],
-                              color: OColor.gray100,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              left: OSpacing.xs,
-                              right: OSpacing.xs,
-                              top: OSpacing.xxs,
-                              bottom: OSpacing.s,
-                            ),
-                            child: OCardBlock(
-                              header: "Drinks",
-                              blockItems: ['To Be Updated'],
-                              color: OColor.gray100,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     Expanded(
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.only(
+                    //           left: OSpacing.xs,
+                    //           right: OSpacing.xs,
+                    //           top: OSpacing.xxs,
+                    //           bottom: OSpacing.s,
+                    //         ),
+                    //         child: OCardBlock(
+                    //           header: "Sides",
+                    //           blockItems: ['To Be Updated'],
+                    //           color: OColor.gray100,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     Expanded(
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.only(
+                    //           left: OSpacing.xs,
+                    //           right: OSpacing.xs,
+                    //           top: OSpacing.xxs,
+                    //           bottom: OSpacing.s,
+                    //         ),
+                    //         child: OCardBlock(
+                    //           header: "Drinks",
+                    //           blockItems: ['To Be Updated'],
+                    //           color: OColor.gray100,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),

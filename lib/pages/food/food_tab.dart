@@ -116,44 +116,36 @@ class _FoodTabState extends State<FoodTab> {
 
   Container _buildSearchBar() {
     return Container(
-                    decoration: BoxDecoration(
-                      color: OColor.white,
-                      borderRadius: BorderRadius.circular(OCornerRadius.m),
-                      border: Border.all(color: OColor.gray200),
-                    ),
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: (value) {
-                        setState(() => _searchQuery = value);
-                      },
-                      style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
-                      decoration: InputDecoration(
-                        hintText: 'Search food outlets...',
-                        hintStyle: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
-                        prefixIcon: Icon(
-                          FluentIcons.search_24_regular,
-                          color: OColor.gray400,
-                          size: 20,
-                        ),
-                        suffixIcon:
-                            _searchQuery.isNotEmpty
-                                ? GestureDetector(
-                                  onTap: () {
-                                    _searchController.clear();
-                                    setState(() => _searchQuery = '');
-                                  },
-                                  child: Icon(
-                                    FluentIcons.dismiss_24_regular,
-                                    color: OColor.gray400,
-                                    size: 20,
-                                  ),
-                                )
-                                : null,
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        isDense: true,
-                      ),
-                    ),
-                  );
+      decoration: BoxDecoration(
+        color: OColor.white,
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+        border: Border.all(color: OColor.gray200),
+      ),
+      child: TextField(
+        controller: _searchController,
+        onChanged: (value) {
+          setState(() => _searchQuery = value);
+        },
+        style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+        decoration: InputDecoration(
+          hintText: 'Search food outlets...',
+          hintStyle: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
+          prefixIcon: Icon(FluentIcons.search_24_regular, color: OColor.gray400, size: 20),
+          suffixIcon:
+              _searchQuery.isNotEmpty
+                  ? GestureDetector(
+                    onTap: () {
+                      _searchController.clear();
+                      setState(() => _searchQuery = '');
+                    },
+                    child: Icon(FluentIcons.dismiss_24_regular, color: OColor.gray400, size: 20),
+                  )
+                  : null,
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          isDense: true,
+        ),
+      ),
+    );
   }
 }

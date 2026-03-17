@@ -147,20 +147,26 @@ class _DateCourseState extends State<DateCourse> {
                           // Next class section
                           if (nextClass.course != 'No upcoming classes' &&
                               nextClass.course != 'Happy Weekend !') ...[
-                            Row(
-                              children: [
-                                OText(
-                                  text: 'Class in ',
-                                  style: OTextStyle.headingLarge.copyWith(
-                                    color: OColor.black,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                OText(
-                                  text: _getNextClassTime(nextClass),
-                                  style: OTextStyle.headingLarge.copyWith(color: OColor.green600),
-                                ),
-                              ],
+                            Builder(
+                              builder: (context) {
+                                final timeText = _getNextClassTime(nextClass);
+                                final bool isOngoing = timeText == 'Started' || timeText == 'Running now';
+                                return Row(
+                                  children: [
+                                    OText(
+                                      text: isOngoing ? 'Class ' : 'Class in ',
+                                      style: OTextStyle.headingLarge.copyWith(
+                                        color: OColor.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    OText(
+                                      text: isOngoing ? 'Ongoing' : timeText,
+                                      style: OTextStyle.headingLarge.copyWith(color: OColor.green600),
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
                             const SizedBox(height: 8),
                             OText(

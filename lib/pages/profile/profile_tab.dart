@@ -388,6 +388,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     ? DateFormat('dd-MM-yyyy').format(DateTime.parse(_user.dob!))
                     : '',
             editable: true,
+            isDatePicker: true,
             onUpdated: _handleFieldUpdate,
           ),
           _InfoTile(
@@ -549,6 +550,7 @@ class _InfoTile extends StatelessWidget {
   final bool editable;
   final bool showDivider;
   final bool isDropdown;
+  final bool isDatePicker;
   final List<String>? dropdownOptions;
   final TextInputType? keyboardType;
   final Function(String label, String newValue)? onUpdated;
@@ -560,6 +562,7 @@ class _InfoTile extends StatelessWidget {
     this.editable = false,
     this.showDivider = true,
     this.isDropdown = false,
+    this.isDatePicker = false,
     this.dropdownOptions,
     this.keyboardType,
     this.onUpdated,
@@ -593,7 +596,9 @@ class _InfoTile extends StatelessWidget {
             if (editable)
               IconButton(
                 onPressed: () {
-                  if (isDropdown && dropdownOptions != null) {
+                  if (isDatePicker) {
+                    _showDatePickerDialog(context);
+                  } else if (isDropdown && dropdownOptions != null) {
                     _showDropdownSheet(context);
                   } else {
                     _showEditSheet(context);
@@ -682,6 +687,44 @@ class _InfoTile extends StatelessWidget {
         );
       },
     );
+  }
+
+  // ── date picker dialog ─────────────────────────────────────────────
+  void _showDatePickerDialog(BuildContext context) async {
+    // Parse the current value to get initial date
+    DateTime initialDate = DateTime.now();
+    if (value.isNotEmpty) {
+      try {
+        initialDate = DateFormat('dd-MM-yyyy').parse(value);
+      } catch (_) {
+        try {
+          initialDate = DateTime.parse(value);
+        } catch (_) {}
+      }
+    }
+
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(1920),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: OColor.green600,
+              onSurface: OColor.gray800,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null) {
+      final isoDate = DateTime(pickedDate.year, pickedDate.month, pickedDate.day).toIso8601String();
+      onUpdated?.call(label, isoDate);
+    }
   }
 
   // ── text-field bottom sheet ─────────────────────────────────────────

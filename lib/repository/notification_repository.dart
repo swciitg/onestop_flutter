@@ -5,10 +5,14 @@ import 'package:onestop_dev/repository/api_repository.dart';
 class NotificationRepository extends APIRepository {
   Future<List<Response>> getNotifications() async {
     final results = await Future.wait([
-      serverDio.get(Endpoints.generalNotifications),
+      serverDio.get(Endpoints.generalNotifications, queryParameters: {'page': 1}),
       serverDio.get(Endpoints.userNotifications)
     ]);
     return results;
+  }
+
+  Future<Response> getGeneralNotifications(int page) async {
+    return serverDio.get(Endpoints.generalNotifications, queryParameters: {'page': page});
   }
 
   Future<void> deletePersonalNotifications() async {

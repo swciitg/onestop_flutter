@@ -83,7 +83,7 @@ class BnsRepository extends APIRepository {
       'description': data['description'],
       'price': data['price'],
       'imageString': data['image'],
-      'phonenumber': data['phonenumber'], // ✅ FIXED
+      'phonenumber': data['contact'],
       'email': data['email'],
       'username': data['name'],
       'isNew': data['isNew'], // ✅ OPTIONAL BUT CORRECT

@@ -45,8 +45,14 @@ class HomeTimetableWidgetService {
       if (courseName == 'Happy Weekend !' || courseName == 'No upcoming classes') {
         headlinePrefix = courseName;
       } else {
-        headlinePrefix = 'Class in';
-        headlineValue = _timeValueLabel(nextClass, now);
+        final start = _classStartDateTime(nextClass, now);
+        if (start != null && start.isBefore(now)) {
+          headlinePrefix = 'Class Ongoing';
+          headlineValue = '';
+        } else {
+          headlinePrefix = 'Class at';
+          headlineValue = start != null ? DateFormat('h:mm a').format(start) : '';
+        }
         nextCourse = _courseLabel(nextClass);
         nextClassStartEpoch = _nextClassStartEpoch(nextClass, now) ?? '';
       }
@@ -95,37 +101,6 @@ class HomeTimetableWidgetService {
       return '$code - $name';
     }
     return code.isNotEmpty ? code : name;
-  }
-
-  static String _timeValueLabel(CourseModel course, DateTime now) {
-    final start = _classStartDateTime(course, now);
-    if (start == null) {
-      return '';
-    }
-
-    final diff = start.difference(now);
-
-    if (diff.isNegative) {
-      return 'Started';
-    }
-
-    final hours = diff.inHours;
-    final minutes = diff.inMinutes % 60;
-    if (hours > 0) {
-      final h = hours == 1 ? 'hr' : 'hrs';
-      if (minutes > 0) {
-        final m = minutes == 1 ? 'min' : 'mins';
-        return '$hours $h $minutes $m';
-      }
-      return '$hours $h';
-    }
-
-    if (minutes > 0) {
-      final m = minutes == 1 ? 'min' : 'mins';
-      return '$minutes $m';
-    }
-
-    return 'Running now';
   }
 
   static String? _nextClassStartEpoch(CourseModel course, DateTime now) {

@@ -9,8 +9,10 @@ import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/widgets/home/date_course.dart';
 import 'package:onestop_dev/widgets/home/date_exam.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:onestop_dev/widgets/home/home_auto_scroll_tile.dart';
 import 'package:onestop_dev/widgets/home/home_food_tile.dart';
 import 'package:onestop_dev/widgets/home/home_gatelog_tile.dart';
+import 'package:onestop_dev/widgets/home/home_suggestion_tile.dart';
 import 'package:onestop_dev/widgets/home/home_services.dart';
 import 'package:onestop_dev/widgets/home/home_quick_links.dart';
 import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
@@ -75,10 +77,19 @@ class _HomeTabState extends State<HomeTab> {
               // Food and Gatelog tiles
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
-                child: IntrinsicHeight(
+                child: SizedBox(
+                  height: 220,
                   child: Row(
                     children: [
-                      Expanded(child: HomeFoodTile(moveToFoodMenu: widget.moveToFoodMenuSection)),
+                      Expanded(
+                        child: HomeAutoScrollTile(
+                          duration: const Duration(seconds: 3),
+                          children: [
+                            HomeFoodTile(moveToFoodMenu: widget.moveToFoodMenuSection),
+                            const HomeSuggestionTile(),
+                          ],
+                        ),
+                      ),
                       const SizedBox(width: 8),
                       Expanded(child: HomeGateLogTile()),
                     ],
@@ -111,7 +122,7 @@ class _HomeTabState extends State<HomeTab> {
     return Observer(
       builder: (context) {
         var store = context.read<TimetableStore>();
-        // ExamMode mode = ExamMode.upcoming;
+        // ExamMode mode = ExamMode.during;
         ExamMode mode = store.examMode;
 
         List<Widget> widgets = [];
