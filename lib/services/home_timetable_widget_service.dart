@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:home_widget/home_widget.dart';
@@ -8,6 +9,7 @@ class HomeTimetableWidgetService {
   static const String _androidWidgetName = 'TimetableHomeWidgetProvider';
   static const String _iosWidgetName = 'TimetableWidget';
 
+  static Timer? _debounce;
   static const _days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
   static Future<void> initialize() async {
@@ -41,6 +43,9 @@ class HomeTimetableWidgetService {
     await HomeWidget.saveWidgetData<bool>('tt_is_dark', isDark);
     await HomeWidget.saveWidgetData<String>('tt_deeplink', 'onestopiitg://home2');
 
-    await HomeWidget.updateWidget(androidName: _androidWidgetName, iOSName: _iosWidgetName);
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      HomeWidget.updateWidget(androidName: _androidWidgetName, iOSName: _iosWidgetName);
+    });
   }
 }

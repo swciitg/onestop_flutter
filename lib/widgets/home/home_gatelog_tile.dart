@@ -4,6 +4,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
+import 'package:onestop_dev/services/home_gatelog_widget_service.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/home/home_widget.dart';
@@ -56,9 +57,20 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
       );
       final res = await api.serverDio.get('/history', queryParameters: {'page': '1', 'size': '1'});
       final history = res.data['history'] as List;
-      if (history.isEmpty) return null;
+      if (history.isEmpty) {
+        HomeGateLogWidgetService.syncGateLogStatus(isCheckedOut: false);
+        return null;
+      }
       final entry = history.first as Map<String, dynamic>;
-      if (entry['isClosed'] == true) return null;
+      if (entry['isClosed'] == true) {
+        HomeGateLogWidgetService.syncGateLogStatus(isCheckedOut: false);
+        return null;
+      }
+      // Open entry = checked out
+      HomeGateLogWidgetService.syncGateLogStatus(
+        isCheckedOut: true,
+        destination: entry['destination'] as String?,
+      );
       return entry;
     } catch (_) {
       return null;

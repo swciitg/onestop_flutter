@@ -113,7 +113,7 @@ class TimetableHomeWidgetProvider : HomeWidgetProvider() {
 
             val classTimeStr = formatTime(currentClass.startEpoch)
             if (classTimeStr.isNotBlank()) {
-                views.setTextViewText(R.id.ttClassTime, "🕐 $classTimeStr")
+                views.setTextViewText(R.id.ttClassTime, classTimeStr)
                 views.setViewVisibility(R.id.ttClassTime, View.VISIBLE)
             } else {
                 views.setViewVisibility(R.id.ttClassTime, View.GONE)
@@ -129,7 +129,7 @@ class TimetableHomeWidgetProvider : HomeWidgetProvider() {
                 Triple(R.id.ttUpcoming3, R.id.ttUpcoming3Time, R.id.ttUpcoming3Course),
             )
 
-            for (i in 0 until 3) {
+            for (i in 0 until 2) {
                 val (cardId, timeId, courseId) = upcomingIds[i]
                 if (i < upcomingClasses.size) {
                     val c = upcomingClasses[i]
@@ -143,8 +143,8 @@ class TimetableHomeWidgetProvider : HomeWidgetProvider() {
                     views.setViewVisibility(cardId, View.GONE)
                 }
             }
-
-            views.setTextViewText(R.id.ttUpdatedAt, "Updated ${formatTime(now)}")
+            // Always hide 3rd card in compact mode
+            views.setViewVisibility(R.id.ttUpcoming3, View.GONE)
 
             applyTheme(views, isDark, isOngoing, hasClasses = true)
             setupClickIntent(context, views, deepLink, appWidgetId)

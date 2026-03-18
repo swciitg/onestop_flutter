@@ -111,6 +111,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     actOnPendingShortcut();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Handle tab argument from deep link (e.g. onestopiitg://home2?tab=1)
+      final args = ModalRoute.of(context)?.settings.arguments;
+      if (args is Map<String, dynamic> && args.containsKey('tab')) {
+        final tab = args['tab'] as int?;
+        if (tab != null && tab >= 0 && tab < tabs.length) {
+          setState(() => index = tab);
+        }
+      }
       DeepLinkService.instance.handlePendingLink();
       final iconName = ThemeStore.instance.isDarkMode ? 'dark' : 'light';
       AppIconService.setIcon(iconName);

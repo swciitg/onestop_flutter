@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:app_links/app_links.dart';
 import 'package:onestop_dev/main.dart';
+import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
 
 class DeepLinkService {
@@ -23,9 +24,9 @@ class DeepLinkService {
     // Check if app was launched from a universal link
     try {
       final initialUri = await _appLinks.getInitialLink();
-      if (initialUri != null && _isOnestopLink(initialUri)) {
+      if (initialUri != null && _isHandledLink(initialUri)) {
         _pendingUri = initialUri;
-        log('Initial universal link: $initialUri', name: 'DeepLinkService');
+        log('Initial deep link: $initialUri', name: 'DeepLinkService');
       }
     } catch (e) {
       log('Error getting initial link: $e', name: 'DeepLinkService');
@@ -34,8 +35,8 @@ class DeepLinkService {
     // Listen for links while app is running
     _subscription = _appLinks.uriLinkStream.listen((Uri uri) {
       log('Received link: $uri', name: 'DeepLinkService');
-      if (_isOnestopLink(uri)) {
-        _handleOnestopLink(uri);
+      if (_isHandledLink(uri)) {
+        _handleLink(uri);
       }
     });
   }
@@ -46,41 +47,85 @@ class DeepLinkService {
     final uri = _pendingUri!;
     _pendingUri = null;
     log('Handling pending link: $uri', name: 'DeepLinkService');
-    _handleOnestopLink(uri);
+    _handleLink(uri);
   }
 
-  bool _isOnestopLink(Uri uri) {
-    return uri.scheme == 'https' &&
+  bool _isHandledLink(Uri uri) {
+    // Universal links: https://swc.iitg.ac.in/onestop/...
+    if (uri.scheme == 'https' &&
         uri.host == 'swc.iitg.ac.in' &&
-        uri.path.startsWith('/onestop');
+        uri.path.startsWith('/onestop')) {
+      return true;
+    }
+    // Custom scheme from widgets: onestopiitg://gatelog, onestopiitg://home2
+    if (uri.scheme == 'onestopiitg' && uri.host != 'auth') {
+      return true;
+    }
+    return false;
   }
 
-  void _handleOnestopLink(Uri uri) {
-    // Strip the /onestop prefix to get the feature path
-    // e.g. /onestop/gatelog?destination=City → gatelog
+  void _handleLink(Uri uri) {
+    if (uri.scheme == 'onestopiitg') {
+      _handleCustomSchemeLink(uri);
+    } else {
+      _handleUniversalLink(uri);
+    }
+  }
+
+  /// Handle onestopiitg://host?params links (from widgets)
+  void _handleCustomSchemeLink(Uri uri) {
+    final host = uri.host;
+    final params = uri.queryParameters;
+
+    log('Custom scheme: host=$host, params=$params', name: 'DeepLinkService');
+
+    switch (host) {
+      case 'gatelog':
+        _navigateToGateLog(params);
+        break;
+      case 'home2':
+        final tab = int.tryParse(params['tab'] ?? '') ?? 0;
+        navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          HomePage.id,
+          (route) => false,
+          arguments: {'tab': tab},
+        );
+        break;
+      default:
+        log('Unknown custom scheme host: $host', name: 'DeepLinkService');
+        break;
+    }
+  }
+
+  /// Handle https://swc.iitg.ac.in/onestop/... links
+  void _handleUniversalLink(Uri uri) {
     final path = uri.path.replaceFirst('/onestop', '').replaceAll(RegExp(r'^/+'), '');
     final params = uri.queryParameters;
 
-    log('Routing: path=$path, params=$params', name: 'DeepLinkService');
+    log('Universal link: path=$path, params=$params', name: 'DeepLinkService');
 
     switch (path) {
       case 'gatelog':
-        final args = <String, dynamic>{};
-        if (params.containsKey('destination')) {
-          args['destination'] = params['destination'];
-        }
-        if (params['autoCheckIn'] == 'true') {
-          args['autoCheckIn'] = true;
-        }
-        navigatorKey.currentState?.pushNamed(
-          GateLogPage.id,
-          arguments: args.isNotEmpty ? args : null,
-        );
+        _navigateToGateLog(params);
         break;
       default:
         log('Unknown deep link path: $path', name: 'DeepLinkService');
         break;
     }
+  }
+
+  void _navigateToGateLog(Map<String, String> params) {
+    final args = <String, dynamic>{};
+    if (params.containsKey('destination')) {
+      args['destination'] = params['destination'];
+    }
+    if (params['autoCheckIn'] == 'true') {
+      args['autoCheckIn'] = true;
+    }
+    navigatorKey.currentState?.pushNamed(
+      GateLogPage.id,
+      arguments: args.isNotEmpty ? args : null,
+    );
   }
 
   void dispose() {

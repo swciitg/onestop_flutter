@@ -166,34 +166,35 @@ struct WidgetColors {
     let timeOngoing: Color
     let timeUpcoming: Color
 
+    // OColor mappings from onestop_ui/lib/utils/colors.dart
     static func colors(isDark: Bool) -> WidgetColors {
         if isDark {
             return WidgetColors(
-                background: Color(red: 0x1E/255, green: 0x20/255, blue: 0x2D/255),
-                innerCard: Color(red: 0x16/255, green: 0x18/255, blue: 0x22/255),
-                ongoingCard: Color(red: 0x2D/255, green: 0x40/255, blue: 0x35/255),
-                upcomingCard: Color(red: 0x01/255, green: 0x21/255, blue: 0x51/255),
-                titleText: Color(red: 0xFF/255, green: 0xFD/255, blue: 0xFC/255),
-                dateText: Color(red: 0x6F/255, green: 0x6F/255, blue: 0x6F/255),
-                courseNameText: Color(red: 0x9B/255, green: 0x9B/255, blue: 0x9B/255),
-                statusOngoingBg: Color(red: 0x4C/255, green: 0xAF/255, blue: 0x50/255),
-                statusUpcomingBg: Color(red: 0x1E/255, green: 0x88/255, blue: 0xE5/255),
-                timeOngoing: Color(red: 0x38/255, green: 0x8E/255, blue: 0x3C/255),
-                timeUpcoming: Color(red: 0x1E/255, green: 0x88/255, blue: 0xE5/255)
+                background: Color(red: 0x26/255, green: 0x26/255, blue: 0x26/255),       // OColor.white (dark)
+                innerCard: Color(red: 0x1C/255, green: 0x1C/255, blue: 0x1C/255),        // OColor.gray100 (dark)
+                ongoingCard: Color(red: 0x2D/255, green: 0x40/255, blue: 0x35/255),       // OColor.green100 (dark)
+                upcomingCard: Color(red: 0x32/255, green: 0x32/255, blue: 0x32/255),      // OColor.gray200 (dark)
+                titleText: Color(red: 0xFD/255, green: 0xFD/255, blue: 0xFC/255),         // OColor.black (dark)
+                dateText: Color(red: 0x6F/255, green: 0x6F/255, blue: 0x6F/255),          // OColor.gray500 (dark)
+                courseNameText: Color(red: 0x9B/255, green: 0x9B/255, blue: 0x9B/255),    // OColor.gray600 (dark)
+                statusOngoingBg: Color(red: 0x14/255, green: 0xBD/255, blue: 0x56/255),   // OColor.green500 (dark)
+                statusUpcomingBg: Color(red: 0x38/255, green: 0x87/255, blue: 0xFF/255),  // OColor.blue500 (dark)
+                timeOngoing: Color(red: 0x08/255, green: 0x5E/255, blue: 0x2A/255),       // OColor.green700 (dark)
+                timeUpcoming: Color(red: 0x1A/255, green: 0x75/255, blue: 0xFF/255)       // OColor.blue600 (dark)
             )
         } else {
             return WidgetColors(
-                background: Color.white,
-                innerCard: Color(red: 0xF4/255, green: 0xF5/255, blue: 0xF5/255),
-                ongoingCard: Color(red: 0xDC/255, green: 0xEF/255, blue: 0xE4/255),
-                upcomingCard: Color(red: 0xD6/255, green: 0xE6/255, blue: 0xFF/255),
-                titleText: Color.black,
-                dateText: Color(red: 0x98/255, green: 0x99/255, blue: 0x9F/255),
-                courseNameText: Color(red: 0x6E/255, green: 0x6F/255, blue: 0x77/255),
-                statusOngoingBg: Color(red: 0x4C/255, green: 0xAF/255, blue: 0x50/255),
-                statusUpcomingBg: Color(red: 0x1E/255, green: 0x88/255, blue: 0xE5/255),
-                timeOngoing: Color(red: 0x38/255, green: 0x8E/255, blue: 0x3C/255),
-                timeUpcoming: Color(red: 0x1E/255, green: 0x88/255, blue: 0xE5/255)
+                background: Color.white,                                                    // OColor.white (light)
+                innerCard: Color(red: 0xF4/255, green: 0xF5/255, blue: 0xF5/255),         // OColor.gray100 (light)
+                ongoingCard: Color(red: 0xDC/255, green: 0xEF/255, blue: 0xE4/255),       // OColor.green100 (light)
+                upcomingCard: Color(red: 0xD6/255, green: 0xE6/255, blue: 0xFF/255),      // OColor.blue100 (light)
+                titleText: Color.black,                                                     // OColor.black (light)
+                dateText: Color(red: 0x98/255, green: 0x99/255, blue: 0x9F/255),          // OColor.gray500 (light)
+                courseNameText: Color(red: 0x6E/255, green: 0x6F/255, blue: 0x77/255),    // OColor.gray600 (light)
+                statusOngoingBg: Color(red: 0x1A/255, green: 0xB0/255, blue: 0x56/255),   // OColor.green500 (light)
+                statusUpcomingBg: Color(red: 0x00/255, green: 0x5F/255, blue: 0xF0/255),  // OColor.blue500 (light)
+                timeOngoing: Color(red: 0x08/255, green: 0x5E/255, blue: 0x2A/255),       // OColor.green700 (light)
+                timeUpcoming: Color(red: 0x00/255, green: 0x4B/255, blue: 0xBD/255)       // OColor.blue600 (light)
             )
         }
     }
@@ -298,7 +299,8 @@ struct TimetableWidgetEntryView: View {
                 }
             }
         }
-        .padding(14)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 12)
         .widgetBackground(colors.background)
     }
 
@@ -396,7 +398,9 @@ struct TimetableWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TimetableProvider()) { entry in
-            TimetableWidgetEntryView(entry: entry)
+            Link(destination: URL(string: entry.deeplink)!) {
+                TimetableWidgetEntryView(entry: entry)
+            }
         }
         .configurationDisplayName("Time Table")
         .description("View your current and upcoming classes.")
@@ -404,11 +408,273 @@ struct TimetableWidget: Widget {
     }
 }
 
+// MARK: - Food Widget
+
+struct FoodEntry: TimelineEntry {
+    let date: Date
+    let mealName: String
+    let mealItems: [String]
+    let endTime: String
+    let isDark: Bool
+    let deeplink: String
+}
+
+struct FoodProvider: TimelineProvider {
+    private let appGroupId = "group.com.swciitg.onestop2"
+
+    func placeholder(in context: Context) -> FoodEntry {
+        FoodEntry(date: Date(), mealName: "Lunch", mealItems: [], endTime: "", isDark: false, deeplink: "onestopiitg://home2?tab=1")
+    }
+
+    func getSnapshot(in context: Context, completion: @escaping (FoodEntry) -> Void) {
+        completion(buildEntry())
+    }
+
+    func getTimeline(in context: Context, completion: @escaping (Timeline<FoodEntry>) -> Void) {
+        let entry = buildEntry()
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+        completion(Timeline(entries: [entry], policy: .after(nextUpdate)))
+    }
+
+    private func buildEntry() -> FoodEntry {
+        let defaults = UserDefaults(suiteName: appGroupId)
+        let isDark = defaults?.bool(forKey: "food_is_dark") ?? false
+        let deeplink = defaults?.string(forKey: "food_deeplink") ?? "onestopiitg://home2?tab=1"
+        let mealName = defaults?.string(forKey: "food_meal_name") ?? currentMealName()
+        let endTime = defaults?.string(forKey: "food_end_time") ?? ""
+        let itemsStr = defaults?.string(forKey: "food_meal_items") ?? ""
+        let items = itemsStr.split(separator: "\n").map(String.init).filter { !$0.isEmpty }
+
+        return FoodEntry(date: Date(), mealName: mealName, mealItems: items, endTime: endTime, isDark: isDark, deeplink: deeplink)
+    }
+
+    private func currentMealName() -> String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        let minute = Calendar.current.component(.minute, from: Date())
+        if hour < 10 { return "Breakfast" }
+        if hour < 14 || (hour == 14 && minute <= 30) { return "Lunch" }
+        return "Dinner"
+    }
+}
+
+struct FoodWidgetEntryView: View {
+    var entry: FoodEntry
+
+    private var colors: WidgetColors {
+        WidgetColors.colors(isDark: entry.isDark)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Food")
+                .font(.system(size: 14, weight: .bold))
+                .foregroundColor(colors.titleText)
+
+            if entry.mealItems.isEmpty {
+                Text(entry.mealName.uppercased())
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundColor(colors.dateText)
+                Spacer()
+                Text("No menu data")
+                    .font(.system(size: 12))
+                    .foregroundColor(colors.dateText)
+                Spacer()
+            } else {
+                let badge = entry.endTime.isEmpty
+                    ? entry.mealName.uppercased()
+                    : "\(entry.mealName.uppercased()) \u{2022} ENDS \(entry.endTime)"
+                Text(badge)
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundColor(colors.dateText)
+
+                ForEach(entry.mealItems.prefix(4), id: \.self) { item in
+                    Text(item)
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(colors.titleText)
+                        .lineLimit(1)
+                }
+            }
+
+            Spacer(minLength: 0)
+        }
+        .padding(12)
+        .widgetBackground(colors.background)
+    }
+}
+
+struct FoodWidget: Widget {
+    let kind: String = "FoodWidget"
+
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: FoodProvider()) { entry in
+            Link(destination: URL(string: entry.deeplink)!) {
+                FoodWidgetEntryView(entry: entry)
+            }
+        }
+        .configurationDisplayName("Food")
+        .description("View current meal menu.")
+        .supportedFamilies([.systemSmall])
+    }
+}
+
+// MARK: - GateLog Widget
+
+struct GateLogEntry: TimelineEntry {
+    let date: Date
+    let isCheckedOut: Bool
+    let destination: String
+    let isDark: Bool
+    let gateInfo: String
+}
+
+struct GateLogProvider: TimelineProvider {
+    private let appGroupId = "group.com.swciitg.onestop2"
+
+    func placeholder(in context: Context) -> GateLogEntry {
+        GateLogEntry(date: Date(), isCheckedOut: false, destination: "", isDark: false, gateInfo: "")
+    }
+
+    func getSnapshot(in context: Context, completion: @escaping (GateLogEntry) -> Void) {
+        completion(buildEntry())
+    }
+
+    func getTimeline(in context: Context, completion: @escaping (Timeline<GateLogEntry>) -> Void) {
+        let entry = buildEntry()
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 5, to: Date())!
+        completion(Timeline(entries: [entry], policy: .after(nextUpdate)))
+    }
+
+    private func buildEntry() -> GateLogEntry {
+        let defaults = UserDefaults(suiteName: appGroupId)
+        let isDark = defaults?.bool(forKey: "gl_is_dark") ?? false
+        let isCheckedOut = defaults?.bool(forKey: "gl_is_checked_out") ?? false
+        let destination = defaults?.string(forKey: "gl_destination") ?? ""
+
+        return GateLogEntry(date: Date(), isCheckedOut: isCheckedOut, destination: destination, isDark: isDark, gateInfo: computeGateInfo())
+    }
+
+    private func computeGateInfo() -> String {
+        let now = Date()
+        let cal = Calendar.current
+        let hour = cal.component(.hour, from: now)
+        let minute = cal.component(.minute, from: now)
+        let totalMinutes = hour * 60 + minute
+
+        let khokhaClose = 22 * 60
+        let kvClose = 22 * 60 + 30
+
+        let khokhaLeft = khokhaClose - totalMinutes
+        let kvLeft = kvClose - totalMinutes
+
+        if khokhaLeft > 0 {
+            return "KHOKHA CLOSES IN \(formatRemaining(khokhaLeft))"
+        } else if kvLeft > 0 {
+            return "KV GATE CLOSES IN \(formatRemaining(kvLeft))"
+        } else {
+            return "ENTER VIA MAIN GATE"
+        }
+    }
+
+    private func formatRemaining(_ totalMinutes: Int) -> String {
+        let hours = totalMinutes / 60
+        let mins = totalMinutes % 60
+        var parts: [String] = []
+        if hours > 0 { parts.append("\(hours) \(hours == 1 ? "HR" : "HRS")") }
+        if mins > 0 { parts.append("\(mins) \(mins == 1 ? "MIN" : "MINS")") }
+        return parts.joined(separator: " ")
+    }
+}
+
+struct GateLogWidgetEntryView: View {
+    var entry: GateLogEntry
+
+    private var colors: WidgetColors {
+        WidgetColors.colors(isDark: entry.isDark)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Gatelog")
+                .font(.system(size: 14, weight: .bold))
+                .foregroundColor(entry.isCheckedOut ? colors.statusOngoingBg : colors.titleText)
+
+            if entry.isCheckedOut {
+                // Checked-out state
+                Spacer()
+                Text("Check into\nCampus")
+                    .font(.system(size: 13))
+                    .foregroundColor(colors.courseNameText)
+
+                if !entry.gateInfo.isEmpty {
+                    Text(entry.gateInfo)
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundColor(colors.dateText)
+                }
+
+                Spacer()
+
+                Text("Check-In")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(colors.statusOngoingBg)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 7)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(entry.isDark ? Color(white: 0.23) : Color(red: 0xD1/255, green: 0xD2/255, blue: 0xD6/255), lineWidth: 1)
+                    )
+            } else {
+                // Default state: 3 buttons
+                Spacer()
+
+                buttonView("To City")
+                buttonView("To Khokha")
+                buttonView("Others")
+            }
+        }
+        .padding(12)
+        .widgetBackground(colors.background)
+    }
+
+    @ViewBuilder
+    private func buttonView(_ title: String) -> some View {
+        Text(title)
+            .font(.system(size: 12, weight: .bold))
+            .foregroundColor(colors.statusOngoingBg)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 7)
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(entry.isDark ? Color(white: 0.23) : Color(red: 0xD1/255, green: 0xD2/255, blue: 0xD6/255), lineWidth: 1)
+            )
+    }
+}
+
+struct GateLogWidget: Widget {
+    let kind: String = "GateLogWidget"
+
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: GateLogProvider()) { entry in
+            // iOS .systemSmall only supports single tap — route based on state
+            let url = entry.isCheckedOut
+                ? "onestopiitg://gatelog?autoCheckIn=true"
+                : "onestopiitg://gatelog"
+            Link(destination: URL(string: url)!) {
+                GateLogWidgetEntryView(entry: entry)
+            }
+        }
+        .configurationDisplayName("Gatelog")
+        .description("Quick checkout/checkin from home screen.")
+        .supportedFamilies([.systemSmall])
+    }
+}
+
 // MARK: - Widget Bundle
 
 @main
-struct TimetableWidgetBundle: WidgetBundle {
+struct OneStopWidgetBundle: WidgetBundle {
     var body: some Widget {
         TimetableWidget()
+        FoodWidget()
+        GateLogWidget()
     }
 }

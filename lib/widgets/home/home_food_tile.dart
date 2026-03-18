@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/models/food/mess_menu_model.dart';
 import 'package:onestop_dev/services/data_service.dart';
+import 'package:onestop_dev/services/home_food_widget_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/home/home_widget.dart';
 import 'package:onestop_kit/onestop_kit.dart';
@@ -28,7 +29,24 @@ class HomeFoodTile extends StatelessWidget {
     final mess =
         OneStopUser.fromJson(LoginStore.userData).subscribedMess?.getMessFromDatabaseString() ??
         Mess.values.first;
-    return DataService.getMealData(mess: mess, day: _currentDay(), mealType: _currentMealName());
+    final meal = await DataService.getMealData(mess: mess, day: _currentDay(), mealType: _currentMealName());
+
+    // Sync to home screen widget with already-fetched data (no re-fetch)
+    final mealName = _currentMealName();
+    final endTime = DateFormat('h:mm a').format(meal.endTiming);
+    final items = meal.mealDescription
+        .split(RegExp(r'[,;\n]'))
+        .map((e) => e.trim().replaceFirst(RegExp(r'^\d+\.\s*'), ''))
+        .where((e) => e.isNotEmpty)
+        .take(4)
+        .join('\n');
+    HomeFoodWidgetService.syncMealData(
+      mealName: mealName,
+      endTime: endTime,
+      items: items,
+    );
+
+    return meal;
   }
 
   @override

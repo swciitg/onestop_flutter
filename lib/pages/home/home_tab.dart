@@ -68,6 +68,7 @@ class _HomeTabState extends State<HomeTab> {
     var mapStore = context.read<MapBoxStore>();
     mapStore.checkTravelPage(false);
     final imageWidth = MediaQuery.of(context).size.width - 16;
+    final imageHeight = imageWidth * 9 / 16;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ClipRRect(
@@ -76,7 +77,7 @@ class _HomeTabState extends State<HomeTab> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              _imageCarousel(imageWidth),
+              _imageCarousel(imageWidth, imageHeight),
 
               if (widget.showBagReminder)
                 SafeArea(
@@ -178,7 +179,7 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  Widget _imageCarousel(double imageWidth) {
+  Widget _imageCarousel(double imageWidth, double imageHeight) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: FutureBuilder<List<HomeImageModel>>(
@@ -190,7 +191,7 @@ class _HomeTabState extends State<HomeTab> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(OCornerRadius.l),
                 child: Container(
-                  height: imageWidth,
+                  height: imageHeight,
                   color: OColor.gray200,
                   child: Center(child: ErrorReloadButton(reloadCallback: callSetState)),
                 ),
@@ -200,7 +201,7 @@ class _HomeTabState extends State<HomeTab> {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
+                borderRadius: BorderRadius.circular(OCornerRadius.l),
                 child: cachedImagePlaceholder(context, ''),
               ),
             );
@@ -224,7 +225,7 @@ class _HomeTabState extends State<HomeTab> {
                           }
                         },
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
+                          borderRadius: BorderRadius.circular(OCornerRadius.l),
                           child: CachedNetworkImage(
                             width: imageWidth,
                             imageUrl: image.imageUrl,
@@ -242,12 +243,12 @@ class _HomeTabState extends State<HomeTab> {
                       );
                     }).toList(),
                 options: CarouselOptions(
-                  height: imageWidth,
+                  height: imageHeight,
                   viewportFraction: 1,
                   animateToClosest: false,
                   enableInfiniteScroll: false,
                   padEnds: false,
-                  aspectRatio: 1,
+                  aspectRatio: 16 / 9,
                   onPageChanged: (index, reason) {
                     setState(() {
                       activePageIndex = index;

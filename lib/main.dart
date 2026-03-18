@@ -8,6 +8,8 @@ import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/services/notifications_service.dart';
 import 'package:onestop_dev/services/app_shortcuts_service.dart';
 import 'package:onestop_dev/services/deep_link_service.dart';
+import 'package:onestop_dev/services/home_food_widget_service.dart';
+import 'package:onestop_dev/services/home_gatelog_widget_service.dart';
 import 'package:onestop_dev/services/home_timetable_widget_service.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/event_store.dart';
@@ -43,6 +45,8 @@ void main() async {
   await AppShortcutsService.initialize();
   await DeepLinkService.instance.initialize();
   await HomeTimetableWidgetService.initialize();
+  await HomeFoodWidgetService.initialize();
+  await HomeGateLogWidgetService.initialize();
   await ThemeStore.instance.initTheme();
 
   runApp(const MyApp());
