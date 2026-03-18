@@ -20,7 +20,7 @@ class WelcomeHeader extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [OColor.green600, const Color(0xFFDCEFE4)],
+          colors: [Color(0xFF148440), const Color(0xFFDCEFE4)],
         ),
       ),
       child: SafeArea(
@@ -43,8 +43,8 @@ class WelcomeHeader extends StatelessWidget {
                     'Welcome to the\nall new Onestop',
                     textAlign: TextAlign.center,
                     style: OTextStyle.displayXSmall.copyWith(
-                      color: OColor.gray800,
-                      fontSize: 45,
+                      color: Color(0xFF232329),
+                      fontSize: 43,
                       fontWeight: FontWeight.w500,
                       letterSpacing: -1.5,
                     ),
@@ -65,7 +65,7 @@ class WelcomeHeader extends StatelessWidget {
                     'All the features you use every day, now thoughtfully redesigned.',
                     textAlign: TextAlign.center,
                     style: OTextStyle.labelMedium.copyWith(
-                      color: OColor.gray800.withOpacity(0.8),
+                      color: Color(0xFF232329).withOpacity(0.8),
                       letterSpacing: -0.76,
                     ),
                   ),
@@ -77,7 +77,7 @@ class WelcomeHeader extends StatelessWidget {
                       padding: const EdgeInsets.all(10),
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: OColor.green600,
+                        color: Color(0xFF148440),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Row(
@@ -123,7 +123,7 @@ class WelcomeHeader extends StatelessWidget {
                           'Continue as Guest',
                           style: MyFonts.w600.copyWith(
                             fontSize: 14,
-                            color: OColor.gray800,
+                            color: Color(0xFF232329),
                           ),
                         ),
                       ),
@@ -170,7 +170,7 @@ class _DancingServiceMarqueeState extends State<DancingServiceMarquee>
     super.initState();
     _scrollController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 40),
+      duration: const Duration(seconds: 20),
     )..repeat();
   }
 
@@ -182,12 +182,12 @@ class _DancingServiceMarqueeState extends State<DancingServiceMarquee>
 
   @override
   Widget build(BuildContext context) {
-    const iconSize = 40.0;
+    const iconBaseSize = 40.0;
     const spacing = 40.0;
-    final totalWidth = (iconSize + spacing) * iconPaths.length;
+    final totalWidth = (iconBaseSize + spacing) * iconPaths.length;
 
     return SizedBox(
-      height: iconSize + 20,
+      height: iconBaseSize + 40,
       child: AnimatedBuilder(
         animation: _scrollController,
         builder: (context, child) {
@@ -262,7 +262,7 @@ class _DancingIconState extends State<_DancingIcon>
       CurvedAnimation(parent: _danceController, curve: Curves.easeInOut),
     );
 
-    _scale = Tween<double>(begin: 0.9, end: 1.1).animate(
+    _scale = Tween<double>(begin: 0.7, end: 1.3).animate(
       CurvedAnimation(parent: _danceController, curve: Curves.easeInOut),
     );
 
@@ -287,7 +287,7 @@ class _DancingIconState extends State<_DancingIcon>
           scale: _scale.value,
           child: Transform.rotate(
             angle: _rotation.value,
-            child: SvgPicture.asset(widget.iconPath, height: 30),
+            child: SvgPicture.asset(widget.iconPath, height: 40),
           ),
         );
       },

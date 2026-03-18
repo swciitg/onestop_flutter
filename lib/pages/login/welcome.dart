@@ -29,7 +29,7 @@ class _WelcomePageState extends State<WelcomePage> {
     final dev = (const String.fromEnvironment("ENV")) == "dev";
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: OColor.green600,
+        statusBarColor: Color(0xFF148440),
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.dark,
       ),
