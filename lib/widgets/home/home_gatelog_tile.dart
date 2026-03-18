@@ -53,10 +53,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
         onestopSecurityKey: _securityKey,
         onRefreshTokenExpired: () async {},
       );
-      final res = await api.serverDio.get(
-        '/history',
-        queryParameters: {'page': '1', 'size': '1'},
-      );
+      final res = await api.serverDio.get('/history', queryParameters: {'page': '1', 'size': '1'});
       final history = res.data['history'] as List;
       if (history.isEmpty) return null;
       final entry = history.first as Map<String, dynamic>;
@@ -76,11 +73,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
       final bagInLibrary = context.read<CommonStore>().isBagInLibrary;
       if (bagInLibrary) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              "Retrieve the bag from the library in order to checkout",
-            ),
-          ),
+          const SnackBar(content: Text("Retrieve the bag from the library in order to checkout")),
         );
         return;
       }
@@ -162,9 +155,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
     return Observer(
       builder: (context) {
         final bagInLibrary =
-            LoginStore.isGuest
-                ? false
-                : context.read<CommonStore>().isBagInLibrary;
+            LoginStore.isGuest ? false : context.read<CommonStore>().isBagInLibrary;
 
         Widget tile;
         if (LoginStore.isGuest || _entryFuture == null) {
@@ -189,10 +180,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
     );
   }
 
-  Widget _buildCheckedOutTile(
-    BuildContext context,
-    Map<String, dynamic> entry,
-  ) {
+  Widget _buildCheckedOutTile(BuildContext context, Map<String, dynamic> entry) {
     final gateInfo = _gateClosingInfo();
     return GestureDetector(
       onTap: () => _navigateToGateLog(context),
@@ -213,11 +201,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
                     ),
                   ),
                 ),
-                Icon(
-                  FluentIcons.chevron_right_24_regular,
-                  color: OColor.gray400,
-                  size: 16,
-                ),
+                Icon(FluentIcons.chevron_right_24_regular, color: OColor.gray400, size: 16),
               ],
             ),
             const Spacer(),
@@ -236,10 +220,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
               onTap: () => _navigateToGateLog(context, autoCheckIn: true),
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 12,
-                ),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 decoration: BoxDecoration(
                   border: Border.all(color: OColor.gray300),
                   borderRadius: BorderRadius.circular(20),
@@ -280,25 +261,17 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
                     ),
                   ),
                 ),
-                Icon(
-                  FluentIcons.chevron_right_24_regular,
-                  color: OColor.gray400,
-                  size: 16,
-                ),
+                Icon(FluentIcons.chevron_right_24_regular, color: OColor.gray400, size: 16),
               ],
             ),
             const Spacer(),
-            const SizedBox(height: 44),
             Column(
               children: [
                 GestureDetector(
                   onTap: () => _navigateToGateLog(context, destination: 'City'),
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 12,
-                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     decoration: BoxDecoration(
                       border: Border.all(color: OColor.gray300),
                       borderRadius: BorderRadius.circular(20),
@@ -315,20 +288,36 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
                 ),
                 const SizedBox(height: 8),
                 GestureDetector(
-                  onTap:
-                      () => _navigateToGateLog(context, destination: 'Khokha'),
+                  onTap: () => _navigateToGateLog(context, destination: 'Khokha'),
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 12,
-                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     decoration: BoxDecoration(
                       border: Border.all(color: OColor.gray300),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: OText(
                       text: 'To Khoka',
+                      style: OTextStyle.bodySmall.copyWith(
+                        color: OColor.green600,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () => _navigateToGateLog(context, destination: 'Others'),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: OColor.gray300),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: OText(
+                      text: 'Others',
                       style: OTextStyle.bodySmall.copyWith(
                         color: OColor.green600,
                         fontWeight: FontWeight.w500,

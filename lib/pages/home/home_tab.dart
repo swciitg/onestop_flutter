@@ -122,9 +122,7 @@ class _HomeTabState extends State<HomeTab> {
                         child: HomeAutoScrollTile(
                           duration: const Duration(seconds: 3),
                           children: [
-                            HomeFoodTile(
-                              moveToFoodMenu: widget.moveToFoodMenuSection,
-                            ),
+                            HomeFoodTile(moveToFoodMenu: widget.moveToFoodMenuSection),
                             const HomeSuggestionTile(),
                           ],
                         ),
@@ -166,21 +164,13 @@ class _HomeTabState extends State<HomeTab> {
 
         List<Widget> widgets = [];
         if (mode == ExamMode.upcoming) {
-          widgets.add(
-            DateExam(moveToTimeTableView: widget.moveToTimeTableView),
-          );
+          widgets.add(DateExam(moveToTimeTableView: widget.moveToTimeTableView));
           widgets.add(const SizedBox(height: 8));
-          widgets.add(
-            DateCourse(moveToTimeTableView: widget.moveToTimeTableView),
-          );
+          widgets.add(DateCourse(moveToTimeTableView: widget.moveToTimeTableView));
         } else if (mode == ExamMode.during) {
-          widgets.add(
-            DateExam(moveToTimeTableView: widget.moveToTimeTableView),
-          );
+          widgets.add(DateExam(moveToTimeTableView: widget.moveToTimeTableView));
         } else {
-          widgets.add(
-            DateCourse(moveToTimeTableView: widget.moveToTimeTableView),
-          );
+          widgets.add(DateCourse(moveToTimeTableView: widget.moveToTimeTableView));
         }
 
         return Column(mainAxisSize: MainAxisSize.min, children: widgets);
@@ -202,9 +192,7 @@ class _HomeTabState extends State<HomeTab> {
                 child: Container(
                   height: imageWidth,
                   color: OColor.gray200,
-                  child: Center(
-                    child: ErrorReloadButton(reloadCallback: callSetState),
-                  ),
+                  child: Center(child: ErrorReloadButton(reloadCallback: callSetState)),
                 ),
               ),
             );
@@ -246,9 +234,7 @@ class _HomeTabState extends State<HomeTab> {
                                 (context, url, error) => Container(
                                   color: OColor.gray200,
                                   child: Center(
-                                    child: ErrorReloadButton(
-                                      reloadCallback: callSetState,
-                                    ),
+                                    child: ErrorReloadButton(reloadCallback: callSetState),
                                   ),
                                 ),
                           ),

@@ -39,6 +39,26 @@ var field = UITextField()
         dartDefinesDictionary[values[0]] = values[1]
     }
     GMSServices.provideAPIKey(dartDefinesDictionary["GMAP_KEY"] as? String ?? "")
+    // App icon switching channel
+    let iconChannel = FlutterMethodChannel(name: "com.swciitg.onestop2/app_icon", binaryMessenger: controller.binaryMessenger)
+    iconChannel.setMethodCallHandler { (call: FlutterMethodCall, result: @escaping FlutterResult) in
+      if call.method == "setAlternateIcon", let iconName = call.arguments as? String {
+        if UIApplication.shared.supportsAlternateIcons {
+          UIApplication.shared.setAlternateIconName(iconName) { error in
+            if let error = error {
+              result(FlutterError(code: "ICON_ERROR", message: error.localizedDescription, details: nil))
+            } else {
+              result(nil)
+            }
+          }
+        } else {
+          result(FlutterError(code: "NOT_SUPPORTED", message: "Alternate icons not supported", details: nil))
+        }
+      } else {
+        result(FlutterMethodNotImplemented)
+      }
+    }
+
     GeneratedPluginRegistrant.register(with: self)
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)

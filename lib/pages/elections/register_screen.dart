@@ -202,6 +202,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ],
           title: Text('Elections', style: OTextStyle.headingSmall.copyWith(color: OColor.gray800)),
+          systemOverlayStyle: Theme.of(
+            context,
+          ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
         ),
         body: VoterCard(email: widget.cachedEmail!, authCookie: widget.authCookie),
       );
