@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/home/home_widget.dart';
@@ -72,9 +73,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
     if (!LoginStore.isGuest) {
       final bagInLibrary = context.read<CommonStore>().isBagInLibrary;
       if (bagInLibrary) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Retrieve the bag from the library in order to checkout")),
-        );
+        showSnackBar("Retrieve the bag from the library in order to checkout");
         return;
       }
     }

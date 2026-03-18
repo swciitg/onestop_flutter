@@ -34,6 +34,9 @@
 		<string>$(GMAP_API_KEY)</string>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
+			<string>tel</string>
+			<string>sms</string>
+			<string>mailto</string>
 			<string>comgooglemaps</string>
 			<string>baidumap</string>
 			<string>iosamap</string>

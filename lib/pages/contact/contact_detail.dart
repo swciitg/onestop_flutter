@@ -98,7 +98,11 @@ class _CategorySheetContent extends StatelessWidget {
                     final contact = contactModel.contacts[index];
                     return InkWell(
                       onTap: () {
-                        showContactProfileSheet(context, details: contact, contactStore: context.read<ContactStore>());
+                        showContactProfileSheet(
+                          context,
+                          details: contact,
+                          contactStore: context.read<ContactStore>(),
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -144,7 +148,11 @@ class _CategorySheetContent extends StatelessWidget {
                             if (contact.contact.isNotEmpty && contact.contact != '123456789')
                               GestureDetector(
                                 onTap: () {
-                                  showContactProfileSheet(context, details: contact, contactStore: context.read<ContactStore>());
+                                  showContactProfileSheet(
+                                    context,
+                                    details: contact,
+                                    contactStore: context.read<ContactStore>(),
+                                  );
                                 },
                                 child: Icon(
                                   FluentIcons.call_24_regular,

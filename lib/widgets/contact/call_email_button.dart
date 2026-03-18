@@ -40,6 +40,7 @@ class ContactActionButton extends StatelessWidget {
     if (data.isEmpty) return const SizedBox.shrink();
 
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () async {
         try {
           switch (type) {

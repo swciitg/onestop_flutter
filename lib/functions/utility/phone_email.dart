@@ -1,21 +1,16 @@
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 Future<void> launchPhoneURL(String phoneNumber) async {
-  String url = 'tel:+91$phoneNumber';
-  if (await canLaunchUrlString(url)) {
-    await launchUrlString(url);
-  } else {
-    throw 'Could not launch $url';
+  final uri = Uri(scheme: 'tel', path: '+91$phoneNumber');
+  if (!await launchUrl(uri)) {
+    throw 'Could not launch $uri';
   }
 }
 
 Future<void> launchEmailURL(String email) async {
-  String url = 'mailto:$email?subject=&body=';
-  if (await canLaunchUrlString(url)) {
-    await launchUrlString(url);
-  } else {
-    throw 'Could not launch $url';
+  final uri = Uri(scheme: 'mailto', path: email);
+  if (!await launchUrl(uri)) {
+    throw 'Could not launch $uri';
   }
 }
 

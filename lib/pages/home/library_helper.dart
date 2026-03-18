@@ -51,10 +51,11 @@ Future<void> checkLibrarySlot({
         if (isBanned) {
           if (!isBannedDialogShowing) {
             setDialogShowing(true);
+            final parentNavigator = Navigator.of(context);
             showDialog(
               context: context,
               barrierDismissible: false,
-              builder: (context) {
+              builder: (dialogContext) {
                 return PopScope(
                   canPop: false,
                   child: AlertDialog(
@@ -98,12 +99,12 @@ Future<void> checkLibrarySlot({
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                           ),
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.of(dialogContext).pop();
                             setDialogShowing(false);
-                            Navigator.pushNamed(
-                              context,
+                            parentNavigator.pushNamed(
                               LibraryTokenScreen.id,
                             ).then((_) {
+                              if (!isMounted()) return;
                               checkLibrarySlot(
                                 context: context,
                                 isMounted: isMounted,
