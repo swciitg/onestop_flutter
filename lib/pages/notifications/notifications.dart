@@ -2,6 +2,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/pages/notifications/notification_settings.dart';
+import 'package:onestop_dev/pages/services/cab_share.dart';
+import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_dev/repository/notification_repository.dart';
 import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -178,6 +180,17 @@ class _NotificationPageState extends State<NotificationPage> {
         return 'View';
       default:
         return null;
+    }
+  }
+
+  void _navigateForCategory(String category) {
+    switch (category.toLowerCase()) {
+      case 'cabsharing':
+        Navigator.of(context).pushNamed(CabShare.id);
+        break;
+      case 'gatelog':
+        Navigator.of(context).pushNamed(GateLogPage.id);
+        break;
     }
   }
 
@@ -500,17 +513,20 @@ class _NotificationPageState extends State<NotificationPage> {
             ),
             if (action != null) ...[
               const SizedBox(width: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: OColor.gray300),
-                ),
-                child: Text(
-                  action,
-                  style: OTextStyle.labelSmall.copyWith(
-                    color: OColor.green600,
-                    fontWeight: FontWeight.w500,
+              GestureDetector(
+                onTap: () => _navigateForCategory(notif.category),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: OColor.gray300),
+                  ),
+                  child: Text(
+                    action,
+                    style: OTextStyle.labelSmall.copyWith(
+                      color: OColor.green600,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
