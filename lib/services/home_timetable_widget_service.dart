@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show Platform;
 
 import 'package:home_widget/home_widget.dart';
 import 'package:onestop_dev/models/timetable/timetable_day.dart';
@@ -7,10 +8,9 @@ import 'package:onestop_ui/index.dart';
 
 class HomeTimetableWidgetService {
   static const String _androidWidgetName = 'TimetableHomeWidgetProvider';
-  static const String _iosWidgetName = 'TimetableWidget';
+  static const _days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
   static Timer? _debounce;
-  static const _days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
   static Future<void> initialize() async {
     try {
@@ -41,11 +41,14 @@ class HomeTimetableWidgetService {
 
     await HomeWidget.saveWidgetData<String>('tt_week_data', jsonEncode(weekData));
     await HomeWidget.saveWidgetData<bool>('tt_is_dark', isDark);
-    await HomeWidget.saveWidgetData<String>('tt_deeplink', 'onestopiitg://home2');
+    await HomeWidget.saveWidgetData<String>('tt_deeplink', 'onestopiitg://timetable');
 
-    _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
-      HomeWidget.updateWidget(androidName: _androidWidgetName, iOSName: _iosWidgetName);
-    });
+    // On iOS, skip updateWidget — see HomeFoodWidgetService for details.
+    if (Platform.isAndroid) {
+      _debounce?.cancel();
+      _debounce = Timer(const Duration(milliseconds: 500), () {
+        HomeWidget.updateWidget(androidName: _androidWidgetName);
+      });
+    }
   }
 }

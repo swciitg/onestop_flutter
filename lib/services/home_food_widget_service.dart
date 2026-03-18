@@ -1,11 +1,11 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 
 import 'package:home_widget/home_widget.dart';
 import 'package:onestop_ui/index.dart';
 
 class HomeFoodWidgetService {
   static const String _androidWidgetName = 'FoodHomeWidgetProvider';
-  static const String _iosWidgetName = 'FoodWidget';
 
   static Timer? _debounce;
 
@@ -30,14 +30,16 @@ class HomeFoodWidgetService {
       await HomeWidget.saveWidgetData<bool>('food_is_dark', isDark);
       await HomeWidget.saveWidgetData<String>('food_deeplink', 'onestopiitg://home2?tab=1');
 
-      // Debounce the native widget refresh to avoid rapid-fire updates
-      _debounce?.cancel();
-      _debounce = Timer(const Duration(milliseconds: 500), () {
-        HomeWidget.updateWidget(
-          androidName: _androidWidgetName,
-          iOSName: _iosWidgetName,
-        );
-      });
+      // On iOS, skip updateWidget — WidgetKit's reloadTimelines triggers a
+      // scene-snapshot that recursively traverses Flutter's deep UIView tree
+      // (24 000+ levels), causing a stack overflow. iOS widgets use timeline
+      // refresh to pick up new UserDefaults data instead.
+      if (Platform.isAndroid) {
+        _debounce?.cancel();
+        _debounce = Timer(const Duration(milliseconds: 500), () {
+          HomeWidget.updateWidget(androidName: _androidWidgetName);
+        });
+      }
     } catch (_) {}
   }
 }

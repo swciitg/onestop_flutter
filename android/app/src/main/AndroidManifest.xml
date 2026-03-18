@@ -57,6 +57,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="onestopiitg" android:host="gatelog" />
                 <data android:scheme="onestopiitg" android:host="home2" />
+                <data android:scheme="onestopiitg" android:host="timetable" />
             </intent-filter>
             <!-- Universal links for swc.iitg.ac.in -->
             <intent-filter android:autoVerify="true">

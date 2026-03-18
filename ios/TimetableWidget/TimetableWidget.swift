@@ -43,7 +43,7 @@ struct TimetableProvider: TimelineProvider {
             currentClass: nil,
             upcomingClasses: [],
             isDark: false,
-            deeplink: "onestopiitg://home2",
+            deeplink: "onestopiitg://timetable",
             isWeekend: false,
             noClasses: true
         )
@@ -64,7 +64,7 @@ struct TimetableProvider: TimelineProvider {
     private func buildEntry() -> TimetableEntry {
         let defaults = UserDefaults(suiteName: appGroupId)
         let isDark = defaults?.bool(forKey: "tt_is_dark") ?? false
-        let deeplink = defaults?.string(forKey: "tt_deeplink") ?? "onestopiitg://home2"
+        let deeplink = defaults?.string(forKey: "tt_deeplink") ?? "onestopiitg://timetable"
 
         let calendar = Calendar.current
         let weekday = calendar.component(.weekday, from: Date())

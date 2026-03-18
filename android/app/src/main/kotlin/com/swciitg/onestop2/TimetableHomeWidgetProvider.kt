@@ -33,7 +33,7 @@ class TimetableHomeWidgetProvider : HomeWidgetProvider() {
             val views = RemoteViews(context.packageName, R.layout.timetable_home_widget)
 
             val weekJson = widgetData.getString("tt_week_data", null)
-            val deepLink = widgetData.getString("tt_deeplink", "onestopiitg://home2") ?: "onestopiitg://home2"
+            val deepLink = widgetData.getString("tt_deeplink", "onestopiitg://timetable") ?: "onestopiitg://timetable"
             val isDark = widgetData.getBoolean("tt_is_dark", false)
 
             val now = System.currentTimeMillis()

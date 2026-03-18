@@ -5,6 +5,7 @@ import 'package:app_links/app_links.dart';
 import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
+import 'package:onestop_dev/pages/timetable/timetable_page.dart';
 
 class DeepLinkService {
   static final DeepLinkService _instance = DeepLinkService._();
@@ -84,12 +85,18 @@ class DeepLinkService {
         _navigateToGateLog(params);
         break;
       case 'home2':
-        final tab = int.tryParse(params['tab'] ?? '') ?? 0;
-        navigatorKey.currentState?.pushNamedAndRemoveUntil(
-          HomePage.id,
-          (route) => false,
-          arguments: {'tab': tab},
-        );
+        final tab = int.tryParse(params['tab'] ?? '');
+        final nav = navigatorKey.currentState;
+        if (nav == null) break;
+        // Pop back to the existing HomePage instead of pushing a new one
+        // (pushing creates duplicate GlobalKeys and crashes).
+        nav.popUntil((route) => route.settings.name == HomePage.id || route.isFirst);
+        if (tab != null) {
+          HomePage.pendingTab.value = tab;
+        }
+        break;
+      case 'timetable':
+        navigatorKey.currentState?.pushNamed(TimetablePage.id);
         break;
       default:
         log('Unknown custom scheme host: $host', name: 'DeepLinkService');

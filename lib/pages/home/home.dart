@@ -25,6 +25,9 @@ final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 class HomePage extends StatefulWidget {
   static String id = "/home2";
 
+  /// Used by DeepLinkService to signal a tab switch without pushing a new route.
+  static final ValueNotifier<int?> pendingTab = ValueNotifier(null);
+
   const HomePage({super.key});
 
   @override
@@ -110,6 +113,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     _checkLibrarySlot();
     WidgetsBinding.instance.addObserver(this);
     actOnPendingShortcut();
+    HomePage.pendingTab.addListener(_onPendingTab);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Handle tab argument from deep link (e.g. onestopiitg://home2?tab=1)
       final args = ModalRoute.of(context)?.settings.arguments;
@@ -123,6 +127,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       final iconName = ThemeStore.instance.isDarkMode ? 'dark' : 'light';
       AppIconService.setIcon(iconName);
     });
+  }
+
+  void _onPendingTab() {
+    final tab = HomePage.pendingTab.value;
+    if (tab != null && tab >= 0 && tab < tabs.length && mounted) {
+      setState(() => index = tab);
+      HomePage.pendingTab.value = null;
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    HomePage.pendingTab.removeListener(_onPendingTab);
+    super.dispose();
   }
 
   @override
