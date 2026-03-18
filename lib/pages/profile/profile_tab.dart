@@ -238,21 +238,22 @@ class _ProfileTabState extends State<ProfileTab> {
           CircleAvatar(
             radius: 45,
             backgroundColor: OColor.gray200,
-            backgroundImage: NetworkImage(profileUrl),
-            onBackgroundImageError: (_, _) {},
             child: ClipOval(
               child: Image.network(
                 profileUrl,
                 width: 90,
                 height: 90,
                 fit: BoxFit.cover,
-                errorBuilder:
-                    (_, _, _) => Image.asset(
-                      'assets/images/profile_placeholder.jpg',
-                      width: 90,
-                      height: 90,
-                      fit: BoxFit.cover,
-                    ),
+                errorBuilder: (_, _, _) => Container(
+                  width: 90,
+                  height: 90,
+                  color: OColor.gray200,
+                  child: Icon(
+                    FluentIcons.person_24_regular,
+                    color: OColor.gray500,
+                    size: 40,
+                  ),
+                ),
               ),
             ),
           ),
