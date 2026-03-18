@@ -29,10 +29,17 @@ import '../../models/home/home_image.dart';
 class HomeTab extends StatefulWidget {
   final VoidCallback moveToTimeTableView;
   final VoidCallback moveToFoodMenuSection;
+  final bool showBagReminder;
+  final String bagReminderMessage;
+  final VoidCallback onDismissBagReminder;
+
   const HomeTab({
     super.key,
     required this.moveToTimeTableView,
     required this.moveToFoodMenuSection,
+    required this.showBagReminder,
+    required this.bagReminderMessage,
+    required this.onDismissBagReminder,
   });
 
   @override
@@ -69,10 +76,40 @@ class _HomeTabState extends State<HomeTab> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // Search bar
-              // _buildSearchBar(),
-              // const SizedBox(height: 16),
               _imageCarousel(imageWidth),
+
+              if (widget.showBagReminder)
+                SafeArea(
+                  bottom: false,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: OColor.yellow100,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            widget.bagReminderMessage,
+                            style: OTextStyle.bodyMedium.copyWith(
+                              fontSize: 14,
+                              color: OColor.gray800,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        GestureDetector(
+                          onTap: widget.onDismissBagReminder,
+                          child: const Icon(Icons.close, size: 24),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
               _buildTimeTableWidgets(),
               // Food and Gatelog tiles
               Padding(
@@ -85,7 +122,9 @@ class _HomeTabState extends State<HomeTab> {
                         child: HomeAutoScrollTile(
                           duration: const Duration(seconds: 3),
                           children: [
-                            HomeFoodTile(moveToFoodMenu: widget.moveToFoodMenuSection),
+                            HomeFoodTile(
+                              moveToFoodMenu: widget.moveToFoodMenuSection,
+                            ),
                             const HomeSuggestionTile(),
                           ],
                         ),
@@ -127,13 +166,21 @@ class _HomeTabState extends State<HomeTab> {
 
         List<Widget> widgets = [];
         if (mode == ExamMode.upcoming) {
-          widgets.add(DateExam(moveToTimeTableView: widget.moveToTimeTableView));
+          widgets.add(
+            DateExam(moveToTimeTableView: widget.moveToTimeTableView),
+          );
           widgets.add(const SizedBox(height: 8));
-          widgets.add(DateCourse(moveToTimeTableView: widget.moveToTimeTableView));
+          widgets.add(
+            DateCourse(moveToTimeTableView: widget.moveToTimeTableView),
+          );
         } else if (mode == ExamMode.during) {
-          widgets.add(DateExam(moveToTimeTableView: widget.moveToTimeTableView));
+          widgets.add(
+            DateExam(moveToTimeTableView: widget.moveToTimeTableView),
+          );
         } else {
-          widgets.add(DateCourse(moveToTimeTableView: widget.moveToTimeTableView));
+          widgets.add(
+            DateCourse(moveToTimeTableView: widget.moveToTimeTableView),
+          );
         }
 
         return Column(mainAxisSize: MainAxisSize.min, children: widgets);
@@ -155,7 +202,9 @@ class _HomeTabState extends State<HomeTab> {
                 child: Container(
                   height: imageWidth,
                   color: OColor.gray200,
-                  child: Center(child: ErrorReloadButton(reloadCallback: callSetState)),
+                  child: Center(
+                    child: ErrorReloadButton(reloadCallback: callSetState),
+                  ),
                 ),
               ),
             );
@@ -197,7 +246,9 @@ class _HomeTabState extends State<HomeTab> {
                                 (context, url, error) => Container(
                                   color: OColor.gray200,
                                   child: Center(
-                                    child: ErrorReloadButton(reloadCallback: callSetState),
+                                    child: ErrorReloadButton(
+                                      reloadCallback: callSetState,
+                                    ),
                                   ),
                                 ),
                           ),

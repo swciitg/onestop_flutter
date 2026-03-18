@@ -5,6 +5,9 @@ import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/home/home_widget.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_dev/stores/common_store.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:onestop_ui/index.dart';
 
 class HomeGateLogTile extends StatefulWidget {
@@ -37,7 +40,10 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
         onestopSecurityKey: _securityKey,
         onRefreshTokenExpired: () async {},
       );
-      final res = await api.serverDio.get('/history', queryParameters: {'page': '1', 'size': '1'});
+      final res = await api.serverDio.get(
+        '/history',
+        queryParameters: {'page': '1', 'size': '1'},
+      );
       final history = res.data['history'] as List;
       if (history.isEmpty) return null;
       final entry = history.first as Map<String, dynamic>;
@@ -48,7 +54,25 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
     }
   }
 
-  void _navigateToGateLog(BuildContext context, {String? destination, bool autoCheckIn = false}) async {
+  void _navigateToGateLog(
+    BuildContext context, {
+    String? destination,
+    bool autoCheckIn = false,
+  }) async {
+    if (!LoginStore.isGuest) {
+      final bagInLibrary = context.read<CommonStore>().isBagInLibrary;
+      if (bagInLibrary) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              "Retrieve the bag from the library in order to checkout",
+            ),
+          ),
+        );
+        return;
+      }
+    }
+
     final args = <String, dynamic>{};
     if (destination != null) args['destination'] = destination;
     if (autoCheckIn) args['autoCheckIn'] = true;
@@ -83,24 +107,40 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
 
   @override
   Widget build(BuildContext context) {
-    if (LoginStore.isGuest || _entryFuture == null) {
-      return _buildDefaultTile(context);
-    }
-    return FutureBuilder<Map<String, dynamic>?>(
-      future: _entryFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return _buildDefaultTile(context);
+    return Observer(
+      builder: (context) {
+        final bagInLibrary =
+            LoginStore.isGuest
+                ? false
+                : context.read<CommonStore>().isBagInLibrary;
+
+        Widget tile;
+        if (LoginStore.isGuest || _entryFuture == null) {
+          tile = _buildDefaultTile(context);
+        } else {
+          tile = FutureBuilder<Map<String, dynamic>?>(
+            future: _entryFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return _buildDefaultTile(context);
+              }
+              if (snapshot.hasData && snapshot.data != null) {
+                return _buildCheckedOutTile(context, snapshot.data!);
+              }
+              return _buildDefaultTile(context);
+            },
+          );
         }
-        if (snapshot.hasData && snapshot.data != null) {
-          return _buildCheckedOutTile(context, snapshot.data!);
-        }
-        return _buildDefaultTile(context);
+
+        return Opacity(opacity: bagInLibrary ? 0.5 : 1.0, child: tile);
       },
     );
   }
 
-  Widget _buildCheckedOutTile(BuildContext context, Map<String, dynamic> entry) {
+  Widget _buildCheckedOutTile(
+    BuildContext context,
+    Map<String, dynamic> entry,
+  ) {
     final gateInfo = _gateClosingInfo();
     return GestureDetector(
       onTap: () => _navigateToGateLog(context),
@@ -110,7 +150,11 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
           children: [
             Row(
               children: [
-                SvgPicture.asset("assets/images/gate_log.svg", width: 20, height: 20),
+                SvgPicture.asset(
+                  "assets/images/gate_log.svg",
+                  width: 20,
+                  height: 20,
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: OText(
@@ -121,7 +165,11 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
                     ),
                   ),
                 ),
-                Icon(FluentIcons.chevron_right_24_regular, color: OColor.gray400, size: 16),
+                Icon(
+                  FluentIcons.chevron_right_24_regular,
+                  color: OColor.gray400,
+                  size: 16,
+                ),
               ],
             ),
             const Spacer(),
@@ -146,7 +194,10 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
               onTap: () => _navigateToGateLog(context, autoCheckIn: true),
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 12,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: OColor.gray300),
                   borderRadius: BorderRadius.circular(20),
@@ -176,7 +227,11 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
           children: [
             Row(
               children: [
-                SvgPicture.asset("assets/images/gate_log.svg", width: 20, height: 20),
+                SvgPicture.asset(
+                  "assets/images/gate_log.svg",
+                  width: 20,
+                  height: 20,
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: OText(
@@ -187,7 +242,11 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
                     ),
                   ),
                 ),
-                Icon(FluentIcons.chevron_right_24_regular, color: OColor.gray400, size: 16),
+                Icon(
+                  FluentIcons.chevron_right_24_regular,
+                  color: OColor.gray400,
+                  size: 16,
+                ),
               ],
             ),
             const Spacer(),
@@ -198,7 +257,10 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
                   onTap: () => _navigateToGateLog(context, destination: 'City'),
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 12,
+                    ),
                     decoration: BoxDecoration(
                       border: Border.all(color: OColor.gray300),
                       borderRadius: BorderRadius.circular(20),
@@ -215,10 +277,14 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
                 ),
                 const SizedBox(height: 8),
                 GestureDetector(
-                  onTap: () => _navigateToGateLog(context, destination: 'Khokha'),
+                  onTap:
+                      () => _navigateToGateLog(context, destination: 'Khokha'),
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 12,
+                    ),
                     decoration: BoxDecoration(
                       border: Border.all(color: OColor.gray300),
                       borderRadius: BorderRadius.circular(20),

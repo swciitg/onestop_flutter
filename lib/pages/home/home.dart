@@ -1,20 +1,16 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:lib_token/lib_token.dart';
-import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/home/bottom_nav_item.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/pages/home/home_tab.dart';
+import 'package:onestop_dev/pages/home/library_helper.dart';
 import 'package:onestop_dev/pages/profile/profile_tab.dart';
 import 'package:onestop_dev/pages/timetable/timetable_page.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
 import 'package:onestop_dev/services/app_shortcuts_service.dart';
-import 'package:onestop_dev/stores/common_store.dart';
-import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/ui/onestop_upgrade.dart';
@@ -35,7 +31,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   int index = 0;
-  late List<Widget> tabs;
 
   bool _showBagReminder = false;
   String _bagReminderMessage = "Reminder: You have your bag in the library";
@@ -65,147 +60,52 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   ];
 
   Future<void> _checkLibrarySlot() async {
-    try {
-      final user = OneStopUser.fromJson(LoginStore.userData);
-      const baseUrl = String.fromEnvironment("LIB_TOKEN_BASE_URL");
+    await checkLibrarySlot(
+      context: context,
+      isMounted: () => mounted,
+      onStateUpdate: (showReminder, message) {
+        setState(() {
+          _showBagReminder = showReminder;
+          if (message != null) {
+            _bagReminderMessage = message;
+          }
+        });
+      },
+      isBannedDialogShowing: _isBannedDialogShowing,
+      setDialogShowing: (isShowing) {
+        _isBannedDialogShowing = isShowing;
+      },
+    );
+  }
 
-      debugPrint('$baseUrl/check-status?rollNo=${user.rollNo}');
-
-      final response = await Dio().get(
-        '$baseUrl/check-status?rollNo=${user.rollNo}',
-        options: Options(
-          headers: {
-            "Authorization": "Bearer ${await AuthUserHelpers.getAccessToken()}",
-            "Content-Type": "application/json",
-            'security-key': Endpoints.apiSecurityKey,
+  List<Widget> get tabs => [
+        HomeTab(
+          showBagReminder: _showBagReminder,
+          bagReminderMessage: _bagReminderMessage,
+          onDismissBagReminder: () {
+            setState(() {
+              _showBagReminder = false;
+            });
+          },
+          moveToTimeTableView: () {
+            navigatorKey.currentState?.pushNamed(TimetablePage.id);
+          },
+          moveToFoodMenuSection: () {
+            setState(() {
+              index = 1;
+            });
           },
         ),
-      );
-
-      debugPrint(
-        "Library slot response: ${response.statusCode} - ${response.data}",
-      );
-
-      if (response.statusCode == 200) {
-        final data = response.data;
-        if (mounted) {
-          final slotId = data['slotId'] ?? data['slotid'];
-          final isBanned = data['isBanned'] ?? data['banend'] ?? false;
-          final message = data['message'];
-
-          final isBagPresent = slotId != null;
-          context.read<CommonStore>().setBagInLibrary(isBagPresent);
-          setState(() {
-            _showBagReminder = isBagPresent && !isBanned && message != null;
-            if (message != null) {
-              _bagReminderMessage = message;
-            }
-          });
-
-          if (isBanned) {
-            if (!_isBannedDialogShowing) {
-              _isBannedDialogShowing = true;
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) {
-                  return PopScope(
-                    canPop: false,
-                    child: AlertDialog(
-                      backgroundColor: OColor.white,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                        side: BorderSide(color: Color(0xFFE0E0E0), width: 1.0),
-                      ),
-                      title: const Text(
-                        "Alert",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      titlePadding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                      contentPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                      actionsPadding: const EdgeInsets.all(16.0),
-                      content:  Text(
-                        message ??
-                            "You are banned from using onestop. Please collect your bag from the library.",
-                          style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          height: 1.5,
-                        ),
-                      ),
-                      actionsAlignment: MainAxisAlignment.center,
-                      actions: [
-                        SizedBox(
-                          width: double.infinity,
-                          child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              side:  BorderSide(
-                                color: OColor.gray600,
-                                width: 1.0,
-                              ),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(16.0),
-                                ),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 16.0,
-                              ),
-                            ),
-                            onPressed: () {
-                            Navigator.pop(context);
-                            _isBannedDialogShowing = false;
-                            Navigator.pushNamed(context, LibraryTokenScreen.id).then((_) {
-                              _checkLibrarySlot();
-                            });
-                          },
-                            child:  Text(
-                              "Library Token",
-                              style: TextStyle(
-                                color: OColor.green600,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ), 
-                  );
-                },
-              );
-            }
-          }
-        }
-      }
-    } catch (e) {
-      debugPrint("Error checking library slot: $e");
-    }
-  }
+        const FoodTab(),
+        const TravelPage(),
+        // const EventsScreenWrapper(),
+        const ProfileTab(),
+      ];
 
   @override
   void initState() {
     super.initState();
     _checkLibrarySlot();
-    tabs = [
-      HomeTab(
-        moveToTimeTableView: () {
-          navigatorKey.currentState?.pushNamed(TimetablePage.id);
-        },
-        moveToFoodMenuSection: () {
-          setState(() {
-            index = 1;
-          });
-        },
-      ),
-      const FoodTab(),
-      const TravelPage(),
-      // const EventsScreenWrapper(),
-      const ProfileTab(),
-    ];
     WidgetsBinding.instance.addObserver(this);
     actOnPendingShortcut();
   }
@@ -257,40 +157,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 children: [
                   Column(
                     children: [
-                      if (_showBagReminder)
-                        SafeArea(
-                          bottom: false,
-                          child: Container(
-                            width: double.infinity,
-                            margin: const EdgeInsets.only(
-                              left: 15,
-                              right: 15,
-                              top: 12,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFFACC15),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 8,
-                              horizontal: 16,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    _bagReminderMessage,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
                       Expanded(child: tabs[index]),
                     ],
                   ),
