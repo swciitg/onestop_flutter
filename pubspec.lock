@@ -961,10 +961,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_maps_flutter
-      sha256: "85339d0c9b5c7bac305df0bc1bc72a990f7f59b1846f048c96c022110d5d4a69"
+      sha256: "0114a31e177f650f0972347d93122c42661a75b869561ff6a374cc42ff3af886"
       url: "https://pub.dev"
     source: hosted
-    version: "2.15.0"
+    version: "2.16.0"
   google_maps_flutter_android:
     dependency: transitive
     description:
@@ -1170,7 +1170,7 @@ packages:
     description:
       path: "packages/irbs"
       ref: redesign
-      resolved-ref: "05e07e80f058ec2f6600f181c7c4bd3dadac07a9"
+      resolved-ref: f00d7d4dd2f04fd01eeaf545b343e73c29619112
       url: "https://github.com/swciitg/irbs.git"
     source: git
     version: "1.0.0"
