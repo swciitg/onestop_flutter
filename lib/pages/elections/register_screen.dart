@@ -228,6 +228,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             onPressed: _handleLogout,
           ),
         ],
+        systemOverlayStyle: Theme.of(
+          context,
+        ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
       ),
       body: FutureBuilder<Response>(
         future: dio.get("https://swc.iitg.ac.in/elections_api/sgc/profile"),
