@@ -63,10 +63,10 @@ Future<void> checkLibrarySlot({
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       side: BorderSide(color: Color(0xFFE0E0E0), width: 1.0),
                     ),
-                    title: const Text(
+                    title:  Text(
                       "Alert",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: OColor.black,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -77,8 +77,8 @@ Future<void> checkLibrarySlot({
                     content: Text(
                       message ??
                           "You are banned from using onestop. Please collect your bag from the library.",
-                      style: const TextStyle(
-                        color: Colors.black,
+                      style:  TextStyle(
+                        color: OColor.black,
                         fontSize: 16,
                         height: 1.5,
                       ),
