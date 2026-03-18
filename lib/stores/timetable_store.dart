@@ -48,7 +48,7 @@ abstract class _TimetableStore with Store {
 
   Future<void> _syncTimetableHomeWidget() async {
     try {
-      await HomeTimetableWidgetService.sync(homeTimeTable);
+      await HomeTimetableWidgetService.syncFullTimetable(allTimetableCourses);
     } catch (_) {
       // Widget sync is best effort and should never block timetable rendering.
     }

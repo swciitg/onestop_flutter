@@ -60,11 +60,10 @@ class HomeServiceTile extends StatelessWidget {
       height: 150,
       width: 150,
       child: Column(
-        // Replace with a Row for horizontal icon + text
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: 8),
-          Expanded(child: SvgPicture.asset(iconPath, width: 60, height: 32, fit: BoxFit.contain)),
+          Expanded(child: SvgPicture.asset(iconPath, width: 48, height: 48, fit: BoxFit.contain)),
           Expanded(
             child: OText(
               text: label,

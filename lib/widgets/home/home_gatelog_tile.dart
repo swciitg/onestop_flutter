@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,6 +25,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
   static const _serverUrl = String.fromEnvironment('SERVER_URL');
 
   Future<Map<String, dynamic>?>? _entryFuture;
+  Timer? _gateInfoTimer;
 
   @override
   void initState() {
@@ -30,6 +33,16 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
     if (!LoginStore.isGuest) {
       _entryFuture = _fetchLatestEntry();
     }
+    _gateInfoTimer = Timer.periodic(const Duration(minutes: 1), (_) {
+      if (!mounted) return;
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _gateInfoTimer?.cancel();
+    super.dispose();
   }
 
   Future<Map<String, dynamic>?> _fetchLatestEntry() async {
@@ -76,11 +89,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
     final args = <String, dynamic>{};
     if (destination != null) args['destination'] = destination;
     if (autoCheckIn) args['autoCheckIn'] = true;
-    await Navigator.pushNamed(
-      context,
-      GateLogPage.id,
-      arguments: args.isNotEmpty ? args : null,
-    );
+    await Navigator.pushNamed(context, GateLogPage.id, arguments: args.isNotEmpty ? args : null);
     if (!mounted || LoginStore.isGuest) return;
     setState(() {
       _entryFuture = _fetchLatestEntry();
@@ -97,12 +106,55 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
     final kvLeft = kvClose.difference(now).inMinutes;
 
     if (khokhaLeft > 0) {
-      return 'KHOKHA CLOSES IN $khokhaLeft MINS';
+      return 'KHOKHA CLOSES IN ${_formatRemainingTime(khokhaLeft)}';
     } else if (kvLeft > 0) {
-      return 'KV GATE CLOSES IN $kvLeft MINS';
+      return 'KV GATE CLOSES IN ${_formatRemainingTime(kvLeft)}';
     } else {
       return 'ENTER VIA MAIN GATE';
     }
+  }
+
+  String _formatRemainingTime(int totalMinutes) {
+    final hours = totalMinutes ~/ 60;
+    final minutes = totalMinutes % 60;
+    final parts = <String>[];
+
+    if (hours > 0) {
+      parts.add(hours == 1 ? '1 HR' : '$hours HRS');
+    }
+    if (minutes > 0) {
+      parts.add(minutes == 1 ? '1 MIN' : '$minutes MINS');
+    }
+
+    return parts.join(' ');
+  }
+
+  Widget _buildGateInfoText(String gateInfo) {
+    final baseStyle = OTextStyle.bodyXSmall.copyWith(
+      color: OColor.gray500,
+      fontWeight: FontWeight.w500,
+    );
+
+    final inSeparatorIndex = gateInfo.indexOf(' IN ');
+    if (inSeparatorIndex == -1) {
+      return OText(text: gateInfo, style: baseStyle);
+    }
+
+    final prefix = gateInfo.substring(0, inSeparatorIndex + 4);
+    final remainingTime = gateInfo.substring(inSeparatorIndex + 4);
+    if (remainingTime.isEmpty) {
+      return OText(text: gateInfo, style: baseStyle);
+    }
+
+    return RichText(
+      text: TextSpan(
+        style: baseStyle,
+        children: [
+          TextSpan(text: prefix),
+          TextSpan(text: remainingTime, style: baseStyle.copyWith(color: Colors.red)),
+        ],
+      ),
+    );
   }
 
   @override
@@ -150,11 +202,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
           children: [
             Row(
               children: [
-                SvgPicture.asset(
-                  "assets/images/gate_log.svg",
-                  width: 20,
-                  height: 20,
-                ),
+                SvgPicture.asset("assets/images/gate_log.svg", width: 32, height: 32),
                 const SizedBox(width: 12),
                 Expanded(
                   child: OText(
@@ -182,13 +230,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
             ),
             const SizedBox(height: 16),
             const Spacer(),
-            OText(
-              text: gateInfo,
-              style: OTextStyle.bodyXSmall.copyWith(
-                color: OColor.gray500,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            _buildGateInfoText(gateInfo),
             const SizedBox(height: 8),
             GestureDetector(
               onTap: () => _navigateToGateLog(context, autoCheckIn: true),
@@ -227,11 +269,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
           children: [
             Row(
               children: [
-                SvgPicture.asset(
-                  "assets/images/gate_log.svg",
-                  width: 20,
-                  height: 20,
-                ),
+                SvgPicture.asset("assets/images/gate_log.svg", width: 32, height: 32),
                 const SizedBox(width: 12),
                 Expanded(
                   child: OText(

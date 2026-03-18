@@ -49,13 +49,7 @@ class HomeSuggestionTile extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            Center(
-              child: SvgPicture.asset(
-                "assets/images/cab_sharing.svg",
-                width: 32,
-                height: 32,
-              ),
-            ),
+            Center(child: SvgPicture.asset("assets/images/cab_sharing.svg", width: 64, height: 64)),
             const Spacer(),
             SizedBox(
               width: double.infinity,
@@ -71,7 +65,11 @@ class HomeSuggestionTile extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                label: Icon(FluentIcons.arrow_up_right_16_regular, color: OColor.green600, size: 16),
+                label: Icon(
+                  FluentIcons.arrow_up_right_16_regular,
+                  color: OColor.green600,
+                  size: 16,
+                ),
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(color: OColor.gray300),
                   shape: RoundedRectangleBorder(

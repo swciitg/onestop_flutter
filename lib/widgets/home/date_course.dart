@@ -102,8 +102,8 @@ class _DateCourseState extends State<DateCourse> {
                             children: [
                               SvgPicture.asset(
                                 "assets/images/timetable.svg",
-                                width: 20,
-                                height: 20,
+                                width: 32,
+                                height: 32,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -150,7 +150,8 @@ class _DateCourseState extends State<DateCourse> {
                             Builder(
                               builder: (context) {
                                 final timeText = _getNextClassTime(nextClass);
-                                final bool isOngoing = timeText == 'Started' || timeText == 'Running now';
+                                final bool isOngoing =
+                                    timeText == 'Started' || timeText == 'Running now';
                                 return Row(
                                   children: [
                                     OText(
@@ -162,7 +163,9 @@ class _DateCourseState extends State<DateCourse> {
                                     ),
                                     OText(
                                       text: isOngoing ? 'Ongoing' : timeText,
-                                      style: OTextStyle.headingLarge.copyWith(color: OColor.green600),
+                                      style: OTextStyle.headingLarge.copyWith(
+                                        color: OColor.green600,
+                                      ),
                                     ),
                                   ],
                                 );

@@ -46,121 +46,131 @@ class _TravelPageState extends State<TravelPage> {
     }
     final dateString = '$dayName, $dayNum$suffix $month';
 
-    return SingleChildScrollView(
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 16),
-          // Header row
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(OCornerRadius.l),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Travel', style: OTextStyle.headingLarge.copyWith(color: OColor.gray800)),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 2),
-                child: Text(
-                  dateString,
-                  style: OTextStyle.headingSmall.copyWith(color: OColor.green600),
-                ),
+              const SizedBox(height: 16),
+              // Header row
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Travel', style: OTextStyle.headingLarge.copyWith(color: OColor.gray800)),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      dateString,
+                      style: OTextStyle.headingSmall.copyWith(color: OColor.green600),
+                    ),
+                  ),
+                ],
               ),
+              const SizedBox(height: 16),
+
+              // Bus Summary Card
+              _TimingSummaryCard(
+                type: 'Bus',
+                icon: FluentIcons.vehicle_bus_24_filled,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const BusTimingsPage()),
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+
+              // Ferry Summary Card
+              _TimingSummaryCard(
+                type: 'Ferry',
+                icon: FluentIcons.vehicle_ship_24_filled,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const FerryTimingsPage()),
+                  );
+                },
+              ),
+              const SizedBox(height: 32),
+
+              // More Travel Options
+              Text(
+                'More Travel Options',
+                style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
+              ),
+              const SizedBox(height: 16),
+
+              // E-Rickshaw tile
+              _OptionTile(
+                icon: FluentIcons.vehicle_car_profile_ltr_24_filled,
+                title: 'E-Rickshaw',
+                subtitle: 'Contact e-rickshaw drivers for rides around campus.',
+                trailing:
+                    _loadingERickshaw
+                        ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2, color: OColor.green600),
+                        )
+                        : Icon(Icons.arrow_outward, color: OColor.gray600, size: 24),
+                onTap:
+                    _loadingERickshaw
+                        ? () {}
+                        : () async {
+                          setState(() => _loadingERickshaw = true);
+                          try {
+                            final contacts = await DataService.getContacts();
+                            if (!context.mounted) return;
+                            final eRikshaw = contacts['E-rikshaw'];
+                            if (eRikshaw != null) {
+                              final contactStore = ContactStore()..loadStarredContacts();
+                              showContactCategorySheet(
+                                context,
+                                contactModel: eRikshaw,
+                                contactStore: contactStore,
+                              );
+                            }
+                          } finally {
+                            if (mounted) setState(() => _loadingERickshaw = false);
+                          }
+                        },
+              ),
+              const SizedBox(height: 16),
+
+              // Travel Guide tile
+              _OptionTile(
+                icon: FluentIcons.book_24_filled,
+                title: 'Travel Guide',
+                subtitle: 'A quick guide to common travel methods, fares, and essential info.',
+                trailing: Icon(Icons.arrow_outward, color: OColor.gray600, size: 24),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TravelGuide()),
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+
+              // Cab Sharing tile
+              _OptionTile(
+                icon: FluentIcons.vehicle_car_24_filled,
+                title: 'Cab Sharing',
+                subtitle: 'Connect with fellow students for shared cab rides.',
+                trailing: Icon(Icons.arrow_outward, color: OColor.gray600, size: 24),
+                onTap: () {
+                  Navigator.pushNamed(context, CabShare.id);
+                },
+              ),
+              const SizedBox(height: 100),
             ],
           ),
-          const SizedBox(height: 24),
-
-          // Bus Summary Card
-          _TimingSummaryCard(
-            type: 'Bus',
-            icon: FluentIcons.vehicle_bus_24_filled,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const BusTimingsPage()),
-              );
-            },
-          ),
-          const SizedBox(height: 16),
-
-          // Ferry Summary Card
-          _TimingSummaryCard(
-            type: 'Ferry',
-            icon: FluentIcons.vehicle_ship_24_filled,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const FerryTimingsPage()),
-              );
-            },
-          ),
-          const SizedBox(height: 32),
-
-          // More Travel Options
-          Text(
-            'More Travel Options',
-            style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
-          ),
-          const SizedBox(height: 16),
-
-          // E-Rickshaw tile
-          _OptionTile(
-            icon: FluentIcons.vehicle_car_profile_ltr_24_filled,
-            title: 'E-Rickshaw',
-            subtitle: 'Contact e-rickshaw drivers for rides around campus.',
-            trailing: _loadingERickshaw
-                ? SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2, color: OColor.green600),
-                  )
-                : Icon(Icons.arrow_outward, color: OColor.gray600, size: 24),
-            onTap: _loadingERickshaw
-                ? () {}
-                : () async {
-                    setState(() => _loadingERickshaw = true);
-                    try {
-                      final contacts = await DataService.getContacts();
-                      if (!context.mounted) return;
-                      final eRikshaw = contacts['E-rikshaw'];
-                      if (eRikshaw != null) {
-                        final contactStore = ContactStore()..loadStarredContacts();
-                        showContactCategorySheet(
-                          context,
-                          contactModel: eRikshaw,
-                          contactStore: contactStore,
-                        );
-                      }
-                    } finally {
-                      if (mounted) setState(() => _loadingERickshaw = false);
-                    }
-                  },
-          ),
-          const SizedBox(height: 16),
-
-          // Travel Guide tile
-          _OptionTile(
-            icon: FluentIcons.book_24_filled,
-            title: 'Travel Guide',
-            subtitle: 'A quick guide to common travel methods, fares, and essential info.',
-            trailing: Icon(Icons.arrow_outward, color: OColor.gray600, size: 24),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const TravelGuide()));
-            },
-          ),
-          const SizedBox(height: 16),
-
-          // Cab Sharing tile
-          _OptionTile(
-            icon: FluentIcons.vehicle_car_24_filled,
-            title: 'Cab Sharing',
-            subtitle: 'Connect with fellow students for shared cab rides.',
-            trailing: Icon(Icons.arrow_outward, color: OColor.gray600, size: 24),
-            onTap: () {
-              Navigator.pushNamed(context, CabShare.id);
-            },
-          ),
-          const SizedBox(height: 100),
-        ],
+        ),
       ),
     );
   }

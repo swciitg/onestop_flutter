@@ -41,7 +41,7 @@ class HomeFoodTile extends StatelessWidget {
           children: [
             Row(
               children: [
-                SvgPicture.asset("assets/images/food.svg", width: 20, height: 20),
+                SvgPicture.asset("assets/images/food.svg", width: 32, height: 32),
                 const SizedBox(width: 12),
                 Expanded(
                   child: OText(

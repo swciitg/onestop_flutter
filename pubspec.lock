@@ -206,7 +206,7 @@ packages:
     description:
       path: "packages/cab_sharing"
       ref: redesign
-      resolved-ref: "1b09464f71324c71620918ad0761d9c0aca4652f"
+      resolved-ref: "70212e37717fcfb83a0c8a4820ebf302cd8b6c9c"
       url: "https://github.com/swciitg/cab_sharing_onestop.git"
     source: git
     version: "0.0.1"
@@ -985,10 +985,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_platform_interface
-      sha256: "0f8c6674d70c7e9a09cd34f63b18ebaf8a5822e85b558128eae0fdf02b4a3e93"
+      sha256: ddbe34435dfb34e83fca295c6a8dcc53c3b51487e9eec3c737ce4ae605574347
       url: "https://pub.dev"
     source: hosted
-    version: "2.14.2"
+    version: "2.15.0"
   google_maps_flutter_web:
     dependency: transitive
     description:
@@ -1373,7 +1373,7 @@ packages:
     description:
       path: "packages/onestop_ui"
       ref: dev
-      resolved-ref: "7e5117ea0e93e35cf6c6c16bb1811d3394b517e7"
+      resolved-ref: "4c0859984644aea7e7e7c361e23c0dc3494d5d67"
       url: "https://github.com/swciitg/onestop_ui.git"
     source: git
     version: "0.0.1"

@@ -50,6 +50,13 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="onestopiitg" android:host="auth" />
             </intent-filter>
+            <!-- Universal links for swc.iitg.ac.in -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="swc.iitg.ac.in" android:pathPrefix="/onestop" />
+            </intent-filter>
 
         </activity>
 
