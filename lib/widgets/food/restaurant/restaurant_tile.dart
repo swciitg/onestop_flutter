@@ -19,7 +19,6 @@ class _RestaurantTileState extends State<RestaurantTile> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        print('Herllo');
         final List<String> images =
             widget.restaurantModel.menu
                 .map((menuItem) => menuItem.imageURL)
