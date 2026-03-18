@@ -91,10 +91,7 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
     }
   }
 
-  Future<void> _handleLoginSuccess(
-    String accessToken,
-    String refreshToken,
-  ) async {
+  Future<void> _handleLoginSuccess(String accessToken, String refreshToken) async {
     try {
       final start = DateTime.now();
       setState(() => _isLoading = true);
@@ -120,9 +117,7 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
       navigatorKey.currentState!.pushAndRemoveUntil(
         MaterialPageRoute(
           builder:
-              (context) => EditProfile(
-                profileModel: OneStopUser.fromJson(LoginStore.userData),
-              ),
+              (context) => EditProfile(profileModel: OneStopUser.fromJson(LoginStore.userData)),
         ),
         (route) => false,
       );
@@ -138,10 +133,7 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
   }
 
   Future<void> _moveBackToWelcomePage() async {
-    navigatorKey.currentState!.pushNamedAndRemoveUntil(
-      LoginPage.id,
-      (_) => false,
-    );
+    navigatorKey.currentState!.pushNamedAndRemoveUntil(LoginPage.id, (_) => false);
     await Future.delayed(const Duration(seconds: 1));
     showSnackBar("Error occurred: INCORRECT USER TOKENS");
   }
@@ -181,18 +173,16 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Color(0xFF148440),
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
-    );
-
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF148440),
+        systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Color(0xFF148440),
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+        ),
+      ),
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -200,116 +190,107 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
             colors: [const Color(0xFF148440), const Color(0xFFDCEFE4)],
           ),
         ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 40),
-                    // App Logo
-                    Image.asset(
-                      'assets/images/logo_stop.png',
-                      height: 80,
-                      width: 80,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [
+                  const SizedBox(height: 40),
+                  // App Logo
+                  Image.asset('assets/images/app_logo_dark.png', height: 80, width: 80),
+                  const SizedBox(height: 24),
+                  // Heading
+                  Text(
+                    _isLoading ? 'Authenticating' : 'Authentication Failed',
+                    textAlign: TextAlign.center,
+                    style: OTextStyle.displayXSmall.copyWith(
+                      color: const Color(0xFF232329),
+                      fontSize: 32,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: -1.5,
                     ),
-                    const SizedBox(height: 24),
-                    // Heading
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            // Dancing Marquee (Full Width)
+            // const DancingServiceMarquee(),
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [
+                  if (_isLoading) ...[
                     Text(
-                      _isLoading ? 'Authenticating' : 'Authentication Failed',
+                      'Please complete the login in your browser.',
                       textAlign: TextAlign.center,
-                      style: OTextStyle.displayXSmall.copyWith(
-                        color: const Color(0xFF232329),
-                        fontSize: 43,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: -1.5,
+                      style: OTextStyle.labelMedium.copyWith(
+                        color: const Color(0xFF232329).withOpacity(0.8),
+                        letterSpacing: -0.76,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    const CircularProgressIndicator(color: Color(0xFF148440)),
+                    const SizedBox(height: 24),
+                    GestureDetector(
+                      onTap: _launchLogin,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: const Color(0xFF148440)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Reinitialize',
+                            style: MyFonts.w600.copyWith(
+                              fontSize: 16,
+                              color: const Color(0xFF148440),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ] else ...[
+                    Text(
+                      'Something went wrong. Please try again.',
+                      textAlign: TextAlign.center,
+                      style: OTextStyle.labelMedium.copyWith(
+                        color: Colors.red.withOpacity(0.8),
+                        letterSpacing: -0.76,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    GestureDetector(
+                      onTap: _launchLogin,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF148440),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Retry Login',
+                            style: MyFonts.w600.copyWith(fontSize: 16, color: Colors.white),
+                          ),
+                        ),
                       ),
                     ),
                   ],
-                ),
+                  const SizedBox(height: 15),
+                  // Footer
+                  Image.asset('assets/images/swc.png', height: 32),
+                  const SizedBox(height: 16),
+                ],
               ),
-              const Spacer(),
-              // Dancing Marquee (Full Width)
-              const DancingServiceMarquee(),
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  children: [
-                    if (_isLoading) ...[
-                      Text(
-                        'Please complete the login in your browser.',
-                        textAlign: TextAlign.center,
-                        style: OTextStyle.labelMedium.copyWith(
-                          color: const Color(0xFF232329).withOpacity(0.8),
-                          letterSpacing: -0.76,
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      const CircularProgressIndicator(color: Color(0xFF148440)),
-                      const SizedBox(height: 24),
-                      GestureDetector(
-                        onTap: _launchLogin,
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: const Color(0xFF148440)),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Reinitialize',
-                              style: MyFonts.w600.copyWith(
-                                fontSize: 16,
-                                color: const Color(0xFF148440),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ] else ...[
-                      Text(
-                        'Something went wrong. Please try again.',
-                        textAlign: TextAlign.center,
-                        style: OTextStyle.labelMedium.copyWith(
-                          color: Colors.red.withOpacity(0.8),
-                          letterSpacing: -0.76,
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      GestureDetector(
-                        onTap: _launchLogin,
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF148440),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Retry Login',
-                              style: MyFonts.w600.copyWith(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                    const SizedBox(height: 15),
-                    // Footer
-                    Image.asset('assets/images/swc.png', height: 32),
-                    const SizedBox(height: 16),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

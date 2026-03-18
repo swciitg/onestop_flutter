@@ -27,26 +27,12 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     final dev = (const String.fromEnvironment("ENV")) == "dev";
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Color(0xFF148440),
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
-    );
     return Scaffold(
-      body:
-          dev
-              ? Banner(
-                message: "DEV",
-                location: BannerLocation.topEnd,
-                child: _body(),
-              )
-              : _body(),
+      body: dev ? Banner(message: "DEV", location: BannerLocation.topEnd, child: _body()) : _body(),
     );
   }
 
-  SafeArea _body() {
-    return SafeArea(child: WelcomeHeader(setLoading: widget.setLoading));
+  Widget _body() {
+    return WelcomeHeader(setLoading: widget.setLoading);
   }
 }
