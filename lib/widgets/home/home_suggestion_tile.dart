@@ -77,7 +77,7 @@ class HomeSuggestionTile extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                 ),
               ),
             ),
