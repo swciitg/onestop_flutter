@@ -28,8 +28,8 @@ class _WelcomePageState extends State<WelcomePage> {
     SizeConfig().init(context);
     final dev = (const String.fromEnvironment("ENV")) == "dev";
     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
+      SystemUiOverlayStyle(
+        statusBarColor: OColor.green600,
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.dark,
       ),
