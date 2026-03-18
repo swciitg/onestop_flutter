@@ -156,23 +156,24 @@ class _ContactCategoryCard extends StatelessWidget {
         showContactCategorySheet(context, contactModel: contactModel, contactStore: contactStore);
       },
       child: Container(
-        padding: const EdgeInsets.all(OSpacing.m),
+        padding: const EdgeInsets.all(OSpacing.s),
         decoration: BoxDecoration(
           color: OColor.white,
           border: Border.all(color: OColor.gray200),
           borderRadius: BorderRadius.circular(OCornerRadius.l),
         ),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _AvatarGroup(count: contactModel.contacts.length),
-            const SizedBox(width: OSpacing.m),
-            Expanded(
-              child: Text(
-                categoryName,
-                style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
-              ),
+            Row(
+              children: [
+                _AvatarGroup(count: contactModel.contacts.length),
+                const Spacer(),
+                Icon(FluentIcons.chevron_right_24_regular, size: 24, color: OColor.gray400),
+              ],
             ),
-            Icon(FluentIcons.chevron_right_24_regular, size: 24, color: OColor.gray400),
+            const SizedBox(height: OSpacing.s),
+            Text(categoryName, style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
           ],
         ),
       ),

@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/globals/my_spaces.dart';
+import 'package:onestop_dev/services/app_icon_service.dart';
 import 'package:onestop_dev/widgets/login/login_button.dart';
 import 'package:onestop_dev/widgets/login/welcome_header.dart';
 import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   static const id = "/welcome";
   final Function setLoading;
 
   const WelcomePage({super.key, required this.setLoading});
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  @override
+  void initState() {
+    super.initState();
+    final iconName = ThemeStore.instance.isDarkMode ? 'dark' : 'light';
+    AppIconService.setIcon(iconName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +60,7 @@ class WelcomePage extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: MySpaces.horizontalScreenPadding),
               child: LoginButton(
-                setLoading: setLoading,
+                setLoading: widget.setLoading,
               ),
             ),
           ),

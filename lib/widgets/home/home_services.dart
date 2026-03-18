@@ -69,7 +69,7 @@ class _HomeServicesState extends State<HomeServices> with TickerProviderStateMix
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          OText(text: "Services", style: OTextStyle.headingMedium),
+          OText(text: "Quick Access", style: OTextStyle.headingMedium),
           const SizedBox(height: 16),
           _buildGrid(allwaysVisible),
           AnimatedSize(
