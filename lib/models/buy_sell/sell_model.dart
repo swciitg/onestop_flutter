@@ -19,6 +19,7 @@ class SellModel {
   final OneStopUser? user;
   @JsonKey(name: '_id')
   final String id;
+  @JsonKey(defaultValue: false)
   final bool isNew;
 
   const SellModel(

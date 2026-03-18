@@ -10,6 +10,7 @@ class GateLogPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final destination = args?['destination'] as String?;
-    return GateLog(initialDestination: destination);
+    final autoCheckIn = args?['autoCheckIn'] as bool? ?? false;
+    return GateLog(initialDestination: destination, autoCheckIn: autoCheckIn);
   }
 }

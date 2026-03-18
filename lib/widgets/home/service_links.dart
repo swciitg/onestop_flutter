@@ -50,7 +50,7 @@ List<Map<String, dynamic>> serviceLinksData = [
   },
   {"label": "Contacts", "iconPath": "assets/images/timetable.svg", "routeId": ContactPage.id},
   {"label": "Cab Sharing", "iconPath": "assets/images/cab_sharing.svg", "routeId": CabShare.id},
-  {"label": "IRBS", "iconPath": "assets/images/irbs.svg", "routeId": IRBSPage.id},
+  {"label": "SAC Room Booking", "iconPath": "assets/images/irbs.svg", "routeId": IRBSPage.id},
   {"label": "Complaints", "iconPath": "assets/images/complaints.svg", "routeId": ComplaintsPage.id},
   {"label": "Lost and Found", "iconPath": "assets/images/lnf.svg", "routeId": LostFoundHome.id},
   {"label": "Buy and Sell", "iconPath": "assets/images/bns.svg", "routeId": BuySellHome.id},

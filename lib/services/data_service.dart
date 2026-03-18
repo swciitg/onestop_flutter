@@ -288,12 +288,13 @@ class DataService {
   }
 
   static Future<List<TravelGuideModel>> getTravelGuides() async {
-    var cachedData = await LocalStorage.instance.getListRecord(DatabaseRecords.travelGuides);
     Map<String, dynamic> jsonData;
-    if (cachedData == null) {
+    try {
       jsonData = await TravelRepository().getTravelGuides();
       await LocalStorage.instance.storeListRecord([jsonData], DatabaseRecords.travelGuides);
-    } else {
+    } catch (_) {
+      var cachedData = await LocalStorage.instance.getListRecord(DatabaseRecords.travelGuides);
+      if (cachedData == null) rethrow;
       jsonData = cachedData[0] as Map<String, dynamic>;
     }
     List<dynamic> guidesData = jsonData['data'] ?? [];

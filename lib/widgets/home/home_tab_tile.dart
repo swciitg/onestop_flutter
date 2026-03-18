@@ -29,7 +29,17 @@ class HomeServiceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return newBadge ? buildBadge(context) : buildTile(context);
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        if (link != null) {
+          launchURL(link!);
+        } else {
+          Navigator.pushNamed(context, routeId ?? "/");
+        }
+      },
+      child: newBadge ? buildBadge(context) : buildTile(context),
+    );
   }
 
   Badge buildBadge(BuildContext context) {
@@ -46,36 +56,27 @@ class HomeServiceTile extends StatelessWidget {
   }
 
   Widget buildTile(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (link != null) {
-          launchURL(link!);
-        } else {
-          Navigator.pushNamed(context, routeId ?? "/");
-        }
-      },
-      child: SizedBox(
-        height: 150,
-        width: 150,
-        child: Column(
-          // Replace with a Row for horizontal icon + text
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(height: 8),
-            Expanded(child: SvgPicture.asset(iconPath, width: 30, height: 30, fit: BoxFit.contain)),
-            Expanded(
-              child: OText(
-                text: label,
-                style: OTextStyle.bodySmall.copyWith(
-                  color: OColor.gray800,
-                  fontWeight: FontWeight.w500,
-                ),
-                maxLines: 2,
-                textAlign: TextAlign.center,
+    return SizedBox(
+      height: 150,
+      width: 150,
+      child: Column(
+        // Replace with a Row for horizontal icon + text
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SizedBox(height: 8),
+          Expanded(child: SvgPicture.asset(iconPath, width: 60, height: 32, fit: BoxFit.contain)),
+          Expanded(
+            child: OText(
+              text: label,
+              style: OTextStyle.bodySmall.copyWith(
+                color: OColor.gray800,
+                fontWeight: FontWeight.w500,
               ),
+              maxLines: 2,
+              textAlign: TextAlign.center,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

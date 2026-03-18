@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:lib_token/lib_token.dart';
+import 'package:onestop_dev/globals/endpoints.dart';
 import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/home/bottom_nav_item.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
@@ -10,6 +13,8 @@ import 'package:onestop_dev/pages/profile/profile_tab.dart';
 import 'package:onestop_dev/pages/timetable/timetable_page.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
 import 'package:onestop_dev/services/app_shortcuts_service.dart';
+import 'package:onestop_dev/stores/common_store.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/ui/onestop_upgrade.dart';
@@ -31,6 +36,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   int index = 0;
   late List<Widget> tabs;
+
+  bool _showBagReminder = false;
+  String _bagReminderMessage = "Reminder: You have your bag in the library";
+  bool _isBannedDialogShowing = false;
 
   static final List<BottomNavItem> bottomNavItems = [
     BottomNavItem(
@@ -54,27 +63,133 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       unselectedIcon: FluentIcons.person_24_regular,
     ),
   ];
-  @override
-  @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   super.didChangeAppLifecycleState(state);
-  //   if (state == AppLifecycleState.resumed) {
-  //     actOnPendingShortcut();
-  //   }
-  // }
-  // void actOnPendingShortcut() {
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     AppShortcutsService.handlePendingShortcutAction((index) {
-  //       setState(() {
-  //         this.index = index;
-  //         context.read<MapBoxStore>().mapController = null;
-  //       });
-  //     });
-  //   });
-  // }
+
+  Future<void> _checkLibrarySlot() async {
+    try {
+      final user = OneStopUser.fromJson(LoginStore.userData);
+      const baseUrl = String.fromEnvironment("LIB_TOKEN_BASE_URL");
+
+      debugPrint('$baseUrl/check-status?rollNo=${user.rollNo}');
+
+      final response = await Dio().get(
+        '$baseUrl/check-status?rollNo=${user.rollNo}',
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${await AuthUserHelpers.getAccessToken()}",
+            "Content-Type": "application/json",
+            'security-key': Endpoints.apiSecurityKey,
+          },
+        ),
+      );
+
+      debugPrint(
+        "Library slot response: ${response.statusCode} - ${response.data}",
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        if (mounted) {
+          final slotId = data['slotId'] ?? data['slotid'];
+          final isBanned = data['isBanned'] ?? data['banend'] ?? false;
+          final message = data['message'];
+
+          final isBagPresent = slotId != null;
+          context.read<CommonStore>().setBagInLibrary(isBagPresent);
+          setState(() {
+            _showBagReminder = isBagPresent && !isBanned && message != null;
+            if (message != null) {
+              _bagReminderMessage = message;
+            }
+          });
+
+          if (isBanned) {
+            if (!_isBannedDialogShowing) {
+              _isBannedDialogShowing = true;
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) {
+                  return PopScope(
+                    canPop: false,
+                    child: AlertDialog(
+                      backgroundColor: OColor.white,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        side: BorderSide(color: Color(0xFFE0E0E0), width: 1.0),
+                      ),
+                      title: const Text(
+                        "Alert",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      titlePadding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                      contentPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                      actionsPadding: const EdgeInsets.all(16.0),
+                      content:  Text(
+                        message ??
+                            "You are banned from using onestop. Please collect your bag from the library.",
+                          style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          height: 1.5,
+                        ),
+                      ),
+                      actionsAlignment: MainAxisAlignment.center,
+                      actions: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side:  BorderSide(
+                                color: OColor.gray600,
+                                width: 1.0,
+                              ),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(16.0),
+                                ),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 16.0,
+                              ),
+                            ),
+                            onPressed: () {
+                            Navigator.pop(context);
+                            _isBannedDialogShowing = false;
+                            Navigator.pushNamed(context, LibraryTokenScreen.id).then((_) {
+                              _checkLibrarySlot();
+                            });
+                          },
+                            child:  Text(
+                              "Library Token",
+                              style: TextStyle(
+                                color: OColor.green600,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ), 
+                  );
+                },
+              );
+            }
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint("Error checking library slot: $e");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _checkLibrarySlot();
     tabs = [
       HomeTab(
         moveToTimeTableView: () {
@@ -100,6 +215,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       actOnPendingShortcut();
+      _checkLibrarySlot();
     }
   }
 
@@ -127,9 +243,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           context,
           displayDrawer: false,
           displayIcon: false,
-          systemUiOverlayStyle: Theme.of(
-            context,
-          ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: Colors.transparent),
+          systemUiOverlayStyle: Theme.of(context).appBarTheme.systemOverlayStyle
+              ?.copyWith(statusBarColor: Colors.transparent),
         ),
         body: LayoutBuilder(
           builder: (context, constraints) {
@@ -140,7 +255,45 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               width: width,
               child: Stack(
                 children: [
-                  tabs[index],
+                  Column(
+                    children: [
+                      if (_showBagReminder)
+                        SafeArea(
+                          bottom: false,
+                          child: Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.only(
+                              left: 15,
+                              right: 15,
+                              top: 12,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFACC15),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 16,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    _bagReminderMessage,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      Expanded(child: tabs[index]),
+                    ],
+                  ),
                   Positioned(
                     bottom: Platform.isIOS ? 8 : bottomInset,
                     left: 0,
@@ -162,17 +315,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
         color: OColor.white,
-        borderRadius: BorderRadius.circular(Platform.isIOS ? 40 : OCornerRadius.l),
+        borderRadius: BorderRadius.circular(
+          Platform.isIOS ? 40 : OCornerRadius.l,
+        ),
         boxShadow: [
           BoxShadow(
             color: OColor.black.withValues(alpha: 0.06),
             blurRadius: 9,
             offset: const Offset(0, 6),
-          ),
-          BoxShadow(
-            color: OColor.black.withValues(alpha: 0.03),
-            blurRadius: 17,
-            offset: const Offset(0, 16),
           ),
           BoxShadow(
             color: OColor.black.withValues(alpha: 0.02),
@@ -199,21 +349,31 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: index == itemIndex ? OColor.green100 : null,
-                      borderRadius: BorderRadius.circular(Platform.isIOS ? 40 : OCornerRadius.m),
+                      borderRadius: BorderRadius.circular(
+                        Platform.isIOS ? 40 : OCornerRadius.m,
+                      ),
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          index == itemIndex ? item.selectedIcon : item.unselectedIcon,
-                          color: index == itemIndex ? OColor.green600 : OColor.gray800,
+                          index == itemIndex
+                              ? item.selectedIcon
+                              : item.unselectedIcon,
+                          color:
+                              index == itemIndex
+                                  ? OColor.green600
+                                  : OColor.gray800,
                           size: 24,
                         ),
                         const SizedBox(height: 4),
                         OText(
                           text: item.name,
                           style: OTextStyle.bodyXSmall.copyWith(
-                            color: index == itemIndex ? OColor.green600 : OColor.gray800,
+                            color:
+                                index == itemIndex
+                                    ? OColor.green600
+                                    : OColor.gray800,
                             letterSpacing: 0.48,
                           ),
                         ),

@@ -1,10 +1,7 @@
 import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/widgets/food/restaurant/full_screen_image_carousel.dart';
-import 'package:onestop_ui/buttons/secondary_button.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_ui/components/text.dart';
-import 'package:onestop_ui/utils/colors.dart';
-import 'package:onestop_ui/utils/styles.dart';
+import 'package:onestop_ui/index.dart';
 
 import 'open_map.dart';
 
@@ -141,27 +138,32 @@ void openRestaurantPage(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      constraints: BoxConstraints(minWidth: 150, minHeight: 40),
-                      child: SecondaryButton(
-                        label: 'Call',
-                        onPressed: () {
-                          launchPhoneURL(phoneNumber);
-                        },
-                        leadingIcon: Icons.phone_outlined,
-                        opColor: OColor.green600,
-                        iconColor: OColor.green600,
+                    Expanded(
+                      child: Container(
+                        constraints: BoxConstraints(minHeight: 40),
+                        child: SecondaryButton(
+                          label: 'Call',
+                          onPressed: () {
+                            launchPhoneURL(phoneNumber);
+                          },
+                          leadingIcon: Icons.phone_outlined,
+                          opColor: OColor.green600,
+                          iconColor: OColor.green600,
+                        ),
                       ),
                     ),
-                    Container(
-                      constraints: BoxConstraints(minWidth: 150, minHeight: 40),
-                      child: SecondaryButton(
-                        label: 'Directions',
-                        onPressed: () {
-                          openMap(latitude, longitude, sheetContext, name);
-                        },
-                        leadingIcon: Icons.map_outlined,
-                        iconColor: OColor.green600,
+                    const SizedBox(width: OSpacing.xs),
+                    Expanded(
+                      child: Container(
+                        constraints: BoxConstraints(minHeight: 40),
+                        child: SecondaryButton(
+                          label: 'Directions',
+                          onPressed: () {
+                            openMap(latitude, longitude, sheetContext, name);
+                          },
+                          leadingIcon: Icons.map_outlined,
+                          iconColor: OColor.green600,
+                        ),
                       ),
                     ),
                   ],
@@ -174,59 +176,57 @@ void openRestaurantPage(
                 const SizedBox(height: 8),
                 menuImages.length == 1
                     ? GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          rootNavigator.push(
-                            MaterialPageRoute(
-                              builder:
-                                  (_) => FullScreenImageCarousel(
-                                    imageUrls: menuImages,
-                                    initialIndex: 0,
-                                  ),
-                            ),
-                          );
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            menuImages[0], 
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(sheetContext).size.width,
-                            height: 200,
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        rootNavigator.push(
+                          MaterialPageRoute(
+                            builder:
+                                (_) =>
+                                    FullScreenImageCarousel(imageUrls: menuImages, initialIndex: 0),
                           ),
+                        );
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          menuImages[0],
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(sheetContext).size.width,
+                          height: 200,
                         ),
-                      )
-                    : GridView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                          childAspectRatio: 1.0, 
-                        ),
-                        itemCount: menuImages.length,
-                        itemBuilder: (_, index) {
-                          return GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              rootNavigator.push(
-                                MaterialPageRoute(
-                                  builder:
-                                      (_) => FullScreenImageCarousel(
-                                        imageUrls: menuImages,
-                                        initialIndex: index,
-                                      ),
-                                ),
-                              );
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(menuImages[index], fit: BoxFit.cover),
-                            ),
-                          );
-                        },
                       ),
+                    )
+                    : GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
+                        childAspectRatio: 1.0,
+                      ),
+                      itemCount: menuImages.length,
+                      itemBuilder: (_, index) {
+                        return GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            rootNavigator.push(
+                              MaterialPageRoute(
+                                builder:
+                                    (_) => FullScreenImageCarousel(
+                                      imageUrls: menuImages,
+                                      initialIndex: index,
+                                    ),
+                              ),
+                            );
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(menuImages[index], fit: BoxFit.cover),
+                          ),
+                        );
+                      },
+                    ),
               ],
             ),
           ),

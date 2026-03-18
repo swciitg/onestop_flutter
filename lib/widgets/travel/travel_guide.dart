@@ -71,18 +71,17 @@ class _TravelGuideState extends State<TravelGuide> {
             }
             final guides = snapshot.data!;
             return SingleChildScrollView(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 16),
                   const TravelGuideInfoCard(),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: OSpacing.m),
                   Text(
                     'How to reach?',
                     style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: OSpacing.s),
                   ...guides.map(
                     (guide) => Padding(
                       padding: const EdgeInsets.only(bottom: 5),

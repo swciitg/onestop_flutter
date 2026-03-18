@@ -124,58 +124,62 @@ class _ProfileTabState extends State<ProfileTab> {
       );
     }
 
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          padding: const EdgeInsets.only(
-            left: 8,
-            right: 8,
-            top: 8,
-            bottom: 160, // room for bottom nav
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ── ID card ────────────────────────────────────────────
-              _buildIdCard(),
-              const SizedBox(height: 28),
-
-              // ── additional info ────────────────────────────────────
-              OText(
-                text: 'Additional Information',
-                style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(OCornerRadius.l),
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.only(
+                top: 8,
+                bottom: 160, // room for bottom nav
               ),
-              const SizedBox(height: OSpacing.m),
-              _buildInfoSection(),
-              const SizedBox(height: OSpacing.l),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ── ID card ────────────────────────────────────────────
+                  _buildIdCard(),
+                  const SizedBox(height: 28),
 
-              // ── Bug/Feature Request + About Us + SWC logo ─────────
-              _buildExtrasSection(),
-              const SizedBox(height: OSpacing.s),
+                  // ── additional info ────────────────────────────────────
+                  OText(
+                    text: 'Additional Information',
+                    style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+                  ),
+                  const SizedBox(height: OSpacing.m),
+                  _buildInfoSection(),
+                  const SizedBox(height: OSpacing.l),
 
-              // ── theme toggle ───────────────────────────────────────
-              _buildThemeToggle(),
-              const SizedBox(height: OSpacing.s),
+                  // ── Bug/Feature Request + About Us + SWC logo ─────────
+                  _buildExtrasSection(),
+                  const SizedBox(height: OSpacing.s),
 
-              // ── logout button ──────────────────────────────────────
-              _buildLogoutButton(),
-              const SizedBox(height: OSpacing.l),
-              // SWC logo
-              _swcLogo(),
-              const SizedBox(height: 50),
-            ],
-          ),
-        ),
+                  // ── theme toggle ───────────────────────────────────────
+                  _buildThemeToggle(),
+                  const SizedBox(height: OSpacing.s),
 
-        // saving indicator
-        if (_isSaving)
-          Positioned.fill(
-            child: Container(
-              color: Colors.black12,
-              child: Center(child: CircularProgressIndicator(color: OColor.green600)),
+                  // ── logout button ──────────────────────────────────────
+                  _buildLogoutButton(),
+                  const SizedBox(height: OSpacing.l),
+                  // SWC logo
+                  _swcLogo(),
+                  const SizedBox(height: 50),
+                ],
+              ),
             ),
-          ),
-      ],
+
+            // saving indicator
+            if (_isSaving)
+              Positioned.fill(
+                child: Container(
+                  color: Colors.black12,
+                  child: Center(child: CircularProgressIndicator(color: OColor.green600)),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -384,6 +388,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     ? DateFormat('dd-MM-yyyy').format(DateTime.parse(_user.dob!))
                     : '',
             editable: true,
+            isDatePicker: true,
             onUpdated: _handleFieldUpdate,
           ),
           _InfoTile(
@@ -417,6 +422,31 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget _buildExtrasSection() {
     return Column(
       children: [
+        // About Us
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () async {
+              try {
+                await launchUrlString(
+                  'https://swc.iitg.ac.in',
+                  mode: LaunchMode.externalApplication,
+                );
+              } catch (e) {
+                log('ERROR launching URL: https://swc.iitg.ac.in');
+              }
+            },
+            icon: Icon(FluentIcons.info_24_regular, color: OColor.gray800),
+            label: Text('About Us', style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: OColor.gray200, width: 1),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(OCornerRadius.l)),
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              backgroundColor: OColor.white,
+            ),
+          ),
+        ),
+        const SizedBox(height: OSpacing.s),
         // Bug / Feature Request
         SizedBox(
           width: double.infinity,
@@ -434,32 +464,6 @@ class _ProfileTabState extends State<ProfileTab> {
               'Bug/Feature Request',
               style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
             ),
-            style: OutlinedButton.styleFrom(
-              side: BorderSide(color: OColor.gray200, width: 1),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(OCornerRadius.l)),
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              backgroundColor: OColor.white,
-            ),
-          ),
-        ),
-        const SizedBox(height: OSpacing.s),
-
-        // About Us
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton.icon(
-            onPressed: () async {
-              try {
-                await launchUrlString(
-                  'https://swc.iitg.ac.in',
-                  mode: LaunchMode.externalApplication,
-                );
-              } catch (e) {
-                log('ERROR launching URL: https://swc.iitg.ac.in');
-              }
-            },
-            icon: Icon(FluentIcons.info_24_regular, color: OColor.gray800),
-            label: Text('About Us', style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
             style: OutlinedButton.styleFrom(
               side: BorderSide(color: OColor.gray200, width: 1),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(OCornerRadius.l)),
@@ -546,6 +550,7 @@ class _InfoTile extends StatelessWidget {
   final bool editable;
   final bool showDivider;
   final bool isDropdown;
+  final bool isDatePicker;
   final List<String>? dropdownOptions;
   final TextInputType? keyboardType;
   final Function(String label, String newValue)? onUpdated;
@@ -557,6 +562,7 @@ class _InfoTile extends StatelessWidget {
     this.editable = false,
     this.showDivider = true,
     this.isDropdown = false,
+    this.isDatePicker = false,
     this.dropdownOptions,
     this.keyboardType,
     this.onUpdated,
@@ -590,7 +596,9 @@ class _InfoTile extends StatelessWidget {
             if (editable)
               IconButton(
                 onPressed: () {
-                  if (isDropdown && dropdownOptions != null) {
+                  if (isDatePicker) {
+                    _showDatePickerDialog(context);
+                  } else if (isDropdown && dropdownOptions != null) {
                     _showDropdownSheet(context);
                   } else {
                     _showEditSheet(context);
@@ -679,6 +687,44 @@ class _InfoTile extends StatelessWidget {
         );
       },
     );
+  }
+
+  // ── date picker dialog ─────────────────────────────────────────────
+  void _showDatePickerDialog(BuildContext context) async {
+    // Parse the current value to get initial date
+    DateTime initialDate = DateTime.now();
+    if (value.isNotEmpty) {
+      try {
+        initialDate = DateFormat('dd-MM-yyyy').parse(value);
+      } catch (_) {
+        try {
+          initialDate = DateTime.parse(value);
+        } catch (_) {}
+      }
+    }
+
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(1920),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: OColor.green600,
+              onSurface: OColor.gray800,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null) {
+      final isoDate = DateTime(pickedDate.year, pickedDate.month, pickedDate.day).toIso8601String();
+      onUpdated?.call(label, isoDate);
+    }
   }
 
   // ── text-field bottom sheet ─────────────────────────────────────────

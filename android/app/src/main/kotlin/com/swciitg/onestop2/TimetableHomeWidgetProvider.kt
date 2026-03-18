@@ -9,7 +9,9 @@ import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import es.antonborri.home_widget.HomeWidgetProvider
-import java.util.concurrent.TimeUnit
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class TimetableHomeWidgetProvider : HomeWidgetProvider() {
     override fun onUpdate(
@@ -33,22 +35,39 @@ class TimetableHomeWidgetProvider : HomeWidgetProvider() {
             val deepLink = widgetData.getString("tt_deeplink", "onestopiitg://home2") ?: "onestopiitg://home2"
             val isDark = widgetData.getBoolean("tt_is_dark", false)
 
-            val headlineValue = if (headlinePrefix == "Class in") {
-                calculateRelativeTime(nextClassStartEpoch)
+            val headlineValue = if (headlinePrefix == "Class at") {
+                formatClassTime(nextClassStartEpoch)
+            } else if (headlinePrefix == "Class in") {
+                // Legacy fallback
+                formatClassTime(nextClassStartEpoch)
             } else {
                 headlineValueStored
             }
 
+            // Fix prefix based on whether class has started
+            val finalPrefix = if ((headlinePrefix == "Class at" || headlinePrefix == "Class in") && nextClassStartEpoch.isNotBlank()) {
+                val epoch = nextClassStartEpoch.toLongOrNull()
+                if (epoch != null && epoch <= System.currentTimeMillis()) {
+                    "Class Ongoing"
+                } else {
+                    "Class at"
+                }
+            } else {
+                headlinePrefix
+            }
+
+            val finalValue = if (finalPrefix == "Class Ongoing") "" else headlineValue
+
             views.setTextViewText(R.id.ttTitle, title)
             views.setTextViewText(R.id.ttDate, date)
-            views.setTextViewText(R.id.ttHeadlinePrefix, headlinePrefix)
-            views.setTextViewText(R.id.ttHeadlineValue, headlineValue)
+            views.setTextViewText(R.id.ttHeadlinePrefix, finalPrefix)
+            views.setTextViewText(R.id.ttHeadlineValue, finalValue)
             views.setTextViewText(R.id.ttNextCourse, nextCourse)
             views.setTextViewText(R.id.ttOtherTime, otherTime)
             views.setTextViewText(R.id.ttOtherCourse, otherCourse)
             views.setTextViewText(R.id.ttUpdatedAt, if (updatedAt.isBlank()) "" else "Updated $updatedAt")
 
-            val hasHeadlineValue = headlineValue.isNotBlank()
+            val hasHeadlineValue = finalValue.isNotBlank()
             views.setViewVisibility(R.id.ttHeadlineValue, if (hasHeadlineValue) View.VISIBLE else View.GONE)
 
             val hasOtherClass = otherTime.isNotBlank() || otherCourse.isNotBlank()
@@ -78,30 +97,10 @@ class TimetableHomeWidgetProvider : HomeWidgetProvider() {
         }
     }
 
-    private fun calculateRelativeTime(startEpochString: String): String {
+    private fun formatClassTime(startEpochString: String): String {
         val startEpoch = startEpochString.toLongOrNull() ?: return ""
-        val now = System.currentTimeMillis()
-        val diffMillis = startEpoch - now
-
-        if (diffMillis <= 0) {
-            return "Started"
-        }
-
-        val totalMinutes = TimeUnit.MILLISECONDS.toMinutes(diffMillis)
-        val hours = totalMinutes / 60
-        val minutes = totalMinutes % 60
-
-        if (hours > 0) {
-            val hourText = if (hours == 1L) "hr" else "hrs"
-            if (minutes > 0) {
-                val minuteText = if (minutes == 1L) "min" else "mins"
-                return "$hours $hourText $minutes $minuteText"
-            }
-            return "$hours $hourText"
-        }
-
-        val minuteText = if (minutes == 1L) "min" else "mins"
-        return "$minutes $minuteText"
+        val formatter = SimpleDateFormat("h:mm a", Locale.getDefault())
+        return formatter.format(Date(startEpoch))
     }
 
     private fun applyTheme(views: RemoteViews, isDark: Boolean) {

@@ -4,6 +4,7 @@ import 'package:onestop_dev/functions/travel/has_left.dart';
 import 'package:onestop_dev/functions/travel/next_time.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
+import 'package:onestop_dev/widgets/travel/direction_switch.dart';
 import 'package:onestop_dev/widgets/travel/stops_bus_details.dart';
 import 'package:onestop_dev/widgets/travel/travel_guide.dart';
 import 'package:onestop_ui/index.dart';
@@ -60,9 +61,7 @@ class _BusTimingsPageState extends State<BusTimingsPage> {
               }
               final timings = snapshot.data!;
               return SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(8, 8, 8, 100),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Day type toggle
                     _DayToggle(
@@ -71,37 +70,44 @@ class _BusTimingsPageState extends State<BusTimingsPage> {
                       secondLabel: 'Weekends',
                       onChanged: (val) => setState(() => _isWeekday = val),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 4),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 100),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Travel guide hint
+                          if (_showGuideHint)
+                            _TravelGuideHint(
+                              onHide: () => setState(() => _showGuideHint = false),
+                              onNavigate: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => const TravelGuide()),
+                                );
+                              },
+                            ),
+                          if (_showGuideHint) const SizedBox(height: 16),
 
-                    // Travel guide hint
-                    if (_showGuideHint)
-                      _TravelGuideHint(
-                        onHide: () => setState(() => _showGuideHint = false),
-                        onNavigate: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => const TravelGuide()),
-                          );
-                        },
+                          // Direction switch
+                          DirectionSwitch(
+                            fromCampus: _fromCampus,
+                            leftLabel: 'City',
+                            rightLabel: 'IIT',
+                            leftSub: 'Panbazar',
+                            rightSub: 'Campus',
+                            onSwap: () => setState(() => _fromCampus = !_fromCampus),
+                          ),
+                          const SizedBox(height: 16),
+
+                          // Timing list
+                          _BusTimingList(
+                            timings: timings,
+                            isWeekday: _isWeekday,
+                            fromCampus: _fromCampus,
+                          ),
+                        ],
                       ),
-                    if (_showGuideHint) const SizedBox(height: 16),
-
-                    // Direction switch
-                    _DirectionSwitch(
-                      fromCampus: _fromCampus,
-                      leftLabel: 'City',
-                      rightLabel: 'IIT',
-                      leftSub: 'Jalukbari',
-                      rightSub: 'Campus',
-                      onSwap: () => setState(() => _fromCampus = !_fromCampus),
-                    ),
-                    const SizedBox(height: 16),
-
-                    // Timing list
-                    _BusTimingList(
-                      timings: timings,
-                      isWeekday: _isWeekday,
-                      fromCampus: _fromCampus,
                     ),
                   ],
                 ),
@@ -165,11 +171,8 @@ class _DayToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: OColor.white,
-        borderRadius: BorderRadius.circular(OCornerRadius.xl),
-        border: Border.all(color: OColor.gray200),
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: OSpacing.s, vertical: OSpacing.s),
+      decoration: BoxDecoration(color: OColor.white),
       child: Row(
         children: [
           Expanded(child: _toggleBtn(firstLabel, isFirst, () => onChanged(true))),
@@ -185,13 +188,15 @@ class _DayToggle extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: selected ? OColor.green600 : Colors.transparent,
+          color: selected ? OColor.gray200 : Colors.transparent,
           borderRadius: BorderRadius.circular(OCornerRadius.xl),
         ),
         child: Center(
           child: Text(
             label,
-            style: OTextStyle.labelMedium.copyWith(color: selected ? OColor.white : OColor.gray600),
+            style: OTextStyle.labelMedium.copyWith(
+              color: selected ? OColor.green600 : OColor.gray600,
+            ),
           ),
         ),
       ),
@@ -220,7 +225,7 @@ class _TravelGuideHintState extends State<_TravelGuideHint> {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: OColor.white,
-        borderRadius: BorderRadius.circular(OCornerRadius.m),
+        borderRadius: BorderRadius.circular(OCornerRadius.l),
         border: Border.all(color: OColor.gray200),
       ),
       child: Column(
@@ -322,78 +327,6 @@ class _TravelGuideHintState extends State<_TravelGuideHint> {
   }
 }
 
-// ─── Direction switch ───────────────────────────────────────────────────
-
-class _DirectionSwitch extends StatelessWidget {
-  final bool fromCampus;
-  final String leftLabel;
-  final String rightLabel;
-  final String leftSub;
-  final String rightSub;
-  final VoidCallback onSwap;
-
-  const _DirectionSwitch({
-    required this.fromCampus,
-    required this.leftLabel,
-    required this.rightLabel,
-    required this.leftSub,
-    required this.rightSub,
-    required this.onSwap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final from = fromCampus ? rightLabel : leftLabel;
-    final to = fromCampus ? leftLabel : rightLabel;
-    final fromSub = fromCampus ? rightSub : leftSub;
-    final toSub = fromCampus ? leftSub : rightSub;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-      decoration: BoxDecoration(
-        color: OColor.white,
-        borderRadius: BorderRadius.circular(OCornerRadius.m),
-        border: Border.all(color: OColor.gray200),
-      ),
-      child: Row(
-        children: [
-          // From
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(from, style: OTextStyle.headingSmall.copyWith(color: OColor.gray800)),
-                const SizedBox(height: 2),
-                Text(fromSub, style: OTextStyle.labelXSmall.copyWith(color: OColor.gray600)),
-              ],
-            ),
-          ),
-          // Swap button
-          GestureDetector(
-            onTap: onSwap,
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(color: OColor.green100, shape: BoxShape.circle),
-              child: Icon(FluentIcons.arrow_swap_24_regular, size: 20, color: OColor.green600),
-            ),
-          ),
-          // To
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(to, style: OTextStyle.headingSmall.copyWith(color: OColor.gray800)),
-                const SizedBox(height: 2),
-                Text(toSub, style: OTextStyle.labelXSmall.copyWith(color: OColor.gray600)),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 // ─── Bus timing list ────────────────────────────────────────────────────
 
 class _BusTimingList extends StatelessWidget {
@@ -475,20 +408,8 @@ class _TimingCard extends StatelessWidget {
               color: hasLeft ? OColor.gray400 : OColor.gray800,
             ),
           ),
-          const SizedBox(width: 8),
-          Text(stopName, style: OTextStyle.labelXSmall.copyWith(color: OColor.gray400)),
           const Spacer(),
-          if (hasLeft)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: OColor.gray100,
-                borderRadius: BorderRadius.circular(OCornerRadius.xl),
-              ),
-              child: Text('LEFT', style: OTextStyle.labelXSmall.copyWith(color: OColor.gray400)),
-            )
-          else
-            _StatusBadge(time: timeStr),
+          if (!hasLeft) _StatusBadge(time: timeStr),
         ],
       ),
     );

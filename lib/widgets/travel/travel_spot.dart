@@ -1,7 +1,10 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/travel/travel_guide_model.dart';
 import 'package:onestop_ui/index.dart';
+
+import '../../pages/services/cab_share.dart';
 
 class SpotButton extends StatelessWidget {
   final TravelGuideModel guide;
@@ -113,7 +116,7 @@ class SpotButton extends StatelessWidget {
                                 const SizedBox(height: 8),
                                 GestureDetector(
                                   onTap: () {
-                                    // Navigate to cab sharing
+                                    navigatorKey.currentState?.pushNamed(CabShare.id);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(

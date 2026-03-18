@@ -63,6 +63,24 @@ mixin _$CommonStore on _CommonStore, Store {
     });
   }
 
+  late final _$isBagInLibraryAtom = Atom(
+    name: '_CommonStore.isBagInLibrary',
+    context: context,
+  );
+
+  @override
+  bool get isBagInLibrary {
+    _$isBagInLibraryAtom.reportRead();
+    return super.isBagInLibrary;
+  }
+
+  @override
+  set isBagInLibrary(bool value) {
+    _$isBagInLibraryAtom.reportWrite(value, super.isBagInLibrary, () {
+      super.isBagInLibrary = value;
+    });
+  }
+
   late final _$_CommonStoreActionController = ActionController(
     name: '_CommonStore',
     context: context,
@@ -93,6 +111,18 @@ mixin _$CommonStore on _CommonStore, Store {
   }
 
   @override
+  void setBagInLibrary(bool value) {
+    final _$actionInfo = _$_CommonStoreActionController.startAction(
+      name: '_CommonStore.setBagInLibrary',
+    );
+    try {
+      return super.setBagInLibrary(value);
+    } finally {
+      _$_CommonStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setNotif() {
     final _$actionInfo = _$_CommonStoreActionController.startAction(
       name: '_CommonStore.setNotif',
@@ -109,7 +139,8 @@ mixin _$CommonStore on _CommonStore, Store {
     return '''
 lnfIndex: ${lnfIndex},
 bnsIndex: ${bnsIndex},
-isPersonalNotif: ${isPersonalNotif}
+isPersonalNotif: ${isPersonalNotif},
+isBagInLibrary: ${isBagInLibrary}
     ''';
   }
 }

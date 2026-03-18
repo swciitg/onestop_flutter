@@ -216,6 +216,7 @@ class _DateExamState extends State<DateExam> {
                 decoration: BoxDecoration(
                   color: OColor.white,
                   borderRadius: BorderRadius.circular(OCornerRadius.l),
+                  border: Border.all(color: OColor.gray200),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,46 +257,45 @@ class _DateExamState extends State<DateExam> {
                             ],
                           ),
                           const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Icon(Icons.info_outline, size: 18, color: OColor.red500),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: OText(
-                                  text:
-                                      "Please verify the exam schedule. For discrepancies, contact swc@iitg.ac.in",
-                                  style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray600),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    OText(
-                                      text: 'Exam in ',
-                                      style: OTextStyle.headingLarge.copyWith(
-                                        color: OColor.black,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: OText(
-                                        text: _getNextExamTime(nextClass, context),
-                                        style: OTextStyle.headingLarge.copyWith(
-                                          color: OColor.red600,
+                          Builder(
+                            builder: (context) {
+                              final timeText = _getNextExamTime(nextClass, context);
+                              final bool isOngoing =
+                                  timeText == 'Going on' || timeText == 'Starting now';
+                              final bool isFinished = timeText == 'Finished';
+                              return Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        OText(
+                                          text:
+                                              isOngoing
+                                                  ? 'Exam '
+                                                  : isFinished
+                                                  ? 'Exam '
+                                                  : 'Exam in ',
+                                          style: OTextStyle.headingLarge.copyWith(
+                                            color: OColor.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                      ),
+                                        Expanded(
+                                          child: OText(
+                                            text: timeText,
+                                            style: OTextStyle.headingLarge.copyWith(
+                                              color: OColor.red600,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                           const SizedBox(height: 8),
                           OText(
