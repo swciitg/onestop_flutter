@@ -1,5 +1,7 @@
+import 'dart:developer' as dev;
 import 'dart:io';
 import 'dart:math';
+import 'package:dynamic_app_icon_flutter_plus/dynamic_app_icon_flutter_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_ui/index.dart';
@@ -107,10 +109,22 @@ class _ThemeTransitionScreenState extends State<ThemeTransitionScreen>
     // Wait for the full animation to feel complete
     await Future.delayed(const Duration(milliseconds: 2000));
 
-    // Toggle the theme, then fully restart the app
+    // Toggle the theme and app icon, then fully restart the app
     if (mounted) {
       final themeStore = context.read<ThemeStore>();
       await themeStore.toggleTheme(notify: false);
+
+      // Switch app icon to match new theme
+      try {
+        final iconName = widget.toLight ? 'light' : 'dark';
+        await DynamicAppIconFlutterPlus.setAlternateIconName(
+          iconName,
+          showAlert: false,
+        );
+        dev.log('App icon switched to: $iconName', name: 'ThemeTransition');
+      } catch (e) {
+        dev.log('Failed to switch app icon: $e', name: 'ThemeTransition');
+      }
       if (Platform.isAndroid) {
         const channel = MethodChannel('com.swciitg.onestop2/restart');
         await channel.invokeMethod('restartApp');

@@ -75,6 +75,32 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
+        <!-- Alternate app icons (dark/light theme) -->
+        <activity-alias
+            android:name=".MainActivity.dark"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_dark"
+            android:label="${appName}"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".MainActivity.light"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_light"
+            android:label="${appName}"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
         <!-- Trampoline activity for full-process restart (runs in separate process) -->
         <activity
             android:name=".RestartActivity"
