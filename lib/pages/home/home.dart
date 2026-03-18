@@ -11,6 +11,7 @@ import 'package:onestop_dev/pages/profile/profile_tab.dart';
 import 'package:onestop_dev/pages/timetable/timetable_page.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
 import 'package:onestop_dev/services/app_shortcuts_service.dart';
+import 'package:onestop_dev/services/deep_link_service.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/widgets/ui/appbar.dart';
 import 'package:onestop_dev/widgets/ui/onestop_upgrade.dart';
@@ -108,6 +109,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     _checkLibrarySlot();
     WidgetsBinding.instance.addObserver(this);
     actOnPendingShortcut();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      DeepLinkService.instance.handlePendingLink();
+    });
   }
 
   @override

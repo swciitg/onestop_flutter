@@ -8,5 +8,9 @@
 	<array>
 		<string>group.com.swciitg.onestop2</string>
 	</array>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:swc.iitg.ac.in</string>
+	</array>
 </dict>
 </plist>
