@@ -46,65 +46,68 @@ class _FoodTabState extends State<FoodTab> {
         children: [
           const SizedBox(height: 8),
           Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MessMenu(),
-                    const SizedBox(height: 8),
-                    const OutletsFilter(),
-                    const SizedBox(height: 8),
-                    // Search bar
-                    _buildSearchBar(),
-                    const SizedBox(height: 8),
-                    FutureBuilder<List<RestaurantModel>>(
-                      future: DataService.getRestaurants(),
-                      builder: (
-                        BuildContext context,
-                        AsyncSnapshot<List<RestaurantModel>> snapshot,
-                      ) {
-                        if (snapshot.hasData) {
-                          final filtered = _filterRestaurants(snapshot.data!);
-                          if (filtered.isEmpty) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 32),
-                              child: Center(
-                                child: Text(
-                                  'No outlets found',
-                                  style: OTextStyle.bodyMedium.copyWith(color: OColor.gray400),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(OCornerRadius.l),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MessMenu(),
+                      const SizedBox(height: 8),
+                      const OutletsFilter(),
+                      const SizedBox(height: 8),
+                      // Search bar
+                      _buildSearchBar(),
+                      const SizedBox(height: 8),
+                      FutureBuilder<List<RestaurantModel>>(
+                        future: DataService.getRestaurants(),
+                        builder: (
+                          BuildContext context,
+                          AsyncSnapshot<List<RestaurantModel>> snapshot,
+                        ) {
+                          if (snapshot.hasData) {
+                            final filtered = _filterRestaurants(snapshot.data!);
+                            if (filtered.isEmpty) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 32),
+                                child: Center(
+                                  child: Text(
+                                    'No outlets found',
+                                    style: OTextStyle.bodyMedium.copyWith(color: OColor.gray400),
+                                  ),
+                                ),
+                              );
+                            }
+                            return Column(
+                              children:
+                                  filtered
+                                      .map(
+                                        (e) => Padding(
+                                          padding: const EdgeInsets.only(bottom: 8),
+                                          child: RestaurantTile(restaurantModel: e),
+                                        ),
+                                      )
+                                      .toList(),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Text(
+                                "An error occurred",
+                                style: OTextStyle.headingMedium.copyWith(
+                                  fontSize: 25,
+                                  color: OColor.gray800,
                                 ),
                               ),
                             );
                           }
-                          return Column(
-                            children:
-                                filtered
-                                    .map(
-                                      (e) => Padding(
-                                        padding: const EdgeInsets.only(bottom: 8),
-                                        child: RestaurantTile(restaurantModel: e),
-                                      ),
-                                    )
-                                    .toList(),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Center(
-                            child: Text(
-                              "An error occurred",
-                              style: OTextStyle.headingMedium.copyWith(
-                                fontSize: 25,
-                                color: OColor.gray800,
-                              ),
-                            ),
-                          );
-                        }
-                        return Center(child: ListShimmer(height: 168));
-                      },
-                    ),
-                    const SizedBox(height: 160),
-                  ],
+                          return Center(child: ListShimmer(height: 168));
+                        },
+                      ),
+                      const SizedBox(height: 160),
+                    ],
+                  ),
                 ),
               ),
             ),

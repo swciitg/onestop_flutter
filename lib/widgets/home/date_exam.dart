@@ -230,8 +230,8 @@ class _DateExamState extends State<DateExam> {
                             children: [
                               SvgPicture.asset(
                                 "assets/images/timetable.svg",
-                                width: 20,
-                                height: 20,
+                                width: 32,
+                                height: 32,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
