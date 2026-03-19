@@ -1,11 +1,10 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/services/app_icon_service.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
-import 'package:terminate_restart/terminate_restart.dart';
 
 /// Inspirational quotes shown during theme transitions.
 const List<Map<String, String>> _themeQuotes = [
@@ -108,21 +107,22 @@ class _ThemeTransitionScreenState extends State<ThemeTransitionScreen>
     // Wait for the full animation to feel complete
     await Future.delayed(const Duration(milliseconds: 2000));
 
-    // Toggle the theme and app icon, then fully restart the app
     if (mounted) {
       final themeStore = context.read<ThemeStore>();
-      await themeStore.toggleTheme(notify: false);
+      await themeStore.toggleTheme(notify: true);
+      navigatorKey.currentState?.pop();
 
-      // Switch app icon to match new theme
-      final iconName = widget.toLight ? 'light' : 'dark';
-      await AppIconService.setIcon(iconName);
       if (Platform.isAndroid) {
-        const channel = MethodChannel('com.swciitg.onestop2/restart');
-        await channel.invokeMethod('restartApp');
+        // Android: just restart the app (no icon change)
+        // const channel = MethodChannel('com.swciitg.onestop2/restart');
+        // await channel.invokeMethod('restartApp');
       } else {
-        await TerminateRestart.instance.restartApp(
-          options: const TerminateRestartOptions(terminate: true),
-        );
+        // iOS: switch app icon and restart
+        final iconName = widget.toLight ? 'light' : 'dark';
+        await AppIconService.setIcon(iconName);
+        // await TerminateRestart.instance.restartApp(
+        //   options: const TerminateRestartOptions(terminate: true),
+        // );
       }
     }
   }

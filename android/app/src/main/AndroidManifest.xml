@@ -36,6 +36,10 @@
                 android:resource="@style/NormalTheme" />
 
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -79,44 +83,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-
-        <!-- App icon aliases (only one enabled at a time for the launcher) -->
-        <activity-alias
-            android:name=".MainActivity.default"
-            android:targetActivity=".MainActivity"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="${appName}"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".MainActivity.dark"
-            android:targetActivity=".MainActivity"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_dark"
-            android:label="${appName}"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".MainActivity.light"
-            android:targetActivity=".MainActivity"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_light"
-            android:label="${appName}"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
 
         <!-- Trampoline activity for full-process restart (runs in separate process) -->
         <activity

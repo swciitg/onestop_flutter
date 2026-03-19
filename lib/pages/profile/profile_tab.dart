@@ -244,16 +244,13 @@ class _ProfileTabState extends State<ProfileTab> {
                 width: 90,
                 height: 90,
                 fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => Container(
-                  width: 90,
-                  height: 90,
-                  color: OColor.gray200,
-                  child: Icon(
-                    FluentIcons.person_24_regular,
-                    color: OColor.gray500,
-                    size: 40,
-                  ),
-                ),
+                errorBuilder:
+                    (_, _, _) => Container(
+                      width: 90,
+                      height: 90,
+                      color: OColor.gray200,
+                      child: Icon(FluentIcons.person_24_regular, color: OColor.gray500, size: 40),
+                    ),
               ),
             ),
           ),
@@ -484,8 +481,8 @@ class _ProfileTabState extends State<ProfileTab> {
         return SizedBox(
           width: double.infinity,
           child: OutlinedButton.icon(
-            onPressed: () {
-              Navigator.of(context).push(
+            onPressed: () async {
+              await Navigator.of(context).push(
                 PageRouteBuilder(
                   pageBuilder: (_, _, _) => ThemeTransitionScreen(toLight: themeStore.isDarkMode),
                   transitionsBuilder: (_, animation, _, child) {
@@ -494,6 +491,8 @@ class _ProfileTabState extends State<ProfileTab> {
                   transitionDuration: const Duration(milliseconds: 400),
                 ),
               );
+              // Rebuild to set the new theme in stuborn widgets
+              setState(() {});
             },
             icon: Icon(
               themeStore.isLightMode
@@ -712,10 +711,7 @@ class _InfoTile extends StatelessWidget {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: OColor.green600,
-              onSurface: OColor.gray800,
-            ),
+            colorScheme: ColorScheme.light(primary: OColor.green600, onSurface: OColor.gray800),
           ),
           child: child!,
         );
