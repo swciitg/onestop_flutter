@@ -7,7 +7,7 @@ import 'package:onestop_dev/models/timetable/timetable_day.dart';
 import 'package:onestop_ui/index.dart';
 
 class HomeTimetableWidgetService {
-  static const String _androidWidgetName = 'TimetableHomeWidgetProvider';
+  static const String _qualifiedAndroidWidgetName = 'com.swciitg.onestop2.TimetableHomeWidgetProvider';
   static const _days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
   static Timer? _debounce;
@@ -47,7 +47,7 @@ class HomeTimetableWidgetService {
     if (Platform.isAndroid) {
       _debounce?.cancel();
       _debounce = Timer(const Duration(milliseconds: 500), () {
-        HomeWidget.updateWidget(androidName: _androidWidgetName);
+        HomeWidget.updateWidget(qualifiedAndroidName: _qualifiedAndroidWidgetName);
       });
     }
   }

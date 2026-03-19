@@ -5,7 +5,7 @@ import 'package:home_widget/home_widget.dart';
 import 'package:onestop_ui/index.dart';
 
 class HomeFoodWidgetService {
-  static const String _androidWidgetName = 'FoodHomeWidgetProvider';
+  static const String _qualifiedAndroidWidgetName = 'com.swciitg.onestop2.FoodHomeWidgetProvider';
 
   static Timer? _debounce;
 
@@ -37,7 +37,7 @@ class HomeFoodWidgetService {
       if (Platform.isAndroid) {
         _debounce?.cancel();
         _debounce = Timer(const Duration(milliseconds: 500), () {
-          HomeWidget.updateWidget(androidName: _androidWidgetName);
+          HomeWidget.updateWidget(qualifiedAndroidName: _qualifiedAndroidWidgetName);
         });
       }
     } catch (_) {}

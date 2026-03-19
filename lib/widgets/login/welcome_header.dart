@@ -2,7 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/globals/my_spaces.dart';
+// import 'package:onestop_dev/globals/my_spaces.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_ui/index.dart';
 
@@ -23,108 +23,106 @@ class WelcomeHeader extends StatelessWidget {
           colors: [Color(0xFF148440), const Color(0xFFDCEFE4)],
         ),
       ),
-      child: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  const SizedBox(height: 40),
-                  // App Logo
-                  Image.asset('assets/images/app_logo_dark.png', height: 80, width: 80),
-                  const SizedBox(height: 24),
-                  // Heading
-                  Text(
-                    'Welcome to the\nall new Onestop',
-                    textAlign: TextAlign.center,
-                    style: OTextStyle.displayXSmall.copyWith(
-                      color: Color(0xFF232329),
-                      fontSize: 43,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: -1.5,
-                    ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              children: [
+                const SizedBox(height: 40),
+                // App Logo
+                Image.asset('assets/images/app_logo_dark.png', height: 80, width: 80),
+                const SizedBox(height: 24),
+                // Heading
+                Text(
+                  'Welcome to the\nall new Onestop',
+                  textAlign: TextAlign.center,
+                  style: OTextStyle.displayXSmall.copyWith(
+                    color: Color(0xFF232329),
+                    fontSize: 43,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: -1.5,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            const Spacer(),
-            // Animating Service Icons Marquee (Full Width)
-            // const DancingServiceMarquee(),
-            const SizedBox(height: 24),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  // Subtext
-                  Text(
-                    'All the features you use every day, now thoughtfully redesigned.',
-                    textAlign: TextAlign.center,
-                    style: OTextStyle.labelMedium.copyWith(
-                      color: Color(0xFF232329).withOpacity(0.8),
-                      letterSpacing: -0.76,
-                    ),
+          ),
+          const Spacer(),
+          // Animating Service Icons Marquee (Full Width)
+          // const DancingServiceMarquee(),
+          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              children: [
+                // Subtext
+                Text(
+                  'All the features you use every day, now thoughtfully redesigned.',
+                  textAlign: TextAlign.center,
+                  style: OTextStyle.labelMedium.copyWith(
+                    color: Color(0xFF232329).withOpacity(0.8),
+                    letterSpacing: -0.76,
                   ),
-                  const SizedBox(height: 25),
-                  // Outlook Login Button
-                  GestureDetector(
-                    onTap: () => setLoading(),
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Color(0xFF148440),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Login with Outlook',
-                            style: MyFonts.w600.copyWith(fontSize: 16, color: Colors.white),
-                          ),
-                          const SizedBox(width: 8),
-                          const Icon(
-                            FluentIcons.arrow_right_24_regular,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
+                ),
+                const SizedBox(height: 25),
+                // Outlook Login Button
+                GestureDetector(
+                  onTap: () => setLoading(),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF148440),
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  // Guest Login Button
-                  GestureDetector(
-                    onTap: () async {
-                      final nav = Navigator.of(context);
-                      await LoginStore().signInAsGuest();
-                      nav.pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Continue as Guest',
-                          style: MyFonts.w600.copyWith(fontSize: 14, color: Color(0xFF232329)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Login with Outlook',
+                          style: MyFonts.w600.copyWith(fontSize: 16, color: Colors.white),
                         ),
+                        const SizedBox(width: 8),
+                        const Icon(
+                          FluentIcons.arrow_right_24_regular,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                // Guest Login Button
+                GestureDetector(
+                  onTap: () async {
+                    final nav = Navigator.of(context);
+                    await LoginStore().signInAsGuest();
+                    nav.pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Continue as Guest',
+                        style: MyFonts.w600.copyWith(fontSize: 14, color: Color(0xFF232329)),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
-                  // Footer
-                  Image.asset('assets/images/swc.png', height: 32),
-                  const SizedBox(height: 16),
-                ],
-              ),
+                ),
+                const SizedBox(height: 15),
+                // Footer
+                Image.asset('assets/images/swc.png', height: 32),
+                const SizedBox(height: 16),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

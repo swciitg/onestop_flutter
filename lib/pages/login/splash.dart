@@ -30,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
           Align(
             alignment: Alignment.center,
             child: SizedBox(
-              width: 200,
+              width: 120,
               child:
                   ThemeStore.instance.isDarkMode
                       ? Image.asset('assets/images/app_logo_dark.png')

@@ -14,8 +14,8 @@ class MainActivity : FlutterActivity() {
     private val RESTART_CHANNEL = "com.swciitg.onestop2/restart"
     private val ICON_CHANNEL = "com.swciitg.onestop2/app_icon"
 
-    // Activity-alias names defined in AndroidManifest.xml
-    private val iconAliases = listOf("dark", "light")
+    // All activity-alias names defined in AndroidManifest.xml
+    private val iconAliases = listOf("default", "dark", "light")
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -45,8 +45,12 @@ class MainActivity : FlutterActivity() {
                     if (call.method == "setAlternateIcon") {
                         val iconName = call.arguments as? String
                         if (iconName != null) {
-                            setAlternateIcon(iconName)
-                            result.success(null)
+                            try {
+                                setAlternateIcon(iconName)
+                                result.success(null)
+                            } catch (e: Exception) {
+                                result.error("error", e.message, null)
+                            }
                         } else {
                             result.error("INVALID_ARG", "iconName is required", null)
                         }
@@ -66,32 +70,29 @@ class MainActivity : FlutterActivity() {
 
     private fun setAlternateIcon(iconName: String) {
         val pm = packageManager
-        val packageName = componentName.packageName
+        val appId = componentName.packageName
+        // Activity-alias names are resolved against the manifest namespace,
+        // not the applicationId (which may have a flavor suffix like ".dev").
+        val namespace = "com.swciitg.onestop2"
 
-        // Disable all alternate icon aliases
+        // Enable the requested alias FIRST so there is always a launcher component
+        val targetComp = ComponentName(appId, "$namespace.MainActivity.$iconName")
+        pm.setComponentEnabledSetting(
+            targetComp,
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
+
+        // Disable all other aliases (MainActivity itself is never touched)
         for (alias in iconAliases) {
-            val comp = ComponentName(packageName, "$packageName.MainActivity.$alias")
+            if (alias == iconName) continue
+            val comp = ComponentName(appId, "$namespace.MainActivity.$alias")
             pm.setComponentEnabledSetting(
                 comp,
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP
             )
         }
-
-        // Disable the default MainActivity launcher
-        pm.setComponentEnabledSetting(
-            ComponentName(packageName, "$packageName.MainActivity"),
-            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-            PackageManager.DONT_KILL_APP
-        )
-
-        // Enable the requested alias
-        val targetComp = ComponentName(packageName, "$packageName.MainActivity.$iconName")
-        pm.setComponentEnabledSetting(
-            targetComp,
-            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            PackageManager.DONT_KILL_APP
-        )
     }
 
     private fun restartApp() {

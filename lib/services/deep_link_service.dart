@@ -52,10 +52,10 @@ class DeepLinkService {
   }
 
   bool _isHandledLink(Uri uri) {
-    // Universal links: https://swc.iitg.ac.in/onestop/...
+    // Universal links: https://swc.iitg.ac.in/onestop/app/...
     if (uri.scheme == 'https' &&
         uri.host == 'swc.iitg.ac.in' &&
-        uri.path.startsWith('/onestop')) {
+        uri.path.startsWith('/onestop/app')) {
       return true;
     }
     // Custom scheme from widgets: onestopiitg://gatelog, onestopiitg://home2
@@ -104,9 +104,9 @@ class DeepLinkService {
     }
   }
 
-  /// Handle https://swc.iitg.ac.in/onestop/... links
+  /// Handle https://swc.iitg.ac.in/onestop/app/... links
   void _handleUniversalLink(Uri uri) {
-    final path = uri.path.replaceFirst('/onestop', '').replaceAll(RegExp(r'^/+'), '');
+    final path = uri.path.replaceFirst('/onestop/app', '').replaceAll(RegExp(r'^/+'), '');
     final params = uri.queryParameters;
 
     log('Universal link: path=$path, params=$params', name: 'DeepLinkService');

@@ -5,7 +5,7 @@ import 'package:home_widget/home_widget.dart';
 import 'package:onestop_ui/index.dart';
 
 class HomeGateLogWidgetService {
-  static const String _androidWidgetName = 'GateLogHomeWidgetProvider';
+  static const String _qualifiedAndroidWidgetName = 'com.swciitg.onestop2.GateLogHomeWidgetProvider';
 
   static Timer? _debounce;
 
@@ -33,7 +33,7 @@ class HomeGateLogWidgetService {
       if (Platform.isAndroid) {
         _debounce?.cancel();
         _debounce = Timer(const Duration(milliseconds: 500), () {
-          HomeWidget.updateWidget(androidName: _androidWidgetName);
+          HomeWidget.updateWidget(qualifiedAndroidName: _qualifiedAndroidWidgetName);
         });
       }
     } catch (_) {}

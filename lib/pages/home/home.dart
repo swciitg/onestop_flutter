@@ -10,7 +10,6 @@ import 'package:onestop_dev/pages/home/library_helper.dart';
 import 'package:onestop_dev/pages/profile/profile_tab.dart';
 import 'package:onestop_dev/pages/timetable/timetable_page.dart';
 import 'package:onestop_dev/pages/travel/travel.dart';
-import 'package:onestop_dev/services/app_icon_service.dart';
 import 'package:onestop_dev/services/app_shortcuts_service.dart';
 import 'package:onestop_dev/services/deep_link_service.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
@@ -124,8 +123,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         }
       }
       DeepLinkService.instance.handlePendingLink();
-      final iconName = ThemeStore.instance.isDarkMode ? 'dark' : 'light';
-      AppIconService.setIcon(iconName);
     });
   }
 

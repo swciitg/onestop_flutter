@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_dev/widgets/login/welcome_header.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app_links/app_links.dart';

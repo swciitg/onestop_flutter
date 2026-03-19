@@ -1,27 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:onestop_dev/services/app_icon_service.dart';
 import 'package:onestop_dev/widgets/login/welcome_header.dart';
 import 'package:onestop_kit/onestop_kit.dart';
-import 'package:onestop_ui/index.dart';
 
-class WelcomePage extends StatefulWidget {
+class WelcomePage extends StatelessWidget {
   static const id = "/welcome";
   final Function setLoading;
 
   const WelcomePage({super.key, required this.setLoading});
-
-  @override
-  State<WelcomePage> createState() => _WelcomePageState();
-}
-
-class _WelcomePageState extends State<WelcomePage> {
-  @override
-  void initState() {
-    super.initState();
-    final iconName = ThemeStore.instance.isDarkMode ? 'dark' : 'light';
-    AppIconService.setIcon(iconName);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +18,6 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Widget _body() {
-    return WelcomeHeader(setLoading: widget.setLoading);
+    return WelcomeHeader(setLoading: setLoading);
   }
 }
