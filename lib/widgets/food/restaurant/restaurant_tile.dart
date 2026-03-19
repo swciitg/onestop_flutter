@@ -24,23 +24,21 @@ class _RestaurantTileState extends State<RestaurantTile> {
                 .map((menuItem) => menuItem.imageURL)
                 .where((url) => url.isNotEmpty)
                 .toList();
-        images.isNotEmpty
-            ? openRestaurantPage(
-              context,
-              widget.restaurantModel.imageURL,
-              widget.restaurantModel.outletName,
-              widget.restaurantModel.location,
-              widget.restaurantModel.closingTime,
-              widget.restaurantModel.phoneNumber,
-              images,
-              widget.restaurantModel.caption,
-              widget.restaurantModel.latitude,
-              widget.restaurantModel.longitude,
-              () {
-                setState(() {});
-              },
-            )
-            : showSnackBar('No menu found');
+        openRestaurantPage(
+          context,
+          widget.restaurantModel.imageURL,
+          widget.restaurantModel.outletName,
+          widget.restaurantModel.location,
+          widget.restaurantModel.closingTime,
+          widget.restaurantModel.phoneNumber,
+          images,
+          widget.restaurantModel.caption,
+          widget.restaurantModel.latitude,
+          widget.restaurantModel.longitude,
+          () {
+            setState(() {});
+          },
+        );
       },
       child: IgnorePointer(
         child: FoodOutletCard(

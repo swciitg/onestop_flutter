@@ -174,8 +174,13 @@ void openRestaurantPage(
                   style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
                 ),
                 const SizedBox(height: 8),
-                menuImages.length == 1
-                    ? GestureDetector(
+                if (menuImages.isEmpty)
+                  OText(
+                    text: 'Menu Unavailable',
+                    style: OTextStyle.bodyMedium.copyWith(color: OColor.gray600),
+                  )
+                else if (menuImages.length == 1)
+                  GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
                         rootNavigator.push(
@@ -196,7 +201,8 @@ void openRestaurantPage(
                         ),
                       ),
                     )
-                    : GridView.builder(
+                else
+                  GridView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
