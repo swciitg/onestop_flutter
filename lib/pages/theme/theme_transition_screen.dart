@@ -110,20 +110,13 @@ class _ThemeTransitionScreenState extends State<ThemeTransitionScreen>
     if (mounted) {
       final themeStore = context.read<ThemeStore>();
       await themeStore.toggleTheme(notify: true);
-      navigatorKey.currentState?.pop();
 
-      if (Platform.isAndroid) {
-        // Android: just restart the app (no icon change)
-        // const channel = MethodChannel('com.swciitg.onestop2/restart');
-        // await channel.invokeMethod('restartApp');
-      } else {
-        // iOS: switch app icon and restart
+      if (Platform.isIOS) {
+        // iOS: switch app icon
         final iconName = widget.toLight ? 'light' : 'dark';
         await AppIconService.setIcon(iconName);
-        // await TerminateRestart.instance.restartApp(
-        //   options: const TerminateRestartOptions(terminate: true),
-        // );
       }
+      navigatorKey.currentState?.pop();
     }
   }
 
