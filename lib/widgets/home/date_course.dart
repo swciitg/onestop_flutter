@@ -178,14 +178,16 @@ class _DateCourseState extends State<DateCourse> {
                             ),
                           ] else ...[
                             // No classes or weekend message
-                            OText(
-                              text: nextClass.course ?? 'No upcoming classes',
-                              style: OTextStyle.headingLarge.copyWith(
-                                color:
-                                    nextClass.course == 'Happy Weekend !'
-                                        ? OColor.green500
-                                        : OColor.gray600,
-                                fontWeight: FontWeight.w600,
+                            Center(
+                              child: OText(
+                                text: nextClass.course ?? 'No upcoming classes',
+                                style: OTextStyle.headingLarge.copyWith(
+                                  color:
+                                      nextClass.course == 'Happy Weekend !'
+                                          ? OColor.green500
+                                          : OColor.gray600,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ],

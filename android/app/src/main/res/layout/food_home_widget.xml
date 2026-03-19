@@ -35,47 +35,13 @@
         android:textSize="10sp"
         android:textStyle="bold" />
 
-    <!-- Menu items list -->
+    <!-- Menu items (single TextView, fills remaining space, clips at boundary) -->
     <TextView
-        android:id="@+id/foodItem1"
+        android:id="@+id/foodItems"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="6dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textColor="#FF000000"
-        android:textSize="12sp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/foodItem2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textColor="#FF000000"
-        android:textSize="12sp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/foodItem3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textColor="#FF000000"
-        android:textSize="12sp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/foodItem4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:ellipsize="end"
-        android:maxLines="1"
         android:textColor="#FF000000"
         android:textSize="12sp"
         android:visibility="gone" />

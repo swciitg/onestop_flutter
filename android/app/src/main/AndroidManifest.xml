@@ -35,10 +35,7 @@
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- LAUNCHER intent filter moved to activity-alias entries below -->
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -69,6 +66,43 @@
 
         </activity>
 
+        <!-- Activity aliases for app icon switching (default/dark/light) -->
+        <activity-alias
+            android:name=".MainActivity.default"
+            android:targetActivity=".MainActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".MainActivity.dark"
+            android:targetActivity=".MainActivity"
+            android:icon="@mipmap/ic_launcher_dark"
+            android:enabled="false"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".MainActivity.light"
+            android:targetActivity=".MainActivity"
+            android:icon="@mipmap/ic_launcher_light"
+            android:enabled="false"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_stat_notification_icon" />
@@ -97,6 +131,7 @@
 
         <receiver
             android:name=".TimetableHomeWidgetProvider"
+            android:label="Time Table"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -107,6 +142,7 @@
         </receiver>
         <receiver
             android:name=".FoodHomeWidgetProvider"
+            android:label="Food"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -118,6 +154,7 @@
 
         <receiver
             android:name=".GateLogHomeWidgetProvider"
+            android:label="Gatelog"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

@@ -487,12 +487,9 @@ struct FoodWidgetEntryView: View {
                     .font(.system(size: 10, weight: .bold))
                     .foregroundColor(colors.dateText)
 
-                ForEach(entry.mealItems.prefix(4), id: \.self) { item in
-                    Text(item)
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(colors.titleText)
-                        .lineLimit(1)
-                }
+                Text(entry.mealItems.joined(separator: ", "))
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundColor(colors.titleText)
             }
 
             Spacer(minLength: 0)
