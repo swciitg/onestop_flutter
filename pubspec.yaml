@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 
-version: 4.1.2+97
+version: 5.0.0+98
 
 environment:
   sdk: ^3.7.2
@@ -70,10 +70,10 @@ dependencies:
     # path: ../onestop_ui/packages/onestop_ui
 
   lib_token:
-    # git:
-    #   url: https://github.com/swciitg/lib_token.git
-    #   ref: redesign
-    path: ../lib_token
+    git:
+      url: https://github.com/swciitg/lib_token.git
+      ref: redesign
+    # path: ../lib_token
 
   intl: ^0.20.2
   provider: ^6.0.2

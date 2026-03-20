@@ -33,9 +33,7 @@ Future<void> checkLibrarySlot({
       ),
     );
 
-    debugPrint(
-      "Library slot response: ${response.statusCode} - ${response.data}",
-    );
+    debugPrint("Library slot response: ${response.statusCode} - ${response.data}");
 
     if (response.statusCode == 200) {
       final data = response.data;
@@ -44,8 +42,7 @@ Future<void> checkLibrarySlot({
         final isBanned = data['isBanned'] ?? data['banend'] ?? false;
         final message = data['message'] as String?;
         final currentRouteName = ModalRoute.of(context)?.settings.name;
-        final isOnLibraryTokenScreen =
-            currentRouteName == LibraryTokenScreen.id;
+        final isOnLibraryTokenScreen = currentRouteName == LibraryTokenScreen.id;
 
         final isBagPresent = slotId != null && message != null;
         context.read<CommonStore>().setBagInLibrary(isBagPresent);
@@ -78,14 +75,11 @@ Future<void> checkLibrarySlot({
                     titlePadding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                     contentPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                     actionsPadding: const EdgeInsets.all(16.0),
-                    content: Text(
-                      message ??
+                    content: OText(
+                      text:
+                          message ??
                           "You are banned from using onestop. Please collect your bag from the library.",
-                      style: TextStyle(
-                        color: OColor.black,
-                        fontSize: 16,
-                        height: 1.5,
-                      ),
+                      style: OTextStyle.bodyMedium.copyWith(color: OColor.black),
                     ),
                     actionsAlignment: MainAxisAlignment.center,
                     actions: [
@@ -95,27 +89,23 @@ Future<void> checkLibrarySlot({
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(color: OColor.gray600, width: 1.0),
                             shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(16.0),
-                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(16.0)),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                           ),
                           onPressed: () {
                             Navigator.of(dialogContext).pop();
                             setDialogShowing(false);
-                            parentNavigator
-                                .pushNamed(LibraryTokenScreen.id)
-                                .then((_) {
-                                  if (!isMounted()) return;
-                                  checkLibrarySlot(
-                                    context: context,
-                                    isMounted: isMounted,
-                                    onStateUpdate: onStateUpdate,
-                                    isBannedDialogShowing: false,
-                                    setDialogShowing: setDialogShowing,
-                                  );
-                                });
+                            parentNavigator.pushNamed(LibraryTokenScreen.id).then((_) {
+                              if (!isMounted()) return;
+                              checkLibrarySlot(
+                                context: context,
+                                isMounted: isMounted,
+                                onStateUpdate: onStateUpdate,
+                                isBannedDialogShowing: false,
+                                setDialogShowing: setDialogShowing,
+                              );
+                            });
                           },
                           child: OText(
                             text: "Library Token",
