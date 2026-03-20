@@ -197,7 +197,7 @@ class _MilliTrackState extends State<MilliTrack> {
           },
           icon: Icon(Icons.arrow_back, color: OColor.green600),
         ),
-        title: Text("Bus Route", style: OTextStyle.headingMedium.copyWith(color: OColor.gray800)),
+        title: Text("Bus Route", style: OTextStyle.headingSmall.copyWith(color: OColor.gray800)),
       ),
       body: ClipRRect(
         borderRadius: BorderRadius.circular(12),
