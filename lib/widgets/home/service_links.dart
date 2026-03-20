@@ -34,6 +34,8 @@ class HomeServiceTileData {
   }
 }
 
+final electionEnd = DateTime(2026, 03, 25);
+
 List<Map<String, dynamic>> serviceLinksData = [
   {"label": "GateLog", "iconPath": "assets/images/gate_log.svg", "routeId": GateLogPage.id},
   {
@@ -46,7 +48,7 @@ List<Map<String, dynamic>> serviceLinksData = [
     "label": "Election",
     "iconPath": "assets/images/election.svg",
     "routeId": ElectionLoginWebView.id,
-    "newBadge": true,
+    "newBadge": DateTime.now().isBefore(electionEnd),
   },
   {"label": "Contacts", "iconPath": "assets/images/contacts.svg", "routeId": ContactPage.id},
   {"label": "Cab Sharing", "iconPath": "assets/images/cab_sharing.svg", "routeId": CabShare.id},
