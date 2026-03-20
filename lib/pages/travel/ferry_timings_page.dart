@@ -49,9 +49,8 @@ class _FerryTimingsPageState extends State<FerryTimingsPage> {
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
         leadingWidth: 60,
-        systemOverlayStyle: Theme.of(
-          context,
-        ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
+        systemOverlayStyle: Theme.of(context).appBarTheme.systemOverlayStyle
+            ?.copyWith(statusBarColor: OColor.white),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: OColor.green600),
           onPressed: () => Navigator.of(context).pop(),
@@ -91,7 +90,9 @@ class _FerryTimingsPageState extends State<FerryTimingsPage> {
                           onNavigate: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (_) => const TravelGuide()),
+                              MaterialPageRoute(
+                                builder: (_) => const TravelGuide(),
+                              ),
                             );
                           },
                         ),
@@ -104,7 +105,8 @@ class _FerryTimingsPageState extends State<FerryTimingsPage> {
                         rightLabel: 'IIT',
                         leftSub: 'Guwahati',
                         rightSub: 'Campus',
-                        onSwap: () => setState(() => _fromCampus = !_fromCampus),
+                        onSwap:
+                            () => setState(() => _fromCampus = !_fromCampus),
                       ),
                       const SizedBox(height: 16),
 
@@ -114,13 +116,18 @@ class _FerryTimingsPageState extends State<FerryTimingsPage> {
                         onSelected:
                             (i) => setState(() {
                               _selectedGhatIndex = i;
-                              travelStore.setFerryGhat(ferryGhats[i]['name'] as String);
+                              travelStore.setFerryGhat(
+                                ferryGhats[i]['name'] as String,
+                              );
                             }),
                       ),
                       const SizedBox(height: 16),
 
                       // Map
-                      _GhatMap(ghat: ferryGhats[_selectedGhatIndex], mapStore: mapStore),
+                      _GhatMap(
+                        ghat: ferryGhats[_selectedGhatIndex],
+                        mapStore: mapStore,
+                      ),
                       const SizedBox(height: 8),
 
                       // Directions link
@@ -130,16 +137,25 @@ class _FerryTimingsPageState extends State<FerryTimingsPage> {
                           final lng = ferryGhats[_selectedGhatIndex]['long'];
                           final url =
                               'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng';
-                          launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+                          launchUrl(
+                            Uri.parse(url),
+                            mode: LaunchMode.externalApplication,
+                          );
                         },
                         child: Row(
                           children: [
                             Text(
                               'Directions',
-                              style: OTextStyle.labelSmall.copyWith(color: OColor.green600),
+                              style: OTextStyle.labelSmall.copyWith(
+                                color: OColor.green600,
+                              ),
                             ),
                             const SizedBox(width: 2),
-                            Icon(Icons.arrow_outward, size: 14, color: OColor.green600),
+                            Icon(
+                              Icons.arrow_outward,
+                              size: 14,
+                              color: OColor.green600,
+                            ),
                           ],
                         ),
                       ),
@@ -148,7 +164,8 @@ class _FerryTimingsPageState extends State<FerryTimingsPage> {
                       // Timing list
                       _FerryTimingList(
                         timings: timings,
-                        ghatName: ferryGhats[_selectedGhatIndex]['name'] as String,
+                        ghatName:
+                            ferryGhats[_selectedGhatIndex]['name'] as String,
                         isWeekday: _isWeekday,
                         fromCampus: _fromCampus,
                       ),
@@ -252,13 +269,19 @@ class _FerryGuideHintState extends State<_FerryGuideHint> {
                     color: OColor.green100,
                     borderRadius: BorderRadius.circular(OCornerRadius.s),
                   ),
-                  child: Icon(FluentIcons.vehicle_ship_24_filled, color: OColor.green600, size: 20),
+                  child: Icon(
+                    FluentIcons.vehicle_ship_24_filled,
+                    color: OColor.green600,
+                    size: 20,
+                  ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     'Travel by Ferry',
-                    style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                    style: OTextStyle.labelMedium.copyWith(
+                      color: OColor.gray800,
+                    ),
                   ),
                 ),
                 if (!_expanded)
@@ -292,17 +315,23 @@ class _FerryGuideHintState extends State<_FerryGuideHint> {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: const Color(0xFFFFF7ED),
+                color: OColor.yellow100,
                 borderRadius: BorderRadius.circular(OCornerRadius.s),
               ),
               child: Row(
                 children: [
-                  const Icon(FluentIcons.warning_24_regular, color: Color(0xFFF59E0B), size: 18),
+                  Icon(
+                    FluentIcons.warning_24_regular,
+                    color: OColor.gray800,
+                    size: 18,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       'Timings may vary due to weather',
-                      style: OTextStyle.labelSmall.copyWith(color: const Color(0xFF92400E)),
+                      style: OTextStyle.labelSmall.copyWith(
+                        color: OColor.gray800,
+                      ),
                     ),
                   ),
                 ],
@@ -317,17 +346,28 @@ class _FerryGuideHintState extends State<_FerryGuideHint> {
                     children: [
                       Text(
                         'Travel Guide',
-                        style: OTextStyle.labelSmall.copyWith(color: OColor.green600),
+                        style: OTextStyle.labelSmall.copyWith(
+                          color: OColor.green600,
+                        ),
                       ),
                       const SizedBox(width: 2),
-                      Icon(Icons.arrow_outward, size: 14, color: OColor.green600),
+                      Icon(
+                        Icons.arrow_outward,
+                        size: 14,
+                        color: OColor.green600,
+                      ),
                     ],
                   ),
                 ),
                 const Spacer(),
                 GestureDetector(
                   onTap: widget.onHide,
-                  child: Text('Hide', style: OTextStyle.labelSmall.copyWith(color: OColor.gray600)),
+                  child: Text(
+                    'Hide',
+                    style: OTextStyle.labelSmall.copyWith(
+                      color: OColor.gray600,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -360,7 +400,9 @@ class _GhatTabs extends StatelessWidget {
             decoration: BoxDecoration(
               color: selected ? OColor.green600 : OColor.white,
               borderRadius: BorderRadius.circular(OCornerRadius.xl),
-              border: Border.all(color: selected ? OColor.green600 : OColor.gray200),
+              border: Border.all(
+                color: selected ? OColor.green600 : OColor.gray200,
+              ),
             ),
             child: Center(
               child: Text(
@@ -413,7 +455,9 @@ class _GhatMapState extends State<_GhatMap> {
     if (oldWidget.ghat['name'] != widget.ghat['name']) {
       final lat = widget.ghat['lat'] as double;
       final lng = widget.ghat['long'] as double;
-      _controller?.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14));
+      _controller?.animateCamera(
+        CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14),
+      );
     }
   }
 
@@ -438,7 +482,10 @@ class _GhatMapState extends State<_GhatMap> {
       ),
       clipBehavior: Clip.hardEdge,
       child: GoogleMap(
-        initialCameraPosition: CameraPosition(target: LatLng(lat, lng), zoom: 14),
+        initialCameraPosition: CameraPosition(
+          target: LatLng(lat, lng),
+          zoom: 14,
+        ),
         style: _mapStyle,
         onMapCreated: (controller) {
           _controller = controller;
@@ -480,12 +527,16 @@ class _FerryTimingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ferryModel = timings.firstWhere((e) => e.stop == ghatName, orElse: () => timings.first);
+    final ferryModel = timings.firstWhere(
+      (e) => e.stop == ghatName,
+      orElse: () => timings.first,
+    );
 
     final dayType = isWeekday ? ferryModel.weekdays : ferryModel.weekend;
     final times = fromCampus ? dayType.fromCampus : dayType.toCampus;
-    final sortedTimes = List<DateTime>.from(times)
-      ..sort((a, b) => (a.hour * 60 + a.minute).compareTo(b.hour * 60 + b.minute));
+    final sortedTimes = List<DateTime>.from(times)..sort(
+      (a, b) => (a.hour * 60 + a.minute).compareTo(b.hour * 60 + b.minute),
+    );
 
     if (sortedTimes.isEmpty) {
       return Padding(
@@ -522,22 +573,74 @@ class _FerryTimingList extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  if (left)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: OColor.gray100,
-                        borderRadius: BorderRadius.circular(OCornerRadius.xl),
-                      ),
-                      child: Text(
-                        'LEFT',
-                        style: OTextStyle.labelXSmall.copyWith(color: OColor.gray400),
-                      ),
-                    ),
+                  _StatusBadge(time: time, left: left),
                 ],
               ),
             );
           }).toList(),
+    );
+  }
+}
+
+class _StatusBadge extends StatelessWidget {
+  final DateTime time;
+  final bool left;
+
+  const _StatusBadge({required this.time, required this.left});
+
+  @override
+  Widget build(BuildContext context) {
+    if (left) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color: OColor.gray100,
+          borderRadius: BorderRadius.circular(OCornerRadius.xl),
+        ),
+        child: Text(
+          'LEFT',
+          style: OTextStyle.labelXSmall.copyWith(color: OColor.gray400),
+        ),
+      );
+    }
+
+    final now = DateTime.now();
+    var target = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    if (target.isBefore(now)) target = target.add(const Duration(days: 1));
+    final diff = target.difference(now);
+
+    String label;
+    Color bgColor;
+    Color textColor;
+
+    if (diff.inMinutes <= 10) {
+      label = 'IN ${diff.inMinutes} MIN';
+      bgColor = OColor.red100;
+      textColor = OColor.red600;
+    } else if (diff.inMinutes <= 30) {
+      label = 'IN ${diff.inMinutes} MIN';
+      bgColor = OColor.yellow100;
+      textColor = OColor.yellow600;
+    } else if (diff.inHours < 1) {
+      label = 'IN ${diff.inMinutes} MIN';
+      bgColor = OColor.green100;
+      textColor = OColor.green600;
+    } else {
+      label = 'IN ${diff.inHours} HR';
+      bgColor = OColor.blue100;
+      textColor = OColor.blue600;
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(OCornerRadius.xl),
+      ),
+      child: Text(
+        label,
+        style: OTextStyle.labelXSmall.copyWith(color: textColor),
+      ),
     );
   }
 }
