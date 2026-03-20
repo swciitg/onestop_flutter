@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 // import 'package:onestop_dev/globals/my_spaces.dart';
@@ -13,116 +14,140 @@ class WelcomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFF148440), const Color(0xFFDCEFE4)],
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF148440),
+        systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Color(0xFF148440),
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
         ),
       ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                const SizedBox(height: 40),
-                // App Logo
-                Image.asset('assets/images/app_logo_dark.png', height: 80, width: 80),
-                const SizedBox(height: 24),
-                // Heading
-                Text(
-                  'Welcome to the\nall new Onestop',
-                  textAlign: TextAlign.center,
-                  style: OTextStyle.displayXSmall.copyWith(
-                    color: Color(0xFF232329),
-                    fontSize: 43,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: -1.5,
-                  ),
-                ),
-              ],
-            ),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF148440), const Color(0xFFDCEFE4)],
           ),
-          const Spacer(),
-          // Animating Service Icons Marquee (Full Width)
-          // const DancingServiceMarquee(),
-          const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                // Subtext
-                Text(
-                  'All the features you use every day, now thoughtfully redesigned.',
-                  textAlign: TextAlign.center,
-                  style: OTextStyle.labelMedium.copyWith(
-                    color: Color(0xFF232329).withOpacity(0.8),
-                    letterSpacing: -0.76,
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [
+                  const SizedBox(height: 40),
+                  // App Logo
+                  Image.asset(
+                    'assets/images/app_logo_dark.png',
+                    height: 80,
+                    width: 80,
                   ),
-                ),
-                const SizedBox(height: 25),
-                // Outlook Login Button
-                GestureDetector(
-                  onTap: () => setLoading(),
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF148440),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Login with Outlook',
-                          style: MyFonts.w600.copyWith(fontSize: 16, color: Colors.white),
-                        ),
-                        const SizedBox(width: 8),
-                        const Icon(
-                          FluentIcons.arrow_right_24_regular,
-                          size: 20,
-                          color: Colors.white,
-                        ),
-                      ],
+                  const SizedBox(height: 24),
+                  // Heading
+                  Text(
+                    'Welcome to the\nall new Onestop',
+                    textAlign: TextAlign.center,
+                    style: OTextStyle.displayXSmall.copyWith(
+                      color: Color(0xFF232329),
+                      fontSize: 38,
+                      height: 1,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: -1.5,
                     ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                // Guest Login Button
-                GestureDetector(
-                  onTap: () async {
-                    final nav = Navigator.of(context);
-                    await LoginStore().signInAsGuest();
-                    nav.pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
+                ],
+              ),
+            ),
+            const Spacer(),
+            // Animating Service Icons Marquee (Full Width)
+            // const DancingServiceMarquee(),
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [
+                  // Subtext
+                  Text(
+                    'All the features you use every day, now thoughtfully redesigned.',
+                    textAlign: TextAlign.center,
+                    style: OTextStyle.labelMedium.copyWith(
+                      color: Color(0xFF232329).withOpacity(0.8),
+                      letterSpacing: -0.76,
                     ),
-                    child: Center(
-                      child: Text(
-                        'Continue as Guest',
-                        style: MyFonts.w600.copyWith(fontSize: 14, color: Color(0xFF232329)),
+                  ),
+                  const SizedBox(height: 25),
+                  // Outlook Login Button
+                  GestureDetector(
+                    onTap: () => setLoading(),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF148440),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Login with Outlook',
+                            style: MyFonts.w600.copyWith(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          const Icon(
+                            FluentIcons.arrow_right_24_regular,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 15),
-                // Footer
-                Image.asset('assets/images/swc.png', height: 32),
-                const SizedBox(height: 16),
-              ],
+                  const SizedBox(height: 12),
+                  // Guest Login Button
+                  GestureDetector(
+                    onTap: () async {
+                      final nav = Navigator.of(context);
+                      await LoginStore().signInAsGuest();
+                      nav.pushNamedAndRemoveUntil(
+                        '/',
+                        (Route<dynamic> route) => false,
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Continue as Guest',
+                          style: MyFonts.w600.copyWith(
+                            fontSize: 14,
+                            color: Color(0xFF232329),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  // Footer
+                  Image.asset('assets/images/swc.png', height: 32),
+                  const SizedBox(height: 16),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -153,8 +178,10 @@ class _DancingServiceMarqueeState extends State<DancingServiceMarquee>
   @override
   void initState() {
     super.initState();
-    _scrollController = AnimationController(vsync: this, duration: const Duration(seconds: 20))
-      ..repeat();
+    _scrollController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 20),
+    )..repeat();
   }
 
   @override
@@ -183,19 +210,25 @@ class _DancingServiceMarqueeState extends State<DancingServiceMarquee>
                   children: [
                     ...iconPaths.map(
                       (path) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: spacing / 2,
+                        ),
                         child: _DancingIcon(iconPath: path),
                       ),
                     ),
                     ...iconPaths.map(
                       (path) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: spacing / 2,
+                        ),
                         child: _DancingIcon(iconPath: path),
                       ),
                     ),
                     ...iconPaths.map(
                       (path) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: spacing / 2,
+                        ),
                         child: _DancingIcon(iconPath: path),
                       ),
                     ),
@@ -219,7 +252,8 @@ class _DancingIcon extends StatefulWidget {
   State<_DancingIcon> createState() => _DancingIconState();
 }
 
-class _DancingIconState extends State<_DancingIcon> with SingleTickerProviderStateMixin {
+class _DancingIconState extends State<_DancingIcon>
+    with SingleTickerProviderStateMixin {
   late AnimationController _danceController;
   late Animation<double> _rotation;
   late Animation<double> _scale;
@@ -229,18 +263,18 @@ class _DancingIconState extends State<_DancingIcon> with SingleTickerProviderSta
     super.initState();
     _danceController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500), // Slow down the dance slightly
+      duration: const Duration(
+        milliseconds: 1500,
+      ), // Slow down the dance slightly
     );
 
-    _rotation = Tween<double>(
-      begin: -0.1,
-      end: 0.1,
-    ).animate(CurvedAnimation(parent: _danceController, curve: Curves.easeInOut));
+    _rotation = Tween<double>(begin: -0.1, end: 0.1).animate(
+      CurvedAnimation(parent: _danceController, curve: Curves.easeInOut),
+    );
 
-    _scale = Tween<double>(
-      begin: 0.7,
-      end: 1.3,
-    ).animate(CurvedAnimation(parent: _danceController, curve: Curves.easeInOut));
+    _scale = Tween<double>(begin: 0.7, end: 1.3).animate(
+      CurvedAnimation(parent: _danceController, curve: Curves.easeInOut),
+    );
 
     // Stagger start times
     Future.delayed(Duration(milliseconds: widget.hashCode % 1000), () {

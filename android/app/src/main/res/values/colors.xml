@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <color name="ic_launcher_background">#001B3E</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="ic_launcher_dark_background">#1F212F</color>
+    <color name="ic_launcher_light_background">#FFFFFF</color>
     <color name="colorPrimary">#76ACFF</color>
 </resources>

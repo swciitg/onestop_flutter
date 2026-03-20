@@ -8,4 +8,5 @@
     android:initialLayout="@layout/gatelog_home_widget"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:previewImage="@mipmap/ic_launcher" />
+    android:previewImage="@mipmap/ic_launcher"
+    android:previewLayout="@layout/gatelog_home_widget" />

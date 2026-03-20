@@ -29,7 +29,11 @@ class HomeFoodTile extends StatelessWidget {
     final mess =
         OneStopUser.fromJson(LoginStore.userData).subscribedMess?.getMessFromDatabaseString() ??
         Mess.values.first;
-    final meal = await DataService.getMealData(mess: mess, day: _currentDay(), mealType: _currentMealName());
+    final meal = await DataService.getMealData(
+      mess: mess,
+      day: _currentDay(),
+      mealType: _currentMealName(),
+    );
 
     // Sync to home screen widget with already-fetched data (no re-fetch)
     final mealName = _currentMealName();
@@ -38,13 +42,8 @@ class HomeFoodTile extends StatelessWidget {
         .split(RegExp(r'[,;\n]'))
         .map((e) => e.trim().replaceFirst(RegExp(r'^\d+\.\s*'), ''))
         .where((e) => e.isNotEmpty)
-        .take(4)
         .join('\n');
-    HomeFoodWidgetService.syncMealData(
-      mealName: mealName,
-      endTime: endTime,
-      items: items,
-    );
+    HomeFoodWidgetService.syncMealData(mealName: mealName, endTime: endTime, items: items);
 
     return meal;
   }
@@ -74,50 +73,53 @@ class HomeFoodTile extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            FutureBuilder<MealType>(
-              future: _fetchMealData(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData || snapshot.data!.id.isEmpty) {
-                  return OText(
-                    text: _currentMealName().toUpperCase(),
-                    style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray500),
-                  );
-                }
-                final meal = snapshot.data!;
-                final endTime = DateFormat('h:mm a').format(meal.endTiming);
-                final items =
-                    meal.mealDescription
-                        .split(RegExp(r'[,;\n]'))
-                        .map((e) => e.trim().replaceFirst(RegExp(r'^\d+\.\s*'), ''))
+            Expanded(
+              child: ClipRect(
+                child: FutureBuilder<MealType>(
+                  future: _fetchMealData(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || snapshot.data!.id.isEmpty) {
+                      return OText(
+                        text: _currentMealName().toUpperCase(),
+                        style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray500),
+                      );
+                    }
+                    final meal = snapshot.data!;
+                    final endTime = DateFormat('h:mm a').format(meal.endTiming);
+                    final description = meal.mealDescription
+                        .split(RegExp(r'[;]'))
+                        .map((e) => e.trim())
                         .where((e) => e.isNotEmpty)
-                        .toList();
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    OText(
-                      text: '${_currentMealName().toUpperCase()} \u2022 ENDS $endTime',
-                      style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray500),
-                    ),
-                    if (items.isNotEmpty) ...[
-                      const SizedBox(height: 8),
-                      ...items
-                          .take(4)
-                          .map(
-                            (item) => OText(
-                              text: item,
-                              style: OTextStyle.bodyMedium.copyWith(
-                                color: OColor.black,
-                                fontWeight: FontWeight.w500,
+                        .join('\n');
+                    return LayoutBuilder(
+                      builder: (context, constraints) {
+                        return SizedBox(
+                          height: constraints.maxHeight,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              OText(
+                                text: '${_currentMealName().toUpperCase()} \u2022 ENDS $endTime',
+                                style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray500),
                               ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                              const SizedBox(height: 4),
+                              Expanded(
+                                child: OText(
+                                  text: description,
+                                  style: OTextStyle.bodyMedium.copyWith(
+                                    color: OColor.black,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                    ],
-                  ],
-                );
-              },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
             ),
           ],
         ),

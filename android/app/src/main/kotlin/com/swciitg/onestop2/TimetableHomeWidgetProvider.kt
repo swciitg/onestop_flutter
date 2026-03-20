@@ -250,7 +250,7 @@ class TimetableHomeWidgetProvider : HomeWidgetProvider() {
 
     private fun setupClickIntent(context: Context, views: RemoteViews, deepLink: String, appWidgetId: Int) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deepLink)).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
         val pendingIntentFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE

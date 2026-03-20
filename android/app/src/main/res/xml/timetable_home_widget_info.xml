@@ -8,4 +8,5 @@
     android:initialLayout="@layout/timetable_home_widget"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:previewImage="@mipmap/ic_launcher" />
+    android:previewImage="@mipmap/ic_launcher"
+    android:previewLayout="@layout/timetable_home_widget" />

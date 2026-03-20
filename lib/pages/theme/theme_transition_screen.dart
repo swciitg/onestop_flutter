@@ -112,11 +112,13 @@ class _ThemeTransitionScreenState extends State<ThemeTransitionScreen>
       await themeStore.toggleTheme(notify: true);
 
       if (Platform.isIOS) {
-        // iOS: switch app icon
+        // iOS: switch app icon seamlessly
         final iconName = widget.toLight ? 'light' : 'dark';
         await AppIconService.setIcon(iconName);
+        navigatorKey.currentState?.pop();
+      } else {
+        navigatorKey.currentState?.pop();
       }
-      navigatorKey.currentState?.pop();
     }
   }
 
