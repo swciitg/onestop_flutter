@@ -3,15 +3,12 @@ import 'dart:async';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/services/home_gatelog_widget_service.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/home/home_widget.dart';
 import 'package:onestop_kit/onestop_kit.dart';
-import 'package:onestop_dev/stores/common_store.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
 import 'package:onestop_ui/index.dart';
 
 class HomeGateLogTile extends StatefulWidget {
@@ -82,13 +79,6 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
     String? destination,
     bool autoCheckIn = false,
   }) async {
-    if (!LoginStore.isGuest) {
-      final bagInLibrary = context.read<CommonStore>().isBagInLibrary;
-      if (bagInLibrary) {
-        showSnackBar("Retrieve the bag from the library in order to checkout");
-        return;
-      }
-    }
 
     final args = <String, dynamic>{};
     if (destination != null) args['destination'] = destination;
@@ -165,8 +155,6 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        final bagInLibrary =
-            LoginStore.isGuest ? false : context.read<CommonStore>().isBagInLibrary;
 
         Widget tile;
         if (LoginStore.isGuest || _entryFuture == null) {
@@ -186,7 +174,7 @@ class _HomeGateLogTileState extends State<HomeGateLogTile> {
           );
         }
 
-        return Opacity(opacity: bagInLibrary ? 0.5 : 1.0, child: tile);
+        return tile;
       },
     );
   }

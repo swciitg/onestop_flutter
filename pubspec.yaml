@@ -35,11 +35,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   webview_flutter: ^4.7.0
   scoreboard:
-    # git:
-    #   url: https://github.com/swciitg/gc_scoreboard.git
-    #   path: packages/scoreboard
-    #   ref: dev
-    path: ../gc_scoreboard/packages/scoreboard
+    git:
+      url: https://github.com/swciitg/gc_scoreboard.git
+      path: packages/scoreboard
+      ref: dev
+    # path: ../gc_scoreboard/packages/scoreboard
   cab_sharing:
     git:
       url: https://github.com/swciitg/cab_sharing_onestop.git
@@ -70,10 +70,10 @@ dependencies:
     # path: ../onestop_ui/packages/onestop_ui
 
   lib_token:
-    git:
-      url: https://github.com/swciitg/lib_token.git
-      ref: redesign
-    # path: ../lib_token
+    # git:
+    #   url: https://github.com/swciitg/lib_token.git
+    #   ref: redesign
+    path: ../lib_token
 
   intl: ^0.20.2
   provider: ^6.0.2
