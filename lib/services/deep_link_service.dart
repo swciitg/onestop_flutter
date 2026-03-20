@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:app_links/app_links.dart';
+import 'package:flutter/widgets.dart';
 import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_dev/pages/timetable/timetable_page.dart';
+import 'package:onestop_dev/routes.dart';
 
 class DeepLinkService {
   static final DeepLinkService _instance = DeepLinkService._();
@@ -96,7 +98,7 @@ class DeepLinkService {
         }
         break;
       case 'timetable':
-        navigatorKey.currentState?.pushNamed(TimetablePage.id);
+        _navigateTo(TimetablePage.id);
         break;
       default:
         log('Unknown custom scheme host: $host', name: 'DeepLinkService');
@@ -111,13 +113,28 @@ class DeepLinkService {
 
     log('Universal link: path=$path, params=$params', name: 'DeepLinkService');
 
-    switch (path) {
-      case 'gatelog':
-        _navigateToGateLog(params);
-        break;
-      default:
-        log('Unknown deep link path: $path', name: 'DeepLinkService');
-        break;
+    // Special handling for routes that need parameters
+    if (path == 'gatelog' || path == 'gate_log_page') {
+      _navigateToGateLog(params);
+      return;
+    }
+    if (path == 'home2') {
+      final tab = int.tryParse(params['tab'] ?? '');
+      final nav = navigatorKey.currentState;
+      if (nav == null) return;
+      nav.popUntil((route) => route.settings.name == HomePage.id || route.isFirst);
+      if (tab != null) {
+        HomePage.pendingTab.value = tab;
+      }
+      return;
+    }
+
+    // Generic routing: match /{path} to a registered route name
+    final routeName = '/$path';
+    if (routes.containsKey(routeName)) {
+      _navigateTo(routeName, arguments: params.isNotEmpty ? params : null);
+    } else {
+      log('Unknown deep link path: $path', name: 'DeepLinkService');
     }
   }
 
@@ -129,10 +146,33 @@ class DeepLinkService {
     if (params['autoCheckIn'] == 'true') {
       args['autoCheckIn'] = true;
     }
-    navigatorKey.currentState?.pushNamed(
-      GateLogPage.id,
-      arguments: args.isNotEmpty ? args : null,
-    );
+    _navigateTo(GateLogPage.id, arguments: args.isNotEmpty ? args : null);
+  }
+
+  /// Navigate to [routeName], handling the case where we're already on that page.
+  /// If already on the target route, does nothing — avoids duplicate GlobalKey
+  /// crashes caused by overlapping route transitions (e.g. gate_log's nested
+  /// MaterialApp holds a top-level GlobalKey that can't exist twice).
+  void _navigateTo(String routeName, {Object? arguments}) {
+    final nav = navigatorKey.currentState;
+    if (nav == null) return;
+
+    // Peek at the current top route name.
+    String? currentRouteName;
+    nav.popUntil((route) {
+      currentRouteName = route.settings.name;
+      return true; // Don't pop — just read the name.
+    });
+
+    if (currentRouteName == routeName) {
+      log('Already on $routeName — skipping navigation', name: 'DeepLinkService');
+      return;
+    }
+
+    nav.popUntil((route) => route.settings.name == HomePage.id || route.isFirst);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      navigatorKey.currentState?.pushNamed(routeName, arguments: arguments);
+    });
   }
 
   void dispose() {

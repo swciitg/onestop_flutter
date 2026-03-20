@@ -1373,7 +1373,7 @@ packages:
     description:
       path: "packages/onestop_ui"
       ref: dev
-      resolved-ref: "3d8b86ce19d71a33ff9d8ff45607ed4029d40351"
+      resolved-ref: "991770c10147a2169797583c16b29485ae25c024"
       url: "https://github.com/swciitg/onestop_ui.git"
     source: git
     version: "0.0.1"

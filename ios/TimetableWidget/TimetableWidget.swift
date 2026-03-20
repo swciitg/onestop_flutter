@@ -134,11 +134,19 @@ struct TimetableProvider: TimelineProvider {
 
     /// Parse timing string like "09:00 - 09:55 AM" to get start time as Date today
     private func parseTimingToDate(_ timing: String) -> Date? {
+        // Extract only the START time (before " - ") + AM/PM suffix.
+        // Using the full format "hh:mm - hh:mm a" causes the second hh:mm to
+        // overwrite the first, returning the END time instead of the start.
+        let parts = timing.components(separatedBy: " - ")
+        guard parts.count == 2 else { return nil }
+        let startTimeStr = parts[0].trimmingCharacters(in: .whitespaces)
+        let amPm = String(parts[1].trimmingCharacters(in: .whitespaces).suffix(2))
+
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "hh:mm - hh:mm a"
+        formatter.dateFormat = "hh:mm a"
 
-        guard let parsed = formatter.date(from: timing) else { return nil }
+        guard let parsed = formatter.date(from: "\(startTimeStr) \(amPm)") else { return nil }
 
         let calendar = Calendar.current
         let parsedComponents = calendar.dateComponents([.hour, .minute], from: parsed)
@@ -299,8 +307,8 @@ struct TimetableWidgetEntryView: View {
                 }
             }
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 12)
+        .padding(.horizontal, 2)
+        .padding(.vertical, 4)
         .widgetBackground(colors.background)
     }
 
@@ -494,7 +502,7 @@ struct FoodWidgetEntryView: View {
 
             Spacer(minLength: 0)
         }
-        .padding(12)
+        .padding(4)
         .widgetBackground(colors.background)
     }
 }
@@ -598,51 +606,58 @@ struct GateLogWidgetEntryView: View {
             if entry.isCheckedOut {
                 // Checked-out state
                 Spacer()
-                Text("Check into\nCampus")
-                    .font(.system(size: 13))
-                    .foregroundColor(colors.courseNameText)
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Check into Campus")
+                            .font(.system(size: 13))
+                            .foregroundColor(colors.courseNameText)
 
-                if !entry.gateInfo.isEmpty {
-                    Text(entry.gateInfo)
-                        .font(.system(size: 10, weight: .bold))
-                        .foregroundColor(colors.dateText)
+                        if !entry.gateInfo.isEmpty {
+                            Text(entry.gateInfo)
+                                .font(.system(size: 10, weight: .bold))
+                                .foregroundColor(colors.dateText)
+                        }
+                    }
+                    Spacer()
+                    Link(destination: URL(string: "onestopiitg://gatelog?autoCheckIn=true")!) {
+                        Text("Check-In")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundColor(colors.statusOngoingBg)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(entry.isDark ? Color(white: 0.23) : Color(red: 0xD1/255, green: 0xD2/255, blue: 0xD6/255), lineWidth: 1)
+                            )
+                    }
                 }
-
                 Spacer()
-
-                Text("Check-In")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(colors.statusOngoingBg)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 7)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(entry.isDark ? Color(white: 0.23) : Color(red: 0xD1/255, green: 0xD2/255, blue: 0xD6/255), lineWidth: 1)
-                    )
             } else {
-                // Default state: 3 buttons
+                // Default state: 3 buttons with individual deep links
                 Spacer()
 
-                buttonView("To City")
-                buttonView("To Khokha")
-                buttonView("Others")
+                linkButton("To City", destination: "onestopiitg://gatelog?destination=City")
+                linkButton("To Khokha", destination: "onestopiitg://gatelog?destination=Khokha")
+                linkButton("Others", destination: "onestopiitg://gatelog?destination=Others")
             }
         }
-        .padding(12)
+        .padding(4)
         .widgetBackground(colors.background)
     }
 
     @ViewBuilder
-    private func buttonView(_ title: String) -> some View {
-        Text(title)
-            .font(.system(size: 12, weight: .bold))
-            .foregroundColor(colors.statusOngoingBg)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 7)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(entry.isDark ? Color(white: 0.23) : Color(red: 0xD1/255, green: 0xD2/255, blue: 0xD6/255), lineWidth: 1)
-            )
+    private func linkButton(_ title: String, destination: String) -> some View {
+        Link(destination: URL(string: destination)!) {
+            Text(title)
+                .font(.system(size: 12, weight: .bold))
+                .foregroundColor(colors.statusOngoingBg)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 7)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(entry.isDark ? Color(white: 0.23) : Color(red: 0xD1/255, green: 0xD2/255, blue: 0xD6/255), lineWidth: 1)
+                )
+        }
     }
 }
 
@@ -651,13 +666,7 @@ struct GateLogWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: GateLogProvider()) { entry in
-            // iOS .systemSmall only supports single tap — route based on state
-            let url = entry.isCheckedOut
-                ? "onestopiitg://gatelog?autoCheckIn=true"
-                : "onestopiitg://gatelog"
-            Link(destination: URL(string: url)!) {
-                GateLogWidgetEntryView(entry: entry)
-            }
+            GateLogWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Gatelog")
         .description("Quick checkout/checkin from home screen.")
