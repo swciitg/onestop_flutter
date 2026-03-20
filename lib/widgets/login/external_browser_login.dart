@@ -217,7 +217,8 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
                     textAlign: TextAlign.center,
                     style: OTextStyle.displayXSmall.copyWith(
                       color: const Color(0xFF232329),
-                      fontSize: 32,
+                      fontSize: 30,
+                      height: 1,
                       fontWeight: FontWeight.w500,
                       letterSpacing: -1.5,
                     ),
@@ -234,16 +235,17 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
               child: Column(
                 children: [
                   if (_isLoading) ...[
+                    const CircularProgressIndicator(color: Color(0xFF148440)),
+
+                    const SizedBox(height: 40),
                     Text(
-                      'Please complete the login in your browser.',
+                      'Complete the login in your browser.',
                       textAlign: TextAlign.center,
                       style: OTextStyle.labelMedium.copyWith(
                         color: const Color(0xFF232329).withOpacity(0.8),
                         letterSpacing: -0.76,
                       ),
                     ),
-                    const SizedBox(height: 40),
-                    const CircularProgressIndicator(color: Color(0xFF148440)),
                     const SizedBox(height: 24),
                     GestureDetector(
                       onTap: _launchLogin,
