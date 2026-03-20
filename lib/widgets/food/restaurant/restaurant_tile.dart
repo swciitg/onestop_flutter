@@ -45,6 +45,7 @@ class _RestaurantTileState extends State<RestaurantTile> {
           imageUrl: widget.restaurantModel.imageURL,
           heading: widget.restaurantModel.outletName,
           subHeading: widget.restaurantModel.caption,
+          subLabelIcon1: Icons.location_on,
           subLabelText1: widget.restaurantModel.location,
           subLabelText2: 'Closes at ${widget.restaurantModel.closingTime}',
           isEnabled: true,

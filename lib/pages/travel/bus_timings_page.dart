@@ -281,17 +281,17 @@ class _TravelGuideHintState extends State<_TravelGuideHint> {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: const Color(0xFFFFF7ED),
+                color: OColor.yellow100,
                 borderRadius: BorderRadius.circular(OCornerRadius.s),
               ),
               child: Row(
                 children: [
-                  const Icon(FluentIcons.warning_24_regular, color: Color(0xFFF59E0B), size: 18),
+                   Icon(FluentIcons.warning_24_regular, color:OColor.gray800, size: 18),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       'Please verify timings before travel',
-                      style: OTextStyle.labelSmall.copyWith(color: const Color(0xFF92400E)),
+                      style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
                     ),
                   ),
                 ],
@@ -444,20 +444,20 @@ class _StatusBadge extends StatelessWidget {
 
       if (diff.inMinutes <= 10) {
         label = 'IN ${diff.inMinutes} MIN';
-        bgColor = const Color(0xFFFEE2E2);
-        textColor = const Color(0xFFDE1135);
+        bgColor = OColor.green100;
+        textColor = OColor.green600;
       } else if (diff.inMinutes <= 30) {
         label = 'IN ${diff.inMinutes} MIN';
-        bgColor = const Color(0xFFFEF3C7);
-        textColor = const Color(0xFFC38509);
+        bgColor = OColor.green100;
+        textColor = OColor.green600;
       } else if (diff.inHours < 1) {
         label = 'IN ${diff.inMinutes} MIN';
-        bgColor = const Color(0xFFD1FAE5);
-        textColor = OColor.green600;
+       bgColor = OColor.green100;
+        textColor = OColor.green600;       
       } else {
         label = 'IN ${diff.inHours} HR';
-        bgColor = const Color(0xFFD1FAE5);
-        textColor = OColor.green600;
+        bgColor = OColor.blue100;
+        textColor = OColor.blue600;
       }
 
       return Container(

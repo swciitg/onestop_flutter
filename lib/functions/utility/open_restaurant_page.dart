@@ -2,6 +2,7 @@ import 'package:onestop_dev/functions/utility/phone_email.dart';
 import 'package:onestop_dev/widgets/food/restaurant/full_screen_image_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_ui/index.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'open_map.dart';
 
@@ -24,10 +25,14 @@ void openRestaurantPage(
     context: context,
     isScrollControlled: true,
     backgroundColor: OColor.white,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    ),
     builder: (BuildContext sheetContext) {
       return ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: MediaQuery.of(sheetContext).size.height * 0.8),
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(sheetContext).size.height * 0.8,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
@@ -46,18 +51,22 @@ void openRestaurantPage(
                         fit: BoxFit.cover,
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value:
-                                  loadingProgress.expectedTotalBytes != null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          (loadingProgress.expectedTotalBytes ?? 1)
-                                      : null,
+                          return Shimmer.fromColors(
+                            baseColor: OColor.gray200,
+                            highlightColor: OColor.gray300,
+                            child: Container(
+                              height: 80,
+                              width: 80,
+                              color: OColor.white,
                             ),
                           );
                         },
                         errorBuilder: (context, error, stackTrace) {
-                          return Icon(Icons.error, color: OColor.red500, size: 80);
+                          return Icon(
+                            Icons.error,
+                            color: OColor.red500,
+                            size: 80,
+                          );
                         },
                         cacheWidth: 240,
                         cacheHeight: 240,
@@ -84,7 +93,9 @@ void openRestaurantPage(
                                     const SizedBox(height: 4),
                                     OText(
                                       text: caption,
-                                      style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
+                                      style: OTextStyle.bodySmall.copyWith(
+                                        color: OColor.gray600,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -96,7 +107,11 @@ void openRestaurantPage(
                                     shape: BoxShape.circle,
                                     color: OColor.gray100,
                                   ),
-                                  child: Icon(Icons.close, color: OColor.gray600, size: 20),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: OColor.gray600,
+                                    size: 20,
+                                  ),
                                 ),
                                 onPressed: () {
                                   Navigator.pop(sheetContext);
@@ -118,7 +133,9 @@ void openRestaurantPage(
                     Expanded(
                       child: OText(
                         text: location,
-                        style: OTextStyle.bodyMedium.copyWith(color: OColor.gray600),
+                        style: OTextStyle.bodyMedium.copyWith(
+                          color: OColor.gray600,
+                        ),
                       ),
                     ),
                   ],
@@ -130,7 +147,9 @@ void openRestaurantPage(
                     const SizedBox(width: 8),
                     OText(
                       text: 'Closes at $closingTime',
-                      style: OTextStyle.bodyMedium.copyWith(color: OColor.gray600),
+                      style: OTextStyle.bodyMedium.copyWith(
+                        color: OColor.gray600,
+                      ),
                     ),
                   ],
                 ),
@@ -171,68 +190,111 @@ void openRestaurantPage(
                 const SizedBox(height: 16),
                 OText(
                   text: 'Menu',
-                  style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
+                  style: OTextStyle.headingMedium.copyWith(
+                    color: OColor.gray800,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 if (menuImages.isEmpty)
                   OText(
                     text: 'Menu Unavailable',
-                    style: OTextStyle.bodyMedium.copyWith(color: OColor.gray600),
+                    style: OTextStyle.bodyMedium.copyWith(
+                      color: OColor.gray600,
+                    ),
                   )
                 else if (menuImages.length == 1)
                   GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        rootNavigator.push(
-                          MaterialPageRoute(
-                            builder:
-                                (_) =>
-                                    FullScreenImageCarousel(imageUrls: menuImages, initialIndex: 0),
-                          ),
-                        );
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          menuImages[0],
-                          fit: BoxFit.cover,
-                          width: MediaQuery.of(sheetContext).size.width,
-                          height: 200,
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      rootNavigator.push(
+                        MaterialPageRoute(
+                          builder:
+                              (_) => FullScreenImageCarousel(
+                                imageUrls: menuImages,
+                                initialIndex: 0,
+                              ),
                         ),
+                      );
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        menuImages[0],
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(sheetContext).size.width,
+                        height: 200,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Shimmer.fromColors(
+                            baseColor: OColor.gray200,
+                            highlightColor: OColor.gray300,
+                            child: Container(
+                              width: MediaQuery.of(sheetContext).size.width,
+                              height: 200,
+                              color: OColor.white,
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            width: MediaQuery.of(sheetContext).size.width,
+                            height: 200,
+                            color: OColor.gray100,
+                            child: Icon(Icons.error, color: OColor.red500),
+                          );
+                        },
                       ),
-                    )
+                    ),
+                  )
                 else
                   GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8,
-                        childAspectRatio: 1.0,
-                      ),
-                      itemCount: menuImages.length,
-                      itemBuilder: (_, index) {
-                        return GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () {
-                            rootNavigator.push(
-                              MaterialPageRoute(
-                                builder:
-                                    (_) => FullScreenImageCarousel(
-                                      imageUrls: menuImages,
-                                      initialIndex: index,
-                                    ),
-                              ),
-                            );
-                          },
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(menuImages[index], fit: BoxFit.cover),
-                          ),
-                        );
-                      },
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
+                      childAspectRatio: 1.0,
                     ),
+                    itemCount: menuImages.length,
+                    itemBuilder: (_, index) {
+                      return GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          rootNavigator.push(
+                            MaterialPageRoute(
+                              builder:
+                                  (_) => FullScreenImageCarousel(
+                                    imageUrls: menuImages,
+                                    initialIndex: index,
+                                  ),
+                            ),
+                          );
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            menuImages[index],
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Shimmer.fromColors(
+                                baseColor: OColor.gray200,
+                                highlightColor: OColor.gray300,
+                                child: Container(color: OColor.white),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: OColor.gray100,
+                                child: Icon(Icons.error, color: OColor.red500),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
               ],
             ),
           ),
