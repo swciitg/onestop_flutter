@@ -11,13 +11,6 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final dev = (const String.fromEnvironment("ENV")) == "dev";
-    return Scaffold(
-      body: dev ? Banner(message: "DEV", location: BannerLocation.topEnd, child: _body()) : _body(),
-    );
-  }
-
-  Widget _body() {
     return WelcomeHeader(setLoading: setLoading);
   }
 }

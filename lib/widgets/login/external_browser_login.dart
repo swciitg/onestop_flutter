@@ -90,10 +90,7 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
     }
   }
 
-  Future<void> _handleLoginSuccess(
-    String accessToken,
-    String refreshToken,
-  ) async {
+  Future<void> _handleLoginSuccess(String accessToken, String refreshToken) async {
     try {
       final start = DateTime.now();
       setState(() => _isLoading = true);
@@ -119,9 +116,7 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
       navigatorKey.currentState!.pushAndRemoveUntil(
         MaterialPageRoute(
           builder:
-              (context) => EditProfile(
-                profileModel: OneStopUser.fromJson(LoginStore.userData),
-              ),
+              (context) => EditProfile(profileModel: OneStopUser.fromJson(LoginStore.userData)),
         ),
         (route) => false,
       );
@@ -137,10 +132,7 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
   }
 
   Future<void> _moveBackToWelcomePage() async {
-    navigatorKey.currentState!.pushNamedAndRemoveUntil(
-      LoginPage.id,
-      (_) => false,
-    );
+    navigatorKey.currentState!.pushNamedAndRemoveUntil(LoginPage.id, (_) => false);
     await Future.delayed(const Duration(seconds: 1));
     showSnackBar("Error occurred: INCORRECT USER TOKENS");
   }
@@ -181,12 +173,14 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         backgroundColor: const Color(0xFF148440),
         systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
           statusBarColor: Color(0xFF148440),
           statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.light,
+          systemNavigationBarColor: Colors.transparent,
         ),
       ),
       body: Container(
@@ -205,11 +199,7 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
                 children: [
                   const SizedBox(height: 40),
                   // App Logo
-                  Image.asset(
-                    'assets/images/app_logo_dark.png',
-                    height: 80,
-                    width: 80,
-                  ),
+                  Image.asset('assets/images/app_logo_dark.png', height: 80, width: 80),
                   const SizedBox(height: 24),
                   // Heading
                   Text(
@@ -290,10 +280,7 @@ class _ExternalBrowserLoginState extends State<ExternalBrowserLogin> {
                         child: Center(
                           child: Text(
                             'Retry Login',
-                            style: MyFonts.w600.copyWith(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
+                            style: MyFonts.w600.copyWith(fontSize: 16, color: Colors.white),
                           ),
                         ),
                       ),

@@ -14,6 +14,7 @@ class WelcomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dev = (const String.fromEnvironment("ENV")) == "dev";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF148440),
@@ -21,6 +22,7 @@ class WelcomeHeader extends StatelessWidget {
           statusBarColor: Color(0xFF148440),
           statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.light,
+          systemNavigationBarColor: Colors.transparent,
         ),
       ),
       body: Container(
@@ -41,15 +43,11 @@ class WelcomeHeader extends StatelessWidget {
                 children: [
                   const SizedBox(height: 40),
                   // App Logo
-                  Image.asset(
-                    'assets/images/app_logo_dark.png',
-                    height: 80,
-                    width: 80,
-                  ),
+                  Image.asset('assets/images/app_logo_dark.png', height: 80, width: 80),
                   const SizedBox(height: 24),
                   // Heading
                   Text(
-                    'Welcome to the\nall new Onestop',
+                    'Welcome to the\nall new Onestop${dev ? " [DEV]" : ""}',
                     textAlign: TextAlign.center,
                     style: OTextStyle.displayXSmall.copyWith(
                       color: Color(0xFF232329),
@@ -95,10 +93,7 @@ class WelcomeHeader extends StatelessWidget {
                         children: [
                           Text(
                             'Login with Outlook',
-                            style: MyFonts.w600.copyWith(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
+                            style: MyFonts.w600.copyWith(fontSize: 16, color: Colors.white),
                           ),
                           const SizedBox(width: 8),
                           const Icon(
@@ -116,10 +111,7 @@ class WelcomeHeader extends StatelessWidget {
                     onTap: () async {
                       final nav = Navigator.of(context);
                       await LoginStore().signInAsGuest();
-                      nav.pushNamedAndRemoveUntil(
-                        '/',
-                        (Route<dynamic> route) => false,
-                      );
+                      nav.pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                     },
                     child: Container(
                       padding: const EdgeInsets.all(10),
@@ -131,10 +123,7 @@ class WelcomeHeader extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'Continue as Guest',
-                          style: MyFonts.w600.copyWith(
-                            fontSize: 14,
-                            color: Color(0xFF232329),
-                          ),
+                          style: MyFonts.w600.copyWith(fontSize: 14, color: Color(0xFF232329)),
                         ),
                       ),
                     ),
@@ -178,10 +167,8 @@ class _DancingServiceMarqueeState extends State<DancingServiceMarquee>
   @override
   void initState() {
     super.initState();
-    _scrollController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 20),
-    )..repeat();
+    _scrollController = AnimationController(vsync: this, duration: const Duration(seconds: 20))
+      ..repeat();
   }
 
   @override
@@ -210,25 +197,19 @@ class _DancingServiceMarqueeState extends State<DancingServiceMarquee>
                   children: [
                     ...iconPaths.map(
                       (path) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: spacing / 2,
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
                         child: _DancingIcon(iconPath: path),
                       ),
                     ),
                     ...iconPaths.map(
                       (path) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: spacing / 2,
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
                         child: _DancingIcon(iconPath: path),
                       ),
                     ),
                     ...iconPaths.map(
                       (path) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: spacing / 2,
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
                         child: _DancingIcon(iconPath: path),
                       ),
                     ),
@@ -252,8 +233,7 @@ class _DancingIcon extends StatefulWidget {
   State<_DancingIcon> createState() => _DancingIconState();
 }
 
-class _DancingIconState extends State<_DancingIcon>
-    with SingleTickerProviderStateMixin {
+class _DancingIconState extends State<_DancingIcon> with SingleTickerProviderStateMixin {
   late AnimationController _danceController;
   late Animation<double> _rotation;
   late Animation<double> _scale;
@@ -263,18 +243,18 @@ class _DancingIconState extends State<_DancingIcon>
     super.initState();
     _danceController = AnimationController(
       vsync: this,
-      duration: const Duration(
-        milliseconds: 1500,
-      ), // Slow down the dance slightly
+      duration: const Duration(milliseconds: 1500), // Slow down the dance slightly
     );
 
-    _rotation = Tween<double>(begin: -0.1, end: 0.1).animate(
-      CurvedAnimation(parent: _danceController, curve: Curves.easeInOut),
-    );
+    _rotation = Tween<double>(
+      begin: -0.1,
+      end: 0.1,
+    ).animate(CurvedAnimation(parent: _danceController, curve: Curves.easeInOut));
 
-    _scale = Tween<double>(begin: 0.7, end: 1.3).animate(
-      CurvedAnimation(parent: _danceController, curve: Curves.easeInOut),
-    );
+    _scale = Tween<double>(
+      begin: 0.7,
+      end: 1.3,
+    ).animate(CurvedAnimation(parent: _danceController, curve: Curves.easeInOut));
 
     // Stagger start times
     Future.delayed(Duration(milliseconds: widget.hashCode % 1000), () {

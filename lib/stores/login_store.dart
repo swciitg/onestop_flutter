@@ -110,19 +110,10 @@ class LoginStore {
         final fcmToken = await FirebaseMessaging.instance.getToken();
         debugPrint("[LoginStore] FCM Token: $fcmToken");
         if (fcmToken != null) {
-          String? deviceToken = instance.getString("deviceToken");
-          if (deviceToken == null || deviceToken.isEmpty) {
-            await NotificationRepository().postFCMToken(fcmToken);
-            await instance.setString("deviceToken", fcmToken);
-            debugPrint("[LoginStore] FCM token posted to backend");
-          } else if (deviceToken != fcmToken) {
-            await NotificationRepository().updateFCMToken({
-              "oldToken": deviceToken,
-              "newToken": fcmToken,
-            });
-            await instance.setString("deviceToken", fcmToken);
-            debugPrint("[LoginStore] FCM token updated on backend");
-          }
+          // Always sync token to backend after login
+          await NotificationRepository().postFCMToken(fcmToken);
+          await instance.setString("deviceToken", fcmToken);
+          debugPrint("[LoginStore] FCM token synced to backend");
         }
       } catch (e) {
         debugPrint("[LoginStore] Error sending FCM token to backend: $e");
