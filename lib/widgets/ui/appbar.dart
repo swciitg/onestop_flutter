@@ -14,6 +14,18 @@ AppBar appBar(BuildContext context, {bool displayIcon = true, bool displayDrawer
     scrolledUnderElevation: 0,
     elevation: 0.0,
     systemOverlayStyle: systemUiOverlayStyle,
+    flexibleSpace: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            OColor.green100,
+            OColor.gray100.withValues(alpha: 0.0),
+          ],
+        ),
+      ),
+    ),
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,12 +90,15 @@ AppBar appBar(BuildContext context, {bool displayIcon = true, bool displayDrawer
             //   icon: Icon(FluentIcons.person_24_regular, color: OColor.green600),
             // ),
             // Notification button
-            IconButton(
-              onPressed: () {
-                context.read<CommonStore>().isPersonalNotif = true;
-                Navigator.pushNamed(context, NotificationPage.id);
-              },
-              icon: Icon(FluentIcons.alert_32_regular, color: OColor.green600),
+            CircleAvatar(
+              backgroundColor: OColor.white,
+              child: IconButton(
+                onPressed: () {
+                  context.read<CommonStore>().isPersonalNotif = true;
+                  Navigator.pushNamed(context, NotificationPage.id);
+                },
+                icon: Icon(FluentIcons.alert_24_regular, color: OColor.green600),
+              ),
             ),
           ],
         ),
