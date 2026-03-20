@@ -166,7 +166,6 @@ class TimetableHomeWidgetProvider : HomeWidgetProvider() {
             val root = JSONObject(weekJson)
             val dayArray = root.optJSONArray(dayName) ?: return emptyList()
             val courses = mutableListOf<WidgetCourse>()
-            val timeFormat = SimpleDateFormat("hh:mm - hh:mm a", Locale.US)
 
             for (i in 0 until dayArray.length()) {
                 val obj = dayArray.getJSONObject(i)
@@ -176,7 +175,7 @@ class TimetableHomeWidgetProvider : HomeWidgetProvider() {
 
                 if (timing.isBlank()) continue
 
-                val startEpoch = parseTimingToEpoch(timing, cal, timeFormat)
+                val startEpoch = parseTimingToEpoch(timing, cal)
                 if (startEpoch > 0) {
                     courses.add(WidgetCourse(code, course, startEpoch))
                 }
@@ -189,13 +188,19 @@ class TimetableHomeWidgetProvider : HomeWidgetProvider() {
         }
     }
 
-    private fun parseTimingToEpoch(timing: String, cal: Calendar, timeFormat: SimpleDateFormat): Long {
+    private fun parseTimingToEpoch(timing: String, cal: Calendar): Long {
         // Timing format: "09:00 - 09:55 AM" or "02:00 - 02:55 PM"
+        // Extract only the START time (before the " - ") + AM/PM suffix.
         return try {
-            val parsed = timeFormat.parse(timing) ?: return 0L
+            val parts = timing.split(" - ")
+            if (parts.size != 2) return 0L
+            val startTimeStr = parts[0].trim()                    // e.g. "09:00"
+            val amPm = parts[1].trim().takeLast(2)                // e.g. "AM"
+            val startFormat = SimpleDateFormat("hh:mm a", Locale.US)
+            val parsed = startFormat.parse("$startTimeStr $amPm") ?: return 0L
             val parsedCal = Calendar.getInstance().apply { time = parsed }
 
-            // Build today's date + parsed time
+            // Build today's date + parsed start time
             val todayCal = Calendar.getInstance().apply {
                 set(Calendar.YEAR, cal.get(Calendar.YEAR))
                 set(Calendar.MONTH, cal.get(Calendar.MONTH))

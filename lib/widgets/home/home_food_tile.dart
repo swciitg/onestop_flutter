@@ -106,7 +106,7 @@ class HomeFoodTile extends StatelessWidget {
                               Expanded(
                                 child: OText(
                                   text: description,
-                                  style: OTextStyle.bodyMedium.copyWith(
+                                  style: OTextStyle.bodyXSmall.copyWith(
                                     color: OColor.black,
                                     fontWeight: FontWeight.w500,
                                   ),
