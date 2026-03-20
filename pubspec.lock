@@ -206,7 +206,7 @@ packages:
     description:
       path: "packages/cab_sharing"
       ref: redesign
-      resolved-ref: "8594301ac2220f8f4711983153ed4429158386ab"
+      resolved-ref: f28844955cde6ac14333d6d578ddf0b7272bd406
       url: "https://github.com/swciitg/cab_sharing_onestop.git"
     source: git
     version: "0.0.1"
@@ -1227,7 +1227,7 @@ packages:
     description:
       path: "."
       ref: redesign
-      resolved-ref: "548745d4f5ff45790cefda79ab692f602a945ab7"
+      resolved-ref: "023f62c1ec6428b8c01256a1c34633cf7571886b"
       url: "https://github.com/swciitg/lib_token.git"
     source: git
     version: "0.0.1"
@@ -1612,11 +1612,9 @@ packages:
   scoreboard:
     dependency: "direct main"
     description:
-      path: "packages/scoreboard"
-      ref: dev
-      resolved-ref: ec9fd2295a9ba463aef91e965cc69404aabcd6da
-      url: "https://github.com/swciitg/gc_scoreboard.git"
-    source: git
+      path: "../gc_scoreboard/packages/scoreboard"
+      relative: true
+    source: path
     version: "0.0.0"
   screen_brightness:
     dependency: transitive
