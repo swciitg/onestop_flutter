@@ -39,10 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String branch = 'CSE';
   bool submitted = false;
 
-  Future<void> _persistElectionSession({
-    required String email,
-    required String authCookie,
-  }) async {
+  Future<void> _persistElectionSession({required String email, required String authCookie}) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(ElectionLocalKeys.isRegistered, true);
     await prefs.setString(ElectionLocalKeys.email, email);
@@ -204,17 +201,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: _handleLogout,
             ),
           ],
-          title: Text(
-            'Elections',
-            style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
-          ),
-          systemOverlayStyle: Theme.of(context).appBarTheme.systemOverlayStyle
-              ?.copyWith(statusBarColor: OColor.white),
+          title: Text('Elections', style: OTextStyle.headingSmall.copyWith(color: OColor.gray800)),
+          systemOverlayStyle: Theme.of(
+            context,
+          ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
         ),
-        body: VoterCard(
-          email: widget.cachedEmail!,
-          authCookie: widget.authCookie,
-        ),
+        body: VoterCard(email: widget.cachedEmail!, authCookie: widget.authCookie),
       );
     }
 
@@ -228,10 +220,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           icon: Icon(Icons.arrow_back, color: OColor.green600),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(
-          'Elections',
-          style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
-        ),
+        title: Text('Elections', style: OTextStyle.headingSmall.copyWith(color: OColor.gray800)),
         actions: [
           IconButton(
             tooltip: 'Logout',
@@ -239,8 +228,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             onPressed: _handleLogout,
           ),
         ],
-        systemOverlayStyle: Theme.of(context).appBarTheme.systemOverlayStyle
-            ?.copyWith(statusBarColor: OColor.white),
+        systemOverlayStyle: Theme.of(
+          context,
+        ).appBarTheme.systemOverlayStyle?.copyWith(statusBarColor: OColor.white),
       ),
       body: FutureBuilder<Response>(
         future: dio.get("https://swc.iitg.ac.in/elections_api/sgc/profile"),
@@ -248,9 +238,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           if (snapshot.hasError) {
             log("REGISTER SCREEN ERROR: ${snapshot.error}");
             if (snapshot.error is DioException) {
-              log(
-                "REGISTER SCREEN ERROR: ${(snapshot.error as DioException).message}",
-              );
+              log("REGISTER SCREEN ERROR: ${(snapshot.error as DioException).message}");
             }
             return Center(
               child: Text(
@@ -274,7 +262,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 degrees.entries
                     .firstWhere(
                       (entry) => entry.value == code,
-                      orElse: () => MapEntry(code, code),
+                      orElse: () => MapEntry("B.Tech", "B"),
                     )
                     .key;
             log("REGISTER SCREEN DATA: ${profResp.data}");
@@ -292,15 +280,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         initialValue: name,
                         enabled: false,
-                        style: OTextStyle.bodySmall.copyWith(
-                          color: OColor.gray800,
-                        ),
+                        style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
                         decoration: _textFieldDecoration('Your Name'),
                         validator:
-                            (val) =>
-                                (val == null || val.isEmpty)
-                                    ? "Please fill your name"
-                                    : null,
+                            (val) => (val == null || val.isEmpty) ? "Please fill your name" : null,
                       ),
                       const SizedBox(height: OSpacing.m),
 
@@ -312,15 +295,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         maxLength: 9,
                         enabled: false,
                         onChanged: (r) => roll = r,
-                        style: OTextStyle.bodySmall.copyWith(
-                          color: OColor.gray800,
-                        ),
+                        style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
                         decoration: _textFieldDecoration('Ex: 200101071'),
                         validator: (val) {
-                          if (val == null || val.isEmpty)
-                            return "Please fill your roll number";
-                          if (val.length < 9)
-                            return "Enter a valid roll number";
+                          if (val == null || val.isEmpty) return "Please fill your roll number";
+                          if (val.length < 9) return "Enter a valid roll number";
                           return null;
                         },
                       ),
@@ -328,25 +307,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // Degree
                       _fieldLabel('Degree'),
-                      TextFormField(
+                      DropdownButtonFormField<String>(
                         initialValue: degree,
-                        keyboardType: TextInputType.number,
-                        maxLength: 9,
-                        enabled: false,
-                        onChanged: (r) => degree = r,
-                        style: OTextStyle.bodySmall.copyWith(
-                          color: OColor.gray800,
+                        hint: Text(
+                          "Select your degree",
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
                         ),
-                        decoration: _textFieldDecoration('Ex: 200101071'),
-                        validator: (val) {
-                          if (val == null || val.isEmpty)
-                            return "Please fill your roll number";
-                          if (val.length < 9)
-                            return "Enter a valid roll number";
-                          return null;
-                        },
+                        decoration: _dropdownDecoration('Select your degree'),
+                        icon: Icon(FluentIcons.chevron_down_24_regular, color: OColor.gray600),
+                        dropdownColor: OColor.white,
+                        style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                        onChanged: (data) => setState(() => degree = data!),
+                        menuMaxHeight: 250,
+                        validator: (val) => val == null ? "Degree can not be empty" : null,
+                        items:
+                            degrees.keys.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(value: value, child: Text(value));
+                            }).toList(),
                       ),
-
                       const SizedBox(height: OSpacing.m),
 
                       // Hostel
@@ -354,53 +332,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       DropdownButtonFormField<String>(
                         hint: Text(
                           "Select your hostel",
-                          style: OTextStyle.bodySmall.copyWith(
-                            color: OColor.gray400,
-                          ),
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
                         ),
                         decoration: _dropdownDecoration('Select your hostel'),
-                        icon: Icon(
-                          FluentIcons.chevron_down_24_regular,
-                          color: OColor.gray600,
-                        ),
+                        icon: Icon(FluentIcons.chevron_down_24_regular, color: OColor.gray600),
                         dropdownColor: OColor.white,
-                        style: OTextStyle.bodySmall.copyWith(
-                          color: OColor.gray800,
-                        ),
+                        style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
                         onChanged: (data) => setState(() => hostel = data!),
                         menuMaxHeight: 250,
-                        validator:
-                            (val) =>
-                                val == null ? "Hostel can not be empty" : null,
+                        validator: (val) => val == null ? "Hostel can not be empty" : null,
                         items:
-                            hostels.map<DropdownMenuItem<String>>((
-                              String value,
-                            ) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
+                            hostels.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(value: value, child: Text(value));
                             }).toList(),
                       ),
-                      const SizedBox(height: OSpacing.m),
-
-                      // DropdownButtonFormField<String>(
-                      //   hint: Text(
-                      //     "Select your degree",
-                      //     style: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
-                      //   ),
-                      //   decoration: _dropdownDecoration('Select your degree'),
-                      //   icon: Icon(FluentIcons.chevron_down_24_regular, color: OColor.gray600),
-                      //   dropdownColor: OColor.white,
-                      //   style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
-                      //   onChanged: (data) => setState(() => degree = data!),
-                      //   menuMaxHeight: 250,
-                      //   validator: (val) => val == null ? "Degree can not be empty" : null,
-                      //   items:
-                      //       degrees.keys.map<DropdownMenuItem<String>>((String value) {
-                      //         return DropdownMenuItem<String>(value: value, child: Text(value));
-                      //       }).toList(),
-                      // ),
                       const SizedBox(height: OSpacing.m),
 
                       // Gender
@@ -408,32 +353,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       DropdownButtonFormField<String>(
                         hint: Text(
                           "Select your gender",
-                          style: OTextStyle.bodySmall.copyWith(
-                            color: OColor.gray400,
-                          ),
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
                         ),
                         decoration: _dropdownDecoration('Select your gender'),
-                        icon: Icon(
-                          FluentIcons.chevron_down_24_regular,
-                          color: OColor.gray600,
-                        ),
+                        icon: Icon(FluentIcons.chevron_down_24_regular, color: OColor.gray600),
                         dropdownColor: OColor.white,
-                        style: OTextStyle.bodySmall.copyWith(
-                          color: OColor.gray800,
-                        ),
+                        style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
                         onChanged: (data) => setState(() => gender = data!),
                         menuMaxHeight: 250,
-                        validator:
-                            (val) =>
-                                val == null ? "Gender can not be empty" : null,
+                        validator: (val) => val == null ? "Gender can not be empty" : null,
                         items:
-                            ["Male", "Female"].map<DropdownMenuItem<String>>((
-                              String value,
-                            ) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
+                            ["Male", "Female"].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(value: value, child: Text(value));
                             }).toList(),
                       ),
                       const SizedBox(height: OSpacing.m),
@@ -443,32 +374,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       DropdownButtonFormField<String>(
                         hint: Text(
                           "Select your branch",
-                          style: OTextStyle.bodySmall.copyWith(
-                            color: OColor.gray400,
-                          ),
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
                         ),
                         decoration: _dropdownDecoration('Select your branch'),
-                        icon: Icon(
-                          FluentIcons.chevron_down_24_regular,
-                          color: OColor.gray600,
-                        ),
+                        icon: Icon(FluentIcons.chevron_down_24_regular, color: OColor.gray600),
                         dropdownColor: OColor.white,
-                        style: OTextStyle.bodySmall.copyWith(
-                          color: OColor.gray800,
-                        ),
+                        style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
                         onChanged: (data) => setState(() => branch = data!),
                         menuMaxHeight: 250,
-                        validator:
-                            (val) =>
-                                val == null ? "Branch can not be empty" : null,
+                        validator: (val) => val == null ? "Branch can not be empty" : null,
                         items:
-                            branches.keys.map<DropdownMenuItem<String>>((
-                              String value,
-                            ) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
+                            branches.keys.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(value: value, child: Text(value));
                             }).toList(),
                       ),
                       const SizedBox(height: OSpacing.l),
@@ -481,8 +398,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               submitted
                                   ? null
                                   : () async {
-                                    if (!_formKey.currentState!.validate())
-                                      return;
+                                    if (!_formKey.currentState!.validate()) return;
                                     setState(() => submitted = true);
                                     try {
                                       var data = {
@@ -505,9 +421,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       setState(() => submitted = false);
                                     } catch (e) {
                                       setState(() => submitted = false);
-                                      showSnackBar(
-                                        'Please check your internet',
-                                      );
+                                      showSnackBar('Please check your internet');
                                     }
                                   },
                           style: ElevatedButton.styleFrom(
@@ -515,17 +429,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             foregroundColor: OColor.white,
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                OCornerRadius.m,
-                              ),
+                              borderRadius: BorderRadius.circular(OCornerRadius.m),
                             ),
                             elevation: 0,
                           ),
                           child: Text(
                             submitted ? 'Submitting...' : 'Submit',
-                            style: OTextStyle.labelMedium.copyWith(
-                              color: OColor.white,
-                            ),
+                            style: OTextStyle.labelMedium.copyWith(color: OColor.white),
                           ),
                         ),
                       ),
@@ -540,10 +450,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               email: profResp.data["euser"]["email"],
               authCookie: widget.authCookie,
             );
-            return VoterCard(
-              email: profResp.data["euser"]["email"],
-              authCookie: widget.authCookie,
-            );
+            return VoterCard(email: profResp.data["euser"]["email"], authCookie: widget.authCookie);
           }
         },
       ),
@@ -553,10 +460,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _fieldLabel(String label) {
     return Padding(
       padding: const EdgeInsets.only(bottom: OSpacing.xs),
-      child: Text(
-        label,
-        style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
-      ),
+      child: Text(label, style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
     );
   }
 }

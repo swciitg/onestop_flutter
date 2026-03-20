@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -243,12 +244,12 @@ class _ProfileTabState extends State<ProfileTab> {
             radius: 45,
             backgroundColor: OColor.gray200,
             child: ClipOval(
-              child: Image.network(
-                profileUrl,
+              child: CachedNetworkImage(
+                imageUrl: profileUrl,
                 width: 90,
                 height: 90,
                 fit: BoxFit.cover,
-                errorBuilder:
+                errorWidget:
                     (_, _, _) => Container(
                       width: 90,
                       height: 90,

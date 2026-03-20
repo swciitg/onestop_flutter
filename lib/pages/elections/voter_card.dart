@@ -1,5 +1,7 @@
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:onestop_ui/index.dart';
@@ -138,17 +140,21 @@ class _VoterCardState extends State<VoterCard> {
                       radius: 45,
                       backgroundColor: OColor.gray200,
                       child: ClipOval(
-                        child: Image.network(
-                          _getProfileUrlByRoll(data["roll_no"]),
+                        child: CachedNetworkImage(
+                          imageUrl: _getProfileUrlByRoll(data["roll_no"]),
                           width: 90,
                           height: 90,
                           fit: BoxFit.cover,
-                          errorBuilder:
-                              (_, _, _) => Image.asset(
-                                'assets/images/profile_placeholder.jpg',
+                          errorWidget:
+                              (_, _, _) => Container(
                                 width: 90,
                                 height: 90,
-                                fit: BoxFit.cover,
+                                color: OColor.gray200,
+                                child: Icon(
+                                  FluentIcons.person_24_regular,
+                                  color: OColor.gray500,
+                                  size: 40,
+                                ),
                               ),
                         ),
                       ),
