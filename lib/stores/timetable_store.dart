@@ -118,15 +118,21 @@ abstract class _TimetableStore with Store {
   @observable
   ExamMode examMode = ExamMode.none;
 
+  /// Whether to show cab sharing suggestion (during and up to 1 month after endsem exams)
+  @observable
+  bool showCabSuggestion = false;
+
   @action
   void setExamMode(ExamMode mode) {
     examMode = mode;
   }
 
   /// Calculates examMode based on dates and returns the upcoming exams.
+  @action
   void calculateExamMode() {
     if (courses == null || courses!.courses == null || courses!.courses!.isEmpty) {
       examMode = ExamMode.none;
+      showCabSuggestion = false;
       return;
     }
 
@@ -146,6 +152,16 @@ abstract class _TimetableStore with Store {
     if (validEndsems.isNotEmpty) {
       validEndsems.sort((a, b) => DateTime.parse(a.endsem!).compareTo(DateTime.parse(b.endsem!)));
       isEndsemDone = DateTime.parse(validEndsems.last.endsem!).isBefore(now);
+    }
+
+    // Show cab suggestion during endsems and up to 1 month after last endsem
+    if (validEndsems.isNotEmpty) {
+      DateTime firstEnd = DateTime.parse(validEndsems.first.endsem!);
+      DateTime lastEnd = DateTime.parse(validEndsems.last.endsem!);
+      showCabSuggestion = now.isAfter(firstEnd) &&
+          now.isBefore(lastEnd.add(const Duration(days: 30)));
+    } else {
+      showCabSuggestion = false;
     }
 
     if (!isMidsemDone && validMidsems.isNotEmpty) {

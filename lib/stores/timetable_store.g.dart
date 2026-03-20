@@ -145,6 +145,24 @@ mixin _$TimetableStore on _TimetableStore, Store {
     });
   }
 
+  late final _$showCabSuggestionAtom = Atom(
+    name: '_TimetableStore.showCabSuggestion',
+    context: context,
+  );
+
+  @override
+  bool get showCabSuggestion {
+    _$showCabSuggestionAtom.reportRead();
+    return super.showCabSuggestion;
+  }
+
+  @override
+  set showCabSuggestion(bool value) {
+    _$showCabSuggestionAtom.reportWrite(value, super.showCabSuggestion, () {
+      super.showCabSuggestion = value;
+    });
+  }
+
   late final _$_TimetableStoreActionController = ActionController(
     name: '_TimetableStore',
     context: context,
@@ -223,6 +241,18 @@ mixin _$TimetableStore on _TimetableStore, Store {
   }
 
   @override
+  void calculateExamMode() {
+    final _$actionInfo = _$_TimetableStoreActionController.startAction(
+      name: '_TimetableStore.calculateExamMode',
+    );
+    try {
+      return super.calculateExamMode();
+    } finally {
+      _$_TimetableStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isProcessed: ${isProcessed},
@@ -232,6 +262,7 @@ selectedDay: ${selectedDay},
 showDropDown: ${showDropDown},
 isTimetable: ${isTimetable},
 examMode: ${examMode},
+showCabSuggestion: ${showCabSuggestion},
 todayTimeTable: ${todayTimeTable}
     ''';
   }

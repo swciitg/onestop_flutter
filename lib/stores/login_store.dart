@@ -10,7 +10,9 @@ import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/pages/home/home.dart';
 import 'package:onestop_dev/pages/login/blocked.dart';
 import 'package:onestop_dev/pages/login/login.dart';
+import 'package:onestop_dev/repository/notification_repository.dart';
 import 'package:onestop_dev/repository/user_repository.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:onestop_dev/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -102,22 +104,29 @@ class LoginStore {
 
   Future<void> saveToUserInfo(SharedPreferences instance) async {
     // only called after saving jwt tokens in local storage
-    // final fcmToken = await FirebaseMessaging.instance.getToken();
-    // Logger().i("FCM Token: $fcmToken");
     if (instance.getBool("isGuest") == false) {
       userData = jsonDecode(instance.getString("userInfo")!);
-      String? deviceToken = instance.getString("deviceToken");
-      if (deviceToken == null) {
-        instance.setString("deviceToken", ""); // set the returned fcToken
-        // await NotificationRepository().postFCMToken(fcmToken);
+      try {
+        final fcmToken = await FirebaseMessaging.instance.getToken();
+        debugPrint("[LoginStore] FCM Token: $fcmToken");
+        if (fcmToken != null) {
+          String? deviceToken = instance.getString("deviceToken");
+          if (deviceToken == null || deviceToken.isEmpty) {
+            await NotificationRepository().postFCMToken(fcmToken);
+            await instance.setString("deviceToken", fcmToken);
+            debugPrint("[LoginStore] FCM token posted to backend");
+          } else if (deviceToken != fcmToken) {
+            await NotificationRepository().updateFCMToken({
+              "oldToken": deviceToken,
+              "newToken": fcmToken,
+            });
+            await instance.setString("deviceToken", fcmToken);
+            debugPrint("[LoginStore] FCM token updated on backend");
+          }
+        }
+      } catch (e) {
+        debugPrint("[LoginStore] Error sending FCM token to backend: $e");
       }
-      // else if (deviceToken != fcmToken) {
-      //   // already some token was stored
-      //   // await NotificationRepository().updateFCMToken({
-      //   //   "oldToken": deviceToken, // stored token
-      //   //   "newToken": fcmToken
-      //   // });
-      // }
     } else {
       isGuest = true;
     }

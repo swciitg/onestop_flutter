@@ -87,7 +87,7 @@ class _HomeTabState extends State<HomeTab> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: OColor.yellow100,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,12 +120,20 @@ class _HomeTabState extends State<HomeTab> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: HomeAutoScrollTile(
-                          duration: const Duration(seconds: 3),
-                          children: [
-                            HomeFoodTile(moveToFoodMenu: widget.moveToFoodMenuSection),
-                            const HomeSuggestionTile(),
-                          ],
+                        child: Observer(
+                          builder: (context) {
+                            final store = context.read<TimetableStore>();
+                            if (store.showCabSuggestion) {
+                              return HomeAutoScrollTile(
+                                duration: const Duration(seconds: 3),
+                                children: [
+                                  HomeFoodTile(moveToFoodMenu: widget.moveToFoodMenuSection),
+                                  const HomeSuggestionTile(),
+                                ],
+                              );
+                            }
+                            return HomeFoodTile(moveToFoodMenu: widget.moveToFoodMenuSection);
+                          },
                         ),
                       ),
                       const SizedBox(width: 8),

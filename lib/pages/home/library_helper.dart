@@ -32,23 +32,23 @@ Future<void> checkLibrarySlot({
       ),
     );
 
-    debugPrint(
-      "Library slot response: ${response.statusCode} - ${response.data}",
-    );
+    debugPrint("Library slot response: ${response.statusCode} - ${response.data}");
 
     if (response.statusCode == 200) {
       final data = response.data;
       if (isMounted()) {
-        final slotId = data['slotId'] ?? data['slotid'];
+        // final slotId = data['slotId'] ?? data['slotid'];
         final isBanned = data['isBanned'] ?? data['banend'] ?? false;
-        final message = data['message'];
+        final message = data['message'] as String?;
+        final currentRouteName = ModalRoute.of(context)?.settings.name;
+        final isOnLibraryTokenScreen = currentRouteName == LibraryTokenScreen.id;
 
-        final isBagPresent = slotId != null;
+        final isBagPresent = message != null && message.isNotEmpty;
         context.read<CommonStore>().setBagInLibrary(isBagPresent);
 
         onStateUpdate(isBagPresent && !isBanned && message != null, message);
 
-        if (isBanned) {
+        if (isBanned && !isOnLibraryTokenScreen) {
           if (!isBannedDialogShowing) {
             setDialogShowing(true);
             final parentNavigator = Navigator.of(context);
@@ -60,15 +60,14 @@ Future<void> checkLibrarySlot({
                   canPop: false,
                   child: AlertDialog(
                     backgroundColor: OColor.white,
-                    shape: const RoundedRectangleBorder(
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      side: BorderSide(color: Color(0xFFE0E0E0), width: 1.0),
+                      side: BorderSide(color: OColor.gray200, width: 1.0),
                     ),
-                    title:  Text(
-                      "Alert",
-                      style: TextStyle(
-                        color: OColor.black,
-                        fontSize: 20,
+                    title: OText(
+                      text: "Alert",
+                      style: OTextStyle.bodyLarge.copyWith(
+                        color: OColor.gray800,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -78,11 +77,7 @@ Future<void> checkLibrarySlot({
                     content: Text(
                       message ??
                           "You are banned from using onestop. Please collect your bag from the library.",
-                      style:  TextStyle(
-                        color: OColor.black,
-                        fontSize: 16,
-                        height: 1.5,
-                      ),
+                      style: TextStyle(color: OColor.black, fontSize: 16, height: 1.5),
                     ),
                     actionsAlignment: MainAxisAlignment.center,
                     actions: [
@@ -92,18 +87,14 @@ Future<void> checkLibrarySlot({
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(color: OColor.gray600, width: 1.0),
                             shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(16.0),
-                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(16.0)),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                           ),
                           onPressed: () {
                             Navigator.of(dialogContext).pop();
                             setDialogShowing(false);
-                            parentNavigator.pushNamed(
-                              LibraryTokenScreen.id,
-                            ).then((_) {
+                            parentNavigator.pushNamed(LibraryTokenScreen.id).then((_) {
                               if (!isMounted()) return;
                               checkLibrarySlot(
                                 context: context,
@@ -114,11 +105,11 @@ Future<void> checkLibrarySlot({
                               );
                             });
                           },
-                          child: Text(
-                            "Library Token",
-                            style: TextStyle(
+                          child: OText(
+                            text: "Library Token",
+                            style: OTextStyle.bodyMedium.copyWith(
                               color: OColor.green600,
-                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
