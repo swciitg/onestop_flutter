@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:onestop_ui/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
@@ -23,7 +23,8 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
   @override
   void initState() {
     super.initState();
-    if (DateTime.now().weekday == DateTime.sunday || DateTime.now().weekday == DateTime.saturday) {
+    if (DateTime.now().weekday == DateTime.sunday ||
+        DateTime.now().weekday == DateTime.saturday) {
       context.read<TravelStore>().setBusDayString("Weekends");
     }
   }
@@ -42,7 +43,9 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
                     // showDialog(context: context, builder: (_) => const TrackingDailog());
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const MilliTrack()),
+                      MaterialPageRoute(
+                        builder: (context) => const MilliTrack(),
+                      ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -50,15 +53,23 @@ class _StopsBusDetailsState extends State<StopsBusDetails> {
                     foregroundColor: kBlueGrey,
                     elevation: 2,
                     shadowColor: lBlue2.withValues(alpha: 0.4),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(Icons.location_on_outlined, size: 18),
                       const SizedBox(width: 6),
-                      Text("Track Bus", style: MyFonts.w600.size(13).setColor(kBlueGrey)),
+                      Text(
+                        "Track Bus",
+                        style: MyFonts.w600.size(13).setColor(kBlueGrey),
+                      ),
                       const SizedBox(width: 4),
                       const Icon(Icons.arrow_forward_ios, size: 12),
                     ],
@@ -102,7 +113,9 @@ class _MilliTrackState extends State<MilliTrack> {
             NavigationDelegate(
               onPageFinished: (url) async {
                 log("URL: $url");
-                if (url.contains('http://track4.millitrack.com/modern/#/login')) {
+                if (url.contains(
+                  'http://track4.millitrack.com/modern/#/login',
+                )) {
                   await Future.delayed(Duration(milliseconds: 500));
                   await controller.runJavaScript('''
               (function() {
@@ -164,7 +177,9 @@ class _MilliTrackState extends State<MilliTrack> {
             ),
           );
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.loadRequest(Uri.parse('http://track4.millitrack.com/modern/#/login'));
+      controller.loadRequest(
+        Uri.parse('http://track4.millitrack.com/modern/#/login'),
+      );
     });
   }
 
@@ -174,29 +189,15 @@ class _MilliTrackState extends State<MilliTrack> {
       backgroundColor: OneStopColors.backgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: OneStopColors.backgroundColor,
-        leadingWidth: 100,
-        leading: OneStopBackButton(
-          onTap: () {
+        backgroundColor: OColor.white,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
             Navigator.of(context).pop();
           },
+          icon: Icon(Icons.arrow_back, color: OColor.green600),
         ),
-        title: AppBarTitle(title: "Track Bus"),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  useRootNavigator: true,
-                  builder: (_) => const TrackingDailog(),
-                );
-              },
-              icon: Icon(Icons.open_in_new_rounded, color: OneStopColors.primaryColor),
-            ),
-          ),
-        ],
+        title: Text("Bus Route", style: OTextStyle.headingMedium.copyWith(color: OColor.gray800)),
       ),
       body: ClipRRect(
         borderRadius: BorderRadius.circular(12),
