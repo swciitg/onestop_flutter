@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/repository/user_repository.dart';
+import 'package:onestop_dev/services/app_icon_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/pages/theme/theme_transition_screen.dart';
 import 'package:onestop_dev/widgets/profile/feedback.dart';
@@ -15,6 +17,8 @@ import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../main.dart';
 
 String _getUserProfileUrlByRoll(String rollNo) {
   return "https://online.iitg.ac.in/sprofile/GALLERY/20${rollNo.substring(0, 2)}/PHOTO/${rollNo}_P.jpg";
@@ -493,6 +497,10 @@ class _ProfileTabState extends State<ProfileTab> {
               );
               // Rebuild to set the new theme in stuborn widgets
               setState(() {});
+              if (Platform.isAndroid) {
+                Future.delayed(const Duration(milliseconds: 300));
+                _showIconChangeDialog();
+              }
             },
             icon: Icon(
               themeStore.isLightMode
@@ -511,6 +519,92 @@ class _ProfileTabState extends State<ProfileTab> {
               backgroundColor: OColor.white,
             ),
           ),
+        );
+      },
+    );
+  }
+
+  void _showIconChangeDialog() {
+    final ctx = navigatorKey.currentContext;
+    if (ctx == null) return;
+    final darkMode = ThemeStore.instance.isDarkMode;
+
+    // Theme has already been toggled by the time this dialog shows,
+    // so toLight is now stale — swap the references.
+    final currentIconAsset =
+        darkMode ? 'assets/images/app_logo_light.png' : 'assets/images/app_logo_dark.png';
+    final newIconAsset =
+        darkMode ? 'assets/images/app_logo_dark.png' : 'assets/images/app_logo_light.png';
+    final newIconName = darkMode ? 'dark' : 'light';
+
+    showDialog(
+      context: ctx,
+      builder: (dialogCtx) {
+        return AlertDialog(
+          backgroundColor: OColor.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Text(
+            'Change App Icon?',
+            style: OTextStyle.headingSmall.copyWith(color: OColor.black),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Current icon
+                  Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.asset(currentIconAsset, width: 64, height: 64),
+                      ),
+                      const SizedBox(height: 8),
+                      Text('Current', style: OTextStyle.bodySmall.copyWith(color: OColor.gray500)),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Icon(Icons.arrow_forward_rounded, color: OColor.gray400, size: 24),
+                  ),
+                  // New icon
+                  Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.asset(newIconAsset, width: 64, height: 64),
+                      ),
+                      const SizedBox(height: 8),
+                      Text('New', style: OTextStyle.bodySmall.copyWith(color: OColor.green600)),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Changing the icon may close the app. You will need to reopen it.',
+                style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogCtx),
+              child: Text('Not Now', style: OTextStyle.labelMedium.copyWith(color: OColor.gray500)),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(dialogCtx);
+                await AppIconService.setIcon(newIconName);
+              },
+              child: Text(
+                'Change Icon',
+                style: OTextStyle.labelMedium.copyWith(color: OColor.green600),
+              ),
+            ),
+          ],
         );
       },
     );

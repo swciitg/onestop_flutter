@@ -38,17 +38,17 @@ List<Map<String, dynamic>> serviceLinksData = [
   {"label": "GateLog", "iconPath": "assets/images/gate_log.svg", "routeId": GateLogPage.id},
   {
     "label": "Library Token",
-    "iconPath": "assets/images/timetable.svg",
+    "iconPath": "assets/images/lib_token.svg",
     "routeId": LibraryTokenScreen.id,
     "newBadge": true,
   },
   {
     "label": "Election",
-    "iconPath": "assets/images/timetable.svg",
+    "iconPath": "assets/images/election.svg",
     "routeId": ElectionLoginWebView.id,
     "newBadge": true,
   },
-  {"label": "Contacts", "iconPath": "assets/images/timetable.svg", "routeId": ContactPage.id},
+  {"label": "Contacts", "iconPath": "assets/images/contacts.svg", "routeId": ContactPage.id},
   {"label": "Cab Sharing", "iconPath": "assets/images/cab_sharing.svg", "routeId": CabShare.id},
   {"label": "SAC Room Booking", "iconPath": "assets/images/irbs.svg", "routeId": IRBSPage.id},
   {"label": "Complaints", "iconPath": "assets/images/complaints.svg", "routeId": ComplaintsPage.id},
@@ -61,5 +61,5 @@ List<Map<String, dynamic>> serviceLinksData = [
     "routeId": MedicalSection.id,
     "newBadge": false,
   },
-  {"label": "LAN", "iconPath": "assets/images/timetable.svg", "routeId": RouterPage.id},
+  {"label": "LAN", "iconPath": "assets/images/LAN.svg", "routeId": RouterPage.id},
 ];
