@@ -2,6 +2,7 @@ package com.swciitg.onestop2
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -40,28 +41,27 @@ class GateLogHomeWidgetProvider : HomeWidgetProvider() {
                     views.setViewVisibility(R.id.glGateInfo, View.GONE)
                 }
 
-                // Check-in button → auto check-in deep link
-                setupButtonIntent(context, views, R.id.glBtnCheckIn,
-                    "onestopiitg://gatelog?autoCheckIn=true", appWidgetId * 10 + 4)
+                // Check-in button → overlay with autoCheckIn
+                setupOverlayIntent(context, views, R.id.glBtnCheckIn,
+                    destination = null, autoCheckIn = true, requestCode = appWidgetId * 10 + 4)
 
-                // Whole widget also taps to gatelog
-                setupButtonIntent(context, views, R.id.glWidgetRoot,
+                // Whole widget taps to full app
+                setupDeepLinkIntent(context, views, R.id.glWidgetRoot,
                     "onestopiitg://gatelog", appWidgetId * 10 + 5)
             } else {
-                // Default state: show 3 destination buttons
+                // Default state: show 3 destination buttons → overlay
                 views.setViewVisibility(R.id.glDefaultSection, View.VISIBLE)
                 views.setViewVisibility(R.id.glCheckedOutSection, View.GONE)
 
-                // Each button has its own deep link
-                setupButtonIntent(context, views, R.id.glBtnCity,
-                    "onestopiitg://gatelog?destination=City", appWidgetId * 10 + 1)
-                setupButtonIntent(context, views, R.id.glBtnKhokha,
-                    "onestopiitg://gatelog?destination=Khokha", appWidgetId * 10 + 2)
-                setupButtonIntent(context, views, R.id.glBtnOthers,
-                    "onestopiitg://gatelog?destination=Others", appWidgetId * 10 + 3)
+                setupOverlayIntent(context, views, R.id.glBtnCity,
+                    destination = "City", requestCode = appWidgetId * 10 + 1)
+                setupOverlayIntent(context, views, R.id.glBtnKhokha,
+                    destination = "Khokha", requestCode = appWidgetId * 10 + 2)
+                setupOverlayIntent(context, views, R.id.glBtnOthers,
+                    destination = "Others", requestCode = appWidgetId * 10 + 3)
 
-                // Widget root taps to gatelog page
-                setupButtonIntent(context, views, R.id.glWidgetRoot,
+                // Widget root taps to full app
+                setupDeepLinkIntent(context, views, R.id.glWidgetRoot,
                     "onestopiitg://gatelog", appWidgetId * 10)
             }
 
@@ -130,9 +130,41 @@ class GateLogHomeWidgetProvider : HomeWidgetProvider() {
         views.setTextColor(R.id.glGateInfo, gray500)
     }
 
-    private fun setupButtonIntent(context: Context, views: RemoteViews, viewId: Int, deepLink: String, requestCode: Int) {
+    /** Launch the overlay activity for quick gatelog action */
+    private fun setupOverlayIntent(
+        context: Context,
+        views: RemoteViews,
+        viewId: Int,
+        destination: String? = null,
+        autoCheckIn: Boolean = false,
+        requestCode: Int,
+    ) {
+        val intent = Intent(context, GateLogOverlayActivity::class.java).apply {
+            destination?.let { putExtra("destination", it) }
+            putExtra("autoCheckIn", autoCheckIn)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
+        val pendingIntent = PendingIntent.getActivity(context, requestCode, intent, flags)
+        views.setOnClickPendingIntent(viewId, pendingIntent)
+    }
+
+    /** Deep-link into the full Flutter app (for widget root tap) */
+    private fun setupDeepLinkIntent(
+        context: Context,
+        views: RemoteViews,
+        viewId: Int,
+        deepLink: String,
+        requestCode: Int,
+    ) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deepLink)).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
