@@ -37,31 +37,67 @@ class HomeServiceTileData {
 final electionEnd = DateTime(2026, 03, 25);
 
 List<Map<String, dynamic>> serviceLinksData = [
-  {"label": "GateLog", "iconPath": "assets/images/gate_log.svg", "routeId": GateLogPage.id},
+  {
+    "label": "GateLog",
+    "iconPath": "assets/images/gate_log.svg",
+    "routeId": GateLogPage.id,
+  },
   {
     "label": "Library Token",
     "iconPath": "assets/images/lib_token.svg",
     "routeId": LibraryTokenScreen.id,
     "newBadge": true,
   },
+  // {
+  //   "label": "Election",
+  //   "iconPath": "assets/images/election.svg",
+  //   "routeId": ElectionLoginWebView.id,
+  //   "newBadge": DateTime.now().isBefore(electionEnd),
+  // },
   {
-    "label": "Election",
-    "iconPath": "assets/images/election.svg",
-    "routeId": ElectionLoginWebView.id,
-    "newBadge": DateTime.now().isBefore(electionEnd),
+    "label": "Contacts",
+    "iconPath": "assets/images/contacts.svg",
+    "routeId": ContactPage.id,
   },
-  {"label": "Contacts", "iconPath": "assets/images/contacts.svg", "routeId": ContactPage.id},
-  {"label": "Cab Sharing", "iconPath": "assets/images/cab_sharing.svg", "routeId": CabShare.id},
-  {"label": "SAC Room Booking", "iconPath": "assets/images/irbs.svg", "routeId": IRBSPage.id},
-  {"label": "Complaints", "iconPath": "assets/images/complaints.svg", "routeId": ComplaintsPage.id},
-  {"label": "Lost and Found", "iconPath": "assets/images/lnf.svg", "routeId": LostFoundHome.id},
-  {"label": "Buy and Sell", "iconPath": "assets/images/bns.svg", "routeId": BuySellHome.id},
-  {"label": "GC Score Board", "iconPath": "assets/images/gc.svg", "routeId": Scoreboard.id},
+  {
+    "label": "Cab Sharing",
+    "iconPath": "assets/images/cab_sharing.svg",
+    "routeId": CabShare.id,
+  },
+  {
+    "label": "SAC Room Booking",
+    "iconPath": "assets/images/irbs.svg",
+    "routeId": IRBSPage.id,
+  },
+  {
+    "label": "Complaints",
+    "iconPath": "assets/images/complaints.svg",
+    "routeId": ComplaintsPage.id,
+  },
+  {
+    "label": "Lost and Found",
+    "iconPath": "assets/images/lnf.svg",
+    "routeId": LostFoundHome.id,
+  },
+  {
+    "label": "Buy and Sell",
+    "iconPath": "assets/images/bns.svg",
+    "routeId": BuySellHome.id,
+  },
+  {
+    "label": "GC Score Board",
+    "iconPath": "assets/images/gc.svg",
+    "routeId": Scoreboard.id,
+  },
   {
     "label": "Medical Section",
     "iconPath": "assets/images/medical.svg",
     "routeId": MedicalSection.id,
     "newBadge": false,
   },
-  {"label": "LAN", "iconPath": "assets/images/LAN.svg", "routeId": RouterPage.id},
+  {
+    "label": "LAN",
+    "iconPath": "assets/images/LAN.svg",
+    "routeId": RouterPage.id,
+  },
 ];

@@ -47,11 +47,11 @@ dependencies:
       ref: redesign
     # path: ../cab_sharing_onestop/packages/cab_sharing
   irbs:
-    git:
-      url: https://github.com/swciitg/irbs.git
-      path: packages/irbs
-      ref: redesign
-    # path: ../irbs/packages/irbs
+    # git:
+    #   url: https://github.com/swciitg/irbs.git
+    #   path: packages/irbs
+    #   ref: redesign
+    path: ../irbs/packages/irbs
   onestop_kit:
     git:
       url: https://github.com/swciitg/onestop_kit.git
@@ -70,10 +70,10 @@ dependencies:
     # path: ../onestop_ui/packages/onestop_ui
 
   lib_token:
-    git:
-      url: https://github.com/swciitg/lib_token.git
-      ref: redesign
-    # path: ../lib_token
+    # git:
+    #   url: https://github.com/swciitg/lib_token.git
+    #   ref: redesign
+    path: ../lib_token
 
   intl: ^0.20.2
   provider: ^6.0.2
