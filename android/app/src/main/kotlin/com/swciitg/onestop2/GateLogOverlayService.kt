@@ -147,16 +147,22 @@ class GateLogOverlayService : Service() {
 
         val layoutFlag = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
 
+        // Get the full screen size including status & navigation bars
+        val realSize = android.graphics.Point()
+        windowManager.defaultDisplay.getRealSize(realSize)
+
         val params = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT,
+            realSize.x,
+            realSize.y,
             layoutFlag,
             WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS or
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
             PixelFormat.TRANSLUCENT
         ).apply {
-            gravity = Gravity.CENTER
+            gravity = Gravity.TOP or Gravity.START
+            x = 0
+            y = 0
             screenBrightness = 1.0f
         }
 
