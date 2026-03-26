@@ -103,7 +103,7 @@ On Android 14+, foreground services must declare a type. We use `dataSync` since
 **Required permissions:**
 ```xml
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-<uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 ```
 
