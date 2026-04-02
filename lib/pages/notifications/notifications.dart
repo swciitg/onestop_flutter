@@ -296,7 +296,7 @@ class _NotificationPageState extends State<NotificationPage> {
     if (_isInitialLoading) {
       return Padding(
         padding: const EdgeInsets.all(16),
-        child: ListShimmer(count: 5, height: 80),
+        child: ListShimmer(count: 10, height: 80),
       );
     }
     if (_hasError) {
@@ -514,7 +514,8 @@ class _NotificationPageState extends State<NotificationPage> {
             if (action != null) ...[
               const SizedBox(width: 8),
               GestureDetector(
-                onTap: () => _navigateForCategory(notif.category),
+                onTap: () => 
+                _navigateForCategory(notif.category),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   decoration: BoxDecoration(
