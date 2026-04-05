@@ -55,6 +55,7 @@ class GateLogOverlayService : Service() {
     private var autoCheckIn = false
     private var connectionId: String? = null
     private var authToken: String? = null
+    private var hasTriedRefresh = false
 
     // Views
     private var qrImageView: ImageView? = null
@@ -80,6 +81,7 @@ class GateLogOverlayService : Service() {
 
         destination = intent?.getStringExtra(EXTRA_DESTINATION)
         autoCheckIn = intent?.getBooleanExtra(EXTRA_AUTO_CHECKIN, false) ?: false
+        hasTriedRefresh = false
 
         // Read auth token from Flutter SharedPreferences
         val flutterPrefs = getSharedPreferences("FlutterSharedPreferences", MODE_PRIVATE)
@@ -201,6 +203,66 @@ class GateLogOverlayService : Service() {
         }
     }
 
+    /**
+     * Attempts to refresh the access token using the stored refresh token.
+     * On success, updates both the in-memory [authToken] and SharedPreferences,
+     * then invokes [onSuccess]. On failure, shows an error in the overlay.
+     */
+    private fun refreshAccessToken(onSuccess: () -> Unit) {
+        val serverUrl = BuildConfig.SERVER_URL
+        val securityKey = BuildConfig.SECURITY_KEY
+        val flutterPrefs = getSharedPreferences("FlutterSharedPreferences", MODE_PRIVATE)
+        val refreshToken = flutterPrefs.getString("flutter.refreshToken", null)
+
+        if (refreshToken.isNullOrBlank()) {
+            handler.post {
+                updateUI(status = "Session expired. Please login to OneStop.",
+                    statusColor = Color.parseColor("#FF4444"))
+            }
+            return
+        }
+
+        val request = Request.Builder()
+            .url("$serverUrl/user/accesstoken")
+            .addHeader("Security-Key", securityKey)
+            .addHeader("authorization", "Bearer $refreshToken")
+            .post(RequestBody.create(null, ByteArray(0)))
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                handler.post {
+                    updateUI(status = "Session expired. Please login to OneStop.",
+                        statusColor = Color.parseColor("#FF4444"))
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use { resp ->
+                    if (!resp.isSuccessful) {
+                        handler.post {
+                            updateUI(status = "Session expired. Please login to OneStop.",
+                                statusColor = Color.parseColor("#FF4444"))
+                        }
+                        return
+                    }
+                    try {
+                        val json = JSONObject(resp.body!!.string())
+                        val newToken = json.getString("accessToken")
+                        authToken = newToken
+                        flutterPrefs.edit().putString("flutter.accessToken", newToken).apply()
+                        handler.post { onSuccess() }
+                    } catch (e: Exception) {
+                        handler.post {
+                            updateUI(status = "Session expired. Please login to OneStop.",
+                                statusColor = Color.parseColor("#FF4444"))
+                        }
+                    }
+                }
+            }
+        })
+    }
+
     private fun fetchUserIdAndConnect() {
         val serverUrl = BuildConfig.SERVER_URL
         val securityKey = BuildConfig.SECURITY_KEY
@@ -224,6 +286,14 @@ class GateLogOverlayService : Service() {
             override fun onResponse(call: Call, response: Response) {
                 response.use { resp ->
                     if (!resp.isSuccessful) {
+                        if (resp.code == 401 && !hasTriedRefresh) {
+                            hasTriedRefresh = true
+                            handler.post {
+                                updateUI(showProgress = true, status = "Refreshing session...")
+                                refreshAccessToken { fetchUserIdAndConnect() }
+                            }
+                            return
+                        }
                         handler.post {
                             updateUI(status = "Failed to get user info (${resp.code})",
                                 statusColor = Color.parseColor("#FF4444"))
@@ -268,6 +338,14 @@ class GateLogOverlayService : Service() {
             override fun onResponse(call: Call, response: Response) {
                 response.use { resp ->
                     if (!resp.isSuccessful) {
+                        if (resp.code == 401 && !hasTriedRefresh) {
+                            hasTriedRefresh = true
+                            handler.post {
+                                updateUI(showProgress = true, status = "Refreshing session...")
+                                refreshAccessToken { fetchLatestEntry() }
+                            }
+                            return
+                        }
                         handler.post {
                             updateUI(status = "Failed to fetch entry (${resp.code})",
                                 statusColor = Color.parseColor("#FF4444"))
