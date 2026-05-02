@@ -11,10 +11,22 @@ class OneStopUpgraderMessages extends UpgraderMessages {
       'OneStop v{{currentAppStoreVersion}} is now available. You are on a previous version - v{{currentInstalledVersion}}';
 }
 
-class OneStopUpgrader extends StatelessWidget {
+class OneStopUpgrader extends StatefulWidget {
   final Widget child;
 
   const OneStopUpgrader({super.key, required this.child});
+
+  @override
+  State<OneStopUpgrader> createState() => _OneStopUpgraderState();
+}
+
+class _OneStopUpgraderState extends State<OneStopUpgrader> {
+  final _upgrader = Upgrader(
+    countryCode: 'IN',
+    durationUntilAlertAgain: const Duration(hours: 1),
+    messages: OneStopUpgraderMessages(),
+    // debugDisplayAlways: true,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +44,7 @@ class OneStopUpgrader extends StatelessWidget {
           ),
         ),
       ),
-      child: UpgradeAlert(
-        upgrader: Upgrader(
-          countryCode: 'IN',
-          durationUntilAlertAgain: const Duration(hours: 1),
-          messages: OneStopUpgraderMessages(),
-        ),
-        showIgnore: false,
-        child: child,
-      ),
+      child: UpgradeAlert(upgrader: _upgrader, showIgnore: false, child: widget.child),
     );
   }
 }
