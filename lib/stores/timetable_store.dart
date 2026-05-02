@@ -127,6 +127,16 @@ abstract class _TimetableStore with Store {
     examMode = mode;
   }
 
+  // The backend stores exam times in IST but incorrectly appends 'Z' (UTC marker).
+  // We reinterpret UTC datetimes as local to get the correct IST time.
+  DateTime _parseExamDateTime(String dateStr) {
+    final dt = DateTime.parse(dateStr);
+    if (dt.isUtc) {
+      return DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
+    }
+    return dt;
+  }
+
   /// Calculates examMode based on dates and returns the upcoming exams.
   @action
   void calculateExamMode() {
@@ -143,21 +153,21 @@ abstract class _TimetableStore with Store {
     List<CourseModel> validMidsems = List.from(courses!.courses!);
     validMidsems.removeWhere((e) => e.midsem == null || e.midsem == '');
     if (validMidsems.isNotEmpty) {
-      validMidsems.sort((a, b) => DateTime.parse(a.midsem!).compareTo(DateTime.parse(b.midsem!)));
-      isMidsemDone = DateTime.parse(validMidsems.last.midsem!).isBefore(now);
+      validMidsems.sort((a, b) => _parseExamDateTime(a.midsem!).compareTo(_parseExamDateTime(b.midsem!)));
+      isMidsemDone = _parseExamDateTime(validMidsems.last.midsem!).isBefore(now);
     }
 
     List<CourseModel> validEndsems = List.from(courses!.courses!);
     validEndsems.removeWhere((e) => e.endsem == null || e.endsem == '');
     if (validEndsems.isNotEmpty) {
-      validEndsems.sort((a, b) => DateTime.parse(a.endsem!).compareTo(DateTime.parse(b.endsem!)));
-      isEndsemDone = DateTime.parse(validEndsems.last.endsem!).isBefore(now);
+      validEndsems.sort((a, b) => _parseExamDateTime(a.endsem!).compareTo(_parseExamDateTime(b.endsem!)));
+      isEndsemDone = _parseExamDateTime(validEndsems.last.endsem!).isBefore(now);
     }
 
     // Show cab suggestion during endsems and up to 1 month after last endsem
     if (validEndsems.isNotEmpty) {
-      DateTime firstEnd = DateTime.parse(validEndsems.first.endsem!);
-      DateTime lastEnd = DateTime.parse(validEndsems.last.endsem!);
+      DateTime firstEnd = _parseExamDateTime(validEndsems.first.endsem!);
+      DateTime lastEnd = _parseExamDateTime(validEndsems.last.endsem!);
       showCabSuggestion = now.isAfter(firstEnd) &&
           now.isBefore(lastEnd.add(const Duration(days: 30)));
     } else {
@@ -165,8 +175,8 @@ abstract class _TimetableStore with Store {
     }
 
     if (!isMidsemDone && validMidsems.isNotEmpty) {
-      DateTime firstMid = DateTime.parse(validMidsems.first.midsem!);
-      DateTime lastMid = DateTime.parse(validMidsems.last.midsem!);
+      DateTime firstMid = _parseExamDateTime(validMidsems.first.midsem!);
+      DateTime lastMid = _parseExamDateTime(validMidsems.last.midsem!);
       if (now.isAfter(firstMid) && now.isBefore(lastMid.add(Duration(days: 1)))) {
         examMode = ExamMode.during; // During exams
       } else if (now.isBefore(firstMid) && firstMid.difference(now).inDays <= 7) {
@@ -175,8 +185,8 @@ abstract class _TimetableStore with Store {
         examMode = ExamMode.none;
       }
     } else if (!isEndsemDone && validEndsems.isNotEmpty) {
-      DateTime firstEnd = DateTime.parse(validEndsems.first.endsem!);
-      DateTime lastEnd = DateTime.parse(validEndsems.last.endsem!);
+      DateTime firstEnd = _parseExamDateTime(validEndsems.first.endsem!);
+      DateTime lastEnd = _parseExamDateTime(validEndsems.last.endsem!);
       if (now.isAfter(firstEnd) && now.isBefore(lastEnd.add(Duration(days: 1)))) {
         examMode = ExamMode.during; // During exams
       } else if (now.isBefore(firstEnd) && firstEnd.difference(now).inDays <= 7) {
@@ -196,8 +206,8 @@ abstract class _TimetableStore with Store {
     List<CourseModel> validMidsems = List.from(courses!.courses!);
     validMidsems.removeWhere((e) => e.midsem == null || e.midsem == '');
     if (validMidsems.isNotEmpty) {
-      validMidsems.sort((a, b) => DateTime.parse(a.midsem!).compareTo(DateTime.parse(b.midsem!)));
-      if (DateTime.parse(validMidsems.last.midsem!).isAfter(now)) {
+      validMidsems.sort((a, b) => _parseExamDateTime(a.midsem!).compareTo(_parseExamDateTime(b.midsem!)));
+      if (_parseExamDateTime(validMidsems.last.midsem!).isAfter(now)) {
         isMidsemDone = false;
       }
     }
@@ -214,8 +224,8 @@ abstract class _TimetableStore with Store {
     List<CourseModel> validMidsems = List.from(courses!.courses!);
     validMidsems.removeWhere((e) => e.midsem == null || e.midsem == '');
     if (validMidsems.isNotEmpty) {
-      validMidsems.sort((a, b) => DateTime.parse(a.midsem!).compareTo(DateTime.parse(b.midsem!)));
-      if (DateTime.parse(validMidsems.last.midsem!).isAfter(now)) {
+      validMidsems.sort((a, b) => _parseExamDateTime(a.midsem!).compareTo(_parseExamDateTime(b.midsem!)));
+      if (_parseExamDateTime(validMidsems.last.midsem!).isAfter(now)) {
         isMidsemDone = false;
       }
     }
@@ -223,7 +233,7 @@ abstract class _TimetableStore with Store {
     List<CourseModel> validEndsems = List.from(courses!.courses!);
     validEndsems.removeWhere((e) => e.endsem == null || e.endsem == '');
     if (validEndsems.isNotEmpty) {
-      validEndsems.sort((a, b) => DateTime.parse(a.endsem!).compareTo(DateTime.parse(b.endsem!)));
+      validEndsems.sort((a, b) => _parseExamDateTime(a.endsem!).compareTo(_parseExamDateTime(b.endsem!)));
     }
 
     List<CourseModel> activeExams = !isMidsemDone ? validMidsems : validEndsems;
@@ -231,7 +241,7 @@ abstract class _TimetableStore with Store {
     // Only show exams that are upcoming or today
     activeExams.removeWhere((e) {
       String dateStr = !isMidsemDone ? e.midsem! : e.endsem!;
-      DateTime d = DateTime.parse(dateStr);
+      DateTime d = _parseExamDateTime(dateStr);
       // Remove if it's already past (before today 00:00)
       return d.isBefore(DateTime(now.year, now.month, now.day));
     });

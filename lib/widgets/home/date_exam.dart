@@ -55,6 +55,16 @@ class _DateExamState extends State<DateExam> {
   //   return '$day$suffix $month';
   // }
 
+  // The backend stores exam times in IST but incorrectly appends 'Z' (UTC marker).
+  // We reinterpret UTC datetimes as local to get the correct IST time.
+  DateTime _parseExamDateTime(String dateStr) {
+    final dt = DateTime.parse(dateStr);
+    if (dt.isUtc) {
+      return DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
+    }
+    return dt;
+  }
+
   DateTime? _getExamDate(CourseModel course, BuildContext context) {
     var store = context.read<TimetableStore>();
     if (store.courses == null || store.courses!.courses == null) return null;
@@ -64,19 +74,19 @@ class _DateExamState extends State<DateExam> {
     List<CourseModel> validMidsems = List.from(store.courses!.courses!);
     validMidsems.removeWhere((e) => e.midsem == null || e.midsem == '');
     if (validMidsems.isNotEmpty) {
-      validMidsems.sort((a, b) => DateTime.parse(a.midsem!).compareTo(DateTime.parse(b.midsem!)));
-      if (DateTime.parse(validMidsems.last.midsem!).isAfter(now)) {
+      validMidsems.sort((a, b) => _parseExamDateTime(a.midsem!).compareTo(_parseExamDateTime(b.midsem!)));
+      if (_parseExamDateTime(validMidsems.last.midsem!).isAfter(now)) {
         isMidsemDone = false;
       }
     }
 
     if (!isMidsemDone) {
       if (course.midsem != null && course.midsem!.isNotEmpty) {
-        return DateTime.parse(course.midsem!);
+        return _parseExamDateTime(course.midsem!);
       }
     } else {
       if (course.endsem != null && course.endsem!.isNotEmpty) {
-        return DateTime.parse(course.endsem!);
+        return _parseExamDateTime(course.endsem!);
       }
     }
     return null;
@@ -90,8 +100,8 @@ class _DateExamState extends State<DateExam> {
     List<CourseModel> validMidsems = List.from(store.courses!.courses!);
     validMidsems.removeWhere((e) => e.midsem == null || e.midsem == '');
     if (validMidsems.isNotEmpty) {
-      validMidsems.sort((a, b) => DateTime.parse(a.midsem!).compareTo(DateTime.parse(b.midsem!)));
-      if (DateTime.parse(validMidsems.last.midsem!).isAfter(now)) {
+      validMidsems.sort((a, b) => _parseExamDateTime(a.midsem!).compareTo(_parseExamDateTime(b.midsem!)));
+      if (_parseExamDateTime(validMidsems.last.midsem!).isAfter(now)) {
         isMidsemDone = false;
       }
     }
