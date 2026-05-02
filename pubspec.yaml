@@ -215,3 +215,9 @@ flutter:
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+dependency_overrides:
+  # path_provider_foundation 2.5.0+ pulls in objective_c which causes
+  # App Store upload rejection due to simulator slices in the framework.
+  # Pin to 2.4.0 which is the last version without the objective_c dependency.
+  path_provider_foundation: 2.4.0
