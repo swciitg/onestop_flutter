@@ -238,12 +238,12 @@ abstract class _TimetableStore with Store {
 
     List<CourseModel> activeExams = !isMidsemDone ? validMidsems : validEndsems;
 
-    // Only show exams that are upcoming or today
+    // Only show exams that are upcoming or currently going on (within 3 hours of start)
     activeExams.removeWhere((e) {
       String dateStr = !isMidsemDone ? e.midsem! : e.endsem!;
       DateTime d = _parseExamDateTime(dateStr);
-      // Remove if it's already past (before today 00:00)
-      return d.isBefore(DateTime(now.year, now.month, now.day));
+      // Remove if it's already finished (more than 3 hours past start time)
+      return d.isBefore(now.subtract(const Duration(hours: 3)));
     });
 
     return activeExams;
