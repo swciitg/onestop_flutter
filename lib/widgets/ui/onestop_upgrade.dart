@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 import 'package:upgrader/upgrader.dart';
 
 class OneStopUpgraderMessages extends UpgraderMessages {
@@ -13,31 +11,40 @@ class OneStopUpgraderMessages extends UpgraderMessages {
       'OneStop v{{currentAppStoreVersion}} is now available. You are on a previous version - v{{currentInstalledVersion}}';
 }
 
-class OneStopUpgrader extends StatelessWidget {
+class OneStopUpgrader extends StatefulWidget {
   final Widget child;
 
   const OneStopUpgrader({super.key, required this.child});
 
   @override
+  State<OneStopUpgrader> createState() => _OneStopUpgraderState();
+}
+
+class _OneStopUpgraderState extends State<OneStopUpgrader> {
+  final _upgrader = Upgrader(
+    countryCode: 'IN',
+    durationUntilAlertAgain: const Duration(hours: 1),
+    messages: OneStopUpgraderMessages(),
+    // debugDisplayAlways: true,
+  );
+
+  @override
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-          dialogTheme: DialogThemeData(
-            backgroundColor: kBackground,
-            titleTextStyle: MyFonts.w600.setColor(lBlue).size(20),
-            contentTextStyle: MyFonts.w400.setColor(lBlue),
+        dialogTheme: DialogThemeData(
+          backgroundColor: OColor.white,
+          titleTextStyle: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+          contentTextStyle: OTextStyle.bodyMedium.copyWith(color: OColor.gray600),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: OColor.green600,
+            textStyle: OTextStyle.labelMedium,
           ),
-          textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                  foregroundColor: lBlue2, textStyle: MyFonts.w600))),
-      child: UpgradeAlert(
-          upgrader: Upgrader(
-            countryCode: 'IN',
-            durationUntilAlertAgain: const Duration(hours: 1),
-            messages: OneStopUpgraderMessages(),
-          ),
-          showIgnore: false,
-          child: child),
+        ),
+      ),
+      child: UpgradeAlert(upgrader: _upgrader, showIgnore: false, child: widget.child),
     );
   }
 }

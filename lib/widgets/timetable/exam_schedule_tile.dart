@@ -2,147 +2,132 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
-import '../../globals/my_colors.dart';
-import '../../globals/my_fonts.dart';
-
+/// Event Card for exam schedule — matches Figma design.
+///
+/// White card with gray border, green accent bar on the left,
+/// course name, date with calendar icon, and time + venue.
 class ExamTile extends StatelessWidget {
   final bool isEndSem;
   final CourseModel course;
 
   const ExamTile({super.key, required this.course, this.isEndSem = false});
 
-  String formatTime(String time, String type) {
-    DateTime examTime = DateTime.parse(time);
-    if (type == "date") {
-      return examTime.day.toString();
-    }
-    if (type == "month") {
-      return DateFormat.MMM().format(examTime);
-    }
-    if (type == "time") {
-      return "${DateFormat.jm().format(examTime)} - ${DateFormat.jm().format(examTime.add(Duration(hours: isEndSem ? 3 : 2)))}";
-    }
-    return "";
+  String _formatDate(String time) {
+    final dt = DateTime.parse(time);
+    return '${dt.day} ${DateFormat.MMM().format(dt)}';
+  }
+
+  String _formatTime(String time) {
+    final dt = DateTime.parse(time);
+    final end = dt.add(Duration(hours: isEndSem ? 3 : 2));
+    return '${DateFormat.jm().format(dt)} - ${DateFormat.jm().format(end)}';
   }
 
   @override
   Widget build(BuildContext context) {
-    String time = isEndSem ? course.endsem! : course.midsem!;
-    String? venue = isEndSem ? course.endsemVenue : course.midsemVenue;
+    final String time = isEndSem ? course.endsem! : course.midsem!;
+    final String? venue = isEndSem ? course.endsemVenue : course.midsemVenue;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 85),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            color: kTimetableGreen,
-            border: Border.all(color: Colors.transparent),
+    // Determine whether the exam is upcoming (highlight in green)
+    final DateTime examDt = DateTime.parse(time);
+    final bool isUpcoming = examDt.isAfter(DateTime.now());
+
+    return Container(
+      decoration: BoxDecoration(
+        color: OColor.white,
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+        border: Border.all(color: OColor.gray200),
+      ),
+      padding: const EdgeInsets.all(OSpacing.s),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Green accent bar
+          Container(
+            width: 3,
+            height: 56,
+            margin: const EdgeInsets.only(right: OSpacing.s),
+            decoration: BoxDecoration(
+              color: isUpcoming ? OColor.green600 : OColor.gray400,
+              borderRadius: BorderRadius.circular(2),
+            ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10.0, bottom: 10, right: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+          // Content
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Container(
-                    constraints: const BoxConstraints(minWidth: 60),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.transparent,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  formatTime(time, "month"),
-                                  style: MyFonts.w400.setColor(kWhite),
-                                ),
-                                Text(
-                                  formatTime(time, "date"),
-                                  style: MyFonts.w400.setColor(kWhite).size(30),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                // Course name
+                Text(
+                  (course.code != null && course.code!.isNotEmpty)
+                      ? '${course.code} - ${course.course ?? ''}'
+                      : course.course ?? '',
+                  style: OTextStyle.headingSmall.copyWith(
+                    color: OColor.gray800,
                   ),
                 ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        formatTime(time, "time"),
-                        style: MyFonts.w300.size(12).setColor(kWhite),
+                const SizedBox(height: OSpacing.xxs),
+                // Date row with calendar icon
+                Row(
+                  children: [
+                    Icon(
+                      FluentIcons.calendar_ltr_16_regular,
+                      size: 16,
+                      color: isUpcoming ? OColor.green600 : OColor.gray400,
+                    ),
+                    const SizedBox(width: OSpacing.xxs),
+                    Text(
+                      _formatDate(time),
+                      style: OTextStyle.labelSmall.copyWith(
+                        color: isUpcoming ? OColor.green600 : OColor.gray400,
                       ),
-                      const SizedBox(
-                        height: 5.0,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: OSpacing.xxs),
+                // Time + venue row
+                Row(
+                  children: [
+                    Icon(
+                      FluentIcons.clock_16_regular,
+                      size: 14,
+                      color: OColor.gray600,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      _formatTime(time),
+                      style: OTextStyle.labelMedium.copyWith(
+                        color: OColor.gray700,
+                        fontWeight: FontWeight.w500,
                       ),
-                      Text(
-                        course.course!,
-                        style: MyFonts.w500.size(15).setColor(kWhite),
+                    ),
+                    if (venue != null && venue.isNotEmpty) ...[
+                      const SizedBox(width: OSpacing.s),
+                      Icon(
+                        FluentIcons.location_16_regular,
+                        size: 14,
+                        color: OColor.gray600,
                       ),
-                      const SizedBox(
-                        height: 3.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            constraints: const BoxConstraints(minWidth: 70),
-                            child: Text(
-                              course.code!,
-                              style: MyFonts.w400.size(13).setColor(lBlue),
-                            ),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          venue,
+                          style: OTextStyle.labelMedium.copyWith(
+                            color: OColor.gray700,
+                            fontWeight: FontWeight.w500,
                           ),
-                          if (venue != null && venue.isNotEmpty)
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Icon(
-                                    FluentIcons.location_12_filled,
-                                    color: lBlue,
-                                    size: 13,
-                                  ),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      venue,
-                                      style:
-                                          MyFonts.w400.size(13).setColor(lBlue),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                        ],
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
-                  ),
+                  ],
                 ),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }

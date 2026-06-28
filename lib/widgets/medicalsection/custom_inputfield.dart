@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 class CustomInputfield extends StatelessWidget {
-  const CustomInputfield(
-      {super.key,
-      required this.title,
-      required this.validatortext,
-      required this.hinttext,
-      required this.controller,
-      required this.numberkeyboard});
+  const CustomInputfield({
+    super.key,
+    required this.title,
+    required this.validatortext,
+    required this.hinttext,
+    required this.controller,
+    required this.numberkeyboard,
+  });
 
   final String title;
   final String validatortext;
@@ -24,22 +24,20 @@ class CustomInputfield extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
-          child: Text(
-            title,
-            style: OnestopFonts.w600.size(16).setColor(kWhite),
-          ),
+          padding: const EdgeInsets.only(left: OSpacing.s, top: OSpacing.s, bottom: OSpacing.xs),
+          child: Text(title, style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
         ),
         Padding(
           padding: const EdgeInsets.all(3.0),
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 12),
+            margin: const EdgeInsets.symmetric(horizontal: OSpacing.s),
             decoration: BoxDecoration(
-                border: Border.all(color: kGrey2),
-                color: kBackground,
-                borderRadius: BorderRadius.circular(24)),
+              border: Border.all(color: OColor.gray200),
+              color: OColor.white,
+              borderRadius: BorderRadius.circular(OCornerRadius.l),
+            ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
               child: TextFormField(
                 validator: (val) {
                   if (val == null || val.isEmpty) {
@@ -50,20 +48,17 @@ class CustomInputfield extends StatelessWidget {
                   }
                   return null;
                 },
-                keyboardType:
-                    numberkeyboard ? TextInputType.number : TextInputType.text,
-                inputFormatters: numberkeyboard
-                    ? [FilteringTextInputFormatter.digitsOnly]
-                    : [],
+                keyboardType: numberkeyboard ? TextInputType.number : TextInputType.text,
+                inputFormatters: numberkeyboard ? [FilteringTextInputFormatter.digitsOnly] : [],
                 controller: controller,
                 maxLength: 10,
-                style: OnestopFonts.w500.size(16).setColor(kWhite),
+                style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
                 decoration: InputDecoration(
-                  errorStyle: OnestopFonts.w400,
+                  errorStyle: OTextStyle.bodyXSmall.copyWith(color: OColor.red500),
                   counterText: "",
                   border: InputBorder.none,
                   hintText: 'Enter your contact number',
-                  hintStyle: const TextStyle(color: kGrey8),
+                  hintStyle: OTextStyle.bodyMedium.copyWith(color: OColor.gray400),
                 ),
               ),
             ),

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		140650E72F6B07E6003964D3 /* AppIconLight@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 140650E62F6B07E6003964D3 /* AppIconLight@3x.png */; };
+		140650E82F6B07E6003964D3 /* AppIconDefault@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 140650E42F6B07E6003964D3 /* AppIconDefault@3x.png */; };
+		140650E92F6B07E6003964D3 /* AppIconDark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 140650E12F6B07E6003964D3 /* AppIconDark@2x.png */; };
+		140650EA2F6B07E6003964D3 /* AppIconDark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 140650E22F6B07E6003964D3 /* AppIconDark@3x.png */; };
+		140650EB2F6B07E6003964D3 /* AppIconDefault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 140650E32F6B07E6003964D3 /* AppIconDefault@2x.png */; };
+		140650EC2F6B07E6003964D3 /* AppIconLight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 140650E52F6B07E6003964D3 /* AppIconLight@2x.png */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -14,8 +20,29 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		DB548A1F308A5252C8F29A2B /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189799FC0EE353C8F0A37CCE /* Pods_Runner.framework */; };
+		D572448F4D65ACD0FB7A8046 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B6B8A673A9F0B783700010 /* Pods_Runner.framework */; };
+		TW00000001 /* TimetableWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = TW00000010 /* TimetableWidget.swift */; };
+		TW00000002 /* TimetableWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = TW00000020 /* TimetableWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		14IPAD0012F6B07E6003964D3 /* AppIconDark~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 14IPAD0022F6B07E6003964D3 /* AppIconDark~ipad.png */; };
+		14IPAD0032F6B07E6003964D3 /* AppIconDark~ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14IPAD0042F6B07E6003964D3 /* AppIconDark~ipad@2x.png */; };
+		14IPAD0052F6B07E6003964D3 /* AppIconDark~ipad@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14IPAD0062F6B07E6003964D3 /* AppIconDark~ipad@3x.png */; };
+		14IPAD0072F6B07E6003964D3 /* AppIconDefault~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 14IPAD0082F6B07E6003964D3 /* AppIconDefault~ipad.png */; };
+		14IPAD0092F6B07E6003964D3 /* AppIconDefault~ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14IPAD00A2F6B07E6003964D3 /* AppIconDefault~ipad@2x.png */; };
+		14IPAD00B2F6B07E6003964D3 /* AppIconDefault~ipad@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14IPAD00C2F6B07E6003964D3 /* AppIconDefault~ipad@3x.png */; };
+		14IPAD00D2F6B07E6003964D3 /* AppIconLight~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 14IPAD00E2F6B07E6003964D3 /* AppIconLight~ipad.png */; };
+		14IPAD00F2F6B07E6003964D3 /* AppIconLight~ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14IPAD0102F6B07E6003964D3 /* AppIconLight~ipad@2x.png */; };
+		14IPAD0112F6B07E6003964D3 /* AppIconLight~ipad@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14IPAD0122F6B07E6003964D3 /* AppIconLight~ipad@3x.png */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		TW00000030 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = TW00000040;
+			remoteInfo = TimetableWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
@@ -28,18 +55,34 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		TW00000050 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				TW00000002 /* TimetableWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0000DDEB25C2F4A95321789E /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
+		140650E12F6B07E6003964D3 /* AppIconDark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@2x.png"; sourceTree = "<group>"; };
+		140650E22F6B07E6003964D3 /* AppIconDark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@3x.png"; sourceTree = "<group>"; };
+		140650E32F6B07E6003964D3 /* AppIconDefault@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDefault@2x.png"; sourceTree = "<group>"; };
+		140650E42F6B07E6003964D3 /* AppIconDefault@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDefault@3x.png"; sourceTree = "<group>"; };
+		140650E52F6B07E6003964D3 /* AppIconLight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconLight@2x.png"; sourceTree = "<group>"; };
+		140650E62F6B07E6003964D3 /* AppIconLight@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconLight@3x.png"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
-		189799FC0EE353C8F0A37CCE /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
-		609BFDABE5794B4F75B061A6 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
+		44B6B8A673A9F0B783700010 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
-		8C1CE82DCD031CABC519254D /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,8 +91,22 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9822E429D96AFE0F8D730785 /* GoogleService-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Runner/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C05463DD6012FC0ED5AB6BC0 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
+		B58BCE22C59E2CC6C9C8466D /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
+		CABFFCCD091F6F308151953D /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		D800439E29DB5F970022C839 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		TW00000010 /* TimetableWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimetableWidget.swift; sourceTree = "<group>"; };
+		TW00000011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		TW00000012 /* TimetableWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TimetableWidget.entitlements; sourceTree = "<group>"; };
+		TW00000020 /* TimetableWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TimetableWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		14IPAD0022F6B07E6003964D3 /* AppIconDark~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark~ipad.png"; sourceTree = "<group>"; };
+		14IPAD0042F6B07E6003964D3 /* AppIconDark~ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark~ipad@2x.png"; sourceTree = "<group>"; };
+		14IPAD0062F6B07E6003964D3 /* AppIconDark~ipad@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark~ipad@3x.png"; sourceTree = "<group>"; };
+		14IPAD0082F6B07E6003964D3 /* AppIconDefault~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDefault~ipad.png"; sourceTree = "<group>"; };
+		14IPAD00A2F6B07E6003964D3 /* AppIconDefault~ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDefault~ipad@2x.png"; sourceTree = "<group>"; };
+		14IPAD00C2F6B07E6003964D3 /* AppIconDefault~ipad@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDefault~ipad@3x.png"; sourceTree = "<group>"; };
+		14IPAD00E2F6B07E6003964D3 /* AppIconLight~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconLight~ipad.png"; sourceTree = "<group>"; };
+		14IPAD0102F6B07E6003964D3 /* AppIconLight~ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconLight~ipad@2x.png"; sourceTree = "<group>"; };
+		14IPAD0122F6B07E6003964D3 /* AppIconLight~ipad@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconLight~ipad@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,17 +114,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB548A1F308A5252C8F29A2B /* Pods_Runner.framework in Frameworks */,
+				D572448F4D65ACD0FB7A8046 /* Pods_Runner.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		TW00000060 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		550921A1AB19070431638329 /* Frameworks */ = {
+		870C96EAE79C61B55A1DD86E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				189799FC0EE353C8F0A37CCE /* Pods_Runner.framework */,
+				44B6B8A673A9F0B783700010 /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -75,9 +139,9 @@
 		94BCE952F797F377FEC6B694 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8C1CE82DCD031CABC519254D /* Pods-Runner.debug.xcconfig */,
-				C05463DD6012FC0ED5AB6BC0 /* Pods-Runner.release.xcconfig */,
-				609BFDABE5794B4F75B061A6 /* Pods-Runner.profile.xcconfig */,
+				0000DDEB25C2F4A95321789E /* Pods-Runner.debug.xcconfig */,
+				CABFFCCD091F6F308151953D /* Pods-Runner.release.xcconfig */,
+				B58BCE22C59E2CC6C9C8466D /* Pods-Runner.profile.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -96,12 +160,28 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				140650E12F6B07E6003964D3 /* AppIconDark@2x.png */,
+				140650E22F6B07E6003964D3 /* AppIconDark@3x.png */,
+				140650E32F6B07E6003964D3 /* AppIconDefault@2x.png */,
+				140650E42F6B07E6003964D3 /* AppIconDefault@3x.png */,
+				140650E52F6B07E6003964D3 /* AppIconLight@2x.png */,
+				140650E62F6B07E6003964D3 /* AppIconLight@3x.png */,
+				14IPAD0022F6B07E6003964D3 /* AppIconDark~ipad.png */,
+				14IPAD0042F6B07E6003964D3 /* AppIconDark~ipad@2x.png */,
+				14IPAD0062F6B07E6003964D3 /* AppIconDark~ipad@3x.png */,
+				14IPAD0082F6B07E6003964D3 /* AppIconDefault~ipad.png */,
+				14IPAD00A2F6B07E6003964D3 /* AppIconDefault~ipad@2x.png */,
+				14IPAD00C2F6B07E6003964D3 /* AppIconDefault~ipad@3x.png */,
+				14IPAD00E2F6B07E6003964D3 /* AppIconLight~ipad.png */,
+				14IPAD0102F6B07E6003964D3 /* AppIconLight~ipad@2x.png */,
+				14IPAD0122F6B07E6003964D3 /* AppIconLight~ipad@3x.png */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
+				TW00000070 /* TimetableWidget */,
 				97C146EF1CF9000F007C117D /* Products */,
 				94BCE952F797F377FEC6B694 /* Pods */,
-				550921A1AB19070431638329 /* Frameworks */,
 				9822E429D96AFE0F8D730785 /* GoogleService-Info.plist */,
+				870C96EAE79C61B55A1DD86E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				97C146EE1CF9000F007C117D /* Runner.app */,
+				TW00000020 /* TimetableWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -129,6 +210,16 @@
 			path = Runner;
 			sourceTree = "<group>";
 		};
+		TW00000070 /* TimetableWidget */ = {
+			isa = PBXGroup;
+			children = (
+				TW00000010 /* TimetableWidget.swift */,
+				TW00000011 /* Info.plist */,
+				TW00000012 /* TimetableWidget.entitlements */,
+			);
+			path = TimetableWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -136,24 +227,43 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
-				BD8C6BD0DEA43CE1781904C1 /* [CP] Check Pods Manifest.lock */,
+				41C57849C43C3E171AFE2D31 /* [CP] Check Pods Manifest.lock */,
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
+				TW00000050 /* Embed Foundation Extensions */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
-				02E01F52FAD72B36C2369E3C /* [CP] Embed Pods Frameworks */,
-				A60E64AAF752E3327C503A2B /* [CP] Copy Pods Resources */,
+				AA9D3B895EBAAD9ECAB9089A /* [CP] Embed Pods Frameworks */,
+				996F9D737597C05A07A14E6D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				TW00000031 /* PBXTargetDependency */,
 			);
 			name = Runner;
 			productName = Runner;
 			productReference = 97C146EE1CF9000F007C117D /* Runner.app */;
 			productType = "com.apple.product-type.application";
+		};
+		TW00000040 /* TimetableWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = TW00000080 /* Build configuration list for PBXNativeTarget "TimetableWidgetExtension" */;
+			buildPhases = (
+				TW00000090 /* Sources */,
+				TW00000060 /* Frameworks */,
+				TW000000A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TimetableWidgetExtension;
+			productName = TimetableWidgetExtension;
+			productReference = TW00000020 /* TimetableWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -167,6 +277,9 @@
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 1100;
+					};
+					TW00000040 = {
+						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
@@ -184,6 +297,7 @@
 			projectRoot = "";
 			targets = (
 				97C146ED1CF9000F007C117D /* Runner */,
+				TW00000040 /* TimetableWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -198,29 +312,34 @@
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				797FFB145D937626B7EA4ADA /* GoogleService-Info.plist in Resources */,
+				140650E72F6B07E6003964D3 /* AppIconLight@3x.png in Resources */,
+				140650E82F6B07E6003964D3 /* AppIconDefault@3x.png in Resources */,
+				140650E92F6B07E6003964D3 /* AppIconDark@2x.png in Resources */,
+				140650EA2F6B07E6003964D3 /* AppIconDark@3x.png in Resources */,
+				140650EB2F6B07E6003964D3 /* AppIconDefault@2x.png in Resources */,
+				140650EC2F6B07E6003964D3 /* AppIconLight@2x.png in Resources */,
+				14IPAD0012F6B07E6003964D3 /* AppIconDark~ipad.png in Resources */,
+				14IPAD0032F6B07E6003964D3 /* AppIconDark~ipad@2x.png in Resources */,
+				14IPAD0052F6B07E6003964D3 /* AppIconDark~ipad@3x.png in Resources */,
+				14IPAD0072F6B07E6003964D3 /* AppIconDefault~ipad.png in Resources */,
+				14IPAD0092F6B07E6003964D3 /* AppIconDefault~ipad@2x.png in Resources */,
+				14IPAD00B2F6B07E6003964D3 /* AppIconDefault~ipad@3x.png in Resources */,
+				14IPAD00D2F6B07E6003964D3 /* AppIconLight~ipad.png in Resources */,
+				14IPAD00F2F6B07E6003964D3 /* AppIconLight~ipad@2x.png in Resources */,
+				14IPAD0112F6B07E6003964D3 /* AppIconLight~ipad@3x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		TW000000A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		02E01F52FAD72B36C2369E3C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -237,39 +356,7 @@
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
 		};
-		9740EEB61CF901F6004384FC /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
-		};
-		A60E64AAF752E3327C503A2B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BD8C6BD0DEA43CE1781904C1 /* [CP] Check Pods Manifest.lock */ = {
+		41C57849C43C3E171AFE2D31 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -291,6 +378,55 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9740EEB61CF901F6004384FC /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
+		};
+		996F9D737597C05A07A14E6D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AA9D3B895EBAAD9ECAB9089A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -303,7 +439,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		TW00000090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				TW00000001 /* TimetableWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		TW00000031 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = TW00000040 /* TimetableWidgetExtension */;
+			targetProxy = TW00000030 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
@@ -570,6 +722,106 @@
 			};
 			name = Release;
 		};
+		TW000000B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = AppIcon;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+				CODE_SIGN_ENTITLEMENTS = TimetableWidget/TimetableWidget.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 6JT5JZ3XY3;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TimetableWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swciitg.onestop2swc2022.TimetableWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "OneStop TimetableWidget";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		TW000000B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = AppIcon;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+				CODE_SIGN_ENTITLEMENTS = TimetableWidget/TimetableWidget.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 6JT5JZ3XY3;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TimetableWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swciitg.onestop2swc2022.TimetableWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "OneStop TimetableWidget";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		TW000000B3 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = AppIcon;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+				CODE_SIGN_ENTITLEMENTS = TimetableWidget/TimetableWidget.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 6JT5JZ3XY3;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TimetableWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swciitg.onestop2swc2022.TimetableWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "OneStop TimetableWidget";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Profile;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -589,6 +841,16 @@
 				97C147061CF9000F007C117D /* Debug */,
 				97C147071CF9000F007C117D /* Release */,
 				249021D4217E4FDB00AE95B9 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		TW00000080 /* Build configuration list for PBXNativeTarget "TimetableWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				TW000000B1 /* Debug */,
+				TW000000B2 /* Release */,
+				TW000000B3 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

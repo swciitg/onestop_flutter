@@ -12,6 +12,7 @@ import 'package:onestop_dev/models/medicalcontacts/dropdown_contact_model.dart';
 import 'package:onestop_dev/models/medicaltimetable/all_doctors.dart';
 import 'package:onestop_dev/models/notifications/notification_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
+import 'package:onestop_dev/models/travel/travel_guide_model.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/repository/api_repository.dart';
 import 'package:onestop_dev/repository/food_repository.dart';
@@ -84,16 +85,18 @@ class DataService {
     var cachedData = (await LocalStorage.instance.getListRecord(DatabaseRecords.timetable))?[0];
     if (cachedData == null) {
       RegisteredCourses timetableData = await APIRepository().getTimeTable(roll: roll);
-      await LocalStorage.instance
-          .storeListRecord([timetableData.toJson()], DatabaseRecords.timetable);
+      await LocalStorage.instance.storeListRecord([
+        timetableData.toJson(),
+      ], DatabaseRecords.timetable);
       return timetableData;
     }
     return RegisteredCourses.fromJson(cachedData as Map<String, dynamic>);
   }
 
   static Future<List<HomeImageModel>> getHomeImageLinks() async {
-    Map<String, dynamic>? cachedData =
-        await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage);
+    Map<String, dynamic>? cachedData = await LocalStorage.instance.getJsonRecord(
+      DatabaseRecords.homePage,
+    );
     List<HomeImageModel> res = [];
     List<Map<String, dynamic>> imageLinks;
     if (cachedData == null) {
@@ -110,9 +113,9 @@ class DataService {
     return res;
   }
 
-  static Future<List<HomeTabTile>> getQuickLinks() async {
+  static Future<List<HomeServiceTile>> getQuickLinks() async {
     var cachedData = (await LocalStorage.instance.getJsonRecord(DatabaseRecords.homePage));
-    List<HomeTabTile> res = [];
+    List<HomeServiceTile> res = [];
     var quickLinks = cachedData?['quickLinks'] as List<dynamic>? ?? [];
     if (cachedData == null) {
       try {
@@ -125,11 +128,7 @@ class DataService {
     }
     for (var link in quickLinks) {
       if (link['name'] == "election_id") continue;
-      res.add(HomeTabTile(
-        label: link['name'],
-        iconCode: link['icon'],
-        link: link['link'],
-      ));
+      res.add(HomeServiceTile(label: link['name'], iconPath: "", link: link['link']));
     }
     return res;
   }
@@ -150,26 +149,33 @@ class DataService {
     }
 
     List<dynamic> answer = jsonData['details']!;
-    var meal =
-        answer.firstWhere((m) => m['hostel'] == mess.databaseString, orElse: () => 'no data');
+    var meal = answer.firstWhere(
+      (m) => m['hostel'] == mess.databaseString,
+      orElse: () => 'no data',
+    );
     if (meal == 'no data') {
       return MealType(
-          id: '',
-          mealDescription: "Not updated by ${mess.displayString}'s HMC. "
-              "Kindly Contact ask them to update",
-          startTiming: DateTime.now().toLocal(),
-          endTiming: DateTime.now().toLocal());
+        id: '',
+        mealDescription:
+            "Not updated by ${mess.displayString}'s HMC. "
+            "Kindly Contact ask them to update",
+        startTiming: DateTime.now().toLocal(),
+        endTiming: DateTime.now().toLocal(),
+      );
     }
     return MealType(
-        id: meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]['_id'],
-        mealDescription: meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]
-            ['mealDescription'],
-        startTiming: DateTime.parse(
-          meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]['startTiming'],
-        ).toLocal(),
-        endTiming: DateTime.parse(
-                meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]['endTiming'])
-            .toLocal());
+      id: meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]['_id'],
+      mealDescription:
+          meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]['mealDescription'],
+      startTiming:
+          DateTime.parse(
+            meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]['startTiming'],
+          ).toLocal(),
+      endTiming:
+          DateTime.parse(
+            meal[day.trim().toLowerCase()][mealType.trim().toLowerCase()]['endTiming'],
+          ).toLocal(),
+    );
   }
 
   static Future<SplayTreeMap<String, ContactModel>> getContacts() async {
@@ -206,7 +212,7 @@ class DataService {
       Allmedicalcontacts? medicalContactData = await MedicalRepository().getMedicalContactData();
       return medicalContactData;
     } catch (e) {
-      print(e);
+      log("Error Fetching Medical Contacts: $e", name: "DataService.getMedicalContacts");
     }
     return medicalContactData;
   }
@@ -226,8 +232,9 @@ class DataService {
         return dropDownContacts;
       } else {
         for (var element in cachedData) {
-          DropdownContactModel doctor =
-              DropdownContactModel.fromJson(element as Map<String, dynamic>);
+          DropdownContactModel doctor = DropdownContactModel.fromJson(
+            element as Map<String, dynamic>,
+          );
           dropDownContacts.add(doctor);
         }
       }
@@ -278,5 +285,19 @@ class DataService {
       }
     }
     return ferryTimings;
+  }
+
+  static Future<List<TravelGuideModel>> getTravelGuides() async {
+    Map<String, dynamic> jsonData;
+    try {
+      jsonData = await TravelRepository().getTravelGuides();
+      await LocalStorage.instance.storeListRecord([jsonData], DatabaseRecords.travelGuides);
+    } catch (_) {
+      var cachedData = await LocalStorage.instance.getListRecord(DatabaseRecords.travelGuides);
+      if (cachedData == null) rethrow;
+      jsonData = cachedData[0] as Map<String, dynamic>;
+    }
+    List<dynamic> guidesData = jsonData['data'] ?? [];
+    return guidesData.map((e) => TravelGuideModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 }

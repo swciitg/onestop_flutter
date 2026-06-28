@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/check_last_updated.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/services/notifications_service.dart';
+import 'package:onestop_dev/services/app_shortcuts_service.dart';
+import 'package:onestop_dev/services/deep_link_service.dart';
+import 'package:onestop_dev/services/home_food_widget_service.dart';
+import 'package:onestop_dev/services/home_gatelog_widget_service.dart';
+import 'package:onestop_dev/services/home_timetable_widget_service.dart';
 import 'package:onestop_dev/stores/common_store.dart';
 import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
@@ -15,14 +19,16 @@ import 'package:onestop_dev/stores/medical_timetable_store.dart';
 import 'package:onestop_dev/stores/restaurant_store.dart';
 import 'package:onestop_dev/stores/timetable_store.dart';
 import 'package:onestop_dev/stores/travel_store.dart';
+import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
-
+import 'package:terminate_restart/terminate_restart.dart';
 import 'firebase_options.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  TerminateRestart.instance.initialize();
   if (await hasInternetConnection()) {
     await Future.wait([
       Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
@@ -34,10 +40,14 @@ void main() async {
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
   ]);
-  SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.manual,
-    overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
-  );
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+  await AppShortcutsService.initialize();
+  await DeepLinkService.instance.initialize();
+  await HomeTimetableWidgetService.initialize();
+  await HomeFoodWidgetService.initialize();
+  await HomeGateLogWidgetService.initialize();
+  await ThemeStore.instance.initTheme();
 
   runApp(const MyApp());
 }
@@ -50,9 +60,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugInvertOversizedImages = true;
+    debugInvertOversizedImages = false;
+    debugInvertOversizedImages = false;
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<ThemeStore>(create: (_) => ThemeStore()),
         Provider<LoginStore>(create: (_) => LoginStore()),
         Provider<RestaurantStore>(create: (_) => RestaurantStore()),
         Provider<MapBoxStore>(create: (_) => MapBoxStore()),
@@ -62,14 +74,20 @@ class MyApp extends StatelessWidget {
         Provider<TimetableStore>(create: (_) => TimetableStore()),
         Provider<MedicalTimetableStore>(create: (_) => MedicalTimetableStore()),
       ],
-      child: MaterialApp(
-        navigatorKey: navigatorKey,
-        scaffoldMessengerKey: rootScaffoldMessengerKey,
-        debugShowCheckedModeBanner: false,
-        initialRoute: SplashPage.id,
-        theme: ThemeData(scaffoldBackgroundColor: kBackground, splashColor: Colors.transparent),
-        title: 'OneStop IITG',
-        routes: routes,
+      child: Consumer<ThemeStore>(
+        builder: (context, themeStore, child) {
+          return MaterialApp(
+            navigatorKey: navigatorKey,
+            scaffoldMessengerKey: rootScaffoldMessengerKey,
+            debugShowCheckedModeBanner: false,
+            initialRoute: SplashPage.id,
+            theme: themeStore.lightThemeData,
+            darkTheme: themeStore.darkThemeData,
+            themeMode: themeStore.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            title: 'OneStop IITG',
+            routes: routes,
+          );
+        },
       ),
     );
   }

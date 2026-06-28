@@ -4,11 +4,14 @@
     
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:label="${appName}"
@@ -36,15 +39,71 @@
                 android:resource="@style/NormalTheme" />
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <!-- Deep linking intent filter for authentication -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="onestopiitg" android:host="auth" />
+            </intent-filter>
+            <!-- Widget deep links (gatelog, home) -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="onestopiitg" android:host="gatelog" />
+                <data android:scheme="onestopiitg" android:host="home2" />
+                <data android:scheme="onestopiitg" android:host="timetable" />
+            </intent-filter>
+            <!-- Universal links for swc.iitg.ac.in -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="swc.iitg.ac.in" android:pathPrefix="/onestop/app" />
+            </intent-filter>
 
         </activity>
+
+        <!-- Activity aliases for app icon switching (default/dark/light) -->
+        <activity-alias
+            android:name=".MainActivity.default"
+            android:targetActivity=".MainActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".MainActivity.dark"
+            android:targetActivity=".MainActivity"
+            android:icon="@mipmap/ic_launcher_dark"
+            android:enabled="false"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".MainActivity.light"
+            android:targetActivity=".MainActivity"
+            android:icon="@mipmap/ic_launcher_light"
+            android:enabled="false"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -61,9 +120,66 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
+        <!-- Gatelog overlay: transparent trampoline for permission check -->
+        <activity
+            android:name=".GateLogOverlayActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:taskAffinity="" />
+
+        <!-- Gatelog overlay: foreground service for WSS + QR overlay -->
+        <service
+            android:name=".GateLogOverlayService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false" />
+
+        <!-- Trampoline activity for full-process restart (runs in separate process) -->
+        <activity
+            android:name=".RestartActivity"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:process=":restart"
+            android:exported="false" />
+
         <receiver
             android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver"
             android:exported="false" />
+
+        <receiver
+            android:name=".TimetableHomeWidgetProvider"
+            android:label="Time Table"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timetable_home_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".FoodHomeWidgetProvider"
+            android:label="Food"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/food_home_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".GateLogHomeWidgetProvider"
+            android:label="Gatelog"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/gatelog_home_widget_info" />
+        </receiver>
+
         <!--       <service-->
         <!--           android:name="com.swciitg.onestop2.ForegroundService"-->
         <!--           android:exported="false"-->

@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:mobx/mobx.dart';
+import 'package:onestop_dev/models/travel/travel_guide_model.dart';
 import 'package:onestop_dev/models/travel/travel_timing_model.dart';
 import 'package:onestop_dev/services/data_service.dart';
 
@@ -25,17 +26,18 @@ abstract class _TravelStore with Store {
   String selectedFerryGhat = "Mazgaon";
 
   @observable
-  ObservableList<TravelTiming> ferryTimings =
-      ObservableList<TravelTiming>.of([]);
+  ObservableList<TravelTiming> ferryTimings = ObservableList<TravelTiming>.of([]);
 
   @observable
   ObservableList<TravelTiming> busTimings = ObservableList<TravelTiming>.of([]);
 
+  @observable
+  ObservableList<TravelGuideModel> travelGuides = ObservableList<TravelGuideModel>.of([]);
+
   @action
   Future<List<TravelTiming>> getBusTimings() async {
     if (busTimings.isEmpty) {
-      busTimings =
-          ObservableList<TravelTiming>.of((await DataService.getBusTiming()));
+      busTimings = ObservableList<TravelTiming>.of((await DataService.getBusTiming()));
     }
     return busTimings;
   }
@@ -43,10 +45,17 @@ abstract class _TravelStore with Store {
   @action
   Future<List<TravelTiming>> getFerryTimings() async {
     if (ferryTimings.isEmpty) {
-      ferryTimings =
-          ObservableList<TravelTiming>.of((await DataService.getFerryTiming()));
+      ferryTimings = ObservableList<TravelTiming>.of((await DataService.getFerryTiming()));
     }
     return ferryTimings;
+  }
+
+  @action
+  Future<List<TravelGuideModel>> getTravelGuides() async {
+    if (travelGuides.isEmpty) {
+      travelGuides = ObservableList<TravelGuideModel>.of((await DataService.getTravelGuides()));
+    }
+    return travelGuides;
   }
 
   @action

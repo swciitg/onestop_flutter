@@ -8,6 +8,7 @@ import 'package:onestop_dev/pages/food/mess_subscription_change_form.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/pages/hab/hostel_service.dart';
 import 'package:onestop_dev/pages/home/home.dart';
+import 'package:lib_token/lib_token.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/login/blocked.dart';
 import 'package:onestop_dev/pages/login/login.dart';
@@ -19,7 +20,9 @@ import 'package:onestop_dev/pages/services/cab_share.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/services/irbs.dart';
+import 'package:onestop_dev/pages/timetable/timetable_page.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
+// import 'package:path/path.dart';
 
 final routes = {
   BlockedPage.id: (context) => const BlockedPage(),
@@ -43,5 +46,7 @@ final routes = {
   HostelService.id: (context) => const HostelService(),
   ElectionLoginWebView.id: (context) => const ElectionLoginWebView(),
   GateLogPage.id: (context) => const GateLogPage(),
+  TimetablePage.id: (context) => const TimetablePage(),
   EventsScreenWrapper.id: (context) => const EventsScreenWrapper(),
+  LibraryTokenScreen.id: (context) => const LibraryTokenScreen(),
 };

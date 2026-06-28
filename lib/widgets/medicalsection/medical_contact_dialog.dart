@@ -1,187 +1,168 @@
-import 'package:flutter/foundation.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/functions/utility/phone_email.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/medicalcontacts/medicalcontact_model.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_dev/widgets/contact/call_email_button.dart';
+import 'package:onestop_ui/index.dart' hide ContactActionType;
 
-class MedicalContactDialog extends StatefulWidget {
-  final MedicalcontactModel contact;
-  final bool isMisc;
-  const MedicalContactDialog({super.key, required this.contact, required this.isMisc});
-
-  @override
-  State<MedicalContactDialog> createState() => _ContactDialogState();
+/// Shows a bottom sheet with a medical contact's profile details.
+void showMedicalContactSheet(
+  BuildContext context, {
+  required MedicalcontactModel contact,
+  required bool isMisc,
+}) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: Colors.transparent,
+    builder: (_) {
+      return _MedicalContactSheetContent(contact: contact, isMisc: isMisc);
+    },
+  );
 }
 
-class _ContactDialogState extends State<MedicalContactDialog> {
-  bool isStarred = false;
+class _MedicalContactSheetContent extends StatelessWidget {
+  final MedicalcontactModel contact;
+  final bool isMisc;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  const _MedicalContactSheetContent({required this.contact, required this.isMisc});
 
   @override
   Widget build(BuildContext context) {
-    var phoneNumber = "361258${widget.contact.phone}";
-    var name = widget.isMisc ? widget.contact.miscellaneousContact! : widget.contact.name.name!;
-    if (!widget.isMisc) {
-      return AlertDialog(
-        backgroundColor: kBlueGrey, // Dark background
-        content: SizedBox(
-          width: 600,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  name,
-                  style:
-                      MyFonts.w700.setColor(kWhite).size(20).copyWith(fontWeight: FontWeight.bold),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                _buildInfoRow(Icons.work, widget.contact.name.designation!),
-                _buildInfoRow(Icons.school, widget.contact.name.degree!),
-                _buildInfoRow(Icons.phone, "361258${widget.contact.phone}"),
-                _buildInfoRow(Icons.email, widget.contact.email!),
-              ],
-            ),
-          ),
-        ),
-        actions: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () async {
-                      try {
-                        await launchPhoneURL(phoneNumber);
-                      } catch (e) {
-                        if (kDebugMode) {
-                          print(e);
-                        }
-                      }
-                    },
-                    icon: const Icon(Icons.call, color: Colors.green),
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      try {
-                        await launchEmailURL(widget.contact.email ?? "");
-                      } catch (e) {
-                        if (kDebugMode) {
-                          print(e);
-                        }
-                      }
-                    },
-                    icon: const Icon(Icons.mail, color: Colors.blue),
-                  ),
-                ],
-              ),
-              TextButton(
-                child: const Text("Close", style: TextStyle(color: Colors.white70)),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        ],
-      );
-    } else {
-      return AlertDialog(
-        backgroundColor: kBlueGrey, // Dark background
-        content: SizedBox(
-          width: 600,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  name,
-                  style:
-                      MyFonts.w700.setColor(kWhite).size(20).copyWith(fontWeight: FontWeight.bold),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                _buildInfoRow(Icons.phone, "361258${widget.contact.phone}"),
-                _buildInfoRow(Icons.email, widget.contact.email!),
-              ],
-            ),
-          ),
-        ),
-        actions: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () async {
-                      try {
-                        await launchPhoneURL(phoneNumber);
-                      } catch (e) {
-                        if (kDebugMode) {
-                          print(e);
-                        }
-                      }
-                    },
-                    icon: const Icon(Icons.call, color: Colors.green),
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      try {
-                        await launchEmailURL(widget.contact.email ?? "");
-                      } catch (e) {
-                        if (kDebugMode) {
-                          print(e);
-                        }
-                      }
-                    },
-                    icon: const Icon(Icons.mail, color: Colors.blue),
-                  ),
-                ],
-              ),
-              TextButton(
-                child: const Text("Close", style: TextStyle(color: Colors.white70)),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-  }
-}
+    final name = isMisc ? contact.miscellaneousContact! : contact.name.name!;
+    final phone = '361258${contact.phone}';
+    final email = contact.email ?? '';
 
-Widget _buildInfoRow(IconData icon, String info) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4.0),
-    child: Row(
-      children: [
-        Icon(icon, color: Colors.white70, size: 20), // Icon only
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            info,
-            style: MyFonts.w500.setColor(kWhite3).size(16),
-            overflow: TextOverflow.ellipsis,
+    return Container(
+      decoration: BoxDecoration(
+        color: OColor.white,
+        border: Border.all(color: OColor.gray200),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(OCornerRadius.l)),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.l),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Header: icon + "Medical Contact" + close button
+          Row(
+            children: [
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(color: OColor.green100, shape: BoxShape.circle),
+                child: Icon(FluentIcons.stethoscope_24_regular, size: 20, color: OColor.green600),
+              ),
+              const SizedBox(width: OSpacing.xs),
+              Expanded(
+                child: Text(
+                  'Medical Contact',
+                  style: OTextStyle.labelLarge.copyWith(color: OColor.gray800),
+                ),
+              ),
+              GestureDetector(
+                onTap: () => Navigator.of(context).pop(),
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(color: OColor.gray100, shape: BoxShape.circle),
+                  child: Icon(FluentIcons.dismiss_24_regular, size: 18, color: OColor.gray600),
+                ),
+              ),
+            ],
           ),
-        ),
-      ],
-    ),
-  );
+          const SizedBox(height: OSpacing.l),
+
+          // Profile: avatar + name + designation/degree
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 24,
+                backgroundColor: OColor.gray100,
+                child: Icon(FluentIcons.person_24_regular, color: OColor.green600, size: 24),
+              ),
+              const SizedBox(width: OSpacing.m),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (!isMisc &&
+                        contact.name.designation != null &&
+                        contact.name.designation!.isNotEmpty)
+                      Text(
+                        contact.name.designation!,
+                        style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray500),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: OSpacing.l),
+
+          // Info rows
+          if (!isMisc && contact.name.degree != null && contact.name.degree!.isNotEmpty) ...[
+            Row(
+              children: [
+                Icon(FluentIcons.hat_graduation_24_regular, size: 16, color: OColor.gray500),
+                const SizedBox(width: OSpacing.xs),
+                Expanded(
+                  child: Text(
+                    contact.name.degree!,
+                    style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: OSpacing.xs),
+          ],
+          if (phone.isNotEmpty && contact.phone != null && contact.phone!.isNotEmpty) ...[
+            Row(
+              children: [
+                Icon(FluentIcons.call_24_regular, size: 16, color: OColor.gray500),
+                const SizedBox(width: OSpacing.xs),
+                Expanded(
+                  child: Text(phone, style: OTextStyle.labelSmall.copyWith(color: OColor.gray600)),
+                ),
+              ],
+            ),
+            const SizedBox(height: OSpacing.xs),
+          ],
+          if (email.isNotEmpty) ...[
+            Row(
+              children: [
+                Icon(FluentIcons.mail_24_regular, size: 16, color: OColor.gray500),
+                const SizedBox(width: OSpacing.xs),
+                Expanded(
+                  child: Text(email, style: OTextStyle.labelSmall.copyWith(color: OColor.gray600)),
+                ),
+              ],
+            ),
+          ],
+          const SizedBox(height: OSpacing.l),
+
+          // Action buttons: Call / Text / Mail
+          Row(
+            children: [
+              if (contact.phone != null && contact.phone!.isNotEmpty) ...[
+                Expanded(child: ContactActionButton(type: ContactActionType.call, data: phone)),
+                const SizedBox(width: OSpacing.xs),
+                Expanded(child: ContactActionButton(type: ContactActionType.text, data: phone)),
+              ],
+              if (email.isNotEmpty) ...[
+                if (contact.phone != null && contact.phone!.isNotEmpty)
+                  const SizedBox(width: OSpacing.xs),
+                Expanded(child: ContactActionButton(type: ContactActionType.mail, data: email)),
+              ],
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }

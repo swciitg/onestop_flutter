@@ -1,11 +1,16 @@
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:onestop_ui/index.dart';
 
 import '../../widgets/ui/list_shimmer.dart';
+
+String _getProfileUrlByRoll(String rollNo) {
+  return "https://online.iitg.ac.in/sprofile/GALLERY/20${rollNo.substring(0, 2)}/PHOTO/${rollNo}_P.jpg";
+}
 
 class VoterCard extends StatefulWidget {
   final String email;
@@ -54,161 +59,195 @@ class _VoterCardState extends State<VoterCard> {
     "MA": "MA",
     "MSR": "MSR",
     "MBA": "MBA",
-    "Others": "Others"
+    "Others": "Others",
   };
 
   String getBranch(String input) {
-    String answer = "Others";
     for (var key in branches.keys) {
-      if (branches[key] == input) {
-        return key;
-      }
+      if (branches[key] == input) return key;
     }
-    return answer;
+    return "Others";
   }
 
   String getDegree(String input) {
-    String answer = "B.Tech";
     for (var key in degrees.keys) {
-      if (degrees[key] == input) {
-        return key;
-      }
+      if (degrees[key] == input) return key;
     }
-    return answer;
+    return "B.Tech";
   }
 
   @override
   Widget build(BuildContext context) {
-    dio.options.headers['cookie'] = widget.authCookie; // setting cookies for auth
-    dio.post("https://swc.iitg.ac.in/elections_api/sgc/voting/get_eprofile/",
-        data: {"email": widget.email}).then((value) {});
+    dio.options.headers['cookie'] = widget.authCookie;
+    dio
+        .post(
+          "https://swc.iitg.ac.in/elections_api/sgc/voting/get_eprofile/",
+          data: {"email": widget.email},
+        )
+        .then((value) {});
     return FutureBuilder<Response>(
-        future: dio.post("https://swc.iitg.ac.in/elections_api/sgc/voting/get_eprofile/",
-            data: {"email": widget.email}),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.hasError) {
-            return Center(
-                child: ListShimmer(
-              count: 1,
-              height: 750,
-            ));
-          }
-          var data = snapshot.data!.data;
-          return Column(
-            mainAxisSize: MainAxisSize.min,
+      future: dio.post(
+        "https://swc.iitg.ac.in/elections_api/sgc/voting/get_eprofile/",
+        data: {"email": widget.email},
+      ),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || snapshot.hasError) {
+          return Center(child: ListShimmer(count: 1, height: 750));
+        }
+        var data = snapshot.data!.data;
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(OSpacing.m),
+          child: Column(
             children: [
-              const SizedBox(
-                height: 15,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "IITG GYMKHANA ELECTIONS 2025",
-                                    style: MyFonts.w700.setColor(kWhite).size(25),
-                                    textAlign: TextAlign.center,
-                                  ))),
-                        ],
-                      ),
-                      Text(
-                        "Voter ID",
-                        style: MyFonts.w500.setColor(kWhite).size(25),
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      Container(
-                        height: 200,
-                        width: 200,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.rectangle,
+              // ── Voter ID Card (matches profile _buildIdCard) ──
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(OSpacing.m),
+                decoration: BoxDecoration(
+                  color: OColor.white,
+                  borderRadius: const BorderRadius.all(Radius.circular(OCornerRadius.l)),
+                  border: Border.all(color: OColor.green600),
+                ),
+                child: Column(
+                  children: [
+                    // IITG header
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/images/iitg_logo.png', height: 40),
+                        const SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'IITG GYMKHANA',
+                              style: OTextStyle.headingXSmall.copyWith(color: OColor.gray800),
+                            ),
+                            Text(
+                              'ELECTIONS 2026',
+                              style: OTextStyle.headingXSmall.copyWith(color: OColor.gray800),
+                            ),
+                          ],
                         ),
+                      ],
+                    ),
+                    const SizedBox(height: OSpacing.s),
+                    Divider(thickness: 1, color: OColor.gray200),
+                    const SizedBox(height: OSpacing.s),
+
+                    // Avatar – loaded from IITG profile URL
+                    CircleAvatar(
+                      radius: 45,
+                      backgroundColor: OColor.gray200,
+                      child: ClipOval(
                         child: CachedNetworkImage(
-                          imageUrl: data["img_url"],
-                          placeholder: (context, url) => ListShimmer(
-                            count: 1,
-                            height: 200,
-                          ),
-                          errorWidget: (context, url, error) => const Image(
-                              image: NetworkImage(
-                                  'https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg')),
+                          imageUrl: _getProfileUrlByRoll(data["roll_no"]),
+                          width: 90,
+                          height: 90,
+                          fit: BoxFit.cover,
+                          errorWidget:
+                              (_, _, _) => Container(
+                                width: 90,
+                                height: 90,
+                                color: OColor.gray200,
+                                child: Icon(
+                                  FluentIcons.person_24_regular,
+                                  color: OColor.gray500,
+                                  size: 40,
+                                ),
+                              ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      //Image.network('src'),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Name: ${data["name"]}",
-                          style: MyFonts.w500.setColor(kWhite).size(18),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Roll no: ${data["roll_no"]}",
-                          style: MyFonts.w500.setColor(kWhite).size(18),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Degree: ${getDegree(data['degree'])}",
-                          style: MyFonts.w500.setColor(kWhite).size(18),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Hostel: ${data['hostel'][0].toString().toUpperCase()}${data['hostel'].toString().substring(1)}",
-                          style: MyFonts.w500.setColor(kWhite).size(18),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Branch: ${getBranch(data['branch'])}",
-                          style: MyFonts.w500.setColor(kWhite).size(18),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Gender: ${data["gender"]}",
-                          style: MyFonts.w500.setColor(kWhite).size(18),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: OSpacing.s),
+
+                    // Name
+                    OText(
+                      text: data["name"],
+                      style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: OSpacing.xxs),
+
+                    // Roll number
+                    OText(
+                      text: data["roll_no"],
+                      style: OTextStyle.headingXSmall.copyWith(color: OColor.gray800),
+                    ),
+                    const SizedBox(height: OSpacing.xxs),
+
+                    // Voter ID subtitle
+                    OText(
+                      text: 'Voter ID',
+                      style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
+                    ),
+                    const SizedBox(height: OSpacing.m),
+
+                    // Barcode of roll number
+                    BarcodeWidget(
+                      barcode: Barcode.code128(),
+                      data: data["roll_no"],
+                      width: 200,
+                      height: 60,
+                      drawText: false,
+                      color: OColor.black,
+                    ),
+                    const SizedBox(height: 10),
+                  ],
                 ),
               ),
-              SizedBox(
-                  height: 55,
-                  child: Image.asset(
-                    'assets/images/logoo.png',
-                    cacheWidth: 451,
-                    cacheHeight: 75,
-                  )),
-              const SizedBox(
-                height: 15,
-              )
+              const SizedBox(height: OSpacing.m),
+
+              // ── Details Card (matches profile _buildInfoSection) ──
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(OSpacing.m),
+                decoration: BoxDecoration(
+                  color: OColor.white,
+                  borderRadius: const BorderRadius.all(Radius.circular(OCornerRadius.l)),
+                  border: Border.all(color: OColor.gray200),
+                ),
+                child: Column(
+                  children: [
+                    _infoTile('Degree', getDegree(data['degree'])),
+                    Divider(color: OColor.gray200),
+                    _infoTile(
+                      'Hostel',
+                      '${data['hostel'][0].toString().toUpperCase()}${data['hostel'].toString().substring(1)}',
+                    ),
+                    Divider(color: OColor.gray200),
+                    _infoTile('Branch', getBranch(data['branch'])),
+                    Divider(color: OColor.gray200),
+                    _infoTile('Gender', data["gender"]),
+                  ],
+                ),
+              ),
+              const SizedBox(height: OSpacing.l),
+
+              // SWC Logo
+              SvgPicture.asset(
+                'assets/images/logo.svg',
+                height: 40,
+                colorFilter: ColorFilter.mode(OColor.black, BlendMode.srcIn),
+              ),
+              const SizedBox(height: OSpacing.m),
             ],
-          );
-        });
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _infoTile(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: OSpacing.xs),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: OTextStyle.labelMedium.copyWith(color: OColor.gray600)),
+          Text(value, style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
+        ],
+      ),
+    );
   }
 }

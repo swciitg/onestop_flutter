@@ -42,7 +42,11 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace 'com.swciitg.onestop2'
-    compileSdkVersion 35
+    compileSdkVersion 36
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     compileOptions {
         // Flag to enable support for the new language APIs
@@ -68,6 +72,12 @@ android {
         versionName flutterVersionName
         manifestPlaceholders['GMAP_KEY'] = dartEnvironmentVariables["GMAP_KEY"] ?: ""
         multiDexEnabled true
+
+        // Gatelog overlay env vars (from --dart-define)
+        buildConfigField "String", "GATELOG_WSS_URL", "\"${dartEnvironmentVariables['GATELOG_WEBSOCKET_URL'] ?: ''}\""
+        buildConfigField "String", "GATELOG_SERVER_URL", "\"${dartEnvironmentVariables['GATELOG_SERVER_URL'] ?: ''}\""
+        buildConfigField "String", "SERVER_URL", "\"${dartEnvironmentVariables['SERVER_URL'] ?: ''}\""
+        buildConfigField "String", "SECURITY_KEY", "\"${dartEnvironmentVariables['SECURITY_KEY'] ?: ''}\""
     }
 
     signingConfigs {
@@ -107,5 +117,8 @@ flutter {
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
     implementation "com.android.support:multidex:1.0.3"
-}
 
+    // Gatelog overlay dependencies
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.google.zxing:core:3.5.3'
+}

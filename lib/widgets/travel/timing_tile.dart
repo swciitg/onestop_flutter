@@ -1,46 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 class TimingTile extends StatelessWidget {
   final String time;
   final bool isLeft;
   final IconData icon;
 
-  const TimingTile(
-      {super.key, required this.time, required this.isLeft, required this.icon});
+  const TimingTile({super.key, required this.time, required this.isLeft, required this.icon});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.95,
-      decoration: const BoxDecoration(
-          color: kTileBackground,
-          borderRadius: BorderRadius.all(Radius.circular(20))),
-      child: ListTile(
-        textColor: kWhite,
-        leading: CircleAvatar(
-          backgroundColor: lYellow2,
-          radius: 20,
-          child: Icon(
-            icon,
-            color: kAppBarGrey,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      decoration: BoxDecoration(
+        color: OColor.white,
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+        border: Border.all(color: OColor.gray200),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: OColor.green100,
+              borderRadius: BorderRadius.circular(OCornerRadius.s),
+            ),
+            child: Icon(icon, color: OColor.green600, size: 20),
           ),
-        ),
-        title: Text(
-          time,
-          style: MyFonts.w500.setColor(kWhite),
-        ),
-        trailing: isLeft
-            ? Text(
-                'Left',
-                style: MyFonts.w500.setColor(kGrey11),
-              )
-            : const SizedBox(
-                height: 0,
-                width: 0,
+          const SizedBox(width: 12),
+          Text(
+            time,
+            style: OTextStyle.labelMedium.copyWith(color: isLeft ? OColor.gray400 : OColor.gray800),
+          ),
+          const Spacer(),
+          if (isLeft)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: OColor.gray100,
+                borderRadius: BorderRadius.circular(OCornerRadius.xl),
               ),
+              child: Text('LEFT', style: OTextStyle.labelXSmall.copyWith(color: OColor.gray400)),
+            ),
+        ],
       ),
     );
   }

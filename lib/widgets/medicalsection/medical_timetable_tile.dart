@@ -1,9 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/medicaltimetable/doctor_model.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 class MedicalTimetableTile extends StatelessWidget {
   final DoctorModel doctor;
@@ -13,12 +11,11 @@ class MedicalTimetableTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var tileIcon = FluentIcons.doctor_24_filled;
-    Color bg = kTimetableDisabled;
     String timing = "";
     if (doctor.startTime1 != "") {
       timing = "$timing${doctor.startTime1} - ${doctor.endTime1}";
     }
-    if(doctor.startTime2 != ""){
+    if (doctor.startTime2 != "") {
       timing = "$timing     ${doctor.startTime2} - ${doctor.endTime2}";
     }
     return Padding(
@@ -27,9 +24,9 @@ class MedicalTimetableTile extends StatelessWidget {
         constraints: const BoxConstraints(minHeight: 85),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            color: bg,
-            border: Border.all(color: Colors.transparent),
+            borderRadius: BorderRadius.circular(OCornerRadius.m),
+            color: OColor.white,
+            border: Border.all(color: OColor.gray200),
           ),
           child: Padding(
             padding: const EdgeInsets.only(top: 10.0, bottom: 10, right: 10),
@@ -44,15 +41,8 @@ class MedicalTimetableTile extends StatelessWidget {
                       Container(
                         height: 50,
                         width: 50,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: kGreen,
-                        ),
-                        child: Icon(
-                          tileIcon,
-                          color: kAppBarGrey,
-                          size: 25,
-                        ),
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: OColor.green100),
+                        child: Icon(tileIcon, color: OColor.green600, size: 25),
                       ),
                     ],
                   ),
@@ -64,25 +54,16 @@ class MedicalTimetableTile extends StatelessWidget {
                     children: [
                       Text(
                         "${doctor.doctor.name!}  ${doctor.doctor.degree!}",
-                        style: MyFonts.w500.size(15).setColor(kWhite),
+                        style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
                       ),
-                      const SizedBox(
-                        height: 4.0,
-                      ),
+                      const SizedBox(height: 4.0),
                       Text(
                         doctor.doctor.designation!,
-                        style: MyFonts.w500.size(15).setColor(kWhite),
+                        style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
                       ),
-                      const SizedBox(
-                        height: 4.0,
-                      ),
-                      Text(
-                        timing,
-                        style: MyFonts.w300.size(12).setColor(kWhite),
-                      ),
-                      const SizedBox(
-                        height: 3.0,
-                      ),
+                      const SizedBox(height: 4.0),
+                      Text(timing, style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray600)),
+                      const SizedBox(height: 3.0),
                     ],
                   ),
                 ),

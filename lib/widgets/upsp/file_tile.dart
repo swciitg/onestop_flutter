@@ -1,8 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 class FileTile extends StatelessWidget {
   const FileTile({super.key, required this.filename, required this.onDelete});
@@ -11,35 +9,31 @@ class FileTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(3.0),
-      child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-              border: Border.all(color: kGrey2),
-              color: kBlueGrey,
-              borderRadius: BorderRadius.circular(30)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    filename,
-                    style: MyFonts.w600.size(14).setColor(kWhite),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => onDelete(),
-                  child: const Icon(
-                    FluentIcons.dismiss_24_regular,
-                    color: kWhite,
-                  ),
-                ),
-              ],
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.s),
+      decoration: BoxDecoration(
+        color: OColor.white,
+        borderRadius: BorderRadius.circular(OCornerRadius.m),
+        border: Border.all(color: OColor.gray200),
+      ),
+      child: Row(
+        children: [
+          Icon(FluentIcons.image_16_regular, size: 20, color: OColor.gray600),
+          const SizedBox(width: OSpacing.xs),
+          Expanded(
+            child: Text(
+              filename,
+              style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
+              overflow: TextOverflow.ellipsis,
             ),
-          )),
+          ),
+          const SizedBox(width: OSpacing.xs),
+          GestureDetector(
+            onTap: () => onDelete(),
+            child: Icon(FluentIcons.dismiss_16_regular, size: 20, color: OColor.gray600),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -33,16 +33,14 @@ class MessLinkTile extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24), color: lGrey),
+            borderRadius: BorderRadius.circular(24),
+            color: lGrey,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(
-                icon,
-                size: 30,
-                color: lBlue,
-              ),
+              Icon(icon, size: 30, color: lBlue),
               const SizedBox(height: 5),
               Text(
                 label,

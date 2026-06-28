@@ -244,7 +244,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
 
                 // Text field for Club
                 DropdownButtonFormField<String>(
-                  value: selectedClub,
+                  initialValue: selectedClub,
                   decoration: InputDecoration(
                     fillColor: const Color(0xFF273141),
                     filled: true,
@@ -652,7 +652,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
 
     try {
       await EventsAPIRepository().putEvent(widget.event!.id, data);
-      // Hide the loading dialog after the event is updated
       nav.pop();
       showSnackBar('Event updated successfully!');
       nav.pop();

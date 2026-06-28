@@ -1,18 +1,14 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/food/rest_frame_builder.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/lostfound/found_model.dart';
 import 'package:onestop_dev/models/lostfound/lost_model.dart';
 import 'package:onestop_dev/repository/bns_repository.dart';
 import 'package:onestop_dev/repository/lnf_repository.dart';
 import 'package:onestop_dev/widgets/buy_sell/details_dialog.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 class MyAdsTile extends StatefulWidget {
-  // ignore: prefer_typing_uninitialized_variables
   final dynamic model;
 
   const MyAdsTile({super.key, this.model});
@@ -34,101 +30,114 @@ class _MyAdsTileState extends State<MyAdsTile> {
           onTap: () {
             detailsDialogBox(context, widget.model);
           },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
-            child: Container(
-              height: 115,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(21), color: kBlueGrey),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    flex: 6,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 2.0, 3.0, 2.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
+          child: Container(
+            decoration: BoxDecoration(
+              color: OColor.white,
+              borderRadius: BorderRadius.circular(OCornerRadius.s),
+              border: Border.all(color: OColor.gray200),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Image area
+                AspectRatio(
+                  aspectRatio: 1,
+                  child: Image.network(
+                    widget.model.imageURL,
+                    cacheWidth: 200,
+                    fit: BoxFit.cover,
+                    errorBuilder:
+                        (_, _, _) => Container(
+                          color: OColor.gray200,
+                          child: Icon(Icons.image_outlined, color: OColor.gray400, size: 40),
+                        ),
+                    frameBuilder: restaurantTileFrameBuilder,
+                  ),
+                ),
+                // Info
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: OSpacing.s,
+                    vertical: OSpacing.xs,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.model.title,
+                        overflow: TextOverflow.ellipsis,
+                        style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
+                        maxLines: 1,
+                      ),
+                      if (isLnf)
+                        Text(
+                          "${(widget.model is FoundModel) ? "Found at: " : "Lost at: "}${widget.model.location}",
+                          overflow: TextOverflow.ellipsis,
+                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray600, fontSize: 12),
+                          maxLines: 1,
+                        )
+                      else ...[
+                        const SizedBox(height: OSpacing.xxs),
+                        Text(
+                          '\u{20B9}${widget.model.price}',
+                          style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                        ),
+                      ],
+                      const SizedBox(height: OSpacing.xs),
+                      // Edit / Delete actions
+                      Row(
                         children: [
-                          Expanded(
+                          GestureDetector(
+                            onTap: () {
+                              // Edit - currently opens details
+                              detailsDialogBox(context, widget.model);
+                            },
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  child: Text(
-                                    widget.model.title,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: MyFonts.w600.size(16).setColor(kWhite),
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      isOverlay = true;
-                                    });
-                                  },
-                                  icon: const Icon(
-                                    FluentIcons.more_vertical_28_filled,
-                                    size: 15,
-                                    color: kWhite,
+                                Icon(Icons.edit_outlined, size: 14, color: OColor.green600),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'Edit',
+                                  style: OTextStyle.bodySmall.copyWith(
+                                    color: OColor.green600,
+                                    fontSize: 12,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                          const SizedBox(width: OSpacing.m),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isOverlay = true;
+                              });
+                            },
+                            child: Row(
                               children: [
-                                Expanded(
-                                  child: Text(
-                                    isLnf
-                                        ? (((widget.model is FoundModel)
-                                                ? "Found at: "
-                                                : "Lost at: ") +
-                                            widget.model.location)
-                                        : widget.model.description,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: MyFonts.w500.size(12).setColor(kGrey6),
+                                Icon(Icons.delete_outline, size: 14, color: OColor.red500),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'Delete',
+                                  style: OTextStyle.bodySmall.copyWith(
+                                    color: OColor.red500,
+                                    fontSize: 12,
                                   ),
                                 ),
-                                isLnf
-                                    ? Container()
-                                    : Expanded(
-                                      child: Text(
-                                        '\u{20B9}${widget.model.price}/-',
-                                        style: MyFonts.w600.size(14).setColor(lBlue4),
-                                      ),
-                                    ),
                               ],
                             ),
                           ),
                         ],
                       ),
-                    ),
+                    ],
                   ),
-                  Expanded(
-                    flex: 4,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(21),
-                        bottomRight: Radius.circular(21),
-                      ),
-                      child: Image.network(
-                        widget.model.imageURL,
-                        cacheWidth: 100,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) => Container(),
-                        frameBuilder: restaurantTileFrameBuilder,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
+        // Delete confirmation overlay
         if (isOverlay)
           GestureDetector(
             onTap: () {
@@ -136,23 +145,25 @@ class _MyAdsTileState extends State<MyAdsTile> {
                 isOverlay = false;
               });
             },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
-              child: Container(
-                height: 115,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(21),
-                  color: Colors.black.withValues(alpha: 0.74),
-                ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(OCornerRadius.s),
+                color: Colors.black.withValues(alpha: 0.6),
               ),
             ),
           ),
         if (isOverlay)
           Container(
-            height: 33,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: lBlue2),
+            padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.xs),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(OCornerRadius.m),
+              color: OColor.red500,
+            ),
             child: TextButton(
-              child: Text("Delete", style: MyFonts.w400.size(14).setColor(kBlack)),
+              child: Text(
+                "Confirm Delete",
+                style: OTextStyle.labelSmall.copyWith(color: OColor.white),
+              ),
               onPressed: () async {
                 if (isLnf) {
                   await LnfRepository().deleteLnfMyAd(widget.model.id, widget.model.email);

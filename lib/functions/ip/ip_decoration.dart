@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
-decorationFUnction(String x) {
+InputDecoration ipInputDecoration(String label) {
   return InputDecoration(
-    labelText: x,
-    labelStyle: MyFonts.w500.setColor(kGrey7),
+    labelText: label,
+    labelStyle: OTextStyle.bodySmall.copyWith(color: OColor.gray500),
+    contentPadding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.s),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(30.0),
-      borderSide: const BorderSide(color: kGrey7, width: 1),
+      borderRadius: BorderRadius.circular(OCornerRadius.m),
+      borderSide: BorderSide(color: OColor.green600, width: 1.5),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(30.0),
-      borderSide: const BorderSide(
-        color: kGrey7,
-        width: 1,
-      ),
+      borderRadius: BorderRadius.circular(OCornerRadius.m),
+      borderSide: BorderSide(color: OColor.gray300, width: 1),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(OCornerRadius.m),
+      borderSide: BorderSide(color: OColor.red400, width: 1),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(OCornerRadius.m),
+      borderSide: BorderSide(color: OColor.red400, width: 1.5),
     ),
   );
 }
+
+/// Keep old name as alias for backward compat
+InputDecoration decorationFunction(String x) => ipInputDecoration(x);

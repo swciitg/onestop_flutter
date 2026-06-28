@@ -37,6 +37,36 @@ mixin _$ContactStore on _ContactStore, Store {
     });
   }
 
+  late final _$starredLoadedAtom = Atom(
+    name: '_ContactStore.starredLoaded',
+    context: context,
+  );
+
+  @override
+  bool get starredLoaded {
+    _$starredLoadedAtom.reportRead();
+    return super.starredLoaded;
+  }
+
+  @override
+  set starredLoaded(bool value) {
+    _$starredLoadedAtom.reportWrite(value, super.starredLoaded, () {
+      super.starredLoaded = value;
+    });
+  }
+
+  late final _$loadStarredContactsAsyncAction = AsyncAction(
+    '_ContactStore.loadStarredContacts',
+    context: context,
+  );
+
+  @override
+  Future<void> loadStarredContacts() {
+    return _$loadStarredContactsAsyncAction.run(
+      () => super.loadStarredContacts(),
+    );
+  }
+
   late final _$_ContactStoreActionController = ActionController(
     name: '_ContactStore',
     context: context,
@@ -58,6 +88,7 @@ mixin _$ContactStore on _ContactStore, Store {
   String toString() {
     return '''
 starredContacts: ${starredContacts},
+starredLoaded: ${starredLoaded},
 starContactScroll: ${starContactScroll}
     ''';
   }

@@ -1,7 +1,6 @@
 class Endpoints {
   static const apiSecurityKey = String.fromEnvironment('SECURITY_KEY');
-  static const moderationBaseUrl =
-      String.fromEnvironment('MODERATION_SERVER_URL');
+  static const moderationBaseUrl = String.fromEnvironment('MODERATION_SERVER_URL');
   static const baseUrl = String.fromEnvironment('SERVER_URL');
   static const eventsBaseUrl = String.fromEnvironment('EVENT_SERVER_URL');
   static const irbsBaseUrl = String.fromEnvironment('IRBS_SERVER_URL');
@@ -10,8 +9,7 @@ class Endpoints {
   static const String lastUpdatedURL = "/lastDataUpdate";
   static const String contactURL = "/getContacts";
   static const String medicalContactURL = '/hospital/getContacts';
-  static const String timetableURL =
-      "https://swc.iitg.ac.in/smartTimetable/get-my-courses";
+  static const String timetableURL = "https://swc.iitg.ac.in/smartTimetable/get-my-courses";
   static const String medicalTimetableURL = '/hospital/getTimetable';
 
   static const String ferryURL = '/ferryTimings';
@@ -22,9 +20,11 @@ class Endpoints {
   static const String buyURL = '/buy';
   static const String sellURL = '/sell';
   static const String buyPath = '/buyPage';
+  static const String buySearch = '/buy/search';
 
   // static const String eventPath = '/eventPage';
   static const String sellPath = '/sellPage';
+  static const String sellSearch = '/sell/search';
   static const String bnsMyAdsURL = '/bns/myads';
   static const String lnfMyAdsURL = '/lnf/myads';
   static const String deleteBuyURL = "/buy/remove";
@@ -33,20 +33,19 @@ class Endpoints {
   static const String deleteFoundURL = "/found/remove";
   static const String lostURL = '/lost';
   static const String lostPath = '/lostPage';
+  static const String lostSearch = '/lost/search';
   static const String foundPath = '/foundPage';
+  static const String foundSearch = '/found/search';
   static const String foundURL = '/found';
   static const String claimItemURL = "/found/claim";
   static const String newsURL = "/news";
   static const String getEventAdmin = "/por";
   static const String eventCategories = "/categories";
-  static const String githubIssueToken =
-      String.fromEnvironment('GITHUB_ISSUE_TOKEN');
-  static const feedback =
-      'https://api.github.com/repos/swciitg/onestop_flutter/issues';
+  static const String githubIssueToken = String.fromEnvironment('GIT_ISSUE_TOKEN');
+  static const feedback = 'https://api.github.com/repos/swciitg/onestop_flutter/issues';
   static const String upspPost = '/upsp/submit-request';
   static const String pharmacyFeedback = "/feedback/pharmacyFeedback-submit";
-  static const String hospitalFacilitiesFeedback =
-      "/feedback/servicesFeedback-submit";
+  static const String hospitalFacilitiesFeedback = "/feedback/servicesFeedback-submit";
   static const String doctorsFeedback = "/feedback/doctorsFeedback-submit";
   static const String dropownDoctors = "/getDoctors";
   static const String uploadFileUPSP = "/upsp/file-upload";
@@ -64,11 +63,9 @@ class Endpoints {
   static const String messSubChange = "/api/sub";
   static const String messOpi = "/api/opi";
   static const String homePageUrls = '/homepage';
+  static const String travelGuideURL = '/travel-guide';
 
-  static getHeader() {
-    return {
-      'Content-Type': 'application/json',
-      'security-key': Endpoints.apiSecurityKey
-    };
+  static Map<String, dynamic> getHeader() {
+    return {'Content-Type': 'application/json', 'security-key': Endpoints.apiSecurityKey};
   }
 }

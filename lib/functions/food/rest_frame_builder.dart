@@ -22,5 +22,5 @@ Widget cachedImagePlaceholder(BuildContext context, String url) {
       period: const Duration(seconds: 1),
       baseColor: kBlueGrey,
       highlightColor: const Color.fromRGBO(68, 86, 120, 1),
-      child: Container(color: kBlack, height: 190));
+      child: Container(color: kBlack, height: 180));
 }

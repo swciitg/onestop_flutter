@@ -1,15 +1,13 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/globals/endpoints.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/stores/login_store.dart';
-import 'package:onestop_dev/widgets/lostfound/new_page_button.dart';
-import 'package:onestop_dev/widgets/lostfound/progress_bar.dart';
 import 'package:onestop_dev/widgets/upsp/checkbox_list.dart';
 import 'package:onestop_dev/widgets/upsp/file_tile.dart';
 import 'package:onestop_dev/widgets/upsp/upload_button.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_dev/widgets/upsp/upsp_stepper.dart';
+import 'package:onestop_ui/index.dart';
 
 import 'details_upsp.dart';
 
@@ -25,13 +23,13 @@ const List<String> boards = [
 ];
 
 const List<String> subcommittees = [
-  'Maintainence',
+  'Maintenance',
   'Services',
   'Finance',
   'Academic',
   'Rights and Responsibilities',
   'RTI (Right to Information)',
-  'Medical related issues'
+  'Medical Related Issues',
 ];
 
 class Upsp extends StatefulWidget {
@@ -46,189 +44,274 @@ class Upsp extends StatefulWidget {
 class _UpspState extends State<Upsp> {
   List<String> files = [];
   TextEditingController problem = TextEditingController();
-  RadioButtonListController subcommitteeController =
-      RadioButtonListController();
+  RadioButtonListController subcommitteeController = RadioButtonListController();
   RadioButtonListController boardsController = RadioButtonListController();
+
+  bool get _isFormValid => problem.text.trim().isNotEmpty;
+
+  @override
+  void initState() {
+    super.initState();
+    problem.addListener(() => setState(() {}));
+  }
 
   @override
   Widget build(BuildContext context) {
-    var userData = LoginStore.userData;
-    String email = userData['outlookEmail']!;
-
-    return Theme(
-      data: Theme.of(context).copyWith(
-          checkboxTheme: CheckboxThemeData(
-              side: const BorderSide(color: kWhite),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(3)))),
-      child: Scaffold(
-        backgroundColor: kBackground,
-        appBar: AppBar(
-          backgroundColor: kBlueGrey,
-          title: Text(
-            "1. Problem",
-            style: MyFonts.w600.size(16).setColor(kWhite),
-          ),
-        ),
-        body: LoginStore.isGuest
-            ? Center(
+    return Scaffold(
+      backgroundColor: OColor.gray100,
+      body:
+          LoginStore.isGuest
+              ? Center(
                 child: Text(
-                'Please sign in to use this feature',
-                style: MyFonts.w400.size(14).setColor(kWhite),
-              ))
-            : GestureDetector(
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
+                  'Please sign in to use this feature',
+                  style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
+                ),
+              )
+              : GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
                 child: Column(
                   children: [
-                    const ProgressBar(blue: 1, grey: 1),
-                    Container(
-                      color: kBlueGrey,
-                      child: Container(
-                        margin: const EdgeInsets.only(
-                            top: 10, left: 16, right: 16, bottom: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Filling this form as $email",
-                              style: MyFonts.w500.size(11).setColor(kGrey10),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              "Fill this One stop form to  address your Academic, Technical, Cultural or Welfare problems directly to the respective boards.",
-                              style: MyFonts.w400.size(14).setColor(kWhite),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // ─── Header (AppBar + Stepper) ────────────────────────
+                    _buildHeader(context),
+                    // ─── Scrollable form content ──────────────────────────
                     Expanded(
                       child: SingleChildScrollView(
+                        padding: const EdgeInsets.all(OSpacing.m),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 15, bottom: 10),
-                              child: Text(
-                                "Upload any related screenshot/video/pdf attachment proof",
-                                style: MyFonts.w600.size(16).setColor(kWhite),
+                            const SizedBox(height: OSpacing.m),
+                            // Section heading
+                            Text(
+                              'Problem',
+                              style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+                            ),
+                            const SizedBox(height: OSpacing.xs),
+                            Text(
+                              'Fill this OneStop form to address your Academic, Technical, Cultural or Welfare problems directly to the respective boards.',
+                              style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
+                            ),
+                            const SizedBox(height: OSpacing.xl),
+
+                            // ─── Feedback text field ──────────────────────
+                            Text(
+                              'Feedback',
+                              style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                            ),
+                            const SizedBox(height: OSpacing.xs),
+                            Container(
+                              height: 110,
+                              decoration: BoxDecoration(
+                                color: OColor.white,
+                                borderRadius: BorderRadius.circular(OCornerRadius.m),
+                                border: Border.all(color: OColor.gray300),
+                              ),
+                              child: TextFormField(
+                                maxLines: 4,
+                                controller: problem,
+                                style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: const EdgeInsets.all(OSpacing.m),
+                                  hintText:
+                                      'Describe your issue here, with all the necessary details.',
+                                  hintStyle: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
+                                ),
                               ),
                             ),
-                            for (int index = 0; index < files.length; index++)
+                            const SizedBox(height: OSpacing.l),
+
+                            // ─── Upload images ────────────────────────────
+                            Text(
+                              'Upload supporting images (optional)',
+                              style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                            ),
+                            const SizedBox(height: OSpacing.xs),
+                            for (int index = 0; index < files.length; index++) ...[
                               FileTile(
-                                  filename: files[index],
-                                  onDelete: () => setState(() {
-                                        files.removeAt(index);
-                                      })),
-                            files.length < 5
-                                ? UploadButton(callBack: (fName) {
-                                    if (fName != null) files.add(fName);
-                                    setState(() {});
-                                  },
-                                  endpoint: Endpoints.uploadFileUPSP,)
-                                : Container(),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 15, bottom: 10),
-                              child: Text(
-                                "Brief Description of your Problem",
-                                style: MyFonts.w600.size(16).setColor(kWhite),
+                                filename: files[index],
+                                onDelete:
+                                    () => setState(() {
+                                      files.removeAt(index);
+                                    }),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Container(
-                                  height: 120,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: kGrey2),
-                                      color: kBackground,
-                                      borderRadius: BorderRadius.circular(24)),
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      child: TextFormField(
-                                        maxLines: 4,
-                                        controller: problem,
-                                        style: MyFonts.w500
-                                            .size(16)
-                                            .setColor(kWhite),
-                                        decoration: const InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: 'Your answer',
-                                          hintStyle: TextStyle(color: kGrey8),
-                                        ),
-                                      ))),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 15, bottom: 10),
-                              child: Text(
-                                "Respective Board dealing with the grievance raised",
-                                style: MyFonts.w600.size(16).setColor(kWhite),
+                              const SizedBox(height: OSpacing.xs),
+                            ],
+                            if (files.length < 5)
+                              UploadButton(
+                                callBack: (fName) {
+                                  if (fName != null) files.add(fName);
+                                  setState(() {});
+                                },
+                                endpoint: Endpoints.uploadFileUPSP,
                               ),
+                            const SizedBox(height: OSpacing.xxs),
+                            Text(
+                              'File can be a photograph, video or a pdf file.',
+                              style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
                             ),
-                            RadioButtonList(
-                              values: boards,
-                              controller: boardsController,
+                            const SizedBox(height: OSpacing.l),
+
+                            // ─── Boards list ──────────────────────────────
+                            Text(
+                              'Respective Board dealing with the grievance raised',
+                              style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 15, bottom: 10),
-                              child: Text(
-                                "Respective Subcommittee dealing with the grievance raised",
-                                style: MyFonts.w600.size(16).setColor(kWhite),
-                              ),
+                            const SizedBox(height: OSpacing.xs),
+                            RadioButtonList(values: boards, controller: boardsController),
+                            const SizedBox(height: OSpacing.l),
+
+                            // ─── Subcommittees list ───────────────────────
+                            Text(
+                              'Respective Subcommittee dealing with the grievance raised',
+                              style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
                             ),
+                            const SizedBox(height: OSpacing.xs),
                             RadioButtonList(
                               values: subcommittees,
                               controller: subcommitteeController,
                             ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                if (problem.value.text.isEmpty) {
-                                  showSnackBar(
-                                      "Problem description cannot be empty");
-                                } else {
-                                  Map<String, dynamic> data = {
-                                    'problem': problem.text,
-                                    'files': files,
-                                    'boards': boardsController.selectedItem,
-                                    'subcommittees':
-                                        subcommitteeController.selectedItem
-                                  };
-
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => DetailsUpsp(
-                                            data: data,
-                                          )));
-                                }
-                              },
-                              child: const NextButton(
-                                title: "Next",
-                              ),
-                            ),
+                            // Extra space for sticky bar
+                            const SizedBox(height: 100),
                           ],
                         ),
                       ),
                     ),
+                    // ─── Sticky bottom bar ────────────────────────────────
+                    _buildBottomBar(context),
                   ],
                 ),
               ),
+    );
+  }
+
+  // ───────────────────────────────────────────────────────────────────────
+  // Header: SafeArea + back button + "UPSP" title + stepper + divider
+  // ───────────────────────────────────────────────────────────────────────
+  Widget _buildHeader(BuildContext context) {
+    return Container(
+      color: OColor.white,
+      child: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Padding(
+                      padding: const EdgeInsets.all(OSpacing.xs),
+                      child: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        'UPSP',
+                        style: OTextStyle.labelLarge.copyWith(color: OColor.gray800),
+                      ),
+                    ),
+                  ),
+                  // Invisible spacer for centering
+                  const SizedBox(width: 40),
+                ],
+              ),
+            ),
+            const SizedBox(height: OSpacing.s),
+            const UPSPStepper(currentStep: 1),
+            const SizedBox(height: OSpacing.s),
+            Divider(height: 1, color: OColor.gray200),
+          ],
+        ),
       ),
     );
+  }
+
+  // ───────────────────────────────────────────────────────────────────────
+  // Sticky bottom: Cancel + Next buttons with shadow
+  // ───────────────────────────────────────────────────────────────────────
+  Widget _buildBottomBar(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(
+        left: OSpacing.m,
+        right: OSpacing.m,
+        top: OSpacing.m,
+        bottom: MediaQuery.of(context).padding.bottom + OSpacing.m,
+      ),
+      decoration: BoxDecoration(
+        color: OColor.white,
+        boxShadow: const [
+          BoxShadow(color: Color(0x1F000000), blurRadius: 16, offset: Offset(0, -4)),
+        ],
+      ),
+      child: Row(
+        children: [
+          // Cancel
+          Expanded(
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                height: 56,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(OCornerRadius.l),
+                  border: Border.all(color: OColor.gray300),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(FluentIcons.dismiss_24_regular, size: 24, color: OColor.green600),
+                    const SizedBox(width: OSpacing.xxs),
+                    Text('Cancel', style: OTextStyle.labelMedium.copyWith(color: OColor.green600)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: OSpacing.xs),
+          // Next
+          Expanded(
+            child: GestureDetector(
+              onTap: _isFormValid ? _onNext : null,
+              child: Container(
+                height: 56,
+                decoration: BoxDecoration(
+                  color: _isFormValid ? OColor.green600 : OColor.gray300,
+                  borderRadius: BorderRadius.circular(OCornerRadius.l),
+                  boxShadow:
+                      _isFormValid
+                          ? const [BoxShadow(color: Color(0x0A000000), blurRadius: 20)]
+                          : null,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Next', style: OTextStyle.labelMedium.copyWith(color: OColor.white)),
+                    const SizedBox(width: OSpacing.xxs),
+                    Icon(FluentIcons.arrow_right_24_regular, size: 24, color: OColor.white),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onNext() {
+    if (problem.value.text.isEmpty) {
+      showSnackBar("Problem description cannot be empty");
+    } else {
+      Map<String, dynamic> data = {
+        'problem': problem.text,
+        'files': files,
+        'boards': boardsController.selectedItem,
+        'subcommittees': subcommitteeController.selectedItem,
+      };
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailsUpsp(data: data)));
+    }
   }
 
   @override

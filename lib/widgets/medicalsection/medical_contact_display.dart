@@ -1,9 +1,5 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 class MedicalContactDisplay extends StatelessWidget {
   final String text;
@@ -16,13 +12,10 @@ class MedicalContactDisplay extends StatelessWidget {
     return Expanded(
       flex: 1,
       child: Padding(
-        padding: const EdgeInsets.only(left: 8.0),
+        padding: const EdgeInsets.only(left: OSpacing.xs),
         child: Container(
           alignment: align,
-          child: Text(
-            text,
-            style: MyFonts.w400.size(14).setColor(lBlue2),
-          ),
+          child: Text(text, style: OTextStyle.bodySmall.copyWith(color: OColor.blue500)),
         ),
       ),
     );
@@ -34,20 +27,21 @@ class MedicalContactDisplayHeader extends StatelessWidget {
   final double width;
   final AlignmentDirectional align;
 
-  const MedicalContactDisplayHeader(
-      {super.key, required this.text, required this.width, required this.align});
+  const MedicalContactDisplayHeader({
+    super.key,
+    required this.text,
+    required this.width,
+    required this.align,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10.0),
+      padding: const EdgeInsets.only(left: OSpacing.xs),
       child: Container(
         alignment: align,
         width: width,
-        child: Text(
-          text,
-          style: MyFonts.w500.size(12).setColor(kGrey11),
-        ),
+        child: Text(text, style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray600)),
       ),
     );
   }

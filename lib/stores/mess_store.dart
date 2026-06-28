@@ -33,14 +33,24 @@ abstract class _MessStore with Store {
     return "Dinner";
   }
 
+  // Add this method in MessStore
+  Future<MealType> getMealDataFor(String mealName, String day) async {
+    return await DataService.getMealData(
+      mess: selectedMess.value ?? defaultMess,
+      day: day,
+      mealType: mealName,
+    );
+  }
+
   @observable
   ObservableFuture<Mess> selectedMess = ObservableFuture(getSavedMess());
   @observable
   MealType mealData = MealType(
-      id: 'id',
-      mealDescription: 'mealDescription',
-      startTiming: DateTime.now().toLocal(),
-      endTiming: DateTime.now().toLocal());
+    id: 'id',
+    mealDescription: 'mealDescription',
+    startTiming: DateTime.now().toLocal(),
+    endTiming: DateTime.now().toLocal(),
+  );
 
   @computed
   bool get messLoaded => selectedMess.status == FutureStatus.fulfilled;
@@ -74,13 +84,17 @@ abstract class _MessStore with Store {
     autorun((_) async {
       if (selectedMess.status == FutureStatus.fulfilled) {
         MealType requiredModel = await DataService.getMealData(
-            mess: selectedMess.value!,
-            day: selectedDay,
-            mealType: selectedMeal);
+          mess: selectedMess.value!,
+          day: selectedDay,
+          mealType: selectedMeal,
+        );
         setMealData(requiredModel);
       } else {
         MealType requiredModel = await DataService.getMealData(
-            mess: defaultMess, day: selectedDay, mealType: selectedMeal);
+          mess: defaultMess,
+          day: selectedDay,
+          mealType: selectedMeal,
+        );
         setMealData(requiredModel);
       }
     });
@@ -99,7 +113,8 @@ abstract class _MessStore with Store {
   }
 
   Future<Map<String, dynamic>> postMessSubChange(
-      Map<String, dynamic> data) async {
+    Map<String, dynamic> data,
+  ) async {
     final res = await IrbsApiRepository().postMessSubChange(data);
     return res;
   }

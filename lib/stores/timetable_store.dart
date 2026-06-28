@@ -4,19 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:onestop_dev/globals/class_timings.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/globals/working_days.dart';
 import 'package:onestop_dev/models/timetable/course_model.dart';
 import 'package:onestop_dev/models/timetable/registered_courses.dart';
 import 'package:onestop_dev/models/timetable/timetable_day.dart';
 import 'package:onestop_dev/services/data_service.dart';
+import 'package:onestop_dev/services/home_timetable_widget_service.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/widgets/timetable/timetable_tile.dart';
 import 'package:onestop_dev/widgets/ui/text_divider.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 part 'timetable_store.g.dart';
+
+enum ExamMode { none, upcoming, during }
 
 class TimetableStore = _TimetableStore with _$TimetableStore;
 
@@ -41,7 +42,16 @@ abstract class _TimetableStore with Store {
       await processTimetable();
       isProcessed = true;
     }
+    await _syncTimetableHomeWidget();
     return "Success";
+  }
+
+  Future<void> _syncTimetableHomeWidget() async {
+    try {
+      await HomeTimetableWidgetService.syncFullTimetable(allTimetableCourses);
+    } catch (_) {
+      // Widget sync is best effort and should never block timetable rendering.
+    }
   }
 
   //List of dates to show in the date slider
@@ -104,48 +114,171 @@ abstract class _TimetableStore with Store {
     isTimetable = !isTimetable;
   }
 
-  List<Widget> get homeTimeTable {
+  // 0: none, 1: upcoming (1 week before), 2: during exams
+  @observable
+  ExamMode examMode = ExamMode.none;
+
+  /// Whether to show cab sharing suggestion (during and up to 1 month after endsem exams)
+  @observable
+  bool showCabSuggestion = false;
+
+  @action
+  void setExamMode(ExamMode mode) {
+    examMode = mode;
+  }
+
+  // The backend stores exam times in IST but incorrectly appends 'Z' (UTC marker).
+  // We reinterpret UTC datetimes as local to get the correct IST time.
+  DateTime _parseExamDateTime(String dateStr) {
+    final dt = DateTime.parse(dateStr);
+    if (dt.isUtc) {
+      return DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
+    }
+    return dt;
+  }
+
+  /// Calculates examMode based on dates and returns the upcoming exams.
+  @action
+  void calculateExamMode() {
+    if (courses == null || courses!.courses == null || courses!.courses!.isEmpty) {
+      examMode = ExamMode.none;
+      showCabSuggestion = false;
+      return;
+    }
+
+    DateTime now = DateTime.now();
+    bool isMidsemDone = true;
+    bool isEndsemDone = true;
+
+    List<CourseModel> validMidsems = List.from(courses!.courses!);
+    validMidsems.removeWhere((e) => e.midsem == null || e.midsem == '');
+    if (validMidsems.isNotEmpty) {
+      validMidsems.sort((a, b) => _parseExamDateTime(a.midsem!).compareTo(_parseExamDateTime(b.midsem!)));
+      isMidsemDone = _parseExamDateTime(validMidsems.last.midsem!).isBefore(now);
+    }
+
+    List<CourseModel> validEndsems = List.from(courses!.courses!);
+    validEndsems.removeWhere((e) => e.endsem == null || e.endsem == '');
+    if (validEndsems.isNotEmpty) {
+      validEndsems.sort((a, b) => _parseExamDateTime(a.endsem!).compareTo(_parseExamDateTime(b.endsem!)));
+      isEndsemDone = _parseExamDateTime(validEndsems.last.endsem!).isBefore(now);
+    }
+
+    // Show cab suggestion during endsems and up to 1 month after last endsem
+    if (validEndsems.isNotEmpty) {
+      DateTime firstEnd = _parseExamDateTime(validEndsems.first.endsem!);
+      DateTime lastEnd = _parseExamDateTime(validEndsems.last.endsem!);
+      showCabSuggestion = now.isAfter(firstEnd) &&
+          now.isBefore(lastEnd.add(const Duration(days: 30)));
+    } else {
+      showCabSuggestion = false;
+    }
+
+    if (!isMidsemDone && validMidsems.isNotEmpty) {
+      DateTime firstMid = _parseExamDateTime(validMidsems.first.midsem!);
+      DateTime lastMid = _parseExamDateTime(validMidsems.last.midsem!);
+      if (now.isAfter(firstMid) && now.isBefore(lastMid.add(Duration(days: 1)))) {
+        examMode = ExamMode.during; // During exams
+      } else if (now.isBefore(firstMid) && firstMid.difference(now).inDays <= 7) {
+        examMode = ExamMode.upcoming; // Upcoming exams in 1 week
+      } else {
+        examMode = ExamMode.none;
+      }
+    } else if (!isEndsemDone && validEndsems.isNotEmpty) {
+      DateTime firstEnd = _parseExamDateTime(validEndsems.first.endsem!);
+      DateTime lastEnd = _parseExamDateTime(validEndsems.last.endsem!);
+      if (now.isAfter(firstEnd) && now.isBefore(lastEnd.add(Duration(days: 1)))) {
+        examMode = ExamMode.during; // During exams
+      } else if (now.isBefore(firstEnd) && firstEnd.difference(now).inDays <= 7) {
+        examMode = ExamMode.upcoming; // Upcoming exams in 1 week
+      } else {
+        examMode = ExamMode.none;
+      }
+    } else {
+      examMode = ExamMode.none;
+    }
+  }
+
+  String get upcomingExamType {
+    if (courses == null || courses!.courses == null) return 'Exams';
+    DateTime now = DateTime.now();
+    bool isMidsemDone = true;
+    List<CourseModel> validMidsems = List.from(courses!.courses!);
+    validMidsems.removeWhere((e) => e.midsem == null || e.midsem == '');
+    if (validMidsems.isNotEmpty) {
+      validMidsems.sort((a, b) => _parseExamDateTime(a.midsem!).compareTo(_parseExamDateTime(b.midsem!)));
+      if (_parseExamDateTime(validMidsems.last.midsem!).isAfter(now)) {
+        isMidsemDone = false;
+      }
+    }
+    return !isMidsemDone ? 'Midsem Exams' : 'Endsem Exams';
+  }
+
+  List<CourseModel> get homeUpcomingExams {
+    // If not calculated yet or user overridden via hardcoded var, we still return the list based on state
+    if (courses == null || courses!.courses == null) return [];
+
+    DateTime now = DateTime.now();
+    bool isMidsemDone = true;
+
+    List<CourseModel> validMidsems = List.from(courses!.courses!);
+    validMidsems.removeWhere((e) => e.midsem == null || e.midsem == '');
+    if (validMidsems.isNotEmpty) {
+      validMidsems.sort((a, b) => _parseExamDateTime(a.midsem!).compareTo(_parseExamDateTime(b.midsem!)));
+      if (_parseExamDateTime(validMidsems.last.midsem!).isAfter(now)) {
+        isMidsemDone = false;
+      }
+    }
+
+    List<CourseModel> validEndsems = List.from(courses!.courses!);
+    validEndsems.removeWhere((e) => e.endsem == null || e.endsem == '');
+    if (validEndsems.isNotEmpty) {
+      validEndsems.sort((a, b) => _parseExamDateTime(a.endsem!).compareTo(_parseExamDateTime(b.endsem!)));
+    }
+
+    List<CourseModel> activeExams = !isMidsemDone ? validMidsems : validEndsems;
+
+    // Only show exams that are upcoming or currently going on (within 3 hours of start)
+    activeExams.removeWhere((e) {
+      String dateStr = !isMidsemDone ? e.midsem! : e.endsem!;
+      DateTime d = _parseExamDateTime(dateStr);
+      // Remove if it's already finished (more than 3 hours past start time)
+      return d.isBefore(now.subtract(const Duration(hours: 3)));
+    });
+
+    return activeExams;
+  }
+
+  List<CourseModel> get homeTimeTable {
     DateTime current = DateTime.now();
     String day = DateFormat.EEEE().format(DateTime.now());
     if (current.weekday == 6 || current.weekday == 7) {
       CourseModel noClass = CourseModel();
       noClass.instructor = '';
       noClass.course = 'Happy Weekend !';
-      noClass.timings = {
-        day: "",
-      };
-      return List.filled(1, TimetableTile(course: noClass));
+      noClass.timings = {day: ""};
+      return [noClass];
     }
     current = dates[0];
     DateFormat dateFormat = DateFormat("hh:00 - hh:55 a");
-    List<Widget> l = [
-      ...allTimetableCourses[current.weekday - 1]
-          .morning
+    List<CourseModel> upcomingClasses = [
+      ...allTimetableCourses[current.weekday - 1].morning
           .where((e) => dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
           .toList()
-          .map((e) => TimetableTile(
-                course: e,
-                inHomePage: true,
-              )),
-      ...allTimetableCourses[current.weekday - 1]
-          .afternoon
+          .map((e) => e),
+      ...allTimetableCourses[current.weekday - 1].afternoon
           .where((e) => dateFormat.parse(e.timings![day]).hour >= DateTime.now().hour)
           .toList()
-          .map((e) => TimetableTile(
-                course: e,
-                inHomePage: true,
-              ))
+          .map((e) => e),
     ];
-    if (l.isEmpty) {
+    if (upcomingClasses.isEmpty) {
       CourseModel noClass = CourseModel();
       noClass.instructor = '';
       noClass.course = 'No upcoming classes';
-      noClass.timings = {
-        day: "",
-      };
-      l.add(TimetableTile(course: noClass));
+      noClass.timings = {day: ""};
+      upcomingClasses.add(noClass);
     }
-    return l;
+    return upcomingClasses;
   }
 
   @computed
@@ -153,19 +286,17 @@ abstract class _TimetableStore with Store {
     int timetableIndex = dates[selectedDate].weekday - 1;
     List<Widget> l = [
       ...allTimetableCourses[timetableIndex].morning.map((e) => TimetableTile(course: e)),
-      const TextDivider(
-        text: 'Lunch Break',
-      ),
-      ...allTimetableCourses[timetableIndex].afternoon.map((e) => TimetableTile(course: e))
+      const TextDivider(text: 'Lunch Break'),
+      ...allTimetableCourses[timetableIndex].afternoon.map((e) => TimetableTile(course: e)),
     ];
     if (l.length == 1) {
       l = [
         Center(
           child: Text(
             'No data found',
-            style: MyFonts.w500.size(14).setColor(kGrey8),
+            style: OTextStyle.labelSmall.copyWith(color: OColor.gray500),
           ),
-        )
+        ),
       ];
     }
     return l;
@@ -177,6 +308,7 @@ abstract class _TimetableStore with Store {
 
     //Lets fill the above now
     var courseList = await getCourses();
+    calculateExamMode();
 
     const workingDays = kworkingDays;
 

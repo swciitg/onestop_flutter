@@ -1,71 +1,103 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/elections/election_login.dart';
-import 'package:onestop_dev/pages/events_feed/events_appbar.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
+import 'package:lib_token/lib_token.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
 import 'package:onestop_dev/pages/services/gate_log_page.dart';
 import 'package:onestop_dev/pages/services/gc_scoreboard.dart';
 import 'package:onestop_dev/pages/services/irbs.dart';
-import 'package:onestop_dev/widgets/home/home_tab_tile.dart';
 
-List<HomeTabTile> serviceLinks = [
-  const HomeTabTile(
-    label: "Cab Sharing",
-    icon: FluentIcons.vehicle_bus_24_regular,
-    routeId: CabShare.id,
-  ),
-  const HomeTabTile(
-    label: 'IRBS',
-    icon: FluentIcons.calendar_edit_24_regular,
-    routeId: IRBSPage.id,
-  ),
-  const HomeTabTile(
-    label: "Complaints",
-    icon: FluentIcons.chat_help_24_regular,
-    routeId: ComplaintsPage.id,
-  ),
-  // const HomeTabTile(
-  //   label: "Election Register",
-  //   icon: FluentIcons.person_arrow_right_16_regular,
-  //   routeId: ElectionLoginWebView.id,
-  //   newBadge: true,
-  // ),
-  const HomeTabTile(label: "GateLog", icon: FluentIcons.door_20_regular, routeId: GateLogPage.id),
-  const HomeTabTile(
-    label: "Lost and Found",
-    icon: FluentIcons.document_search_24_regular,
-    routeId: LostFoundHome.id,
-  ),
-  const HomeTabTile(
-    label: "Buy and Sell",
-    icon: FluentIcons.money_24_regular,
-    routeId: BuySellHome.id,
-  ),
-  const HomeTabTile(
-    label: "GC Score Board",
-    icon: FluentIcons.trophy_24_regular,
-    routeId: Scoreboard.id,
-  ),
-  const HomeTabTile(
-    label: "Medical Section",
-    icon: FluentIcons.doctor_24_regular,
-    routeId: MedicalSection.id,
-    newBadge: false,
-  ),
-  const HomeTabTile(
-    label: "Contacts",
-    icon: FluentIcons.contact_card_group_24_regular,
-    routeId: ContactPage.id,
-  ),
-  const HomeTabTile(label: "LAN", icon: FluentIcons.desktop_24_regular, routeId: RouterPage.id),
-  // const HomeTabTile(
-  //   label: "Events",
-  //   icon: FluentIcons.bookmark_24_regular,
-  //   routeId: EventsScreenWrapper.id,
-  // ),
+class HomeServiceTileData {
+  final String label;
+  final String iconPath;
+  final String routeId;
+  final bool newBadge;
+
+  HomeServiceTileData({
+    required this.label,
+    required this.iconPath,
+    required this.routeId,
+    this.newBadge = false,
+  });
+
+  factory HomeServiceTileData.fromMap(Map<String, dynamic> map) {
+    return HomeServiceTileData(
+      label: map['label'],
+      iconPath: map['iconPath'],
+      routeId: map['routeId'],
+      newBadge: map['newBadge'] ?? false,
+    );
+  }
+}
+
+final electionEnd = DateTime(2026, 03, 25);
+
+List<Map<String, dynamic>> serviceLinksData = [
+  {
+    "label": "GateLog",
+    "iconPath": "assets/images/gate_log.svg",
+    "routeId": GateLogPage.id,
+  },
+  {
+    "label": "Library Token",
+    "iconPath": "assets/images/lib_token.svg",
+    "routeId": LibraryTokenScreen.id,
+    "newBadge": true,
+  },
+  // {
+  //   "label": "Election",
+  //   "iconPath": "assets/images/election.svg",
+  //   "routeId": ElectionLoginWebView.id,
+  //   "newBadge": DateTime.now().isBefore(electionEnd),
+  // },
+  {
+    "label": "Contacts",
+    "iconPath": "assets/images/contacts.svg",
+    "routeId": ContactPage.id,
+  },
+  {
+    "label": "Cab Sharing",
+    "iconPath": "assets/images/cab_sharing.svg",
+    "routeId": CabShare.id,
+  },
+  {
+    "label": "SAC Room Booking",
+    "iconPath": "assets/images/irbs.svg",
+    "routeId": IRBSPage.id,
+  },
+  {
+    "label": "Complaints",
+    "iconPath": "assets/images/complaints.svg",
+    "routeId": ComplaintsPage.id,
+  },
+  {
+    "label": "Lost and Found",
+    "iconPath": "assets/images/lnf.svg",
+    "routeId": LostFoundHome.id,
+  },
+  {
+    "label": "Buy and Sell",
+    "iconPath": "assets/images/bns.svg",
+    "routeId": BuySellHome.id,
+  },
+  {
+    "label": "GC Score Board",
+    "iconPath": "assets/images/gc.svg",
+    "routeId": Scoreboard.id,
+  },
+  {
+    "label": "Medical Section",
+    "iconPath": "assets/images/medical.svg",
+    "routeId": MedicalSection.id,
+    "newBadge": false,
+  },
+  {
+    "label": "LAN",
+    "iconPath": "assets/images/LAN.svg",
+    "routeId": RouterPage.id,
+  },
 ];

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
+import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events_feed/event_form_screen.dart';
 import 'package:onestop_dev/repository/events_api_repository.dart';
@@ -56,8 +57,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                   log("ERROR deleting event: $e");
                 }
 
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                navigatorKey.currentState?.pop();
+                navigatorKey.currentState?.pop();
               },
             ),
           ],

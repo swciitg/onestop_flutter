@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onestop_kit/onestop_kit.dart';
-
-import '../../globals/my_colors.dart';
-import '../../globals/my_fonts.dart';
+import 'package:onestop_ui/index.dart';
 
 class CustomDropDown extends StatelessWidget {
   final List<String> items;
@@ -32,74 +29,60 @@ class CustomDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final radius = borderRadius ?? BorderRadius.circular(OCornerRadius.m);
     return DropdownButtonFormField(
       validator: validator,
       menuMaxHeight: 400,
-      value: value,
+      initialValue: value,
       isExpanded: true,
       decoration: InputDecoration(
+        filled: true,
+        fillColor: OColor.white,
         hintText: hintText,
-        label: hintText == null
-            ? RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: label,
-                      style: MyFonts.w500.size(14).setColor(kTabText),
-                    ),
-                    isNecessary!
-                        ? TextSpan(
-                            text: ' * ',
-                            style: MyFonts.w500.size(16).setColor(kRed),
-                          )
-                        : const TextSpan(),
-                  ],
-                ),
-              )
-            : null,
-        labelStyle: MyFonts.w500.size(14).setColor(kTabText),
-        hintStyle: MyFonts.w500.size(14).setColor(kTabText),
-        errorStyle: MyFonts.w500,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        label:
+            hintText == null
+                ? RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: label,
+                        style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
+                      ),
+                      if (isNecessary!)
+                        TextSpan(
+                          text: ' *',
+                          style: OTextStyle.bodySmall.copyWith(color: Colors.red),
+                        ),
+                    ],
+                  ),
+                )
+                : null,
+        labelStyle: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
+        hintStyle: OTextStyle.bodySmall.copyWith(color: OColor.gray400),
+        errorStyle: OTextStyle.labelXSmall.copyWith(color: Colors.red),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: kfocusColor, width: 1),
-          borderRadius: borderRadius ??
-              const BorderRadius.all(
-                Radius.circular(4),
-              ),
+          borderSide: BorderSide(color: OColor.green600, width: 1.5),
+          borderRadius: radius,
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: kfocusColor, width: 1),
-          borderRadius: borderRadius ??
-              const BorderRadius.all(
-                Radius.circular(4),
-              ),
+          borderSide: BorderSide(color: OColor.gray200, width: 1),
+          borderRadius: radius,
         ),
         errorBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.red, width: 1),
-          borderRadius: borderRadius ??
-              const BorderRadius.all(
-                Radius.circular(4),
-              ),
+          borderRadius: radius,
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.red, width: 1),
-          borderRadius: borderRadius ??
-              const BorderRadius.all(
-                Radius.circular(4),
-              ),
+          borderSide: const BorderSide(color: Colors.red, width: 1.5),
+          borderRadius: radius,
         ),
       ),
-      dropdownColor: kBackground,
+      dropdownColor: OColor.white,
       isDense: true,
-      icon: icon ??
-          const Icon(
-            Icons.arrow_drop_down,
-            size: 28,
-          ),
-      elevation: 16,
-      style: MyFonts.w500.size(14).setColor(kWhite),
+      icon: icon ?? Icon(Icons.arrow_drop_down, size: 28, color: OColor.gray600),
+      elevation: 4,
+      style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
       onChanged: (String? value) {
         if (index != null) {
           onChanged!(value, index);
@@ -107,12 +90,10 @@ class CustomDropDown extends StatelessWidget {
           onChanged!(value);
         }
       },
-      items: items.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+      items:
+          items.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(value: value, child: Text(value));
+          }).toList(),
     );
   }
 }

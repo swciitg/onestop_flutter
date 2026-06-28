@@ -2,14 +2,11 @@ import 'dart:collection';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/models/contacts/contact_model.dart';
 import 'package:onestop_dev/pages/contact/contact_detail.dart';
 import 'package:onestop_dev/services/data_service.dart';
 import 'package:onestop_dev/stores/contact_store.dart';
-import 'package:onestop_kit/onestop_kit.dart';
-import 'package:provider/provider.dart';
+import 'package:onestop_ui/index.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ContactPageButton extends StatefulWidget {
@@ -32,12 +29,12 @@ class _ContactPageButtonState extends State<ContactPageButton> {
           return Expanded(
             flex: 106,
             child: Shimmer.fromColors(
-              highlightColor: lGrey,
-              baseColor: kHomeTile,
+              highlightColor: OColor.gray200,
+              baseColor: OColor.gray100,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: lGrey,
+                  color: OColor.gray200,
                 ),
                 height: 100,
               ),
@@ -49,30 +46,21 @@ class _ContactPageButtonState extends State<ContactPageButton> {
           flex: 106,
           child: GestureDetector(
             onTap: () {
-              ContactModel contact = ContactModel(
-                  sectionName: widget.label,
-                  contacts: []); //case when section is not in db
+              ContactModel contact = ContactModel(sectionName: widget.label, contacts: []);
               if (widget.label == "Gymkhana" && people['Gymkhana'] != null) {
                 contact = people['Gymkhana']!;
-              } else if (widget.label == "Emergency" &&
-                  people['Emergency'] != null) {
+              } else if (widget.label == "Emergency" && people['Emergency'] != null) {
                 contact = people['Emergency']!;
-              } else if (widget.label == 'Transport' &&
-                  people['Transport'] != null) {
+              } else if (widget.label == 'Transport' && people['Transport'] != null) {
                 contact = people['Transport']!;
               }
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return Provider<ContactStore>.value(
-                  value: widget.store,
-                  child: ContactDetailsPage(contact: contact, title: 'Campus'),
-                );
-              }));
+              showContactCategorySheet(context, contactModel: contact, contactStore: widget.store);
             },
             child: Container(
               height: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: lGrey,
+                color: OColor.gray100,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -81,14 +69,11 @@ class _ContactPageButtonState extends State<ContactPageButton> {
                     (widget.label == 'Emergency')
                         ? FluentIcons.warning_24_filled
                         : (widget.label == 'Transport')
-                            ? FluentIcons.vehicle_car_24_filled
-                            : FluentIcons.people_community_24_filled,
-                    color: kGrey8,
+                        ? FluentIcons.vehicle_car_24_filled
+                        : FluentIcons.people_community_24_filled,
+                    color: OColor.gray600,
                   ),
-                  Text(
-                    widget.label,
-                    style: MyFonts.w600.size(10).setColor(kWhite),
-                  ),
+                  Text(widget.label, style: OTextStyle.labelXSmall.copyWith(color: OColor.gray800)),
                 ],
               ),
             ),

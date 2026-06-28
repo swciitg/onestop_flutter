@@ -1,9 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/functions/utility/pick_file.dart';
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:onestop_ui/index.dart';
 
 // First Class: UploadButton
 class UploadButton extends StatefulWidget {
@@ -21,50 +19,48 @@ class _UploadButtonState extends State<UploadButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: uploading
-          ? null
-          : () async {
-              String? fileName = await uploadFile(
+      onTap:
+          uploading
+              ? null
+              : () async {
+                String? fileName = await uploadFile(
                   context,
                   () => setState(() {
-                        uploading = true;
-                      }),
-                  widget.endpoint);
-              widget.callBack(fileName);
-              setState(() {
-                uploading = false;
-              });
-            },
-      child: Padding(
-        padding: const EdgeInsets.all(3.0),
-        child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
-                border: Border.all(color: kGrey2),
-                color: kBackground,
-                borderRadius: BorderRadius.circular(30)),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Upload",
-                      style: MyFonts.w600.size(14).setColor(kWhite),
-                    ),
+                    uploading = true;
+                  }),
+                  widget.endpoint,
+                );
+                widget.callBack(fileName);
+                setState(() {
+                  uploading = false;
+                });
+              },
+      child: Container(
+        height: 36,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(OCornerRadius.l),
+          border: Border.all(color: OColor.gray300),
+        ),
+        child:
+            uploading
+                ? Center(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2, color: OColor.green600),
                   ),
-                  uploading
-                      ? const CircularProgressIndicator(
-                          color: lBlue2,
-                        )
-                      : const Icon(
-                          FluentIcons.arrow_upload_16_regular,
-                          color: kWhite,
-                        ),
-                ],
-              ),
-            )),
+                )
+                : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(FluentIcons.add_16_regular, size: 16, color: OColor.green600),
+                    const SizedBox(width: OSpacing.xxs),
+                    Text(
+                      'Add Photo',
+                      style: OTextStyle.labelSmall.copyWith(color: OColor.green600),
+                    ),
+                  ],
+                ),
       ),
     );
   }
@@ -85,49 +81,47 @@ class _UploadButton2State extends State<UploadButton2> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: uploading
-          ? null
-          : () async {
-              String? fileName = await uploadFile2(
+      onTap:
+          uploading
+              ? null
+              : () async {
+                String? fileName = await uploadFile2(
                   context,
                   () => setState(() {
-                        uploading = true;
-                      }));
-              widget.callBack(fileName);
-              setState(() {
-                uploading = false;
-              });
-            },
-      child: Padding(
-        padding: const EdgeInsets.all(3.0),
-        child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
-                border: Border.all(color: kGrey2),
-                color: kBackground,
-                borderRadius: BorderRadius.circular(30)),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Upload File",
-                      style: MyFonts.w600.size(14).setColor(kWhite),
-                    ),
+                    uploading = true;
+                  }),
+                );
+                widget.callBack(fileName);
+                setState(() {
+                  uploading = false;
+                });
+              },
+      child: Container(
+        height: 36,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(OCornerRadius.l),
+          border: Border.all(color: OColor.gray300),
+        ),
+        child:
+            uploading
+                ? Center(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2, color: OColor.green600),
                   ),
-                  uploading
-                      ? const CircularProgressIndicator(
-                          color: lBlue2,
-                        )
-                      : const Icon(
-                          FluentIcons.arrow_upload_16_regular,
-                          color: kWhite,
-                        ),
-                ],
-              ),
-            )),
+                )
+                : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(FluentIcons.arrow_upload_16_regular, size: 16, color: OColor.green600),
+                    const SizedBox(width: OSpacing.xxs),
+                    Text(
+                      'Upload File',
+                      style: OTextStyle.labelSmall.copyWith(color: OColor.green600),
+                    ),
+                  ],
+                ),
       ),
     );
   }

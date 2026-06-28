@@ -1,97 +1,81 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
-import 'package:onestop_dev/globals/my_colors.dart';
-import 'package:onestop_dev/globals/my_fonts.dart';
-import 'package:onestop_kit/onestop_kit.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:onestop_ui/index.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomeTabTile extends StatelessWidget {
-  const HomeTabTile(
-      {super.key,
-      required this.label,
-      this.iconCode,
-      this.icon,
-      this.routeId,
-      this.link,
-      this.newBadge = false});
+class HomeServiceTile extends StatelessWidget {
+  const HomeServiceTile({
+    super.key,
+    required this.label,
+    required this.iconPath,
+    this.routeId,
+    this.link,
+    this.newBadge = false,
+  });
 
   final String label;
   final String? link;
-  final IconData? icon;
-  final int? iconCode;
+  final String iconPath;
   final String? routeId;
   final bool newBadge;
 
   Future<void> launchURL(String url) async {
     final Uri uri = Uri.parse(url);
-    if (!await launchUrl(
-      uri,
-      mode: LaunchMode.externalApplication,
-    )) {
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       throw "Can not launch url";
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return newBadge ? buildBadge(context) : buildTile(context);
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        if (link != null) {
+          launchURL(link!);
+        } else {
+          Navigator.pushNamed(context, routeId ?? "/");
+        }
+      },
+      child: newBadge ? buildBadge(context) : buildTile(context),
+    );
   }
 
   Badge buildBadge(BuildContext context) {
     return Badge(
-      position: BadgePosition.topEnd(top: 3),
+      position: BadgePosition.topEnd(top: 8, end: 8),
       badgeStyle: BadgeStyle(
-        badgeColor: kBadgeColor,
-        shape: BadgeShape.square,
-        borderRadius: BorderRadius.circular(8),
+        badgeColor: OColor.blue500,
+        shape: BadgeShape.circle,
+        borderRadius: BorderRadius.circular(1),
       ),
-      badgeContent: Text(
-        'New',
-        style: MyFonts.w600.setColor(kGrey9).size(10),
-      ),
+      badgeContent: SizedBox(height: 2, width: 2),
       child: buildTile(context),
     );
   }
 
-  FittedBox buildTile(BuildContext context) {
-    return FittedBox(
-      child: GestureDetector(
-        onTap: () {
-          if (link != null) {
-            launchURL(link!);
-          } else {
-            Navigator.pushNamed(context, routeId ?? "/");
-          }
-        },
-        child: Container(
-          //margin: EdgeInsets.all(4),
-          height: 150,
-          width: 150,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50), color: lGrey),
-          padding: const EdgeInsets.all(4.0),
-          child: Column(
-            // Replace with a Row for horizontal icon + text
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              const SizedBox(
-                height: 8,
+  Widget buildTile(BuildContext context) {
+    return SizedBox(
+      height: 150,
+      width: 150,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SizedBox(height: 8),
+          Expanded(child: SvgPicture.asset(iconPath, width: 48, height: 48, fit: BoxFit.contain)),
+          Expanded(
+            child: OText(
+              text: label,
+              style: OTextStyle.bodySmall.copyWith(
+                color: OColor.gray800,
+                fontWeight: FontWeight.w500,
               ),
-              Expanded(
-                child: Icon(
-                  icon ?? IconData(iconCode!, fontFamily: 'MaterialIcons'),
-                  size: 40,
-                  color: lBlue,
-                ),
-              ),
-              Expanded(
-                child: Text(label,
-                    style: MyFonts.w500.size(23).setColor(lBlue),
-                    textAlign: TextAlign.center),
-              ),
-            ],
+              maxLines: 2,
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
