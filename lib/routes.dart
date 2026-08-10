@@ -23,7 +23,7 @@ import 'package:onestop_dev/pages/services/irbs.dart';
 import 'package:onestop_dev/pages/timetable/timetable_page.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
 // import 'package:path/path.dart';
-
+import 'package:onestop_dev/pages/profile/profile_page.dart';
 final routes = {
   BlockedPage.id: (context) => const BlockedPage(),
   IRBSPage.id: (context) => const IRBSPage(),
@@ -49,4 +49,5 @@ final routes = {
   TimetablePage.id: (context) => const TimetablePage(),
   EventsScreenWrapper.id: (context) => const EventsScreenWrapper(),
   LibraryTokenScreen.id: (context) => const LibraryTokenScreen(),
+  ProfilePage.id: (context) => const ProfilePage(),
 };
