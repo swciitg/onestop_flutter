@@ -18,6 +18,28 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
+// home_widget doesn't set an explicit Kotlin JVM target (defaults to 1.8),
+// which fails to link against androidx.glance, compiled with a newer JVM
+// target. Bump just this module's Kotlin target to match the app's (17).
+subprojects {
+    if (project.name != "home_widget") return
+    afterEvaluate {
+        android.compileOptions {
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
+        }
+        tasks.matching { it.name.toLowerCase().contains("kotlin") && it.name.toLowerCase().contains("compile") }.configureEach {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
+        }
+        tasks.withType(JavaCompile).configureEach {
+            sourceCompatibility = "17"
+            targetCompatibility = "17"
+        }
+    }
+}
+
 tasks.register("clean", Delete) {
     delete getLayout().getBuildDirectory()
 }
