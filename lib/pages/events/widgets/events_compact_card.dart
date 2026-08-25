@@ -72,7 +72,7 @@ class EventsCompactCard extends StatelessWidget {
             ),
             // Feedback button
             if (showFeedbackButton) ...[
-              const SizedBox(height: OSpacing.l),
+              const SizedBox(height: OSpacing.s),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -86,31 +86,32 @@ class EventsCompactCard extends StatelessWidget {
                   GestureDetector(
                     onTap: onFeedbackTap,
                     child: Container(
-                      width: double.infinity,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(OCornerRadius.m),
-                        border: Border.all(color: OColor.gray300),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          OText(
-                            text: 'Submit a Feedback',
-                            style: OTextStyle.labelMedium.copyWith(
+                        width: double.infinity,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(OCornerRadius.m),
+                          border: Border.all(color: OColor.gray300),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            OText(
+                              text: 'Submit a Feedback',
+                              style: OTextStyle.labelMedium.copyWith(
+                                color: OColor.green600,
+                              ),
+                            ),
+                            const SizedBox(width: OSpacing.xxs),
+                            Icon(
+                              FluentIcons.chat_24_regular,
+                              size: 16,
                               color: OColor.green600,
                             ),
-                          ),
-                          const SizedBox(width: OSpacing.xxs),
-                          Icon(
-                            FluentIcons.chat_24_regular,
-                            size: 16,
-                            color: OColor.green600,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  
                 ],
               ),
             ],

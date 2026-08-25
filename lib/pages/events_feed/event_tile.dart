@@ -48,6 +48,8 @@ class EventTile extends StatelessWidget {
                         children: [
                           Text(
                             model.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             style: MyFonts.w700
                                 .copyWith(color: kWhite2, fontSize: 15),
                           ),
@@ -99,18 +101,21 @@ class EventTile extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF3E4758),
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 2.0, horizontal: 6.0),
-                                child: Text(
-                                  model.clubOrg,
-                                  style: MyFonts.w500.copyWith(
-                                      color: const Color(0xFF76ACFF),
-                                      fontSize: 13),
+                              Flexible(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF3E4758),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 2.0, horizontal: 6.0),
+                                  child: Text(
+                                    model.clubOrg,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: MyFonts.w500.copyWith(
+                                        color: const Color(0xFF76ACFF),
+                                        fontSize: 13),
+                                  ),
                                 ),
                               ),
                               const SizedBox(
@@ -145,7 +150,7 @@ class EventTile extends StatelessWidget {
             ),
             Positioned(
               top: 10,
-              right: 150, // Adjust padding as needed
+              left: 10,
               child: isAdmin
                   ? InkWell(
                       onTap: () async {

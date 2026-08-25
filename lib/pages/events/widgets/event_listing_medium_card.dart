@@ -76,7 +76,6 @@ class EventListingMediumCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: OSpacing.xs),
                   // Avatar group + going count
                   Row(
                     children: [

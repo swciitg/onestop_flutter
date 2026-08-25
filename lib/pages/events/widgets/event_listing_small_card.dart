@@ -38,50 +38,52 @@ class EventListingSmallCard extends StatelessWidget {
             const SizedBox(width: OSpacing.s),
             // Content
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Event name
-                  OText(
-                    text: event.title,
-                    style: OTextStyle.bodyMedium.copyWith(
-                      color: OColor.gray800,
+              child: ClipRect(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Event name
+                    OText(
+                      text: event.title,
+                      style: OTextStyle.bodyMedium.copyWith(
+                        color: OColor.gray800,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (isGoing) ...[
-                    const SizedBox(height: OSpacing.xxs),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          FluentIcons.checkmark_16_filled,
-                          size: 16,
-                          color: OColor.green600,
-                        ),
-                        const SizedBox(width: OSpacing.xxs),
-                        OText(
-                          text: "I'M GOING",
-                          style: OTextStyle.labelSmall.copyWith(
+                    if (isGoing) ...[
+                      const SizedBox(height: OSpacing.xxs),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            FluentIcons.checkmark_16_filled,
+                            size: 16,
                             color: OColor.green600,
                           ),
-                        ),
-                      ],
+                          //const SizedBox(width: OSpacing.xxs),
+                          OText(
+                            text: "I'M GOING",
+                            style: OTextStyle.labelSmall.copyWith(
+                              color: OColor.green600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                    //const SizedBox(height: OSpacing.xxs),
+                    // Time and location
+                    OText(
+                      text: event.venue,
+                      style: OTextStyle.bodySmall.copyWith(
+                        color: OColor.gray600,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
-                  const SizedBox(height: OSpacing.xxs),
-                  // Time and location
-                  OText(
-                    text: event.venue,
-                    style: OTextStyle.bodySmall.copyWith(
-                      color: OColor.gray600,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                ),
               ),
             ),
             const SizedBox(width: OSpacing.xs),

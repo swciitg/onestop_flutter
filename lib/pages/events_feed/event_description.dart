@@ -157,85 +157,106 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.calendar_today,
-                            size: 20,
-                            color: kWhite,
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            DateFormat('dd/MM/yyyy').format(widget.event.startDateTime),
-                            style: MyFonts.w500.copyWith(color: kWhite),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.location_on,
-                            size: 20,
-                            color: kWhite,
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            widget.event.venue,
-                            style: MyFonts.w500.copyWith(color: kWhite),
-                          )
-                        ],
-                      )
-                    ],
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.calendar_today,
+                              size: 20,
+                              color: kWhite,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Flexible(
+                              child: Text(
+                                DateFormat('dd/MM/yyyy').format(widget.event.startDateTime),
+                                style: MyFonts.w500.copyWith(color: kWhite),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.location_on,
+                              size: 20,
+                              color: kWhite,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Flexible(
+                              child: Text(
+                                widget.event.venue,
+                                style: MyFonts.w500.copyWith(color: kWhite),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.access_time_filled,
-                            size: 20,
-                            color: kWhite,
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            "${DateFormat('hh:mm a').format(widget.event.startDateTime)} - ${DateFormat('hh:mm a').format(widget.event.endDateTime)}",
-                            style: MyFonts.w500.copyWith(color: kWhite),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.people_alt_rounded,
-                            size: 20,
-                            color: kWhite,
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            "${widget.event.clubOrg} Club",
-                            style: MyFonts.w500.copyWith(color: kWhite),
-                          )
-                        ],
-                      )
-                    ],
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.access_time_filled,
+                              size: 20,
+                              color: kWhite,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Flexible(
+                              child: Text(
+                                "${DateFormat('hh:mm a').format(widget.event.startDateTime)} - ${DateFormat('hh:mm a').format(widget.event.endDateTime)}",
+                                style: MyFonts.w500.copyWith(color: kWhite),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.people_alt_rounded,
+                              size: 20,
+                              color: kWhite,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Flexible(
+                              child: Text(
+                                "${widget.event.clubOrg} Club",
+                                style: MyFonts.w500.copyWith(color: kWhite),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
