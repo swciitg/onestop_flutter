@@ -9,6 +9,7 @@ import 'package:onestop_dev/pages/events/widgets/event_search_bar.dart';
 import 'package:onestop_dev/pages/events/widgets/event_toggle_tiles.dart';
 import 'package:onestop_dev/pages/events/widgets/events_compact_card.dart';
 import 'package:onestop_dev/pages/events/widgets/section_header.dart';
+import 'package:onestop_dev/pages/events/widgets/event_popup.dart';
 import 'package:onestop_ui/index.dart';
 
 /// The new Events Homepage screen, matching the Figma design.
@@ -167,12 +168,11 @@ class EventsHomePage extends StatelessWidget {
             itemCount: events.length,
             separatorBuilder: (_, __) => const SizedBox(width: OSpacing.s),
             itemBuilder: (context, index) {
+              final event = events[index];
               return EventListingSmallCard(
-                event: events[index],
+                event: event,
                 isGoing: index == 0,
-                onTap: () {
-                  // TODO: Navigate to event details
-                },
+                onTap: () => showEventPopup(context, event: event),
               );
             },
           ),
@@ -206,12 +206,11 @@ class EventsHomePage extends StatelessWidget {
             itemCount: events.length,
             separatorBuilder: (_, __) => const SizedBox(width: OSpacing.s),
             itemBuilder: (context, index) {
+              final event = events[index];
               return EventListingMediumCard(
-                event: events[index],
+                event: event,
                 goingCount: 350,
-                onTap: () {
-                  // TODO: Navigate to event details
-                },
+                onTap: () => showEventPopup(context, event: event),
               );
             },
           ),
@@ -238,18 +237,20 @@ class EventsHomePage extends StatelessWidget {
           ),
           const SizedBox(height: OSpacing.s),
           ...events.take(3).map((event) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: OSpacing.s),
-              child: EventListingLargeCard(
-                event: event,
-                interestedCount: 350,
-                onTap: () {
-                  // TODO: Navigate to event details
-                },
-                onGoingTap: () {
-                  // TODO: Toggle going status
-                },
-              ),
+            return Builder(
+              builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: OSpacing.s),
+                  child: EventListingLargeCard(
+                    event: event,
+                    interestedCount: 350,
+                    onTap: () => showEventPopup(context, event: event),
+                    onGoingTap: () {
+                      // TODO: Toggle going status
+                    },
+                  ),
+                );
+              },
             );
           }),
         ],
@@ -278,12 +279,11 @@ class EventsHomePage extends StatelessWidget {
             itemCount: events.length,
             separatorBuilder: (_, __) => const SizedBox(width: OSpacing.s),
             itemBuilder: (context, index) {
+              final event = events[index];
               return EventsCompactCard(
-                event: events[index],
+                event: event,
                 showFeedbackButton: true,
-                onTap: () {
-                  // TODO: Navigate to event details
-                },
+                onTap: () => showEventPopup(context, event: event),
                 onFeedbackTap: () {
                   // TODO: Open feedback form
                 },
@@ -308,18 +308,20 @@ class EventsHomePage extends StatelessWidget {
           ),
           const SizedBox(height: OSpacing.s),
           ...events.take(3).map((event) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: OSpacing.s),
-              child: EventListingLargeCard(
-                event: event,
-                interestedCount: 350,
-                onTap: () {
-                  // TODO: Navigate to event details
-                },
-                onGoingTap: () {
-                  // TODO: Toggle going status
-                },
-              ),
+            return Builder(
+              builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: OSpacing.s),
+                  child: EventListingLargeCard(
+                    event: event,
+                    interestedCount: 350,
+                    onTap: () => showEventPopup(context, event: event),
+                    onGoingTap: () {
+                      // TODO: Toggle going status
+                    },
+                  ),
+                );
+              },
             );
           }),
         ],
