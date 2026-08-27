@@ -38,10 +38,13 @@ class _EventsScreenWrapperState extends State<EventsScreenWrapper> {
 
   Future<bool> _checkIfUserIsAdminLogic() async {
     try {
-      final email = LoginStore.userData['outlookEmail'];
+      final email = LoginStore.userData['outlookEmail']?.toString() ?? '';
       final admin = await EventsAPIRepository().getAdmins();
       if (admin == null) return false;
-      bool isAdmin = admin.getUserClubs(email).isNotEmpty;
+      if (mounted) {
+        context.read<EventsStore>().setAdmin(admin);
+      }
+      bool isAdmin = email.isNotEmpty && admin.getUserClubs(email).isNotEmpty;
       return isAdmin;
     } catch (e) {
       log("Error checking admin status: $e");

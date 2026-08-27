@@ -1,13 +1,13 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
+import 'package:onestop_dev/pages/events/utils/event_formatters.dart';
+import 'package:onestop_dev/pages/events/widgets/components/event_avatar_stack.dart';
+import 'package:onestop_dev/pages/events/widgets/components/event_network_image.dart';
 import 'package:onestop_ui/index.dart';
 
 /// Medium event card used in the "Trending Events" horizontal scroll.
 ///
-/// Shows an image preview, event title, date/time, location,
-/// avatar group, and "+N Going" count.
+/// Composed of [EventNetworkImage] and [EventAvatarStack].
 class EventListingMediumCard extends StatelessWidget {
   final EventModel event;
   final int goingCount;
@@ -22,6 +22,10 @@ class EventListingMediumCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final safeCount = goingCount > 0 ? goingCount : 0;
+    final compactGoing = EventFormatters.formatCount(safeCount);
+    final imageUrl = event.compressedImageUrl ?? event.imageUrl;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -36,8 +40,15 @@ class EventListingMediumCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Image preview
-            _buildImagePreview(),
+            // Image preview with progressive shimmer & caching
+            EventNetworkImage.banner(
+              imageUrl: imageUrl,
+              aspectRatio: 16 / 9,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(OCornerRadius.s),
+                topRight: Radius.circular(OCornerRadius.s),
+              ),
+            ),
             // Content
             Padding(
               padding: const EdgeInsets.all(OSpacing.s),
@@ -45,10 +56,10 @@ class EventListingMediumCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Title
-                  SizedBox(
-                    height: 40,
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: 36),
                     child: OText(
-                      text: event.title,
+                      text: EventFormatters.sanitizeText(event.title),
                       style: OTextStyle.labelMedium.copyWith(
                         color: OColor.gray800,
                       ),
@@ -59,7 +70,10 @@ class EventListingMediumCard extends StatelessWidget {
                   const SizedBox(height: OSpacing.xs),
                   // Date/time
                   OText(
-                    text: _formatDateTime(),
+                    text: EventFormatters.formatDateTimeRange(
+                      event.startDateTime,
+                      event.endDateTime,
+                    ),
                     style: OTextStyle.labelMedium.copyWith(
                       color: OColor.gray600,
                     ),
@@ -69,25 +83,31 @@ class EventListingMediumCard extends StatelessWidget {
                   const SizedBox(height: OSpacing.xxs),
                   // Location
                   OText(
-                    text: event.venue,
+                    text: EventFormatters.sanitizeVenue(event.venue),
                     style: OTextStyle.labelMedium.copyWith(
                       color: OColor.gray600,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  // Avatar group + going count
+                  const SizedBox(height: OSpacing.xs),
+                  // Avatar stack + going count
                   Row(
                     children: [
-                      _buildAvatarGroup(),
-                      const SizedBox(width: OSpacing.xxs),
-                      if (goingCount > 0)
-                        OText(
-                          text: '+$goingCount GOING',
-                          style: OTextStyle.labelSmall.copyWith(
-                            color: OColor.blue500,
+                      const EventAvatarStack(count: 3, size: 24, overlap: 20),
+                      if (safeCount > 0) ...[
+                        const SizedBox(width: OSpacing.xxs),
+                        Flexible(
+                          child: OText(
+                            text: '+$compactGoing GOING',
+                            style: OTextStyle.labelSmall.copyWith(
+                              color: OColor.blue500,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
+                      ],
                     ],
                   ),
                 ],
@@ -97,78 +117,5 @@ class EventListingMediumCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget _buildImagePreview() {
-    final imageUrl = event.compressedImageUrl ?? event.imageUrl;
-    if (imageUrl != null) {
-      return AspectRatio(
-        aspectRatio: 358 / 201,
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(OCornerRadius.s),
-            topRight: Radius.circular(OCornerRadius.s),
-          ),
-          child: Image.network(
-            imageUrl,
-            fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => _imagePlaceholder(),
-          ),
-        ),
-      );
-    }
-    return AspectRatio(
-      aspectRatio: 358 / 201,
-      child: _imagePlaceholder(),
-    );
-  }
-
-  Widget _imagePlaceholder() {
-    return Container(
-      color: OColor.gray200,
-      child: Center(
-        child: Icon(
-          FluentIcons.image_24_regular,
-          size: 48,
-          color: OColor.gray400,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAvatarGroup() {
-    return SizedBox(
-      width: 64,
-      height: 24,
-      child: Stack(
-        children: List.generate(3, (index) {
-          return Positioned(
-            left: index * 20.0,
-            child: Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                color: OColor.gray300,
-                shape: BoxShape.circle,
-                border: Border.all(color: OColor.white, width: 2),
-              ),
-              child: Icon(
-                FluentIcons.person_12_regular,
-                size: 12,
-                color: OColor.gray600,
-              ),
-            ),
-          );
-        }),
-      ),
-    );
-  }
-
-  String _formatDateTime() {
-    final dateFormat = DateFormat('dd MMM');
-    final timeFormat = DateFormat('h:mm a');
-    return '${dateFormat.format(event.startDateTime)}, '
-        '${timeFormat.format(event.startDateTime)} - '
-        '${timeFormat.format(event.endDateTime)}';
   }
 }

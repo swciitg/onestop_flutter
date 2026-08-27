@@ -25,55 +25,55 @@ class _EventsScreenState extends State<EventsScreen> with TickerProviderStateMix
 
   final Map<String, PagingController<int, EventModel>> _pagingControllers = {
     'Saved': PagingController(
-      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Saved'),
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Saved', page: pageKey),
       getNextPageKey: (state) {
         return state.lastPageIsEmpty ? null : state.nextIntPageKey;
       },
     ),
     'Sports': PagingController(
-      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Sports'),
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Sports', page: pageKey),
       getNextPageKey: (state) {
         return state.lastPageIsEmpty ? null : state.nextIntPageKey;
       },
     ),
     'All': PagingController(
-      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('All'),
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('All', page: pageKey),
       getNextPageKey: (state) {
         return state.lastPageIsEmpty ? null : state.nextIntPageKey;
       },
     ),
     'Technical': PagingController(
-      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Technical'),
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Technical', page: pageKey),
       getNextPageKey: (state) {
         return state.lastPageIsEmpty ? null : state.nextIntPageKey;
       },
     ),
     'Cultural': PagingController(
-      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Cultural'),
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Cultural', page: pageKey),
       getNextPageKey: (state) {
         return state.lastPageIsEmpty ? null : state.nextIntPageKey;
       },
     ),
     'Academic': PagingController(
-      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Academic'),
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Academic', page: pageKey),
       getNextPageKey: (state) {
         return state.lastPageIsEmpty ? null : state.nextIntPageKey;
       },
     ),
     'Welfare': PagingController(
-      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Welfare'),
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Welfare', page: pageKey),
       getNextPageKey: (state) {
         return state.lastPageIsEmpty ? null : state.nextIntPageKey;
       },
     ),
     'SWC': PagingController(
-      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('SWC'),
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('SWC', page: pageKey),
       getNextPageKey: (state) {
         return state.lastPageIsEmpty ? null : state.nextIntPageKey;
       },
     ),
     'Miscellaneous': PagingController(
-      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Miscellaneous'),
+      fetchPage: (pageKey) => EventsAPIRepository().getEventPage('Miscellaneous', page: pageKey),
       getNextPageKey: (state) {
         return state.lastPageIsEmpty ? null : state.nextIntPageKey;
       },

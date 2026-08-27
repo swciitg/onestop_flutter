@@ -6,6 +6,7 @@ import 'package:onestop_dev/globals/my_colors.dart';
 import 'package:onestop_dev/globals/my_fonts.dart';
 import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
+import 'package:onestop_dev/pages/events/widgets/components/event_network_image.dart';
 import 'package:onestop_dev/pages/events_feed/event_form_screen.dart';
 import 'package:onestop_dev/repository/events_api_repository.dart';
 
@@ -118,12 +119,12 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                         ),
                       ],
                     ),
-                    child: ClipRRect(
+                    child: EventNetworkImage(
+                      imageUrl: widget.event.imageUrl,
+                      width: double.infinity,
+                      height: 400,
                       borderRadius: BorderRadius.circular(10.0),
-                      child: Image.network(
-                        widget.event.imageUrl ?? "",
-                        fit: BoxFit.cover,
-                      ),
+                      fit: BoxFit.cover,
                     ),
                   ),
                   if (widget.isAdmin)
@@ -197,7 +198,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                             ),
                             Flexible(
                               child: Text(
-                                widget.event.venue,
+                                widget.event.venue ?? '',
                                 style: MyFonts.w500.copyWith(color: kWhite),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -260,24 +261,12 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                   )
                 ],
               ),
-              /*Column(
-                children: [
-                  _buildEventDetail("Date",
-                      "${widget.event.startDateTime.day}/${widget.event.startDateTime.month}/${widget.event.startDateTime.year}"),
-                  const SizedBox(width: 5.0),
-                  _buildEventDetail("Time",
-                      "${widget.event.startDateTime.hour}:${widget.event.startDateTime.minute} - ${(widget.event.startDateTime.add(const Duration(hours: 1)).hour).toString().padLeft(2, '0')}:${widget.event.startDateTime.minute.toString().padLeft(2, '0')}"),
-                ],
-              ),
-              _buildEventDetail("Venue", widget.event.venue),
-              //_buildEventDetail("Contact Details", widget.event.contactNumber),
-              _buildEventDetail("Conducted by", widget.event.clubOrg),*/
               const SizedBox(height: 10.0),
               // Event Description
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(
-                  widget.event.description,
+                  widget.event.description ?? '',
                   style: MyFonts.w500.copyWith(color: kWhite, fontSize: 15),
                 ),
               ),

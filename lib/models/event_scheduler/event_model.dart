@@ -1,133 +1,331 @@
 import 'dart:convert';
 
+class EventGuest {
+  final String? name;
+  final List<String> socials;
+  final String? position;
+  final String? photo;
+
+  EventGuest({
+    this.name,
+    this.socials = const [],
+    this.position,
+    this.photo,
+  });
+
+  factory EventGuest.fromJson(Map<String, dynamic> json) => EventGuest(
+        name: json['name'] as String?,
+        socials: (json['socials'] as List<dynamic>?)
+                ?.map((e) => e.toString())
+                .toList() ??
+            const [],
+        position: json['position'] as String?,
+        photo: json['photo'] as String?,
+      );
+
+  Map<String, dynamic> toJson() => {
+        if (name != null) 'name': name,
+        'socials': socials,
+        if (position != null) 'position': position,
+        if (photo != null) 'photo': photo,
+      };
+}
+
+class EventPOC {
+  final String? name;
+  final String? position;
+  final String? number;
+  final String? email;
+
+  EventPOC({
+    this.name,
+    this.position,
+    this.number,
+    this.email,
+  });
+
+  factory EventPOC.fromJson(Map<String, dynamic> json) => EventPOC(
+        name: json['name'] as String?,
+        position: json['position'] as String?,
+        number: json['number'] as String?,
+        email: json['email'] as String?,
+      );
+
+  Map<String, dynamic> toJson() => {
+        if (name != null) 'name': name,
+        if (position != null) 'position': position,
+        if (number != null) 'number': number,
+        if (email != null) 'email': email,
+      };
+}
+
+class EventStats {
+  final int interested;
+  final int going;
+
+  EventStats({
+    this.interested = 0,
+    this.going = 0,
+  });
+
+  factory EventStats.fromJson(Map<String, dynamic> json) => EventStats(
+        interested: (json['interested'] as num?)?.toInt() ?? 0,
+        going: (json['going'] as num?)?.toInt() ?? 0,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'interested': interested,
+        'going': going,
+      };
+}
+
+class EventUserStatus {
+  final bool isInterested;
+  final bool isRegistered;
+
+  EventUserStatus({
+    this.isInterested = false,
+    this.isRegistered = false,
+  });
+
+  factory EventUserStatus.fromJson(Map<String, dynamic> json) => EventUserStatus(
+        isInterested: (json['isInterested'] as bool?) ?? false,
+        isRegistered: (json['isRegistered'] as bool?) ?? false,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'isInterested': isInterested,
+        'isRegistered': isRegistered,
+      };
+}
+
 class EventModel {
-  String id;
-  String title;
-  String? imageUrl;
-  String? compressedImageUrl;
-  String description;
-  String clubOrg;
-  String board;
-  DateTime startDateTime;
-  DateTime endDateTime;
-  String venue;
-  List<String> categories;
-  int v;
+  final String id;
+  final String clubId;
+  final String name;
+  final String status;
+  final DateTime startTime;
+  final DateTime endTime;
+  final DateTime date;
+  final String? location;
+  final List<String> tags;
+  final String? eventBanner;
+  final List<EventGuest> guest;
+  final String? whoShouldAttend;
+  final String? description;
+  final int registrants;
+  final int likes;
+  final List<String> additionalLinks;
+  final List<String> feedback;
+  final List<EventPOC> poc;
+  final String? clubName;
+  final EventStats? stats;
+  final EventUserStatus? userStatus;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? v;
 
   EventModel({
     required this.id,
-    required this.title,
-    this.imageUrl,
-    this.compressedImageUrl,
-    required this.description,
-    required this.clubOrg,
-    required this.board,
-    required this.startDateTime,
-    required this.endDateTime,
-    required this.venue,
-    required this.categories,
-    required this.v,
+    required this.clubId,
+    required this.name,
+    this.status = 'DRAFT',
+    required this.startTime,
+    required this.endTime,
+    required this.date,
+    this.location,
+    this.tags = const [],
+    this.eventBanner,
+    this.guest = const [],
+    this.whoShouldAttend,
+    this.description,
+    this.registrants = 0,
+    this.likes = 0,
+    this.additionalLinks = const [],
+    this.feedback = const [],
+    this.poc = const [],
+    this.clubName,
+    this.stats,
+    this.userStatus,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
+
+  // Backward-compatibility getters
+  String get title => name;
+  String? get imageUrl => eventBanner;
+  String? get compressedImageUrl => eventBanner;
+  String? get venue => location;
+  DateTime get startDateTime => startTime;
+  DateTime get endDateTime => endTime;
+  String get clubOrg => clubName ?? '';
+  String get board => tags.isNotEmpty ? tags.first : '';
+  List<String> get categories => tags;
 
   EventModel copyWith({
     String? id,
-    String? title,
-    String? imageUrl,
-    String? compressedImageUrl,
+    String? clubId,
+    String? name,
+    String? status,
+    DateTime? startTime,
+    DateTime? endTime,
+    DateTime? date,
+    String? location,
+    List<String>? tags,
+    String? eventBanner,
+    List<EventGuest>? guest,
+    String? whoShouldAttend,
     String? description,
-    String? clubOrg,
-    String? board,
-    DateTime? startDateTime,
-    DateTime? endDateTime,
-    String? venue,
-    List<String>? categories,
+    int? registrants,
+    int? likes,
+    List<String>? additionalLinks,
+    List<String>? feedback,
+    List<EventPOC>? poc,
+    String? clubName,
+    EventStats? stats,
+    EventUserStatus? userStatus,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     int? v,
   }) =>
       EventModel(
         id: id ?? this.id,
-        title: title ?? this.title,
-        imageUrl: imageUrl ?? this.imageUrl,
-        compressedImageUrl: compressedImageUrl ?? this.compressedImageUrl,
+        clubId: clubId ?? this.clubId,
+        name: name ?? this.name,
+        status: status ?? this.status,
+        startTime: startTime ?? this.startTime,
+        endTime: endTime ?? this.endTime,
+        date: date ?? this.date,
+        location: location ?? this.location,
+        tags: tags ?? this.tags,
+        eventBanner: eventBanner ?? this.eventBanner,
+        guest: guest ?? this.guest,
+        whoShouldAttend: whoShouldAttend ?? this.whoShouldAttend,
         description: description ?? this.description,
-        clubOrg: clubOrg ?? this.clubOrg,
-        board: board ?? this.board,
-        startDateTime: startDateTime ?? this.startDateTime,
-        endDateTime: endDateTime ?? this.endDateTime,
-        venue: venue ?? this.venue,
-        categories: categories ?? this.categories,
+        registrants: registrants ?? this.registrants,
+        likes: likes ?? this.likes,
+        additionalLinks: additionalLinks ?? this.additionalLinks,
+        feedback: feedback ?? this.feedback,
+        poc: poc ?? this.poc,
+        clubName: clubName ?? this.clubName,
+        stats: stats ?? this.stats,
+        userStatus: userStatus ?? this.userStatus,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
         v: v ?? this.v,
       );
 
   factory EventModel.fromRawJson(String str) =>
-      EventModel.fromJson(json.decode(str));
+      EventModel.fromJson(json.decode(str) as Map<String, dynamic>);
 
   String toRawJson() => json.encode(toJson());
 
-  factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
-        id: json["_id"],
-        title: json["title"],
-        imageUrl: json["imageURL"],
-        compressedImageUrl: json["compressedImageURL"],
-        description: json["description"],
-        clubOrg: json["club_org"],
-        board: json["board"],
-        startDateTime: DateTime.parse(json["startDateTime"]),
-        endDateTime: DateTime.parse(json["endDateTime"]),
-        venue: json["venue"],
-        categories: List<String>.from(json["categories"].map((x) => x)),
-        v: json["__v"],
-      );
+  factory EventModel.fromJson(Map<String, dynamic> json) {
+    DateTime parseDateTime(dynamic value) {
+      if (value is DateTime) return value;
+      if (value is String) return DateTime.tryParse(value) ?? DateTime.now();
+      return DateTime.now();
+    }
+
+    final clubIdVal = json['club_id'] is Map
+        ? (json['club_id']['_id'] as String? ?? '')
+        : (json['club_id'] as String? ?? '');
+
+    final tagsList = (json['Tags'] as List<dynamic>?) ??
+        (json['tags'] as List<dynamic>?) ??
+        (json['categories'] as List<dynamic>?);
+
+    final guestList = (json['guest'] as List<dynamic>?) ??
+        (json['guests'] as List<dynamic>?);
+
+    final pocList = (json['POC'] as List<dynamic>?) ??
+        (json['poc'] as List<dynamic>?);
+
+    final additionalLinksList = (json['additionalLinks'] as List<dynamic>?);
+    final feedbackList = (json['Feedback'] as List<dynamic>?) ??
+        (json['feedback'] as List<dynamic>?);
+
+    return EventModel(
+      id: (json['_id'] as String?) ?? (json['event_id'] as String?) ?? '',
+      clubId: clubIdVal,
+      name: (json['Name'] as String?) ??
+          (json['name'] as String?) ??
+          (json['title'] as String?) ??
+          '',
+      status: (json['status'] as String?) ?? 'DRAFT',
+      startTime: parseDateTime(json['startTime'] ?? json['startDateTime']),
+      endTime: parseDateTime(json['endTime'] ?? json['endDateTime']),
+      date: parseDateTime(json['Date'] ?? json['date'] ?? json['startTime'] ?? json['startDateTime']),
+      location: (json['Location'] as String?) ??
+          (json['location'] as String?) ??
+          (json['venue'] as String?),
+      tags: tagsList?.map((e) => e.toString()).toList() ?? const [],
+      eventBanner: (json['eventBanner'] as String?) ??
+          (json['imageURL'] as String?) ??
+          (json['compressedImageURL'] as String?),
+      guest: guestList
+              ?.map((e) => EventGuest.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      whoShouldAttend: (json['whoShouldAttend'] as String?),
+      description: (json['Description'] as String?) ??
+          (json['description'] as String?),
+      registrants: (json['Registrants'] as num?)?.toInt() ?? 0,
+      likes: (json['Likes'] as num?)?.toInt() ?? 0,
+      additionalLinks: additionalLinksList
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
+      feedback: feedbackList?.map((e) => e.toString()).toList() ?? const [],
+      poc: pocList
+              ?.map((e) => EventPOC.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      clubName: (json['clubName'] as String?) ??
+          (json['club_org'] as String?) ??
+          (json['club_id'] is Map ? json['club_id']['clubName'] as String? : null),
+      stats: json['stats'] != null && json['stats'] is Map
+          ? EventStats.fromJson(json['stats'] as Map<String, dynamic>)
+          : null,
+      userStatus: json['userStatus'] != null && json['userStatus'] is Map
+          ? EventUserStatus.fromJson(
+              json['userStatus'] as Map<String, dynamic>)
+          : null,
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'] as String)
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(json['updatedAt'] as String)
+          : null,
+      v: (json['__v'] as num?)?.toInt(),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
-        "title": title,
-        "imageURL": imageUrl,
-        "compressedImageURL": compressedImageUrl,
-        "description": description,
-        "club_org": clubOrg,
-        "board": board,
-        "startDateTime": startDateTime.toIso8601String(),
-        "endDateTime": endDateTime.toIso8601String(),
-        "venue": venue,
-        "categories": List<dynamic>.from(categories.map((x) => x)),
-        "__v": v,
+        '_id': id,
+        'club_id': clubId,
+        'Name': name,
+        'status': status,
+        'startTime': startTime.toIso8601String(),
+        'endTime': endTime.toIso8601String(),
+        'Date': date.toIso8601String(),
+        if (location != null) 'Location': location,
+        'Tags': tags,
+        if (eventBanner != null) 'eventBanner': eventBanner,
+        'guest': guest.map((e) => e.toJson()).toList(),
+        if (whoShouldAttend != null) 'whoShouldAttend': whoShouldAttend,
+        if (description != null) 'Description': description,
+        'Registrants': registrants,
+        'Likes': likes,
+        'additionalLinks': additionalLinks,
+        'Feedback': feedback,
+        'POC': poc.map((e) => e.toJson()).toList(),
+        if (clubName != null) 'clubName': clubName,
+        if (stats != null) 'stats': stats!.toJson(),
+        if (userStatus != null) 'userStatus': userStatus!.toJson(),
+        if (createdAt != null) 'createdAt': createdAt!.toIso8601String(),
+        if (updatedAt != null) 'updatedAt': updatedAt!.toIso8601String(),
+        if (v != null) '__v': v,
       };
 }
-
-
-/*
-import 'package:json_annotation/json_annotation.dart';
-
-part 'event_model.g.dart';
-
-@JsonSerializable(explicitToJson: true)
-class EventModel {
-  //@JsonKey(name: '_id')
-  final String id;
-  final String title;
-  final String description;
-  final String imageURL;
-  final String compressedImageURL;
-  final DateTime date;
-  final String club_org;
-  final String venue;
-  final String contactNumber;
-
-  const EventModel({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.imageURL,
-    required this.compressedImageURL,
-    required this.date,
-    required this.club_org,
-    required this.venue,
-    required this.contactNumber,
-  });
-
-  factory EventModel.fromJson(Map<String, dynamic> json) =>
-      _$EventModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$EventModelToJson(this);
-}
-*/

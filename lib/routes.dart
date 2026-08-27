@@ -2,6 +2,7 @@ import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/elections/election_login.dart';
+import 'package:onestop_dev/pages/events/events_home_page.dart';
 import 'package:onestop_dev/pages/events_feed/events_appbar.dart';
 import 'package:onestop_dev/pages/food/mess_opi_form.dart';
 import 'package:onestop_dev/pages/food/mess_subscription_change_form.dart';
@@ -24,6 +25,7 @@ import 'package:onestop_dev/pages/timetable/timetable_page.dart';
 import 'package:onestop_dev/pages/upsp/upsp.dart';
 // import 'package:path/path.dart';
 import 'package:onestop_dev/pages/profile/profile_page.dart';
+
 final routes = {
   BlockedPage.id: (context) => const BlockedPage(),
   IRBSPage.id: (context) => const IRBSPage(),
@@ -47,6 +49,7 @@ final routes = {
   ElectionLoginWebView.id: (context) => const ElectionLoginWebView(),
   GateLogPage.id: (context) => const GateLogPage(),
   TimetablePage.id: (context) => const TimetablePage(),
+  EventsHomePage.id: (context) => const EventsHomePage(),
   EventsScreenWrapper.id: (context) => const EventsScreenWrapper(),
   LibraryTokenScreen.id: (context) => const LibraryTokenScreen(),
   ProfilePage.id: (context) => const ProfilePage(),
