@@ -60,12 +60,19 @@ class _TravelPageState extends State<TravelPage> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Travel', style: OTextStyle.headingLarge.copyWith(color: OColor.gray800)),
+                  Text(
+                    'Travel',
+                    style: OTextStyle.headingLarge.copyWith(
+                      color: OColor.gray800,
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 2),
                     child: Text(
                       dateString,
-                      style: OTextStyle.headingSmall.copyWith(color: OColor.green600),
+                      style: OTextStyle.headingSmall.copyWith(
+                        color: OColor.green600,
+                      ),
                     ),
                   ),
                 ],
@@ -79,7 +86,9 @@ class _TravelPageState extends State<TravelPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const BusTimingsPage()),
+                    MaterialPageRoute(
+                      builder: (context) => const BusTimingsPage(),
+                    ),
                   );
                 },
               ),
@@ -92,7 +101,9 @@ class _TravelPageState extends State<TravelPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const FerryTimingsPage()),
+                    MaterialPageRoute(
+                      builder: (context) => const FerryTimingsPage(),
+                    ),
                   );
                 },
               ),
@@ -115,9 +126,16 @@ class _TravelPageState extends State<TravelPage> {
                         ? SizedBox(
                           width: 20,
                           height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: OColor.green600),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: OColor.green600,
+                          ),
                         )
-                        : Icon(Icons.arrow_outward, color: OColor.gray600, size: 24),
+                        : Icon(
+                          Icons.arrow_outward,
+                          color: OColor.gray600,
+                          size: 24,
+                        ),
                 onTap:
                     _loadingERickshaw
                         ? () {}
@@ -126,17 +144,27 @@ class _TravelPageState extends State<TravelPage> {
                           try {
                             final contacts = await DataService.getContacts();
                             if (!context.mounted) return;
-                            final eRikshaw = contacts['E-rikshaw'];
-                            if (eRikshaw != null) {
-                              final contactStore = ContactStore()..loadStarredContacts();
+                            final eRickshaw = contacts['E-rickshaw'];
+                            if (eRickshaw != null) {
+                              final contactStore =
+                                  ContactStore()..loadStarredContacts();
                               showContactCategorySheet(
                                 context,
-                                contactModel: eRikshaw,
+                                contactModel: eRickshaw,
                                 contactStore: contactStore,
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'E-Rickshaw contacts are unavailable right now.',
+                                  ),
+                                ),
                               );
                             }
                           } finally {
-                            if (mounted) setState(() => _loadingERickshaw = false);
+                            if (mounted)
+                              setState(() => _loadingERickshaw = false);
                           }
                         },
               ),
@@ -146,12 +174,19 @@ class _TravelPageState extends State<TravelPage> {
               _OptionTile(
                 icon: FluentIcons.book_24_filled,
                 title: 'Travel Guide',
-                subtitle: 'A quick guide to common travel methods, fares, and essential info.',
-                trailing: Icon(Icons.arrow_outward, color: OColor.gray600, size: 24),
+                subtitle:
+                    'A quick guide to common travel methods, fares, and essential info.',
+                trailing: Icon(
+                  Icons.arrow_outward,
+                  color: OColor.gray600,
+                  size: 24,
+                ),
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const TravelGuide()),
+                    MaterialPageRoute(
+                      builder: (context) => const TravelGuide(),
+                    ),
                   );
                 },
               ),
@@ -162,7 +197,11 @@ class _TravelPageState extends State<TravelPage> {
                 icon: FluentIcons.vehicle_car_24_filled,
                 title: 'Cab Sharing',
                 subtitle: 'Connect with fellow students for shared cab rides.',
-                trailing: Icon(Icons.arrow_outward, color: OColor.gray600, size: 24),
+                trailing: Icon(
+                  Icons.arrow_outward,
+                  color: OColor.gray600,
+                  size: 24,
+                ),
                 onTap: () {
                   Navigator.pushNamed(context, CabShare.id);
                 },
@@ -181,7 +220,11 @@ class _TimingSummaryCard extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _TimingSummaryCard({required this.type, required this.icon, required this.onTap});
+  const _TimingSummaryCard({
+    required this.type,
+    required this.icon,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +257,12 @@ class _TimingSummaryCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: Text(type, style: OTextStyle.headingSmall.copyWith(color: OColor.gray800)),
+                  child: Text(
+                    type,
+                    style: OTextStyle.headingSmall.copyWith(
+                      color: OColor.gray800,
+                    ),
+                  ),
                 ),
                 Icon(Icons.chevron_right, color: OColor.gray600, size: 16),
               ],
@@ -223,7 +271,10 @@ class _TimingSummaryCard extends StatelessWidget {
 
             // Direction summaries from API
             FutureBuilder<List<TravelTiming>>(
-              future: isBus ? travelStore.getBusTimings() : travelStore.getFerryTimings(),
+              future:
+                  isBus
+                      ? travelStore.getBusTimings()
+                      : travelStore.getFerryTimings(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
@@ -278,11 +329,17 @@ class _DirectionRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(label, style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
+        Text(
+          label,
+          style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+        ),
         const SizedBox(width: 4),
         Icon(Icons.arrow_forward, size: 18, color: OColor.gray800),
         const SizedBox(width: 4),
-        Text(destination, style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
+        Text(
+          destination,
+          style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+        ),
       ],
     );
   }
@@ -308,7 +365,9 @@ class _BusSummaryRow extends StatelessWidget {
       allTimes.addAll(times);
       if (times.isNotEmpty) stopName = t.stop;
     }
-    allTimes.sort((a, b) => (a.hour * 60 + a.minute).compareTo(b.hour * 60 + b.minute));
+    allTimes.sort(
+      (a, b) => (a.hour * 60 + a.minute).compareTo(b.hour * 60 + b.minute),
+    );
 
     String timeText = '';
     if (allTimes.isNotEmpty) {
@@ -319,7 +378,10 @@ class _BusSummaryRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(stopName.toUpperCase(), style: OTextStyle.labelXSmall.copyWith(color: OColor.gray600)),
+        Text(
+          stopName.toUpperCase(),
+          style: OTextStyle.labelXSmall.copyWith(color: OColor.gray600),
+        ),
         _TimeBadge(text: timeText),
       ],
     );
@@ -345,8 +407,10 @@ class _FerrySummaryRows extends StatelessWidget {
 
             String timeText = '';
             if (times.isNotEmpty) {
-              final sortedTimes = List<DateTime>.from(times)
-                ..sort((a, b) => (a.hour * 60 + a.minute).compareTo(b.hour * 60 + b.minute));
+              final sortedTimes = List<DateTime>.from(times)..sort(
+                (a, b) =>
+                    (a.hour * 60 + a.minute).compareTo(b.hour * 60 + b.minute),
+              );
               final next = nextTime(sortedTimes);
               timeText = durationLeft(next);
             }
@@ -358,7 +422,9 @@ class _FerrySummaryRows extends StatelessWidget {
                 children: [
                   Text(
                     t.stop.toUpperCase(),
-                    style: OTextStyle.labelXSmall.copyWith(color: OColor.gray600),
+                    style: OTextStyle.labelXSmall.copyWith(
+                      color: OColor.gray600,
+                    ),
                   ),
                   _TimeBadge(text: timeText),
                 ],
@@ -393,7 +459,10 @@ class _TimeBadge extends StatelessWidget {
         style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
         children: [
           const TextSpan(text: 'In '),
-          TextSpan(text: text, style: OTextStyle.labelSmall.copyWith(color: color)),
+          TextSpan(
+            text: text,
+            style: OTextStyle.labelSmall.copyWith(color: color),
+          ),
         ],
       ),
     );
@@ -438,11 +507,19 @@ class _OptionTile extends StatelessWidget {
                     children: [
                       Icon(icon, color: OColor.gray800, size: 24),
                       const SizedBox(width: 8),
-                      Text(title, style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
+                      Text(
+                        title,
+                        style: OTextStyle.labelMedium.copyWith(
+                          color: OColor.gray800,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Text(subtitle, style: OTextStyle.bodySmall.copyWith(color: OColor.gray600)),
+                  Text(
+                    subtitle,
+                    style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
+                  ),
                 ],
               ),
             ),
