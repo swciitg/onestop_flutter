@@ -27,8 +27,9 @@ class _YourEventListViewState extends State<YourEventListView> {
   void initState() {
     super.initState();
     Admin? admin = context.read<EventsStore>().admin;
-    final userClubs = admin?.getUserClubs(LoginStore.userData['outlookEmail']!);
-    yourClub = userClubs?.first.name;
+    final email = LoginStore.userData['outlookEmail'] ?? '';
+    final userClubs = admin?.getUserClubs(email);
+    yourClub = (userClubs != null && userClubs.isNotEmpty) ? userClubs.first.name : 'Technical Board';
   }
 
   @override

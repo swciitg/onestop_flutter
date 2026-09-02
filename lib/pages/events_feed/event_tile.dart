@@ -55,7 +55,7 @@ class EventTile extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            model.description,
+                            model.description ?? '',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: MyFonts.w500.copyWith(color: kWhite3),
@@ -90,7 +90,7 @@ class EventTile extends StatelessWidget {
                               const SizedBox(width: 6),
                               Expanded(
                                 child: Text(
-                                  model.venue,
+                                  model.venue ?? '',
                                   style: MyFonts.w500.copyWith(color: kWhite3),
                                   overflow: TextOverflow.ellipsis,
                                 ),

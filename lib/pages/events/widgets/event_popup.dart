@@ -1,15 +1,23 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
+import 'package:onestop_dev/pages/events/widgets/components/event_network_image.dart';
 import 'package:onestop_dev/pages/events/widgets/poc_modal.dart';
+import 'package:onestop_dev/repository/events_api_repository.dart';
+import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_ui/index.dart';
 
 /// Shows the event detail popup as a modal bottom sheet.
-///
-/// Follows the same pattern as [showContactProfileSheet] in contact_dialog.dart.
-void showEventPopup(BuildContext context, {required EventModel event}) {
-  showModalBottomSheet(
+Future<void> showEventPopup(
+  BuildContext context, {
+  required EventModel event,
+  bool? isInitiallyInterested,
+  bool? isInitiallyRegistered,
+  Function(bool isInterested, bool isRegistered)? onStatusChanged,
+}) async {
+  await showModalBottomSheet(
     context: context,
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
@@ -22,6 +30,9 @@ void showEventPopup(BuildContext context, {required EventModel event}) {
           return _EventPopupContent(
             event: event,
             scrollController: scrollController,
+            isInitiallyInterested: isInitiallyInterested,
+            isInitiallyRegistered: isInitiallyRegistered,
+            onStatusChanged: onStatusChanged,
           );
         },
       );
@@ -29,21 +40,116 @@ void showEventPopup(BuildContext context, {required EventModel event}) {
   );
 }
 
-class _EventPopupContent extends StatelessWidget {
+class _EventPopupContent extends StatefulWidget {
   final EventModel event;
   final ScrollController scrollController;
+  final bool? isInitiallyInterested;
+  final bool? isInitiallyRegistered;
+  final Function(bool isInterested, bool isRegistered)? onStatusChanged;
 
   const _EventPopupContent({
     required this.event,
     required this.scrollController,
+    this.isInitiallyInterested,
+    this.isInitiallyRegistered,
+    this.onStatusChanged,
   });
+
+  @override
+  State<_EventPopupContent> createState() => _EventPopupContentState();
+}
+
+class _EventPopupContentState extends State<_EventPopupContent> {
+  late EventModel event;
+  bool isInterested = false;
+  bool isRegistered = false;
+  bool isActionLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    event = widget.event;
+    isInterested = widget.isInitiallyInterested ??
+        (event.userStatus?.isInterested ?? false);
+    isRegistered = widget.isInitiallyRegistered ??
+        (event.userStatus?.isRegistered ?? false);
+    _fetchFullDetails();
+  }
+
+  Future<void> _fetchFullDetails() async {
+    final studentId = LoginStore.userData['_id'] ?? LoginStore.userData['rollNo'] ?? '';
+    final detailed = await EventsAPIRepository().getEventDetails(
+      event.id,
+      studentId: studentId,
+    );
+    if (detailed != null && mounted) {
+      setState(() {
+        event = detailed;
+        if (widget.isInitiallyInterested == null) {
+          isInterested = detailed.userStatus?.isInterested ?? isInterested;
+        }
+        if (widget.isInitiallyRegistered == null) {
+          isRegistered = detailed.userStatus?.isRegistered ?? isRegistered;
+        }
+      });
+    }
+  }
+
+  Future<void> _toggleLikeOrInterest() async {
+    final rollNo = LoginStore.userData['rollNo']?.toString() ??
+        LoginStore.userData['rollno']?.toString() ??
+        LoginStore.userData['rollNumber']?.toString() ??
+        'guest';
+    final email = LoginStore.userData['outlookEmail']?.toString() ??
+        LoginStore.userData['email']?.toString() ??
+        'guest@iitg.ac.in';
+
+    final newStatus = !isInterested;
+    setState(() {
+      isInterested = newStatus;
+      isActionLoading = true;
+    });
+    widget.onStatusChanged?.call(isInterested, isRegistered);
+
+    try {
+      final res = await EventsAPIRepository().toggleLikeEvent(
+        rollNo: rollNo,
+        email: email,
+        eventId: event.id,
+        like: newStatus,
+      );
+
+      if (mounted) {
+        setState(() {
+          isActionLoading = false;
+          if (res != null) {
+            isInterested = res.like;
+          }
+        });
+        widget.onStatusChanged?.call(isInterested, isRegistered);
+        showSnackBar(
+          isInterested ? "Added to your interested events!" : "Removed from interested events",
+        );
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          isActionLoading = false;
+        });
+        widget.onStatusChanged?.call(isInterested, isRegistered);
+        showSnackBar(
+          isInterested ? "Added to your interested events!" : "Removed from interested events",
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         color: OColor.white,
-        borderRadius: BorderRadius.vertical(
+        borderRadius: const BorderRadius.vertical(
           top: Radius.circular(32),
         ),
       ),
@@ -64,7 +170,7 @@ class _EventPopupContent extends StatelessWidget {
           // Scrollable content
           Expanded(
             child: ListView(
-              controller: scrollController,
+              controller: widget.scrollController,
               padding: const EdgeInsets.symmetric(horizontal: OSpacing.m)
                   .copyWith(top: OSpacing.m, bottom: OSpacing.l),
               children: [
@@ -89,38 +195,42 @@ class _EventPopupContent extends StatelessWidget {
                 const SizedBox(height: OSpacing.l),
 
                 // Special Guests
-                _buildSpecialGuests(),
-                const SizedBox(height: OSpacing.l),
+                if (event.guest.isNotEmpty) ...[
+                  _buildSpecialGuests(),
+                  const SizedBox(height: OSpacing.l),
+                ],
 
                 // Description
-                _buildSection(
-                  label: 'Description',
-                  content: event.description,
-                ),
-                const SizedBox(height: OSpacing.s),
-
-                // Divider
-                Divider(height: 1, color: OColor.gray200),
-                const SizedBox(height: OSpacing.l),
+                if (event.description != null && event.description!.isNotEmpty) ...[
+                  _buildSection(
+                    label: 'Description',
+                    content: event.description!,
+                  ),
+                  const SizedBox(height: OSpacing.s),
+                  Divider(height: 1, color: OColor.gray200),
+                  const SizedBox(height: OSpacing.l),
+                ],
 
                 // Who should attend
-                _buildSection(
-                  label: 'Who should attend?',
-                  content: event.description,
-                ),
-                const SizedBox(height: OSpacing.s),
-
-                // Divider
-                Divider(height: 1, color: OColor.gray200),
-                const SizedBox(height: OSpacing.l),
+                if (event.whoShouldAttend != null && event.whoShouldAttend!.isNotEmpty) ...[
+                  _buildSection(
+                    label: 'Who should attend?',
+                    content: event.whoShouldAttend!,
+                  ),
+                  const SizedBox(height: OSpacing.s),
+                  Divider(height: 1, color: OColor.gray200),
+                  const SizedBox(height: OSpacing.l),
+                ],
 
                 // Posted By
                 _buildPostedBy(),
                 const SizedBox(height: OSpacing.l),
 
                 // POCs
-                _buildPOCs(context),
-                const SizedBox(height: OSpacing.l),
+                if (event.poc.isNotEmpty) ...[
+                  _buildPOCs(context),
+                  const SizedBox(height: OSpacing.l),
+                ],
               ],
             ),
           ),
@@ -150,11 +260,11 @@ class _EventPopupContent extends StatelessWidget {
           child: Container(
             width: 40,
             height: 40,
-            decoration:  BoxDecoration(
+            decoration: BoxDecoration(
               color: OColor.gray100,
               shape: BoxShape.circle,
             ),
-            child:  Icon(
+            child: Icon(
               FluentIcons.dismiss_24_regular,
               size: 24,
               color: OColor.gray800,
@@ -165,34 +275,13 @@ class _EventPopupContent extends StatelessWidget {
     );
   }
 
-  /// Image preview with rounded corners
+  /// Image preview with progressive shimmer & caching
   Widget _buildImagePreview() {
     final imageUrl = event.imageUrl ?? event.compressedImageUrl;
-    return AspectRatio(
+    return EventNetworkImage.banner(
+      imageUrl: imageUrl,
       aspectRatio: 358 / 201,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(OCornerRadius.s),
-        child: imageUrl != null
-            ? Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => _imagePlaceholder(),
-              )
-            : _imagePlaceholder(),
-      ),
-    );
-  }
-
-  Widget _imagePlaceholder() {
-    return Container(
-      color: OColor.gray200,
-      child:  Center(
-        child: Icon(
-          FluentIcons.image_24_regular,
-          size: 48,
-          color: OColor.gray400,
-        ),
-      ),
+      borderRadius: BorderRadius.circular(OCornerRadius.s),
     );
   }
 
@@ -202,62 +291,81 @@ class _EventPopupContent extends StatelessWidget {
       height: 48,
       child: Row(
         children: [
-          // Register button (primary, green filled)
+          // Register button
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: OColor.green600,
-                borderRadius: BorderRadius.circular(OCornerRadius.m),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x0A000000),
-                    blurRadius: 20,
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                   Icon(
-                    FluentIcons.edit_16_regular,
-                    size: 16,
-                    color: OColor.white,
-                  ),
-                  const SizedBox(width: OSpacing.xxs),
-                  OText(
-                    text: 'Register',
-                    style: OTextStyle.labelMedium.copyWith(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  isRegistered = !isRegistered;
+                });
+                widget.onStatusChanged?.call(isInterested, isRegistered);
+                showSnackBar(isRegistered
+                    ? "Registered for ${event.title}"
+                    : "Registration cancelled for ${event.title}");
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: isRegistered ? OColor.green700 : OColor.green600,
+                  borderRadius: BorderRadius.circular(OCornerRadius.m),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x0A000000),
+                      blurRadius: 20,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      FluentIcons.edit_16_regular,
+                      size: 16,
                       color: OColor.white,
                     ),
-                  ),
-                ],
+                    const SizedBox(width: OSpacing.xxs),
+                    OText(
+                      text: isRegistered ? 'Registered' : 'Register',
+                      style: OTextStyle.labelMedium.copyWith(
+                        color: OColor.white,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
           const SizedBox(width: OSpacing.s),
-          // I'm Interested button (secondary, outlined)
+          // I'm Interested button
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(OCornerRadius.m),
-                border: Border.all(color: OColor.gray300),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                   Icon(
-                    FluentIcons.heart_16_regular,
-                    size: 16,
-                    color: OColor.green600,
+            child: GestureDetector(
+              onTap: isActionLoading ? null : _toggleLikeOrInterest,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: isInterested ? OColor.green100 : Colors.transparent,
+                  borderRadius: BorderRadius.circular(OCornerRadius.m),
+                  border: Border.all(
+                    color: isInterested ? OColor.green600 : OColor.gray300,
                   ),
-                  const SizedBox(width: OSpacing.xxs),
-                  OText(
-                    text: "I'm Interested",
-                    style: OTextStyle.labelMedium.copyWith(
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      isInterested
+                          ? FluentIcons.heart_16_filled
+                          : FluentIcons.heart_16_regular,
+                      size: 16,
                       color: OColor.green600,
                     ),
-                  ),
-                ],
+                    const SizedBox(width: OSpacing.xxs),
+                    OText(
+                      text: isInterested ? "Interested" : "I'm Interested",
+                      style: OTextStyle.labelMedium.copyWith(
+                        color: OColor.green600,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -275,7 +383,7 @@ class _EventPopupContent extends StatelessWidget {
     return Wrap(
       spacing: OSpacing.m,
       runSpacing: OSpacing.xs,
-      children: event.categories.take(2).toList().asMap().entries.map((entry) {
+      children: event.categories.take(3).toList().asMap().entries.map((entry) {
         final color = tagColors[entry.key % tagColors.length];
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -306,6 +414,7 @@ class _EventPopupContent extends StatelessWidget {
   /// Location and time info rows
   Widget _buildLocationAndTime() {
     final timeFormat = DateFormat('h:mm a');
+    final venueText = (event.venue != null && event.venue!.isNotEmpty) ? event.venue! : 'Campus';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,7 +422,7 @@ class _EventPopupContent extends StatelessWidget {
         // Location
         Row(
           children: [
-             Icon(
+            Icon(
               FluentIcons.location_16_regular,
               size: 16,
               color: OColor.gray600,
@@ -321,7 +430,7 @@ class _EventPopupContent extends StatelessWidget {
             const SizedBox(width: OSpacing.xxs),
             Expanded(
               child: OText(
-                text: event.venue,
+                text: venueText,
                 style: OTextStyle.labelMedium.copyWith(color: OColor.gray600),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -333,7 +442,7 @@ class _EventPopupContent extends StatelessWidget {
         // Time
         Row(
           children: [
-             Icon(
+            Icon(
               FluentIcons.clock_16_regular,
               size: 16,
               color: OColor.gray600,
@@ -356,13 +465,6 @@ class _EventPopupContent extends StatelessWidget {
 
   /// Special Guests section with profile avatars
   Widget _buildSpecialGuests() {
-    // Placeholder guest data (would come from API in real implementation)
-    final guests = [
-      {'name': 'Guest 1', 'role': 'Organizer'},
-      {'name': 'Guest 2', 'role': 'Co-Organizer'},
-      {'name': 'Guest 3', 'role': 'Speaker'},
-    ];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -374,12 +476,13 @@ class _EventPopupContent extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: guests.map((guest) {
+            children: event.guest.map((g) {
               return Padding(
                 padding: const EdgeInsets.only(right: OSpacing.l),
                 child: _buildProfileChip(
-                  name: guest['name']!,
-                  subtitle: guest['role']!,
+                  name: g.name ?? 'Guest',
+                  subtitle: g.position ?? 'Speaker',
+                  photoUrl: g.photo,
                 ),
               );
             }).toList(),
@@ -412,6 +515,9 @@ class _EventPopupContent extends StatelessWidget {
 
   /// Posted By section with organizer avatar
   Widget _buildPostedBy() {
+    final clubTitle = event.clubOrg.isNotEmpty ? event.clubOrg : "Student Affairs";
+    final boardTitle = event.board.isNotEmpty ? event.board : "IIT Guwahati";
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -422,15 +528,14 @@ class _EventPopupContent extends StatelessWidget {
         const SizedBox(height: OSpacing.s),
         Row(
           children: [
-            // Organizer avatar
             Container(
               width: 48,
               height: 48,
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                 color: OColor.gray200,
                 shape: BoxShape.circle,
               ),
-              child:  Icon(
+              child: Icon(
                 FluentIcons.people_24_regular,
                 size: 24,
                 color: OColor.gray600,
@@ -442,7 +547,7 @@ class _EventPopupContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   OText(
-                    text: event.clubOrg,
+                    text: clubTitle,
                     style: OTextStyle.labelMedium.copyWith(
                       color: OColor.gray800,
                     ),
@@ -450,7 +555,7 @@ class _EventPopupContent extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   OText(
-                    text: event.board,
+                    text: boardTitle,
                     style: OTextStyle.bodyXSmall.copyWith(
                       color: OColor.gray600,
                     ),
@@ -464,14 +569,8 @@ class _EventPopupContent extends StatelessWidget {
     );
   }
 
-  /// POCs section with contact avatars
+  /// POCs section with contact avatars (horizontally scrollable)
   Widget _buildPOCs(BuildContext context) {
-    // Placeholder POC data (would come from API in real implementation)
-    final pocs = [
-      {'name': 'POC 1', 'role': 'Events Head'},
-      {'name': 'POC 2', 'role': 'Events Head'},
-    ];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -480,16 +579,22 @@ class _EventPopupContent extends StatelessWidget {
           style: OTextStyle.labelMedium.copyWith(color: OColor.gray600),
         ),
         const SizedBox(height: OSpacing.s),
-        Wrap(
-          spacing: OSpacing.l,
-          runSpacing: OSpacing.s,
-          children: pocs.map((poc) {
-            return _buildProfileChip(
-              context: context,
-              name: poc['name']!,
-              subtitle: poc['role']!,
-            );
-          }).toList(),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: event.poc.map((poc) {
+              return Padding(
+                padding: const EdgeInsets.only(right: OSpacing.l),
+                child: _buildProfileChip(
+                  context: context,
+                  name: poc.name ?? 'POC',
+                  subtitle: poc.position ?? 'Events Head',
+                  number: poc.number,
+                  email: poc.email,
+                ),
+              );
+            }).toList(),
+          ),
         ),
       ],
     );
@@ -500,48 +605,64 @@ class _EventPopupContent extends StatelessWidget {
     BuildContext? context,
     required String name,
     required String subtitle,
+    String? photoUrl,
+    String? number,
+    String? email,
   }) {
     return GestureDetector(
       onTap: () {
         if (context != null) {
-          showPOCModal(context, name: name, subtitle: subtitle);
+          showPOCModal(
+            context,
+            name: name,
+            subtitle: subtitle,
+            number: number,
+            email: email,
+          );
         }
       },
       child: SizedBox(
-      width: 80,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration:  BoxDecoration(
-              color: OColor.blue100,
-              shape: BoxShape.circle,
+        width: 80,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: OColor.blue100,
+                shape: BoxShape.circle,
+              ),
+              child: photoUrl != null && photoUrl.isNotEmpty
+                  ? EventNetworkImage.avatar(
+                      imageUrl: photoUrl,
+                      width: 48,
+                      height: 48,
+                    )
+                  : Icon(
+                      FluentIcons.person_24_regular,
+                      size: 32,
+                      color: OColor.blue500,
+                    ),
             ),
-            child:  Icon(
-              FluentIcons.person_24_regular,
-              size: 32,
-              color: OColor.blue500,
+            const SizedBox(height: OSpacing.xs),
+            OText(
+              text: name,
+              style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-          ),
-          const SizedBox(height: OSpacing.xs),
-          OText(
-            text: name,
-            style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          OText(
-            text: subtitle,
-            style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray600),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
+            OText(
+              text: subtitle,
+              style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray600),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

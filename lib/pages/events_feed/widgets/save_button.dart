@@ -37,6 +37,7 @@ class _SaveButtonState extends State<SaveButton> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             bool isAlreadySaved = snapshot.data as bool;
+            final eventsStore = context.read<EventsStore>();
             if (isAlreadySaved) {
               return IconButton(
                   onPressed: () async {
@@ -48,8 +49,7 @@ class _SaveButtonState extends State<SaveButton> {
                             EventModel.fromJson(e as Map<String, dynamic>))
                         .toList();
                     savedEvents.removeWhere((e) => e.id == widget.event.id);
-                    if (!mounted) return;
-                    context.read<EventsStore>().setSavedEvents(savedEvents);
+                    eventsStore.setSavedEvents(savedEvents);
                     if (savedEvents.isEmpty) {
                       await LocalStorage.instance
                           .deleteRecord(DatabaseRecords.savedEvents);
@@ -59,7 +59,7 @@ class _SaveButtonState extends State<SaveButton> {
                       await LocalStorage.instance.storeListRecord(
                           savedList, DatabaseRecords.savedEvents);
                     }
-                    setState(() {});
+                    if (mounted) setState(() {});
                   },
                   icon: const Icon(
                     Icons.bookmark_rounded,
@@ -82,10 +82,9 @@ class _SaveButtonState extends State<SaveButton> {
                       await LocalStorage.instance.storeListRecord(
                           savedList, DatabaseRecords.savedEvents);
                     }
-                    if (!mounted) return;
-                    context.read<EventsStore>().setSavedEvents(
+                    eventsStore.setSavedEvents(
                         savedList.map((e) => EventModel.fromJson(e)).toList());
-                    setState(() {});
+                    if (mounted) setState(() {});
                   },
                   icon: const Icon(
                     Icons.bookmark_border,

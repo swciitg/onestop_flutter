@@ -43,8 +43,8 @@ Future<void> checkLibrarySlot({
         final isBanned = data['isBanned'] ?? data['banend'] ?? false;
         final message = data['message'] as String?;
         final currentRouteName = ModalRoute.of(context)?.settings.name;
-        final isOnLibraryTokenScreen =
-            currentRouteName == LibraryTokenScreen.id;
+        final isOnLibraryTokenScreen = 
+          currentRouteName == LibraryTokenScreen.id;
 
         final isBagPresent = slotId != null && message != null;
         context.read<CommonStore>().setBagInLibrary(isBagPresent);
@@ -92,18 +92,18 @@ Future<void> checkLibrarySlot({
                         onTap: () {
                           Navigator.of(dialogContext).pop();
                           setDialogShowing(false);
-                          parentNavigator.pushNamed(LibraryTokenScreen.id).then(
-                            (_) {
-                              if (!isMounted()) return;
-                              checkLibrarySlot(
-                                context: context,
-                                isMounted: isMounted,
-                                onStateUpdate: onStateUpdate,
-                                isBannedDialogShowing: false,
-                                setDialogShowing: setDialogShowing,
-                              );
-                            },
-                          );
+                          parentNavigator
+                          .pushNamed(LibraryTokenScreen.id)
+                          .then((_) {
+                            if (!isMounted()) return;
+                            checkLibrarySlot(
+                              context: context,
+                              isMounted: isMounted,
+                              onStateUpdate: onStateUpdate,
+                              isBannedDialogShowing: false,
+                              setDialogShowing: setDialogShowing,
+                            );
+                          });
                         },
                         child: Container(
                           width: double.infinity,

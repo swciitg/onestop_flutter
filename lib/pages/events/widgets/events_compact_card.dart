@@ -1,12 +1,13 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
+import 'package:onestop_dev/pages/events/utils/event_formatters.dart';
+import 'package:onestop_dev/pages/events/widgets/components/event_network_image.dart';
 import 'package:onestop_ui/index.dart';
 
 /// Compact event card used in the "Recently Attended" horizontal scroll.
 ///
-/// Shows avatar, event title, optional tags, and an optional
-/// "Submit a Feedback" button with a trailing chevron.
+/// Composed of [EventNetworkImage.avatar], title, and "Submit a Feedback" button.
 class EventsCompactCard extends StatelessWidget {
   final EventModel event;
   final bool showFeedbackButton;
@@ -23,6 +24,9 @@ class EventsCompactCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final title = EventFormatters.sanitizeText(event.title);
+    final imageUrl = event.compressedImageUrl ?? event.imageUrl;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -41,8 +45,12 @@ class EventsCompactCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Avatar
-                _buildAvatar(),
+                // Avatar with progressive shimmer & caching
+                EventNetworkImage.avatar(
+                  imageUrl: imageUrl,
+                  width: 48,
+                  height: 48,
+                ),
                 const SizedBox(width: OSpacing.s),
                 // Content
                 Expanded(
@@ -51,7 +59,7 @@ class EventsCompactCard extends StatelessWidget {
                     children: [
                       // Title
                       OText(
-                        text: event.title,
+                        text: title,
                         style: OTextStyle.bodyMedium.copyWith(
                           color: OColor.gray800,
                         ),
@@ -85,69 +93,38 @@ class EventsCompactCard extends StatelessWidget {
                   const SizedBox(height: OSpacing.xs),
                   GestureDetector(
                     onTap: onFeedbackTap,
+                    behavior: HitTestBehavior.opaque,
                     child: Container(
-                        width: double.infinity,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(OCornerRadius.m),
-                          border: Border.all(color: OColor.gray300),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            OText(
-                              text: 'Submit a Feedback',
-                              style: OTextStyle.labelMedium.copyWith(
-                                color: OColor.green600,
-                              ),
-                            ),
-                            const SizedBox(width: OSpacing.xxs),
-                            Icon(
-                              FluentIcons.chat_24_regular,
-                              size: 16,
+                      width: double.infinity,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(OCornerRadius.m),
+                        border: Border.all(color: OColor.gray300),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          OText(
+                            text: 'Submit a Feedback',
+                            style: OTextStyle.labelMedium.copyWith(
                               color: OColor.green600,
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(width: OSpacing.xxs),
+                          Icon(
+                            FluentIcons.chat_24_regular,
+                            size: 16,
+                            color: OColor.green600,
+                          ),
+                        ],
                       ),
                     ),
-                  
+                  ),
                 ],
               ),
             ],
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildAvatar() {
-    if (event.compressedImageUrl != null) {
-      return ClipOval(
-        child: Image.network(
-          event.compressedImageUrl!,
-          width: 48,
-          height: 48,
-          fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => _placeholderAvatar(),
-        ),
-      );
-    }
-    return _placeholderAvatar();
-  }
-
-  Widget _placeholderAvatar() {
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        color: OColor.gray200,
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        FluentIcons.calendar_24_regular,
-        size: 24,
-        color: OColor.gray600,
       ),
     );
   }

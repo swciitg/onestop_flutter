@@ -50,17 +50,20 @@ class _EventFormScreenState extends State<EventFormScreen> {
     super.initState();
 
     Admin? admin = context.read<EventsStore>().admin;
-    final userClubs = admin?.getUserClubs(LoginStore.userData['outlookEmail']!);
-    selectedBoard = userClubs?.first.name;
+    final email = LoginStore.userData['outlookEmail'] ?? '';
+    final userClubs = admin?.getUserClubs(email);
+    selectedBoard = (userClubs != null && userClubs.isNotEmpty) ? userClubs.first.name : 'Technical Board';
 
-    clubs = userClubs!.first.members.clubsOrgs;
+    clubs = (userClubs != null && userClubs.isNotEmpty)
+        ? userClubs.first.members.clubsOrgs
+        : ["Coding Club", "Robotics Club", "Aeromodelling Club", "Electronics Club"];
     selectedClub = clubs.first;
     log("selectedBoard== $selectedBoard");
     if (widget.event != null) {
       final event = widget.event!;
       titleController.text = event.title;
-      venueController.text = event.venue;
-      descriptionController.text = event.description;
+      venueController.text = event.venue ?? '';
+      descriptionController.text = event.description ?? '';
 
       selectedDate = event.startDateTime;
       selectedStartTime = TimeOfDay.fromDateTime(event.startDateTime);
@@ -552,20 +555,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
   // Submit Form Method
   Future<void> _submitForm() async {
     final nav = Navigator.of(context);
-    var fileName = uploadedFilePath!.split('/').last;
-    Map<String, dynamic> data = {};
-    data['file'] =
-        await MultipartFile.fromFile(uploadedFilePath!, filename: fileName);
-    data['title'] = titleController.text;
-    data['description'] = descriptionController.text;
-    data['club_org'] = selectedClub;
-    data['startDateTime'] = _formatDateTime(selectedDate!, selectedStartTime!);
-    data['endDateTime'] = _formatDateTime(selectedDate!, selectedEndTime!);
-    data['venue'] = venueController.text;
-    data['categories'] = <String>["$selectedBoard", "All"];
-    data['board'] = selectedBoard;
-
-    Map<String, dynamic> res = {};
 
     // Show the loading dialog
     showDialog(
@@ -593,6 +582,21 @@ class _EventFormScreenState extends State<EventFormScreen> {
       },
     );
 
+    var fileName = uploadedFilePath!.split('/').last;
+    Map<String, dynamic> data = {};
+    data['file'] =
+        await MultipartFile.fromFile(uploadedFilePath!, filename: fileName);
+    data['title'] = titleController.text;
+    data['description'] = descriptionController.text;
+    data['club_org'] = selectedClub;
+    data['startDateTime'] = _formatDateTime(selectedDate!, selectedStartTime!);
+    data['endDateTime'] = _formatDateTime(selectedDate!, selectedEndTime!);
+    data['venue'] = venueController.text;
+    data['categories'] = <String>["$selectedBoard", "All"];
+    data['board'] = selectedBoard;
+
+    Map<String, dynamic> res = {};
+
     try {
       Logger().i("Uploading to server");
       res = await EventsAPIRepository().postEvent(data);
@@ -601,7 +605,7 @@ class _EventFormScreenState extends State<EventFormScreen> {
     }
     nav.pop();
 
-    if (res['saved_successfully']) {
+    if (res['saved_successfully'] == true || res['success'] == true) {
       showSnackBar('Event submitted successfully!');
       nav.pop();
     } else {
@@ -611,19 +615,6 @@ class _EventFormScreenState extends State<EventFormScreen> {
 
   Future<void> _editForm() async {
     final nav = Navigator.of(context);
-
-    Map<String, dynamic> data = {};
-    data['file'] = uploadedFilePath != null
-        ? (await MultipartFile.fromFile(uploadedFilePath!))
-        : null;
-    data['title'] = titleController.text;
-    data['description'] = descriptionController.text;
-    data['club_org'] = selectedClub;
-    data['startDateTime'] = _formatDateTime(selectedDate!, selectedStartTime!);
-    data['endDateTime'] = _formatDateTime(selectedDate!, selectedEndTime!);
-    data['venue'] = venueController.text;
-    data['categories'] = <String>["$selectedBoard", "All"];
-    data['board'] = selectedBoard;
 
     showDialog(
       context: context,
@@ -649,6 +640,19 @@ class _EventFormScreenState extends State<EventFormScreen> {
         );
       },
     );
+
+    Map<String, dynamic> data = {};
+    data['file'] = uploadedFilePath != null
+        ? (await MultipartFile.fromFile(uploadedFilePath!))
+        : null;
+    data['title'] = titleController.text;
+    data['description'] = descriptionController.text;
+    data['club_org'] = selectedClub;
+    data['startDateTime'] = _formatDateTime(selectedDate!, selectedStartTime!);
+    data['endDateTime'] = _formatDateTime(selectedDate!, selectedEndTime!);
+    data['venue'] = venueController.text;
+    data['categories'] = <String>["$selectedBoard", "All"];
+    data['board'] = selectedBoard;
 
     try {
       await EventsAPIRepository().putEvent(widget.event!.id, data);
