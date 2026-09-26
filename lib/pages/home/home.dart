@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/home/bottom_nav_item.dart';
+import 'package:onestop_dev/pages/events/admin_page.dart';
 import 'package:onestop_dev/pages/events/clubs_fest_page.dart';
 import 'package:onestop_dev/pages/events/events_home_page.dart';
 import 'package:onestop_dev/pages/events_feed/events_appbar.dart';
@@ -91,6 +93,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       selectedIcon: FluentIcons.people_community_24_filled,
       unselectedIcon: FluentIcons.people_community_24_regular,
     ),
+    BottomNavItem(
+      name: 'Manage',
+      selectedIcon: TablerIcons.shield_cog,
+      unselectedIcon: TablerIcons.shield_cog,
+    ),
   ];
 
   Future<void> _checkLibrarySlot() async {
@@ -143,7 +150,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   ];
 
   /// The sub-tabs within Events mode.
-  static const List<Widget> _eventsTabs = [EventsHomePage(), ClubsFestPage()];
+  static const List<Widget> _eventsTabs = [
+    EventsHomePage(),
+    ClubsFestPage(),
+    AdminPage(),
+  ];
 
   /// Returns the correct tab list and index based on current mode.
   Widget get _activeTab {
@@ -285,11 +296,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     final items = _isEventsMode ? _eventsNavItems : bottomNavItems;
     final screenWidth = MediaQuery.sizeOf(context).width;
 
-    // Events mode (3 items) gets a narrower bar; default mode (4 items)
-    // spans most of the screen width. Matches the Figma proportions
-    // (~261/390 for events, near-full for default).
-    final double navWidth =
-        _isEventsMode ? screenWidth * 0.70 : screenWidth - 16;
+    // Both default mode and events mode have 4 nav items.
+    final double navWidth = screenWidth - 16;
 
     return Center(
       child: AnimatedContainer(
@@ -325,7 +333,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 final bool isSelected;
                 if (_isEventsMode) {
                   // In events mode: index 0 is "Back" (never highlighted),
-                  // index 1 = Events, index 2 = Clubs/Fest.
+                  // index 1 = Events (subIndex 0), index 2 = Clubs/Fest (subIndex 1),
+                  // index 3 = Manage (subIndex 2).
                   isSelected =
                       itemIndex != 0 && (itemIndex - 1) == _eventsSubIndex;
                 } else {
@@ -378,7 +387,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   /// based on whether we're in default mode or events mode.
   void _onNavItemTap(BuildContext context, int itemIndex) {
     if (_isEventsMode) {
-      // Events mode nav: [Back, Events, Clubs/Fest]
+      // Events mode nav: [Back, Events, Clubs/Fest, Manage]
       switch (itemIndex) {
         case 0:
           // "Home" / Back — exit events mode, go to Home.
@@ -391,6 +400,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         case 2:
           // Clubs/Fest tab
           setState(() => _eventsSubIndex = 1);
+          break;
+        case 3:
+          // Manage / Admin tab
+          setState(() => _eventsSubIndex = 2);
           break;
       }
     } else {

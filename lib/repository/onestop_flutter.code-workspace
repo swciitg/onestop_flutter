@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../irbs"
+		},
+		{
+			"path": "../../../lib_token"
+		},
+		{
+			"path": "../../../onestop_ui"
+		}
+	],
+	"settings": {}
+}

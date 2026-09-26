@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:fuzzy/fuzzy.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
@@ -743,10 +744,10 @@ class _EventsHomePageState extends State<EventsHomePage> {
           // Right: circular icon button
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ClubsFestPage()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const ClubsFestPage()),
+              // );
             },
             child: Container(
               width: 44,
@@ -757,7 +758,7 @@ class _EventsHomePageState extends State<EventsHomePage> {
                 border: Border.all(color: OColor.gray200),
               ),
               child: Icon(
-                FluentIcons.grid_24_regular,
+                Icons.person_outlined,
                 size: 24,
                 color: OColor.gray800,
               ),
