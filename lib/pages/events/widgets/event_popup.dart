@@ -5,9 +5,9 @@ import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/widgets/components/event_network_image.dart';
 import 'package:onestop_dev/pages/events/widgets/poc_modal.dart';
-import 'package:onestop_dev/repository/events_api_repository.dart';
-import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/pages/events/providers/events_provider.dart';
 import 'package:onestop_ui/index.dart';
+import 'package:provider/provider.dart';
 
 /// Shows the event detail popup as a modal bottom sheet.
 Future<void> showEventPopup(
@@ -77,10 +77,8 @@ class _EventPopupContentState extends State<_EventPopupContent> {
   }
 
   Future<void> _fetchFullDetails() async {
-    final studentId = LoginStore.userData['_id'] ?? LoginStore.userData['rollNo'] ?? '';
-    final detailed = await EventsAPIRepository().getEventDetails(
+    final detailed = await context.read<EventsProvider>().fetchEventDetails(
       event.id,
-      studentId: studentId,
     );
     if (detailed != null && mounted) {
       setState(() {
@@ -96,14 +94,7 @@ class _EventPopupContentState extends State<_EventPopupContent> {
   }
 
   Future<void> _toggleLikeOrInterest() async {
-    final rollNo = LoginStore.userData['rollNo']?.toString() ??
-        LoginStore.userData['rollno']?.toString() ??
-        LoginStore.userData['rollNumber']?.toString() ??
-        'guest';
-    final email = LoginStore.userData['outlookEmail']?.toString() ??
-        LoginStore.userData['email']?.toString() ??
-        'guest@iitg.ac.in';
-
+    final provider = context.read<EventsProvider>();
     final newStatus = !isInterested;
     setState(() {
       isInterested = newStatus;
@@ -111,37 +102,21 @@ class _EventPopupContentState extends State<_EventPopupContent> {
     });
     widget.onStatusChanged?.call(isInterested, isRegistered);
 
-    try {
-      final res = await EventsAPIRepository().toggleLikeEvent(
-        rollNo: rollNo,
-        email: email,
-        eventId: event.id,
-        like: newStatus,
-      );
+    final success = await provider.setGoing(event, newStatus);
 
-      if (mounted) {
-        setState(() {
-          isActionLoading = false;
-          if (res != null) {
-            isInterested = res.like;
-          }
-        });
-        widget.onStatusChanged?.call(isInterested, isRegistered);
-        showSnackBar(
-          isInterested ? "Added to your interested events!" : "Removed from interested events",
-        );
-      }
-    } catch (_) {
-      if (mounted) {
-        setState(() {
-          isActionLoading = false;
-        });
-        widget.onStatusChanged?.call(isInterested, isRegistered);
-        showSnackBar(
-          isInterested ? "Added to your interested events!" : "Removed from interested events",
-        );
-      }
-    }
+    if (!mounted) return;
+    setState(() {
+      isActionLoading = false;
+      if (!success) isInterested = !newStatus;
+    });
+    widget.onStatusChanged?.call(isInterested, isRegistered);
+    showSnackBar(
+      !success
+          ? "Couldn't update your interested events"
+          : isInterested
+          ? "Added to your interested events!"
+          : "Removed from interested events",
+    );
   }
 
   @override

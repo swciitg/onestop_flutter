@@ -346,48 +346,25 @@ class EventsAPIRepository extends OneStopApi {
     }
   }
 
-  /// Admin lookup: checks admin status and returns clubs for the user
-  Future<Admin?> getAdmins() async {
+  /// Checks whether [email] belongs to a club secretary (treated as admin).
+  /// Returns `null` if the request fails.
+  Future<SecyStatus?> checkSecy({required String email}) async {
+    if (email.isEmpty) return const SecyStatus(isSecy: false);
     try {
-      final response = await serverDio.get('/api/v1/admin/me');
-      if (response.data is Map<String, dynamic>) {
-        return Admin.fromJson(Map<String, dynamic>.from(response.data));
+      final response = await serverDio.get(
+        '/api/v1/clubs/check-secy',
+        options: Options(headers: {'x-email': email}),
+      );
+      final json = response.data;
+      if (json is Map && json['success'] == true) {
+        return SecyStatus.fromJson(
+          Map<String, dynamic>.from(json),
+          email: email,
+        );
       }
-    } catch (_) {
-      // Backend /api/v1/admin/me route not yet deployed on server (see backend_requirements.md)
+    } catch (e) {
+      log('Error checking secy status: $e');
     }
-
-    // Default admin structure fallback matching boards and clubs
-    final email = LoginStore.userData['outlookEmail']?.toString() ?? '';
-    return Admin(clubs: [
-      Club(
-        name: "Technical Board",
-        members: ClubMembers(
-          admins: [if (email.isNotEmpty) email],
-          clubsOrgs: ["Coding Club", "Robotics Club", "Aeromodelling Club", "Electronics Club"],
-        ),
-      ),
-      Club(
-        name: "Cultural Board",
-        members: ClubMembers(
-          admins: [if (email.isNotEmpty) email],
-          clubsOrgs: ["Octaves", "Cadence", "Anchorenza", "Expressions"],
-        ),
-      ),
-      Club(
-        name: "Sports Board",
-        members: ClubMembers(
-          admins: [if (email.isNotEmpty) email],
-          clubsOrgs: ["Football", "Cricket", "Badminton", "Basketball", "Athletics"],
-        ),
-      ),
-      Club(
-        name: "Students' Web Committee",
-        members: ClubMembers(
-          admins: [if (email.isNotEmpty) email],
-          clubsOrgs: ["SWC"],
-        ),
-      ),
-    ]);
+    return null;
   }
 }

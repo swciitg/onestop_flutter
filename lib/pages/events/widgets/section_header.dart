@@ -4,7 +4,7 @@ import 'package:onestop_ui/index.dart';
 /// A reusable section header with an icon, title, and optional trailing action.
 ///
 /// Used across the Events homepage for sections like "Happening Today",
-/// "Trending Events", "Your Interests", "Recently Attended", and "Explore".
+/// "Trending Events", "Recently Attended", and "Explore".
 class SectionHeader extends StatelessWidget {
   final IconData icon;
   final String title;

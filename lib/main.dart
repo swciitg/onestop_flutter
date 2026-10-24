@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onestop_dev/functions/utility/check_last_updated.dart';
 import 'package:onestop_dev/functions/utility/connectivity.dart';
+import 'package:onestop_dev/pages/events/providers/events_provider.dart';
 import 'package:onestop_dev/pages/login/splash.dart';
 import 'package:onestop_dev/routes.dart';
 import 'package:onestop_dev/services/notifications_service.dart';
@@ -12,7 +13,6 @@ import 'package:onestop_dev/services/home_food_widget_service.dart';
 import 'package:onestop_dev/services/home_gatelog_widget_service.dart';
 import 'package:onestop_dev/services/home_timetable_widget_service.dart';
 import 'package:onestop_dev/stores/common_store.dart';
-import 'package:onestop_dev/stores/event_store.dart';
 import 'package:onestop_dev/stores/login_store.dart';
 import 'package:onestop_dev/stores/mapbox_store.dart';
 import 'package:onestop_dev/stores/medical_timetable_store.dart';
@@ -65,12 +65,12 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ThemeStore>(create: (_) => ThemeStore()),
+        ChangeNotifierProvider<EventsProvider>(create: (_) => EventsProvider()),
         Provider<LoginStore>(create: (_) => LoginStore()),
         Provider<RestaurantStore>(create: (_) => RestaurantStore()),
         Provider<MapBoxStore>(create: (_) => MapBoxStore()),
         Provider<CommonStore>(create: (_) => CommonStore()),
         Provider<TravelStore>(create: (_) => TravelStore()),
-        Provider<EventsStore>(create: (_) => EventsStore()),
         Provider<TimetableStore>(create: (_) => TimetableStore()),
         Provider<MedicalTimetableStore>(create: (_) => MedicalTimetableStore()),
       ],

@@ -20,8 +20,7 @@ appLoader.sh
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
 #.vscode/
-
-# Flutter/Dart/Pub related
+# Flutter/Dart/Pub relatde
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
@@ -190,3 +189,4 @@ windows/
 .env.prod
 *.env
 *.ps1
+ONESTOP-FLUTTER.code-workspace

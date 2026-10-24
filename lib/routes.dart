@@ -2,9 +2,11 @@ import 'package:onestop_dev/pages/buy_sell/bns_home.dart';
 import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/elections/election_login.dart';
-import 'package:onestop_dev/pages/events/admin_page.dart';
+import 'package:onestop_dev/pages/events/admin/admin_page.dart';
+import 'package:onestop_dev/pages/events/all_events.dart';
 import 'package:onestop_dev/pages/events/events_home_page.dart';
-import 'package:onestop_dev/pages/events_feed/events_appbar.dart';
+import 'package:onestop_dev/pages/events/saved/attended_events.dart';
+import 'package:onestop_dev/pages/events/saved/saved_events.dart';
 import 'package:onestop_dev/pages/food/mess_opi_form.dart';
 import 'package:onestop_dev/pages/food/mess_subscription_change_form.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
@@ -51,8 +53,10 @@ final routes = {
   GateLogPage.id: (context) => const GateLogPage(),
   TimetablePage.id: (context) => const TimetablePage(),
   EventsHomePage.id: (context) => const EventsHomePage(),
+  AllEvents.id: (context) => const AllEvents(),
+  SavedEvents.id: (context) => const SavedEvents(),
+  AttendedEvents.id: (context) => const AttendedEvents(),
   AdminPage.id: (context) => const AdminPage(),
-  EventsScreenWrapper.id: (context) => const EventsScreenWrapper(),
   LibraryTokenScreen.id: (context) => const LibraryTokenScreen(),
   ProfilePage.id: (context) => const ProfilePage(),
 };

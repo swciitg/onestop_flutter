@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:onestop_dev/main.dart';
 import 'package:onestop_dev/models/home/bottom_nav_item.dart';
-import 'package:onestop_dev/pages/events/admin_page.dart';
+import 'package:onestop_dev/pages/events/admin/admin_page.dart';
 import 'package:onestop_dev/pages/events/clubs_fest_page.dart';
 import 'package:onestop_dev/pages/events/events_home_page.dart';
-import 'package:onestop_dev/pages/events_feed/events_appbar.dart';
-import 'package:onestop_dev/pages/events_feed/events_screen.dart';
+import 'package:onestop_dev/pages/events/providers/events_provider.dart';
 import 'package:onestop_dev/pages/food/food_tab.dart';
 import 'package:onestop_dev/pages/home/home_tab.dart';
 import 'package:onestop_dev/pages/home/library_helper.dart';
@@ -228,6 +227,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       _isEventsMode = true;
       _eventsSubIndex = 0;
     });
+    context.read<EventsProvider>().loadAdminStatus();
   }
 
   /// Exits events mode, returning to the main home tab.
@@ -293,11 +293,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   Widget _bottomNavBar(BuildContext context) {
-    final items = _isEventsMode ? _eventsNavItems : bottomNavItems;
+    final isAdmin = context.watch<EventsProvider>().isAdmin;
+    final items =
+        _isEventsMode
+            ? (isAdmin ? _eventsNavItems : _eventsNavItems.sublist(0, 3))
+            : bottomNavItems;
     final screenWidth = MediaQuery.sizeOf(context).width;
 
-    // Both default mode and events mode have 4 nav items.
-    final double navWidth = screenWidth - 16;
+    // Full width fits 4 items; shrink proportionally when fewer are shown.
+    final double navWidth = (screenWidth - 16) * items.length / 4;
 
     return Center(
       child: AnimatedContainer(

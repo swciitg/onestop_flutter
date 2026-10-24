@@ -29,10 +29,42 @@ class Club {
   String name;
   ClubMembers members;
 
+  /// Backend club id, when known (used to query the club's events).
+  String? id;
+
   Club({
     required this.name,
     required this.members,
+    this.id,
   });
+}
+
+/// Response of `/api/v1/clubs/check-secy`. A secretary is treated as an admin.
+class SecyStatus {
+  final bool isSecy;
+  final Club? club;
+
+  const SecyStatus({required this.isSecy, this.club});
+
+  bool get isAdmin => isSecy;
+
+  factory SecyStatus.fromJson(Map<String, dynamic> json, {String email = ''}) {
+    final isSecy = json['isSecy'] == true;
+    final clubJson = json['club'];
+    Club? club;
+    if (isSecy && clubJson is Map) {
+      final name = clubJson['clubName']?.toString() ?? '';
+      club = Club(
+        id: clubJson['club_id']?.toString(),
+        name: name,
+        members: ClubMembers(
+          admins: [if (email.isNotEmpty) email],
+          clubsOrgs: [],
+        ),
+      );
+    }
+    return SecyStatus(isSecy: isSecy, club: club);
+  }
 }
 
 class ClubMembers {

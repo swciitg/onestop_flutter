@@ -1,58 +1,47 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:onestop_dev/models/event_scheduler/club_model.dart';
+import 'package:onestop_dev/pages/events/widgets/components/event_network_image.dart';
+import 'package:onestop_dev/pages/events/widgets/event_search_bar.dart';
 import 'package:onestop_dev/pages/events/widgets/poc_modal.dart';
-import 'package:onestop_dev/repository/events_api_repository.dart';
+import 'package:onestop_dev/pages/events/providers/clubs_provider.dart';
 import 'package:onestop_ui/index.dart';
+import 'package:provider/provider.dart';
 
 /// Page for the Clubs & Fests section, connected to backend APIs.
-class ClubsFestPage extends StatefulWidget {
+class ClubsFestPage extends StatelessWidget {
   const ClubsFestPage({super.key});
 
   @override
-  State<ClubsFestPage> createState() => _ClubsFestPageState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => ClubsProvider()..fetchClubs(),
+      child: const _ClubsFestView(),
+    );
+  }
 }
 
-class _ClubsFestPageState extends State<ClubsFestPage> {
-  final EventsAPIRepository _apiRepo = EventsAPIRepository();
-
-  final List<String> _categories = [
-    'All',
-    'Technical',
-    'Cultural',
-    'Sports',
-    'Welfare',
-    'SWC',
-    'Academic',
-  ];
-
-  String _selectedCategory = 'All';
-  List<ClubModel> _clubs = [];
-  bool _isLoading = true;
+class _ClubsFestView extends StatefulWidget {
+  const _ClubsFestView();
 
   @override
-  void initState() {
-    super.initState();
-    _fetchClubs();
-  }
+  State<_ClubsFestView> createState() => _ClubsFestViewState();
+}
 
-  Future<void> _fetchClubs() async {
-    setState(() {
-      _isLoading = true;
-    });
+class _ClubsFestViewState extends State<_ClubsFestView> {
+  // Reads (non-subscribing); [build] subscribes via `context.watch`.
+  ClubsProvider get _p => context.read<ClubsProvider>();
 
-    final categoryParam = _selectedCategory == 'All' ? null : _selectedCategory;
-    final clubs = await _apiRepo.getAllClubs(category: categoryParam);
+  final TextEditingController _searchController = TextEditingController();
 
-    if (mounted) {
-      setState(() {
-        _clubs = clubs;
-        _isLoading = false;
-      });
-    }
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   void _showClubDetailsModal(ClubModel club) async {
+    final provider = _p;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -64,10 +53,7 @@ class _ClubsFestPageState extends State<ClubsFestPage> {
           maxChildSize: 0.9,
           builder: (context, scrollController) {
             return FutureBuilder<ClubModel?>(
-              future:
-                  club.id != null
-                      ? _apiRepo.getClubDetails(club.id!)
-                      : Future.value(club),
+              future: provider.getClubDetails(club),
               builder: (context, snapshot) {
                 final detailedClub = snapshot.data ?? club;
                 return Container(
@@ -244,35 +230,39 @@ class _ClubsFestPageState extends State<ClubsFestPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<ClubsProvider>();
+    final clubs = provider.visibleClubs;
+    final categories = provider.categories;
     return Scaffold(
       backgroundColor: OColor.gray100,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Top title
+            // Title
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: OSpacing.m,
               ).copyWith(top: OSpacing.m),
               child: Row(
                 children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: OColor.green100,
-                      borderRadius: BorderRadius.circular(OCornerRadius.m),
-                    ),
-                    child: Icon(
-                      FluentIcons.people_community_24_regular,
-                      color: OColor.green600,
+                  Expanded(
+                    child: OText(
+                      text: 'Clubs/Fests',
+                      style: OTextStyle.headingLarge.copyWith(
+                        color: OColor.gray800,
+                      ),
                     ),
                   ),
-                  const SizedBox(width: OSpacing.m),
-                  OText(
-                    text: 'Clubs & Fests',
-                    style: OTextStyle.headingLarge.copyWith(
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: OColor.gray300),
+                    ),
+                    child: Icon(
+                      FluentIcons.person_24_regular,
+                      size: 24,
                       color: OColor.gray800,
                     ),
                   ),
@@ -281,41 +271,49 @@ class _ClubsFestPageState extends State<ClubsFestPage> {
             ),
             const SizedBox(height: OSpacing.m),
 
+            // Search
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
+              child: EventSearchBar(
+                placeholder: 'Search Clubs/Fests',
+                controller: _searchController,
+                onChanged: _p.setSearchQuery,
+                onClear: () => _p.setSearchQuery(''),
+              ),
+            ),
+            const SizedBox(height: OSpacing.s),
+
             // Board Categories Bar
             SizedBox(
-              height: 38,
+              height: 40,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
-                itemCount: _categories.length,
+                itemCount: categories.length,
                 separatorBuilder: (_, _) => const SizedBox(width: OSpacing.xs),
                 itemBuilder: (context, index) {
-                  final cat = _categories[index];
-                  final isSelected = cat == _selectedCategory;
+                  final cat = categories[index];
+                  final isSelected = cat == provider.selectedCategory;
                   return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedCategory = cat;
-                      });
-                      _fetchClubs();
-                    },
+                    onTap: () => _p.selectCategory(cat),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 8,
+                        horizontal: OSpacing.l,
+                        vertical: OSpacing.xs,
                       ),
                       decoration: BoxDecoration(
-                        color: isSelected ? OColor.green600 : OColor.white,
-                        borderRadius: BorderRadius.circular(OCornerRadius.l),
-                        border: Border.all(
-                          color: isSelected ? OColor.green600 : OColor.gray300,
-                        ),
+                        color: isSelected ? OColor.green600 : null,
+                        borderRadius: BorderRadius.circular(OCornerRadius.m),
+                        border:
+                            isSelected
+                                ? null
+                                : Border.all(color: OColor.gray300),
                       ),
                       child: Center(
                         child: OText(
                           text: cat,
-                          style: OTextStyle.labelSmall.copyWith(
-                            color: isSelected ? OColor.white : OColor.gray700,
+                          style: OTextStyle.labelMedium.copyWith(
+                            color: isSelected ? OColor.white : OColor.gray600,
                           ),
                         ),
                       ),
@@ -326,107 +324,104 @@ class _ClubsFestPageState extends State<ClubsFestPage> {
             ),
             const SizedBox(height: OSpacing.m),
 
-            // Clubs list / grid
+            // Clubs list
             Expanded(
               child:
-                  _isLoading
+                  provider.isLoading
                       ? const Center(child: CircularProgressIndicator())
-                      : _clubs.isEmpty
+                      : clubs.isEmpty
                       ? Center(
                         child: OText(
-                          text: 'No clubs found for $_selectedCategory',
+                          text: 'No clubs found',
                           style: OTextStyle.bodyMedium.copyWith(
                             color: OColor.gray600,
                           ),
                         ),
                       )
                       : RefreshIndicator(
-                        onRefresh: _fetchClubs,
+                        onRefresh: provider.fetchClubs,
                         child: ListView.separated(
-                          padding: const EdgeInsets.all(OSpacing.m),
-                          itemCount: _clubs.length,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.fromLTRB(
+                            OSpacing.m,
+                            0,
+                            OSpacing.m,
+                            120,
+                          ),
+                          itemCount: clubs.length,
                           separatorBuilder:
-                              (_, _) => const SizedBox(height: OSpacing.s),
+                              (_, _) => const SizedBox(height: OSpacing.xs),
                           itemBuilder: (context, index) {
-                            final club = _clubs[index];
-                            return GestureDetector(
+                            final club = clubs[index];
+                            return _ClubListTile(
+                              club: club,
                               onTap: () => _showClubDetailsModal(club),
-                              child: Container(
-                                padding: const EdgeInsets.all(OSpacing.m),
-                                decoration: BoxDecoration(
-                                  color: OColor.white,
-                                  borderRadius: BorderRadius.circular(
-                                    OCornerRadius.m,
-                                  ),
-                                  border: Border.all(color: OColor.gray200),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 48,
-                                      height: 48,
-                                      decoration: BoxDecoration(
-                                        color: OColor.green100,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child:
-                                          club.clubLogo != null &&
-                                                  club.clubLogo!.isNotEmpty
-                                              ? ClipOval(
-                                                child: Image.network(
-                                                  club.clubLogo!,
-                                                  fit: BoxFit.cover,
-                                                  errorBuilder:
-                                                      (_, _, _) => Icon(
-                                                        FluentIcons
-                                                            .people_community_24_regular,
-                                                        color: OColor.green600,
-                                                      ),
-                                                ),
-                                              )
-                                              : Icon(
-                                                FluentIcons
-                                                    .people_community_24_regular,
-                                                color: OColor.green600,
-                                              ),
-                                    ),
-                                    const SizedBox(width: OSpacing.m),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          OText(
-                                            text: club.clubName,
-                                            style: OTextStyle.labelLarge
-                                                .copyWith(
-                                                  color: OColor.gray800,
-                                                ),
-                                          ),
-                                          if (club.boardName != null &&
-                                              club.boardName!.isNotEmpty)
-                                            OText(
-                                              text: club.boardName!,
-                                              style: OTextStyle.bodySmall
-                                                  .copyWith(
-                                                    color: OColor.gray600,
-                                                  ),
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                    Icon(
-                                      FluentIcons.chevron_right_24_regular,
-                                      size: 20,
-                                      color: OColor.gray400,
-                                    ),
-                                  ],
-                                ),
-                              ),
                             );
                           },
                         ),
                       ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Row card for a club / fest: avatar, name, board and chevron.
+class _ClubListTile extends StatelessWidget {
+  final ClubModel club;
+  final VoidCallback onTap;
+
+  const _ClubListTile({required this.club, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final board = club.boardName ?? '';
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.all(OSpacing.s),
+        decoration: BoxDecoration(
+          color: OColor.white,
+          borderRadius: BorderRadius.circular(OCornerRadius.m),
+          border: Border.all(color: OColor.gray200),
+        ),
+        child: Row(
+          children: [
+            EventNetworkImage.avatar(imageUrl: club.clubLogo),
+            const SizedBox(width: OSpacing.s),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  OText(
+                    text: club.clubName,
+                    style: OTextStyle.bodyMedium.copyWith(
+                      color: OColor.gray800,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (board.isNotEmpty) ...[
+                    const SizedBox(height: OSpacing.xxs),
+                    OText(
+                      text: board,
+                      style: OTextStyle.bodySmall.copyWith(
+                        color: OColor.gray600,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            Icon(
+              FluentIcons.chevron_right_24_regular,
+              size: 24,
+              color: OColor.gray800,
             ),
           ],
         ),

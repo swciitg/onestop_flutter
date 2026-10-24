@@ -1,16 +1,12 @@
-import 'dart:developer';
-
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
-import 'package:onestop_dev/models/event_scheduler/admin_model.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/utils/event_formatters.dart';
 import 'package:onestop_dev/pages/events/widgets/components/event_network_image.dart';
-import 'package:onestop_dev/repository/events_api_repository.dart';
-import 'package:onestop_dev/stores/login_store.dart';
+import 'package:onestop_dev/pages/events/providers/events_admin_provider.dart';
 import 'package:onestop_ui/index.dart';
+import 'package:provider/provider.dart';
 
 import 'create_edit_event_page.dart';
 
@@ -19,121 +15,30 @@ import 'create_edit_event_page.dart';
 /// Allows admins to view their club's events (Past Events / Drafts),
 /// create new events, and edit or delete existing ones.
 /// Matches the Figma design node 1780-57725.
-class AdminPage extends StatefulWidget {
+class AdminPage extends StatelessWidget {
   static const id = "/events/admin";
 
   const AdminPage({super.key});
 
   @override
-  State<AdminPage> createState() => _AdminPageState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => EventsAdminProvider()..loadAdminData(),
+      child: const _AdminView(),
+    );
+  }
 }
 
-class _AdminPageState extends State<AdminPage> {
-  final EventsAPIRepository _apiRepo = EventsAPIRepository();
-
-  // Admin & club state
-  Admin? _admin;
-  List<Club> _userClubs = [];
-  Club? _selectedClub;
-
-  // Tab state: 0 = Past Events, 1 = Drafts
-  int _selectedTabIndex = 0;
-
-  // Events data
-  List<EventModel> _events = [];
-  bool _isLoading = true;
-  bool _isLoadingEvents = false;
-
-  String get _userEmail =>
-      LoginStore.userData['outlookEmail']?.toString() ?? '';
+class _AdminView extends StatefulWidget {
+  const _AdminView();
 
   @override
-  void initState() {
-    super.initState();
-    _loadAdminData();
-  }
+  State<_AdminView> createState() => _AdminViewState();
+}
 
-  Future<void> _loadAdminData() async {
-    setState(() => _isLoading = true);
-
-    try {
-      final admin = await _apiRepo.getAdmins();
-      if (admin != null && mounted) {
-        final clubs = admin.getUserClubs(_userEmail);
-        setState(() {
-          _admin = admin;
-          _userClubs = clubs;
-          _selectedClub = clubs.isNotEmpty ? clubs.first : null;
-          _isLoading = false;
-        });
-        _fetchEvents();
-      } else if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    } catch (e) {
-      log('Error loading admin data: $e');
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
-  }
-
-  Future<void> _fetchEvents() async {
-    if (_selectedClub == null) return;
-
-    setState(() => _isLoadingEvents = true);
-
-    try {
-      final status = _selectedTabIndex == 1 ? 'DRAFT' : null;
-      final events = await _apiRepo.getAdminEvents(
-        clubId: _selectedClub!.name,
-        status: status,
-      );
-
-      if (mounted) {
-        List<EventModel> filtered;
-        if (_selectedTabIndex == 0) {
-          // Past Events: posted events with end time before now
-          filtered = events.where((e) {
-            final isPast = e.endTime.isBefore(DateTime.now());
-            final isPosted =
-                e.status.toUpperCase() == 'POSTED' ||
-                e.status.toUpperCase() == 'PUBLISHED';
-            return status == null ? isPast : isPosted;
-          }).toList();
-        } else {
-          filtered = events;
-        }
-
-        setState(() {
-          _events = filtered;
-          _isLoadingEvents = false;
-        });
-      }
-    } catch (e) {
-      log('Error fetching events: $e');
-      if (mounted) {
-        setState(() {
-          _events = [];
-          _isLoadingEvents = false;
-        });
-      }
-    }
-  }
-
-  void _onTabChanged(int index) {
-    if (index == _selectedTabIndex) return;
-    setState(() => _selectedTabIndex = index);
-    _fetchEvents();
-  }
-
-  void _onClubChanged(Club club) {
-    if (club.name == _selectedClub?.name) return;
-    setState(() => _selectedClub = club);
-    _fetchEvents();
-  }
+class _AdminViewState extends State<_AdminView> {
+  // Reads (non-subscribing); [build] subscribes via `context.watch`.
+  EventsAdminProvider get _p => context.read<EventsAdminProvider>();
 
   void _onAddEvent() {
     Navigator.of(context).push(
@@ -188,31 +93,28 @@ class _AdminPageState extends State<AdminPage> {
     );
 
     if (confirmed == true) {
-      try {
-        await _apiRepo.deleteEventById(event.id, email: _userEmail);
-        showSnackBar('Event deleted successfully');
-        _fetchEvents();
-      } catch (e) {
-        log('Error deleting event: $e');
-        showSnackBar('Failed to delete event');
-      }
+      final deleted = await _p.deleteEvent(event);
+      showSnackBar(
+        deleted ? 'Event deleted successfully' : 'Failed to delete event',
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    context.watch<EventsAdminProvider>();
     return Scaffold(
       backgroundColor: OColor.white,
       body: SafeArea(
-        child: _isLoading
+        child: _p.isLoading
             ? Center(
                 child: CircularProgressIndicator(color: OColor.green500),
               )
-            : _userClubs.isEmpty
+            : _p.userClubs.isEmpty
                 ? _buildNoAccessState()
                 : RefreshIndicator(
                     color: OColor.green500,
-                    onRefresh: _fetchEvents,
+                    onRefresh: _p.fetchEvents,
                     child: CustomScrollView(
                       slivers: [
                         SliverToBoxAdapter(child: _buildHeader()),
@@ -301,19 +203,19 @@ class _AdminPageState extends State<AdminPage> {
 
   /// Club selector dropdown
   Widget _buildClubSelector() {
-    if (_selectedClub == null) return const SizedBox.shrink();
+    if (_p.selectedClub == null) return const SizedBox.shrink();
 
     // Build initials from club name
-    final words = _selectedClub!.name.split(' ');
+    final words = _p.selectedClub!.name.split(' ');
     final initials = words.length >= 2
         ? '${words[0][0]}${words[1][0]}'.toUpperCase()
-        : _selectedClub!.name.substring(0, 2).toUpperCase();
+        : _p.selectedClub!.name.substring(0, 2).toUpperCase();
 
     // Build sub-label from clubsOrgs
-    final subOrgs = _selectedClub!.members.clubsOrgs;
+    final subOrgs = _p.selectedClub!.members.clubsOrgs;
     final subLabel = subOrgs.isNotEmpty
-        ? 'Club, ${_selectedClub!.name}'
-        : _selectedClub!.name;
+        ? 'Club, ${_p.selectedClub!.name}'
+        : _p.selectedClub!.name;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -321,7 +223,7 @@ class _AdminPageState extends State<AdminPage> {
         vertical: OSpacing.xs,
       ),
       child: GestureDetector(
-        onTap: _userClubs.length > 1 ? () => _showClubPicker() : null,
+        onTap: _p.userClubs.length > 1 ? () => _showClubPicker() : null,
         child: Container(
           padding: const EdgeInsets.all(OSpacing.s),
           decoration: BoxDecoration(
@@ -356,7 +258,7 @@ class _AdminPageState extends State<AdminPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     OText(
-                      text: _selectedClub!.name,
+                      text: _p.selectedClub!.name,
                       style: OTextStyle.headingXSmall.copyWith(
                         color: OColor.gray800,
                       ),
@@ -377,7 +279,7 @@ class _AdminPageState extends State<AdminPage> {
               ),
               // Settings / dropdown icon
               Icon(
-                _userClubs.length > 1
+                _p.userClubs.length > 1
                     ? FluentIcons.chevron_down_16_regular
                     : FluentIcons.settings_16_regular,
                 size: 20,
@@ -422,13 +324,13 @@ class _AdminPageState extends State<AdminPage> {
               style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
             ),
             const SizedBox(height: OSpacing.s),
-            ..._userClubs.map((club) => ListTile(
+            ..._p.userClubs.map((club) => ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Container(
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: club.name == _selectedClub?.name
+                      color: club.name == _p.selectedClub?.name
                           ? OColor.green100
                           : OColor.gray100,
                       borderRadius: BorderRadius.circular(OCornerRadius.s),
@@ -440,7 +342,7 @@ class _AdminPageState extends State<AdminPage> {
                                 .toUpperCase()
                             : club.name.substring(0, 2).toUpperCase(),
                         style: OTextStyle.labelSmall.copyWith(
-                          color: club.name == _selectedClub?.name
+                          color: club.name == _p.selectedClub?.name
                               ? OColor.green600
                               : OColor.gray600,
                           fontWeight: FontWeight.w600,
@@ -454,13 +356,13 @@ class _AdminPageState extends State<AdminPage> {
                       color: OColor.gray800,
                     ),
                   ),
-                  trailing: club.name == _selectedClub?.name
+                  trailing: club.name == _p.selectedClub?.name
                       ? Icon(FluentIcons.checkmark_16_regular,
                           color: OColor.green600)
                       : null,
                   onTap: () {
                     Navigator.of(ctx).pop();
-                    _onClubChanged(club);
+                    _p.selectClub(club);
                   },
                 )),
             SizedBox(height: MediaQuery.of(context).padding.bottom + OSpacing.s),
@@ -500,10 +402,10 @@ class _AdminPageState extends State<AdminPage> {
     required String label,
     required int index,
   }) {
-    final isSelected = _selectedTabIndex == index;
+    final isSelected = _p.selectedTabIndex == index;
 
     return GestureDetector(
-      onTap: () => _onTabChanged(index),
+      onTap: () => _p.selectTab(index),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(
@@ -580,7 +482,7 @@ class _AdminPageState extends State<AdminPage> {
 
   /// Events list or loading/empty state
   Widget _buildEventsList() {
-    if (_isLoadingEvents) {
+    if (_p.isLoadingEvents) {
       return SliverFillRemaining(
         hasScrollBody: false,
         child: Center(
@@ -592,7 +494,7 @@ class _AdminPageState extends State<AdminPage> {
       );
     }
 
-    if (_events.isEmpty) {
+    if (_p.events.isEmpty) {
       return SliverFillRemaining(
         hasScrollBody: false,
         child: Center(
@@ -608,7 +510,7 @@ class _AdminPageState extends State<AdminPage> {
                 ),
                 const SizedBox(height: OSpacing.s),
                 OText(
-                  text: _selectedTabIndex == 0
+                  text: _p.selectedTabIndex == 0
                       ? 'No past events'
                       : 'No drafts yet',
                   style:
@@ -616,7 +518,7 @@ class _AdminPageState extends State<AdminPage> {
                 ),
                 const SizedBox(height: OSpacing.xxs),
                 OText(
-                  text: _selectedTabIndex == 0
+                  text: _p.selectedTabIndex == 0
                       ? 'Your completed events will appear here.'
                       : 'Create a draft to get started.',
                   style: OTextStyle.bodySmall.copyWith(color: OColor.gray500),
@@ -636,12 +538,12 @@ class _AdminPageState extends State<AdminPage> {
           (context, index) => Padding(
             padding: const EdgeInsets.only(bottom: OSpacing.m),
             child: _AdminEventCard(
-              event: _events[index],
-              onEdit: () => _onEditEvent(_events[index]),
-              onDelete: () => _onDeleteEvent(_events[index]),
+              event: _p.events[index],
+              onEdit: () => _onEditEvent(_p.events[index]),
+              onDelete: () => _onDeleteEvent(_p.events[index]),
             ),
           ),
-          childCount: _events.length,
+          childCount: _p.events.length,
         ),
       ),
     );

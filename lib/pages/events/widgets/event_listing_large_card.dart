@@ -7,7 +7,7 @@ import 'package:onestop_dev/pages/events/widgets/components/event_going_button.d
 import 'package:onestop_dev/pages/events/widgets/components/event_network_image.dart';
 import 'package:onestop_ui/index.dart';
 
-/// Large event card used in the "Your Interests" and "Explore" sections.
+/// Large event card used in the "Explore" section.
 ///
 /// Composed of [EventNetworkImage], [OTag], [EventAvatarStack], and [EventGoingButton].
 class EventListingLargeCard extends StatelessWidget {

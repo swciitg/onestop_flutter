@@ -41,7 +41,7 @@ class EventsHomeShimmer extends StatelessWidget {
         ),
         const SizedBox(height: OSpacing.l),
 
-        // 3. Your Interests Large Cards Shimmer
+        // 3. Explore Large Cards Shimmer
         _buildSectionHeaderShimmer(width: 120),
         const SizedBox(height: OSpacing.s),
         Padding(
