@@ -56,11 +56,11 @@ dependencies:
     git:
       url: https://github.com/swciitg/onestop_kit.git
       ref: dev
-  gate_log:
-    git:
-      url: https://github.com/swciitg/gatelog_onestop.git
-      path: packages/gate_log
-      ref: redesign
+  # gate_log:
+  #   git:
+  #     url: https://github.com/swciitg/gatelog_onestop.git
+  #     path: packages/gate_log
+  #     ref: redesign
     # path: ../gatelog_onestop/packages/gate_log
   onestop_ui:
     git:
@@ -69,11 +69,11 @@ dependencies:
       ref: dev
     # path: ../onestop_ui/packages/onestop_ui
 
-  lib_token:
-    # git:
-    #   url: https://github.com/swciitg/lib_token.git
-    #   ref: redesign
-    path: ../lib_token
+  # lib_token:
+  #   # git:
+  #   #   url: https://github.com/swciitg/lib_token.git
+  #   #   ref: redesign
+  #   path: ../lib_token
 
   intl: ^0.20.2
   provider: ^6.0.2

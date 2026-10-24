@@ -12,7 +12,7 @@ import 'package:onestop_dev/pages/food/mess_subscription_change_form.dart';
 import 'package:onestop_dev/pages/food/search_results.dart';
 import 'package:onestop_dev/pages/hab/hostel_service.dart';
 import 'package:onestop_dev/pages/home/home.dart';
-import 'package:lib_token/lib_token.dart';
+// import 'package:lib_token/lib_token.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
 import 'package:onestop_dev/pages/login/blocked.dart';
 import 'package:onestop_dev/pages/login/login.dart';
@@ -57,6 +57,6 @@ final routes = {
   SavedEvents.id: (context) => const SavedEvents(),
   AttendedEvents.id: (context) => const AttendedEvents(),
   AdminPage.id: (context) => const AdminPage(),
-  LibraryTokenScreen.id: (context) => const LibraryTokenScreen(),
+  // LibraryTokenScreen.id: (context) => const LibraryTokenScreen(),
   ProfilePage.id: (context) => const ProfilePage(),
 };

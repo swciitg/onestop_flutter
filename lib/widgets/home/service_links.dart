@@ -3,7 +3,7 @@ import 'package:onestop_dev/pages/complaints/complaints_page.dart';
 import 'package:onestop_dev/pages/contact/contact.dart';
 import 'package:onestop_dev/pages/elections/election_login.dart';
 import 'package:onestop_dev/pages/ip/ip_carousel.dart';
-import 'package:lib_token/lib_token.dart';
+// import 'package:lib_token/lib_token.dart';
 import 'package:onestop_dev/pages/lost_found/lnf_home.dart';
 import 'package:onestop_dev/pages/medical_section/medicalhome.dart';
 import 'package:onestop_dev/pages/services/cab_share.dart';
@@ -42,12 +42,12 @@ List<Map<String, dynamic>> serviceLinksData = [
     "iconPath": "assets/images/gate_log.svg",
     "routeId": GateLogPage.id,
   },
-  {
-    "label": "Library Token",
-    "iconPath": "assets/images/lib_token.svg",
-    "routeId": LibraryTokenScreen.id,
-    "newBadge": true,
-  },
+  // {
+  //   "label": "Library Token",
+  //   "iconPath": "assets/images/lib_token.svg",
+  //   "routeId": LibraryTokenScreen.id,
+  //   "newBadge": true,
+  // },
   // {
   //   "label": "Election",
   //   "iconPath": "assets/images/election.svg",
