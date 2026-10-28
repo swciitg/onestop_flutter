@@ -1,18 +1,17 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:onestop_ui/index.dart';
 
-/// Two side-by-side toggle tiles: "All Events" (with count badge) and "Saved Events".
+/// Two side-by-side toggle tiles: "All Events" and "Saved Events".
 ///
 /// Matches the Figma design's toggle tile row at the top of the Events homepage.
 class EventToggleTiles extends StatelessWidget {
-  final int allEventsCount;
   final VoidCallback? onAllEventsTap;
   final VoidCallback? onSavedEventsTap;
 
   const EventToggleTiles({
     super.key,
-    this.allEventsCount = 0,
     this.onAllEventsTap,
     this.onSavedEventsTap,
   });
@@ -23,16 +22,15 @@ class EventToggleTiles extends StatelessWidget {
       children: [
         Expanded(
           child: _buildTile(
-            icon: FluentIcons.list_24_regular,
+            icon: TablerIcons.list,
             label: 'All Events',
-            badgeCount: allEventsCount,
             onTap: onAllEventsTap,
           ),
         ),
         const SizedBox(width: 12),
         Expanded(
           child: _buildTile(
-            icon: FluentIcons.heart_24_regular,
+            icon: TablerIcons.heart_plus,
             label: 'Saved Events',
             onTap: onSavedEventsTap,
           ),
@@ -44,7 +42,6 @@ class EventToggleTiles extends StatelessWidget {
   Widget _buildTile({
     required IconData icon,
     required String label,
-    int? badgeCount,
     VoidCallback? onTap,
   }) {
     return GestureDetector(
@@ -56,33 +53,20 @@ class EventToggleTiles extends StatelessWidget {
           borderRadius: BorderRadius.circular(OCornerRadius.m),
           border: Border.all(color: OColor.gray200),
         ),
-        child: Row(
-          children: [
-            Icon(icon, size: 16, color: OColor.gray800),
-            const SizedBox(width: OSpacing.xs),
-            Flexible(
-              child: OText(
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 20, color: OColor.green600),
+              const SizedBox(width: OSpacing.xs),
+              OText(
                 text: label,
-                style: OTextStyle.labelLarge.copyWith(color: OColor.gray800),
+                style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-            ),
-            if (badgeCount != null && badgeCount > 0) ...[
-              const SizedBox(width: OSpacing.xs),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: OColor.blue100,
-                  borderRadius: BorderRadius.circular(OCornerRadius.l),
-                ),
-                child: OText(
-                  text: '$badgeCount',
-                  style: OTextStyle.labelSmall.copyWith(color: OColor.blue500),
-                ),
-              ),
             ],
-          ],
+          ),
         ),
       ),
     );

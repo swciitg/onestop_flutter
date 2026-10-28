@@ -17,13 +17,14 @@ class EventAvatarStack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final totalWidth = size + (count - 1) * overlap;
+    final c = count > 3 ? 3 : count;
+    final totalWidth = size + (c - 1) * overlap;
 
     return SizedBox(
       width: totalWidth,
       height: size,
       child: Stack(
-        children: List.generate(count, (index) {
+        children: List.generate(c, (index) {
           return Positioned(
             left: index * overlap,
             child: Container(

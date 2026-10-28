@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/utils/event_formatters.dart';
 import 'package:onestop_dev/pages/events/widgets/components/event_avatar_stack.dart';
@@ -137,16 +138,12 @@ class EventListingLargeCard extends StatelessWidget {
         // Location
         Row(
           children: [
-            Icon(
-              FluentIcons.location_16_regular,
-              size: 16,
-              color: OColor.gray600,
-            ),
+            Icon(TablerIcons.map_pin, size: 16, color: OColor.gray600),
             const SizedBox(width: OSpacing.xxs),
             Expanded(
               child: OText(
                 text: venue,
-                style: OTextStyle.labelMedium.copyWith(color: OColor.gray600),
+                style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -157,16 +154,12 @@ class EventListingLargeCard extends StatelessWidget {
         // Date
         Row(
           children: [
-            Icon(
-              FluentIcons.calendar_16_regular,
-              size: 16,
-              color: OColor.gray600,
-            ),
+            Icon(TablerIcons.calendar, size: 16, color: OColor.gray600),
             const SizedBox(width: OSpacing.xxs),
             Expanded(
               child: OText(
                 text: dateRange,
-                style: OTextStyle.labelMedium.copyWith(color: OColor.gray600),
+                style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -211,17 +204,18 @@ class EventListingLargeCard extends StatelessWidget {
   Widget _buildFooter() {
     final safeCount = interestedCount > 0 ? interestedCount : 0;
     final compactCount = EventFormatters.formatCount(safeCount);
+    // if (safeCount == 0) return SizedBox();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // Avatar stack + interested count
-        Flexible(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const EventAvatarStack(count: 3, size: 24, overlap: 20),
-              if (safeCount > 0) ...[
+        if (safeCount > 0)
+          Flexible(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                EventAvatarStack(count: safeCount, size: 24, overlap: 20),
                 const SizedBox(width: OSpacing.xxs),
                 Flexible(
                   child: OText(
@@ -234,9 +228,8 @@ class EventListingLargeCard extends StatelessWidget {
                   ),
                 ),
               ],
-            ],
+            ),
           ),
-        ),
         const SizedBox(width: OSpacing.xs),
         // Isolated I'm Going button
         EventGoingButton(isGoing: isGoing, onTap: onGoingTap),

@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
@@ -225,10 +226,10 @@ class _EventPopupContentState extends State<_EventPopupContent> {
         Expanded(
           child: OText(
             text: event.title,
+            maxLines: 2,
             style: OTextStyle.labelLarge.copyWith(
               color: OColor.gray800,
               fontSize: 18,
-              height: 24 / 18,
             ),
           ),
         ),
@@ -236,17 +237,12 @@ class _EventPopupContentState extends State<_EventPopupContent> {
         GestureDetector(
           onTap: () => Navigator.of(context).pop(),
           child: Container(
-            width: 40,
-            height: 40,
+            padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: OColor.gray100,
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              FluentIcons.dismiss_24_regular,
-              size: 24,
-              color: OColor.gray800,
-            ),
+            child: Icon(TablerIcons.x, size: 24, color: OColor.gray600),
           ),
         ),
       ],
@@ -265,89 +261,87 @@ class _EventPopupContentState extends State<_EventPopupContent> {
 
   /// Two action buttons: "Register" (primary) and "I'm Interested" (secondary)
   Widget _buildActionButtons() {
-    return SizedBox(
-      height: 48,
-      child: Row(
-        children: [
-          // Register button
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  isRegistered = !isRegistered;
-                });
-                widget.onStatusChanged?.call(isInterested, isRegistered);
-                showSnackBar(
-                  isRegistered
-                      ? "Registered for ${event.title}"
-                      : "Registration cancelled for ${event.title}",
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: isRegistered ? OColor.green700 : OColor.green600,
-                  borderRadius: BorderRadius.circular(OCornerRadius.m),
-                  boxShadow: const [
-                    BoxShadow(color: Color(0x0A000000), blurRadius: 20),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      FluentIcons.edit_16_regular,
-                      size: 16,
-                      color: OColor.white,
-                    ),
-                    const SizedBox(width: OSpacing.xxs),
-                    OText(
-                      text: isRegistered ? 'Registered' : 'Register',
-                      style: OTextStyle.labelMedium.copyWith(
-                        color: OColor.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+    return Row(
+      children: [
+        // Register button
+        // Expanded(
+        //   child: GestureDetector(
+        //     onTap: () {
+        //       setState(() {
+        //         isRegistered = !isRegistered;
+        //       });
+        //       widget.onStatusChanged?.call(isInterested, isRegistered);
+        //       showSnackBar(
+        //         isRegistered
+        //             ? "Registered for ${event.title}"
+        //             : "Registration cancelled for ${event.title}",
+        //       );
+        //     },
+        //     child: Container(
+        //       decoration: BoxDecoration(
+        //         color: isRegistered ? OColor.green700 : OColor.green600,
+        //         borderRadius: BorderRadius.circular(OCornerRadius.m),
+        //         boxShadow: const [
+        //           BoxShadow(color: Color(0x0A000000), blurRadius: 20),
+        //         ],
+        //       ),
+        //       child: Row(
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         children: [
+        //           Icon(
+        //             FluentIcons.edit_16_regular,
+        //             size: 16,
+        //             color: OColor.white,
+        //           ),
+        //           const SizedBox(width: OSpacing.xxs),
+        //           OText(
+        //             text: isRegistered ? 'Registered' : 'Register',
+        //             style: OTextStyle.labelMedium.copyWith(color: OColor.white),
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        Expanded(
+          child: PrimaryButton(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            label: isRegistered ? 'Registered' : 'Register',
+            bgColor: isRegistered ? OColor.green700 : OColor.green600,
+            iconColor: OColor.white,
+            leadingIcon: isRegistered ? TablerIcons.check : TablerIcons.edit,
+            labelStyle: OTextStyle.labelMedium.copyWith(color: OColor.white),
+            onPressed: () {
+              setState(() {
+                isRegistered = !isRegistered;
+              });
+              widget.onStatusChanged?.call(isInterested, isRegistered);
+              showSnackBar(
+                isRegistered
+                    ? "Registered for ${event.title}"
+                    : "Registration cancelled for ${event.title}",
+              );
+            },
           ),
-          const SizedBox(width: OSpacing.s),
-          // I'm Interested button
-          Expanded(
-            child: GestureDetector(
-              onTap: isActionLoading ? null : _toggleLikeOrInterest,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: isInterested ? OColor.green100 : Colors.transparent,
-                  borderRadius: BorderRadius.circular(OCornerRadius.m),
-                  border: Border.all(
-                    color: isInterested ? OColor.green600 : OColor.gray300,
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      isInterested
-                          ? FluentIcons.heart_16_filled
-                          : FluentIcons.heart_16_regular,
-                      size: 16,
-                      color: OColor.green600,
-                    ),
-                    const SizedBox(width: OSpacing.xxs),
-                    OText(
-                      text: isInterested ? "Interested" : "I'm Interested",
-                      style: OTextStyle.labelMedium.copyWith(
-                        color: OColor.green600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+        ),
+        const SizedBox(width: OSpacing.s),
+
+        // I'm Interested button
+        Expanded(
+          child: PrimaryButton(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            label: isInterested ? "Interested" : "I'm Interested",
+            bgColor: isInterested ? OColor.green100 : Colors.transparent,
+            leadingIcon:
+                isInterested
+                    ? TablerIcons.heart_filled
+                    : TablerIcons.heart_plus,
+            iconColor: OColor.green600,
+            labelStyle: OTextStyle.labelMedium.copyWith(color: OColor.green600),
+            onPressed: isActionLoading ? null : _toggleLikeOrInterest,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -372,11 +366,11 @@ class _EventPopupContentState extends State<_EventPopupContent> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(FluentIcons.tag_16_regular, size: 16, color: color),
+                  Icon(TablerIcons.tags_filled, size: 16, color: color),
                   const SizedBox(width: 4),
                   OText(
                     text: entry.value.toUpperCase(),
-                    style: OTextStyle.labelSmall.copyWith(color: color),
+                    style: OTextStyle.labelXSmall.copyWith(color: color),
                   ),
                 ],
               ),
@@ -399,16 +393,12 @@ class _EventPopupContentState extends State<_EventPopupContent> {
         // Location
         Row(
           children: [
-            Icon(
-              FluentIcons.location_16_regular,
-              size: 16,
-              color: OColor.gray600,
-            ),
+            Icon(TablerIcons.map_pin, size: 16, color: OColor.gray600),
             const SizedBox(width: OSpacing.xxs),
             Expanded(
               child: OText(
                 text: venueText,
-                style: OTextStyle.labelMedium.copyWith(color: OColor.gray600),
+                style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -419,13 +409,13 @@ class _EventPopupContentState extends State<_EventPopupContent> {
         // Time
         Row(
           children: [
-            Icon(FluentIcons.clock_16_regular, size: 16, color: OColor.gray600),
+            Icon(TablerIcons.clock, size: 16, color: OColor.gray600),
             const SizedBox(width: OSpacing.xxs),
             Expanded(
               child: OText(
                 text:
                     '${timeFormat.format(event.startDateTime)} - ${timeFormat.format(event.endDateTime)}',
-                style: OTextStyle.labelMedium.copyWith(color: OColor.gray600),
+                style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -473,7 +463,7 @@ class _EventPopupContentState extends State<_EventPopupContent> {
       children: [
         OText(
           text: label,
-          style: OTextStyle.labelMedium.copyWith(color: OColor.gray600),
+          style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
         ),
         const SizedBox(height: OSpacing.xxs),
         OText(
@@ -486,8 +476,7 @@ class _EventPopupContentState extends State<_EventPopupContent> {
 
   /// Posted By section with organizer avatar
   Widget _buildPostedBy() {
-    final clubTitle =
-        event.clubOrg.isNotEmpty ? event.clubOrg : "Student Affairs";
+    final clubTitle = event.clubOrg.isNotEmpty ? event.clubOrg : "Unknown Club";
     final boardTitle = event.board.isNotEmpty ? event.board : "IIT Guwahati";
 
     return Column(
@@ -495,7 +484,7 @@ class _EventPopupContentState extends State<_EventPopupContent> {
       children: [
         OText(
           text: 'Posted By',
-          style: OTextStyle.labelMedium.copyWith(color: OColor.gray600),
+          style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
         ),
         const SizedBox(height: OSpacing.s),
         Row(
@@ -508,7 +497,7 @@ class _EventPopupContentState extends State<_EventPopupContent> {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                FluentIcons.people_24_regular,
+                TablerIcons.users_group,
                 size: 24,
                 color: OColor.gray600,
               ),
@@ -520,7 +509,7 @@ class _EventPopupContentState extends State<_EventPopupContent> {
                 children: [
                   OText(
                     text: clubTitle,
-                    style: OTextStyle.labelMedium.copyWith(
+                    style: OTextStyle.labelSmall.copyWith(
                       color: OColor.gray800,
                     ),
                     maxLines: 1,
@@ -548,7 +537,7 @@ class _EventPopupContentState extends State<_EventPopupContent> {
       children: [
         OText(
           text: 'POCs',
-          style: OTextStyle.labelMedium.copyWith(color: OColor.gray600),
+          style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
         ),
         const SizedBox(height: OSpacing.s),
         SingleChildScrollView(
@@ -613,16 +602,12 @@ class _EventPopupContentState extends State<_EventPopupContent> {
                         width: 48,
                         height: 48,
                       )
-                      : Icon(
-                        FluentIcons.person_24_regular,
-                        size: 32,
-                        color: OColor.blue500,
-                      ),
+                      : Icon(TablerIcons.user, size: 32, color: OColor.blue500),
             ),
             const SizedBox(height: OSpacing.xs),
             OText(
               text: name,
-              style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+              style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

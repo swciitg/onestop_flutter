@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
@@ -118,8 +119,6 @@ class _EventsHomePageState extends State<EventsHomePage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
                     child: EventToggleTiles(
-                      allEventsCount:
-                          provider.isHomeLoading ? 0 : provider.allEventsCount,
                       onAllEventsTap: () {
                         Navigator.pushNamed(context, AllEvents.id);
                       },
@@ -154,14 +153,42 @@ class _EventsHomePageState extends State<EventsHomePage> {
                     ],
 
                     // Explore
-                    provider.exploreEvents.isNotEmpty
-                        ? _buildExploreSection(provider.exploreEvents)
-                        : Container(color: Colors.red, height: 10, width: 50),
+                    if (provider.exploreEvents.isNotEmpty)
+                      _buildExploreSection(provider.exploreEvents)
+                    else if (provider.todayEvents.isEmpty &&
+                        provider.trendingEvents.isEmpty)
+                      _buildEmptyState(),
                   ],
                 ],
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  /// Shown when there are no upcoming events to display.
+  Widget _buildEmptyState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 48,
+          horizontal: OSpacing.m,
+        ),
+        child: Column(
+          children: [
+            Icon(
+              FluentIcons.calendar_cancel_24_regular,
+              size: 48,
+              color: OColor.gray400,
+            ),
+            const SizedBox(height: OSpacing.s),
+            OText(
+              text: 'No upcoming events',
+              style: OTextStyle.bodyMedium.copyWith(color: OColor.gray700),
+            ),
+          ],
         ),
       ),
     );
@@ -184,12 +211,12 @@ class _EventsHomePageState extends State<EventsHomePage> {
             ),
             const SizedBox(height: OSpacing.s),
             OText(
-              text: 'Unable to load events',
+              text: 'Some error occurred',
               style: OTextStyle.bodyMedium.copyWith(color: OColor.gray700),
             ),
             const SizedBox(height: OSpacing.xxs),
             OText(
-              text: 'Please check your internet connection and try again.',
+              text: 'Please try again.',
               style: OTextStyle.bodySmall.copyWith(color: OColor.gray500),
               textAlign: TextAlign.center,
             ),
@@ -375,19 +402,29 @@ class _EventsHomePageState extends State<EventsHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Left: date and greeting
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              OText(
-                text: formattedDate,
-                style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
-              ),
-              const SizedBox(height: OSpacing.xxs),
-              OText(
-                text: 'Events',
-                style: OTextStyle.headingLarge.copyWith(color: OColor.gray800),
-              ),
-            ],
+          Flexible(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                OText(
+                  text: 'Events',
+                  style: OTextStyle.headingLarge.copyWith(
+                    color: OColor.gray800,
+                  ),
+                ),
+                const SizedBox(width: OSpacing.m),
+                Flexible(
+                  child: OText(
+                    text: formattedDate,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: OTextStyle.headingSmall.copyWith(
+                      color: OColor.green600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           // Right: circular icon button
           GestureDetector(
@@ -425,7 +462,7 @@ class _EventsHomePageState extends State<EventsHomePage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
           child: SectionHeader(
-            icon: FluentIcons.calendar_24_regular,
+            icon: TablerIcons.calendar,
             title: 'Happening Today',
           ),
         ),
@@ -463,7 +500,7 @@ class _EventsHomePageState extends State<EventsHomePage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
           child: SectionHeader(
-            icon: FluentIcons.fire_24_regular,
+            icon: TablerIcons.flame,
             title: 'Trending Events',
             actionLabel: 'Learn More',
             onActionTap: () {
@@ -505,7 +542,7 @@ class _EventsHomePageState extends State<EventsHomePage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
           child: SectionHeader(
-            icon: FluentIcons.history_24_regular,
+            icon: TablerIcons.history_toggle,
             title: 'Saved & Attended',
           ),
         ),

@@ -54,7 +54,7 @@ class SectionHeader extends StatelessWidget {
                   ],
                   OText(
                     text: actionLabel!,
-                    style: OTextStyle.labelMedium.copyWith(
+                    style: OTextStyle.labelSmall.copyWith(
                       color: OColor.green600,
                     ),
                   ),

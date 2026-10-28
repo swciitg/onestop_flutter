@@ -9,6 +9,7 @@ import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/providers/events_admin_provider.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
+import '../widgets/progress_bar.dart' as pb;
 
 /// Multi-step page for creating or editing an event.
 ///
@@ -29,7 +30,7 @@ class CreateEditEventPage extends StatefulWidget {
 
 class _CreateEditEventPageState extends State<CreateEditEventPage> {
   static const int _maxBannerBytes = 2621440; // 2.5 MB
-  static const _stepNames = ['Banner', 'Details', 'Extra Info'];
+  static const _stepNames = ['BANNER', 'DETAILS', 'EXTRA INFO'];
   static const _domains = [
     'Technical',
     'Cultural',
@@ -512,11 +513,12 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
                 ],
               ),
             ),
-            StepProgressIndicator(
+            pb.StepProgressIndicator(
               numberOfSteps: _stepNames.length,
               currentStep: _step + 1,
               stepNames: _stepNames,
             ),
+            SizedBox(height: 10),
             Divider(height: 1, color: OColor.gray200),
           ],
         ),

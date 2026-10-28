@@ -56,16 +56,13 @@ class EventListingMediumCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Title
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(minHeight: 36),
-                    child: OText(
-                      text: EventFormatters.sanitizeText(event.title),
-                      style: OTextStyle.labelMedium.copyWith(
-                        color: OColor.gray800,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                  OText(
+                    text: EventFormatters.sanitizeText(event.title),
+                    style: OTextStyle.labelSmall.copyWith(
+                      color: OColor.gray800,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: OSpacing.xs),
                   // Date/time
@@ -74,7 +71,7 @@ class EventListingMediumCard extends StatelessWidget {
                       event.startDateTime,
                       event.endDateTime,
                     ),
-                    style: OTextStyle.labelMedium.copyWith(
+                    style: OTextStyle.labelSmall.copyWith(
                       color: OColor.gray600,
                     ),
                     maxLines: 1,
@@ -84,7 +81,7 @@ class EventListingMediumCard extends StatelessWidget {
                   // Location
                   OText(
                     text: EventFormatters.sanitizeVenue(event.venue),
-                    style: OTextStyle.labelMedium.copyWith(
+                    style: OTextStyle.labelSmall.copyWith(
                       color: OColor.gray600,
                     ),
                     maxLines: 1,
@@ -92,24 +89,29 @@ class EventListingMediumCard extends StatelessWidget {
                   ),
                   const SizedBox(height: OSpacing.xs),
                   // Avatar stack + going count
-                  Row(
-                    children: [
-                      const EventAvatarStack(count: 3, size: 24, overlap: 20),
-                      if (safeCount > 0) ...[
-                        const SizedBox(width: OSpacing.xxs),
-                        Flexible(
-                          child: OText(
-                            text: '+$compactGoing GOING',
-                            style: OTextStyle.labelSmall.copyWith(
-                              color: OColor.blue500,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                  if (safeCount > 0)
+                    Row(
+                      children: [
+                        EventAvatarStack(
+                          count: safeCount,
+                          size: 24,
+                          overlap: 20,
                         ),
+                        if (safeCount > 0) ...[
+                          const SizedBox(width: OSpacing.xxs),
+                          Flexible(
+                            child: OText(
+                              text: '+$compactGoing GOING',
+                              style: OTextStyle.labelSmall.copyWith(
+                                color: OColor.blue500,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
-                  ),
+                    ),
                 ],
               ),
             ),
