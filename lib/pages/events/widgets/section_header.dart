@@ -33,9 +33,7 @@ class SectionHeader extends StatelessWidget {
             const SizedBox(width: OSpacing.xs),
             OText(
               text: title,
-              style: OTextStyle.headingSmall.copyWith(
-                color: OColor.gray800,
-              ),
+              style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
             ),
           ],
         ),

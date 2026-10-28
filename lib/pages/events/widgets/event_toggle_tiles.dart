@@ -63,9 +63,7 @@ class EventToggleTiles extends StatelessWidget {
             Flexible(
               child: OText(
                 text: label,
-                style: OTextStyle.labelLarge.copyWith(
-                  color: OColor.gray800,
-                ),
+                style: OTextStyle.labelLarge.copyWith(color: OColor.gray800),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -73,19 +71,14 @@ class EventToggleTiles extends StatelessWidget {
             if (badgeCount != null && badgeCount > 0) ...[
               const SizedBox(width: OSpacing.xs),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: OColor.blue100,
                   borderRadius: BorderRadius.circular(OCornerRadius.l),
                 ),
                 child: OText(
                   text: '$badgeCount',
-                  style: OTextStyle.labelSmall.copyWith(
-                    color: OColor.blue500,
-                  ),
+                  style: OTextStyle.labelSmall.copyWith(color: OColor.blue500),
                 ),
               ),
             ],

@@ -2,7 +2,7 @@ class Endpoints {
   static const apiSecurityKey = String.fromEnvironment('SECURITY_KEY');
   static const moderationBaseUrl = String.fromEnvironment('MODERATION_SERVER_URL');
   static const baseUrl = String.fromEnvironment('SERVER_URL');
-  static const eventsBaseUrl = "http://192.168.0.169:3000/";//String.fromEnvironment('EVENT_SERVER_URL');
+  static const eventsBaseUrl =String.fromEnvironment('EVENT_SERVER_URL');
   static const irbsBaseUrl = String.fromEnvironment('IRBS_SERVER_URL');
 
   static const String restaurantURL = "/getAllOutlets";

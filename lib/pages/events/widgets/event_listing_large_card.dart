@@ -89,9 +89,7 @@ class EventListingLargeCard extends StatelessWidget {
         Expanded(
           child: OText(
             text: EventFormatters.sanitizeText(event.title),
-            style: OTextStyle.headingSmall.copyWith(
-              color: OColor.gray800,
-            ),
+            style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -107,25 +105,30 @@ class EventListingLargeCard extends StatelessWidget {
   }
 
   Widget _buildTags() {
-    final validTags = event.categories.where((c) => c.trim().isNotEmpty).toList();
+    final validTags =
+        event.categories.where((c) => c.trim().isNotEmpty).toList();
     if (validTags.isEmpty) return const SizedBox.shrink();
 
     return Wrap(
       spacing: OSpacing.s,
       runSpacing: OSpacing.xs,
-      children: validTags.take(2).toList().asMap().entries.map((entry) {
-        final index = entry.key;
-        final category = entry.value.trim();
-        return OTag(
-          type: index == 0 ? TagType.accentColor : TagType.neutral,
-          label: category.toUpperCase(),
-        );
-      }).toList(),
+      children:
+          validTags.take(2).toList().asMap().entries.map((entry) {
+            final index = entry.key;
+            final category = entry.value.trim();
+            return OTag(
+              type: index == 0 ? TagType.accentColor : TagType.neutral,
+              label: category.toUpperCase(),
+            );
+          }).toList(),
     );
   }
 
   Widget _buildLocationAndDate() {
-    final dateRange = EventFormatters.formatLargeCardDate(event.startDateTime, event.endDateTime);
+    final dateRange = EventFormatters.formatLargeCardDate(
+      event.startDateTime,
+      event.endDateTime,
+    );
     final venue = EventFormatters.sanitizeVenue(event.venue);
 
     return Column(
@@ -134,7 +137,11 @@ class EventListingLargeCard extends StatelessWidget {
         // Location
         Row(
           children: [
-            Icon(FluentIcons.location_16_regular, size: 16, color: OColor.gray600),
+            Icon(
+              FluentIcons.location_16_regular,
+              size: 16,
+              color: OColor.gray600,
+            ),
             const SizedBox(width: OSpacing.xxs),
             Expanded(
               child: OText(
@@ -150,7 +157,11 @@ class EventListingLargeCard extends StatelessWidget {
         // Date
         Row(
           children: [
-            Icon(FluentIcons.calendar_16_regular, size: 16, color: OColor.gray600),
+            Icon(
+              FluentIcons.calendar_16_regular,
+              size: 16,
+              color: OColor.gray600,
+            ),
             const SizedBox(width: OSpacing.xxs),
             Expanded(
               child: OText(
@@ -215,7 +226,9 @@ class EventListingLargeCard extends StatelessWidget {
                 Flexible(
                   child: OText(
                     text: '$compactCount INTERESTED',
-                    style: OTextStyle.labelSmall.copyWith(color: OColor.blue500),
+                    style: OTextStyle.labelSmall.copyWith(
+                      color: OColor.blue500,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -226,10 +239,7 @@ class EventListingLargeCard extends StatelessWidget {
         ),
         const SizedBox(width: OSpacing.xs),
         // Isolated I'm Going button
-        EventGoingButton(
-          isGoing: isGoing,
-          onTap: onGoingTap,
-        ),
+        EventGoingButton(isGoing: isGoing, onTap: onGoingTap),
       ],
     );
   }

@@ -39,11 +39,7 @@ class EventListingSmallCard extends StatelessWidget {
         child: Row(
           children: [
             // Avatar with progressive shimmer & caching
-            EventNetworkImage.avatar(
-              imageUrl: imageUrl,
-              width: 48,
-              height: 48,
-            ),
+            EventNetworkImage.avatar(imageUrl: imageUrl, width: 48, height: 48),
             const SizedBox(width: OSpacing.s),
             // Content
             Expanded(

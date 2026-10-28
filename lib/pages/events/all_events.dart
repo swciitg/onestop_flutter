@@ -103,11 +103,8 @@ class _AllEventsState extends State<AllEvents> {
       ),
       clipBehavior: Clip.antiAlias,
       builder:
-          (context) => _FilterSheet(
-            title: title,
-            options: options,
-            selected: selected,
-          ),
+          (context) =>
+              _FilterSheet(title: title, options: options, selected: selected),
     );
     if (choice == null) return;
     // Tapping the selected option again clears the filter.
@@ -304,11 +301,9 @@ class _AllEventsState extends State<AllEvents> {
                         options: EventsProvider.allEventTagOptions,
                         selected: provider.allTag,
                         onSelected: (v) => _p.setAllEventsFilters(tag: v),
-                        onCleared:
-                            () => _p.setAllEventsFilters(clearTag: true),
+                        onCleared: () => _p.setAllEventsFilters(clearTag: true),
                       ),
-                  onClear:
-                      () => _p.setAllEventsFilters(clearTag: true),
+                  onClear: () => _p.setAllEventsFilters(clearTag: true),
                 ),
                 const SizedBox(width: OSpacing.xs),
                 _FilterChip(
@@ -323,8 +318,7 @@ class _AllEventsState extends State<AllEvents> {
                         onCleared:
                             () => _p.setAllEventsFilters(clearOrganiser: true),
                       ),
-                  onClear:
-                      () => _p.setAllEventsFilters(clearOrganiser: true),
+                  onClear: () => _p.setAllEventsFilters(clearOrganiser: true),
                 ),
               ],
             ),
@@ -458,7 +452,11 @@ class _FilterChip extends StatelessWidget {
               GestureDetector(
                 onTap: onClear,
                 behavior: HitTestBehavior.opaque,
-                child: Icon(FluentIcons.dismiss_16_regular, size: 16, color: color),
+                child: Icon(
+                  FluentIcons.dismiss_16_regular,
+                  size: 16,
+                  color: color,
+                ),
               )
             else
               Icon(FluentIcons.chevron_down_16_regular, size: 16, color: color),

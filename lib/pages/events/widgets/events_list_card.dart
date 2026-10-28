@@ -59,9 +59,7 @@ class EventsListCard extends StatelessWidget {
                   const SizedBox(height: OSpacing.xxs),
                   OText(
                     text: subText,
-                    style: OTextStyle.bodySmall.copyWith(
-                      color: OColor.gray600,
-                    ),
+                    style: OTextStyle.bodySmall.copyWith(color: OColor.gray600),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -73,7 +71,8 @@ class EventsListCard extends StatelessWidget {
                       children: [
                         for (var i = 0; i < tags.length; i++)
                           OTag(
-                            type: i == 0 ? TagType.accentColor : TagType.neutral,
+                            type:
+                                i == 0 ? TagType.accentColor : TagType.neutral,
                             label: tags[i].trim().toUpperCase(),
                           ),
                       ],

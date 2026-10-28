@@ -7,11 +7,7 @@ class EventGoingButton extends StatelessWidget {
   final bool isGoing;
   final VoidCallback? onTap;
 
-  const EventGoingButton({
-    super.key,
-    required this.isGoing,
-    this.onTap,
-  });
+  const EventGoingButton({super.key, required this.isGoing, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +41,7 @@ class EventGoingButton extends StatelessWidget {
               const SizedBox(width: OSpacing.xxs),
               OText(
                 text: isGoing ? "Going" : "I'm Going",
-                style: OTextStyle.labelMedium.copyWith(
-                  color: OColor.green600,
-                ),
+                style: OTextStyle.labelMedium.copyWith(color: OColor.green600),
               ),
             ],
           ),

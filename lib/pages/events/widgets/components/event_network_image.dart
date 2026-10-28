@@ -37,9 +37,9 @@ class EventNetworkImage extends StatelessWidget {
     this.aspectRatio = 16 / 9,
     this.borderRadius,
     this.fit = BoxFit.cover,
-  })  : width = null,
-        height = null,
-        isCircular = false;
+  }) : width = null,
+       height = null,
+       isCircular = false;
 
   const EventNetworkImage.avatar({
     super.key,
@@ -48,8 +48,8 @@ class EventNetworkImage extends StatelessWidget {
     this.height = 48,
     this.borderRadius,
     this.fit = BoxFit.cover,
-  })  : aspectRatio = null,
-        isCircular = true;
+  }) : aspectRatio = null,
+       isCircular = true;
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +57,10 @@ class EventNetworkImage extends StatelessWidget {
 
     Widget imageWidget;
     if (isValid) {
-      final cacheWidth = width != null ? (width! * 2).toInt() : (isCircular ? 96 : 600);
-      final cacheHeight = height != null ? (height! * 2).toInt() : (isCircular ? 96 : null);
+      final cacheWidth =
+          width != null ? (width! * 2).toInt() : (isCircular ? 96 : 600);
+      final cacheHeight =
+          height != null ? (height! * 2).toInt() : (isCircular ? 96 : null);
 
       imageWidget = CachedNetworkImage(
         imageUrl: imageUrl!.trim(),
@@ -76,7 +78,9 @@ class EventNetworkImage extends StatelessWidget {
     }
 
     if (isCircular) {
-      return ClipOval(child: SizedBox(width: width, height: height, child: imageWidget));
+      return ClipOval(
+        child: SizedBox(width: width, height: height, child: imageWidget),
+      );
     }
 
     if (borderRadius != null) {
@@ -109,7 +113,9 @@ class EventNetworkImage extends StatelessWidget {
       color: OColor.gray200,
       child: Center(
         child: Icon(
-          isCircular ? FluentIcons.calendar_24_regular : FluentIcons.image_24_regular,
+          isCircular
+              ? FluentIcons.calendar_24_regular
+              : FluentIcons.image_24_regular,
           size: isCircular ? 24 : 40,
           color: OColor.gray400,
         ),

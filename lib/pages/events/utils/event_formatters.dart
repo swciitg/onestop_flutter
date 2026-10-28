@@ -19,13 +19,17 @@ class EventFormatters {
     if (count < 1000) return '$count';
     if (count < 10000) {
       final formatted = (count / 1000).toStringAsFixed(1);
-      return formatted.endsWith('.0') ? '${formatted.substring(0, formatted.length - 2)}k' : '${formatted}k';
+      return formatted.endsWith('.0')
+          ? '${formatted.substring(0, formatted.length - 2)}k'
+          : '${formatted}k';
     }
     if (count < 1000000) {
       return '${(count / 1000).round()}k';
     }
     final formatted = (count / 1000000).toStringAsFixed(1);
-    return formatted.endsWith('.0') ? '${formatted.substring(0, formatted.length - 2)}M' : '${formatted}M';
+    return formatted.endsWith('.0')
+        ? '${formatted.substring(0, formatted.length - 2)}M'
+        : '${formatted}M';
   }
 
   static final DateFormat _dateFormat = DateFormat('dd MMM');
@@ -35,7 +39,9 @@ class EventFormatters {
   /// Formats single-day or multi-day event date & time ranges accurately
   static String formatDateTimeRange(DateTime start, DateTime end) {
     // If on same calendar day: "27 Aug, 8:00 PM - 10:00 PM"
-    if (start.year == end.year && start.month == end.month && start.day == end.day) {
+    if (start.year == end.year &&
+        start.month == end.month &&
+        start.day == end.day) {
       return '${_dateFormat.format(start)}, ${_timeFormat.format(start)} - ${_timeFormat.format(end)}';
     }
 
@@ -45,14 +51,19 @@ class EventFormatters {
 
   /// Formats date for large card: "27 Aug, 8:00 PM - 10:00 PM"
   static String formatLargeCardDate(DateTime start, DateTime end) {
-    if (start.year == end.year && start.month == end.month && start.day == end.day) {
+    if (start.year == end.year &&
+        start.month == end.month &&
+        start.day == end.day) {
       return '${_fullDateFormat.format(start)} - ${_timeFormat.format(end)}';
     }
     return '${_fullDateFormat.format(start)} - ${_fullDateFormat.format(end)}';
   }
 
   /// Sanitizes title / text with fallback
-  static String sanitizeText(String? text, {String fallback = 'Untitled Event'}) {
+  static String sanitizeText(
+    String? text, {
+    String fallback = 'Untitled Event',
+  }) {
     if (text == null || text.trim().isEmpty) return fallback;
     return text.trim();
   }

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:onestop_dev/models/event_scheduler/admin_model.dart';
@@ -16,16 +17,22 @@ class EventsAdminProvider extends ChangeNotifier {
 
   List<Club> _userClubs = [];
   Club? _selectedClub;
-  int _selectedTabIndex = 0; // 0 = Past Events, 1 = Drafts
-  List<EventModel> _events = [];
+  List<EventModel> _postedEvents = [];
+  List<EventModel> _pastEvents = [];
+  List<EventModel> _drafts = [];
   bool _isLoading = true;
   bool _isLoadingEvents = false;
   bool _isAdmin = false;
 
   List<Club> get userClubs => _userClubs;
   Club? get selectedClub => _selectedClub;
-  int get selectedTabIndex => _selectedTabIndex;
-  List<EventModel> get events => _events;
+
+  /// Posted events that have not ended yet ("Your Events").
+  List<EventModel> get postedEvents => _postedEvents;
+
+  /// Posted events that have already ended.
+  List<EventModel> get pastEvents => _pastEvents;
+  List<EventModel> get drafts => _drafts;
   bool get isLoading => _isLoading;
   bool get isLoadingEvents => _isLoadingEvents;
   bool get isAdmin => _isAdmin;
@@ -61,38 +68,29 @@ class EventsAdminProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final status = _selectedTabIndex == 1 ? 'DRAFT' : null;
-      final events = await _repo.getAdminEvents(
-        clubId: _selectedClub!.id ?? _selectedClub!.name,
-        status: status,
-      );
+      final clubId = _selectedClub!.id ?? _selectedClub!.name;
+      final results = await Future.wait([
+        _repo.getAdminEvents(clubId: clubId),
+        _repo.getAdminEvents(clubId: clubId, status: 'DRAFT'),
+      ]);
 
-      if (_selectedTabIndex == 0) {
-        // Past Events: posted events with end time before now
-        _events =
-            events.where((e) {
-              final isPast = e.endTime.isBefore(DateTime.now());
-              final isPosted =
-                  e.status.toUpperCase() == 'POSTED' ||
-                  e.status.toUpperCase() == 'PUBLISHED';
-              return status == null ? isPast : isPosted;
-            }).toList();
-      } else {
-        _events = events;
-      }
+      final now = DateTime.now();
+      final posted =
+          results[0].where((e) {
+            final status = e.status.toUpperCase();
+            return status == 'POSTED' || status == 'PUBLISHED';
+          }).toList();
+      _postedEvents = posted.where((e) => !e.endTime.isBefore(now)).toList();
+      _pastEvents = posted.where((e) => e.endTime.isBefore(now)).toList();
+      _drafts = results[1];
     } catch (e) {
       log('Error fetching events: $e');
-      _events = [];
+      _postedEvents = [];
+      _pastEvents = [];
+      _drafts = [];
     }
     _isLoadingEvents = false;
     notifyListeners();
-  }
-
-  void selectTab(int index) {
-    if (index == _selectedTabIndex) return;
-    _selectedTabIndex = index;
-    notifyListeners();
-    fetchEvents();
   }
 
   void selectClub(Club club) {
@@ -110,6 +108,73 @@ class EventsAdminProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       log('Error deleting event: $e');
+      return false;
+    }
+  }
+
+  /// Saves an event as a draft or posts it.
+  ///
+  /// Uploads [bannerFile] first (when given) and stores the returned URL as
+  /// `eventBanner`; otherwise [existingBannerUrl] is kept. Updates the event
+  /// with [eventId] when set, creates a new one otherwise. Returns `false` on
+  /// failure.
+  Future<bool> submitEvent({
+    required Map<String, dynamic> data,
+    required bool asDraft,
+    String? eventId,
+    File? bannerFile,
+    String? existingBannerUrl,
+  }) async {
+    log(
+      '[submitEvent] Called — '
+      'asDraft: $asDraft, '
+      'eventId: $eventId, '
+      'hasBannerFile: ${bannerFile != null}, '
+      'existingBannerUrl: $existingBannerUrl',
+    );
+    log('[submitEvent] data: $data');
+
+    final club = _selectedClub;
+    if (club == null) {
+      log('[submitEvent] No club selected — aborting');
+      return false;
+    }
+    log('[submitEvent] Selected club: ${club.name} (id: ${club.id})');
+
+    try {
+      var bannerUrl = existingBannerUrl;
+      if (bannerFile != null) {
+        log('[submitEvent] Uploading banner image: ${bannerFile.path}');
+        bannerUrl = await _repo.uploadEventImage(bannerFile);
+        log('[submitEvent] Upload result — bannerUrl: $bannerUrl');
+        if (bannerUrl == null) {
+          log('[submitEvent] Banner upload failed — aborting');
+          return false;
+        }
+      }
+
+      final body = {
+        ...data,
+        'club_id': club.id ?? club.name,
+        'status': asDraft ? 'DRAFT' : 'POSTED',
+        if (bannerUrl != null) 'eventBanner': bannerUrl,
+      };
+      log('[submitEvent] Request body: $body');
+
+      if (eventId != null && eventId.isNotEmpty) {
+        log('[submitEvent] Updating existing event ($eventId) via putEvent');
+        await _repo.putEvent(eventId, body, email: userEmail);
+      } else {
+        log('[submitEvent] Creating new event via postEvent');
+        await _repo.postEvent(body, email: userEmail);
+      }
+
+      log('[submitEvent] Submit succeeded — refreshing events');
+      fetchEvents();
+      return true;
+    } catch (e, stackTrace) {
+      log('[submitEvent] Exception: $e');
+      log('[submitEvent] Stack trace:\n$stackTrace');
       return false;
     }
   }

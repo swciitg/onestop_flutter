@@ -69,9 +69,11 @@ class _EventPopupContentState extends State<_EventPopupContent> {
   void initState() {
     super.initState();
     event = widget.event;
-    isInterested = widget.isInitiallyInterested ??
+    isInterested =
+        widget.isInitiallyInterested ??
         (event.userStatus?.isInterested ?? false);
-    isRegistered = widget.isInitiallyRegistered ??
+    isRegistered =
+        widget.isInitiallyRegistered ??
         (event.userStatus?.isRegistered ?? false);
     _fetchFullDetails();
   }
@@ -124,9 +126,7 @@ class _EventPopupContentState extends State<_EventPopupContent> {
     return Container(
       decoration: BoxDecoration(
         color: OColor.white,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(32),
-        ),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
       ),
       child: Column(
         children: [
@@ -146,8 +146,9 @@ class _EventPopupContentState extends State<_EventPopupContent> {
           Expanded(
             child: ListView(
               controller: widget.scrollController,
-              padding: const EdgeInsets.symmetric(horizontal: OSpacing.m)
-                  .copyWith(top: OSpacing.m, bottom: OSpacing.l),
+              padding: const EdgeInsets.symmetric(
+                horizontal: OSpacing.m,
+              ).copyWith(top: OSpacing.m, bottom: OSpacing.l),
               children: [
                 // Header: title + close button
                 _buildHeader(context),
@@ -176,7 +177,8 @@ class _EventPopupContentState extends State<_EventPopupContent> {
                 ],
 
                 // Description
-                if (event.description != null && event.description!.isNotEmpty) ...[
+                if (event.description != null &&
+                    event.description!.isNotEmpty) ...[
                   _buildSection(
                     label: 'Description',
                     content: event.description!,
@@ -187,7 +189,8 @@ class _EventPopupContentState extends State<_EventPopupContent> {
                 ],
 
                 // Who should attend
-                if (event.whoShouldAttend != null && event.whoShouldAttend!.isNotEmpty) ...[
+                if (event.whoShouldAttend != null &&
+                    event.whoShouldAttend!.isNotEmpty) ...[
                   _buildSection(
                     label: 'Who should attend?',
                     content: event.whoShouldAttend!,
@@ -274,19 +277,18 @@ class _EventPopupContentState extends State<_EventPopupContent> {
                   isRegistered = !isRegistered;
                 });
                 widget.onStatusChanged?.call(isInterested, isRegistered);
-                showSnackBar(isRegistered
-                    ? "Registered for ${event.title}"
-                    : "Registration cancelled for ${event.title}");
+                showSnackBar(
+                  isRegistered
+                      ? "Registered for ${event.title}"
+                      : "Registration cancelled for ${event.title}",
+                );
               },
               child: Container(
                 decoration: BoxDecoration(
                   color: isRegistered ? OColor.green700 : OColor.green600,
                   borderRadius: BorderRadius.circular(OCornerRadius.m),
                   boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x0A000000),
-                      blurRadius: 20,
-                    ),
+                    BoxShadow(color: Color(0x0A000000), blurRadius: 20),
                   ],
                 ),
                 child: Row(
@@ -358,38 +360,38 @@ class _EventPopupContentState extends State<_EventPopupContent> {
     return Wrap(
       spacing: OSpacing.m,
       runSpacing: OSpacing.xs,
-      children: event.categories.take(3).toList().asMap().entries.map((entry) {
-        final color = tagColors[entry.key % tagColors.length];
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: OColor.gray100,
-            borderRadius: BorderRadius.circular(OCornerRadius.l),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                FluentIcons.tag_16_regular,
-                size: 16,
-                color: color,
+      children:
+          event.categories.take(3).toList().asMap().entries.map((entry) {
+            final color = tagColors[entry.key % tagColors.length];
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: OColor.gray100,
+                borderRadius: BorderRadius.circular(OCornerRadius.l),
               ),
-              const SizedBox(width: 4),
-              OText(
-                text: entry.value.toUpperCase(),
-                style: OTextStyle.labelSmall.copyWith(color: color),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(FluentIcons.tag_16_regular, size: 16, color: color),
+                  const SizedBox(width: 4),
+                  OText(
+                    text: entry.value.toUpperCase(),
+                    style: OTextStyle.labelSmall.copyWith(color: color),
+                  ),
+                ],
               ),
-            ],
-          ),
-        );
-      }).toList(),
+            );
+          }).toList(),
     );
   }
 
   /// Location and time info rows
   Widget _buildLocationAndTime() {
     final timeFormat = DateFormat('h:mm a');
-    final venueText = (event.venue != null && event.venue!.isNotEmpty) ? event.venue! : 'Campus';
+    final venueText =
+        (event.venue != null && event.venue!.isNotEmpty)
+            ? event.venue!
+            : 'Campus';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -417,11 +419,7 @@ class _EventPopupContentState extends State<_EventPopupContent> {
         // Time
         Row(
           children: [
-            Icon(
-              FluentIcons.clock_16_regular,
-              size: 16,
-              color: OColor.gray600,
-            ),
+            Icon(FluentIcons.clock_16_regular, size: 16, color: OColor.gray600),
             const SizedBox(width: OSpacing.xxs),
             Expanded(
               child: OText(
@@ -451,16 +449,17 @@ class _EventPopupContentState extends State<_EventPopupContent> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: event.guest.map((g) {
-              return Padding(
-                padding: const EdgeInsets.only(right: OSpacing.l),
-                child: _buildProfileChip(
-                  name: g.name ?? 'Guest',
-                  subtitle: g.position ?? 'Speaker',
-                  photoUrl: g.photo,
-                ),
-              );
-            }).toList(),
+            children:
+                event.guest.map((g) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: OSpacing.l),
+                    child: _buildProfileChip(
+                      name: g.name ?? 'Guest',
+                      subtitle: g.position ?? 'Speaker',
+                      photoUrl: g.photo,
+                    ),
+                  );
+                }).toList(),
           ),
         ),
       ],
@@ -468,10 +467,7 @@ class _EventPopupContentState extends State<_EventPopupContent> {
   }
 
   /// Reusable text section with a label and body content
-  Widget _buildSection({
-    required String label,
-    required String content,
-  }) {
+  Widget _buildSection({required String label, required String content}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -490,7 +486,8 @@ class _EventPopupContentState extends State<_EventPopupContent> {
 
   /// Posted By section with organizer avatar
   Widget _buildPostedBy() {
-    final clubTitle = event.clubOrg.isNotEmpty ? event.clubOrg : "Student Affairs";
+    final clubTitle =
+        event.clubOrg.isNotEmpty ? event.clubOrg : "Student Affairs";
     final boardTitle = event.board.isNotEmpty ? event.board : "IIT Guwahati";
 
     return Column(
@@ -557,18 +554,19 @@ class _EventPopupContentState extends State<_EventPopupContent> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: event.poc.map((poc) {
-              return Padding(
-                padding: const EdgeInsets.only(right: OSpacing.l),
-                child: _buildProfileChip(
-                  context: context,
-                  name: poc.name ?? 'POC',
-                  subtitle: poc.position ?? 'Events Head',
-                  number: poc.number,
-                  email: poc.email,
-                ),
-              );
-            }).toList(),
+            children:
+                event.poc.map((poc) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: OSpacing.l),
+                    child: _buildProfileChip(
+                      context: context,
+                      name: poc.name ?? 'POC',
+                      subtitle: poc.position ?? 'Events Head',
+                      number: poc.number,
+                      email: poc.email,
+                    ),
+                  );
+                }).toList(),
           ),
         ),
       ],
@@ -608,17 +606,18 @@ class _EventPopupContentState extends State<_EventPopupContent> {
                 color: OColor.blue100,
                 shape: BoxShape.circle,
               ),
-              child: photoUrl != null && photoUrl.isNotEmpty
-                  ? EventNetworkImage.avatar(
-                      imageUrl: photoUrl,
-                      width: 48,
-                      height: 48,
-                    )
-                  : Icon(
-                      FluentIcons.person_24_regular,
-                      size: 32,
-                      color: OColor.blue500,
-                    ),
+              child:
+                  photoUrl != null && photoUrl.isNotEmpty
+                      ? EventNetworkImage.avatar(
+                        imageUrl: photoUrl,
+                        width: 48,
+                        height: 48,
+                      )
+                      : Icon(
+                        FluentIcons.person_24_regular,
+                        size: 32,
+                        color: OColor.blue500,
+                      ),
             ),
             const SizedBox(height: OSpacing.xs),
             OText(

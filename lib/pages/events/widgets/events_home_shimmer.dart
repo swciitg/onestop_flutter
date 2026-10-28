@@ -183,9 +183,7 @@ class EventMediumCardShimmer extends StatelessWidget {
             // Banner image shimmer
             AspectRatio(
               aspectRatio: 16 / 9,
-              child: Container(
-                color: OColor.gray200,
-              ),
+              child: Container(color: OColor.gray200),
             ),
             Padding(
               padding: const EdgeInsets.all(OSpacing.s),
@@ -265,9 +263,7 @@ class EventLargeCardShimmer extends StatelessWidget {
             // Image banner
             AspectRatio(
               aspectRatio: 358 / 201,
-              child: Container(
-                color: OColor.gray200,
-              ),
+              child: Container(color: OColor.gray200),
             ),
             Padding(
               padding: const EdgeInsets.all(OSpacing.s),

@@ -35,6 +35,7 @@ class ClubsProvider extends ChangeNotifier {
     }
     return ['All', ...boards.toList()..sort()];
   }
+
   bool get isLoading => _isLoading;
 
   String _searchQuery = '';

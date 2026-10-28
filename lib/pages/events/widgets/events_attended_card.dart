@@ -29,7 +29,8 @@ class EventsAttendedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageUrl = event.compressedImageUrl ?? event.imageUrl;
     final venue = EventFormatters.sanitizeVenue(event.venue);
-    final subText = '${DateFormat('h:mm a').format(event.startDateTime)}, $venue';
+    final subText =
+        '${DateFormat('h:mm a').format(event.startDateTime)}, $venue';
     final tags = event.categories.where((c) => c.trim().isNotEmpty).take(2);
 
     return GestureDetector(

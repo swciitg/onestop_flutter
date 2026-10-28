@@ -68,9 +68,14 @@ class _POCModalContent extends StatelessWidget {
       decoration: BoxDecoration(
         color: OColor.white,
         border: Border.all(color: OColor.gray200),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(OCornerRadius.l)),
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(OCornerRadius.l),
+        ),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.l),
+      padding: const EdgeInsets.symmetric(
+        horizontal: OSpacing.m,
+        vertical: OSpacing.l,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,8 +86,15 @@ class _POCModalContent extends StatelessWidget {
               Container(
                 width: 32,
                 height: 32,
-                decoration: BoxDecoration(color: OColor.green100, shape: BoxShape.circle),
-                child: Icon(FluentIcons.person_24_regular, size: 20, color: OColor.green600),
+                decoration: BoxDecoration(
+                  color: OColor.green100,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  FluentIcons.person_24_regular,
+                  size: 20,
+                  color: OColor.green600,
+                ),
               ),
               const SizedBox(width: OSpacing.xs),
               Expanded(
@@ -96,8 +108,15 @@ class _POCModalContent extends StatelessWidget {
                 child: Container(
                   width: 32,
                   height: 32,
-                  decoration: BoxDecoration(color: OColor.gray100, shape: BoxShape.circle),
-                  child: Icon(FluentIcons.dismiss_24_regular, size: 18, color: OColor.gray600),
+                  decoration: BoxDecoration(
+                    color: OColor.gray100,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    FluentIcons.dismiss_24_regular,
+                    size: 18,
+                    color: OColor.gray600,
+                  ),
                 ),
               ),
             ],
@@ -110,7 +129,11 @@ class _POCModalContent extends StatelessWidget {
               CircleAvatar(
                 radius: 24,
                 backgroundColor: OColor.blue100,
-                child: Icon(FluentIcons.person_24_regular, color: OColor.blue500, size: 24),
+                child: Icon(
+                  FluentIcons.person_24_regular,
+                  color: OColor.blue500,
+                  size: 24,
+                ),
               ),
               const SizedBox(width: OSpacing.m),
               Expanded(
@@ -119,13 +142,17 @@ class _POCModalContent extends StatelessWidget {
                   children: [
                     OText(
                       text: name,
-                      style: OTextStyle.labelSmall.copyWith(color: OColor.gray800),
+                      style: OTextStyle.labelSmall.copyWith(
+                        color: OColor.gray800,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     OText(
                       text: subtitle,
-                      style: OTextStyle.bodyXSmall.copyWith(color: OColor.gray600),
+                      style: OTextStyle.bodyXSmall.copyWith(
+                        color: OColor.gray600,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -142,12 +169,18 @@ class _POCModalContent extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: OSpacing.xs),
               child: Row(
                 children: [
-                  Icon(FluentIcons.call_24_regular, size: 16, color: OColor.gray500),
+                  Icon(
+                    FluentIcons.call_24_regular,
+                    size: 16,
+                    color: OColor.gray500,
+                  ),
                   const SizedBox(width: OSpacing.xs),
                   Expanded(
                     child: OText(
                       text: displayNumber,
-                      style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
+                      style: OTextStyle.labelSmall.copyWith(
+                        color: OColor.gray600,
+                      ),
                     ),
                   ),
                 ],
@@ -158,12 +191,18 @@ class _POCModalContent extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: OSpacing.xs),
               child: Row(
                 children: [
-                  Icon(FluentIcons.mail_24_regular, size: 16, color: OColor.gray500),
+                  Icon(
+                    FluentIcons.mail_24_regular,
+                    size: 16,
+                    color: OColor.gray500,
+                  ),
                   const SizedBox(width: OSpacing.xs),
                   Expanded(
                     child: OText(
                       text: displayEmail,
-                      style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
+                      style: OTextStyle.labelSmall.copyWith(
+                        color: OColor.gray600,
+                      ),
                     ),
                   ),
                 ],
@@ -209,7 +248,11 @@ class _POCModalContent extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButton({required IconData icon, required String label, required VoidCallback onTap}) {
+  Widget _buildActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(

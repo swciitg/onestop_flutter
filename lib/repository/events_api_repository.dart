@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
@@ -12,15 +13,69 @@ import 'package:onestop_kit/onestop_kit.dart';
 
 class EventsAPIRepository extends OneStopApi {
   EventsAPIRepository()
-      : super(
-          onestopBaseUrl: Endpoints.baseUrl,
-          serverBaseUrl: Endpoints.eventsBaseUrl,
-          onestopSecurityKey: Endpoints.apiSecurityKey,
-          onRefreshTokenExpired: () async {
-            await LoginStore().clearAppData();
-            showSnackBar("Your session has expired!! Login again.");
-          },
-        );
+    : super(
+        onestopBaseUrl: Endpoints.baseUrl,
+        serverBaseUrl: Endpoints.eventsBaseUrl,
+        onestopSecurityKey: Endpoints.apiSecurityKey,
+        onRefreshTokenExpired: () async {
+          await LoginStore().clearAppData();
+          showSnackBar("Your session has expired!! Login again.");
+        },
+      );
+
+  /// Uploads [file] to the images service and returns the hosted image URL,
+  /// or null when the upload fails.
+  Future<String?> uploadEventImage(File file) async {
+    final fileName = file.path.split('/').last;
+    log('[uploadEventImage] Starting upload for file: ${file.path}');
+    log(
+      '[uploadEventImage] File name: $fileName, '
+      'size: ${file.lengthSync()} bytes, '
+      'exists: ${file.existsSync()}',
+    );
+
+    try {
+      final formData = FormData.fromMap({
+        'dp': await MultipartFile.fromFile(file.path, filename: fileName),
+      });
+      log(
+        '[uploadEventImage] FormData prepared — '
+        'fields: ${formData.fields}, '
+        'files: ${formData.files.map((f) => '${f.key}: ${f.value.filename} (${f.value.length} bytes)').toList()}',
+      );
+
+      const endpoint = '/api/v1/images/uploadImage';
+      log('[uploadEventImage] POST $endpoint');
+
+      final response = await serverDio.post(
+        endpoint,
+        data: formData,
+        options: Options(contentType: 'multipart/form-data'),
+      );
+
+      log('[uploadEventImage] Response status: ${response.statusCode}');
+      log('[uploadEventImage] Response data: ${response.data}');
+
+      if (response.data['success'] == true) {
+        final imageUrl = response.data['imageUrl'] as String?;
+        // if (imageUrl == null) return null;
+        final imgUrl = '${Endpoints.eventsBaseUrl}$imageUrl';
+        log('[uploadEventImage] Upload succeeded — imageUrl: $imgUrl');
+        return imgUrl;
+      } 
+
+      log(
+        '[uploadEventImage] Upload failed — '
+        'success flag was ${response.data['success']}, '
+        'full response: ${response.data}',
+      );
+      return null;
+    } catch (e, stackTrace) {
+      log('[uploadEventImage] Exception: $e');
+      log('[uploadEventImage] Stack trace:\n$stackTrace');
+      return null;
+    }
+  }
 
   Future<Map<String, dynamic>> createClub(ClubModel club) async {
     final response = await serverDio.post(
@@ -30,7 +85,10 @@ class EventsAPIRepository extends OneStopApi {
     return Map<String, dynamic>.from(response.data);
   }
 
-  Future<List<ClubModel>> getAllClubs({String? category, String? search}) async {
+  Future<List<ClubModel>> getAllClubs({
+    String? category,
+    String? search,
+  }) async {
     try {
       final queryParameters = <String, dynamic>{};
       if (category != null && category.isNotEmpty && category != 'All') {
@@ -226,15 +284,15 @@ class EventsAPIRepository extends OneStopApi {
       return [];
     }
 
-    final tags = (category == 'All' || category == 'Your Events') ? null : category;
-    return getAllEvents(
-      tags: tags,
-      page: page,
-      limit: limit,
-    );
+    final tags =
+        (category == 'All' || category == 'Your Events') ? null : category;
+    return getAllEvents(tags: tags, page: page, limit: limit);
   }
 
-  Future<EventModel?> getEventDetails(String eventId, {String? studentId}) async {
+  Future<EventModel?> getEventDetails(
+    String eventId, {
+    String? studentId,
+  }) async {
     try {
       final queryParams = <String, dynamic>{};
       if (studentId != null && studentId.isNotEmpty) {
@@ -262,10 +320,7 @@ class EventsAPIRepository extends OneStopApi {
     try {
       final response = await serverDio.get(
         '/api/v1/event-discovery/liked',
-        queryParameters: {
-          'rollNo': rollNo,
-          'email': email,
-        },
+        queryParameters: {'rollNo': rollNo, 'email': email},
       );
       final json = response.data;
       if (json['success'] == true && json['data'] is List) {
@@ -299,7 +354,8 @@ class EventsAPIRepository extends OneStopApi {
       final json = response.data;
       if (json['interaction'] != null && json['interaction'] is Map) {
         return StudentEventInteractionModel.fromJson(
-            json['interaction'] as Map<String, dynamic>);
+          json['interaction'] as Map<String, dynamic>,
+        );
       }
       return null;
     } catch (e) {
@@ -316,17 +372,15 @@ class EventsAPIRepository extends OneStopApi {
   }) async {
     final response = await serverDio.post(
       '/api/v1/students/submit-feedback',
-      queryParameters: {
-        'rollNo': rollNo,
-        'email': email,
-        'event_id': eventId,
-      },
+      queryParameters: {'rollNo': rollNo, 'email': email, 'event_id': eventId},
       data: feedback.toJson(),
     );
     return Map<String, dynamic>.from(response.data);
   }
 
-  Future<List<StudentEventInteractionModel>> getEventFeedback(String eventId) async {
+  Future<List<StudentEventInteractionModel>> getEventFeedback(
+    String eventId,
+  ) async {
     try {
       final response = await serverDio.get(
         '/api/v1/students/get-feedback',
@@ -335,8 +389,11 @@ class EventsAPIRepository extends OneStopApi {
       final json = response.data;
       if (json['success'] == true && json['data'] is List) {
         return (json['data'] as List<dynamic>)
-            .map((e) => StudentEventInteractionModel.fromJson(
-                e as Map<String, dynamic>))
+            .map(
+              (e) => StudentEventInteractionModel.fromJson(
+                e as Map<String, dynamic>,
+              ),
+            )
             .toList();
       }
       return [];
