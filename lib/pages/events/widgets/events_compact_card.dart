@@ -26,6 +26,8 @@ class EventsCompactCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final title = EventFormatters.sanitizeText(event.title);
     final imageUrl = event.compressedImageUrl ?? event.imageUrl;
+    final tags =
+        event.categories.where((c) => c.trim().isNotEmpty).take(2).toList();
 
     return GestureDetector(
       onTap: onTap,
@@ -66,6 +68,23 @@ class EventsCompactCard extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      if (tags.isNotEmpty) ...[
+                        const SizedBox(height: OSpacing.xs),
+                        Wrap(
+                          spacing: OSpacing.s,
+                          runSpacing: OSpacing.xs,
+                          children: [
+                            for (final entry in tags.asMap().entries)
+                              OTag(
+                                type:
+                                    entry.key == 0
+                                        ? TagType.accentColor
+                                        : TagType.neutral,
+                                label: entry.value.trim().toUpperCase(),
+                              ),
+                          ],
+                        ),
+                      ],
                     ],
                   ),
                 ),

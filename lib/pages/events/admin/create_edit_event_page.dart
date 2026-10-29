@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +11,9 @@ import 'package:onestop_dev/pages/events/providers/events_admin_provider.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 import '../widgets/progress_bar.dart' as pb;
+import '../widgets/date_picker_sheet.dart';
+import '../widgets/domain_picker_sheet.dart';
+import '../widgets/time_picker_sheet.dart';
 
 /// Multi-step page for creating or editing an event.
 ///
@@ -31,7 +35,7 @@ class CreateEditEventPage extends StatefulWidget {
 class _CreateEditEventPageState extends State<CreateEditEventPage> {
   static const int _maxBannerBytes = 2621440; // 2.5 MB
   static const _stepNames = ['BANNER', 'DETAILS', 'EXTRA INFO'];
-  static const _domains = [
+  static const _domainOptions = [
     'Technical',
     'Cultural',
     'Sports',
@@ -64,7 +68,8 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
   final _descriptionController = TextEditingController();
   TimeOfDay? _startTime;
   DateTime? _date;
-  String? _domain;
+  List<String> _domains = [];
+  final List<String> _otherTags = []; // tags that are neither domain nor type
   String? _type;
   final List<EventPOC> _pocs = [];
 
@@ -87,7 +92,7 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
       _descriptionController.text.trim().isNotEmpty &&
       _startTime != null &&
       _date != null &&
-      _domain != null &&
+      _domains.isNotEmpty &&
       _type != null &&
       _pocs.isNotEmpty;
 
@@ -108,8 +113,16 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
       _descriptionController.text = e.description ?? '';
       _startTime = TimeOfDay.fromDateTime(e.startTime);
       _date = e.date;
-      _domain = e.tags.isNotEmpty ? e.tags.first : null;
-      _type = e.tags.length > 1 ? e.tags[1] : null;
+      // Backend stores domains and the event type in one flat tag list.
+      for (final tag in e.tags) {
+        if (_eventTypes.contains(tag)) {
+          _type ??= tag;
+        } else if (_domainOptions.contains(tag)) {
+          _domains.add(tag);
+        } else {
+          _otherTags.add(tag);
+        }
+      }
       _pocs.addAll(e.poc);
       _whoShouldJoinController.text = e.whoShouldAttend ?? '';
       _guests.addAll(e.guest);
@@ -165,17 +178,19 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
   }
 
   Future<void> _pickStartTime() async {
-    final t = await showTimePicker(
-      context: context,
-      initialTime: _startTime ?? TimeOfDay.now(),
+    final t = await showTimePickerSheet(
+      context,
+      title: 'Start Time',
+      initialTime: _startTime,
     );
     if (t != null) setState(() => _startTime = t);
   }
 
   Future<void> _pickDate() async {
     final now = DateTime.now();
-    final d = await showDatePicker(
-      context: context,
+    final d = await showDatePickerSheet(
+      context,
+      title: 'Event Date',
       initialDate: _date ?? now,
       firstDate: DateTime(now.year - 1),
       lastDate: DateTime(now.year + 2),
@@ -184,64 +199,12 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
   }
 
   Future<void> _pickCustomEnd() async {
-    final t = await showTimePicker(
-      context: context,
-      initialTime: _customEndTime ?? _startTime ?? TimeOfDay.now(),
+    final t = await showTimePickerSheet(
+      context,
+      title: 'End Time',
+      initialTime: _customEndTime ?? _startTime,
     );
     if (t != null) setState(() => _customEndTime = t);
-  }
-
-  Future<void> _pickFromList(
-    String title,
-    List<String> options,
-    String? current,
-    ValueChanged<String> onSelected,
-  ) async {
-    final choice = await showModalBottomSheet<String>(
-      context: context,
-      backgroundColor: OColor.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder:
-          (_) => SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(OSpacing.m),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  OText(
-                    text: title,
-                    style: OTextStyle.headingSmall.copyWith(
-                      color: OColor.gray800,
-                    ),
-                  ),
-                  const SizedBox(height: OSpacing.xs),
-                  for (final o in options)
-                    ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: OText(
-                        text: o,
-                        style: OTextStyle.labelMedium.copyWith(
-                          color: OColor.gray800,
-                        ),
-                      ),
-                      trailing:
-                          o == current
-                              ? Icon(
-                                FluentIcons.checkmark_24_regular,
-                                color: OColor.green600,
-                              )
-                              : null,
-                      onTap: () => Navigator.pop(context, o),
-                    ),
-                ],
-              ),
-            ),
-          ),
-    );
-    if (choice != null) onSelected(choice);
   }
 
   /// Bottom sheet collecting a name, a role and optional extra fields.
@@ -394,7 +357,7 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
       'startTime': start.toUtc().toIso8601String(),
       'endTime': end.toUtc().toIso8601String(),
       'location': _venueController.text.trim(),
-      'tags': [if (_domain != null) _domain!, if (_type != null) _type!],
+      'tags': [..._domains, if (_type != null) _type!, ..._otherTags],
       'description': _descriptionController.text.trim(),
       'whoShouldAttend': _whoShouldJoinController.text.trim(),
       'poc': [
@@ -626,12 +589,8 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
             ),
             child: Row(
               children: [
-                Icon(
-                  FluentIcons.info_24_regular,
-                  size: 24,
-                  color: OColor.gray800,
-                ),
-                const SizedBox(width: OSpacing.m),
+                Icon(TablerIcons.info_small, size: 32, color: OColor.gray800),
+                const SizedBox(width: OSpacing.xs),
                 Expanded(
                   child: OText(
                     text:
@@ -680,7 +639,7 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
         const SizedBox(height: OSpacing.xl),
         _TextBox(
           label: 'Event Name',
-          hint: 'Keys, ID Card, etc',
+          hint: 'Club Orientaion, Flutter Workshop, etc',
           controller: _nameController,
         ),
         const SizedBox(height: OSpacing.l),
@@ -713,13 +672,14 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
         const SizedBox(height: OSpacing.l),
         _PickerTile(
           label: 'Select Domain',
-          value: _domain ?? 'Domain',
+          value: _domains.isEmpty ? 'Domain' : _domains.join(', '),
           onTap:
-              () => _pickFromList(
-                'Select Domain',
-                _domains,
-                _domain,
-                (v) => setState(() => _domain = v),
+              () => showDomainPickerSheet(
+                context,
+                title: 'Select Domain',
+                options: _domainOptions,
+                selected: _domains,
+                onChanged: (v) => setState(() => _domains = v),
               ),
         ),
         const SizedBox(height: OSpacing.l),
@@ -727,11 +687,14 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
           label: 'Select Event Type',
           value: _type ?? 'Type',
           onTap:
-              () => _pickFromList(
-                'Select Event Type',
-                _eventTypes,
-                _type,
-                (v) => setState(() => _type = v),
+              () => showDomainPickerSheet(
+                context,
+                title: 'Select Event Type',
+                icon: FluentIcons.tag_32_regular,
+                multiSelect: false,
+                options: _eventTypes,
+                selected: [if (_type != null) _type!],
+                onChanged: (v) => setState(() => _type = v.first),
               ),
         ),
         const SizedBox(height: OSpacing.l),

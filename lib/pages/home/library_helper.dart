@@ -136,12 +136,12 @@ import 'package:provider/provider.dart';
 //   }
 // }
 
-Future<void> checkLibrarySlot({
-  required BuildContext context,
-  required bool Function() isMounted,
-  required Function(bool showReminder, String? message) onStateUpdate,
-  required bool isBannedDialogShowing,
-  required Function(bool) setDialogShowing,
-}) async {
-  return;
-}
+// Future<void> checkLibrarySlot({
+//   required BuildContext context,
+//   required bool Function() isMounted,
+//   required Function(bool showReminder, String? message) onStateUpdate,
+//   required bool isBannedDialogShowing,
+//   required Function(bool) setDialogShowing,
+// }) async {
+//   return;
+// }

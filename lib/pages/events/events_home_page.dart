@@ -12,7 +12,7 @@ import 'package:onestop_dev/pages/events/widgets/event_listing_medium_card.dart'
 import 'package:onestop_dev/pages/events/widgets/event_listing_small_card.dart';
 import 'package:onestop_dev/pages/events/widgets/event_popup.dart';
 import 'package:onestop_dev/pages/events/widgets/event_search_bar.dart';
-import 'package:onestop_dev/pages/events/widgets/event_toggle_tiles.dart';
+import 'package:onestop_dev/pages/events/widgets/event_toggle_tiles.dart' as tb;
 import 'package:onestop_dev/pages/events/widgets/events_compact_card.dart';
 import 'package:onestop_dev/pages/events/widgets/events_home_shimmer.dart';
 import 'package:onestop_dev/pages/events/widgets/section_header.dart';
@@ -118,15 +118,20 @@ class _EventsHomePageState extends State<EventsHomePage> {
                   // Toggle tiles
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
-                    child: EventToggleTiles(
-                      onAllEventsTap: () {
+                    child: tb.ToggleButtons(
+                      label1: "All Events",
+                      label2: "Saved Events",
+                      icon1: TablerIcons.list,
+                      icon2: TablerIcons.heart_plus,
+                      onTapTile1: () {
                         Navigator.pushNamed(context, AllEvents.id);
                       },
-                      onSavedEventsTap: () {
+                      onTapTile2: () {
                         Navigator.pushNamed(context, SavedEvents.id);
                       },
                     ),
                   ),
+
                   const SizedBox(height: OSpacing.l),
 
                   if (provider.isHomeLoading)
@@ -502,7 +507,7 @@ class _EventsHomePageState extends State<EventsHomePage> {
           child: SectionHeader(
             icon: TablerIcons.flame,
             title: 'Trending Events',
-            actionLabel: 'Learn More',
+            // actionLabel: 'Learn More',
             onActionTap: () {
               // Navigator.pushNamed(context, EventsScreenWrapper.id);
             },
@@ -535,7 +540,9 @@ class _EventsHomePageState extends State<EventsHomePage> {
   }
 
   /// Recently Attended section — horizontal scroll of compact cards
-  Widget _buildRecentlyAttendedSection(List<EventModel> events) {
+  Widget _buildRecentlyAttendedSection(List<EventModel> allEvents) {
+    final events = allEvents.take(5).toList();
+    final now = DateTime.now();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -544,6 +551,8 @@ class _EventsHomePageState extends State<EventsHomePage> {
           child: SectionHeader(
             icon: TablerIcons.history_toggle,
             title: 'Saved & Attended',
+            actionLabel: 'See all',
+            onActionTap: () => Navigator.pushNamed(context, SavedEvents.id),
           ),
         ),
         const SizedBox(height: OSpacing.s),
@@ -558,7 +567,8 @@ class _EventsHomePageState extends State<EventsHomePage> {
                   RepaintBoundary(
                     child: EventsCompactCard(
                       event: event,
-                      showFeedbackButton: true,
+                      // Only events that already ended can be reviewed.
+                      showFeedbackButton: event.endDateTime.isBefore(now),
                       onTap: () => _openEventPopup(event),
                       onFeedbackTap: () {
                         _openEventPopup(event);
@@ -606,25 +616,6 @@ class _EventsHomePageState extends State<EventsHomePage> {
       ),
     );
   }
-
-  /// Generate mock events matching the Figma placeholder data
-  // List<EventModel> _generateMockEvents() {
-  //   return List.generate(3, (index) {
-  //     return EventModel(
-  //       id: 'mock_$index',
-  //       clubId: 'club_$index',
-  //       name: 'Rangmunch - Inter Hostel Stand Up',
-  //       description:
-  //           'A stand-up comedy event featuring talented comedians from across hostels.',
-  //       clubName: "Students' Web Committee",
-  //       tags: ['Cultural', 'Comedy'],
-  //       startTime: DateTime.now().copyWith(hour: 20, minute: 0),
-  //       endTime: DateTime.now().copyWith(hour: 22, minute: 0),
-  //       date: DateTime.now(),
-  //       location: 'Main Auditorium',
-  //     );
-  //   });
-  // }
 
   /// Returns ordinal suffix for a day number (1st, 2nd, 3rd, etc.)
   String _getDaySuffix(int day) {

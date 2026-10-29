@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:onestop_dev/models/event_scheduler/club_model.dart';
 import 'package:onestop_dev/pages/events/widgets/components/event_network_image.dart';
 import 'package:onestop_dev/pages/events/widgets/event_search_bar.dart';
@@ -114,7 +115,9 @@ class _ClubsFestViewState extends State<_ClubsFestView> {
                               children: [
                                 OText(
                                   text: detailedClub.clubName,
-                                  style: OTextStyle.headingMedium.copyWith(
+                                  style: OTextStyle.labelLarge.copyWith(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
                                     color: OColor.gray800,
                                   ),
                                 ),
@@ -134,8 +137,8 @@ class _ClubsFestViewState extends State<_ClubsFestView> {
                       if (detailedClub.clubDescription != null &&
                           detailedClub.clubDescription!.isNotEmpty) ...[
                         OText(
-                          text: 'About',
-                          style: OTextStyle.labelMedium.copyWith(
+                          text: 'Description',
+                          style: OTextStyle.labelSmall.copyWith(
                             color: OColor.gray600,
                           ),
                         ),
@@ -153,15 +156,15 @@ class _ClubsFestViewState extends State<_ClubsFestView> {
                         Row(
                           children: [
                             Icon(
-                              FluentIcons.location_16_regular,
-                              size: 16,
+                              TablerIcons.map_pin,
+                              size: 18,
                               color: OColor.gray600,
                             ),
                             const SizedBox(width: OSpacing.xs),
                             Expanded(
                               child: OText(
                                 text: detailedClub.clubRoomLocation!,
-                                style: OTextStyle.bodySmall.copyWith(
+                                style: OTextStyle.labelSmall.copyWith(
                                   color: OColor.gray600,
                                 ),
                               ),
@@ -172,7 +175,7 @@ class _ClubsFestViewState extends State<_ClubsFestView> {
                       ],
                       if (detailedClub.team.isNotEmpty) ...[
                         OText(
-                          text: 'Team & POCs',
+                          text: 'Team',
                           style: OTextStyle.labelMedium.copyWith(
                             color: OColor.gray600,
                           ),

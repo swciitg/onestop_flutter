@@ -68,7 +68,7 @@ class EventsAdminProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final clubId = _selectedClub!.id ?? _selectedClub!.name;
+      final clubId = _selectedClub!.id;
       final results = await Future.wait([
         _repo.getAdminEvents(clubId: clubId),
         _repo.getAdminEvents(clubId: clubId, status: 'DRAFT'),
@@ -155,7 +155,7 @@ class EventsAdminProvider extends ChangeNotifier {
 
       final body = {
         ...data,
-        'club_id': club.id ?? club.name,
+        'club_id': club.id,
         'status': asDraft ? 'DRAFT' : 'POSTED',
         if (bannerUrl != null) 'eventBanner': bannerUrl,
       };

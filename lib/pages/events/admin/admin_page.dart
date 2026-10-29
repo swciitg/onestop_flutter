@@ -1,8 +1,10 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:onestop_dev/functions/utility/show_snackbar.dart';
 import 'package:onestop_dev/models/event_scheduler/event_model.dart';
 import 'package:onestop_dev/pages/events/utils/event_formatters.dart';
+import 'package:onestop_dev/pages/events/widgets/event_toggle_tiles.dart' as tb;
 import 'package:onestop_dev/pages/events/widgets/events_admin_card.dart';
 import 'package:onestop_dev/pages/events/providers/events_admin_provider.dart';
 import 'package:onestop_ui/index.dart';
@@ -186,17 +188,30 @@ class _AdminViewState extends State<_AdminView> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          OText(
-            text: 'Manage',
-            style: OTextStyle.headingLarge.copyWith(color: OColor.gray800),
+          Flexible(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                OText(
+                  text: 'Events',
+                  style: OTextStyle.headingLarge.copyWith(
+                    color: OColor.gray800,
+                  ),
+                ),
+                const SizedBox(width: OSpacing.m),
+                Flexible(
+                  child: OText(
+                    text: 'Admin Rights',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: OTextStyle.headingSmall.copyWith(
+                      color: OColor.green600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(width: OSpacing.xs),
-          OTag(
-            type: TagType.accentColor,
-            label: 'Admin Rights',
-            lead: FluentIcons.shield_checkmark_16_regular,
-          ),
-          const Spacer(),
           GestureDetector(
             onTap: () {
               // Profile action placeholder
@@ -232,11 +247,10 @@ class _AdminViewState extends State<_AdminView> {
             : _p.selectedClub!.name.substring(0, 2).toUpperCase();
 
     // Build sub-label from clubsOrgs
-    final subOrgs = _p.selectedClub!.members.clubsOrgs;
     final subLabel =
-        subOrgs.isNotEmpty
-            ? 'Club, ${_p.selectedClub!.name}'
-            : _p.selectedClub!.name;
+        _p.selectedClub!.board.isNotEmpty
+            ? _p.selectedClub!.board
+            : _p.selectedClub!.description;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -258,19 +272,21 @@ class _AdminViewState extends State<_AdminView> {
               Container(
                 width: 40,
                 height: 40,
+                clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   color: OColor.gray100,
                   borderRadius: BorderRadius.circular(OCornerRadius.s),
                 ),
-                child: Center(
-                  child: OText(
-                    text: initials,
-                    style: OTextStyle.labelSmall.copyWith(
-                      color: OColor.gray600,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+                child:
+                    _p.selectedClub!.logo.isNotEmpty
+                        ? Image.network(
+                          _p.selectedClub!.logo,
+                          fit: BoxFit.cover,
+                          errorBuilder:
+                              (context, error, stack) =>
+                                  _initialsText(initials),
+                        )
+                        : _initialsText(initials),
               ),
               const SizedBox(width: OSpacing.s),
               // Club name and description
@@ -308,6 +324,18 @@ class _AdminViewState extends State<_AdminView> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _initialsText(String initials) {
+    return Center(
+      child: OText(
+        text: initials,
+        style: OTextStyle.labelSmall.copyWith(
+          color: OColor.gray600,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
@@ -419,55 +447,18 @@ class _AdminViewState extends State<_AdminView> {
   /// Shortcuts to the "Past Events" and "Drafts" pages
   Widget _buildTabBar() {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: OSpacing.m,
-        vertical: OSpacing.xs,
-      ),
-      child: Row(
-        children: [
-          _buildTab(
-            icon: FluentIcons.clock_16_regular,
-            label: 'Past Events',
-            onTap: () => _openPage(const PastEventsPage()),
-          ),
-          const SizedBox(width: OSpacing.s),
-          _buildTab(
-            icon: FluentIcons.document_16_regular,
-            label: 'Drafts',
-            onTap: () => _openPage(const DraftsPage()),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTab({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: OSpacing.m,
-          vertical: OSpacing.xs,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(OCornerRadius.xl),
-          border: Border.all(color: OColor.gray300),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 16, color: OColor.gray600),
-            const SizedBox(width: OSpacing.xxs),
-            OText(
-              text: label,
-              style: OTextStyle.labelSmall.copyWith(color: OColor.gray600),
-            ),
-          ],
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
+      child: tb.ToggleButtons(
+        label1: 'Past Events',
+        label2: 'Drafts',
+        icon1: TablerIcons.history,
+        icon2: TablerIcons.file,
+        onTapTile1: () {
+          _openPage(const PastEventsPage());
+        },
+        onTapTile2: () {
+          _openPage(const DraftsPage());
+        },
       ),
     );
   }
@@ -482,9 +473,9 @@ class _AdminViewState extends State<_AdminView> {
       child: SizedBox(
         width: double.infinity,
         child: PrimaryButton(
-          label: '+ Add Event',
+          label: 'Add Event',
           onPressed: _onAddEvent,
-          leadingIcon: FluentIcons.add_16_regular,
+          leadingIcon: TablerIcons.plus,
         ),
       ),
     );

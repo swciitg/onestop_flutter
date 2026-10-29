@@ -414,10 +414,7 @@ class EventsAPIRepository extends OneStopApi {
       );
       final json = response.data;
       if (json is Map && json['success'] == true) {
-        return SecyStatus.fromJson(
-          Map<String, dynamic>.from(json),
-          email: email,
-        );
+        return SecyStatus.fromJson(Map<String, dynamic>.from(json));
       }
     } catch (e) {
       log('Error checking secy status: $e');
