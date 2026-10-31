@@ -68,6 +68,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       context: context,
       isMounted: () => mounted,
       onStateUpdate: (showReminder, message) {
+        debugPrint(
+          "Library slot reminder updated: showReminder=$showReminder, message=$message",
+        );
         setState(() {
           _showBagReminder = showReminder;
           if (message != null) {
@@ -77,34 +80,37 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       },
       isBannedDialogShowing: _isBannedDialogShowing,
       setDialogShowing: (isShowing) {
+        debugPrint(
+          "Library slot dialog showing state updated: isShowing=$isShowing",
+        );
         _isBannedDialogShowing = isShowing;
       },
     );
   }
 
   List<Widget> get tabs => [
-        HomeTab(
-          showBagReminder: _showBagReminder,
-          bagReminderMessage: _bagReminderMessage,
-          onDismissBagReminder: () {
-            setState(() {
-              _showBagReminder = false;
-            });
-          },
-          moveToTimeTableView: () {
-            navigatorKey.currentState?.pushNamed(TimetablePage.id);
-          },
-          moveToFoodMenuSection: () {
-            setState(() {
-              index = 1;
-            });
-          },
-        ),
-        const FoodTab(),
-        const TravelPage(),
-        // const EventsScreenWrapper(),
-        const ProfileTab(),
-      ];
+    HomeTab(
+      showBagReminder: _showBagReminder,
+      bagReminderMessage: _bagReminderMessage,
+      onDismissBagReminder: () {
+        setState(() {
+          _showBagReminder = false;
+        });
+      },
+      moveToTimeTableView: () {
+        navigatorKey.currentState?.pushNamed(TimetablePage.id);
+      },
+      moveToFoodMenuSection: () {
+        setState(() {
+          index = 1;
+        });
+      },
+    ),
+    const FoodTab(),
+    const TravelPage(),
+    // const EventsScreenWrapper(),
+    const ProfileTab(),
+  ];
 
   @override
   void initState() {
@@ -186,11 +192,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               width: width,
               child: Stack(
                 children: [
-                  Column(
-                    children: [
-                      Expanded(child: tabs[index]),
-                    ],
-                  ),
+                  Column(children: [Expanded(child: tabs[index])]),
                   Positioned(
                     bottom: Platform.isIOS ? 8 : bottomInset,
                     left: 0,

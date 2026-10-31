@@ -4,6 +4,8 @@ import 'package:onestop_dev/pages/profile/profile_tab.dart';
 import 'package:onestop_ui/index.dart';
 
 class ProfilePage extends StatelessWidget {
+  static const String id = "/profile";
+  
   const ProfilePage({super.key});
 
   @override

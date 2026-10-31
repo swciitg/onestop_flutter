@@ -23,7 +23,12 @@ class BuySellForm extends StatefulWidget {
   final String? imageString;
   final String? submittedAt;
 
-  const BuySellForm({super.key, required this.category, this.imageString, this.submittedAt});
+  const BuySellForm({
+    super.key,
+    required this.category,
+    this.imageString,
+    this.submittedAt,
+  });
 
   @override
   State<BuySellForm> createState() => _BuySellFormState();
@@ -75,7 +80,7 @@ class _BuySellFormState extends State<BuySellForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: OColor.gray100,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: OColor.gray100,
         surfaceTintColor: Colors.transparent,
@@ -90,7 +95,10 @@ class _BuySellFormState extends State<BuySellForm> {
           },
           icon: Icon(FluentIcons.arrow_left_24_regular, color: OColor.gray800),
         ),
-        title: Text(_pageTitle, style: OTextStyle.headingMedium.copyWith(color: OColor.gray800)),
+        title: Text(
+          _pageTitle,
+          style: OTextStyle.headingMedium.copyWith(color: OColor.gray800),
+        ),
       ),
       body: Column(
         children: [
@@ -106,7 +114,8 @@ class _BuySellFormState extends State<BuySellForm> {
           Expanded(child: _currentStep == 1 ? _buildStep1() : _buildStep2()),
         ],
       ),
-      bottomNavigationBar: _currentStep == 1 ? _buildStep1Buttons() : _buildStep2Buttons(),
+      bottomNavigationBar:
+          _currentStep == 1 ? _buildStep1Buttons() : _buildStep2Buttons(),
     );
   }
 
@@ -123,7 +132,11 @@ class _BuySellFormState extends State<BuySellForm> {
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Row(
               children: [
-                _StepCircle(number: 1, isActive: _currentStep == 1, isCompleted: step1Done),
+                _StepCircle(
+                  number: 1,
+                  isActive: _currentStep == 1,
+                  isCompleted: step1Done,
+                ),
                 Expanded(
                   child: Container(
                     height: 2,
@@ -131,7 +144,11 @@ class _BuySellFormState extends State<BuySellForm> {
                     color: step1Done ? OColor.green600 : OColor.gray200,
                   ),
                 ),
-                _StepCircle(number: 2, isActive: step2Active, isCompleted: false),
+                _StepCircle(
+                  number: 2,
+                  isActive: step2Active,
+                  isCompleted: false,
+                ),
               ],
             ),
           ),
@@ -210,11 +227,17 @@ class _BuySellFormState extends State<BuySellForm> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(FluentIcons.edit_24_regular, size: 16, color: OColor.green600),
+                      Icon(
+                        FluentIcons.edit_24_regular,
+                        size: 16,
+                        color: OColor.green600,
+                      ),
                       const SizedBox(width: OSpacing.xxs),
                       Text(
                         'Change Photo',
-                        style: OTextStyle.labelSmall.copyWith(color: OColor.green600),
+                        style: OTextStyle.labelSmall.copyWith(
+                          color: OColor.green600,
+                        ),
                       ),
                     ],
                   ),
@@ -234,11 +257,17 @@ class _BuySellFormState extends State<BuySellForm> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(FluentIcons.add_24_regular, size: 16, color: OColor.green600),
+                      Icon(
+                        FluentIcons.add_24_regular,
+                        size: 16,
+                        color: OColor.green600,
+                      ),
                       const SizedBox(width: OSpacing.xxs),
                       Text(
                         'Add Photo',
-                        style: OTextStyle.labelSmall.copyWith(color: OColor.green600),
+                        style: OTextStyle.labelSmall.copyWith(
+                          color: OColor.green600,
+                        ),
                       ),
                     ],
                   ),
@@ -269,7 +298,9 @@ class _BuySellFormState extends State<BuySellForm> {
                 children: [
                   Text(
                     'Enter Details',
-                    style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                    style: OTextStyle.labelMedium.copyWith(
+                      color: OColor.gray800,
+                    ),
                   ),
                   const SizedBox(height: OSpacing.xs),
                   Text(
@@ -306,7 +337,10 @@ class _BuySellFormState extends State<BuySellForm> {
                   ),
                 ),
                 (widget.category == "Buy")
-                    ? Expanded(flex: 1, child: InputField(controller: _price2, type: 'Max Price'))
+                    ? Expanded(
+                      flex: 1,
+                      child: InputField(controller: _price2, type: 'Max Price'),
+                    )
                     : const SizedBox.shrink(),
               ],
             ),
@@ -330,7 +364,12 @@ class _BuySellFormState extends State<BuySellForm> {
   Widget _buildStep1Buttons() {
     final bool hasImage = _imageString != null;
     return Container(
-      padding: const EdgeInsets.fromLTRB(OSpacing.m, OSpacing.m, OSpacing.m, OSpacing.xl),
+      padding: const EdgeInsets.fromLTRB(
+        OSpacing.m,
+        OSpacing.m,
+        OSpacing.m,
+        OSpacing.xl,
+      ),
       decoration: BoxDecoration(
         color: OColor.white,
         boxShadow: [
@@ -358,7 +397,12 @@ class _BuySellFormState extends State<BuySellForm> {
                   children: [
                     Icon(Icons.close, size: 24, color: OColor.green600),
                     const SizedBox(width: OSpacing.xxs),
-                    Text('Cancel', style: OTextStyle.labelMedium.copyWith(color: OColor.green600)),
+                    Text(
+                      'Cancel',
+                      style: OTextStyle.labelMedium.copyWith(
+                        color: OColor.green600,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -375,7 +419,10 @@ class _BuySellFormState extends State<BuySellForm> {
                           // Found items need location selection before details
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (_) => LostFoundLocationForm(imageString: _imageString!),
+                              builder:
+                                  (_) => LostFoundLocationForm(
+                                    imageString: _imageString!,
+                                  ),
                             ),
                           );
                         } else {
@@ -394,9 +441,18 @@ class _BuySellFormState extends State<BuySellForm> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Next', style: OTextStyle.labelMedium.copyWith(color: OColor.white)),
+                    Text(
+                      'Next',
+                      style: OTextStyle.labelMedium.copyWith(
+                        color: OColor.white,
+                      ),
+                    ),
                     const SizedBox(width: OSpacing.xxs),
-                    Icon(FluentIcons.arrow_right_24_regular, size: 24, color: OColor.white),
+                    Icon(
+                      FluentIcons.arrow_right_24_regular,
+                      size: 24,
+                      color: OColor.white,
+                    ),
                   ],
                 ),
               ),
@@ -410,7 +466,12 @@ class _BuySellFormState extends State<BuySellForm> {
   /// Step 2 bottom buttons: Back + Post
   Widget _buildStep2Buttons() {
     return Container(
-      padding: const EdgeInsets.fromLTRB(OSpacing.m, OSpacing.s, OSpacing.m, OSpacing.xl),
+      padding: const EdgeInsets.fromLTRB(
+        OSpacing.m,
+        OSpacing.s,
+        OSpacing.m,
+        OSpacing.xl,
+      ),
       decoration: BoxDecoration(
         color: OColor.white,
         border: Border(top: BorderSide(color: OColor.gray200)),
@@ -437,9 +498,18 @@ class _BuySellFormState extends State<BuySellForm> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(FluentIcons.arrow_left_24_regular, size: 18, color: OColor.gray800),
+                    Icon(
+                      FluentIcons.arrow_left_24_regular,
+                      size: 18,
+                      color: OColor.gray800,
+                    ),
                     const SizedBox(width: OSpacing.xs),
-                    Text('Back', style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)),
+                    Text(
+                      'Back',
+                      style: OTextStyle.labelMedium.copyWith(
+                        color: OColor.gray800,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -466,11 +536,17 @@ class _BuySellFormState extends State<BuySellForm> {
                       children: [
                         Text(
                           isSaving ? 'Saving...' : 'Post',
-                          style: OTextStyle.labelMedium.copyWith(color: OColor.white),
+                          style: OTextStyle.labelMedium.copyWith(
+                            color: OColor.white,
+                          ),
                         ),
                         if (!isSaving) ...[
                           const SizedBox(width: OSpacing.xs),
-                          Icon(FluentIcons.checkmark_24_regular, size: 18, color: OColor.white),
+                          Icon(
+                            FluentIcons.checkmark_24_regular,
+                            size: 18,
+                            color: OColor.white,
+                          ),
                         ],
                       ],
                     ),
@@ -513,7 +589,8 @@ class _BuySellFormState extends State<BuySellForm> {
     var res = {};
     Map<String, String> data = {};
     data['title'] = _title.text.trim();
-    data['submittedAt'] = (widget.submittedAt == null) ? "" : widget.submittedAt!;
+    data['submittedAt'] =
+        (widget.submittedAt == null) ? "" : widget.submittedAt!;
     data['description'] = _description.text.trim();
     data['price'] = _price.text.trim();
     data['location'] = _price.text.trim();
@@ -524,7 +601,9 @@ class _BuySellFormState extends State<BuySellForm> {
     data['total_price'] = "${_price.text}-${_price2.text}";
 
     try {
-      final isTitleValid = await ModerationService().validateBuyOrSell(_title.text.trim());
+      final isTitleValid = await ModerationService().validateBuyOrSell(
+        _title.text.trim(),
+      );
       if (!isTitleValid) {
         Fluttertoast.showToast(
           msg: 'Please Enter an appropriate title!',
@@ -534,7 +613,9 @@ class _BuySellFormState extends State<BuySellForm> {
         return;
       }
 
-      final isDescValid = await ModerationService().validateBuyOrSell(_description.text.trim());
+      final isDescValid = await ModerationService().validateBuyOrSell(
+        _description.text.trim(),
+      );
       if (!isDescValid) {
         Fluttertoast.showToast(
           msg: 'Please Enter an appropriate description!',
@@ -568,14 +649,23 @@ class _BuySellFormState extends State<BuySellForm> {
 
     if (!mounted) return;
     if (responseBody["saved_successfully"] == true) {
-      Fluttertoast.showToast(msg: "Request posted successfully!", backgroundColor: OColor.green600);
+      Fluttertoast.showToast(
+        msg: "Request posted successfully!",
+        backgroundColor: OColor.green600,
+      );
       if (navigatorKey.currentState != null) {
-        Navigator.popUntil(navigatorKey.currentContext!, ModalRoute.withName(HomePage.id));
+        Navigator.popUntil(
+          navigatorKey.currentContext!,
+          ModalRoute.withName(HomePage.id),
+        );
       }
     } else {
       _resetSaving();
       if (responseBody["image_safe"] == false) {
-        Fluttertoast.showToast(msg: "The chosen image is NSFW!", backgroundColor: OColor.red500);
+        Fluttertoast.showToast(
+          msg: "The chosen image is NSFW!",
+          backgroundColor: OColor.red500,
+        );
         return;
       }
       Fluttertoast.showToast(
@@ -600,7 +690,9 @@ class _BuySellFormState extends State<BuySellForm> {
       builder: (BuildContext ctx) {
         return AlertDialog(
           backgroundColor: OColor.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(OCornerRadius.m)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(OCornerRadius.m),
+          ),
           title: Text(
             'From where do you want to take the photo?',
             style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
@@ -613,17 +705,24 @@ class _BuySellFormState extends State<BuySellForm> {
                     padding: const EdgeInsets.symmetric(vertical: OSpacing.xs),
                     child: Row(
                       children: [
-                        Icon(FluentIcons.image_24_regular, color: OColor.green600),
+                        Icon(
+                          FluentIcons.image_24_regular,
+                          color: OColor.green600,
+                        ),
                         const SizedBox(width: OSpacing.s),
                         Text(
                           'Gallery',
-                          style: OTextStyle.bodySmall.copyWith(color: OColor.gray800),
+                          style: OTextStyle.bodySmall.copyWith(
+                            color: OColor.gray800,
+                          ),
                         ),
                       ],
                     ),
                   ),
                   onTap: () async {
-                    xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+                    xFile = await ImagePicker().pickImage(
+                      source: ImageSource.gallery,
+                    );
                     if (!ctx.mounted) return;
                     Navigator.of(ctx).pop();
                   },
@@ -634,14 +733,24 @@ class _BuySellFormState extends State<BuySellForm> {
                     padding: const EdgeInsets.symmetric(vertical: OSpacing.xs),
                     child: Row(
                       children: [
-                        Icon(FluentIcons.camera_24_regular, color: OColor.green600),
+                        Icon(
+                          FluentIcons.camera_24_regular,
+                          color: OColor.green600,
+                        ),
                         const SizedBox(width: OSpacing.s),
-                        Text('Camera', style: OTextStyle.bodySmall.copyWith(color: OColor.gray800)),
+                        Text(
+                          'Camera',
+                          style: OTextStyle.bodySmall.copyWith(
+                            color: OColor.gray800,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   onTap: () async {
-                    xFile = await ImagePicker().pickImage(source: ImageSource.camera);
+                    xFile = await ImagePicker().pickImage(
+                      source: ImageSource.camera,
+                    );
                     if (!ctx.mounted) return;
                     Navigator.of(ctx).pop();
                   },
@@ -676,7 +785,11 @@ class _BuySellFormState extends State<BuySellForm> {
 }
 
 class _StepCircle extends StatelessWidget {
-  const _StepCircle({required this.number, required this.isActive, required this.isCompleted});
+  const _StepCircle({
+    required this.number,
+    required this.isActive,
+    required this.isCompleted,
+  });
 
   final int number;
   final bool isActive;
@@ -694,13 +807,19 @@ class _StepCircle extends StatelessWidget {
       bgColor = OColor.green600;
       child = Text(
         '$number',
-        style: OTextStyle.labelSmall.copyWith(color: OColor.white, fontSize: 16),
+        style: OTextStyle.labelSmall.copyWith(
+          color: OColor.white,
+          fontSize: 16,
+        ),
       );
     } else {
       bgColor = OColor.gray200;
       child = Text(
         '$number',
-        style: OTextStyle.labelSmall.copyWith(color: OColor.gray800, fontSize: 16),
+        style: OTextStyle.labelSmall.copyWith(
+          color: OColor.gray800,
+          fontSize: 16,
+        ),
       );
     }
 
